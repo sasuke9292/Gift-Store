@@ -88,7 +88,7 @@ export function ProductCard({ product }: ProductCardProps) {
         </div>
       </div>
       
-      <CardContent className="p-6 flex-1 flex flex-col z-20 bg-white relative">
+      <CardContent className="p-6 flex-1 flex flex-col bg-white relative">
         <div className="mb-4">
           <p className="text-[12px] font-bold text-slate-400 uppercase tracking-wider mb-2">{product.category?.name || 'مجموعة عامة'}</p>
           <h3 className="font-bold text-slate-900 text-lg line-clamp-2 leading-snug group-hover:text-rose-600 transition-colors">{product.name}</h3>
