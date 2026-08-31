@@ -18,13 +18,8 @@ const containerVariants = {
 }
 
 const itemVariants = {
-<<<<<<< HEAD
   hidden: { opacity: 0, y: 15 },
   visible: { opacity: 1, y: 0, transition: { type: "spring" as const, stiffness: 100, damping: 20 } }
-=======
-  hidden: { opacity: 0, y: 10 },
-  visible: { opacity: 1, y: 0 }
->>>>>>> 56f8de847245b3e559987256a34cc961cd5eed05
 }
 
 interface Category {
