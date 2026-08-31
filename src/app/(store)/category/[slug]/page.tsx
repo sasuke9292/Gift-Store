@@ -7,13 +7,6 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
   
   const category = await prisma.category.findUnique({
     where: { slug: resolvedParams.slug },
-    include: {
-      products: {
-        include: {
-          category: true,
-        }
-      }
-    }
   })
 
   if (!category) {
@@ -21,9 +14,17 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
   }
 
   const allCategories = await prisma.category.findMany()
+  const allProducts = await prisma.product.findMany({
+    include: {
+      category: true,
+    },
+    orderBy: {
+      createdAt: 'desc',
+    },
+  })
 
   // Format products to match the expected client type
-  const formattedProducts = category.products.map(p => ({
+  const formattedProducts = allProducts.map(p => ({
     ...p,
     images: Array.isArray(p.images) ? (p.images as string[]) : [],
   }))
