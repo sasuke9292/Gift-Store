@@ -30,7 +30,6 @@ export function ProductCard({ product }: ProductCardProps) {
 
   return (
     <Card className="group border-0 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_20px_40px_rgb(0,0,0,0.12)] transition-all duration-500 bg-white overflow-hidden rounded-[2rem] h-full flex flex-col relative text-right">
-      <Link href={`/product/${product.id}`} className="absolute inset-0 z-10" aria-label={`عرض تفاصيل ${product.name}`} />
       
       {/* Quick Actions (Hover) */}
       <div className="absolute top-4 left-4 z-20 opacity-0 group-hover:opacity-100 -translate-x-4 group-hover:translate-x-0 transition-all duration-500 ease-out">
@@ -91,7 +90,11 @@ export function ProductCard({ product }: ProductCardProps) {
       <CardContent className="p-6 flex-1 flex flex-col bg-white relative">
         <div className="mb-4">
           <p className="text-[12px] font-bold text-slate-400 uppercase tracking-wider mb-2">{product.category?.name || 'مجموعة عامة'}</p>
-          <h3 className="font-bold text-slate-900 text-lg line-clamp-2 leading-snug group-hover:text-rose-600 transition-colors">{product.name}</h3>
+          <h3 className="font-bold text-slate-900 text-lg line-clamp-2 leading-snug group-hover:text-rose-600 transition-colors">
+            <Link href={`/product/${product.id}`} className="before:absolute before:inset-0 before:z-10" aria-label={`عرض تفاصيل ${product.name}`}>
+              {product.name}
+            </Link>
+          </h3>
         </div>
         
         <div className="mt-auto pt-5 border-t border-slate-100 flex items-end justify-between gap-2">
@@ -111,7 +114,7 @@ export function ProductCard({ product }: ProductCardProps) {
               e.preventDefault()
               e.stopPropagation()
               addToCart({
-                id: crypto.randomUUID(),
+                id: `${product.id}-${Date.now()}`,
                 productId: product.id,
                 name: product.name,
                 price: product.salePrice ?? product.price,
