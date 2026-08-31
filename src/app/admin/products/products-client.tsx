@@ -41,17 +41,18 @@ export default function ProductsClient({ initialProducts, categories }: { initia
   const [isEditing, setIsEditing] = useState(false)
   const [currentProduct, setCurrentProduct] = useState<any>({})
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [newImageUrl, setNewImageUrl] = useState('')
 
   const openModal = (product?: any) => {
     if (product) {
       setIsEditing(true)
       setCurrentProduct({
         ...product,
-        imagesStr: product.images?.join(', ') || ''
+        imagesList: product.images || []
       })
     } else {
       setIsEditing(false)
-      setCurrentProduct({ name: '', slug: '', description: '', price: 0, salePrice: 0, categoryId: categories[0]?.id || '', imagesStr: '', isActive: true })
+      setCurrentProduct({ name: '', slug: '', description: '', price: 0, salePrice: 0, categoryId: categories[0]?.id || '', imagesList: [], isActive: true })
     }
     setIsModalOpen(true)
   }
@@ -61,7 +62,7 @@ export default function ProductsClient({ initialProducts, categories }: { initia
     setIsSubmitting(true)
     
     try {
-      const imagesArray = currentProduct.imagesStr.split(',').map((s:string) => s.trim()).filter(Boolean)
+      const imagesArray = currentProduct.imagesList || []
 
       if (isEditing && currentProduct.id) {
         const res = await updateProduct(currentProduct.id, {
@@ -262,27 +263,28 @@ export default function ProductsClient({ initialProducts, categories }: { initia
                           const file = e.target.files?.[0]
                           if (!file) return
                           
-                          const formData = new FormData()
-                          formData.append('file', file)
+                          if (file.size > 2 * 1024 * 1024) {
+                            toast.error('حجم الصورة كبير جداً. الحد الأقصى هو 2 ميجابايت.')
+                            e.target.value = ''
+                            return
+                          }
+                          
+                          const toastId = toast.loading('جاري معالجة الصورة...')
                           
                           try {
-                            const toastId = toast.loading('جاري رفع الصورة...')
-                            const res = await fetch('/api/upload', {
-                              method: 'POST',
-                              body: formData
-                            })
-                            const data = await res.json()
-                            
-                            if (data.success) {
-                              const currentImages = currentProduct.imagesStr ? currentProduct.imagesStr.split(',').map((s:string) => s.trim()).filter(Boolean) : []
-                              currentImages.push(data.url)
-                              setCurrentProduct({...currentProduct, imagesStr: currentImages.join(', ')})
-                              toast.success('تم رفع الصورة بنجاح', { id: toastId })
-                            } else {
-                              toast.error(data.error || 'فشل رفع الصورة', { id: toastId })
+                            const reader = new FileReader()
+                            reader.readAsDataURL(file)
+                            reader.onload = () => {
+                              const base64String = reader.result as string
+                              const currentImages = currentProduct.imagesList || []
+                              setCurrentProduct({...currentProduct, imagesList: [...currentImages, base64String]})
+                              toast.success('تمت إضافة الصورة بنجاح', { id: toastId })
+                            }
+                            reader.onerror = () => {
+                              toast.error('حدث خطأ أثناء قراءة الصورة', { id: toastId })
                             }
                           } catch (err) {
-                            toast.error('حدث خطأ أثناء الرفع')
+                            toast.error('حدث خطأ غير متوقع', { id: toastId })
                           } finally {
                             e.target.value = '' 
                           }
@@ -292,21 +294,21 @@ export default function ProductsClient({ initialProducts, categories }: { initia
                          <UploadCloud className="w-6 h-6" />
                       </div>
                       <p className="text-sm font-bold text-slate-700">اضغط أو اسحب الصور هنا</p>
-                      <p className="text-xs text-slate-500 mt-1">يدعم PNG, JPG, WEBP</p>
+                      <p className="text-xs text-slate-500 mt-1">الحد الأقصى 2MB</p>
                    </div>
 
                    {/* Image Previews */}
-                   {currentProduct.imagesStr && currentProduct.imagesStr.trim() !== '' && (
+                   {currentProduct.imagesList && currentProduct.imagesList.length > 0 && (
                      <div className="grid grid-cols-3 gap-3">
-                       {currentProduct.imagesStr.split(',').map((s:string) => s.trim()).filter(Boolean).map((img: string, idx: number) => (
+                       {currentProduct.imagesList.map((img: string, idx: number) => (
                           <div key={idx} className="relative aspect-square rounded-xl overflow-hidden border border-slate-200 group shadow-sm bg-slate-50">
                              <Image src={img} alt="preview" fill className="object-cover" />
                              <button 
                                type="button" 
                                onClick={() => {
-                                 const arr = currentProduct.imagesStr.split(',').map((s:string) => s.trim()).filter(Boolean)
+                                 const arr = [...currentProduct.imagesList]
                                  arr.splice(idx, 1)
-                                 setCurrentProduct({...currentProduct, imagesStr: arr.join(', ')})
+                                 setCurrentProduct({...currentProduct, imagesList: arr})
                                }} 
                                className="absolute top-1.5 left-1.5 bg-white/90 w-7 h-7 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all hover:bg-rose-50 hover:text-rose-600 shadow-sm transform scale-90 group-hover:scale-100"
                              >
@@ -317,15 +319,28 @@ export default function ProductsClient({ initialProducts, categories }: { initia
                      </div>
                    )}
                    
-                   <div className="pt-2 border-t border-slate-100">
-                      <Label className="text-xs font-semibold text-slate-500 mb-2 block">روابط خارجية (مفصولة بفاصلة)</Label>
-                      <Textarea 
-                        value={currentProduct.imagesStr} 
-                        onChange={e => setCurrentProduct({...currentProduct, imagesStr: e.target.value})} 
-                        placeholder="https://... , https://..."
-                        className="text-xs min-h-[60px] rounded-xl bg-slate-50 border-transparent focus:border-indigo-300 focus:bg-white resize-none"
+                   <div className="pt-2 border-t border-slate-100 flex gap-2">
+                      <Input 
+                        value={newImageUrl} 
+                        onChange={e => setNewImageUrl(e.target.value)} 
+                        placeholder="أو أضف رابط صورة خارجي (URL)"
+                        className="h-10 rounded-xl bg-slate-50 border-transparent focus:border-indigo-300 focus:bg-white flex-1 text-sm"
                         dir="ltr"
                       />
+                      <Button 
+                        type="button"
+                        variant="secondary"
+                        className="rounded-xl h-10 px-4"
+                        onClick={() => {
+                          if (newImageUrl.trim()) {
+                            const currentImages = currentProduct.imagesList || []
+                            setCurrentProduct({...currentProduct, imagesList: [...currentImages, newImageUrl.trim()]})
+                            setNewImageUrl('')
+                          }
+                        }}
+                      >
+                        إضافة
+                      </Button>
                    </div>
                  </div>
               </div>
