@@ -270,8 +270,52 @@ export default function ProductsClient({ initialProducts, categories }: { initia
             </div>
 
             <div className="space-y-2">
-              <Label className="text-sm font-semibold text-slate-700">الصور (روابط مفصولة بفاصلة)</Label>
-              <Textarea value={currentProduct.imagesStr} onChange={e => setCurrentProduct({...currentProduct, imagesStr: e.target.value})} className="rounded-xl border-slate-200 bg-slate-50 focus:bg-white" dir="ltr" placeholder="https://image1.jpg, https://image2.jpg" />
+              <Label className="text-sm font-semibold text-slate-700">الصور</Label>
+              <div className="flex flex-col gap-3">
+                <div className="flex items-center gap-2">
+                  <Input 
+                    type="file" 
+                    accept="image/*" 
+                    className="rounded-xl border-slate-200 bg-slate-50 focus:bg-white file:mr-4 file:py-1 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20 cursor-pointer" 
+                    onChange={async (e) => {
+                      const file = e.target.files?.[0]
+                      if (!file) return
+                      
+                      const formData = new FormData()
+                      formData.append('file', file)
+                      
+                      try {
+                        const toastId = toast.loading('جاري رفع الصورة...')
+                        const res = await fetch('/api/upload', {
+                          method: 'POST',
+                          body: formData
+                        })
+                        const data = await res.json()
+                        
+                        if (data.success) {
+                          const currentImages = currentProduct.imagesStr ? currentProduct.imagesStr.split(',').map((s:string) => s.trim()).filter(Boolean) : []
+                          currentImages.push(data.url)
+                          setCurrentProduct({...currentProduct, imagesStr: currentImages.join(', ')})
+                          toast.success('تم رفع الصورة بنجاح', { id: toastId })
+                        } else {
+                          toast.error(data.error || 'فشل رفع الصورة', { id: toastId })
+                        }
+                      } catch (err) {
+                        toast.error('حدث خطأ أثناء الرفع')
+                      } finally {
+                        e.target.value = '' // reset input
+                      }
+                    }}
+                  />
+                </div>
+                <Textarea 
+                  value={currentProduct.imagesStr} 
+                  onChange={e => setCurrentProduct({...currentProduct, imagesStr: e.target.value})} 
+                  className="rounded-xl border-slate-200 bg-slate-50 focus:bg-white" 
+                  dir="ltr" 
+                  placeholder="يمكنك أيضاً إدخال روابط الصور يدوياً (مفصولة بفاصلة)" 
+                />
+              </div>
             </div>
 
             <div className="space-y-2">
