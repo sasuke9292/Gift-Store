@@ -18,8 +18,8 @@ const containerVariants = {
 }
 
 const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0, transition: { type: "spring" as const, stiffness: 100, damping: 15 } }
+  hidden: { opacity: 0, y: 10 },
+  visible: { opacity: 1, y: 0 }
 }
 
 interface Category {
@@ -46,7 +46,7 @@ interface StoreHomeClientProps {
 }
 
 export default function StoreHomeClient({ initialCategories: categories, initialTopProducts: topProducts }: StoreHomeClientProps) {
-  
+
   const { scrollY } = useScroll();
   const y1 = useTransform(scrollY, [0, 1000], [0, 200]);
   const y2 = useTransform(scrollY, [0, 1000], [0, -100]);
@@ -64,32 +64,32 @@ export default function StoreHomeClient({ initialCategories: categories, initial
 
   return (
     <div className="flex flex-col min-h-screen bg-[#FAFAFA] selection:bg-rose-500/20 selection:text-rose-900">
-      
+
       {/* 1. Hero Section (Luxurious & Immersive) */}
       <section className="relative min-h-[90vh] flex items-center pt-24 pb-12 overflow-hidden bg-white">
         {/* Animated Orbs for a magical feel */}
-        <motion.div 
+        <motion.div
           animate={{ rotate: 360, scale: [1, 1.1, 1] }}
           transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-          className="absolute -top-[20%] -right-[10%] w-[800px] h-[800px] bg-gradient-to-br from-rose-200/40 via-amber-100/40 to-transparent rounded-full blur-3xl pointer-events-none" 
+          className="absolute -top-[20%] -right-[10%] w-[800px] h-[800px] bg-gradient-to-br from-rose-200/40 via-amber-100/40 to-transparent rounded-full blur-3xl pointer-events-none"
         />
-        <motion.div 
+        <motion.div
           animate={{ rotate: -360, scale: [1, 1.2, 1] }}
           transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-          className="absolute bottom-[0%] -left-[10%] w-[600px] h-[600px] bg-gradient-to-tr from-violet-200/30 via-fuchsia-100/30 to-transparent rounded-full blur-3xl pointer-events-none" 
+          className="absolute bottom-[0%] -left-[10%] w-[600px] h-[600px] bg-gradient-to-tr from-violet-200/30 via-fuchsia-100/30 to-transparent rounded-full blur-3xl pointer-events-none"
         />
-        
+
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 items-center">
-            
+
             {/* Text Content */}
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, x: 50 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8, ease: "easeOut" }}
               className="flex flex-col items-start text-right lg:pl-10"
             >
-              <motion.div 
+              <motion.div
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 0.3 }}
@@ -98,18 +98,18 @@ export default function StoreHomeClient({ initialCategories: categories, initial
                 <Sparkles className="w-4 h-4 mr-2 ml-2" />
                 مجموعة هدايا الموسم الحصرية
               </motion.div>
-              
+
               <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black text-slate-900 leading-[1.1] mb-6 tracking-tight">
-                لأن لحظاتك <br/>
+                لأن لحظاتك <br />
                 <span className="text-transparent bg-clip-text bg-gradient-to-l from-rose-400 via-fuchsia-500 to-indigo-500">
                   الثمينة تستحق الأفضل
                 </span>
               </h1>
-              
+
               <p className="text-lg lg:text-xl text-slate-600 mb-10 leading-relaxed font-medium max-w-xl">
                 اكتشف تشكيلة حصرية من الهدايا الفاخرة التي تُصنع بحب، لتترك أثراً لا يُنسى في قلوب من تحب.
               </p>
-              
+
               <div className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto">
                 <Link href="/shop" className="inline-flex items-center justify-center w-full sm:w-auto h-14 px-10 text-lg rounded-2xl bg-gradient-to-r from-slate-900 to-slate-800 text-white font-bold transition-all shadow-[0_10px_40px_-10px_rgba(0,0,0,0.3)] hover:shadow-[0_20px_50px_-10px_rgba(0,0,0,0.4)] hover:-translate-y-1">
                   تسوق الكوليكشن
@@ -138,7 +138,7 @@ export default function StoreHomeClient({ initialCategories: categories, initial
             </motion.div>
 
             {/* Visual/Image Side */}
-            <motion.div 
+            <motion.div
               style={{ y: y1 }}
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -146,15 +146,15 @@ export default function StoreHomeClient({ initialCategories: categories, initial
               className="relative hidden lg:block h-[600px] w-full rounded-[3rem] overflow-hidden shadow-2xl"
             >
               <div className="absolute inset-0 bg-slate-900/10 z-10" />
-              <Image 
-                src="https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&q=80&w=1200" 
-                alt="هدايا فاخرة" 
-                fill 
+              <Image
+                src="https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&q=80&w=1200"
+                alt="هدايا فاخرة"
+                fill
                 className="object-cover"
                 priority
               />
               {/* Glassmorphism Floating Card */}
-              <motion.div 
+              <motion.div
                 animate={{ y: [0, -15, 0] }}
                 transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
                 className="absolute bottom-10 -right-10 z-20 bg-white/70 backdrop-blur-xl border border-white/40 p-5 rounded-2xl shadow-xl flex items-center gap-4 w-72"
@@ -178,7 +178,7 @@ export default function StoreHomeClient({ initialCategories: categories, initial
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {features.map((feature, idx) => (
-              <motion.div 
+              <motion.div
                 key={idx}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -210,7 +210,7 @@ export default function StoreHomeClient({ initialCategories: categories, initial
               <ArrowLeft className="mr-2 w-4 h-4 group-hover:-translate-x-1 transition-transform" />
             </Link>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 h-auto lg:h-[600px]">
             {/* 2 Large Categories on the left (stacked on mobile) */}
             <div className="lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-6 h-full">
@@ -231,7 +231,7 @@ export default function StoreHomeClient({ initialCategories: categories, initial
                 </Link>
               ))}
             </div>
-            
+
             {/* Small Categories on the right */}
             <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-2 gap-6 h-full">
               {smallCategories.map((category) => (
@@ -260,7 +260,7 @@ export default function StoreHomeClient({ initialCategories: categories, initial
             <p className="text-slate-500 text-lg max-w-2xl mx-auto">تشكيلة حصرية من الهدايا الأكثر طلباً والأعلى تقييماً من عملائنا المميزين.</p>
           </div>
 
-          <motion.div 
+          <motion.div
             variants={containerVariants}
             initial="hidden"
             whileInView="visible"
@@ -273,7 +273,7 @@ export default function StoreHomeClient({ initialCategories: categories, initial
               </motion.div>
             ))}
           </motion.div>
-          
+
           <div className="mt-16 text-center">
             <Link href="/shop" className="inline-flex items-center justify-center h-14 px-10 rounded-full border-2 border-slate-200 text-slate-700 text-lg font-bold hover:bg-slate-900 hover:text-white hover:border-slate-900 transition-all">
               اكتشف المزيد من الهدايا
@@ -285,11 +285,11 @@ export default function StoreHomeClient({ initialCategories: categories, initial
       {/* 5. Stunning Call to Action (Gift Finder) */}
       <section className="py-24 bg-white relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-indigo-900 via-slate-900 to-black z-0" />
-        
+
         {/* Abstract Background Shapes */}
         <div className="absolute top-0 right-0 w-full h-full overflow-hidden z-0 pointer-events-none opacity-50">
-           <div className="absolute -top-[20%] -right-[10%] w-[500px] h-[500px] bg-rose-500/20 rounded-full blur-[100px]" />
-           <div className="absolute -bottom-[20%] -left-[10%] w-[600px] h-[600px] bg-indigo-500/30 rounded-full blur-[120px]" />
+          <div className="absolute -top-[20%] -right-[10%] w-[500px] h-[500px] bg-rose-500/20 rounded-full blur-[100px]" />
+          <div className="absolute -bottom-[20%] -left-[10%] w-[600px] h-[600px] bg-indigo-500/30 rounded-full blur-[120px]" />
         </div>
 
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -298,7 +298,7 @@ export default function StoreHomeClient({ initialCategories: categories, initial
               <Gift className="w-10 h-10 text-white" />
             </div>
             <h2 className="text-4xl md:text-5xl font-black text-white mb-6 tracking-tight leading-tight">
-              لا ترهق نفسك بالبحث<br/>
+              لا ترهق نفسك بالبحث<br />
               دعنا نجد الهدية المثالية لك!
             </h2>
             <p className="text-xl text-slate-300 mb-12 max-w-2xl mx-auto leading-relaxed">
