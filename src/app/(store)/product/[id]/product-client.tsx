@@ -23,7 +23,7 @@ export default function ProductClient({ product }: { product: any }) {
       image: product.images?.[0] || '',
       quantity: quantity
     })
-    toast.success('تمت إضافة المنتج إلى السلة')
+    toast.success('تمت إضافة المنتج إلى السلة', { id: `cart-${product.id}` })
   }
 
   return (

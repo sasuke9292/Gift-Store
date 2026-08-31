@@ -40,10 +40,10 @@ export function ProductCard({ product }: ProductCardProps) {
           onClick={(e) => {
             e.preventDefault()
             e.stopPropagation()
-            toast.success('تمت الإضافة للمفضلة')
+            toast.success('تمت الإضافة للمفضلة', { id: `fav-${product.id}` })
           }}
         >
-          <Heart className="w-4 h-4" />
+          <Heart className="w-4 h-4 pointer-events-none" />
         </Button>
       </div>
 
@@ -122,12 +122,12 @@ export function ProductCard({ product }: ProductCardProps) {
                 image: product.images?.[0],
                 category: product.category?.name,
               })
-              toast.success('تمت إضافة المنتج للسلة')
+              toast.success('تمت إضافة المنتج للسلة', { id: `cart-${product.id}` })
             }}
           >
-            <ShoppingBag className="w-5 h-5 relative z-10" />
-            <div className="absolute inset-0 bg-gradient-to-tr from-rose-400 to-indigo-500 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300" />
-            <ShoppingBag className="w-5 h-5 absolute inset-0 m-auto text-white opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300 z-20" />
+            <ShoppingBag className="w-5 h-5 relative z-10 pointer-events-none" />
+            <div className="absolute inset-0 bg-gradient-to-tr from-rose-400 to-indigo-500 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300 pointer-events-none" />
+            <ShoppingBag className="w-5 h-5 absolute inset-0 m-auto text-white opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300 z-20 pointer-events-none" />
           </Button>
         </div>
       </CardContent>
