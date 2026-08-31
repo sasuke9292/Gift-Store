@@ -125,25 +125,7 @@ export default function StoreHomeClient({ initialCategories: categories, initial
           </motion.div>
         </motion.div>
 
-        {/* Hero Image / Visualization */}
-        <motion.div 
-          style={{ scale: heroScale }}
-          initial={{ opacity: 0, y: 60 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.2, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-          className="w-full max-w-6xl mx-auto mt-16 px-4 relative z-0"
-        >
-          <div className="relative aspect-[2/1] sm:aspect-[2.5/1] lg:aspect-[3/1] w-full rounded-[2rem] sm:rounded-[3rem] overflow-hidden shadow-2xl border border-slate-100">
-            <Image 
-              src="https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&q=80&w=2000" 
-              alt="Luxury Gift" 
-              fill 
-              className="object-cover object-center"
-              priority
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
-          </div>
-        </motion.div>
+
       </section>
 
       {/* 2. Trust Features (Minimalist Grid) */}
