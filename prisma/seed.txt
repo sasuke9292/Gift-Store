@@ -1,0 +1,76 @@
+import { PrismaClient } from '@prisma/client'
+
+const prisma = new PrismaClient()
+
+async function main() {
+  console.log('Seeding database...')
+
+  // Create Admin User
+  const admin = await prisma.user.upsert({
+    where: { email: 'admin@giftstore.com' },
+    update: {},
+    create: {
+      email: 'admin@giftstore.com',
+      name: 'أحمد الإداري',
+      role: 'SUPER_ADMIN',
+    },
+  })
+  console.log(`Created admin user: ${admin.email}`)
+
+  // Create Categories
+  const category1 = await prisma.category.upsert({
+    where: { slug: 'mens-gifts' },
+    update: {},
+    create: {
+      name: 'هدايا رجالية',
+      nameEn: "Men's Gifts",
+      slug: 'mens-gifts',
+      description: 'أفضل الهدايا للرجال لجميع المناسبات',
+    },
+  })
+
+  const category2 = await prisma.category.upsert({
+    where: { slug: 'womens-gifts' },
+    update: {},
+    create: {
+      name: 'هدايا نسائية',
+      nameEn: "Women's Gifts",
+      slug: 'womens-gifts',
+      description: 'هدايا راقية وأنيقة للنساء',
+    },
+  })
+  
+  console.log('Created categories')
+
+  // Create Products
+  const product1 = await prisma.product.upsert({
+    where: { sku: 'GIFT-M-001' },
+    update: {},
+    create: {
+      name: 'طقم محفظة وحزام جلد طبيعي',
+      slug: 'leather-wallet-belt-set',
+      description: 'طقم فاخر من الجلد الطبيعي للرجال يتضمن محفظة وحزام أنيق.',
+      shortDescription: 'طقم رجالي فاخر من الجلد الطبيعي',
+      price: 45000,
+      salePrice: 39000,
+      sku: 'GIFT-M-001',
+      categoryId: category1.id,
+      images: ['/placeholder.jpg'],
+      isFeatured: true,
+      isBestSeller: true,
+      tags: ['رجال', 'جلد', 'طقم'],
+    },
+  })
+
+  console.log('Created products')
+}
+
+main()
+  .then(async () => {
+    await prisma.$disconnect()
+  })
+  .catch(async (e) => {
+    console.error(e)
+    await prisma.$disconnect()
+    process.exit(1)
+  })
