@@ -3,7 +3,7 @@
 import React from 'react'
 import Link from 'next/link'
 import { buttonVariants } from '@/components/ui/button'
-import { Gift, ArrowLeft, Truck, ShieldCheck, HeartHandshake, ArrowUpRight, Sparkles, Star } from 'lucide-react'
+import { Gift, ArrowLeft, Truck, ShieldCheck, HeartHandshake, ArrowUpLeft, Sparkles, Star } from 'lucide-react'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import Image from 'next/image'
 import { ProductCard } from '@/components/store/product-card'
@@ -121,6 +121,7 @@ export default function StoreHomeClient({ initialCategories: categories, initial
             </Link>
             <Link href="/gift-finder" className="inline-flex items-center justify-center w-full sm:w-auto h-14 px-10 text-lg rounded-full bg-white border border-slate-200 text-slate-900 font-semibold transition-all hover:border-slate-300 hover:bg-slate-50 hover:scale-105 active:scale-95 shadow-sm">
               مكتشف الهدايا الذكي
+              <ArrowUpLeft className="mr-2 w-5 h-5" />
             </Link>
           </motion.div>
         </motion.div>
