@@ -66,7 +66,7 @@ export default function StoreHomeClient({ initialCategories: categories, initial
     <div className="flex flex-col min-h-screen bg-[#FBFBFD] selection:bg-rose-500/20 selection:text-rose-900">
       
       {/* 1. Hero Section (Apple-style Centered Minimalist) */}
-      <section className="relative min-h-[75vh] flex flex-col items-center justify-center pt-20 pb-16 overflow-hidden bg-[#FBFBFD]">
+      <section className="relative min-h-[60vh] flex flex-col items-center justify-center pt-12 pb-16 overflow-hidden bg-[#FBFBFD]">
         
         {/* Subtle Background Glow */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-[1000px] h-[500px] bg-gradient-to-b from-rose-100/40 via-purple-50/20 to-transparent blur-3xl -z-10" />
