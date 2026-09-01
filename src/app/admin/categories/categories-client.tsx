@@ -209,7 +209,7 @@ export default function CategoriesClient({ initialCategories }: { initialCategor
       </Card>
 
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-        <DialogContent className="sm:max-w-[500px] rounded-3xl p-0 overflow-hidden border-0">
+        <DialogContent className="sm:max-w-[500px] rounded-3xl p-0 overflow-hidden border-0" dir="rtl">
           <div className="px-6 py-4 border-b border-slate-100 bg-slate-50/50">
             <DialogTitle className="text-xl font-bold text-slate-800">
               {isEditing ? 'تعديل تصنيف' : 'إضافة تصنيف جديد'}
