@@ -18,44 +18,17 @@ import { toast } from 'sonner'
 import { motion, AnimatePresence } from 'framer-motion'
 
 export default function AdminNotificationsPage() {
-  const [notifications, setNotifications] = useState([
-    {
-      id: 1,
-      title: 'طلب جديد #ORD-9872',
-      description: 'قام محمد علي بإنشاء طلب جديد بقيمة 125,000 د.ع',
-      time: 'منذ 10 دقائق',
-      iconName: 'Package',
-      type: 'info',
-      read: false
-    },
-    {
-      id: 2,
-      title: 'عميل جديد مسجل',
-      description: 'تم تسجيل حساب جديد بواسطة سارة حسين',
-      time: 'منذ ساعتين',
-      iconName: 'UserPlus',
-      type: 'success',
-      read: false
-    },
-    {
-      id: 3,
-      title: 'انخفاض المخزون',
-      description: 'باقة الورد الحمراء على وشك النفاذ (المتبقي: 2)',
-      time: 'أمس',
-      iconName: 'AlertCircle',
-      type: 'warning',
-      read: true
-    },
-    {
-      id: 4,
-      title: 'تم تحديث حالة الطلب #ORD-9860',
-      description: 'تم تغيير حالة الطلب إلى "تم التوصيل"',
-      time: 'منذ يومين',
-      iconName: 'CheckCircle2',
-      type: 'success',
-      read: true
-    }
-  ])
+  interface NotificationData {
+    id: number
+    title: string
+    description: string
+    time: string
+    iconName: string
+    type: string
+    read: boolean
+  }
+  
+  const [notifications, setNotifications] = useState<NotificationData[]>([])
 
   const getIcon = (name: string) => {
     switch (name) {
