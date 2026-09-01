@@ -210,25 +210,27 @@ export default function GiftFinderClient({ initialProducts: products }: { initia
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                   {recommendedProducts.map((product) => (
                     <Card key={product.id} className="group border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 bg-white overflow-hidden rounded-3xl cursor-pointer">
-                      <div className="relative aspect-[4/3] bg-slate-100 p-4 overflow-hidden">
-                        <div className="w-full h-full flex items-center justify-center text-slate-400 group-hover:scale-110 transition-transform duration-700 relative">
-                          {product.images && product.images[0] ? (
-                            <Image src={product.images[0]} alt={product.name} fill sizes="(max-width: 768px) 100vw, 33vw" className="object-cover" />
-                          ) : (
-                            <span>صورة المنتج</span>
-                          )}
+                      <Link href={`/product/${product.id}`} className="block">
+                        <div className="relative aspect-[4/3] bg-slate-100 p-4 overflow-hidden">
+                          <div className="w-full h-full rounded-2xl overflow-hidden flex items-center justify-center text-slate-400 group-hover:scale-110 transition-transform duration-700 relative">
+                            {product.images && product.images[0] ? (
+                              <Image src={product.images[0]} alt={product.name} fill sizes="(max-width: 768px) 100vw, 33vw" className="object-cover" />
+                            ) : (
+                              <span>صورة المنتج</span>
+                            )}
+                          </div>
                         </div>
-                      </div>
-                      <CardContent className="p-5">
-                        <p className="text-sm font-medium text-slate-500 mb-2">{product.category}</p>
-                        <h3 className="font-bold text-slate-800 text-lg mb-4 line-clamp-2">{product.name}</h3>
-                        <div className="flex items-center justify-between">
-                          <span className="text-xl font-bold text-primary">{product.price.toLocaleString('en-US')} د.ع</span>
-                          <Link href={`/product/${product.id}`} className={buttonVariants({ size: "icon", className: "w-10 h-10 rounded-full" })}>
-                            <ShoppingCart className="w-4 h-4" />
-                          </Link>
-                        </div>
-                      </CardContent>
+                        <CardContent className="p-5">
+                          <p className="text-sm font-medium text-slate-500 mb-2">{product.category}</p>
+                          <h3 className="font-bold text-slate-800 text-lg mb-4 line-clamp-2">{product.name}</h3>
+                          <div className="flex items-center justify-between">
+                            <span className="text-xl font-bold text-primary">{product.price.toLocaleString('en-US')} د.ع</span>
+                            <div className={buttonVariants({ size: "icon", className: "w-10 h-10 rounded-full" })}>
+                              <ShoppingCart className="w-4 h-4" />
+                            </div>
+                          </div>
+                        </CardContent>
+                      </Link>
                     </Card>
                   ))}
                 </div>

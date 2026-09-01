@@ -66,3 +66,48 @@ export const useCartStore = create<CartStore>()(
     }
   )
 )
+
+export interface FavoriteItem {
+  id: string
+  name: string
+  price: number
+  salePrice?: number | null
+  image?: string
+  category?: string
+  isNew?: boolean
+  isBestSeller?: boolean
+}
+
+interface FavoritesStore {
+  items: FavoriteItem[]
+  addFavorite: (item: FavoriteItem) => void
+  removeFavorite: (id: string) => void
+  hasFavorite: (id: string) => boolean
+  clearFavorites: () => void
+}
+
+export const useFavoritesStore = create<FavoritesStore>()(
+  persist(
+    (set, get) => ({
+      items: [],
+      addFavorite: (item) => {
+        set((state) => {
+          if (state.items.find((i) => i.id === item.id)) {
+            return state
+          }
+          return { items: [...state.items, item] }
+        })
+      },
+      removeFavorite: (id) => {
+        set((state) => ({ items: state.items.filter((i) => i.id !== id) }))
+      },
+      hasFavorite: (id) => {
+        return get().items.some((i) => i.id === id)
+      },
+      clearFavorites: () => set({ items: [] }),
+    }),
+    {
+      name: 'gift-store-favorites',
+    }
+  )
+)

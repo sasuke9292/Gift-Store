@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Badge } from '@/components/ui/badge'
 import { buttonVariants } from '@/components/ui/button'
-import { useCartStore } from '@/lib/store'
+import { useCartStore, useFavoritesStore } from '@/lib/store'
 import { useEffect, useState } from 'react'
 
 interface StoreHeaderProps {
@@ -21,6 +21,7 @@ interface StoreHeaderProps {
 
 export function StoreHeader({ user }: StoreHeaderProps) {
   const cartItems = useCartStore(state => state.items)
+  const favorites = useFavoritesStore(state => state.items)
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
@@ -29,6 +30,8 @@ export function StoreHeader({ user }: StoreHeaderProps) {
   }, [])
 
   const cartCount = cartItems.reduce((acc, item) => acc + item.quantity, 0)
+  const favCount = favorites.length
+
   return (
     <header className="bg-white border-b border-slate-100 sticky top-0 z-50">
       {/* Top Bar */}
@@ -69,9 +72,14 @@ export function StoreHeader({ user }: StoreHeaderProps) {
 
           {/* Actions */}
           <div className="flex items-center gap-2 sm:gap-4">
-            <Button variant="ghost" size="icon" className="text-slate-600 hover:text-primary relative hidden sm:flex rounded-full">
+            <Link href="/favorites" className={buttonVariants({ variant: "ghost", size: "icon", className: "text-slate-600 hover:text-primary relative hidden sm:flex rounded-full" })}>
               <Heart className="w-5 h-5" />
-            </Button>
+              {mounted && favCount > 0 && (
+                <Badge className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center p-0 text-[10px] rounded-full bg-rose-500 text-white border-0">
+                  {favCount}
+                </Badge>
+              )}
+            </Link>
             
             <Link href="/cart" className={buttonVariants({ variant: "ghost", size: "icon", className: "text-slate-600 hover:text-primary relative rounded-full" })}>
               <ShoppingCart className="w-5 h-5" />

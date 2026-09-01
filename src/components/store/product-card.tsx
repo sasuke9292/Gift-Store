@@ -8,7 +8,7 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Heart, ShoppingBag } from 'lucide-react'
 import { motion } from 'framer-motion'
-import { useCartStore } from '@/lib/store'
+import { useCartStore, useFavoritesStore } from '@/lib/store'
 import { toast } from 'sonner'
 import { cn } from '@/lib/utils'
 
@@ -27,6 +27,13 @@ export interface ProductCardProps {
 
 export function ProductCard({ product }: ProductCardProps) {
   const addToCart = useCartStore(state => state.addItem)
+  const { addFavorite, removeFavorite, hasFavorite } = useFavoritesStore()
+  const [mounted, setMounted] = React.useState(false)
+
+  React.useEffect(() => {
+    setMounted(true)
+  }, [])
+
 
   return (
     <Card className="group border-0 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_25px_50px_-12px_rgba(30,58,138,0.15)] hover:-translate-y-1 hover:scale-[1.01] transition-all duration-500 bg-white overflow-hidden rounded-[2rem] h-full flex flex-col relative text-right">
@@ -40,10 +47,30 @@ export function ProductCard({ product }: ProductCardProps) {
           onClick={(e) => {
             e.preventDefault()
             e.stopPropagation()
-            toast.success('تمت الإضافة للمفضلة', { id: `fav-${product.id}` })
+            if (hasFavorite(product.id)) {
+              removeFavorite(product.id)
+              toast.info('تمت الإزالة من المفضلة', { id: `fav-rem-${product.id}` })
+            } else {
+              addFavorite({
+                id: product.id,
+                name: product.name,
+                price: product.price,
+                salePrice: product.salePrice,
+                image: product.images?.[0],
+                category: product.category?.name,
+                isNew: product.isNew,
+                isBestSeller: product.isBestSeller,
+              })
+              toast.success('تمت الإضافة للمفضلة', { id: `fav-add-${product.id}` })
+            }
           }}
         >
-          <Heart className="w-4 h-4 pointer-events-none" />
+          <Heart 
+            className={cn(
+              "w-4 h-4 pointer-events-none transition-colors duration-300",
+              hasFavorite(product.id) ? "fill-rose-500 text-rose-500" : "text-slate-500"
+            )} 
+          />
         </Button>
       </div>
 
