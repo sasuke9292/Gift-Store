@@ -7,13 +7,16 @@ import { Badge } from '@/components/ui/badge'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Star, Minus, Plus, ShoppingCart, Heart, Share2, ShieldCheck, Truck, RotateCcw } from 'lucide-react'
 import Image from 'next/image'
-import { useCartStore } from '@/lib/store'
+import { useCartStore, useFavoritesStore } from '@/lib/store'
 import { toast } from 'sonner'
 
 export default function ProductClient({ product }: { product: any }) {
   const [quantity, setQuantity] = useState(1)
   const [activeImage, setActiveImage] = useState(product.images?.[0] || '')
   const addItem = useCartStore((state) => state.addItem)
+  const { addFavorite, removeFavorite, hasFavorite } = useFavoritesStore()
+  
+  const isFavorite = hasFavorite(product.id)
 
   const handleAddToCart = () => {
     addItem({
@@ -123,9 +126,30 @@ export default function ProductClient({ product }: { product: any }) {
               </div>
 
               <div className="flex items-center gap-4">
-                <Button variant="outline" className="rounded-full flex-1 bg-white h-12 text-slate-700 hover:text-primary hover:border-primary transition-colors">
-                  <Heart className="w-5 h-5 ml-2" />
-                  إضافة للمفضلة
+                <Button 
+                  variant="outline" 
+                  className={`rounded-full flex-1 h-12 transition-colors ${isFavorite ? 'bg-rose-50 text-rose-600 border-rose-200 hover:bg-rose-100 hover:text-rose-700' : 'bg-white text-slate-700 hover:text-primary hover:border-primary'}`}
+                  onClick={() => {
+                    if (isFavorite) {
+                      removeFavorite(product.id)
+                      toast.info('تمت الإزالة من المفضلة', { id: `fav-rem-${product.id}` })
+                    } else {
+                      addFavorite({
+                        id: product.id,
+                        name: product.name,
+                        price: product.price,
+                        salePrice: product.salePrice,
+                        image: product.images?.[0],
+                        category: product.category,
+                        isNew: product.isNew,
+                        isBestSeller: product.isBestSeller,
+                      })
+                      toast.success('تمت الإضافة للمفضلة', { id: `fav-add-${product.id}` })
+                    }
+                  }}
+                >
+                  <Heart className={`w-5 h-5 ml-2 ${isFavorite ? 'fill-rose-500 text-rose-500' : ''}`} />
+                  {isFavorite ? 'إزالة من المفضلة' : 'إضافة للمفضلة'}
                 </Button>
                 <Button variant="outline" size="icon" className="rounded-full shrink-0 bg-white h-12 w-12 text-slate-600 hover:text-primary hover:border-primary transition-colors">
                   <Share2 className="w-5 h-5" />
