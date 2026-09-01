@@ -105,6 +105,9 @@ export default function ProductsClient({ initialProducts, categories }: { initia
           toast.error(res.error || 'حدث خطأ')
         }
       }
+    } catch (err) {
+      console.error(err)
+      toast.error('حدث خطأ أثناء الحفظ. قد يكون حجم الصور كبيراً جداً (الحد الأقصى 10MB)')
     } finally {
       setIsSubmitting(false)
     }
