@@ -10,6 +10,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Store, CreditCard, Bell, Shield, Save } from 'lucide-react'
 import { toast } from 'sonner'
 
+import { updateStoreSettings } from '@/app/actions/admin/settings'
+
 export interface SettingsData {
   storeName: string
   currency: string
@@ -19,19 +21,22 @@ export interface SettingsData {
   allowOnlinePayment: boolean
   orderNotifications: boolean
   marketingEmails: boolean
+  logoUrl?: string | null
 }
 
 export default function SettingsClient({ initialSettings }: { initialSettings: SettingsData }) {
   const [settings, setSettings] = useState<SettingsData>(initialSettings)
   const [isSaving, setIsSaving] = useState(false)
 
-  const handleSave = () => {
+  const handleSave = async () => {
     setIsSaving(true)
-    // Mock save delay
-    setTimeout(() => {
-      setIsSaving(false)
+    const res = await updateStoreSettings(settings)
+    setIsSaving(false)
+    if (res.success) {
       toast.success('تم حفظ الإعدادات بنجاح')
-    }, 1000)
+    } else {
+      toast.error(res.error)
+    }
   }
 
   return (
@@ -101,6 +106,23 @@ export default function SettingsClient({ initialSettings }: { initialSettings: S
                     <option value="د.ع">الدينار العراقي (د.ع)</option>
                     <option value="$">الدولار الأمريكي ($)</option>
                   </select>
+                </div>
+                <div className="space-y-2 md:col-span-2">
+                  <Label className="text-sm font-semibold text-slate-700">رابط الشعار (Logo URL)</Label>
+                  <div className="flex gap-4 items-center">
+                    {settings.logoUrl && (
+                      <div className="w-12 h-12 bg-slate-100 rounded-xl flex items-center justify-center shrink-0 border border-slate-200 overflow-hidden">
+                        <img src={settings.logoUrl} alt="Logo Preview" className="w-full h-full object-contain" />
+                      </div>
+                    )}
+                    <Input 
+                      value={settings.logoUrl || ''}
+                      onChange={(e) => setSettings({...settings, logoUrl: e.target.value})}
+                      placeholder="أدخل رابط صورة الشعار هنا..."
+                      dir="ltr"
+                      className="h-11 rounded-xl border-slate-200 focus-visible:ring-primary bg-slate-50 focus:bg-white transition-colors text-left text-sm flex-1" 
+                    />
+                  </div>
                 </div>
                 <div className="space-y-2">
                   <Label className="text-sm font-semibold text-slate-700">البريد الإلكتروني للدعم</Label>

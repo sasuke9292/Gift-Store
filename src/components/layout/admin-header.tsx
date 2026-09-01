@@ -107,7 +107,7 @@ export function AdminHeader() {
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={() => router.push('/admin/settings')}>
+            <DropdownMenuItem onClick={() => router.push('/admin/profile')}>
               الملف الشخصي
             </DropdownMenuItem>
             <DropdownMenuItem onClick={() => router.push('/admin/settings')}>

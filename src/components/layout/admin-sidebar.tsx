@@ -26,17 +26,23 @@ const sidebarItems = [
   { name: 'الإعدادات', href: '/admin/settings', icon: Settings },
 ]
 
-export function AdminSidebar() {
+export function AdminSidebar({ storeName = 'گفتي بلس', logoUrl }: { storeName?: string, logoUrl?: string | null }) {
   const pathname = usePathname()
 
   return (
     <aside className="fixed inset-y-0 right-0 z-50 w-72 bg-white border-l border-slate-200 hidden lg:flex flex-col">
       <div className="h-16 flex items-center px-6 border-b border-slate-100">
         <Link href="/admin" className="flex items-center gap-3">
-          <div className="w-8 h-8 bg-primary rounded-xl flex items-center justify-center text-white font-bold">
-            G
-          </div>
-          <span className="text-xl font-bold text-slate-800">گفتي بلس</span>
+          {logoUrl ? (
+            <div className="w-8 h-8 rounded-xl overflow-hidden shrink-0 border border-slate-200">
+              <img src={logoUrl} alt={storeName} className="w-full h-full object-cover bg-white" />
+            </div>
+          ) : (
+            <div className="w-8 h-8 bg-primary rounded-xl flex items-center justify-center text-white font-bold shrink-0">
+              {storeName ? storeName.charAt(0) : 'G'}
+            </div>
+          )}
+          <span className="text-xl font-bold text-slate-800 truncate">{storeName}</span>
         </Link>
       </div>
 

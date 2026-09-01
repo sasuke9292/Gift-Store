@@ -1,16 +1,19 @@
 import React from 'react'
 import { AdminSidebar } from '@/components/layout/admin-sidebar'
 import { AdminHeader } from '@/components/layout/admin-header'
+import { getStoreSettings } from '@/app/actions/admin/settings'
 
-export default function AdminLayout({
+export default async function AdminLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
+  const settings = await getStoreSettings()
+  
   return (
     <div className="min-h-screen bg-slate-50 flex">
       {/* Sidebar - Desktop */}
-      <AdminSidebar />
+      <AdminSidebar storeName={settings?.storeName} logoUrl={settings?.logoUrl} />
       
       {/* Main Content */}
       <div className="flex-1 flex flex-col min-w-0 lg:mr-72">

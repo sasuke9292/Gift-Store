@@ -1,11 +1,13 @@
 import React from 'react'
 import SettingsClient from './settings-client'
+import { getStoreSettings } from '@/app/actions/admin/settings'
 
 export const dynamic = 'force-dynamic'
 
-export default function AdminSettingsPage() {
-  // We mock initial settings for now since we don't have a Settings table yet
-  const initialSettings = {
+export default async function AdminSettingsPage() {
+  const settings = await getStoreSettings()
+  
+  const initialSettings = settings || {
     storeName: 'گفتي بلس | Gifty Plus',
     storeEmail: 'contact@giftstore.com',
     storePhone: '+964 770 123 4567',
@@ -13,7 +15,8 @@ export default function AdminSettingsPage() {
     allowCod: true,
     allowOnlinePayment: false,
     orderNotifications: true,
-    marketingEmails: true
+    marketingEmails: true,
+    logoUrl: null
   }
 
   return <SettingsClient initialSettings={initialSettings} />

@@ -265,3 +265,18 @@ model AuditLog {
   details   Json?
   createdAt DateTime @default(now())
 }
+
+model StoreSettings {
+  id                 String   @id @default("default")
+  storeName          String   @default("گفتي بلس")
+  storeEmail         String?
+  storePhone         String?
+  currency           String   @default("د.ع")
+  logoUrl            String?
+  faviconUrl         String?
+  allowCod           Boolean  @default(true)
+  allowOnlinePayment Boolean  @default(false)
+  orderNotifications Boolean  @default(true)
+  marketingEmails    Boolean  @default(true)
+  updatedAt          DateTime @updatedAt
+}
