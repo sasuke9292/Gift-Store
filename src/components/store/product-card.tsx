@@ -29,7 +29,7 @@ export function ProductCard({ product }: ProductCardProps) {
   const addToCart = useCartStore(state => state.addItem)
 
   return (
-    <Card className="group border-0 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_20px_40px_rgb(0,0,0,0.12)] transition-all duration-500 bg-white overflow-hidden rounded-[2rem] h-full flex flex-col relative text-right">
+    <Card className="group border-0 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_25px_50px_-12px_rgba(30,58,138,0.15)] hover:-translate-y-1 hover:scale-[1.01] transition-all duration-500 bg-white overflow-hidden rounded-[2rem] h-full flex flex-col relative text-right">
       
       {/* Quick Actions (Hover) */}
       <div className="absolute top-4 left-4 z-20 opacity-0 group-hover:opacity-100 -translate-x-4 group-hover:translate-x-0 transition-all duration-500 ease-out">

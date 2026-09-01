@@ -239,11 +239,11 @@ export default function ProductsClient({ initialProducts, categories }: { initia
                       className="border-slate-300 data-[state=checked]:bg-primary data-[state=checked]:border-primary rounded-md"
                     />
                   </TableHead>
-                  <TableHead className="text-right font-bold text-slate-700 h-14 px-6">المنتج</TableHead>
-                  <TableHead className="text-right font-bold text-slate-700 h-14">التصنيف</TableHead>
-                  <TableHead className="text-right font-bold text-slate-700 h-14">السعر</TableHead>
-                  <TableHead className="text-right font-bold text-slate-700 h-14">الحالة</TableHead>
-                  <TableHead className="text-center font-bold text-slate-700 h-14 w-28">إجراءات</TableHead>
+                  <TableHead className="text-right font-bold text-slate-700 h-16">المنتج</TableHead>
+                  <TableHead className="text-right font-bold text-slate-700 h-16">التصنيف</TableHead>
+                  <TableHead className="text-right font-bold text-slate-700 h-16">السعر</TableHead>
+                  <TableHead className="text-right font-bold text-slate-700 h-16">الحالة</TableHead>
+                  <TableHead className="text-center font-bold text-slate-700 h-16 w-28">إجراءات</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -256,7 +256,7 @@ export default function ProductsClient({ initialProducts, categories }: { initia
                         className="border-slate-300 data-[state=checked]:bg-primary data-[state=checked]:border-primary rounded-md"
                       />
                     </TableCell>
-                    <TableCell className="px-6 py-4">
+                    <TableCell className="px-6 py-5">
                       <div className="flex items-center gap-4">
                         <div className="w-14 h-14 rounded-[1.25rem] bg-slate-50 border border-slate-100/80 flex items-center justify-center overflow-hidden relative shrink-0 shadow-sm group-hover:shadow-md group-hover:scale-105 transition-all duration-300">
                           {product.images && product.images[0] ? (
@@ -271,22 +271,22 @@ export default function ProductsClient({ initialProducts, categories }: { initia
                         </div>
                       </div>
                     </TableCell>
-                    <TableCell className="py-4">
+                    <TableCell className="py-5">
                       <span className="inline-flex items-center px-3 py-1 rounded-lg bg-slate-50 text-slate-600 font-semibold text-xs border border-slate-100">
                         {product.category?.name || 'بدون تصنيف'}
                       </span>
                     </TableCell>
-                    <TableCell className="py-4">
+                    <TableCell className="py-5">
                       <span className="font-extrabold text-primary text-sm tracking-tight">{product.price.toLocaleString('en-US')} د.ع</span>
                     </TableCell>
-                    <TableCell className="py-4">
+                    <TableCell className="py-5">
                       {product.isActive ? (
                         <Badge className="bg-emerald-50 text-emerald-600 hover:bg-emerald-100 border border-emerald-200/50 rounded-xl px-3 py-1 font-bold text-xs shadow-sm">نشط</Badge>
                       ) : (
                         <Badge className="bg-slate-50 text-slate-600 hover:bg-slate-100 border border-slate-200/50 rounded-xl px-3 py-1 font-bold text-xs shadow-sm">مسودة</Badge>
                       )}
                     </TableCell>
-                    <TableCell className="text-center py-4">
+                    <TableCell className="text-center py-5">
                       <DropdownMenu dir="rtl">
                         <DropdownMenuTrigger className={buttonVariants({ variant: "outline", className: "h-9 w-9 p-0 text-slate-400 hover:text-primary hover:bg-blue-50 border-slate-200 rounded-xl shadow-sm transition-all focus-visible:ring-2 focus-visible:ring-primary/20" })}>
                           <span className="sr-only">فتح القائمة</span>
