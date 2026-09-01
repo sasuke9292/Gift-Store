@@ -176,7 +176,8 @@ export default function CustomersClient({ initialCustomers }: { initialCustomers
                           <DropdownMenuLabel className="text-xs text-slate-400 font-bold px-2 py-1.5 uppercase">إدارة العميل</DropdownMenuLabel>
                           <DropdownMenuItem 
                             className="rounded-xl cursor-pointer py-2.5 hover:bg-slate-50 font-medium text-slate-700"
-                            onClick={() => {
+                            onSelect={(e) => {
+                              e.preventDefault() // Prevents the menu from interfering if modal needs to stay open immediately, but standard onSelect is fine
                               setSelectedCustomer(customer)
                               setIsCustomerModalOpen(true)
                             }}
@@ -186,7 +187,7 @@ export default function CustomersClient({ initialCustomers }: { initialCustomers
                           </DropdownMenuItem>
                           <DropdownMenuItem 
                             className="rounded-xl cursor-pointer py-2.5 hover:bg-slate-50 font-medium text-slate-700"
-                            onClick={() => handleSendEmail(customer.email)}
+                            onSelect={() => handleSendEmail(customer.email)}
                           >
                             <Mail className="ml-3 h-4 w-4 text-amber-500" />
                             <span>مراسلة العميل</span>
@@ -194,7 +195,7 @@ export default function CustomersClient({ initialCustomers }: { initialCustomers
                           <DropdownMenuSeparator className="my-2" />
                           <DropdownMenuItem 
                             className="rounded-xl cursor-pointer py-2.5 font-bold text-rose-600 hover:bg-rose-50 hover:text-rose-700"
-                            onClick={() => handleBlockCustomer(customer.id, customer.name)}
+                            onSelect={() => handleBlockCustomer(customer.id, customer.name)}
                           >
                             {customer.status === 'نشط' ? (
                               <>

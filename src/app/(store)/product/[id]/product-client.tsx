@@ -17,6 +17,8 @@ export default function ProductClient({ product }: { product: any }) {
   const [activeImage, setActiveImage] = useState(product.images?.[0] || '')
   const addItem = useCartStore((state) => state.addItem)
   const { addFavorite, removeFavorite, hasFavorite } = useFavoritesStore()
+  const [rating, setRating] = useState(0)
+  const [hoverRating, setHoverRating] = useState(0)
   
   const isFavorite = hasFavorite(product.id)
 
@@ -257,10 +259,22 @@ export default function ProductClient({ product }: { product: any }) {
                       <div className="py-4 space-y-4">
                         <div>
                           <label className="block text-sm font-medium text-slate-700 mb-2">ما هو تقييمك؟</label>
-                          <div className="flex gap-2 text-slate-300 cursor-pointer">
-                            {[...Array(5)].map((_, i) => (
-                              <Star key={i} className="w-8 h-8 hover:fill-yellow-400 hover:text-yellow-400 transition-colors" />
-                            ))}
+                          <div className="flex gap-2 cursor-pointer" onMouseLeave={() => setHoverRating(0)}>
+                            {[...Array(5)].map((_, i) => {
+                              const starValue = i + 1;
+                              return (
+                                <Star 
+                                  key={i} 
+                                  className={`w-8 h-8 transition-colors ${
+                                    starValue <= (hoverRating || rating) 
+                                      ? 'fill-yellow-400 text-yellow-400' 
+                                      : 'text-slate-300'
+                                  }`}
+                                  onMouseEnter={() => setHoverRating(starValue)}
+                                  onClick={() => setRating(starValue)}
+                                />
+                              )
+                            })}
                           </div>
                         </div>
                         <div>
@@ -293,10 +307,22 @@ export default function ProductClient({ product }: { product: any }) {
                       <div className="py-4 space-y-4">
                         <div>
                           <label className="block text-sm font-medium text-slate-700 mb-2">ما هو تقييمك؟</label>
-                          <div className="flex gap-2 text-slate-300 cursor-pointer">
-                            {[...Array(5)].map((_, i) => (
-                              <Star key={i} className="w-8 h-8 hover:fill-yellow-400 hover:text-yellow-400 transition-colors" />
-                            ))}
+                          <div className="flex gap-2 cursor-pointer" onMouseLeave={() => setHoverRating(0)}>
+                            {[...Array(5)].map((_, i) => {
+                              const starValue = i + 1;
+                              return (
+                                <Star 
+                                  key={i} 
+                                  className={`w-8 h-8 transition-colors ${
+                                    starValue <= (hoverRating || rating) 
+                                      ? 'fill-yellow-400 text-yellow-400' 
+                                      : 'text-slate-300'
+                                  }`}
+                                  onMouseEnter={() => setHoverRating(starValue)}
+                                  onClick={() => setRating(starValue)}
+                                />
+                              )
+                            })}
                           </div>
                         </div>
                         <div>

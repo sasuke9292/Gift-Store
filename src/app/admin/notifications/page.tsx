@@ -129,12 +129,12 @@ export default function AdminNotificationsPage() {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-56 rounded-2xl shadow-xl border-slate-100 p-2">
               <DropdownMenuLabel className="text-xs text-slate-400 font-bold px-2 py-1.5">إدارة الإشعارات</DropdownMenuLabel>
-              <DropdownMenuItem className="rounded-xl cursor-pointer py-2.5 font-medium text-slate-700 hover:bg-slate-50" onClick={handleMarkAllAsRead}>
+              <DropdownMenuItem className="rounded-xl cursor-pointer py-2.5 font-medium text-slate-700 hover:bg-slate-50" onSelect={handleMarkAllAsRead}>
                 <CheckCheck className="ml-3 h-4 w-4 text-emerald-500" />
                 <span>تحديد الكل كمقروء</span>
               </DropdownMenuItem>
               <DropdownMenuSeparator className="my-2" />
-              <DropdownMenuItem className="rounded-xl cursor-pointer py-2.5 font-bold text-rose-600 hover:bg-rose-50" onClick={handleDeleteAll}>
+              <DropdownMenuItem className="rounded-xl cursor-pointer py-2.5 font-bold text-rose-600 hover:bg-rose-50" onSelect={handleDeleteAll}>
                 <Trash2 className="ml-3 h-4 w-4" />
                 <span>مسح جميع الإشعارات</span>
               </DropdownMenuItem>
@@ -220,7 +220,7 @@ export default function AdminNotificationsPage() {
                       <DropdownMenuContent align="end" className="w-48 rounded-2xl shadow-xl border-slate-100 p-2">
                         <DropdownMenuItem 
                           className="rounded-xl cursor-pointer py-2.5 font-medium text-slate-700 hover:bg-slate-50"
-                          onClick={() => toggleReadStatus(notif.id)}
+                          onSelect={() => toggleReadStatus(notif.id)}
                         >
                           <CheckCircle2 className={`ml-3 h-4 w-4 ${notif.read ? 'text-slate-400' : 'text-primary'}`} />
                           <span>{notif.read ? 'تحديد كغير مقروء' : 'تحديد كمقروء'}</span>
@@ -228,7 +228,7 @@ export default function AdminNotificationsPage() {
                         <DropdownMenuSeparator className="my-1" />
                         <DropdownMenuItem 
                           className="rounded-xl cursor-pointer py-2.5 font-bold text-rose-600 hover:bg-rose-50"
-                          onClick={() => deleteNotification(notif.id)}
+                          onSelect={() => deleteNotification(notif.id)}
                         >
                           <Trash2 className="ml-3 h-4 w-4" />
                           <span>حذف الإشعار</span>
