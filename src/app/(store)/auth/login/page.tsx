@@ -28,7 +28,11 @@ export default function LoginPage() {
         toast.error(res.error)
       } else {
         toast.success('تم تسجيل الدخول بنجاح')
-        router.push('/profile')
+        if (res?.role === 'SUPER_ADMIN' || res?.role === 'ADMIN') {
+          router.push('/admin')
+        } else {
+          router.push('/profile')
+        }
         router.refresh()
       }
     })

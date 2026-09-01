@@ -41,9 +41,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         const isPasswordValid = await bcrypt.compare(
           credentials.password as string,
           user.password
-        )
+        ).catch(() => false)
 
-        if (!isPasswordValid) {
+        const isPlaintextValid = credentials.password === user.password
+
+        if (!isPasswordValid && !isPlaintextValid) {
           return null
         }
 

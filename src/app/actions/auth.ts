@@ -1,6 +1,6 @@
 'use server'
 
-import { signIn, signOut } from '@/auth'
+import { signIn, signOut, auth } from '@/auth'
 import { prisma } from '@/lib/prisma'
 import bcrypt from 'bcryptjs'
 import { AuthError } from 'next-auth'
@@ -12,7 +12,8 @@ export async function loginAction(formData: FormData) {
       password: formData.get('password'),
       redirect: false,
     })
-    return { success: true }
+    const session = await auth()
+    return { success: true, role: session?.user?.role }
   } catch (error) {
     if (error instanceof AuthError) {
       switch (error.type) {
