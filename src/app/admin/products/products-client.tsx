@@ -128,13 +128,13 @@ export default function ProductsClient({ initialProducts, categories }: { initia
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-slate-800">المنتجات</h1>
-          <p className="text-slate-500 mt-1">إدارة المنتجات، المخزون، والأسعار.</p>
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">المنتجات</h1>
+          <p className="text-slate-500 mt-1.5 font-medium text-sm">إدارة المنتجات، المخزون، والأسعار الخاصة بمتجرك.</p>
         </div>
-        <div className="flex gap-2">
-          <Button onClick={() => openModal()} className="bg-primary hover:bg-primary/90 text-white shadow-sm rounded-xl">
-            <Plus className="w-4 h-4 ml-2" />
-            إضافة منتج
+        <div className="flex gap-3">
+          <Button onClick={() => openModal()} className="h-12 bg-primary hover:bg-primary/90 text-white shadow-lg shadow-primary/25 hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300 rounded-2xl px-6 font-bold text-sm">
+            <Plus className="w-5 h-5 ml-2" />
+            إضافة منتج جديد
           </Button>
         </div>
       </div>
@@ -142,11 +142,11 @@ export default function ProductsClient({ initialProducts, categories }: { initia
       <Card className="border-slate-100 shadow-sm overflow-hidden rounded-2xl">
         <CardHeader className="border-b border-slate-100 bg-slate-50/50 pb-4">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-            <div className="relative w-full md:w-80">
-              <Search className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+            <div className="relative w-full md:w-96">
+              <Search className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
               <Input
                 placeholder="ابحث باسم المنتج أو الرمز (SKU)..."
-                className="pl-4 pr-10 bg-white border-slate-200 rounded-xl focus-visible:ring-primary h-11"
+                className="pl-4 pr-12 bg-slate-50/50 hover:bg-slate-50 focus:bg-white border-slate-200 focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all rounded-2xl h-12 text-sm font-medium"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
               />
@@ -156,56 +156,62 @@ export default function ProductsClient({ initialProducts, categories }: { initia
         <CardContent className="p-0">
           <div className="overflow-x-auto">
             <Table>
-              <TableHeader className="bg-slate-50">
-                <TableRow>
-                  <TableHead className="text-right font-medium">المنتج</TableHead>
-                  <TableHead className="text-right font-medium">التصنيف</TableHead>
-                  <TableHead className="text-right font-medium">السعر</TableHead>
-                  <TableHead className="text-right font-medium">الحالة</TableHead>
-                  <TableHead className="text-center font-medium">إجراءات</TableHead>
+              <TableHeader className="bg-slate-50/80 border-b border-slate-100">
+                <TableRow className="hover:bg-transparent">
+                  <TableHead className="text-right font-bold text-slate-700 h-14 px-6">المنتج</TableHead>
+                  <TableHead className="text-right font-bold text-slate-700 h-14">التصنيف</TableHead>
+                  <TableHead className="text-right font-bold text-slate-700 h-14">السعر</TableHead>
+                  <TableHead className="text-right font-bold text-slate-700 h-14">الحالة</TableHead>
+                  <TableHead className="text-center font-bold text-slate-700 h-14 w-28">إجراءات</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {filteredProducts.map((product) => (
-                  <TableRow key={product.id} className="hover:bg-slate-50/80 transition-colors">
-                    <TableCell>
-                      <div className="flex items-center gap-3">
-                        <div className="w-12 h-12 rounded-xl bg-slate-100 border border-slate-100 flex items-center justify-center overflow-hidden relative shrink-0">
+                  <TableRow key={product.id} className="group hover:bg-indigo-50/30 transition-all duration-300 border-b border-slate-50 last:border-0 relative">
+                    <TableCell className="px-6 py-4">
+                      <div className="flex items-center gap-4">
+                        <div className="w-14 h-14 rounded-[1.25rem] bg-slate-50 border border-slate-100/80 flex items-center justify-center overflow-hidden relative shrink-0 shadow-sm group-hover:shadow-md group-hover:scale-105 transition-all duration-300">
                           {product.images && product.images[0] ? (
                             <Image src={product.images[0]} alt={product.name} fill className="object-cover" />
                           ) : (
-                            <ImageIcon className="w-5 h-5 text-slate-400" />
+                            <ImageIcon className="w-6 h-6 text-slate-300" />
                           )}
                         </div>
                         <div>
-                          <p className="font-bold text-slate-800">{product.name}</p>
-                          <p className="text-xs text-slate-500 font-mono mt-0.5">{product.sku || product.id.slice(0, 8)}</p>
+                          <p className="font-bold text-slate-900 text-sm group-hover:text-primary transition-colors">{product.name}</p>
+                          <p className="text-xs text-slate-500 font-mono mt-1 opacity-80">{product.sku || product.id.slice(0, 8)}</p>
                         </div>
                       </div>
                     </TableCell>
-                    <TableCell className="text-slate-600 font-medium">{product.category?.name || 'بدون تصنيف'}</TableCell>
-                    <TableCell className="font-bold text-primary">{product.price.toLocaleString('en-US')} د.ع</TableCell>
-                    <TableCell>
+                    <TableCell className="py-4">
+                      <span className="inline-flex items-center px-3 py-1 rounded-lg bg-slate-50 text-slate-600 font-semibold text-xs border border-slate-100">
+                        {product.category?.name || 'بدون تصنيف'}
+                      </span>
+                    </TableCell>
+                    <TableCell className="py-4">
+                      <span className="font-extrabold text-primary text-sm tracking-tight">{product.price.toLocaleString('en-US')} د.ع</span>
+                    </TableCell>
+                    <TableCell className="py-4">
                       {product.isActive ? (
-                        <Badge className="bg-emerald-100 text-emerald-700 hover:bg-emerald-100 border-0 rounded-lg">نشط</Badge>
+                        <Badge className="bg-emerald-50 text-emerald-600 hover:bg-emerald-100 border border-emerald-200/50 rounded-xl px-3 py-1 font-bold text-xs shadow-sm">نشط</Badge>
                       ) : (
-                        <Badge className="bg-slate-100 text-slate-700 hover:bg-slate-100 border-0 rounded-lg">مسودة</Badge>
+                        <Badge className="bg-slate-50 text-slate-600 hover:bg-slate-100 border border-slate-200/50 rounded-xl px-3 py-1 font-bold text-xs shadow-sm">مسودة</Badge>
                       )}
                     </TableCell>
-                    <TableCell className="text-center">
-                      <DropdownMenu>
-                        <DropdownMenuTrigger className={buttonVariants({ variant: "ghost", className: "h-8 w-8 p-0 text-slate-500 rounded-lg" })}>
+                    <TableCell className="text-center py-4">
+                      <DropdownMenu dir="rtl">
+                        <DropdownMenuTrigger className={buttonVariants({ variant: "outline", className: "h-9 w-9 p-0 text-slate-400 hover:text-primary hover:bg-indigo-50 border-slate-200 rounded-xl shadow-sm transition-all focus-visible:ring-2 focus-visible:ring-primary/20" })}>
                           <span className="sr-only">فتح القائمة</span>
                           <MoreHorizontal className="h-4 w-4" />
                         </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end" className="rounded-xl shadow-lg border-slate-100">
-                          <DropdownMenuItem onClick={() => openModal(product)} className="rounded-lg cursor-pointer">
-                            <Edit className="mr-2 h-4 w-4 text-slate-400" />
-                            <span>تعديل المنتج</span>
+                        <DropdownMenuContent align="start" className="w-48 rounded-2xl shadow-xl shadow-slate-200/50 border-slate-100 p-1.5 animate-in fade-in-0 zoom-in-95">
+                          <DropdownMenuItem onClick={() => openModal(product)} className="rounded-xl cursor-pointer p-2.5 font-medium text-slate-700 hover:text-primary focus:text-primary focus:bg-indigo-50/50 transition-colors">
+                            <Edit className="mr-2.5 h-4 w-4 text-slate-400" />
+                            <span>تعديل بيانات المنتج</span>
                           </DropdownMenuItem>
-                          <DropdownMenuItem onClick={() => handleDelete(product.id)} className="text-rose-600 focus:text-rose-600 focus:bg-rose-50 rounded-lg cursor-pointer">
-                            <Trash className="mr-2 h-4 w-4" />
-                            <span>حذف المنتج</span>
+                          <DropdownMenuItem onClick={() => handleDelete(product.id)} className="rounded-xl cursor-pointer p-2.5 font-medium text-rose-600 hover:text-rose-700 focus:text-rose-700 focus:bg-rose-50 transition-colors mt-1">
+                            <Trash className="mr-2.5 h-4 w-4" />
+                            <span>حذف نهائي للمنتج</span>
                           </DropdownMenuItem>
                         </DropdownMenuContent>
                       </DropdownMenu>
