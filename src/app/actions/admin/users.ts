@@ -93,3 +93,49 @@ export async function changePassword(userId: string, newPassword: string) {
     return { success: false, error: 'حدث خطأ أثناء تغيير كلمة المرور' }
   }
 }
+
+export async function updateStaffUser(userId: string, data: { name: string, email: string, role: Role, password?: string }) {
+  try {
+    const updateData: any = {
+      name: data.name,
+      email: data.email,
+      role: data.role
+    }
+
+    if (data.password && data.password.trim() !== '') {
+      updateData.password = await bcrypt.hash(data.password, 10)
+    }
+
+    const updatedUser = await prisma.user.update({
+      where: { id: userId },
+      data: updateData
+    })
+
+    return { success: true, data: updatedUser }
+  } catch (error) {
+    console.error('Error updating staff user:', error)
+    return { success: false, error: 'حدث خطأ أثناء تعديل بيانات المستخدم' }
+  }
+}
+
+export async function deleteStaffUser(userId: string) {
+  try {
+    // Check if the user is the only SUPER_ADMIN
+    const userToDelete = await prisma.user.findUnique({ where: { id: userId } })
+    if (userToDelete?.role === 'SUPER_ADMIN') {
+      const superAdminsCount = await prisma.user.count({ where: { role: 'SUPER_ADMIN' } })
+      if (superAdminsCount <= 1) {
+        return { success: false, error: 'لا يمكن حذف المدير العام الوحيد في النظام' }
+      }
+    }
+
+    await prisma.user.delete({
+      where: { id: userId }
+    })
+    
+    return { success: true }
+  } catch (error) {
+    console.error('Error deleting staff user:', error)
+    return { success: false, error: 'حدث خطأ أثناء حذف المستخدم' }
+  }
+}

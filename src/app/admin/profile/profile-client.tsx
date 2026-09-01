@@ -29,9 +29,9 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { Shield, UserCircle, Key, Mail, MoreHorizontal, Edit, UserPlus, Lock } from 'lucide-react'
+import { Shield, UserCircle, Key, Mail, MoreHorizontal, Edit, UserPlus, Lock, Trash2, Calendar } from 'lucide-react'
 import { toast } from 'sonner'
-import { updateProfile, updateUserRole, createStaffUser, changePassword } from '@/app/actions/admin/users'
+import { updateProfile, createStaffUser, changePassword, updateStaffUser, deleteStaffUser } from '@/app/actions/admin/users'
 
 interface ProfileClientProps {
   currentUser: User | null
@@ -60,11 +60,19 @@ export default function ProfileClient({ currentUser, initialStaffUsers }: Profil
   })
   const [isSavingProfile, setIsSavingProfile] = useState(false)
 
-  // Role Edit State
-  const [isRoleModalOpen, setIsRoleModalOpen] = useState(false)
+  // Edit User State
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false)
   const [selectedUser, setSelectedUser] = useState<User | null>(null)
-  const [newRole, setNewRole] = useState<Role>('ADMIN')
-  const [isSavingRole, setIsSavingRole] = useState(false)
+  const [isSavingEdit, setIsSavingEdit] = useState(false)
+  const [editUserData, setEditUserData] = useState({
+    name: '',
+    email: '',
+    role: 'ADMIN' as Role,
+    password: ''
+  })
+  
+  // Delete User State
+  const [isDeletingUser, setIsDeletingUser] = useState<string | null>(null)
 
   // Create User State
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false)
@@ -94,24 +102,44 @@ export default function ProfileClient({ currentUser, initialStaffUsers }: Profil
     setIsSavingProfile(false)
   }
 
-  const openRoleModal = (user: User) => {
+  const openEditModal = (user: User) => {
     setSelectedUser(user)
-    setNewRole(user.role)
-    setIsRoleModalOpen(true)
+    setEditUserData({
+      name: user.name || '',
+      email: user.email || '',
+      role: user.role,
+      password: ''
+    })
+    setIsEditModalOpen(true)
   }
 
-  const handleSaveRole = async () => {
+  const handleSaveEdit = async (e: React.FormEvent) => {
+    e.preventDefault()
     if (!selectedUser) return
-    setIsSavingRole(true)
-    const res = await updateUserRole(selectedUser.id, newRole)
-    if (res.success) {
-      toast.success('تم تحديث الصلاحية بنجاح')
-      setUsers(users.map(u => u.id === selectedUser.id ? { ...u, role: newRole } : u))
-      setIsRoleModalOpen(false)
+    setIsSavingEdit(true)
+    const res = await updateStaffUser(selectedUser.id, editUserData)
+    if (res.success && res.data) {
+      toast.success('تم تحديث بيانات المستخدم بنجاح')
+      setUsers(users.map(u => u.id === selectedUser.id ? res.data : u))
+      setIsEditModalOpen(false)
     } else {
       toast.error(res.error)
     }
-    setIsSavingRole(false)
+    setIsSavingEdit(false)
+  }
+
+  const handleDeleteUser = async (userId: string) => {
+    if (confirm('هل أنت متأكد من رغبتك في حذف هذا المستخدم نهائياً؟')) {
+      setIsDeletingUser(userId)
+      const res = await deleteStaffUser(userId)
+      if (res.success) {
+        toast.success('تم حذف المستخدم بنجاح')
+        setUsers(users.filter(u => u.id !== userId))
+      } else {
+        toast.error(res.error)
+      }
+      setIsDeletingUser(null)
+    }
   }
 
   const handleCreateUser = async (e: React.FormEvent) => {
@@ -273,134 +301,142 @@ export default function ProfileClient({ currentUser, initialStaffUsers }: Profil
         </TabsContent>
 
         <TabsContent value="team" className="animate-in fade-in-50 zoom-in-[0.98]">
-          <Card className="rounded-2xl border-slate-100 shadow-sm overflow-hidden">
-            <CardHeader className="border-b border-slate-50 bg-white px-6 py-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-              <div>
-                <CardTitle className="text-lg font-bold text-slate-800">أعضاء الفريق</CardTitle>
-                <p className="text-sm text-slate-500 mt-1">إدارة حسابات الموظفين وصلاحياتهم في لوحة التحكم.</p>
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+            <div>
+              <h2 className="text-xl font-bold text-slate-800">أعضاء الفريق ({users.length})</h2>
+              <p className="text-sm text-slate-500 mt-1">إدارة حسابات الموظفين وصلاحياتهم في لوحة التحكم.</p>
+            </div>
+            <Button onClick={() => setIsCreateModalOpen(true)} className="h-11 px-6 bg-primary hover:bg-primary/90 text-white rounded-xl font-bold shadow-lg shadow-primary/25 hover:-translate-y-0.5 transition-all">
+              <UserPlus className="w-5 h-5 ml-2" />
+              دعوة عضو جديد
+            </Button>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {users.map((user) => (
+              <Card key={user.id} className="rounded-2xl border-slate-100 shadow-sm hover:shadow-md transition-all group overflow-hidden bg-white">
+                <div className="h-20 bg-slate-50 border-b border-slate-100 relative">
+                  <div className="absolute top-4 left-4">
+                    <DropdownMenu dir="rtl">
+                      <DropdownMenuTrigger className={buttonVariants({ variant: "ghost", className: "h-9 w-9 p-0 rounded-xl hover:bg-white bg-white/50 border border-slate-200" })}>
+                        <MoreHorizontal className="h-4 w-4 text-slate-600" />
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end" className="w-48 rounded-2xl shadow-xl shadow-slate-200/50 border-slate-100 p-1.5">
+                        <DropdownMenuItem onClick={() => openEditModal(user)} className="rounded-xl cursor-pointer p-2.5 font-medium text-slate-700 hover:text-primary focus:text-primary focus:bg-blue-50/50 transition-colors">
+                          <Edit className="mr-2.5 h-4 w-4 text-slate-400" />
+                          <span>تعديل المستخدم</span>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem 
+                          onClick={() => handleDeleteUser(user.id)}
+                          disabled={isDeletingUser === user.id}
+                          className="rounded-xl cursor-pointer p-2.5 font-medium text-rose-600 hover:text-rose-700 focus:text-rose-700 focus:bg-rose-50 transition-colors mt-1"
+                        >
+                          <Trash2 className="mr-2.5 h-4 w-4" />
+                          <span>{isDeletingUser === user.id ? 'جاري الحذف...' : 'حذف الحساب'}</span>
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </div>
+                </div>
+                <div className="px-6 pb-6 pt-0 text-center relative -mt-10">
+                  <Avatar className="w-20 h-20 border-4 border-white shadow-sm mx-auto bg-slate-50 mb-3">
+                    <AvatarFallback className="bg-primary/10 text-primary font-black text-xl">
+                      {user.name ? user.name[0] : 'م'}
+                    </AvatarFallback>
+                  </Avatar>
+                  <h3 className="font-bold text-lg text-slate-800">{user.name || 'بدون اسم'}</h3>
+                  <p className="text-sm text-slate-500 font-mono mt-0.5" dir="ltr">{user.email}</p>
+                  
+                  <div className="mt-4 mb-4">
+                    <Badge className={`px-4 py-1.5 rounded-full font-bold shadow-sm border ${roleMap[user.role]?.color || roleMap.CUSTOMER.color}`}>
+                      {roleMap[user.role]?.label || user.role}
+                    </Badge>
+                  </div>
+                  
+                  <div className="pt-4 border-t border-slate-100 flex items-center justify-center gap-2 text-xs font-medium text-slate-400">
+                    <Calendar className="w-3.5 h-3.5" />
+                    انضم في {new Date(user.createdAt).toLocaleDateString('ar-EG')}
+                  </div>
+                </div>
+              </Card>
+            ))}
+            
+            {users.length === 0 && (
+              <div className="col-span-full py-16 text-center border-2 border-dashed border-slate-200 rounded-3xl bg-slate-50">
+                <Shield className="w-12 h-12 text-slate-300 mx-auto mb-4" />
+                <h3 className="text-lg font-bold text-slate-700">لا يوجد أعضاء في الفريق</h3>
+                <p className="text-slate-500 mt-2">ابدأ بإضافة موظفين ومدراء لنظامك من خلال الزر في الأعلى.</p>
               </div>
-              <Button onClick={() => setIsCreateModalOpen(true)} className="h-11 bg-primary hover:bg-primary/90 text-white rounded-xl font-bold shadow-sm">
-                <UserPlus className="w-4 h-4 ml-2" />
-                دعوة عضو جديد
-              </Button>
-            </CardHeader>
-            <CardContent className="p-0">
-              <Table>
-                <TableHeader className="bg-slate-50/80 border-b border-slate-100">
-                  <TableRow className="hover:bg-transparent">
-                    <TableHead className="text-right font-bold text-slate-700 h-14">المستخدم</TableHead>
-                    <TableHead className="text-right font-bold text-slate-700 h-14">البريد الإلكتروني</TableHead>
-                    <TableHead className="text-right font-bold text-slate-700 h-14">الصلاحية (الدور)</TableHead>
-                    <TableHead className="text-right font-bold text-slate-700 h-14">تاريخ الانضمام</TableHead>
-                    <TableHead className="text-center font-bold text-slate-700 h-14 w-24">إجراءات</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {users.map((user) => (
-                    <TableRow key={user.id} className="hover:bg-slate-50/50 transition-colors border-b border-slate-50 last:border-0">
-                      <TableCell className="py-4">
-                        <div className="flex items-center gap-3">
-                          <Avatar className="w-10 h-10 border border-slate-100">
-                            <AvatarFallback className="bg-primary/5 text-primary font-bold">
-                              {user.name ? user.name[0] : 'م'}
-                            </AvatarFallback>
-                          </Avatar>
-                          <span className="font-bold text-slate-800">{user.name || 'بدون اسم'}</span>
-                        </div>
-                      </TableCell>
-                      <TableCell className="text-slate-500 font-medium font-mono text-sm" dir="ltr">
-                        {user.email}
-                      </TableCell>
-                      <TableCell>
-                        <Badge className={`px-3 py-1 text-xs font-bold rounded-lg border ${roleMap[user.role]?.color || roleMap.CUSTOMER.color}`}>
-                          {roleMap[user.role]?.label || user.role}
-                        </Badge>
-                      </TableCell>
-                      <TableCell className="text-slate-500 text-sm font-medium">
-                        {new Date(user.createdAt).toLocaleDateString('ar-EG')}
-                      </TableCell>
-                      <TableCell className="text-center">
-                        <DropdownMenu dir="rtl">
-                          <DropdownMenuTrigger className={buttonVariants({ variant: "ghost", className: "h-9 w-9 p-0 rounded-xl hover:bg-slate-100" })}>
-                            <MoreHorizontal className="h-4 w-4 text-slate-400" />
-                          </DropdownMenuTrigger>
-                          <DropdownMenuContent align="end" className="w-48 rounded-2xl shadow-xl shadow-slate-200/50 border-slate-100 p-1.5">
-                            <DropdownMenuItem onClick={() => openRoleModal(user)} className="rounded-xl cursor-pointer p-2.5 font-medium text-slate-700 hover:text-primary focus:text-primary focus:bg-blue-50/50 transition-colors">
-                              <Shield className="mr-2.5 h-4 w-4 text-slate-400" />
-                              <span>تعديل الصلاحيات</span>
-                            </DropdownMenuItem>
-                            <DropdownMenuItem className="rounded-xl cursor-pointer p-2.5 font-medium text-rose-600 hover:text-rose-700 focus:text-rose-700 focus:bg-rose-50 transition-colors mt-1">
-                              <Lock className="mr-2.5 h-4 w-4" />
-                              <span>إيقاف الحساب</span>
-                            </DropdownMenuItem>
-                          </DropdownMenuContent>
-                        </DropdownMenu>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                  {users.length === 0 && (
-                    <TableRow>
-                      <TableCell colSpan={5} className="text-center py-12 text-slate-500">
-                        لا يوجد موظفين مسجلين في النظام.
-                      </TableCell>
-                    </TableRow>
-                  )}
-                </TableBody>
-              </Table>
-            </CardContent>
-          </Card>
+            )}
+          </div>
         </TabsContent>
       </Tabs>
 
-      {/* Role Edit Modal */}
-      <Dialog open={isRoleModalOpen} onOpenChange={setIsRoleModalOpen}>
+      {/* Edit User Modal */}
+      <Dialog open={isEditModalOpen} onOpenChange={setIsEditModalOpen}>
         <DialogContent className="sm:max-w-md rounded-3xl p-0 overflow-hidden border-0 shadow-2xl" dir="rtl" showCloseButton={false}>
           <DialogHeader className="px-6 py-5 border-b border-slate-100 bg-slate-50/50">
             <DialogTitle className="text-xl font-bold text-slate-800 flex items-center gap-2">
-              <Shield className="w-5 h-5 text-primary" />
-              تعديل صلاحية الموظف
+              <Edit className="w-5 h-5 text-primary" />
+              تعديل تفاصيل المستخدم
             </DialogTitle>
           </DialogHeader>
-          <div className="p-6 space-y-5">
-            {selectedUser && (
-              <div className="flex items-center gap-3 p-4 bg-slate-50 rounded-2xl border border-slate-100">
-                <Avatar className="w-12 h-12 border border-white shadow-sm">
-                  <AvatarFallback className="bg-primary/10 text-primary font-bold">
-                    {selectedUser.name ? selectedUser.name[0] : 'م'}
-                  </AvatarFallback>
-                </Avatar>
-                <div>
-                  <p className="font-bold text-slate-800">{selectedUser.name}</p>
-                  <p className="text-sm text-slate-500" dir="ltr">{selectedUser.email}</p>
-                </div>
+          <form onSubmit={handleSaveEdit}>
+            <div className="p-6 space-y-4">
+              <div className="space-y-2">
+                <Label className="text-sm font-semibold text-slate-700">الاسم الكامل</Label>
+                <Input 
+                  value={editUserData.name}
+                  onChange={(e) => setEditUserData({...editUserData, name: e.target.value})}
+                  className="h-11 rounded-xl border-slate-200 focus:border-primary focus:bg-white bg-slate-50 transition-colors"
+                  required
+                />
               </div>
-            )}
-            <div className="space-y-3">
-              <Label className="text-sm font-semibold text-slate-700">اختر الصلاحية الجديدة</Label>
-              <select 
-                className="w-full h-12 px-4 rounded-xl bg-slate-50 border-slate-200 focus:border-primary focus:ring-1 focus:ring-primary transition-all text-sm font-medium"
-                value={newRole}
-                onChange={(e) => setNewRole(e.target.value as Role)}
-              >
-                {Object.entries(roleMap).filter(([k]) => k !== 'CUSTOMER').map(([key, role]) => (
-                  <option key={key} value={key}>{role.label}</option>
-                ))}
-              </select>
+              <div className="space-y-2">
+                <Label className="text-sm font-semibold text-slate-700">البريد الإلكتروني</Label>
+                <Input 
+                  type="email"
+                  value={editUserData.email}
+                  onChange={(e) => setEditUserData({...editUserData, email: e.target.value})}
+                  dir="ltr"
+                  className="h-11 rounded-xl border-slate-200 focus:border-primary focus:bg-white bg-slate-50 transition-colors text-left"
+                  required
+                />
+              </div>
+              <div className="space-y-2">
+                <Label className="text-sm font-semibold text-slate-700">الصلاحية (الدور)</Label>
+                <select 
+                  className="w-full h-11 px-4 rounded-xl bg-slate-50 border border-slate-200 focus:border-primary focus:ring-1 focus:ring-primary transition-all text-sm font-medium"
+                  value={editUserData.role}
+                  onChange={(e) => setEditUserData({...editUserData, role: e.target.value as Role})}
+                >
+                  {Object.entries(roleMap).filter(([k]) => k !== 'CUSTOMER').map(([key, role]) => (
+                    <option key={key} value={key}>{role.label}</option>
+                  ))}
+                </select>
+              </div>
+              
+              <div className="pt-2">
+                <Label className="text-sm font-semibold text-slate-700">تعيين كلمة مرور جديدة (اختياري)</Label>
+                <Input 
+                  type="password"
+                  value={editUserData.password}
+                  onChange={(e) => setEditUserData({...editUserData, password: e.target.value})}
+                  placeholder="اتركه فارغاً لعدم التغيير"
+                  dir="ltr"
+                  className="h-11 rounded-xl border-slate-200 focus:border-primary focus:bg-white bg-slate-50 transition-colors text-left mt-2"
+                />
+              </div>
             </div>
-            
-            <div className="bg-blue-50/50 p-4 rounded-xl border border-blue-100 text-sm text-blue-800 font-medium flex gap-3 leading-relaxed">
-              <Shield className="w-5 h-5 shrink-0 text-blue-500" />
-              <p>منح صلاحيات أعلى قد يعطي الموظف حق الوصول لإعدادات حساسة في المتجر. يرجى التأكد قبل الحفظ.</p>
+            <div className="p-5 border-t border-slate-100 bg-slate-50 flex justify-end gap-3">
+               <Button type="button" variant="ghost" onClick={() => setIsEditModalOpen(false)} className="rounded-xl h-11 px-6 hover:bg-slate-200 text-slate-700 font-bold">
+                 إلغاء
+               </Button>
+               <Button type="submit" disabled={isSavingEdit} className="rounded-xl h-11 px-8 bg-primary hover:bg-primary/90 text-white font-bold shadow-sm">
+                 {isSavingEdit ? 'جاري الحفظ...' : 'حفظ التعديلات'}
+               </Button>
             </div>
-          </div>
-          <div className="p-5 border-t border-slate-100 bg-slate-50 flex justify-end gap-3">
-             <Button variant="ghost" onClick={() => setIsRoleModalOpen(false)} className="rounded-xl h-11 px-6 hover:bg-slate-200 text-slate-700 font-bold">
-               إلغاء
-             </Button>
-             <Button onClick={handleSaveRole} disabled={isSavingRole} className="rounded-xl h-11 px-8 bg-primary hover:bg-primary/90 text-white font-bold shadow-sm">
-               {isSavingRole ? 'جاري الحفظ...' : 'حفظ الصلاحية'}
-             </Button>
-          </div>
+          </form>
         </DialogContent>
       </Dialog>
 
