@@ -24,7 +24,7 @@ export default function AdminNotificationsPage() {
       title: 'طلب جديد #ORD-9872',
       description: 'قام محمد علي بإنشاء طلب جديد بقيمة 125,000 د.ع',
       time: 'منذ 10 دقائق',
-      icon: Package,
+      iconName: 'Package',
       type: 'info',
       read: false
     },
@@ -33,7 +33,7 @@ export default function AdminNotificationsPage() {
       title: 'عميل جديد مسجل',
       description: 'تم تسجيل حساب جديد بواسطة سارة حسين',
       time: 'منذ ساعتين',
-      icon: UserPlus,
+      iconName: 'UserPlus',
       type: 'success',
       read: false
     },
@@ -42,7 +42,7 @@ export default function AdminNotificationsPage() {
       title: 'انخفاض المخزون',
       description: 'باقة الورد الحمراء على وشك النفاذ (المتبقي: 2)',
       time: 'أمس',
-      icon: AlertCircle,
+      iconName: 'AlertCircle',
       type: 'warning',
       read: true
     },
@@ -51,11 +51,21 @@ export default function AdminNotificationsPage() {
       title: 'تم تحديث حالة الطلب #ORD-9860',
       description: 'تم تغيير حالة الطلب إلى "تم التوصيل"',
       time: 'منذ يومين',
-      icon: CheckCircle2,
+      iconName: 'CheckCircle2',
       type: 'success',
       read: true
     }
   ])
+
+  const getIcon = (name: string) => {
+    switch (name) {
+      case 'Package': return <Package className="w-7 h-7" />
+      case 'UserPlus': return <UserPlus className="w-7 h-7" />
+      case 'AlertCircle': return <AlertCircle className="w-7 h-7" />
+      case 'CheckCircle2': return <CheckCircle2 className="w-7 h-7" />
+      default: return <Bell className="w-7 h-7" />
+    }
+  }
 
   const [filter, setFilter] = useState<'all' | 'unread'>('all')
   const [search, setSearch] = useState('')
@@ -185,7 +195,7 @@ export default function AdminNotificationsPage() {
                     notif.type === 'success' ? 'bg-emerald-100 text-emerald-600' :
                     'bg-amber-100 text-amber-600'
                   }`}>
-                    <notif.icon className="w-7 h-7" />
+                    {getIcon(notif.iconName)}
                   </div>
                   
                   <div className="flex-1 min-w-0">
