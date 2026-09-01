@@ -2,6 +2,7 @@ import React from 'react'
 import { AdminSidebar } from '@/components/layout/admin-sidebar'
 import { AdminHeader } from '@/components/layout/admin-header'
 import { getStoreSettings } from '@/app/actions/admin/settings'
+import { auth } from '@/auth'
 
 export default async function AdminLayout({
   children,
@@ -9,11 +10,12 @@ export default async function AdminLayout({
   children: React.ReactNode
 }) {
   const settings = await getStoreSettings()
+  const session = await auth()
   
   return (
     <div className="min-h-screen bg-slate-50 flex">
       {/* Sidebar - Desktop */}
-      <AdminSidebar storeName={settings?.storeName} logoUrl={settings?.logoUrl} />
+      <AdminSidebar storeName={settings?.storeName} logoUrl={settings?.logoUrl} user={session?.user} />
       
       {/* Main Content */}
       <div className="flex-1 flex flex-col min-w-0 lg:mr-72">
