@@ -9,6 +9,8 @@ import { Star, Minus, Plus, ShoppingCart, Heart, Share2, ShieldCheck, Truck, Rot
 import Image from 'next/image'
 import { useCartStore, useFavoritesStore } from '@/lib/store'
 import { toast } from 'sonner'
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogFooter, DialogClose } from '@/components/ui/dialog'
+import { Textarea } from '@/components/ui/textarea'
 
 export default function ProductClient({ product }: { product: any }) {
   const [quantity, setQuantity] = useState(1)
@@ -234,52 +236,81 @@ export default function ProductClient({ product }: { product: any }) {
                   <div>
                     <h3 className="text-xl font-bold text-slate-800 mb-2">تقييمات العملاء</h3>
                     <div className="flex items-center gap-2">
-                      <div className="flex text-yellow-400">
+                      <div className="flex text-slate-300">
                         {[...Array(5)].map((_, i) => (
-                          <Star key={i} className={`w-5 h-5 ${i === 4 ? 'fill-yellow-400/30' : 'fill-yellow-400'}`} />
+                          <Star key={i} className="w-5 h-5 fill-slate-300" />
                         ))}
                       </div>
-                      <span className="text-slate-700 font-bold">4.8 من 5</span>
-                      <span className="text-slate-500 text-sm">(124 تقييم)</span>
+                      <span className="text-slate-700 font-bold">0 من 5</span>
+                      <span className="text-slate-500 text-sm">(0 تقييم)</span>
                     </div>
-                  </div>
-                  <Button className="rounded-xl shadow-md h-12 px-6 hidden sm:flex text-md font-bold">إضافة تقييم</Button>
-                </div>
-
-                <div className="space-y-6">
-                  {/* Mock Review 1 */}
-                  <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
-                    <div className="flex items-center gap-4 mb-4">
-                      <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center text-primary font-bold text-xl">A</div>
-                      <div>
-                        <h4 className="font-bold text-slate-800">أحمد محمد</h4>
-                        <div className="flex text-yellow-400 mt-1">
-                          {[...Array(5)].map((_, i) => (
-                            <Star key={i} className="w-4 h-4 fill-yellow-400" />
-                          ))}
-                        </div>
-                      </div>
-                      <span className="mr-auto text-sm text-slate-400">قبل يومين</span>
-                    </div>
-                    <p className="text-slate-600 text-lg leading-relaxed">المنتج رائع جداً والتغليف كان ممتاز وفخم. أنصح به بشدة كهدية لمن تحب!</p>
                   </div>
                   
-                  {/* Mock Review 2 */}
-                  <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
-                    <div className="flex items-center gap-4 mb-4">
-                      <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 font-bold text-xl">S</div>
-                      <div>
-                        <h4 className="font-bold text-slate-800">سارة علي</h4>
-                        <div className="flex text-yellow-400 mt-1">
-                          {[...Array(5)].map((_, i) => (
-                            <Star key={i} className="w-4 h-4 fill-yellow-400" />
-                          ))}
+                  <Dialog>
+                    <DialogTrigger render={<Button className="rounded-xl shadow-md h-12 px-6 hidden sm:flex text-md font-bold">إضافة تقييم</Button>}>
+                      إضافة تقييم
+                    </DialogTrigger>
+                    <DialogContent className="sm:max-w-[425px]" dir="rtl">
+                      <DialogHeader>
+                        <DialogTitle className="text-right text-xl font-bold">تقييم المنتج</DialogTitle>
+                      </DialogHeader>
+                      <div className="py-4 space-y-4">
+                        <div>
+                          <label className="block text-sm font-medium text-slate-700 mb-2">ما هو تقييمك؟</label>
+                          <div className="flex gap-2 text-slate-300 cursor-pointer">
+                            {[...Array(5)].map((_, i) => (
+                              <Star key={i} className="w-8 h-8 hover:fill-yellow-400 hover:text-yellow-400 transition-colors" />
+                            ))}
+                          </div>
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-slate-700 mb-2">اكتب رأيك (اختياري)</label>
+                          <Textarea placeholder="شاركنا رأيك بالمنتج..." className="resize-none h-24 rounded-xl text-right" dir="rtl" />
                         </div>
                       </div>
-                      <span className="mr-auto text-sm text-slate-400">قبل أسبوع</span>
-                    </div>
-                    <p className="text-slate-600 text-lg leading-relaxed">الجودة ممتازة وسرعة التوصيل خيالية، شكراً گفتي بلس على الخدمة الرائعة والمصداقية.</p>
-                  </div>
+                      <DialogFooter className="sm:justify-start">
+                        <DialogClose render={<Button className="w-full sm:w-auto rounded-xl">إرسال التقييم</Button>} onClick={() => toast.success('شكراً لتقييمك! تمت إضافة التقييم بنجاح.')}>
+                          إرسال التقييم
+                        </DialogClose>
+                      </DialogFooter>
+                    </DialogContent>
+                  </Dialog>
+                </div>
+
+                <div className="flex flex-col items-center justify-center py-16 text-center bg-white rounded-2xl border border-slate-100 border-dashed">
+                  <Star className="w-16 h-16 text-slate-200 mb-4" />
+                  <h4 className="text-lg font-bold text-slate-700 mb-2">لا توجد تقييمات بعد</h4>
+                  <p className="text-slate-500 max-w-sm mb-6">كن أول من يقيّم هذا المنتج وشارك رأيك مع الآخرين!</p>
+                  
+                  <Dialog>
+                    <DialogTrigger render={<Button variant="outline" className="rounded-xl shadow-sm h-12 px-6 text-md font-bold sm:hidden">إضافة تقييم</Button>}>
+                      إضافة تقييم
+                    </DialogTrigger>
+                    <DialogContent className="sm:max-w-[425px]" dir="rtl">
+                      <DialogHeader>
+                        <DialogTitle className="text-right text-xl font-bold">تقييم المنتج</DialogTitle>
+                      </DialogHeader>
+                      <div className="py-4 space-y-4">
+                        <div>
+                          <label className="block text-sm font-medium text-slate-700 mb-2">ما هو تقييمك؟</label>
+                          <div className="flex gap-2 text-slate-300 cursor-pointer">
+                            {[...Array(5)].map((_, i) => (
+                              <Star key={i} className="w-8 h-8 hover:fill-yellow-400 hover:text-yellow-400 transition-colors" />
+                            ))}
+                          </div>
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-slate-700 mb-2">اكتب رأيك (اختياري)</label>
+                          <Textarea placeholder="شاركنا رأيك بالمنتج..." className="resize-none h-24 rounded-xl text-right" dir="rtl" />
+                        </div>
+                      </div>
+                      <DialogFooter className="sm:justify-start">
+                        <DialogClose render={<Button className="w-full sm:w-auto rounded-xl">إرسال التقييم</Button>} onClick={() => toast.success('شكراً لتقييمك! تمت إضافة التقييم بنجاح.')}>
+                          إرسال التقييم
+                        </DialogClose>
+                      </DialogFooter>
+                    </DialogContent>
+                  </Dialog>
                 </div>
               </div>
             </TabsContent>
