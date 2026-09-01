@@ -6,7 +6,7 @@ import { ProductCard } from '@/components/store/product-card'
 import { motion } from 'framer-motion'
 import { HeartCrack, ArrowRight } from 'lucide-react'
 import Link from 'next/link'
-import { Button, buttonVariants } from '@/components/ui/button'
+import { buttonVariants } from '@/components/ui/button'
 
 export function FavoritesClient() {
   const favorites = useFavoritesStore(state => state.items)

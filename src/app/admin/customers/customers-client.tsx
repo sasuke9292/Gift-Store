@@ -168,7 +168,7 @@ export default function CustomersClient({ initialCustomers }: { initialCustomers
                     </TableCell>
                     <TableCell className="px-8 py-4 text-center">
                       <DropdownMenu>
-                        <DropdownMenuTrigger className="h-10 w-10 p-0 text-slate-400 hover:text-slate-800 hover:bg-slate-100 rounded-xl transition-colors flex items-center justify-center">
+                        <DropdownMenuTrigger className="mx-auto h-10 w-10 p-0 text-slate-400 hover:text-slate-800 hover:bg-slate-100 rounded-xl transition-colors flex items-center justify-center">
                           <span className="sr-only">خيارات</span>
                           <MoreVertical className="h-5 w-5" />
                         </DropdownMenuTrigger>
@@ -176,8 +176,7 @@ export default function CustomersClient({ initialCustomers }: { initialCustomers
                           <DropdownMenuLabel className="text-xs text-slate-400 font-bold px-2 py-1.5 uppercase">إدارة العميل</DropdownMenuLabel>
                           <DropdownMenuItem 
                             className="rounded-xl cursor-pointer py-2.5 hover:bg-slate-50 font-medium text-slate-700"
-                            onSelect={(e) => {
-                              e.preventDefault() // Prevents the menu from interfering if modal needs to stay open immediately, but standard onSelect is fine
+                            onClick={() => {
                               setSelectedCustomer(customer)
                               setIsCustomerModalOpen(true)
                             }}
@@ -187,7 +186,7 @@ export default function CustomersClient({ initialCustomers }: { initialCustomers
                           </DropdownMenuItem>
                           <DropdownMenuItem 
                             className="rounded-xl cursor-pointer py-2.5 hover:bg-slate-50 font-medium text-slate-700"
-                            onSelect={() => handleSendEmail(customer.email)}
+                            onClick={() => handleSendEmail(customer.email)}
                           >
                             <Mail className="ml-3 h-4 w-4 text-amber-500" />
                             <span>مراسلة العميل</span>
@@ -195,7 +194,7 @@ export default function CustomersClient({ initialCustomers }: { initialCustomers
                           <DropdownMenuSeparator className="my-2" />
                           <DropdownMenuItem 
                             className="rounded-xl cursor-pointer py-2.5 font-bold text-rose-600 hover:bg-rose-50 hover:text-rose-700"
-                            onSelect={() => handleBlockCustomer(customer.id, customer.name)}
+                            onClick={() => handleBlockCustomer(customer.id, customer.name)}
                           >
                             {customer.status === 'نشط' ? (
                               <>

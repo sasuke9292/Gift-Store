@@ -3,7 +3,7 @@
 import React from 'react'
 import Link from 'next/link'
 import { buttonVariants } from '@/components/ui/button'
-import { Gift, ArrowLeft, Truck, ShieldCheck, HeartHandshake, ArrowUpLeft, Sparkles, Star } from 'lucide-react'
+import { Gift, ArrowLeft, Truck, ShieldCheck, HeartHandshake, ArrowUpLeft, Sparkles } from 'lucide-react'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import Image from 'next/image'
 import { ProductCard } from '@/components/store/product-card'
@@ -200,7 +200,7 @@ export default function StoreHomeClient({ initialCategories: categories, initial
           </div>
           
           <div className="mt-16 text-center">
-            <Link href="/categories" className="inline-flex items-center justify-center h-12 px-8 rounded-full bg-slate-100 text-slate-700 font-semibold hover:bg-slate-200 transition-colors">
+            <Link href="/shop" className="inline-flex items-center justify-center h-12 px-8 rounded-full bg-slate-100 text-slate-700 font-semibold hover:bg-slate-200 transition-colors">
               عرض كل الأقسام
             </Link>
           </div>

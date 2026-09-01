@@ -102,7 +102,7 @@ export function StoreHeader({ user }: StoreHeaderProps) {
                     </Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem>
-                    <Link href="/orders" className="flex items-center gap-2 cursor-pointer w-full h-full">
+                    <Link href="/profile" className="flex items-center gap-2 cursor-pointer w-full h-full">
                       <Package className="w-4 h-4" /> طلباتي
                     </Link>
                   </DropdownMenuItem>
