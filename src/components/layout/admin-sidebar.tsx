@@ -9,17 +9,7 @@ import {
   Package,
   Tags,
   Users,
-  ArchiveRestore,
-  TicketPercent,
-  Truck,
-  CreditCard,
-  MessageSquare,
-  Gift,
-  Image as ImageIcon,
-  FileText,
-  BarChart3,
   Bell,
-  UserCog,
   Settings,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'

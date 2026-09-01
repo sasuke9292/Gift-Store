@@ -13,9 +13,9 @@ export async function updateOrderStatus(id: string, status: OrderStatus) {
     revalidatePath('/admin/orders')
     revalidatePath('/admin')
     return { success: true, data: order }
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error updating order status:', error)
-    return { success: false, error: error.message }
+    return { success: false, error: error instanceof Error ? error.message : 'Unknown error' }
   }
 }
 
@@ -27,9 +27,9 @@ export async function updatePaymentStatus(id: string, paymentStatus: PaymentStat
     })
     revalidatePath('/admin/orders')
     return { success: true, data: order }
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error updating payment status:', error)
-    return { success: false, error: error.message }
+    return { success: false, error: error instanceof Error ? error.message : 'Unknown error' }
   }
 }
 
@@ -41,8 +41,8 @@ export async function deleteOrder(id: string) {
     revalidatePath('/admin/orders')
     revalidatePath('/admin')
     return { success: true }
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error deleting order:', error)
-    return { success: false, error: error.message }
+    return { success: false, error: error instanceof Error ? error.message : 'Unknown error' }
   }
 }

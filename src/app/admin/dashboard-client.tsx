@@ -22,6 +22,8 @@ const itemVariants = {
   visible: { opacity: 1, y: 0 }
 }
 
+import { Order } from '@prisma/client'
+
 export interface DashboardStats {
   totalSales: number
   totalOrders: number
@@ -33,7 +35,7 @@ export interface DashboardStats {
   lowStockProducts: number
 }
 
-export default function AdminDashboardHome({ stats, recentOrders }: { stats: DashboardStats, recentOrders: any[] }) {
+export default function AdminDashboardHome({ stats, recentOrders }: { stats: DashboardStats, recentOrders: Order[] }) {
   return (
     <div className="space-y-6">
       <motion.div 

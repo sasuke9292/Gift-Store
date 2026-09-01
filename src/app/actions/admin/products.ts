@@ -25,9 +25,9 @@ export async function createProduct(data: {
     revalidatePath('/admin/products')
     revalidatePath('/shop')
     return { success: true, data: product }
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error creating product:', error)
-    return { success: false, error: error.message }
+    return { success: false, error: error instanceof Error ? error.message : 'Unknown error' }
   }
 }
 
@@ -51,9 +51,9 @@ export async function updateProduct(id: string, data: Partial<{
     revalidatePath('/admin/products')
     revalidatePath('/shop')
     return { success: true, data: product }
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error updating product:', error)
-    return { success: false, error: error.message }
+    return { success: false, error: error instanceof Error ? error.message : 'Unknown error' }
   }
 }
 
@@ -65,8 +65,8 @@ export async function deleteProduct(id: string) {
     revalidatePath('/admin/products')
     revalidatePath('/shop')
     return { success: true }
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error deleting product:', error)
-    return { success: false, error: error.message }
+    return { success: false, error: error instanceof Error ? error.message : 'Unknown error' }
   }
 }

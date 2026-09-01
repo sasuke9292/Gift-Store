@@ -1,8 +1,9 @@
 import React from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
+import { Order } from '@prisma/client'
 
-export function RecentOrders({ orders = [] }: { orders?: any[] }) {
+export function RecentOrders({ orders = [] }: { orders?: Order[] }) {
   return (
     <Card className="border-slate-100 shadow-sm rounded-2xl">
       <CardHeader>
@@ -28,7 +29,7 @@ export function RecentOrders({ orders = [] }: { orders?: any[] }) {
                 <Badge
                   variant="outline"
                   className={
-                    order.status === 'COMPLETED' || order.status === 'DELIVERED'
+                    order.status === 'DELIVERED' || order.status === 'CONFIRMED'
                       ? 'border-0 bg-emerald-100 text-emerald-700'
                       : order.status === 'PENDING' || order.status === 'PROCESSING'
                       ? 'border-0 bg-amber-100 text-amber-700'
@@ -37,7 +38,7 @@ export function RecentOrders({ orders = [] }: { orders?: any[] }) {
                       : 'border-0 bg-rose-100 text-rose-700'
                   }
                 >
-                  {order.status === 'COMPLETED' || order.status === 'DELIVERED' ? 'مكتمل' : order.status === 'SHIPPED' ? 'مشحون' : order.status === 'PENDING' ? 'قيد التنفيذ' : order.status === 'PROCESSING' ? 'تجهيز' : 'ملغى'}
+                  {order.status === 'DELIVERED' || order.status === 'CONFIRMED' ? 'مكتمل' : order.status === 'SHIPPED' ? 'مشحون' : order.status === 'PENDING' ? 'قيد التنفيذ' : order.status === 'PROCESSING' ? 'تجهيز' : 'ملغى'}
                 </Badge>
               </div>
             </div>

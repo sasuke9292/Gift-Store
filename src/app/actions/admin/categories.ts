@@ -16,9 +16,9 @@ export async function createCategory(data: { name: string, slug: string, descrip
     revalidatePath('/admin/categories')
     revalidatePath('/shop')
     return { success: true, data: category }
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error creating category:', error)
-    return { success: false, error: error.message }
+    return { success: false, error: error instanceof Error ? error.message : 'Unknown error' }
   }
 }
 
@@ -31,9 +31,9 @@ export async function updateCategory(id: string, data: { name?: string, slug?: s
     revalidatePath('/admin/categories')
     revalidatePath('/shop')
     return { success: true, data: category }
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error updating category:', error)
-    return { success: false, error: error.message }
+    return { success: false, error: error instanceof Error ? error.message : 'Unknown error' }
   }
 }
 
@@ -45,8 +45,8 @@ export async function deleteCategory(id: string) {
     revalidatePath('/admin/categories')
     revalidatePath('/shop')
     return { success: true }
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error deleting category:', error)
-    return { success: false, error: error.message }
+    return { success: false, error: error instanceof Error ? error.message : 'Unknown error' }
   }
 }

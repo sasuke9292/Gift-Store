@@ -13,7 +13,7 @@ import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Button, buttonVariants } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
-import { Search, Filter, Download, MoreHorizontal, Eye, Edit, Trash, CheckCircle2 } from 'lucide-react'
+import { Search, Filter, Download, MoreHorizontal, Eye, Trash, CheckCircle2 } from 'lucide-react'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -23,6 +23,7 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { updateOrderStatus, deleteOrder } from '@/app/actions/admin/orders'
 import { toast } from 'sonner'
+import { OrderStatus } from '@prisma/client'
 
 interface OrderData {
   id: string
@@ -40,7 +41,7 @@ export default function OrdersClient({ initialOrders }: { initialOrders: OrderDa
   const [orders, setOrders] = useState(initialOrders)
   const [search, setSearch] = useState('')
 
-  const handleUpdateStatus = async (id: string, newStatus: any) => {
+  const handleUpdateStatus = async (id: string, newStatus: OrderStatus) => {
     const res = await updateOrderStatus(id, newStatus)
     if (res.success) {
       toast.success('تم تحديث حالة الطلب بنجاح')
@@ -124,7 +125,7 @@ export default function OrdersClient({ initialOrders }: { initialOrders: OrderDa
                       <Badge
                         variant="outline"
                         className={
-                          order.status === 'COMPLETED' || order.status === 'DELIVERED'
+                          order.status === 'DELIVERED' || order.status === 'CONFIRMED'
                             ? 'border-0 bg-emerald-100 text-emerald-700'
                             : order.status === 'PENDING' || order.status === 'PROCESSING'
                             ? 'border-0 bg-amber-100 text-amber-700'
@@ -133,7 +134,7 @@ export default function OrdersClient({ initialOrders }: { initialOrders: OrderDa
                             : 'border-0 bg-rose-100 text-rose-700'
                         }
                       >
-                        {order.status === 'COMPLETED' || order.status === 'DELIVERED' ? 'تم التوصيل' : order.status === 'SHIPPED' ? 'تم الشحن' : order.status === 'PENDING' ? 'قيد التنفيذ' : order.status === 'PROCESSING' ? 'جاري التجهيز' : 'ملغى'}
+                        {order.status === 'DELIVERED' || order.status === 'CONFIRMED' ? 'تم التوصيل' : order.status === 'SHIPPED' ? 'تم الشحن' : order.status === 'PENDING' ? 'قيد التنفيذ' : order.status === 'PROCESSING' ? 'جاري التجهيز' : 'ملغى'}
                       </Badge>
                     </TableCell>
                     <TableCell className="text-center">

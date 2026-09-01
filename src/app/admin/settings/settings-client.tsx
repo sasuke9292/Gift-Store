@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
@@ -10,8 +10,19 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Store, CreditCard, Bell, Shield, Save } from 'lucide-react'
 import { toast } from 'sonner'
 
-export default function SettingsClient({ initialSettings }: { initialSettings: any }) {
-  const [settings, setSettings] = useState(initialSettings)
+export interface SettingsData {
+  storeName: string
+  currency: string
+  storeEmail: string
+  storePhone: string
+  allowCod: boolean
+  allowOnlinePayment: boolean
+  orderNotifications: boolean
+  marketingEmails: boolean
+}
+
+export default function SettingsClient({ initialSettings }: { initialSettings: SettingsData }) {
+  const [settings, setSettings] = useState<SettingsData>(initialSettings)
   const [isSaving, setIsSaving] = useState(false)
 
   const handleSave = () => {

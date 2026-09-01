@@ -13,7 +13,7 @@ import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Button, buttonVariants } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
-import { Search, Filter, Plus, MoreHorizontal, Edit, Trash, Copy, Image as ImageIcon, Package, UploadCloud, X, Tag, DollarSign } from 'lucide-react'
+import { Search, Plus, MoreHorizontal, Edit, Trash, Image as ImageIcon, Package, UploadCloud, X, Tag, DollarSign } from 'lucide-react'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -23,9 +23,7 @@ import {
 import {
   Dialog,
   DialogContent,
-  DialogHeader,
   DialogTitle,
-  DialogFooter,
 } from '@/components/ui/dialog'
 import { Label } from '@/components/ui/label'
 import Image from 'next/image'
@@ -33,17 +31,21 @@ import { createProduct, updateProduct, deleteProduct } from '@/app/actions/admin
 import { toast } from 'sonner'
 import { Textarea } from '@/components/ui/textarea'
 
-export default function ProductsClient({ initialProducts, categories }: { initialProducts: any[], categories: any[] }) {
-  const [products, setProducts] = useState(initialProducts)
+import { Product, Category } from '@prisma/client'
+
+type ProductWithCategory = Product & { category?: Category | null }
+
+export default function ProductsClient({ initialProducts, categories }: { initialProducts: ProductWithCategory[], categories: Category[] }) {
+  const [products, setProducts] = useState<ProductWithCategory[]>(initialProducts)
   const [search, setSearch] = useState('')
   
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [isEditing, setIsEditing] = useState(false)
-  const [currentProduct, setCurrentProduct] = useState<any>({})
+  const [currentProduct, setCurrentProduct] = useState<Partial<Product> & { imagesList?: string[] }>({})
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [newImageUrl, setNewImageUrl] = useState('')
 
-  const openModal = (product?: any) => {
+  const openModal = (product?: ProductWithCategory) => {
     if (product) {
       setIsEditing(true)
       setCurrentProduct({
@@ -66,38 +68,38 @@ export default function ProductsClient({ initialProducts, categories }: { initia
 
       if (isEditing && currentProduct.id) {
         const res = await updateProduct(currentProduct.id, {
-          name: currentProduct.name,
-          slug: currentProduct.slug,
-          description: currentProduct.description,
-          price: Number(currentProduct.price),
+          name: currentProduct.name || '',
+          slug: currentProduct.slug || '',
+          description: currentProduct.description || '',
+          price: Number(currentProduct.price) || 0,
           salePrice: Number(currentProduct.salePrice) || null,
-          categoryId: currentProduct.categoryId,
+          categoryId: currentProduct.categoryId || '',
           images: imagesArray,
-          isActive: currentProduct.isActive,
+          isActive: currentProduct.isActive ?? true,
         })
         if (res.success) {
           toast.success('تم تحديث المنتج بنجاح')
           const updatedCat = categories.find(c => c.id === currentProduct.categoryId)
-          setProducts(products.map(p => p.id === currentProduct.id ? { ...p, ...res.data, category: updatedCat } : p))
+          setProducts(products.map(p => p.id === currentProduct.id ? { ...p, ...(res.data as ProductWithCategory), category: updatedCat } : p))
           setIsModalOpen(false)
         } else {
           toast.error(res.error || 'حدث خطأ')
         }
       } else {
         const res = await createProduct({
-          name: currentProduct.name,
+          name: currentProduct.name || '',
           slug: currentProduct.slug || `slug-${Date.now()}`,
           description: currentProduct.description || '',
-          price: Number(currentProduct.price),
+          price: Number(currentProduct.price) || 0,
           salePrice: Number(currentProduct.salePrice) || null,
-          categoryId: currentProduct.categoryId,
+          categoryId: currentProduct.categoryId || '',
           images: imagesArray,
           isActive: currentProduct.isActive ?? true,
         })
         if (res.success) {
           toast.success('تم إضافة المنتج بنجاح')
           const newCat = categories.find(c => c.id === currentProduct.categoryId)
-          setProducts([{ ...res.data, category: newCat }, ...products])
+          setProducts([{ ...(res.data as ProductWithCategory), category: newCat }, ...products])
           setIsModalOpen(false)
         } else {
           toast.error(res.error || 'حدث خطأ')
@@ -283,7 +285,7 @@ export default function ProductsClient({ initialProducts, categories }: { initia
                             reader.onerror = () => {
                               toast.error('حدث خطأ أثناء قراءة الصورة', { id: toastId })
                             }
-                          } catch (err) {
+                          } catch {
                             toast.error('حدث خطأ غير متوقع', { id: toastId })
                           } finally {
                             e.target.value = '' 
@@ -306,7 +308,7 @@ export default function ProductsClient({ initialProducts, categories }: { initia
                              <button 
                                type="button" 
                                onClick={() => {
-                                 const arr = [...currentProduct.imagesList]
+                                 const arr = [...(currentProduct.imagesList || [])]
                                  arr.splice(idx, 1)
                                  setCurrentProduct({...currentProduct, imagesList: arr})
                                }} 
@@ -398,11 +400,11 @@ export default function ProductsClient({ initialProducts, categories }: { initia
                    <div className="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div className="space-y-2">
                          <Label className="text-sm font-semibold text-slate-700">السعر الأساسي (د.ع) <span className="text-rose-500">*</span></Label>
-                         <Input required type="number" value={currentProduct.price} onChange={e => setCurrentProduct({...currentProduct, price: e.target.value})} className="h-11 rounded-xl bg-slate-50 border-transparent focus:border-amber-300 focus:bg-white transition-colors font-bold text-primary text-lg" placeholder="0" />
+                         <Input required type="number" value={currentProduct.price || ''} onChange={e => setCurrentProduct({...currentProduct, price: Number(e.target.value)})} className="h-11 rounded-xl bg-slate-50 border-transparent focus:border-amber-300 focus:bg-white transition-colors font-bold text-primary text-lg" placeholder="0" />
                       </div>
                       <div className="space-y-2">
                          <Label className="text-sm font-semibold text-slate-700">سعر التخفيض (اختياري)</Label>
-                         <Input type="number" value={currentProduct.salePrice || ''} onChange={e => setCurrentProduct({...currentProduct, salePrice: e.target.value})} className="h-11 rounded-xl bg-slate-50 border-transparent focus:border-amber-300 focus:bg-white transition-colors font-bold text-rose-600 text-lg" placeholder="0" />
+                         <Input type="number" value={currentProduct.salePrice || ''} onChange={e => setCurrentProduct({...currentProduct, salePrice: Number(e.target.value)})} className="h-11 rounded-xl bg-slate-50 border-transparent focus:border-amber-300 focus:bg-white transition-colors font-bold text-rose-600 text-lg" placeholder="0" />
                       </div>
                    </div>
                  </div>

@@ -6,7 +6,7 @@ import { Menu as MenuPrimitive } from "@base-ui/react/menu"
 import { cn } from "@/lib/utils"
 import { ChevronRightIcon, CheckIcon } from "lucide-react"
 
-function DropdownMenu({ dir = "rtl", ...props }: MenuPrimitive.Root.Props & { dir?: "ltr" | "rtl" }) {
+function DropdownMenu({ dir, ...props }: MenuPrimitive.Root.Props & { dir?: "ltr" | "rtl" }) {
   return <MenuPrimitive.Root data-slot="dropdown-menu" {...props} />
 }
 

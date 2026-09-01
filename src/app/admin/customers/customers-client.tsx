@@ -33,7 +33,7 @@ interface CustomerData {
 }
 
 export default function CustomersClient({ initialCustomers }: { initialCustomers: CustomerData[] }) {
-  const [customers, setCustomers] = useState(initialCustomers)
+  const [customers] = useState(initialCustomers)
   const [search, setSearch] = useState('')
 
   const filteredCustomers = customers.filter(

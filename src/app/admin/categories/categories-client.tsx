@@ -3,17 +3,16 @@
 import React, { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Button } from '@/components/ui/button'
-import { Plus, Search, MoreVertical, Edit, Trash2, FolderTree, Image as ImageIcon } from 'lucide-react'
+import { Plus, Search, Edit, Trash2, FolderTree } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import { Badge } from '@/components/ui/badge'
-import { Card, CardContent } from '@/components/ui/card'
+import { Card } from '@/components/ui/card'
 import Image from 'next/image'
 import { toast } from 'sonner'
 import { createCategory, updateCategory, deleteCategory } from '@/app/actions/admin/categories'
 import { 
   Dialog,
   DialogContent,
-  DialogHeader,
   DialogTitle,
   DialogFooter,
 } from '@/components/ui/dialog'
