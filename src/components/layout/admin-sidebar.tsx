@@ -3,6 +3,7 @@
 import React from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { signOut } from 'next-auth/react'
 import {
   LayoutDashboard,
   ShoppingCart,
@@ -69,7 +70,7 @@ export function AdminSidebar() {
             <p className="text-sm font-bold text-slate-800 truncate">أحمد الإداري</p>
             <p className="text-xs text-slate-500 truncate">admin@giftstore.com</p>
           </div>
-          <button title="تسجيل الخروج" className="w-8 h-8 rounded-full bg-white text-slate-400 hover:text-rose-600 hover:bg-rose-50 flex items-center justify-center transition-all shadow-sm border border-slate-100 shrink-0">
+          <button onClick={() => signOut({ callbackUrl: '/auth/login' })} title="تسجيل الخروج" className="w-8 h-8 rounded-full bg-white text-slate-400 hover:text-rose-600 hover:bg-rose-50 flex items-center justify-center transition-all shadow-sm border border-slate-100 shrink-0">
             <LogOut className="w-4 h-4 ml-0.5" />
           </button>
         </div>

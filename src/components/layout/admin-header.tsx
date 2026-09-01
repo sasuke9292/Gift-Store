@@ -4,7 +4,8 @@ import React from 'react'
 import { Bell, Search, Menu, Package, UserPlus, AlertCircle, ChevronLeft } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import { Button, buttonVariants } from '@/components/ui/button'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
+import { signOut } from 'next-auth/react'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -17,6 +18,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 
 export function AdminHeader() {
   const pathname = usePathname()
+  const router = useRouter()
   
   const getBreadcrumbs = () => {
     const paths = pathname.split('/').filter(Boolean)
@@ -105,14 +107,14 @@ export function AdminHeader() {
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={() => router.push('/admin/settings')}>
               الملف الشخصي
             </DropdownMenuItem>
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={() => router.push('/admin/settings')}>
               الإعدادات
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem className="text-red-600 focus:text-red-600">
+            <DropdownMenuItem onClick={() => signOut({ callbackUrl: '/auth/login' })} className="text-red-600 focus:text-red-600">
               تسجيل الخروج
             </DropdownMenuItem>
           </DropdownMenuContent>
