@@ -31,7 +31,7 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { Shield, UserCircle, Key, Mail, MoreHorizontal, Edit, UserPlus, Lock } from 'lucide-react'
 import { toast } from 'sonner'
-import { updateProfile, updateUserRole, createStaffUser } from '@/app/actions/admin/users'
+import { updateProfile, updateUserRole, createStaffUser, changePassword } from '@/app/actions/admin/users'
 
 interface ProfileClientProps {
   currentUser: User | null
@@ -75,6 +75,11 @@ export default function ProfileClient({ currentUser, initialStaffUsers }: Profil
     password: '',
     role: 'ADMIN' as Role
   })
+
+  // Change Password State
+  const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false)
+  const [isChangingPassword, setIsChangingPassword] = useState(false)
+  const [newPassword, setNewPassword] = useState('')
 
   const handleSaveProfile = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -127,6 +132,26 @@ export default function ProfileClient({ currentUser, initialStaffUsers }: Profil
       toast.error(res.error)
     }
     setIsCreatingUser(false)
+  }
+
+  const handleChangePassword = async (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!currentUser) return
+    if (newPassword.length < 6) {
+      toast.error('كلمة المرور يجب أن تكون 6 أحرف على الأقل')
+      return
+    }
+
+    setIsChangingPassword(true)
+    const res = await changePassword(currentUser.id, newPassword)
+    if (res.success) {
+      toast.success('تم تغيير كلمة المرور بنجاح')
+      setIsPasswordModalOpen(false)
+      setNewPassword('')
+    } else {
+      toast.error(res.error)
+    }
+    setIsChangingPassword(false)
   }
 
   return (
@@ -237,7 +262,7 @@ export default function ProfileClient({ currentUser, initialStaffUsers }: Profil
                         <p className="text-sm text-slate-500">تم التحديث منذ شهرين</p>
                       </div>
                     </div>
-                    <Button variant="outline" className="rounded-xl font-bold border-slate-200 hover:bg-slate-100">
+                    <Button onClick={() => setIsPasswordModalOpen(true)} variant="outline" className="rounded-xl font-bold border-slate-200 hover:bg-slate-100">
                       تغيير كلمة المرور
                     </Button>
                   </div>
@@ -442,6 +467,43 @@ export default function ProfileClient({ currentUser, initialStaffUsers }: Profil
                </Button>
                <Button type="submit" disabled={isCreatingUser} className="rounded-xl h-11 px-8 bg-primary hover:bg-primary/90 text-white font-bold shadow-sm">
                  {isCreatingUser ? 'جاري الإضافة...' : 'إضافة الموظف'}
+               </Button>
+            </div>
+          </form>
+        </DialogContent>
+      </Dialog>
+
+      {/* Change Password Modal */}
+      <Dialog open={isPasswordModalOpen} onOpenChange={setIsPasswordModalOpen}>
+        <DialogContent className="sm:max-w-md rounded-3xl p-0 overflow-hidden border-0 shadow-2xl" dir="rtl" showCloseButton={false}>
+          <DialogHeader className="px-6 py-5 border-b border-slate-100 bg-slate-50/50">
+            <DialogTitle className="text-xl font-bold text-slate-800 flex items-center gap-2">
+              <Key className="w-5 h-5 text-primary" />
+              تغيير كلمة المرور
+            </DialogTitle>
+          </DialogHeader>
+          <form onSubmit={handleChangePassword}>
+            <div className="p-6 space-y-4">
+              <div className="space-y-2">
+                <Label className="text-sm font-semibold text-slate-700">كلمة المرور الجديدة</Label>
+                <Input 
+                  type="password"
+                  value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
+                  placeholder="أدخل كلمة المرور الجديدة"
+                  dir="ltr"
+                  className="h-11 rounded-xl border-slate-200 focus:border-primary focus:bg-white bg-slate-50 transition-colors text-left"
+                  required
+                  minLength={6}
+                />
+              </div>
+            </div>
+            <div className="p-5 border-t border-slate-100 bg-slate-50 flex justify-end gap-3">
+               <Button type="button" variant="ghost" onClick={() => setIsPasswordModalOpen(false)} className="rounded-xl h-11 px-6 hover:bg-slate-200 text-slate-700 font-bold">
+                 إلغاء
+               </Button>
+               <Button type="submit" disabled={isChangingPassword} className="rounded-xl h-11 px-8 bg-primary hover:bg-primary/90 text-white font-bold shadow-sm">
+                 {isChangingPassword ? 'جاري الحفظ...' : 'حفظ التغييرات'}
                </Button>
             </div>
           </form>

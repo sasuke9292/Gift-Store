@@ -77,3 +77,19 @@ export async function createStaffUser(data: { name: string, email: string, passw
     return { success: false, error: 'حدث خطأ أثناء إنشاء المستخدم الجديد' }
   }
 }
+
+export async function changePassword(userId: string, newPassword: string) {
+  try {
+    const hashedPassword = await bcrypt.hash(newPassword, 10)
+    
+    await prisma.user.update({
+      where: { id: userId },
+      data: { password: hashedPassword }
+    })
+    
+    return { success: true }
+  } catch (error) {
+    console.error('Error changing password:', error)
+    return { success: false, error: 'حدث خطأ أثناء تغيير كلمة المرور' }
+  }
+}
