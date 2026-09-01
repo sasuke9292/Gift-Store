@@ -232,7 +232,7 @@ export default function ProductsClient({ initialProducts, categories }: { initia
             <Table>
               <TableHeader className="bg-slate-50/80 border-b border-slate-100">
                 <TableRow className="hover:bg-transparent">
-                  <TableHead className="w-12 text-center h-14 pl-0">
+                  <TableHead className="w-12 px-4">
                     <Checkbox 
                       checked={filteredProducts.length > 0 && selectedIds.size === filteredProducts.length}
                       onCheckedChange={handleSelectAll}
@@ -249,7 +249,7 @@ export default function ProductsClient({ initialProducts, categories }: { initia
               <TableBody>
                 {filteredProducts.map((product) => (
                   <TableRow key={product.id} className={`group transition-all duration-300 border-b border-slate-50 last:border-0 relative ${selectedIds.has(product.id) ? 'bg-indigo-50/50' : 'hover:bg-indigo-50/30'}`}>
-                    <TableCell className="text-center pl-0">
+                    <TableCell className="px-4">
                       <Checkbox 
                         checked={selectedIds.has(product.id)}
                         onCheckedChange={(checked) => handleSelectRow(product.id, checked as boolean)}

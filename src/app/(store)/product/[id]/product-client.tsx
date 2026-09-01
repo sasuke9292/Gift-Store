@@ -12,6 +12,7 @@ import { toast } from 'sonner'
 
 export default function ProductClient({ product }: { product: any }) {
   const [quantity, setQuantity] = useState(1)
+  const [activeImage, setActiveImage] = useState(product.images?.[0] || '')
   const addItem = useCartStore((state) => state.addItem)
 
   const handleAddToCart = () => {
@@ -42,9 +43,9 @@ export default function ProductClient({ product }: { product: any }) {
               {product.isBestSeller && (
                 <Badge className="absolute top-6 right-6 z-10 bg-blue-500 shadow-md text-sm px-3 py-1">الأكثر مبيعاً</Badge>
               )}
-              <div className="w-full h-full flex items-center justify-center text-slate-400 group-hover:scale-105 transition-transform duration-500 cursor-zoom-in relative">
-                {product.images && product.images[0] ? (
-                  <Image src={product.images[0]} alt={product.name} fill className="object-cover" sizes="(max-width: 768px) 100vw, 50vw" />
+              <div className="w-full h-full flex items-center justify-center text-slate-400 group-hover:scale-105 transition-transform duration-500 relative">
+                {activeImage ? (
+                  <Image src={activeImage} alt={product.name} fill className="object-cover" sizes="(max-width: 768px) 100vw, 50vw" />
                 ) : (
                   <span>صورة المنتج</span>
                 )}
@@ -52,8 +53,12 @@ export default function ProductClient({ product }: { product: any }) {
             </div>
             {product.images && product.images.length > 1 && (
               <div className="grid grid-cols-4 gap-4">
-                {product.images.slice(0, 4).map((img: string, i: number) => (
-                  <div key={i} className="relative aspect-square bg-slate-50 rounded-2xl cursor-pointer hover:border-primary border-2 border-transparent transition-colors overflow-hidden">
+                {product.images.map((img: string, i: number) => (
+                  <div 
+                    key={i} 
+                    onClick={() => setActiveImage(img)}
+                    className={`relative aspect-square bg-slate-50 rounded-2xl cursor-pointer border-2 transition-colors overflow-hidden ${activeImage === img ? 'border-primary shadow-sm' : 'border-transparent hover:border-primary/50'}`}
+                  >
                     <Image src={img} alt={`صورة ${i+1}`} fill className="object-cover" sizes="100px" />
                   </div>
                 ))}
