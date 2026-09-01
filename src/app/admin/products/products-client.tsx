@@ -26,8 +26,10 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog'
 import { Label } from '@/components/ui/label'
+import { Switch } from '@/components/ui/switch'
+import { Checkbox } from '@/components/ui/checkbox'
 import Image from 'next/image'
-import { createProduct, updateProduct, deleteProduct } from '@/app/actions/admin/products'
+import { createProduct, updateProduct, deleteProduct, deleteProducts } from '@/app/actions/admin/products'
 import { toast } from 'sonner'
 import { Textarea } from '@/components/ui/textarea'
 
@@ -44,6 +46,42 @@ export default function ProductsClient({ initialProducts, categories }: { initia
   const [currentProduct, setCurrentProduct] = useState<Partial<Product> & { imagesList?: string[] }>({})
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [newImageUrl, setNewImageUrl] = useState('')
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set())
+  const [isDeletingBulk, setIsDeletingBulk] = useState(false)
+
+  const handleSelectAll = (checked: boolean) => {
+    if (checked) {
+      setSelectedIds(new Set(filteredProducts.map(p => p.id)))
+    } else {
+      setSelectedIds(new Set())
+    }
+  }
+
+  const handleSelectRow = (id: string, checked: boolean) => {
+    const newSet = new Set(selectedIds)
+    if (checked) {
+      newSet.add(id)
+    } else {
+      newSet.delete(id)
+    }
+    setSelectedIds(newSet)
+  }
+
+  const handleBulkDelete = async () => {
+    if (selectedIds.size === 0) return
+    if (confirm(`هل أنت متأكد من حذف ${selectedIds.size} منتج بشكل نهائي؟`)) {
+      setIsDeletingBulk(true)
+      const res = await deleteProducts(Array.from(selectedIds))
+      if (res.success) {
+        toast.success(`تم حذف ${selectedIds.size} منتج بنجاح`)
+        setProducts(products.filter(p => !selectedIds.has(p.id)))
+        setSelectedIds(new Set())
+      } else {
+        toast.error(res.error || 'حدث خطأ أثناء الحذف الجماعي')
+      }
+      setIsDeletingBulk(false)
+    }
+  }
 
   const openModal = (product?: ProductWithCategory) => {
     if (product) {
@@ -142,6 +180,23 @@ export default function ProductsClient({ initialProducts, categories }: { initia
         </div>
       </div>
 
+      {selectedIds.size > 0 && (
+        <div className="bg-indigo-50/80 border border-indigo-100 rounded-2xl p-4 flex items-center justify-between animate-in fade-in slide-in-from-top-4">
+          <p className="text-sm font-bold text-indigo-900">
+            تم تحديد {selectedIds.size} منتج
+          </p>
+          <Button 
+            variant="destructive" 
+            size="sm" 
+            onClick={handleBulkDelete} 
+            disabled={isDeletingBulk}
+            className="rounded-xl font-bold shadow-sm hover:shadow-md transition-all"
+          >
+            {isDeletingBulk ? 'جاري الحذف...' : 'حذف المحدد'}
+          </Button>
+        </div>
+      )}
+
       <Card className="border-slate-100 shadow-sm overflow-hidden rounded-2xl">
         <CardHeader className="border-b border-slate-100 bg-slate-50/50 pb-4">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -161,6 +216,13 @@ export default function ProductsClient({ initialProducts, categories }: { initia
             <Table>
               <TableHeader className="bg-slate-50/80 border-b border-slate-100">
                 <TableRow className="hover:bg-transparent">
+                  <TableHead className="w-12 text-center h-14 pl-0">
+                    <Checkbox 
+                      checked={filteredProducts.length > 0 && selectedIds.size === filteredProducts.length}
+                      onCheckedChange={handleSelectAll}
+                      className="border-slate-300 data-[state=checked]:bg-primary data-[state=checked]:border-primary rounded-md"
+                    />
+                  </TableHead>
                   <TableHead className="text-right font-bold text-slate-700 h-14 px-6">المنتج</TableHead>
                   <TableHead className="text-right font-bold text-slate-700 h-14">التصنيف</TableHead>
                   <TableHead className="text-right font-bold text-slate-700 h-14">السعر</TableHead>
@@ -170,7 +232,14 @@ export default function ProductsClient({ initialProducts, categories }: { initia
               </TableHeader>
               <TableBody>
                 {filteredProducts.map((product) => (
-                  <TableRow key={product.id} className="group hover:bg-indigo-50/30 transition-all duration-300 border-b border-slate-50 last:border-0 relative">
+                  <TableRow key={product.id} className={`group transition-all duration-300 border-b border-slate-50 last:border-0 relative ${selectedIds.has(product.id) ? 'bg-indigo-50/50' : 'hover:bg-indigo-50/30'}`}>
+                    <TableCell className="text-center pl-0">
+                      <Checkbox 
+                        checked={selectedIds.has(product.id)}
+                        onCheckedChange={(checked) => handleSelectRow(product.id, checked as boolean)}
+                        className="border-slate-300 data-[state=checked]:bg-primary data-[state=checked]:border-primary rounded-md"
+                      />
+                    </TableCell>
                     <TableCell className="px-6 py-4">
                       <div className="flex items-center gap-4">
                         <div className="w-14 h-14 rounded-[1.25rem] bg-slate-50 border border-slate-100/80 flex items-center justify-center overflow-hidden relative shrink-0 shadow-sm group-hover:shadow-md group-hover:scale-105 transition-all duration-300">
@@ -223,7 +292,7 @@ export default function ProductsClient({ initialProducts, categories }: { initia
                 ))}
                 {filteredProducts.length === 0 && (
                   <TableRow>
-                    <TableCell colSpan={5} className="text-center py-12 text-slate-500">
+                    <TableCell colSpan={6} className="text-center py-12 text-slate-500">
                       لا يوجد منتجات مطابقة لبحثك
                     </TableCell>
                   </TableRow>
@@ -393,6 +462,17 @@ export default function ProductsClient({ initialProducts, categories }: { initia
                          <Label className="text-sm font-semibold text-slate-700">الرابط (Slug) <span className="text-rose-500">*</span></Label>
                          <Input required value={currentProduct.slug} onChange={e => setCurrentProduct({...currentProduct, slug: e.target.value})} dir="ltr" className="h-11 rounded-xl bg-slate-50 border-transparent focus:border-emerald-300 focus:bg-white transition-colors font-mono text-sm" placeholder="product-slug" />
                        </div>
+                     </div>
+                     
+                     <div className="flex items-center justify-between p-4 bg-slate-50 rounded-xl border border-slate-100">
+                        <div>
+                          <Label className="text-sm font-semibold text-slate-700">حالة المنتج</Label>
+                          <p className="text-xs text-slate-500 mt-1">تحديد ما إذا كان المنتج مرئياً للعملاء في المتجر.</p>
+                        </div>
+                        <Switch 
+                          checked={currentProduct.isActive ?? true}
+                          onCheckedChange={checked => setCurrentProduct({...currentProduct, isActive: checked})}
+                        />
                      </div>
                    </div>
                  </div>

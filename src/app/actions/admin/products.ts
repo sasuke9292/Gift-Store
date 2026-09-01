@@ -70,3 +70,17 @@ export async function deleteProduct(id: string) {
     return { success: false, error: error instanceof Error ? error.message : 'Unknown error' }
   }
 }
+
+export async function deleteProducts(ids: string[]) {
+  try {
+    await prisma.product.deleteMany({
+      where: { id: { in: ids } }
+    })
+    revalidatePath('/admin/products')
+    revalidatePath('/shop')
+    return { success: true }
+  } catch (error) {
+    console.error('Error deleting products:', error)
+    return { success: false, error: error instanceof Error ? error.message : 'Unknown error' }
+  }
+}
