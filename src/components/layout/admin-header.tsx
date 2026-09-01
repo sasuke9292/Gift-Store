@@ -70,7 +70,6 @@ export function AdminHeader() {
         <DropdownMenu>
           <DropdownMenuTrigger className={buttonVariants({ variant: "ghost", className: "relative text-slate-500 hover:text-slate-900 rounded-full w-10 h-10 p-0" })}>
             <Bell className="w-5 h-5" />
-            <span className="absolute top-2 right-2.5 w-2 h-2 bg-red-500 rounded-full border-2 border-white"></span>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-80 p-0 rounded-2xl shadow-lg border-slate-100 overflow-hidden">
             <div className="p-4 border-b border-slate-100 bg-slate-50 flex items-center justify-between">
@@ -78,36 +77,10 @@ export function AdminHeader() {
               <span className="text-xs text-primary font-semibold cursor-pointer hover:underline">تحديد الكل كمقروء</span>
             </div>
             <div className="max-h-80 overflow-y-auto">
-              <DropdownMenuItem className="p-4 border-b border-slate-50 cursor-pointer hover:bg-slate-50 focus:bg-slate-50 rounded-none flex items-start gap-3">
-                <div className="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center shrink-0">
-                  <Package className="w-4 h-4" />
-                </div>
-                <div>
-                  <p className="text-sm font-semibold text-slate-800">طلب جديد #ORD-9872</p>
-                  <p className="text-xs text-slate-500 mt-1 line-clamp-1">قام محمد علي بإنشاء طلب جديد بقيمة 125,000 د.ع</p>
-                  <p className="text-xs text-slate-400 mt-1">منذ 10 دقائق</p>
-                </div>
-              </DropdownMenuItem>
-              <DropdownMenuItem className="p-4 border-b border-slate-50 cursor-pointer hover:bg-slate-50 focus:bg-slate-50 rounded-none flex items-start gap-3">
-                <div className="w-8 h-8 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center shrink-0">
-                  <UserPlus className="w-4 h-4" />
-                </div>
-                <div>
-                  <p className="text-sm font-semibold text-slate-800">عميل جديد مسجل</p>
-                  <p className="text-xs text-slate-500 mt-1 line-clamp-1">تم تسجيل حساب جديد بواسطة سارة حسين</p>
-                  <p className="text-xs text-slate-400 mt-1">منذ ساعتين</p>
-                </div>
-              </DropdownMenuItem>
-              <DropdownMenuItem className="p-4 cursor-pointer hover:bg-slate-50 focus:bg-slate-50 rounded-none flex items-start gap-3">
-                <div className="w-8 h-8 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center shrink-0">
-                  <AlertCircle className="w-4 h-4" />
-                </div>
-                <div>
-                  <p className="text-sm font-semibold text-slate-800">انخفاض المخزون</p>
-                  <p className="text-xs text-slate-500 mt-1 line-clamp-1">باقة الورد الحمراء على وشك النفاذ (المتبقي: 2)</p>
-                  <p className="text-xs text-slate-400 mt-1">أمس</p>
-                </div>
-              </DropdownMenuItem>
+              <div className="py-12 flex flex-col items-center justify-center text-slate-400">
+                <Bell className="w-8 h-8 mb-3 opacity-20" />
+                <p className="text-sm font-medium">لا توجد تنبيهات جديدة</p>
+              </div>
             </div>
             <div className="p-2 border-t border-slate-100 bg-slate-50 text-center">
               <a href="/admin/notifications" className="text-sm text-primary font-semibold hover:underline p-2 block">عرض جميع التنبيهات</a>
