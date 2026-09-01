@@ -189,8 +189,8 @@ export default function ProductsClient({ initialProducts, categories }: { initia
       </div>
 
       {selectedIds.size > 0 && (
-        <div className="bg-indigo-50/80 border border-indigo-100 rounded-2xl p-4 flex items-center justify-between animate-in fade-in slide-in-from-top-4">
-          <p className="text-sm font-bold text-indigo-900">
+        <div className="bg-blue-50/80 border border-blue-100 rounded-2xl p-4 flex items-center justify-between animate-in fade-in slide-in-from-top-4">
+          <p className="text-sm font-bold text-blue-900">
             تم تحديد {selectedIds.size} منتج
           </p>
           <Button 
@@ -248,7 +248,7 @@ export default function ProductsClient({ initialProducts, categories }: { initia
               </TableHeader>
               <TableBody>
                 {filteredProducts.map((product) => (
-                  <TableRow key={product.id} className={`group transition-all duration-300 border-b border-slate-50 last:border-0 relative ${selectedIds.has(product.id) ? 'bg-indigo-50/50' : 'hover:bg-indigo-50/30'}`}>
+                  <TableRow key={product.id} className={`group transition-all duration-300 border-b border-slate-50 last:border-0 relative ${selectedIds.has(product.id) ? 'bg-blue-50/50' : 'hover:bg-blue-50/30'}`}>
                     <TableCell className="px-4">
                       <Checkbox 
                         checked={selectedIds.has(product.id)}
@@ -288,12 +288,12 @@ export default function ProductsClient({ initialProducts, categories }: { initia
                     </TableCell>
                     <TableCell className="text-center py-4">
                       <DropdownMenu dir="rtl">
-                        <DropdownMenuTrigger className={buttonVariants({ variant: "outline", className: "h-9 w-9 p-0 text-slate-400 hover:text-primary hover:bg-indigo-50 border-slate-200 rounded-xl shadow-sm transition-all focus-visible:ring-2 focus-visible:ring-primary/20" })}>
+                        <DropdownMenuTrigger className={buttonVariants({ variant: "outline", className: "h-9 w-9 p-0 text-slate-400 hover:text-primary hover:bg-blue-50 border-slate-200 rounded-xl shadow-sm transition-all focus-visible:ring-2 focus-visible:ring-primary/20" })}>
                           <span className="sr-only">فتح القائمة</span>
                           <MoreHorizontal className="h-4 w-4" />
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="start" className="w-48 rounded-2xl shadow-xl shadow-slate-200/50 border-slate-100 p-1.5 animate-in fade-in-0 zoom-in-95">
-                          <DropdownMenuItem onClick={() => openModal(product)} className="rounded-xl cursor-pointer p-2.5 font-medium text-slate-700 hover:text-primary focus:text-primary focus:bg-indigo-50/50 transition-colors">
+                          <DropdownMenuItem onClick={() => openModal(product)} className="rounded-xl cursor-pointer p-2.5 font-medium text-slate-700 hover:text-primary focus:text-primary focus:bg-blue-50/50 transition-colors">
                             <Edit className="mr-2.5 h-4 w-4 text-slate-400" />
                             <span>تعديل بيانات المنتج</span>
                           </DropdownMenuItem>
@@ -344,15 +344,15 @@ export default function ProductsClient({ initialProducts, categories }: { initia
               {/* Media Section */}
               <div className="space-y-5">
                  <div className="flex items-center gap-2">
-                   <div className="w-8 h-8 rounded-lg bg-indigo-100 flex items-center justify-center">
-                     <ImageIcon className="w-4 h-4 text-indigo-600" />
+                   <div className="w-8 h-8 rounded-lg bg-blue-100 flex items-center justify-center">
+                     <ImageIcon className="w-4 h-4 text-blue-600" />
                    </div>
                    <h3 className="font-semibold text-slate-800 text-lg">صور المنتج</h3>
                  </div>
                  
                  <div className="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm space-y-4">
                    {/* Upload Dropzone */}
-                   <div className="border-2 border-dashed border-slate-200 rounded-xl p-6 flex flex-col items-center justify-center text-center bg-slate-50 hover:bg-indigo-50/50 hover:border-indigo-300 transition-all cursor-pointer relative group min-h-[160px]">
+                   <div className="border-2 border-dashed border-slate-200 rounded-xl p-6 flex flex-col items-center justify-center text-center bg-slate-50 hover:bg-blue-50/50 hover:border-blue-300 transition-all cursor-pointer relative group min-h-[160px]">
                       <input 
                         type="file" 
                         accept="image/*" 
@@ -388,7 +388,7 @@ export default function ProductsClient({ initialProducts, categories }: { initia
                           }
                         }}
                       />
-                      <div className="w-12 h-12 rounded-full bg-white shadow-sm flex items-center justify-center mb-3 group-hover:scale-110 group-hover:text-indigo-600 transition-all duration-300 text-slate-400">
+                      <div className="w-12 h-12 rounded-full bg-white shadow-sm flex items-center justify-center mb-3 group-hover:scale-110 group-hover:text-blue-600 transition-all duration-300 text-slate-400">
                          <UploadCloud className="w-6 h-6" />
                       </div>
                       <p className="text-sm font-bold text-slate-700">اضغط أو اسحب الصور هنا</p>
@@ -422,7 +422,7 @@ export default function ProductsClient({ initialProducts, categories }: { initia
                         value={newImageUrl} 
                         onChange={e => setNewImageUrl(e.target.value)} 
                         placeholder="أو أضف رابط صورة خارجي (URL)"
-                        className="h-10 rounded-xl bg-slate-50 border-transparent focus:border-indigo-300 focus:bg-white flex-1 text-sm"
+                        className="h-10 rounded-xl bg-slate-50 border-transparent focus:border-blue-300 focus:bg-white flex-1 text-sm"
                         dir="ltr"
                       />
                       <Button 

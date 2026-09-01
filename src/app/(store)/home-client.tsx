@@ -69,7 +69,7 @@ export default function StoreHomeClient({ initialCategories: categories, initial
       <section className="relative min-h-[60vh] flex flex-col items-center justify-center pt-12 pb-16 overflow-hidden bg-[#FBFBFD]">
         
         {/* Subtle Background Glow */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-[1000px] h-[500px] bg-gradient-to-b from-rose-100/40 via-purple-50/20 to-transparent blur-3xl -z-10" />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-[1000px] h-[500px] bg-gradient-to-b from-blue-100/40 via-blue-50/20 to-transparent blur-3xl -z-10" />
 
         <motion.div 
           style={{ opacity: heroOpacity, y: heroY }}
@@ -94,7 +94,7 @@ export default function StoreHomeClient({ initialCategories: categories, initial
             className="text-6xl sm:text-7xl lg:text-8xl font-black text-slate-900 tracking-[-0.04em] leading-[1.05] mb-8"
           >
             لحظاتك الثمينة <br/>
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-rose-500 via-fuchsia-500 to-indigo-500">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-700 via-blue-500 to-sky-400">
               تستحق الأفضل.
             </span>
           </motion.h1>

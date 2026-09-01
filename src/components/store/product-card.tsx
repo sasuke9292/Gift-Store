@@ -126,7 +126,7 @@ export function ProductCard({ product }: ProductCardProps) {
             }}
           >
             <ShoppingBag className="w-5 h-5 relative z-10 pointer-events-none" />
-            <div className="absolute inset-0 bg-gradient-to-tr from-rose-400 to-indigo-500 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300 pointer-events-none" />
+            <div className="absolute inset-0 bg-gradient-to-tr from-sky-400 to-blue-600 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300 pointer-events-none" />
             <ShoppingBag className="w-5 h-5 absolute inset-0 m-auto text-white opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300 z-20 pointer-events-none" />
           </Button>
         </div>
