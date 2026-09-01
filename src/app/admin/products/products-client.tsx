@@ -21,10 +21,12 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import {
-  Dialog,
-  DialogContent,
-  DialogTitle,
-} from '@/components/ui/dialog'
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+} from '@/components/ui/sheet'
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Label } from '@/components/ui/label'
 import { Switch } from '@/components/ui/switch'
 import { Checkbox } from '@/components/ui/checkbox'
@@ -48,6 +50,7 @@ export default function ProductsClient({ initialProducts, categories }: { initia
   const [newImageUrl, setNewImageUrl] = useState('')
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set())
   const [isDeletingBulk, setIsDeletingBulk] = useState(false)
+  const [statusFilter, setStatusFilter] = useState<'all' | 'active' | 'draft'>('all')
 
   const handleSelectAll = (checked: boolean) => {
     if (checked) {
@@ -163,7 +166,12 @@ export default function ProductsClient({ initialProducts, categories }: { initia
     }
   }
 
-  const filteredProducts = products.filter(p => p.name.includes(search) || p.id.includes(search))
+  const filteredProducts = products.filter(p => {
+    const matchesSearch = p.name.includes(search) || p.id.includes(search)
+    if (statusFilter === 'active') return matchesSearch && p.isActive
+    if (statusFilter === 'draft') return matchesSearch && !p.isActive
+    return matchesSearch
+  })
 
   return (
     <div className="space-y-6">
@@ -204,11 +212,19 @@ export default function ProductsClient({ initialProducts, categories }: { initia
               <Search className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
               <Input
                 placeholder="ابحث باسم المنتج أو الرمز (SKU)..."
-                className="pl-4 pr-12 bg-slate-50/50 hover:bg-slate-50 focus:bg-white border-slate-200 focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all rounded-2xl h-12 text-sm font-medium"
+                className="pl-4 pr-12 bg-white hover:bg-slate-50 focus:bg-white border-slate-200 focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all rounded-2xl h-12 text-sm font-medium shadow-sm"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
               />
             </div>
+            
+            <Tabs defaultValue="all" value={statusFilter} onValueChange={(v) => setStatusFilter(v as 'all' | 'active' | 'draft')} className="w-full md:w-auto" dir="rtl">
+              <TabsList className="bg-slate-100/80 p-1 rounded-xl h-12 w-full md:w-auto flex">
+                <TabsTrigger value="all" className="rounded-lg data-[state=active]:bg-white data-[state=active]:text-primary data-[state=active]:shadow-sm text-slate-600 flex-1 md:flex-none px-6 font-semibold">الكل</TabsTrigger>
+                <TabsTrigger value="active" className="rounded-lg data-[state=active]:bg-white data-[state=active]:text-primary data-[state=active]:shadow-sm text-slate-600 flex-1 md:flex-none px-6 font-semibold">نشط</TabsTrigger>
+                <TabsTrigger value="draft" className="rounded-lg data-[state=active]:bg-white data-[state=active]:text-primary data-[state=active]:shadow-sm text-slate-600 flex-1 md:flex-none px-6 font-semibold">مسودة</TabsTrigger>
+              </TabsList>
+            </Tabs>
           </div>
         </CardHeader>
         <CardContent className="p-0">
@@ -303,28 +319,30 @@ export default function ProductsClient({ initialProducts, categories }: { initia
         </CardContent>
       </Card>
 
-      {/* Add/Edit Modal */}
-      <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-        <DialogContent className="sm:max-w-[900px] rounded-[2rem] p-0 overflow-hidden border-0 max-h-[90vh] flex flex-col shadow-2xl">
-          <div className="px-6 py-5 border-b border-slate-100 bg-white flex items-center gap-4">
-             <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center shrink-0">
-               <Package className="w-6 h-6 text-primary" />
+      {/* Add/Edit Sheet */}
+      <Sheet open={isModalOpen} onOpenChange={setIsModalOpen}>
+        <SheetContent side="left" className="w-full sm:max-w-xl p-0 overflow-hidden border-0 flex flex-col shadow-2xl bg-slate-50" dir="rtl">
+          <SheetHeader className="px-6 py-5 border-b border-slate-200 bg-white shadow-sm z-10 text-right">
+             <div className="flex items-center gap-4">
+               <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center shrink-0">
+                 <Package className="w-6 h-6 text-primary" />
+               </div>
+               <div className="flex flex-col">
+                 <SheetTitle className="text-xl font-bold text-slate-800">
+                   {isEditing ? 'تعديل بيانات المنتج' : 'إضافة منتج جديد'}
+                 </SheetTitle>
+                 <p className="text-sm text-slate-500 mt-1">
+                   {isEditing ? 'تحديث معلومات المنتج والصور' : 'أدخل تفاصيل المنتج للإضافة'}
+                 </p>
+               </div>
              </div>
-             <div>
-               <DialogTitle className="text-xl font-bold text-slate-800">
-                 {isEditing ? 'تعديل بيانات المنتج' : 'إضافة منتج جديد'}
-               </DialogTitle>
-               <p className="text-sm text-slate-500 mt-1">
-                 {isEditing ? 'قم بتحديث معلومات المنتج وتعديل الصور والأسعار' : 'أدخل تفاصيل المنتج الجديد لإضافته إلى المتجر'}
-               </p>
-             </div>
-          </div>
+          </SheetHeader>
           
-          <div className="overflow-y-auto scrollbar-thin p-6 bg-slate-50/50">
-            <form id="product-form" onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-12 gap-8">
+          <div className="overflow-y-auto scrollbar-thin p-6 flex-1">
+            <form id="product-form" onSubmit={handleSubmit} className="flex flex-col gap-8 pb-10">
               
-              {/* Media Section (Right side in RTL) */}
-              <div className="md:col-span-5 space-y-5">
+              {/* Media Section */}
+              <div className="space-y-5">
                  <div className="flex items-center gap-2">
                    <div className="w-8 h-8 rounded-lg bg-indigo-100 flex items-center justify-center">
                      <ImageIcon className="w-4 h-4 text-indigo-600" />
@@ -425,8 +443,8 @@ export default function ProductsClient({ initialProducts, categories }: { initia
                  </div>
               </div>
 
-              {/* Form Details (Left side in RTL) */}
-              <div className="md:col-span-7 space-y-6">
+              {/* Form Details */}
+              <div className="space-y-6">
                  
                  {/* Basic Info */}
                  <div>
@@ -510,7 +528,7 @@ export default function ProductsClient({ initialProducts, categories }: { initia
             </form>
           </div>
           
-          <div className="p-5 border-t border-slate-100 bg-white flex justify-end gap-3 rounded-b-[2rem]">
+          <div className="p-5 border-t border-slate-200 bg-white flex justify-end gap-3 shrink-0">
              <Button type="button" variant="ghost" onClick={() => setIsModalOpen(false)} className="rounded-xl h-12 px-6 hover:bg-slate-100 text-slate-600 font-semibold">
                إلغاء
              </Button>
@@ -518,8 +536,8 @@ export default function ProductsClient({ initialProducts, categories }: { initia
                {isSubmitting ? 'جاري الحفظ...' : 'حفظ التغييرات'}
              </Button>
           </div>
-        </DialogContent>
-      </Dialog>
+        </SheetContent>
+      </Sheet>
     </div>
   )
 }
