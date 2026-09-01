@@ -1,14 +1,14 @@
 'use client'
 
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { Search, ShoppingCart, User, Heart, Menu } from 'lucide-react'
-import { Button } from '@/components/ui/button'
+import { Search, ShoppingCart, User, Heart, Menu, LogOut, Package } from 'lucide-react'
+import { Button, buttonVariants } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Badge } from '@/components/ui/badge'
-import { buttonVariants } from '@/components/ui/button'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { useCartStore, useFavoritesStore } from '@/lib/store'
-import { useEffect, useState } from 'react'
+import { signOut } from 'next-auth/react'
 
 interface StoreHeaderProps {
   user?: {
@@ -25,7 +25,6 @@ export function StoreHeader({ user }: StoreHeaderProps) {
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true)
   }, [])
 
@@ -89,11 +88,29 @@ export function StoreHeader({ user }: StoreHeaderProps) {
                 </Badge>
               )}
             </Link>
+            
             {user ? (
-              <Link href="/profile" className={buttonVariants({ variant: "ghost", className: "text-slate-600 hover:text-primary hidden md:flex items-center gap-2 rounded-full px-4" })}>
-                <User className="w-5 h-5" />
-                <span className="font-medium">حسابي</span>
-              </Link>
+              <DropdownMenu>
+                <DropdownMenuTrigger className="hidden md:flex items-center gap-2 rounded-full px-4 py-2 text-slate-600 hover:bg-slate-100 transition-colors">
+                  <User className="w-5 h-5" />
+                  <span className="font-medium">{user.name?.split(' ')[0] || 'حسابي'}</span>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-48">
+                  <DropdownMenuItem>
+                    <Link href="/profile" className="flex items-center gap-2 cursor-pointer w-full h-full">
+                      <User className="w-4 h-4" /> ملفي الشخصي
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem>
+                    <Link href="/orders" className="flex items-center gap-2 cursor-pointer w-full h-full">
+                      <Package className="w-4 h-4" /> طلباتي
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => signOut()} className="text-red-600 focus:text-red-600 cursor-pointer">
+                    <LogOut className="w-4 h-4" /> تسجيل الخروج
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             ) : (
               <Link href="/auth/login" className={buttonVariants({ variant: "ghost", className: "text-slate-600 hover:text-primary hidden md:flex items-center gap-2 rounded-full px-4" })}>
                 <User className="w-5 h-5" />

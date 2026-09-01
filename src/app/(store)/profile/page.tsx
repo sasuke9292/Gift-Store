@@ -3,6 +3,11 @@ import { redirect } from 'next/navigation'
 import ProfileClient from './profile-client'
 import { prisma } from '@/lib/prisma'
 
+export const metadata = {
+  title: 'حسابي | گفتي بلس',
+  description: 'إدارة حسابك، طلباتك، ومفضلاتك',
+}
+
 export default async function ProfilePage() {
   const session = await auth()
 
@@ -10,10 +15,34 @@ export default async function ProfilePage() {
     redirect('/auth/login')
   }
 
-  const orders = await prisma.order.findMany({
-    where: { userId: session.user.id },
-    orderBy: { createdAt: 'desc' }
+  const user = await prisma.user.findUnique({
+    where: { id: session.user.id },
+    include: {
+      customerProfile: true,
+      orders: {
+        orderBy: { createdAt: 'desc' },
+        take: 5
+      }
+    }
   })
 
-  return <ProfileClient user={session.user} orders={orders} />
+  if (!user) {
+    redirect('/auth/login')
+  }
+
+  // Format orders for the client
+  const formattedOrders = user.orders.map(order => ({
+    id: order.id,
+    orderNumber: order.orderNumber,
+    status: order.status,
+    total: order.total,
+    date: order.createdAt.toISOString()
+  }))
+
+  return <ProfileClient user={{
+    id: user.id,
+    name: user.name || 'مستخدم',
+    email: user.email || '',
+    phone: user.customerProfile?.phone || ''
+  }} orders={formattedOrders} />
 }
