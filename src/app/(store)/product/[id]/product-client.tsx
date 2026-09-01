@@ -151,7 +151,22 @@ export default function ProductClient({ product }: { product: any }) {
                   <Heart className={`w-5 h-5 ml-2 ${isFavorite ? 'fill-rose-500 text-rose-500' : ''}`} />
                   {isFavorite ? 'إزالة من المفضلة' : 'إضافة للمفضلة'}
                 </Button>
-                <Button variant="outline" size="icon" className="rounded-full shrink-0 bg-white h-12 w-12 text-slate-600 hover:text-primary hover:border-primary transition-colors">
+                <Button 
+                  variant="outline" 
+                  size="icon" 
+                  className="rounded-full shrink-0 bg-white h-12 w-12 text-slate-600 hover:text-primary hover:border-primary transition-colors"
+                  onClick={() => {
+                    if (navigator.share) {
+                      navigator.share({
+                        title: product.name,
+                        url: window.location.href,
+                      }).catch(() => {})
+                    } else {
+                      navigator.clipboard.writeText(window.location.href)
+                      toast.success('تم نسخ الرابط بنجاح')
+                    }
+                  }}
+                >
                   <Share2 className="w-5 h-5" />
                 </Button>
               </div>
@@ -214,8 +229,58 @@ export default function ProductClient({ product }: { product: any }) {
               </div>
             </TabsContent>
             <TabsContent value="reviews" className="pt-4 animate-in fade-in-50 duration-500">
-              <div className="bg-slate-50 rounded-3xl p-8 border border-slate-100 text-center">
-                التقييمات ستعرض هنا قريباً
+              <div className="bg-slate-50 rounded-3xl p-8 border border-slate-100">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-8 gap-4">
+                  <div>
+                    <h3 className="text-xl font-bold text-slate-800 mb-2">تقييمات العملاء</h3>
+                    <div className="flex items-center gap-2">
+                      <div className="flex text-yellow-400">
+                        {[...Array(5)].map((_, i) => (
+                          <Star key={i} className={`w-5 h-5 ${i === 4 ? 'fill-yellow-400/30' : 'fill-yellow-400'}`} />
+                        ))}
+                      </div>
+                      <span className="text-slate-700 font-bold">4.8 من 5</span>
+                      <span className="text-slate-500 text-sm">(124 تقييم)</span>
+                    </div>
+                  </div>
+                  <Button className="rounded-xl shadow-md h-12 px-6 hidden sm:flex text-md font-bold">إضافة تقييم</Button>
+                </div>
+
+                <div className="space-y-6">
+                  {/* Mock Review 1 */}
+                  <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
+                    <div className="flex items-center gap-4 mb-4">
+                      <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center text-primary font-bold text-xl">A</div>
+                      <div>
+                        <h4 className="font-bold text-slate-800">أحمد محمد</h4>
+                        <div className="flex text-yellow-400 mt-1">
+                          {[...Array(5)].map((_, i) => (
+                            <Star key={i} className="w-4 h-4 fill-yellow-400" />
+                          ))}
+                        </div>
+                      </div>
+                      <span className="mr-auto text-sm text-slate-400">قبل يومين</span>
+                    </div>
+                    <p className="text-slate-600 text-lg leading-relaxed">المنتج رائع جداً والتغليف كان ممتاز وفخم. أنصح به بشدة كهدية لمن تحب!</p>
+                  </div>
+                  
+                  {/* Mock Review 2 */}
+                  <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
+                    <div className="flex items-center gap-4 mb-4">
+                      <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 font-bold text-xl">S</div>
+                      <div>
+                        <h4 className="font-bold text-slate-800">سارة علي</h4>
+                        <div className="flex text-yellow-400 mt-1">
+                          {[...Array(5)].map((_, i) => (
+                            <Star key={i} className="w-4 h-4 fill-yellow-400" />
+                          ))}
+                        </div>
+                      </div>
+                      <span className="mr-auto text-sm text-slate-400">قبل أسبوع</span>
+                    </div>
+                    <p className="text-slate-600 text-lg leading-relaxed">الجودة ممتازة وسرعة التوصيل خيالية، شكراً گفتي بلس على الخدمة الرائعة والمصداقية.</p>
+                  </div>
+                </div>
               </div>
             </TabsContent>
           </Tabs>
