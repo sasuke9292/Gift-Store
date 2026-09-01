@@ -21,11 +21,11 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-} from '@/components/ui/sheet'
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog'
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Label } from '@/components/ui/label'
 import { Switch } from '@/components/ui/switch'
@@ -319,24 +319,24 @@ export default function ProductsClient({ initialProducts, categories }: { initia
         </CardContent>
       </Card>
 
-      {/* Add/Edit Sheet */}
-      <Sheet open={isModalOpen} onOpenChange={setIsModalOpen}>
-        <SheetContent side="left" className="w-full sm:max-w-xl p-0 overflow-hidden border-0 flex flex-col shadow-2xl bg-slate-50" dir="rtl">
-          <SheetHeader className="px-6 py-5 border-b border-slate-200 bg-white shadow-sm z-10 text-right">
+      {/* Add/Edit Modal */}
+      <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
+        <DialogContent className="sm:max-w-3xl max-w-[95vw] h-[90vh] sm:h-auto sm:max-h-[90vh] p-0 overflow-hidden border-0 flex flex-col shadow-2xl bg-slate-50" dir="rtl" showCloseButton={false}>
+          <DialogHeader className="px-6 py-5 border-b border-slate-200 bg-white shadow-sm z-10 text-right">
              <div className="flex items-center gap-4">
                <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center shrink-0">
                  <Package className="w-6 h-6 text-primary" />
                </div>
                <div className="flex flex-col">
-                 <SheetTitle className="text-xl font-bold text-slate-800">
+                 <DialogTitle className="text-xl font-bold text-slate-800">
                    {isEditing ? 'تعديل بيانات المنتج' : 'إضافة منتج جديد'}
-                 </SheetTitle>
+                 </DialogTitle>
                  <p className="text-sm text-slate-500 mt-1">
                    {isEditing ? 'تحديث معلومات المنتج والصور' : 'أدخل تفاصيل المنتج للإضافة'}
                  </p>
                </div>
              </div>
-          </SheetHeader>
+          </DialogHeader>
           
           <div className="overflow-y-auto scrollbar-thin p-6 flex-1">
             <form id="product-form" onSubmit={handleSubmit} className="flex flex-col gap-8 pb-10">
@@ -487,10 +487,22 @@ export default function ProductsClient({ initialProducts, categories }: { initia
                           <Label className="text-sm font-semibold text-slate-700">حالة المنتج</Label>
                           <p className="text-xs text-slate-500 mt-1">تحديد ما إذا كان المنتج مرئياً للعملاء في المتجر.</p>
                         </div>
-                        <Switch 
-                          checked={currentProduct.isActive ?? true}
-                          onCheckedChange={checked => setCurrentProduct({...currentProduct, isActive: checked})}
-                        />
+                        <div className="flex bg-slate-200/50 p-1 rounded-xl">
+                          <button
+                            type="button"
+                            onClick={() => setCurrentProduct({...currentProduct, isActive: true})}
+                            className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${currentProduct.isActive ?? true ? 'bg-white text-emerald-600 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
+                          >
+                            نشط
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => setCurrentProduct({...currentProduct, isActive: false})}
+                            className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${!(currentProduct.isActive ?? true) ? 'bg-white text-slate-700 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
+                          >
+                            مسودة
+                          </button>
+                        </div>
                      </div>
                    </div>
                  </div>
@@ -536,8 +548,8 @@ export default function ProductsClient({ initialProducts, categories }: { initia
                {isSubmitting ? 'جاري الحفظ...' : 'حفظ التغييرات'}
              </Button>
           </div>
-        </SheetContent>
-      </Sheet>
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }
