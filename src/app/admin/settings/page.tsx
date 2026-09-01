@@ -6,7 +6,7 @@ export const dynamic = 'force-dynamic'
 export default function AdminSettingsPage() {
   // We mock initial settings for now since we don't have a Settings table yet
   const initialSettings = {
-    storeName: 'متجر الهدايا',
+    storeName: 'گفتي بلس | Gifty Plus',
     storeEmail: 'contact@giftstore.com',
     storePhone: '+964 770 123 4567',
     currency: 'د.ع',

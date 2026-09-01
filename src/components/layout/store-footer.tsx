@@ -14,8 +14,9 @@ export function StoreFooter() {
               <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center text-white font-bold text-xl shadow-sm">
                 G
               </div>
-              <span className="text-2xl font-bold text-slate-800">متجر الهدايا</span>
+              <span className="text-2xl font-bold text-slate-800">گفتي بلس</span>
             </Link>
+            <p className="text-slate-700 font-bold mb-2">خلّي هديتك تحچي عنك</p>
             <p className="text-slate-500 leading-relaxed text-sm">
               الوجهة الأولى لاختيار الهدايا الراقية في العراق. نوفر لك تشكيلة واسعة من الهدايا المميزة لكل المناسبات مع خدمة توصيل سريعة وتغليف فاخر.
             </p>
@@ -74,7 +75,7 @@ export function StoreFooter() {
         </div>
 
         <div className="border-t border-slate-100 pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-slate-500">
-          <p>© 2026 متجر الهدايا. جميع الحقوق محفوظة.</p>
+          <p>© 2026 گفتي بلس. جميع الحقوق محفوظة.</p>
           <div className="flex gap-6">
             <Link href="/privacy" className="hover:text-primary">سياسة الخصوصية</Link>
             <Link href="/terms" className="hover:text-primary">الشروط والأحكام</Link>

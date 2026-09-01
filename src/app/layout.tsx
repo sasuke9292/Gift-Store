@@ -11,8 +11,8 @@ const cairo = Cairo({
 });
 
 export const metadata: Metadata = {
-  title: "متجر الهدايا | Gift Store",
-  description: "منصة تجارة إلكترونية متكاملة لبيع الهدايا",
+  title: "گفتي بلس | Gifty Plus",
+  description: "خلّي هديتك تحچي عنك",
 };
 
 export default function RootLayout({

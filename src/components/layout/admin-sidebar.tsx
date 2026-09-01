@@ -34,7 +34,7 @@ export function AdminSidebar() {
           <div className="w-8 h-8 bg-primary rounded-xl flex items-center justify-center text-white font-bold">
             G
           </div>
-          <span className="text-xl font-bold text-slate-800">متجر الهدايا</span>
+          <span className="text-xl font-bold text-slate-800">گفتي بلس</span>
         </Link>
       </div>
 

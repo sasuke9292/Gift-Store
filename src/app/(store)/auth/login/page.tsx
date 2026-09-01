@@ -54,7 +54,7 @@ export default function LoginPage() {
             <Gift className="w-8 h-8" />
           </div>
           <h2 className="text-3xl font-bold text-slate-800">تسجيل الدخول</h2>
-          <p className="mt-2 text-sm text-slate-500">مرحباً بك مجدداً في متجر الهدايا</p>
+          <p className="mt-2 text-sm text-slate-500">مرحباً بك مجدداً في گفتي بلس</p>
         </div>
 
         <form onSubmit={handleSubmit} className="mt-8 space-y-6">
