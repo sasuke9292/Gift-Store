@@ -31,7 +31,7 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { Shield, UserCircle, Key, Mail, MoreHorizontal, Edit, UserPlus, Lock } from 'lucide-react'
 import { toast } from 'sonner'
-import { updateProfile, updateUserRole } from '@/app/actions/admin/users'
+import { updateProfile, updateUserRole, createStaffUser } from '@/app/actions/admin/users'
 
 interface ProfileClientProps {
   currentUser: User | null
@@ -66,6 +66,16 @@ export default function ProfileClient({ currentUser, initialStaffUsers }: Profil
   const [newRole, setNewRole] = useState<Role>('ADMIN')
   const [isSavingRole, setIsSavingRole] = useState(false)
 
+  // Create User State
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false)
+  const [isCreatingUser, setIsCreatingUser] = useState(false)
+  const [newUserData, setNewUserData] = useState({
+    name: '',
+    email: '',
+    password: '',
+    role: 'ADMIN' as Role
+  })
+
   const handleSaveProfile = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!currentUser) return
@@ -97,6 +107,26 @@ export default function ProfileClient({ currentUser, initialStaffUsers }: Profil
       toast.error(res.error)
     }
     setIsSavingRole(false)
+  }
+
+  const handleCreateUser = async (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!newUserData.name || !newUserData.email) {
+      toast.error('يرجى تعبئة جميع الحقول المطلوبة')
+      return
+    }
+    
+    setIsCreatingUser(true)
+    const res = await createStaffUser(newUserData)
+    if (res.success && res.data) {
+      toast.success('تمت إضافة الموظف بنجاح')
+      setUsers([res.data, ...users])
+      setIsCreateModalOpen(false)
+      setNewUserData({ name: '', email: '', password: '', role: 'ADMIN' })
+    } else {
+      toast.error(res.error)
+    }
+    setIsCreatingUser(false)
   }
 
   return (
@@ -224,7 +254,7 @@ export default function ProfileClient({ currentUser, initialStaffUsers }: Profil
                 <CardTitle className="text-lg font-bold text-slate-800">أعضاء الفريق</CardTitle>
                 <p className="text-sm text-slate-500 mt-1">إدارة حسابات الموظفين وصلاحياتهم في لوحة التحكم.</p>
               </div>
-              <Button className="h-11 bg-primary hover:bg-primary/90 text-white rounded-xl font-bold shadow-sm">
+              <Button onClick={() => setIsCreateModalOpen(true)} className="h-11 bg-primary hover:bg-primary/90 text-white rounded-xl font-bold shadow-sm">
                 <UserPlus className="w-4 h-4 ml-2" />
                 دعوة عضو جديد
               </Button>
@@ -346,6 +376,75 @@ export default function ProfileClient({ currentUser, initialStaffUsers }: Profil
                {isSavingRole ? 'جاري الحفظ...' : 'حفظ الصلاحية'}
              </Button>
           </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Create User Modal */}
+      <Dialog open={isCreateModalOpen} onOpenChange={setIsCreateModalOpen}>
+        <DialogContent className="sm:max-w-md rounded-3xl p-0 overflow-hidden border-0 shadow-2xl" dir="rtl" showCloseButton={false}>
+          <DialogHeader className="px-6 py-5 border-b border-slate-100 bg-slate-50/50">
+            <DialogTitle className="text-xl font-bold text-slate-800 flex items-center gap-2">
+              <UserPlus className="w-5 h-5 text-primary" />
+              إضافة مدير أو موظف جديد
+            </DialogTitle>
+          </DialogHeader>
+          <form onSubmit={handleCreateUser}>
+            <div className="p-6 space-y-4">
+              <div className="space-y-2">
+                <Label className="text-sm font-semibold text-slate-700">الاسم الكامل</Label>
+                <Input 
+                  value={newUserData.name}
+                  onChange={(e) => setNewUserData({...newUserData, name: e.target.value})}
+                  placeholder="مثال: أحمد محمد"
+                  className="h-11 rounded-xl border-slate-200 focus:border-primary focus:bg-white bg-slate-50 transition-colors"
+                  required
+                />
+              </div>
+              <div className="space-y-2">
+                <Label className="text-sm font-semibold text-slate-700">البريد الإلكتروني</Label>
+                <Input 
+                  type="email"
+                  value={newUserData.email}
+                  onChange={(e) => setNewUserData({...newUserData, email: e.target.value})}
+                  placeholder="admin@example.com"
+                  dir="ltr"
+                  className="h-11 rounded-xl border-slate-200 focus:border-primary focus:bg-white bg-slate-50 transition-colors text-left"
+                  required
+                />
+              </div>
+              <div className="space-y-2">
+                <Label className="text-sm font-semibold text-slate-700">كلمة المرور الابتدائية</Label>
+                <Input 
+                  type="password"
+                  value={newUserData.password}
+                  onChange={(e) => setNewUserData({...newUserData, password: e.target.value})}
+                  placeholder="12345678 (افتراضي)"
+                  dir="ltr"
+                  className="h-11 rounded-xl border-slate-200 focus:border-primary focus:bg-white bg-slate-50 transition-colors text-left"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label className="text-sm font-semibold text-slate-700">الصلاحية (الدور)</Label>
+                <select 
+                  className="w-full h-11 px-4 rounded-xl bg-slate-50 border border-slate-200 focus:border-primary focus:ring-1 focus:ring-primary transition-all text-sm font-medium"
+                  value={newUserData.role}
+                  onChange={(e) => setNewUserData({...newUserData, role: e.target.value as Role})}
+                >
+                  {Object.entries(roleMap).filter(([k]) => k !== 'CUSTOMER').map(([key, role]) => (
+                    <option key={key} value={key}>{role.label}</option>
+                  ))}
+                </select>
+              </div>
+            </div>
+            <div className="p-5 border-t border-slate-100 bg-slate-50 flex justify-end gap-3">
+               <Button type="button" variant="ghost" onClick={() => setIsCreateModalOpen(false)} className="rounded-xl h-11 px-6 hover:bg-slate-200 text-slate-700 font-bold">
+                 إلغاء
+               </Button>
+               <Button type="submit" disabled={isCreatingUser} className="rounded-xl h-11 px-8 bg-primary hover:bg-primary/90 text-white font-bold shadow-sm">
+                 {isCreatingUser ? 'جاري الإضافة...' : 'إضافة الموظف'}
+               </Button>
+            </div>
+          </form>
         </DialogContent>
       </Dialog>
     </div>

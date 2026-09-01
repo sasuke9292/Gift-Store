@@ -2,6 +2,7 @@
 
 import { prisma } from '@/lib/prisma'
 import { Role } from '@prisma/client'
+import bcrypt from 'bcryptjs'
 
 export async function getStaffUsers() {
   try {
@@ -45,5 +46,34 @@ export async function updateProfile(userId: string, data: { name?: string, email
   } catch (error) {
     console.error('Error updating profile:', error)
     return { success: false, error: 'حدث خطأ أثناء تحديث الملف الشخصي' }
+  }
+}
+
+export async function createStaffUser(data: { name: string, email: string, password?: string, role: Role }) {
+  try {
+    const existingUser = await prisma.user.findUnique({
+      where: { email: data.email }
+    })
+
+    if (existingUser) {
+      return { success: false, error: 'البريد الإلكتروني مسجل مسبقاً' }
+    }
+
+    const passwordToHash = data.password || '12345678'
+    const hashedPassword = await bcrypt.hash(passwordToHash, 10)
+
+    const newUser = await prisma.user.create({
+      data: {
+        name: data.name,
+        email: data.email,
+        password: hashedPassword,
+        role: data.role
+      }
+    })
+
+    return { success: true, data: newUser }
+  } catch (error) {
+    console.error('Error creating staff user:', error)
+    return { success: false, error: 'حدث خطأ أثناء إنشاء المستخدم الجديد' }
   }
 }

@@ -13,6 +13,7 @@ import {
   Bell,
   Settings,
   LogOut,
+  Shield,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
@@ -22,6 +23,7 @@ const sidebarItems = [
   { name: 'المنتجات', href: '/admin/products', icon: Package },
   { name: 'التصنيفات', href: '/admin/categories', icon: Tags },
   { name: 'العملاء', href: '/admin/customers', icon: Users },
+  { name: 'فريق العمل', href: '/admin/profile', icon: Shield },
   { name: 'الإشعارات', href: '/admin/notifications', icon: Bell },
   { name: 'الإعدادات', href: '/admin/settings', icon: Settings },
 ]
