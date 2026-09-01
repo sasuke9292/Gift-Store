@@ -5,6 +5,7 @@ import { prisma } from '@/lib/prisma'
 export async function getProducts() {
   try {
     const products = await prisma.product.findMany({
+      where: { isActive: true },
       include: {
         category: true,
       },
@@ -21,8 +22,8 @@ export async function getProducts() {
 
 export async function getProductById(id: string) {
   try {
-    const product = await prisma.product.findUnique({
-      where: { id },
+    const product = await prisma.product.findFirst({
+      where: { id, isActive: true },
       include: {
         category: true,
       },
@@ -37,7 +38,7 @@ export async function getProductById(id: string) {
 export async function getTopProducts(limit = 4) {
   try {
     const products = await prisma.product.findMany({
-      where: { isBestSeller: true },
+      where: { isBestSeller: true, isActive: true },
       take: limit,
       include: {
         category: true,

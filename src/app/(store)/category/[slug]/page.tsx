@@ -15,6 +15,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
 
   const allCategories = await prisma.category.findMany()
   const allProducts = await prisma.product.findMany({
+    where: { isActive: true },
     include: {
       category: true,
     },

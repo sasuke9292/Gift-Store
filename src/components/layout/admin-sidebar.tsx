@@ -11,6 +11,7 @@ import {
   Users,
   Bell,
   Settings,
+  LogOut,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
@@ -57,6 +58,21 @@ export function AdminSidebar() {
             </Link>
           )
         })}
+      </div>
+
+      <div className="p-4 border-t border-slate-100">
+        <div className="flex items-center gap-3 p-2.5 rounded-2xl bg-slate-50 hover:bg-slate-100 transition-colors group">
+          <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold shrink-0 border border-primary/20">
+            أ
+          </div>
+          <div className="flex-1 min-w-0">
+            <p className="text-sm font-bold text-slate-800 truncate">أحمد الإداري</p>
+            <p className="text-xs text-slate-500 truncate">admin@giftstore.com</p>
+          </div>
+          <button title="تسجيل الخروج" className="w-8 h-8 rounded-full bg-white text-slate-400 hover:text-rose-600 hover:bg-rose-50 flex items-center justify-center transition-all shadow-sm border border-slate-100 shrink-0">
+            <LogOut className="w-4 h-4 ml-0.5" />
+          </button>
+        </div>
       </div>
     </aside>
   )

@@ -3,6 +3,7 @@ import GiftFinderClient from './gift-finder-client'
 
 export default async function GiftFinderPage() {
   const products = await prisma.product.findMany({
+    where: { isActive: true },
     include: {
       category: true,
     }
