@@ -64,20 +64,20 @@ export default function SettingsClient({ initialSettings }: { initialSettings: S
       </div>
 
       <Tabs defaultValue="general" className="w-full space-y-8">
-        <TabsList className="bg-white p-1.5 border border-slate-100 shadow-sm rounded-2xl w-full justify-start h-auto flex-wrap">
-          <TabsTrigger value="general" className="rounded-xl data-[state=active]:bg-indigo-50 data-[state=active]:text-indigo-600 py-3 px-6 text-sm font-bold text-slate-500 transition-all">
+        <TabsList className="bg-white p-1.5 border border-slate-100 shadow-sm rounded-2xl w-full flex flex-col sm:flex-row h-auto">
+          <TabsTrigger value="general" className="flex-1 rounded-xl data-[state=active]:bg-indigo-50 data-[state=active]:text-indigo-600 py-3 px-4 text-sm font-bold text-slate-500 transition-all w-full sm:w-auto">
             <Store className="w-4 h-4 ms-2" />
             إعدادات عامة
           </TabsTrigger>
-          <TabsTrigger value="payment" className="rounded-xl data-[state=active]:bg-indigo-50 data-[state=active]:text-indigo-600 py-3 px-6 text-sm font-bold text-slate-500 transition-all">
+          <TabsTrigger value="payment" className="flex-1 rounded-xl data-[state=active]:bg-indigo-50 data-[state=active]:text-indigo-600 py-3 px-4 text-sm font-bold text-slate-500 transition-all w-full sm:w-auto">
             <CreditCard className="w-4 h-4 ms-2" />
             بوابات الدفع
           </TabsTrigger>
-          <TabsTrigger value="notifications" className="rounded-xl data-[state=active]:bg-indigo-50 data-[state=active]:text-indigo-600 py-3 px-6 text-sm font-bold text-slate-500 transition-all">
+          <TabsTrigger value="notifications" className="flex-1 rounded-xl data-[state=active]:bg-indigo-50 data-[state=active]:text-indigo-600 py-3 px-4 text-sm font-bold text-slate-500 transition-all w-full sm:w-auto">
             <Bell className="w-4 h-4 ms-2" />
             الإشعارات
           </TabsTrigger>
-          <TabsTrigger value="security" className="rounded-xl data-[state=active]:bg-indigo-50 data-[state=active]:text-indigo-600 py-3 px-6 text-sm font-bold text-slate-500 transition-all">
+          <TabsTrigger value="security" className="flex-1 rounded-xl data-[state=active]:bg-indigo-50 data-[state=active]:text-indigo-600 py-3 px-4 text-sm font-bold text-slate-500 transition-all w-full sm:w-auto">
             <Shield className="w-4 h-4 ms-2" />
             الأمان
           </TabsTrigger>
