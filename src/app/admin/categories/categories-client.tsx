@@ -267,7 +267,7 @@ export default function CategoriesClient({ initialCategories }: { initialCategor
                 value={currentCategory.slug || ''}
                 onChange={e => setCurrentCategory({ ...currentCategory, slug: e.target.value })}
                 required
-                dir="ltr"
+                dir="rtl"
                 className="h-11 rounded-xl border-slate-200 focus-visible:ring-indigo-500 bg-slate-50 focus:bg-white font-mono text-sm text-start"
               />
             </div>
@@ -281,7 +281,7 @@ export default function CategoriesClient({ initialCategories }: { initialCategor
                   value={currentCategory.image || ''}
                   onChange={e => setCurrentCategory({ ...currentCategory, image: e.target.value })}
                   className="h-11 pe-11 rounded-xl border-slate-200 focus-visible:ring-indigo-500 bg-slate-50 focus:bg-white"
-                  dir="ltr"
+                  dir="rtl"
                   placeholder="https://..."
                 />
               </div>
@@ -298,7 +298,7 @@ export default function CategoriesClient({ initialCategories }: { initialCategor
               </Label>
             </div>
 
-            <DialogFooter className="pt-4 border-t border-slate-100 gap-3 sm:justify-start flex-row-reverse">
+            <DialogFooter className="pt-4 border-t border-slate-100 gap-3 sm:justify-start flex-row">
               <Button type="submit" disabled={isSubmitting} className="rounded-xl h-11 px-7 bg-indigo-600 hover:bg-indigo-700 text-white shadow-lg shadow-indigo-600/20 font-bold">
                 {isSubmitting ? (
                   <span className="flex items-center gap-2">

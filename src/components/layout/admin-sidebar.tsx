@@ -224,7 +224,7 @@ export function AdminSidebar({ storeName = 'گفتي بلس', logoUrl, user }: {
             <DropdownMenuLabel className="text-xs text-slate-500 font-bold px-2 py-1.5 uppercase tracking-wider">حسابي</DropdownMenuLabel>
             <div className="px-2 py-2 mb-1">
               <p className="text-sm font-bold text-white">{user?.name || 'المدير'}</p>
-              <p className="text-xs text-slate-400 mt-0.5 font-mono" dir="ltr">{user?.email || ''}</p>
+              <p className="text-xs text-slate-400 mt-0.5 font-mono" dir="rtl">{user?.email || ''}</p>
             </div>
             <DropdownMenuSeparator className="my-1 bg-slate-800" />
             <Link href="/admin/profile">

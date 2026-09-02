@@ -146,7 +146,7 @@ export default function CheckoutPage() {
                     <Label htmlFor="phone">رقم الهاتف</Label>
                     <div className="relative">
                       <Phone className="absolute end-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
-                      <Input id="phone" placeholder="0770 000 0000" className="ps-4 pe-12 h-12 bg-slate-50 rounded-xl text-start" dir="ltr" value={formData.phone} onChange={(e) => setFormData({...formData, phone: e.target.value})} />
+                      <Input id="phone" placeholder="0770 000 0000" className="ps-4 pe-12 h-12 bg-slate-50 rounded-xl text-start" dir="rtl" value={formData.phone} onChange={(e) => setFormData({...formData, phone: e.target.value})} />
                     </div>
                   </div>
 

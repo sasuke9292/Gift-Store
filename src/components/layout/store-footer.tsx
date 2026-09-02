@@ -67,7 +67,7 @@ export function StoreFooter() {
               </li>
               <li className="flex items-center gap-3">
                 <Phone className="w-5 h-5 text-primary shrink-0" />
-                <span dir="ltr">+964 770 123 4567</span>
+                <span dir="rtl">+964 770 123 4567</span>
               </li>
               <li className="flex items-center gap-3">
                 <Mail className="w-5 h-5 text-primary shrink-0" />

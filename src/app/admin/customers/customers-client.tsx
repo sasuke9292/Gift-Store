@@ -152,7 +152,7 @@ export default function CustomersClient({ initialCustomers }: { initialCustomers
                           </div>
                         </div>
                       </TableCell>
-                      <TableCell className="text-slate-500 font-medium" dir="ltr">{customer.email}</TableCell>
+                      <TableCell className="text-slate-500 font-medium" dir="rtl">{customer.email}</TableCell>
                       <TableCell className="text-slate-500 font-medium">{customer.joinedAt}</TableCell>
                       <TableCell className="text-center">
                         <Badge variant="secondary" className="bg-slate-100 text-slate-700 hover:bg-slate-200 px-3 py-1 font-bold rounded-xl border-0 shadow-sm">
@@ -282,7 +282,7 @@ export default function CustomersClient({ initialCustomers }: { initialCustomers
                     </div>
                     <div>
                       <p className="text-sm font-medium text-slate-500 mb-0.5">البريد الإلكتروني</p>
-                      <p className="font-bold text-slate-800 text-sm" dir="ltr">{selectedCustomer.email}</p>
+                      <p className="font-bold text-slate-800 text-sm" dir="rtl">{selectedCustomer.email}</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-4 p-4 rounded-2xl border border-slate-100 bg-slate-50/50">
@@ -291,7 +291,7 @@ export default function CustomersClient({ initialCustomers }: { initialCustomers
                     </div>
                     <div>
                       <p className="text-sm font-medium text-slate-500 mb-0.5">رقم الهاتف</p>
-                      <p className="font-bold text-slate-800 text-sm" dir="ltr">{selectedCustomer.phone}</p>
+                      <p className="font-bold text-slate-800 text-sm" dir="rtl">{selectedCustomer.phone}</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-4 p-4 rounded-2xl border border-slate-100 bg-slate-50/50">

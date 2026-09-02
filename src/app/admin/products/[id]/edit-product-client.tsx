@@ -271,7 +271,7 @@ export default function EditProductClient({ categories, initialProduct }: { cate
                 <Input 
                   value={product.slug} 
                   onChange={e => setProduct({...product, slug: e.target.value})} 
-                  dir="ltr" 
+                  dir="rtl" 
                   className="h-14 rounded-2xl border-slate-200 focus-visible:ring-emerald-500 bg-slate-50 focus:bg-white transition-colors font-mono text-sm" 
                   placeholder="أتركه فارغاً للتوليد التلقائي" 
                 />

@@ -120,7 +120,7 @@ export default function SettingsClient({ initialSettings }: { initialSettings: S
                       value={settings.logoUrl || ''}
                       onChange={(e) => setSettings({...settings, logoUrl: e.target.value})}
                       placeholder="https://..."
-                      dir="ltr"
+                      dir="rtl"
                       className="h-14 rounded-2xl border-slate-200 focus-visible:ring-indigo-500 bg-slate-50 focus:bg-white transition-colors text-start text-sm font-mono flex-1" 
                     />
                   </div>
@@ -131,7 +131,7 @@ export default function SettingsClient({ initialSettings }: { initialSettings: S
                   <Input 
                     value={settings.storeEmail}
                     onChange={(e) => setSettings({...settings, storeEmail: e.target.value})}
-                    dir="ltr"
+                    dir="rtl"
                     className="h-14 rounded-2xl border-slate-200 focus-visible:ring-indigo-500 bg-slate-50 focus:bg-white transition-colors text-start font-mono text-sm" 
                   />
                 </div>
@@ -140,7 +140,7 @@ export default function SettingsClient({ initialSettings }: { initialSettings: S
                   <Input 
                     value={settings.storePhone}
                     onChange={(e) => setSettings({...settings, storePhone: e.target.value})}
-                    dir="ltr"
+                    dir="rtl"
                     className="h-14 rounded-2xl border-slate-200 focus-visible:ring-indigo-500 bg-slate-50 focus:bg-white transition-colors text-start font-mono text-sm" 
                   />
                 </div>

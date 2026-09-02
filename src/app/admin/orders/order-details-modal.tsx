@@ -143,7 +143,7 @@ export function OrderDetailsModal({ isOpen, onClose, orderId, onOrderUpdated }: 
                 <div>
                   <DialogTitle className="text-2xl font-black text-slate-800 flex items-center gap-2">
                     <span>طلب</span>
-                    <span dir="ltr">#{order.orderNumber}</span>
+                    <span dir="rtl">#{order.orderNumber}</span>
                   </DialogTitle>
                   <p className="text-slate-500 text-sm font-medium mt-1">
                     {new Date(order.createdAt).toLocaleString('ar-IQ')}
@@ -324,7 +324,7 @@ export function OrderDetailsModal({ isOpen, onClose, orderId, onOrderUpdated }: 
                             </div>
                             <div className="flex items-center gap-2 text-slate-700 font-medium text-sm">
                               <Phone className="w-4 h-4 text-slate-400" />
-                              <span dir="ltr">{order.customerPhone}</span>
+                              <span dir="rtl">{order.customerPhone}</span>
                             </div>
                             {order.customerEmail && (
                               <div className="flex items-center gap-2 text-slate-700 font-medium text-sm">

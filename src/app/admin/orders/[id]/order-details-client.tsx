@@ -184,7 +184,7 @@ export default function OrderDetailsClient({ initialOrder }: { initialOrder: any
                       </div>
                       <div className="flex items-center gap-2 text-slate-700 font-medium text-sm">
                         <Phone className="w-4 h-4 text-slate-400" />
-                        <span dir="ltr">{order.customerPhone}</span>
+                        <span dir="rtl">{order.customerPhone}</span>
                       </div>
                       {order.customerEmail && (
                         <div className="flex items-center gap-2 text-slate-700 font-medium text-sm">

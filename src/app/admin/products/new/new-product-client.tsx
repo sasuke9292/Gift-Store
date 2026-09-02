@@ -207,7 +207,7 @@ export default function NewProductClient({ categories }: { categories: Category[
                   value={imageUrlInput}
                   onChange={(e) => setImageUrlInput(e.target.value)}
                   className="flex-1 bg-slate-50 border-slate-200 focus-visible:ring-indigo-500 rounded-xl h-14 text-md text-start"
-                  dir="ltr"
+                  dir="rtl"
                 />
                 <Button 
                   type="button" 
@@ -305,7 +305,7 @@ export default function NewProductClient({ categories }: { categories: Category[
                 <Input 
                   value={product.slug} 
                   onChange={e => setProduct({...product, slug: e.target.value})} 
-                  dir="ltr" 
+                  dir="rtl" 
                   className="h-14 rounded-2xl border-slate-200 focus-visible:ring-emerald-500 bg-slate-50 focus:bg-white transition-colors font-mono text-sm" 
                   placeholder="أتركه فارغاً للتوليد التلقائي" 
                 />

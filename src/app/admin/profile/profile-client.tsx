@@ -264,8 +264,8 @@ export default function ProfileClient({ currentUser, initialStaffUsers }: Profil
                             type="email"
                             value={profileData.email} 
                             onChange={e => setProfileData({...profileData, email: e.target.value})}
-                            className="h-14 ps-12 pe-4 bg-slate-50 border-slate-200 focus:border-indigo-500 focus:bg-white rounded-2xl transition-colors font-mono text-sm text-left" 
-                            dir="ltr"
+                            className="h-14 ps-12 pe-4 bg-slate-50 border-slate-200 focus:border-indigo-500 focus:bg-white rounded-2xl transition-colors font-mono text-sm text-start" 
+                            dir="rtl"
                           />
                         </div>
                       </div>
@@ -354,7 +354,7 @@ export default function ProfileClient({ currentUser, initialStaffUsers }: Profil
                     </AvatarFallback>
                   </Avatar>
                   <h3 className="font-bold text-lg text-slate-800">{user.name || 'بدون اسم'}</h3>
-                  <p className="text-sm text-slate-500 font-mono mt-0.5" dir="ltr">{user.email}</p>
+                  <p className="text-sm text-slate-500 font-mono mt-0.5" dir="rtl">{user.email}</p>
                   
                   <div className="mt-4 mb-4">
                     <Badge className={`px-4 py-1.5 rounded-full font-bold shadow-sm border ${roleMap[user.role]?.color || roleMap.CUSTOMER.color}`}>
@@ -407,7 +407,7 @@ export default function ProfileClient({ currentUser, initialStaffUsers }: Profil
                   type="email"
                   value={editUserData.email}
                   onChange={(e) => setEditUserData({...editUserData, email: e.target.value})}
-                  dir="ltr"
+                  dir="rtl"
                   className="h-11 rounded-xl border-slate-200 focus:border-primary focus:bg-white bg-slate-50 transition-colors text-start"
                   required
                 />
@@ -432,7 +432,7 @@ export default function ProfileClient({ currentUser, initialStaffUsers }: Profil
                   value={editUserData.password}
                   onChange={(e) => setEditUserData({...editUserData, password: e.target.value})}
                   placeholder="اتركه فارغاً لعدم التغيير"
-                  dir="ltr"
+                  dir="rtl"
                   className="h-11 rounded-xl border-slate-200 focus:border-primary focus:bg-white bg-slate-50 transition-colors text-start mt-2"
                 />
               </div>
@@ -477,7 +477,7 @@ export default function ProfileClient({ currentUser, initialStaffUsers }: Profil
                   value={newUserData.email}
                   onChange={(e) => setNewUserData({...newUserData, email: e.target.value})}
                   placeholder="admin@example.com"
-                  dir="ltr"
+                  dir="rtl"
                   className="h-11 rounded-xl border-slate-200 focus:border-primary focus:bg-white bg-slate-50 transition-colors text-start"
                   required
                 />
@@ -489,7 +489,7 @@ export default function ProfileClient({ currentUser, initialStaffUsers }: Profil
                   value={newUserData.password}
                   onChange={(e) => setNewUserData({...newUserData, password: e.target.value})}
                   placeholder="12345678 (افتراضي)"
-                  dir="ltr"
+                  dir="rtl"
                   className="h-11 rounded-xl border-slate-200 focus:border-primary focus:bg-white bg-slate-50 transition-colors text-start"
                 />
               </div>
@@ -536,7 +536,7 @@ export default function ProfileClient({ currentUser, initialStaffUsers }: Profil
                   value={newPassword}
                   onChange={(e) => setNewPassword(e.target.value)}
                   placeholder="أدخل كلمة المرور الجديدة"
-                  dir="ltr"
+                  dir="rtl"
                   className="h-11 rounded-xl border-slate-200 focus:border-primary focus:bg-white bg-slate-50 transition-colors text-start"
                   required
                   minLength={6}

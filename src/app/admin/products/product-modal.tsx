@@ -162,7 +162,7 @@ export default function ProductModal({ isOpen, setIsOpen, product, categories, o
                   <Input 
                     value={formData.slug} 
                     onChange={e => setFormData({...formData, slug: e.target.value})} 
-                    dir="ltr" 
+                    dir="rtl" 
                     className="h-12 rounded-xl border-slate-200 focus-visible:ring-indigo-500 bg-slate-50 focus:bg-white font-mono text-sm text-start" 
                   />
                 </div>
@@ -216,7 +216,7 @@ export default function ProductModal({ isOpen, setIsOpen, product, categories, o
                     value={imageUrlInput}
                     onChange={(e) => setImageUrlInput(e.target.value)}
                     className="flex-1 bg-slate-50 border-slate-200 focus-visible:ring-indigo-500 rounded-xl h-11 text-sm text-start"
-                    dir="ltr"
+                    dir="rtl"
                   />
                   <Button 
                     type="button" 
@@ -289,7 +289,7 @@ export default function ProductModal({ isOpen, setIsOpen, product, categories, o
         </div>
 
         {/* Footer */}
-        <DialogFooter className="px-8 py-5 border-t border-slate-100 bg-slate-50/50 gap-3 sm:justify-start flex-row-reverse shrink-0">
+        <DialogFooter className="px-8 py-5 border-t border-slate-100 bg-slate-50/50 gap-3 sm:justify-start flex-row shrink-0">
           <Button form="edit-product-form" type="submit" disabled={isSubmitting} className="rounded-xl h-11 px-8 bg-indigo-600 hover:bg-indigo-700 text-white shadow-lg shadow-indigo-600/20 font-bold w-full sm:w-auto">
             {isSubmitting ? 'جاري الحفظ...' : 'حفظ التغييرات'}
           </Button>

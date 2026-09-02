@@ -134,7 +134,7 @@ export function AdminHeader({ userRole = 'CUSTOMER', userName }: { userRole?: st
           </button>
           <SheetContent side="left" className="w-full sm:max-w-md border-s-0 shadow-2xl p-0 flex flex-col bg-slate-50">
             <SheetHeader className="p-5 bg-white border-b border-slate-100">
-              <div className="flex items-center justify-between flex-row-reverse">
+              <div className="flex items-center justify-between flex-row">
                 <button className="text-sm font-semibold text-indigo-600 hover:text-indigo-700 transition-colors">
                   تحديد الكل كمقروء
                 </button>

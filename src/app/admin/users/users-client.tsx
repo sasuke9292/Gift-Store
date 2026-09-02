@@ -171,7 +171,7 @@ export default function UsersClient({ initialUsers }: { initialUsers: UserData[]
                             </div>
                           </div>
                         </TableCell>
-                        <TableCell className="text-slate-600 font-medium" dir="ltr">{user.email}</TableCell>
+                        <TableCell className="text-slate-600 font-medium" dir="rtl">{user.email}</TableCell>
                         <TableCell>
                           <Badge 
                             variant="secondary" 
@@ -297,7 +297,7 @@ export default function UsersClient({ initialUsers }: { initialUsers: UserData[]
                     </div>
                     <div>
                       <p className="text-sm font-medium text-slate-500 mb-0.5">البريد الإلكتروني</p>
-                      <p className="font-bold text-slate-800 text-sm" dir="ltr">{selectedUser.email}</p>
+                      <p className="font-bold text-slate-800 text-sm" dir="rtl">{selectedUser.email}</p>
                     </div>
                   </div>
                 </div>
@@ -328,12 +328,12 @@ export default function UsersClient({ initialUsers }: { initialUsers: UserData[]
               
               <div className="space-y-2">
                 <label className="text-sm font-bold text-slate-700">البريد الإلكتروني</label>
-                <Input defaultValue={selectedUser.email} dir="ltr" className="h-12 rounded-xl border-slate-200 focus-visible:ring-indigo-500 bg-slate-50 focus:bg-white text-start" />
+                <Input defaultValue={selectedUser.email} dir="rtl" className="h-12 rounded-xl border-slate-200 focus-visible:ring-indigo-500 bg-slate-50 focus:bg-white text-start" />
               </div>
 
               <div className="space-y-2">
                 <label className="text-sm font-bold text-slate-700">تغيير كلمة المرور</label>
-                <Input type="password" placeholder="أدخل كلمة المرور الجديدة (اختياري)" dir="ltr" className="h-12 rounded-xl border-slate-200 focus-visible:ring-indigo-500 bg-slate-50 focus:bg-white text-start placeholder:text-end" />
+                <Input type="password" placeholder="أدخل كلمة المرور الجديدة (اختياري)" dir="rtl" className="h-12 rounded-xl border-slate-200 focus-visible:ring-indigo-500 bg-slate-50 focus:bg-white text-start placeholder:text-end" />
                 <p className="text-xs text-slate-400 font-medium">اترك الحقل فارغاً إذا كنت لا ترغب بتغيير كلمة المرور.</p>
               </div>
 

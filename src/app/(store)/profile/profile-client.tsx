@@ -67,7 +67,7 @@ export default function ProfileClient({ user, orders }: ProfileProps) {
                 </div>
                 <div>
                   <Label className="text-slate-500 mb-2 block">رقم الهاتف</Label>
-                  <p className="text-lg font-medium text-slate-800" dir="ltr">{user.phone || 'غير محدد'}</p>
+                  <p className="text-lg font-medium text-slate-800" dir="rtl">{user.phone || 'غير محدد'}</p>
                 </div>
               </div>
               <div className="bg-slate-50 p-6 rounded-2xl flex flex-col justify-center items-center text-center border border-slate-100">
@@ -234,7 +234,7 @@ export default function ProfileClient({ user, orders }: ProfileProps) {
               </div>
               <div>
                 <Label className="block text-sm font-semibold text-slate-700 mb-2">رقم الهاتف</Label>
-                <Input type="tel" defaultValue={user.phone} placeholder="رقم الهاتف" className="h-14 px-4 rounded-xl border-slate-200 bg-slate-50 focus:bg-white focus:border-primary focus:ring-1 focus:ring-primary/20 transition-all text-md" dir="ltr" />
+                <Input type="tel" defaultValue={user.phone} placeholder="رقم الهاتف" className="h-14 px-4 rounded-xl border-slate-200 bg-slate-50 focus:bg-white focus:border-primary focus:ring-1 focus:ring-primary/20 transition-all text-md" dir="rtl" />
               </div>
               <div className="pt-6">
                 <Button className="h-14 px-10 rounded-xl shadow-lg shadow-primary/20 text-lg font-bold w-full md:w-auto">
