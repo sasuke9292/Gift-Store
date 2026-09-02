@@ -25,6 +25,7 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { toast } from 'sonner'
 import { Dialog, DialogContent } from '@/components/ui/dialog'
+import { ConfirmDialog } from '@/components/ui/confirm-dialog'
 
 interface UserData {
   id: string
@@ -52,6 +53,7 @@ export default function UsersClient({ initialUsers }: { initialUsers: UserData[]
   const [selectedUser, setSelectedUser] = useState<UserData | null>(null)
   const [isDetailsOpen, setIsDetailsOpen] = useState(false)
   const [isEditOpen, setIsEditOpen] = useState(false)
+  const [toggleStatusUser, setToggleStatusUser] = useState<UserData | null>(null)
 
   const filteredUsers = users.filter(
     u => u.name.toLowerCase().includes(search.toLowerCase()) || 
@@ -69,9 +71,9 @@ export default function UsersClient({ initialUsers }: { initialUsers: UserData[]
     )
   }
 
-  const handleToggleStatus = (id: string, name: string) => {
-    setUsers(prev => prev.map(u => u.id === id ? { ...u, status: u.status === 'نشط' ? 'محظور' : 'نشط' } : u))
-    toast.success(`تم تحديث حالة الحساب للمستخدم ${name} بنجاح`)
+  const handleToggleStatus = (id: string) => {
+    const user = users.find(u => u.id === id)
+    if (user) setToggleStatusUser(user)
   }
 
   const handleEditRole = (user: UserData) => {
@@ -224,7 +226,7 @@ export default function UsersClient({ initialUsers }: { initialUsers: UserData[]
                                 <DropdownMenuLabel className="text-xs text-slate-400 font-bold px-2 py-1.5 uppercase tracking-wider">إدارة إضافية</DropdownMenuLabel>
                                 <DropdownMenuItem 
                                   className={`rounded-xl cursor-pointer py-2.5 font-bold mt-1 ${user.status === 'نشط' ? 'text-rose-600 hover:bg-rose-50' : 'text-emerald-600 hover:bg-emerald-50'}`}
-                                  onClick={() => handleToggleStatus(user.id, user.name)}
+                                  onClick={() => handleToggleStatus(user.id)}
                                 >
                                   {user.status === 'نشط' ? (
                                     <>
@@ -356,6 +358,24 @@ export default function UsersClient({ initialUsers }: { initialUsers: UserData[]
           )}
         </DialogContent>
       </Dialog>
+
+      <ConfirmDialog
+        open={!!toggleStatusUser}
+        onOpenChange={(open) => !open && setToggleStatusUser(null)}
+        title={toggleStatusUser?.status === 'نشط' ? 'حظر المستخدم' : 'رفع الحظر'}
+        description={toggleStatusUser?.status === 'نشط'
+          ? `هل أنت متأكد من حظر حساب "${toggleStatusUser?.name}"؟ لن يتمكن من تسجيل الدخول.`
+          : `هل تريد رفع الحظر عن حساب "${toggleStatusUser?.name}"؟`}
+        confirmText={toggleStatusUser?.status === 'نشط' ? 'تأكيد الحظر' : 'رفع الحظر'}
+        variant={toggleStatusUser?.status === 'نشط' ? 'danger' : 'info'}
+        onConfirm={() => {
+          if (toggleStatusUser) {
+            setUsers(prev => prev.map(u => u.id === toggleStatusUser.id ? { ...u, status: u.status === 'نشط' ? 'محظور' : 'نشط' } : u))
+            toast.success(`تم تحديث حالة حساب ${toggleStatusUser.name}`)
+            setToggleStatusUser(null)
+          }
+        }}
+      />
     </motion.div>
   )
 }

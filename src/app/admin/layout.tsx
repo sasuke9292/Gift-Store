@@ -26,11 +26,11 @@ export default async function AdminLayout({
       {/* Sidebar - Desktop */}
       <AdminSidebar storeName={settings?.storeName} logoUrl={settings?.logoUrl} user={session?.user} />
       
-      {/* Main Content */}
-      <div className="flex-1 flex flex-col min-w-0 lg:ms-72">
-        <AdminHeader userRole={session?.user?.role} />
+      {/* Main Content - uses padding to avoid overlap with fixed sidebar */}
+      <div className="flex-1 flex flex-col min-w-0 lg:ps-72 transition-all duration-300">
+        <AdminHeader userRole={session?.user?.role} userName={session?.user?.name} />
         
-        <main className="flex-1 p-6 overflow-x-hidden">
+        <main className="flex-1 p-4 md:p-6 overflow-x-hidden">
           <div className="max-w-7xl mx-auto">
             {children}
           </div>
@@ -39,3 +39,4 @@ export default async function AdminLayout({
     </div>
   )
 }
+

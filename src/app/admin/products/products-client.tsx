@@ -22,6 +22,7 @@ import { toast } from 'sonner'
 import Link from 'next/link'
 import { Product, Category } from '@prisma/client'
 import ProductModal from './product-modal'
+import { ConfirmDialog } from '@/components/ui/confirm-dialog'
 
 type ProductWithCategory = Product & { category?: Category | null }
 
@@ -33,6 +34,9 @@ export default function ProductsClient({ initialProducts, categories }: { initia
   const [statusFilter, setStatusFilter] = useState<'all' | 'active' | 'draft'>('all')
   const [isEditModalOpen, setIsEditModalOpen] = useState(false)
   const [currentEditProduct, setCurrentEditProduct] = useState<ProductWithCategory | null>(null)
+  const [deleteId, setDeleteId] = useState<string | null>(null)
+  const [isDeletingConfirm, setIsDeletingConfirm] = useState(false)
+  const [bulkDeleteConfirm, setBulkDeleteConfirm] = useState(false)
 
   const handleSelectAll = (checked: boolean) => {
     if (checked) {
@@ -54,30 +58,11 @@ export default function ProductsClient({ initialProducts, categories }: { initia
 
   const handleBulkDelete = async () => {
     if (selectedIds.size === 0) return
-    if (confirm(`هل أنت متأكد من حذف ${selectedIds.size} منتج بشكل نهائي؟`)) {
-      setIsDeletingBulk(true)
-      const res = await deleteProducts(Array.from(selectedIds))
-      if (res.success) {
-        toast.success(`تم حذف ${selectedIds.size} منتج بنجاح`)
-        setProducts(products.filter(p => !selectedIds.has(p.id)))
-        setSelectedIds(new Set())
-      } else {
-        toast.error(res.error || 'حدث خطأ أثناء الحذف الجماعي')
-      }
-      setIsDeletingBulk(false)
-    }
+    setBulkDeleteConfirm(true)
   }
 
-  const handleDelete = async (id: string) => {
-    if (confirm('هل أنت متأكد من حذف هذا المنتج؟')) {
-      const res = await deleteProduct(id)
-      if (res.success) {
-        toast.success('تم الحذف بنجاح')
-        setProducts(products.filter(p => p.id !== id))
-      } else {
-        toast.error(res.error || 'حدث خطأ')
-      }
-    }
+  const handleDelete = (id: string) => {
+    setDeleteId(id)
   }
 
   const filteredProducts = products.filter(p => {
@@ -277,6 +262,53 @@ export default function ProductsClient({ initialProducts, categories }: { initia
         onSuccess={(updatedProduct) => {
           setProducts(products.map(p => p.id === updatedProduct.id ? { ...p, ...updatedProduct, category: categories.find(c => c.id === updatedProduct.categoryId) } : p))
         }} 
+      />
+
+      <ConfirmDialog
+        open={!!deleteId}
+        onOpenChange={(open) => !open && setDeleteId(null)}
+        title="حذف المنتج"
+        description="هل أنت متأكد من حذف هذا المنتج نهائياً؟ لا يمكن التراجع عن هذا الإجراء."
+        confirmText="حذف المنتج"
+        variant="danger"
+        onConfirm={async () => {
+          if (deleteId) {
+            setIsDeletingConfirm(true)
+            const res = await deleteProduct(deleteId)
+            if (res.success) {
+              toast.success('تم الحذف بنجاح')
+              setProducts(products.filter(p => p.id !== deleteId))
+            } else {
+              toast.error(res.error || 'حدث خطأ')
+            }
+            setIsDeletingConfirm(false)
+            setDeleteId(null)
+          }
+        }}
+        isLoading={isDeletingConfirm}
+      />
+
+      <ConfirmDialog
+        open={bulkDeleteConfirm}
+        onOpenChange={setBulkDeleteConfirm}
+        title={`حذف ${selectedIds.size} منتج`}
+        description="هل أنت متأكد من حذف هذه المنتجات نهائياً؟ لا يمكن التراجع عن هذا الإجراء."
+        confirmText="حذف المحدد"
+        variant="danger"
+        onConfirm={async () => {
+          setIsDeletingBulk(true)
+          const res = await deleteProducts(Array.from(selectedIds))
+          if (res.success) {
+            toast.success(`تم حذف ${selectedIds.size} منتج بنجاح`)
+            setProducts(products.filter(p => !selectedIds.has(p.id)))
+            setSelectedIds(new Set())
+          } else {
+            toast.error(res.error || 'حدث خطأ')
+          }
+          setIsDeletingBulk(false)
+          setBulkDeleteConfirm(false)
+        }}
+        isLoading={isDeletingBulk}
       />
     </motion.div>
   )

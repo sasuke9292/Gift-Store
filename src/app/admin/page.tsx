@@ -1,9 +1,12 @@
 import { prisma } from '@/lib/prisma'
+import { auth } from '@/auth'
 import AdminDashboardHome from './dashboard-client'
 
 export const dynamic = 'force-dynamic'
 
 export default async function AdminDashboardPage() {
+  const session = await auth()
+
   const [
     totalOrders,
     completedOrders,
@@ -43,5 +46,6 @@ export default async function AdminDashboardPage() {
     lowStockProducts
   }
 
-  return <AdminDashboardHome stats={stats} recentOrders={recentOrders} />
+  return <AdminDashboardHome stats={stats} recentOrders={recentOrders} userName={session?.user?.name} />
 }
+

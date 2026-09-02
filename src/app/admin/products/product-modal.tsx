@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { UploadCloud, X, Tag } from 'lucide-react'
+import { Switch } from '@/components/ui/switch'
 import { updateProduct } from '@/app/actions/admin/products'
 import { toast } from 'sonner'
 import Image from 'next/image'
@@ -273,13 +274,11 @@ export default function ProductModal({ isOpen, setIsOpen, product, categories, o
                 </div>
               </div>
               <div className="flex items-center gap-3 p-4 bg-slate-50 rounded-2xl border border-slate-100 w-fit">
-                <button
-                  type="button"
-                  onClick={() => setFormData({...formData, isActive: !formData.isActive})}
-                  className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none ${formData.isActive ? 'bg-emerald-500' : 'bg-slate-300'}`}
-                >
-                  <span className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${formData.isActive ? '-translate-x-6' : '-translate-x-1'}`} />
-                </button>
+                <Switch
+                  checked={formData.isActive}
+                  onCheckedChange={(checked) => setFormData({...formData, isActive: checked})}
+                  className="data-[state=checked]:bg-emerald-500"
+                />
                 <Label className="text-sm font-bold text-slate-700 cursor-pointer" onClick={() => setFormData({...formData, isActive: !formData.isActive})}>
                   عرض المنتج للعملاء
                 </Label>

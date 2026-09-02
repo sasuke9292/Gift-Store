@@ -35,7 +35,7 @@ export interface DashboardStats {
   lowStockProducts: number
 }
 
-export default function AdminDashboardHome({ stats, recentOrders }: { stats: DashboardStats, recentOrders: Order[] }) {
+export default function AdminDashboardHome({ stats, recentOrders, userName }: { stats: DashboardStats, recentOrders: Order[], userName?: string | null }) {
   return (
     <div className="space-y-8 pb-12">
       {/* Header section */}
@@ -45,7 +45,9 @@ export default function AdminDashboardHome({ stats, recentOrders }: { stats: Das
         className="flex flex-col md:flex-row md:items-end justify-between gap-6 bg-white p-8 rounded-3xl shadow-sm border border-slate-100"
       >
         <div>
-          <h1 className="text-3xl font-black text-slate-800 tracking-tight">صباح الخير، أحمد 👋</h1>
+          <h1 className="text-2xl font-black text-slate-800 tracking-tight">
+            {userName ? `أهلاً، ${userName} 👋` : 'أهلاً بك 👋'}
+          </h1>
           <p className="text-slate-500 mt-2 font-medium">نظرة عامة على أداء متجرك ومؤشرات النمو الأساسية.</p>
         </div>
         <div className="flex gap-3">
