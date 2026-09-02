@@ -13,9 +13,18 @@ import {
   Settings,
   LogOut,
   Shield,
-  Store
+  Store,
+  User
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+  DropdownMenuSeparator,
+  DropdownMenuLabel,
+} from '@/components/ui/dropdown-menu'
 
 const sidebarGroups = [
   {
@@ -98,25 +107,42 @@ export function AdminSidebar({ storeName = 'گفتي بلس', logoUrl, user }: {
       </div>
 
       <div className="p-4 bg-slate-950/30">
-        <div className="flex items-center gap-3 p-3 rounded-2xl bg-slate-800/50 border border-slate-700/50">
-          <div className="w-10 h-10 rounded-xl bg-indigo-500/20 flex items-center justify-center text-indigo-400 font-bold shrink-0 border border-indigo-500/20">
-            {user?.name ? user.name[0] : 'م'}
-          </div>
-          <div className="flex-1 min-w-0">
-            <p className="text-sm font-bold text-white truncate">{user?.name || 'مدير النظام'}</p>
-            <p className="text-xs text-slate-400 truncate" dir="ltr">{user?.email || 'admin@giftstore.com'}</p>
-          </div>
-          <button 
-            onClick={(e) => { 
-              e.preventDefault(); 
-              signOut({ callbackUrl: '/auth/login' }) 
-            }} 
-            title="تسجيل الخروج" 
-            className="w-8 h-8 rounded-lg bg-slate-800 text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 flex items-center justify-center transition-all shrink-0"
-          >
-            <LogOut className="w-4 h-4 ml-0.5" />
-          </button>
-        </div>
+        <DropdownMenu>
+          <DropdownMenuTrigger render={
+            <div className="flex items-center gap-3 p-3 rounded-2xl bg-slate-800/50 border border-slate-700/50 cursor-pointer hover:bg-slate-800 transition-colors group">
+              <div className="w-10 h-10 rounded-xl bg-indigo-500/20 flex items-center justify-center text-indigo-400 font-bold shrink-0 border border-indigo-500/20 group-hover:bg-indigo-500/30 transition-colors">
+                {user?.name ? user.name[0] : 'أ'}
+              </div>
+              <div className="flex-1 min-w-0 text-right">
+                <p className="text-sm font-bold text-white truncate">{user?.name || 'أحمد الإداري'}</p>
+                <p className="text-xs text-slate-400 truncate" dir="ltr">{user?.email || 'admin@giftstore.com'}</p>
+              </div>
+              <Settings className="w-5 h-5 text-slate-500 group-hover:text-indigo-400 transition-colors shrink-0" />
+            </div>
+          } />
+          <DropdownMenuContent align="end" className="w-64 rounded-2xl shadow-xl border-slate-700 bg-slate-900 p-2 text-slate-300" sideOffset={10}>
+            <DropdownMenuLabel className="text-xs text-slate-500 font-bold px-2 py-1.5 uppercase tracking-wider">حسابي</DropdownMenuLabel>
+            <DropdownMenuItem className="rounded-xl cursor-pointer py-2.5 hover:bg-slate-800 hover:text-white font-medium focus:bg-slate-800 focus:text-white">
+              <User className="ml-3 h-4 w-4 text-indigo-400" />
+              الملف الشخصي
+            </DropdownMenuItem>
+            <DropdownMenuItem className="rounded-xl cursor-pointer py-2.5 hover:bg-slate-800 hover:text-white font-medium focus:bg-slate-800 focus:text-white">
+              <Settings className="ml-3 h-4 w-4 text-slate-400" />
+              تفضيلات الحساب
+            </DropdownMenuItem>
+            <DropdownMenuSeparator className="my-2 bg-slate-800" />
+            <DropdownMenuItem 
+              className="rounded-xl cursor-pointer py-2.5 font-bold text-rose-400 hover:bg-rose-500/10 hover:text-rose-300 focus:bg-rose-500/10 focus:text-rose-300"
+              onClick={(e) => { 
+                e.preventDefault(); 
+                signOut({ callbackUrl: '/auth/login' }) 
+              }} 
+            >
+              <LogOut className="ml-3 h-4 w-4" />
+              تسجيل الخروج
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
     </aside>
   )

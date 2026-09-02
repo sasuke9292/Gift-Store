@@ -69,10 +69,6 @@ export default function SettingsClient({ initialSettings }: { initialSettings: S
             <Store className="w-4 h-4 ml-2" />
             إعدادات عامة
           </TabsTrigger>
-          <TabsTrigger value="profile" className="rounded-xl data-[state=active]:bg-indigo-50 data-[state=active]:text-indigo-600 py-3 px-6 text-sm font-bold text-slate-500 transition-all">
-            <UserIcon className="w-4 h-4 ml-2" />
-            الملف الشخصي
-          </TabsTrigger>
           <TabsTrigger value="payment" className="rounded-xl data-[state=active]:bg-indigo-50 data-[state=active]:text-indigo-600 py-3 px-6 text-sm font-bold text-slate-500 transition-all">
             <CreditCard className="w-4 h-4 ml-2" />
             بوابات الدفع
@@ -150,32 +146,6 @@ export default function SettingsClient({ initialSettings }: { initialSettings: S
                     dir="ltr"
                     className="h-14 rounded-2xl border-slate-200 focus-visible:ring-indigo-500 bg-slate-50 focus:bg-white transition-colors text-left font-mono text-sm" 
                   />
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        <TabsContent value="profile" className="animate-in fade-in-50 slide-in-from-bottom-2 duration-300">
-          <Card className="border-0 shadow-sm rounded-3xl overflow-hidden bg-white">
-            <div className="p-8 border-b border-slate-100 bg-slate-50/50">
-              <h2 className="text-xl font-bold text-slate-800">الملف الشخصي</h2>
-              <p className="text-sm text-slate-500 mt-1 font-medium">إدارة معلومات الحساب الشخصية الخاصة بك.</p>
-            </div>
-            <CardContent className="p-8 space-y-8">
-              <div className="flex flex-col sm:flex-row gap-8 items-start">
-                <div className="w-24 h-24 rounded-full bg-indigo-50 text-indigo-600 flex items-center justify-center font-black text-4xl shadow-inner shrink-0">
-                  أ
-                </div>
-                <div className="space-y-6 flex-1 w-full">
-                  <div className="space-y-3">
-                    <Label className="text-sm font-bold text-slate-700">الاسم الكامل</Label>
-                    <Input defaultValue="أحمد الإداري" className="h-14 rounded-2xl border-slate-200 focus-visible:ring-indigo-500 bg-slate-50 focus:bg-white text-base" />
-                  </div>
-                  <div className="space-y-3">
-                    <Label className="text-sm font-bold text-slate-700">البريد الإلكتروني</Label>
-                    <Input defaultValue="admin@giftstore.com" dir="ltr" className="h-14 rounded-2xl border-slate-200 focus-visible:ring-indigo-500 bg-slate-50 focus:bg-white text-left font-mono" />
-                  </div>
                 </div>
               </div>
             </CardContent>
