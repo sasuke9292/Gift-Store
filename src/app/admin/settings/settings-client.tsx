@@ -55,7 +55,7 @@ export default function SettingsClient({ initialSettings }: { initialSettings: S
           <Button onClick={handleSave} disabled={isSaving} className="bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl h-12 px-8 font-bold shadow-lg shadow-indigo-600/20 transition-all">
             {isSaving ? 'جاري الحفظ...' : (
               <>
-                <Save className="w-5 h-5 ml-2" />
+                <Save className="w-5 h-5 ms-2" />
                 حفظ التغييرات
               </>
             )}
@@ -66,19 +66,19 @@ export default function SettingsClient({ initialSettings }: { initialSettings: S
       <Tabs defaultValue="general" className="w-full space-y-8">
         <TabsList className="bg-white p-1.5 border border-slate-100 shadow-sm rounded-2xl w-full justify-start h-auto flex-wrap">
           <TabsTrigger value="general" className="rounded-xl data-[state=active]:bg-indigo-50 data-[state=active]:text-indigo-600 py-3 px-6 text-sm font-bold text-slate-500 transition-all">
-            <Store className="w-4 h-4 ml-2" />
+            <Store className="w-4 h-4 ms-2" />
             إعدادات عامة
           </TabsTrigger>
           <TabsTrigger value="payment" className="rounded-xl data-[state=active]:bg-indigo-50 data-[state=active]:text-indigo-600 py-3 px-6 text-sm font-bold text-slate-500 transition-all">
-            <CreditCard className="w-4 h-4 ml-2" />
+            <CreditCard className="w-4 h-4 ms-2" />
             بوابات الدفع
           </TabsTrigger>
           <TabsTrigger value="notifications" className="rounded-xl data-[state=active]:bg-indigo-50 data-[state=active]:text-indigo-600 py-3 px-6 text-sm font-bold text-slate-500 transition-all">
-            <Bell className="w-4 h-4 ml-2" />
+            <Bell className="w-4 h-4 ms-2" />
             الإشعارات
           </TabsTrigger>
           <TabsTrigger value="security" className="rounded-xl data-[state=active]:bg-indigo-50 data-[state=active]:text-indigo-600 py-3 px-6 text-sm font-bold text-slate-500 transition-all">
-            <Shield className="w-4 h-4 ml-2" />
+            <Shield className="w-4 h-4 ms-2" />
             الأمان
           </TabsTrigger>
         </TabsList>
@@ -124,7 +124,7 @@ export default function SettingsClient({ initialSettings }: { initialSettings: S
                       onChange={(e) => setSettings({...settings, logoUrl: e.target.value})}
                       placeholder="https://..."
                       dir="ltr"
-                      className="h-14 rounded-2xl border-slate-200 focus-visible:ring-indigo-500 bg-slate-50 focus:bg-white transition-colors text-left text-sm font-mono flex-1" 
+                      className="h-14 rounded-2xl border-slate-200 focus-visible:ring-indigo-500 bg-slate-50 focus:bg-white transition-colors text-start text-sm font-mono flex-1" 
                     />
                   </div>
                 </div>
@@ -135,7 +135,7 @@ export default function SettingsClient({ initialSettings }: { initialSettings: S
                     value={settings.storeEmail}
                     onChange={(e) => setSettings({...settings, storeEmail: e.target.value})}
                     dir="ltr"
-                    className="h-14 rounded-2xl border-slate-200 focus-visible:ring-indigo-500 bg-slate-50 focus:bg-white transition-colors text-left font-mono text-sm" 
+                    className="h-14 rounded-2xl border-slate-200 focus-visible:ring-indigo-500 bg-slate-50 focus:bg-white transition-colors text-start font-mono text-sm" 
                   />
                 </div>
                 <div className="space-y-3">
@@ -144,7 +144,7 @@ export default function SettingsClient({ initialSettings }: { initialSettings: S
                     value={settings.storePhone}
                     onChange={(e) => setSettings({...settings, storePhone: e.target.value})}
                     dir="ltr"
-                    className="h-14 rounded-2xl border-slate-200 focus-visible:ring-indigo-500 bg-slate-50 focus:bg-white transition-colors text-left font-mono text-sm" 
+                    className="h-14 rounded-2xl border-slate-200 focus-visible:ring-indigo-500 bg-slate-50 focus:bg-white transition-colors text-start font-mono text-sm" 
                   />
                 </div>
               </div>
@@ -167,7 +167,7 @@ export default function SettingsClient({ initialSettings }: { initialSettings: S
                 <Switch 
                   checked={settings.allowCod}
                   onCheckedChange={(checked) => setSettings({...settings, allowCod: checked})}
-                  className="data-[state=checked]:bg-emerald-500 scale-125 ml-2"
+                  className="data-[state=checked]:bg-emerald-500 scale-125 ms-2"
                 />
               </div>
 
@@ -179,7 +179,7 @@ export default function SettingsClient({ initialSettings }: { initialSettings: S
                 <Switch 
                   checked={settings.allowOnlinePayment}
                   onCheckedChange={(checked) => setSettings({...settings, allowOnlinePayment: checked})}
-                  className="data-[state=checked]:bg-emerald-500 scale-125 ml-2"
+                  className="data-[state=checked]:bg-emerald-500 scale-125 ms-2"
                 />
               </div>
             </CardContent>
@@ -201,7 +201,7 @@ export default function SettingsClient({ initialSettings }: { initialSettings: S
                 <Switch 
                   checked={settings.orderNotifications}
                   onCheckedChange={(checked) => setSettings({...settings, orderNotifications: checked})}
-                  className="data-[state=checked]:bg-indigo-500 scale-125 ml-2"
+                  className="data-[state=checked]:bg-indigo-500 scale-125 ms-2"
                 />
               </div>
 
@@ -213,7 +213,7 @@ export default function SettingsClient({ initialSettings }: { initialSettings: S
                 <Switch 
                   checked={settings.marketingEmails}
                   onCheckedChange={(checked) => setSettings({...settings, marketingEmails: checked})}
-                  className="data-[state=checked]:bg-indigo-500 scale-125 ml-2"
+                  className="data-[state=checked]:bg-indigo-500 scale-125 ms-2"
                 />
               </div>
             </CardContent>

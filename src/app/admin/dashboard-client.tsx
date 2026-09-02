@@ -50,7 +50,7 @@ export default function AdminDashboardHome({ stats, recentOrders }: { stats: Das
         </div>
         <div className="flex gap-3">
           <Button className="bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl h-12 px-6 shadow-lg shadow-indigo-600/20 font-bold transition-all">
-            <TrendingUp className="w-5 h-5 ml-2" />
+            <TrendingUp className="w-5 h-5 ms-2" />
             تحميل تقرير الأداء
           </Button>
         </div>
@@ -65,7 +65,7 @@ export default function AdminDashboardHome({ stats, recentOrders }: { stats: Das
       >
         {/* KPI 1 */}
         <motion.div variants={itemVariants} className="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm relative overflow-hidden group">
-          <div className="absolute top-0 right-0 p-6 opacity-10 transform translate-x-4 -translate-y-4 group-hover:scale-110 transition-transform">
+          <div className="absolute top-0 end-0 p-6 opacity-10 transform translate-x-4 -translate-y-4 group-hover:scale-110 transition-transform">
             <DollarSign className="w-24 h-24 text-indigo-600" />
           </div>
           <div className="relative z-10">
@@ -74,7 +74,7 @@ export default function AdminDashboardHome({ stats, recentOrders }: { stats: Das
                 <DollarSign className="w-6 h-6 text-indigo-600" />
               </div>
               <span className="flex items-center text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-lg text-sm font-bold">
-                <ArrowUpRight className="w-3.5 h-3.5 mr-1" />
+                <ArrowUpRight className="w-3.5 h-3.5 me-1" />
                 12.5%
               </span>
             </div>
@@ -87,7 +87,7 @@ export default function AdminDashboardHome({ stats, recentOrders }: { stats: Das
 
         {/* KPI 2 */}
         <motion.div variants={itemVariants} className="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm relative overflow-hidden group">
-          <div className="absolute top-0 right-0 p-6 opacity-10 transform translate-x-4 -translate-y-4 group-hover:scale-110 transition-transform">
+          <div className="absolute top-0 end-0 p-6 opacity-10 transform translate-x-4 -translate-y-4 group-hover:scale-110 transition-transform">
             <ShoppingBag className="w-24 h-24 text-sky-600" />
           </div>
           <div className="relative z-10">
@@ -96,7 +96,7 @@ export default function AdminDashboardHome({ stats, recentOrders }: { stats: Das
                 <ShoppingBag className="w-6 h-6 text-sky-600" />
               </div>
               <span className="flex items-center text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-lg text-sm font-bold">
-                <ArrowUpRight className="w-3.5 h-3.5 mr-1" />
+                <ArrowUpRight className="w-3.5 h-3.5 me-1" />
                 5.2%
               </span>
             </div>
@@ -109,7 +109,7 @@ export default function AdminDashboardHome({ stats, recentOrders }: { stats: Das
 
         {/* KPI 3 */}
         <motion.div variants={itemVariants} className="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm relative overflow-hidden group">
-          <div className="absolute top-0 right-0 p-6 opacity-10 transform translate-x-4 -translate-y-4 group-hover:scale-110 transition-transform">
+          <div className="absolute top-0 end-0 p-6 opacity-10 transform translate-x-4 -translate-y-4 group-hover:scale-110 transition-transform">
             <Users className="w-24 h-24 text-purple-600" />
           </div>
           <div className="relative z-10">
@@ -127,7 +127,7 @@ export default function AdminDashboardHome({ stats, recentOrders }: { stats: Das
 
         {/* KPI 4 */}
         <motion.div variants={itemVariants} className="bg-white p-6 rounded-3xl border border-rose-100 shadow-sm relative overflow-hidden group">
-          <div className="absolute top-0 right-0 p-6 opacity-5 transform translate-x-4 -translate-y-4 group-hover:scale-110 transition-transform">
+          <div className="absolute top-0 end-0 p-6 opacity-5 transform translate-x-4 -translate-y-4 group-hover:scale-110 transition-transform">
             <AlertTriangle className="w-24 h-24 text-rose-600" />
           </div>
           <div className="relative z-10">

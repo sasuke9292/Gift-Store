@@ -86,7 +86,7 @@ export default function CartPage() {
                             </div>
                           )}
                         </div>
-                        <div className="flex-1 text-center sm:text-right">
+                        <div className="flex-1 text-center sm:text-end">
                           {item.category && <p className="text-xs text-slate-500 mb-1">{item.category}</p>}
                           <h3 className="font-bold text-slate-800 line-clamp-1 mb-2">{item.name}</h3>
                           <span className="text-primary font-bold text-lg">{item.price.toLocaleString('en-US')} د.ع</span>
@@ -161,7 +161,7 @@ export default function CartPage() {
                     <span className="font-bold text-2xl text-primary">{total.toLocaleString('en-US')} د.ع</span>
                   </div>
                   {shipping === 0 && (
-                    <p className="text-xs text-green-600 mt-2 text-left">أنت مؤهل للشحن المجاني!</p>
+                    <p className="text-xs text-green-600 mt-2 text-start">أنت مؤهل للشحن المجاني!</p>
                   )}
                 </div>
 
@@ -173,7 +173,7 @@ export default function CartPage() {
                   
                   <Link href="/checkout" className={buttonVariants({ size: "lg", className: "w-full h-14 rounded-xl text-lg shadow-lg shadow-primary/30 hover:scale-[1.02] transition-transform" })}>
                     متابعة الدفع
-                    <ArrowLeft className="w-5 h-5 ml-2" />
+                    <ArrowLeft className="w-5 h-5 ms-2" />
                   </Link>
                 </div>
               </div>

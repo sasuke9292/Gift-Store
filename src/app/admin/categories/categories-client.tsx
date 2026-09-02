@@ -120,7 +120,7 @@ export default function CategoriesClient({ initialCategories }: { initialCategor
           <p className="text-slate-500 font-medium">إدارة أقسام المتجر وتصنيفات المنتجات وترتيبها.</p>
         </div>
         <Button onClick={() => openModal()} className="bg-indigo-600 hover:bg-indigo-700 text-white shadow-lg shadow-indigo-600/20 rounded-xl px-6 h-12 font-bold transition-all">
-          <Plus className="w-5 h-5 ml-2" />
+          <Plus className="w-5 h-5 ms-2" />
           إضافة تصنيف جديد
         </Button>
       </div>
@@ -130,13 +130,13 @@ export default function CategoriesClient({ initialCategories }: { initialCategor
         {/* Toolbar */}
         <div className="p-6 md:p-8 border-b border-slate-100 bg-slate-50/50">
           <div className="relative w-full md:max-w-md">
-            <Search className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+            <Search className="absolute end-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
             <Input 
               type="text" 
               placeholder="ابحث عن تصنيف بالاسم أو الرابط..." 
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-4 pr-12 bg-white border-slate-200 focus:border-indigo-500 focus-visible:ring-indigo-100 h-14 rounded-2xl text-md shadow-sm transition-all"
+              className="ps-4 pe-12 bg-white border-slate-200 focus:border-indigo-500 focus-visible:ring-indigo-100 h-14 rounded-2xl text-md shadow-sm transition-all"
             />
           </div>
         </div>
@@ -144,7 +144,7 @@ export default function CategoriesClient({ initialCategories }: { initialCategor
         {/* Table */}
         <CardContent className="p-0">
           <div className="overflow-x-auto">
-            <table className="w-full text-right min-w-[800px]">
+            <table className="w-full text-end min-w-[800px]">
               <thead className="bg-slate-50 border-b border-slate-100">
                 <tr>
                   <th className="px-8 py-5 font-bold text-slate-600">التصنيف</th>
@@ -155,13 +155,9 @@ export default function CategoriesClient({ initialCategories }: { initialCategor
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">
-                <AnimatePresence>
                   {filteredCategories.map((category) => (
-                    <motion.tr 
+                    <tr 
                       key={category.id}
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
                       className="hover:bg-slate-50/50 transition-colors group"
                     >
                       <td className="px-8 py-5">
@@ -194,12 +190,12 @@ export default function CategoriesClient({ initialCategories }: { initialCategor
                       <td className="px-8 py-5">
                         {category.isActive ? (
                           <Badge className="bg-emerald-50 text-emerald-700 border-0 rounded-xl px-3 py-1.5 font-bold shadow-sm">
-                            <div className="w-2 h-2 rounded-full bg-emerald-500 mr-2 ml-1" />
+                            <div className="w-2 h-2 rounded-full bg-emerald-500 me-2 ms-1" />
                             نشط
                           </Badge>
                         ) : (
                           <Badge className="bg-rose-50 text-rose-700 border-0 rounded-xl px-3 py-1.5 font-bold shadow-sm">
-                            <div className="w-2 h-2 rounded-full bg-rose-500 mr-2 ml-1" />
+                            <div className="w-2 h-2 rounded-full bg-rose-500 me-2 ms-1" />
                             معطل
                           </Badge>
                         )}
@@ -214,9 +210,8 @@ export default function CategoriesClient({ initialCategories }: { initialCategor
                           </Button>
                         </div>
                       </td>
-                    </motion.tr>
+                    </tr>
                   ))}
-                </AnimatePresence>
                 {filteredCategories.length === 0 && (
                   <tr>
                     <td colSpan={5} className="px-6 py-16 text-center text-slate-500">
@@ -268,19 +263,19 @@ export default function CategoriesClient({ initialCategories }: { initialCategor
                 onChange={e => setCurrentCategory({...currentCategory, slug: e.target.value})}
                 required 
                 dir="ltr"
-                className="h-12 rounded-xl border-slate-200 focus-visible:ring-indigo-500 bg-slate-50 focus:bg-white transition-colors font-mono text-left"
+                className="h-12 rounded-xl border-slate-200 focus-visible:ring-indigo-500 bg-slate-50 focus:bg-white transition-colors font-mono text-start"
               />
             </div>
 
             <div className="space-y-3">
               <Label htmlFor="image" className="text-sm font-bold text-slate-700">رابط الصورة (اختياري)</Label>
               <div className="relative">
-                <ImageIcon className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+                <ImageIcon className="absolute end-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
                 <Input 
                   id="image" 
                   value={currentCategory.image || ''} 
                   onChange={e => setCurrentCategory({...currentCategory, image: e.target.value})}
-                  className="h-12 pr-12 rounded-xl border-slate-200 focus-visible:ring-indigo-500 bg-slate-50 focus:bg-white transition-colors"
+                  className="h-12 pe-12 rounded-xl border-slate-200 focus-visible:ring-indigo-500 bg-slate-50 focus:bg-white transition-colors"
                   dir="ltr"
                   placeholder="https://..."
                 />

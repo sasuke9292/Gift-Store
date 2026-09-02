@@ -162,7 +162,7 @@ export default function ProductModal({ isOpen, setIsOpen, product, categories, o
                     value={formData.slug} 
                     onChange={e => setFormData({...formData, slug: e.target.value})} 
                     dir="ltr" 
-                    className="h-12 rounded-xl border-slate-200 focus-visible:ring-indigo-500 bg-slate-50 focus:bg-white font-mono text-sm text-left" 
+                    className="h-12 rounded-xl border-slate-200 focus-visible:ring-indigo-500 bg-slate-50 focus:bg-white font-mono text-sm text-start" 
                   />
                 </div>
               </div>
@@ -214,7 +214,7 @@ export default function ProductModal({ isOpen, setIsOpen, product, categories, o
                     placeholder="أو أدخل رابط الصورة هنا (URL)..." 
                     value={imageUrlInput}
                     onChange={(e) => setImageUrlInput(e.target.value)}
-                    className="flex-1 bg-slate-50 border-slate-200 focus-visible:ring-indigo-500 rounded-xl h-11 text-sm text-left"
+                    className="flex-1 bg-slate-50 border-slate-200 focus-visible:ring-indigo-500 rounded-xl h-11 text-sm text-start"
                     dir="ltr"
                   />
                   <Button 
@@ -238,7 +238,7 @@ export default function ProductModal({ isOpen, setIsOpen, product, categories, o
                             arr.splice(idx, 1)
                             setFormData({...formData, imagesList: arr})
                           }} 
-                          className="absolute top-1 right-1 bg-white/90 w-6 h-6 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 hover:bg-rose-50 hover:text-rose-600 shadow-sm"
+                          className="absolute top-1 end-1 bg-white/90 w-6 h-6 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 hover:bg-rose-50 hover:text-rose-600 shadow-sm"
                         >
                           <X className="w-3 h-3" />
                         </button>

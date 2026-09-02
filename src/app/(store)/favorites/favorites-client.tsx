@@ -30,7 +30,7 @@ export function FavoritesClient() {
         </p>
         <Link href="/" className={buttonVariants({ size: "lg", className: "rounded-full shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all" })}>
           استكشف المنتجات
-          <ArrowRight className="w-5 h-5 ml-2 mr-2" />
+          <ArrowRight className="w-5 h-5 ms-2 me-2" />
         </Link>
       </div>
     )

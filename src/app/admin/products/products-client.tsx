@@ -102,7 +102,7 @@ export default function ProductsClient({ initialProducts, categories }: { initia
         </div>
         <Link href="/admin/products/new">
           <Button className="bg-indigo-600 hover:bg-indigo-700 text-white shadow-lg shadow-indigo-600/20 rounded-xl px-6 h-12 font-bold transition-all w-full sm:w-auto">
-            <Plus className="w-5 h-5 ml-2" />
+            <Plus className="w-5 h-5 ms-2" />
             إضافة منتج جديد
           </Button>
         </Link>
@@ -139,10 +139,10 @@ export default function ProductsClient({ initialProducts, categories }: { initia
         {/* Toolbar */}
         <div className="p-6 md:p-8 border-b border-slate-100 bg-slate-50/50 flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="relative w-full md:max-w-md">
-            <Search className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+            <Search className="absolute end-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
             <Input
               placeholder="ابحث باسم المنتج أو الرمز (SKU)..."
-              className="pl-4 pr-12 bg-white border-slate-200 focus:border-indigo-500 focus-visible:ring-indigo-100 h-14 rounded-2xl text-md shadow-sm transition-all"
+              className="ps-4 pe-12 bg-white border-slate-200 focus:border-indigo-500 focus-visible:ring-indigo-100 h-14 rounded-2xl text-md shadow-sm transition-all"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
@@ -183,21 +183,17 @@ export default function ProductsClient({ initialProducts, categories }: { initia
                       className="border-slate-300 data-[state=checked]:bg-indigo-600 data-[state=checked]:border-indigo-600 rounded-lg w-5 h-5"
                     />
                   </TableHead>
-                  <TableHead className="text-right font-bold text-slate-600 py-5 px-6">المنتج</TableHead>
-                  <TableHead className="text-right font-bold text-slate-600 py-5">التصنيف</TableHead>
-                  <TableHead className="text-right font-bold text-slate-600 py-5">السعر</TableHead>
-                  <TableHead className="text-right font-bold text-slate-600 py-5">الحالة</TableHead>
+                  <TableHead className="text-end font-bold text-slate-600 py-5 px-6">المنتج</TableHead>
+                  <TableHead className="text-end font-bold text-slate-600 py-5">التصنيف</TableHead>
+                  <TableHead className="text-end font-bold text-slate-600 py-5">السعر</TableHead>
+                  <TableHead className="text-end font-bold text-slate-600 py-5">الحالة</TableHead>
                   <TableHead className="text-center font-bold text-slate-600 py-5 px-6">إجراءات</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
-                <AnimatePresence>
                   {filteredProducts.map((product) => (
-                    <motion.tr 
+                    <TableRow 
                       key={product.id}
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
                       className={`group transition-all duration-300 border-b border-slate-50 last:border-0 ${selectedIds.has(product.id) ? 'bg-indigo-50/30' : 'hover:bg-slate-50/50'}`}
                     >
                       <TableCell className="px-6 py-5">
@@ -235,12 +231,12 @@ export default function ProductsClient({ initialProducts, categories }: { initia
                       <TableCell className="py-5">
                         {product.isActive ? (
                           <Badge className="bg-emerald-50 text-emerald-700 hover:bg-emerald-100 border-0 rounded-xl px-3 py-1.5 font-bold shadow-sm">
-                            <div className="w-2 h-2 rounded-full bg-emerald-500 mr-2 ml-1" />
+                            <div className="w-2 h-2 rounded-full bg-emerald-500 me-2 ms-1" />
                             نشط
                           </Badge>
                         ) : (
                           <Badge className="bg-slate-100 text-slate-700 hover:bg-slate-200 border-0 rounded-xl px-3 py-1.5 font-bold shadow-sm">
-                            <div className="w-2 h-2 rounded-full bg-slate-500 mr-2 ml-1" />
+                            <div className="w-2 h-2 rounded-full bg-slate-500 me-2 ms-1" />
                             مسودة
                           </Badge>
                         )}
@@ -255,9 +251,8 @@ export default function ProductsClient({ initialProducts, categories }: { initia
                           </Button>
                         </div>
                       </TableCell>
-                    </motion.tr>
+                    </TableRow>
                   ))}
-                </AnimatePresence>
                 {filteredProducts.length === 0 && (
                   <TableRow>
                     <TableCell colSpan={6} className="h-64 text-center">

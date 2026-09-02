@@ -50,8 +50,8 @@ export default function LoginClient() {
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8 relative overflow-hidden" dir="rtl">
       {/* Decorative bg */}
-      <div className="absolute top-0 right-0 w-96 h-96 bg-primary/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
-      <div className="absolute bottom-0 left-0 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2" />
+      <div className="absolute top-0 end-0 w-96 h-96 bg-primary/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
+      <div className="absolute bottom-0 start-0 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2" />
 
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
@@ -73,7 +73,7 @@ export default function LoginClient() {
                 البريد الإلكتروني
               </label>
               <div className="relative">
-                <div className="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none">
+                <div className="absolute inset-y-0 end-0 pe-4 flex items-center pointer-events-none">
                   <Mail className="h-5 w-5 text-slate-400" />
                 </div>
                 <Input
@@ -81,7 +81,7 @@ export default function LoginClient() {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="pr-12 bg-slate-50 border-slate-200 focus:bg-white"
+                  className="pe-12 bg-slate-50 border-slate-200 focus:bg-white"
                   placeholder="name@example.com"
                 />
               </div>
@@ -92,7 +92,7 @@ export default function LoginClient() {
                 كلمة المرور
               </label>
               <div className="relative">
-                <div className="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none">
+                <div className="absolute inset-y-0 end-0 pe-4 flex items-center pointer-events-none">
                   <Lock className="h-5 w-5 text-slate-400" />
                 </div>
                 <Input
@@ -100,7 +100,7 @@ export default function LoginClient() {
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="pr-12 bg-slate-50 border-slate-200 focus:bg-white"
+                  className="pe-12 bg-slate-50 border-slate-200 focus:bg-white"
                   placeholder="••••••••"
                 />
               </div>
@@ -114,7 +114,7 @@ export default function LoginClient() {
                   type="checkbox"
                   className="h-4 w-4 text-primary focus:ring-primary border-slate-300 rounded"
                 />
-                <label htmlFor="remember-me" className="mr-2 block text-sm text-slate-600">
+                <label htmlFor="remember-me" className="me-2 block text-sm text-slate-600">
                   تذكرني
                 </label>
               </div>
@@ -147,7 +147,7 @@ export default function LoginClient() {
                 variant="outline" 
                 className="w-full h-12 rounded-xl text-slate-700 font-bold border-slate-200 hover:bg-slate-50 hover:text-slate-900"
               >
-                <svg className="w-5 h-5 ml-2" viewBox="0 0 24 24">
+                <svg className="w-5 h-5 ms-2" viewBox="0 0 24 24">
                   <path fill="currentColor" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
                   <path fill="currentColor" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
                   <path fill="currentColor" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" />
@@ -162,7 +162,7 @@ export default function LoginClient() {
             ليس لديك حساب؟{' '}
             <Link href="/auth/register" className="font-bold text-primary hover:text-primary/80 transition-colors">
               إنشاء حساب جديد
-              <ArrowRight className="inline-block w-4 h-4 mr-1" />
+              <ArrowRight className="inline-block w-4 h-4 me-1" />
             </Link>
           </p>
         </div>

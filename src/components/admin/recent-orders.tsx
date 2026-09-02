@@ -24,7 +24,7 @@ export function RecentOrders({ orders = [] }: { orders?: Order[] }) {
                   </div>
                 </div>
               </div>
-              <div className="flex items-center gap-4 text-left">
+              <div className="flex items-center gap-4 text-start">
                 <p className="text-sm font-bold text-slate-800">{order.total.toLocaleString('en-US')} د.ع</p>
                 <Badge
                   variant="outline"

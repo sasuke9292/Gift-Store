@@ -39,6 +39,9 @@ export function StoreFooter() {
               <li><Link href="/track-order" className="hover:text-primary transition-colors">تتبع طلبك</Link></li>
               <li><Link href="/faq" className="hover:text-primary transition-colors">الأسئلة الشائعة</Link></li>
               <li><Link href="/contact" className="hover:text-primary transition-colors">اتصل بنا</Link></li>
+              <li className="pt-2">
+                <Link href="/admin" className="hover:text-indigo-600 transition-colors font-bold text-indigo-500">دخول الإدارة (لوحة التحكم)</Link>
+              </li>
             </ul>
           </div>
 

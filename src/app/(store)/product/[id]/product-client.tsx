@@ -48,7 +48,7 @@ export default function ProductClient({ product }: { product: any }) {
           >
             <div className="aspect-square bg-slate-100 rounded-3xl overflow-hidden relative group">
               {product.isBestSeller && (
-                <Badge className="absolute top-6 right-6 z-10 bg-blue-500 shadow-md text-sm px-3 py-1">الأكثر مبيعاً</Badge>
+                <Badge className="absolute top-6 end-6 z-10 bg-blue-500 shadow-md text-sm px-3 py-1">الأكثر مبيعاً</Badge>
               )}
               <div className="w-full h-full flex items-center justify-center text-slate-400 group-hover:scale-105 transition-transform duration-500 relative">
                 {activeImage ? (
@@ -124,7 +124,7 @@ export default function ProductClient({ product }: { product: any }) {
                 </div>
                 
                 <Button onClick={handleAddToCart} size="lg" className="flex-1 h-14 rounded-full text-lg shadow-lg shadow-primary/30 hover:scale-105 transition-transform duration-300">
-                  <ShoppingCart className="w-5 h-5 ml-2" />
+                  <ShoppingCart className="w-5 h-5 ms-2" />
                   إضافة إلى السلة
                 </Button>
               </div>
@@ -152,7 +152,7 @@ export default function ProductClient({ product }: { product: any }) {
                     }
                   }}
                 >
-                  <Heart className={`w-5 h-5 ml-2 ${isFavorite ? 'fill-rose-500 text-rose-500' : ''}`} />
+                  <Heart className={`w-5 h-5 ms-2 ${isFavorite ? 'fill-rose-500 text-rose-500' : ''}`} />
                   {isFavorite ? 'إزالة من المفضلة' : 'إضافة للمفضلة'}
                 </Button>
                 <Button 
@@ -254,7 +254,7 @@ export default function ProductClient({ product }: { product: any }) {
                     </DialogTrigger>
                     <DialogContent className="sm:max-w-[425px]" dir="rtl">
                       <DialogHeader>
-                        <DialogTitle className="text-right text-xl font-bold">تقييم المنتج</DialogTitle>
+                        <DialogTitle className="text-end text-xl font-bold">تقييم المنتج</DialogTitle>
                       </DialogHeader>
                       <div className="py-4 space-y-4">
                         <div>
@@ -279,7 +279,7 @@ export default function ProductClient({ product }: { product: any }) {
                         </div>
                         <div>
                           <label className="block text-sm font-medium text-slate-700 mb-2">اكتب رأيك (اختياري)</label>
-                          <Textarea placeholder="شاركنا رأيك بالمنتج..." className="resize-none h-24 rounded-xl text-right" dir="rtl" />
+                          <Textarea placeholder="شاركنا رأيك بالمنتج..." className="resize-none h-24 rounded-xl text-end" dir="rtl" />
                         </div>
                       </div>
                       <DialogFooter className="sm:justify-start">
@@ -302,7 +302,7 @@ export default function ProductClient({ product }: { product: any }) {
                     </DialogTrigger>
                     <DialogContent className="sm:max-w-[425px]" dir="rtl">
                       <DialogHeader>
-                        <DialogTitle className="text-right text-xl font-bold">تقييم المنتج</DialogTitle>
+                        <DialogTitle className="text-end text-xl font-bold">تقييم المنتج</DialogTitle>
                       </DialogHeader>
                       <div className="py-4 space-y-4">
                         <div>
@@ -327,7 +327,7 @@ export default function ProductClient({ product }: { product: any }) {
                         </div>
                         <div>
                           <label className="block text-sm font-medium text-slate-700 mb-2">اكتب رأيك (اختياري)</label>
-                          <Textarea placeholder="شاركنا رأيك بالمنتج..." className="resize-none h-24 rounded-xl text-right" dir="rtl" />
+                          <Textarea placeholder="شاركنا رأيك بالمنتج..." className="resize-none h-24 rounded-xl text-end" dir="rtl" />
                         </div>
                       </div>
                       <DialogFooter className="sm:justify-start">

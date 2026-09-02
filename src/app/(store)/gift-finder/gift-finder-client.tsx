@@ -107,8 +107,8 @@ export default function GiftFinderClient({ initialProducts: products }: { initia
     <div className="bg-slate-50 min-h-screen py-20 relative overflow-hidden">
       
       {/* Decorative bg */}
-      <div className="absolute top-0 right-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
-      <div className="absolute bottom-0 left-0 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2"></div>
+      <div className="absolute top-0 end-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+      <div className="absolute bottom-0 start-0 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2"></div>
 
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
@@ -169,7 +169,7 @@ export default function GiftFinderClient({ initialProducts: products }: { initia
                       whileTap={{ scale: 0.98 }}
                       key={idx}
                       onClick={() => handleSelectOption(option.value)}
-                      className="p-6 rounded-3xl border-2 border-slate-100 hover:border-primary hover:bg-primary/5 transition-all duration-300 text-right flex items-center gap-6 group bg-white"
+                      className="p-6 rounded-3xl border-2 border-slate-100 hover:border-primary hover:bg-primary/5 transition-all duration-300 text-end flex items-center gap-6 group bg-white"
                     >
                       <div className="w-16 h-16 rounded-2xl bg-slate-50 group-hover:bg-white flex items-center justify-center text-3xl shadow-sm transition-colors duration-300">
                         {option.icon}
@@ -187,7 +187,7 @@ export default function GiftFinderClient({ initialProducts: products }: { initia
                       className="text-slate-500 hover:text-slate-800"
                     >
                       الرجوع للسؤال السابق
-                      <ArrowLeft className="w-4 h-4 mr-2" />
+                      <ArrowLeft className="w-4 h-4 me-2" />
                     </Button>
                   </div>
                 )}
@@ -237,7 +237,7 @@ export default function GiftFinderClient({ initialProducts: products }: { initia
 
                 <div className="pt-8 border-t border-slate-100 flex justify-center gap-4">
                   <Button onClick={resetQuiz} variant="outline" size="lg" className="rounded-xl px-8 h-14 border-slate-200">
-                    <RotateCcw className="w-5 h-5 ml-2" />
+                    <RotateCcw className="w-5 h-5 ms-2" />
                     إعادة البحث
                   </Button>
                   <Link href="/shop" className={buttonVariants({ size: "lg", className: "rounded-xl px-8 h-14" })}>

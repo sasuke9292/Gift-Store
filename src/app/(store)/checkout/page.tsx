@@ -82,9 +82,9 @@ export default function CheckoutPage() {
         {/* Progress Tracker */}
         <div className="mb-12">
           <div className="flex items-center justify-between relative">
-            <div className="absolute left-0 top-1/2 -translate-y-1/2 w-full h-1 bg-slate-200 rounded-full z-0"></div>
+            <div className="absolute start-0 top-1/2 -translate-y-1/2 w-full h-1 bg-slate-200 rounded-full z-0"></div>
             <motion.div 
-              className="absolute left-0 top-1/2 -translate-y-1/2 h-1 bg-primary rounded-full z-0 transition-all duration-500 ease-in-out"
+              className="absolute start-0 top-1/2 -translate-y-1/2 h-1 bg-primary rounded-full z-0 transition-all duration-500 ease-in-out"
               initial={{ width: '0%' }}
               animate={{ width: step === 1 ? '0%' : step === 2 ? '50%' : '100%' }}
             ></motion.div>
@@ -146,8 +146,8 @@ export default function CheckoutPage() {
                   <div className="space-y-2 md:col-span-2">
                     <Label htmlFor="phone">رقم الهاتف</Label>
                     <div className="relative">
-                      <Phone className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
-                      <Input id="phone" placeholder="0770 000 0000" className="pl-4 pr-12 h-12 bg-slate-50 rounded-xl text-left" dir="ltr" value={formData.phone} onChange={(e) => setFormData({...formData, phone: e.target.value})} />
+                      <Phone className="absolute end-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+                      <Input id="phone" placeholder="0770 000 0000" className="ps-4 pe-12 h-12 bg-slate-50 rounded-xl text-start" dir="ltr" value={formData.phone} onChange={(e) => setFormData({...formData, phone: e.target.value})} />
                     </div>
                   </div>
 
@@ -179,7 +179,7 @@ export default function CheckoutPage() {
                 <div className="pt-6 flex justify-end">
                   <Button onClick={handleNext} size="lg" className="w-full md:w-auto px-10 h-14 rounded-xl shadow-md hover:scale-105 transition-transform">
                     متابعة للدفع
-                    <ChevronLeft className="w-5 h-5 mr-2" />
+                    <ChevronLeft className="w-5 h-5 me-2" />
                   </Button>
                 </div>
               </motion.div>
@@ -263,7 +263,7 @@ export default function CheckoutPage() {
                   <Button onClick={handleConfirmOrder} disabled={isPending || cartItems.length === 0} size="lg" className="w-full md:w-auto px-10 h-14 rounded-xl shadow-md hover:scale-105 transition-transform flex items-center justify-center">
                     {isPending ? (
                       <>
-                        <Loader2 className="w-5 h-5 ml-2 animate-spin" />
+                        <Loader2 className="w-5 h-5 ms-2 animate-spin" />
                         جاري التأكيد...
                       </>
                     ) : 'تأكيد الطلب'}

@@ -63,11 +63,11 @@ export function AdminHeader() {
 
       <div className="flex items-center gap-6">
         <div className="relative hidden md:block w-72">
-          <Search className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+          <Search className="absolute end-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
           <Input 
             type="text" 
             placeholder="ابحث هنا..." 
-            className="pl-4 pr-12 bg-slate-100/50 border-transparent hover:bg-slate-100 focus:bg-white focus:border-indigo-300 focus:ring-2 focus:ring-indigo-100 rounded-full h-10 transition-all text-sm"
+            className="ps-4 pe-12 bg-slate-100/50 border-transparent hover:bg-slate-100 focus:bg-white focus:border-indigo-300 focus:ring-2 focus:ring-indigo-100 rounded-full h-10 transition-all text-sm"
           />
         </div>
 
@@ -77,9 +77,9 @@ export function AdminHeader() {
             className="relative p-2 text-slate-400 hover:text-slate-700 hover:bg-slate-100 rounded-full transition-all"
           >
             <Bell className="w-5 h-5" />
-            <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-rose-500 rounded-full border-2 border-white"></span>
+            <span className="absolute top-1.5 end-1.5 w-2 h-2 bg-rose-500 rounded-full border-2 border-white"></span>
           </button>
-          <SheetContent side="left" className="w-full sm:max-w-md border-r-0 shadow-2xl p-0 flex flex-col bg-slate-50">
+          <SheetContent side="left" className="w-full sm:max-w-md border-e-0 shadow-2xl p-0 flex flex-col bg-slate-50">
             <SheetHeader className="p-6 bg-white border-b border-slate-100">
               <div className="flex items-center justify-between">
                 <SheetTitle className="text-xl font-bold text-slate-800">الإشعارات</SheetTitle>

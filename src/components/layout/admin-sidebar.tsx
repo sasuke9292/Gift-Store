@@ -75,7 +75,7 @@ export function AdminSidebar({ storeName = 'گفتي بلس', logoUrl, user }: {
   const userRole = user?.role || 'CUSTOMER'
 
   return (
-    <aside className="fixed inset-y-0 right-0 z-50 w-72 bg-slate-900 text-slate-300 hidden lg:flex flex-col">
+    <aside className="fixed inset-y-0 end-0 z-50 w-72 bg-slate-900 text-slate-300 hidden lg:flex flex-col">
       <div className="h-16 flex items-center px-6 bg-slate-950/50">
         <Link href="/admin" className="flex items-center gap-3 w-full">
           {logoUrl ? (
@@ -137,7 +137,7 @@ export function AdminSidebar({ storeName = 'گفتي بلس', logoUrl, user }: {
               <div className="w-10 h-10 rounded-xl bg-indigo-500/20 flex items-center justify-center text-indigo-400 font-bold shrink-0 border border-indigo-500/20 group-hover:bg-indigo-500/30 transition-colors">
                 {user?.name ? user.name[0] : 'أ'}
               </div>
-              <div className="flex-1 min-w-0 text-right">
+              <div className="flex-1 min-w-0 text-end">
                 <p className="text-sm font-bold text-white truncate">{user?.name || 'أحمد الإداري'}</p>
                 <p className="text-xs text-slate-400 truncate" dir="ltr">{user?.email || 'admin@giftstore.com'}</p>
               </div>
@@ -148,7 +148,7 @@ export function AdminSidebar({ storeName = 'گفتي بلس', logoUrl, user }: {
             <DropdownMenuLabel className="text-xs text-slate-500 font-bold px-2 py-1.5 uppercase tracking-wider">حسابي</DropdownMenuLabel>
             <Link href="/admin/profile">
               <DropdownMenuItem className="rounded-xl cursor-pointer py-2.5 hover:bg-slate-800 hover:text-white font-medium focus:bg-slate-800 focus:text-white">
-                <User className="ml-3 h-4 w-4 text-indigo-400" />
+                <User className="ms-3 h-4 w-4 text-indigo-400" />
                 الملف الشخصي
               </DropdownMenuItem>
             </Link>
@@ -160,7 +160,7 @@ export function AdminSidebar({ storeName = 'گفتي بلس', logoUrl, user }: {
                 signOut({ callbackUrl: '/auth/login' }) 
               }} 
             >
-              <LogOut className="ml-3 h-4 w-4" />
+              <LogOut className="ms-3 h-4 w-4" />
               تسجيل الخروج
             </DropdownMenuItem>
           </DropdownMenuContent>
