@@ -180,7 +180,7 @@ export function OrderDetailsModal({ isOpen, onClose, orderId, onOrderUpdated }: 
                       <div className="space-y-2">
                         <label className="text-xs font-bold text-slate-600">تحديث الحالة</label>
                         <Select disabled={isUpdating} value={order.status} onValueChange={handleStatusChange}>
-                          <SelectTrigger className="w-full bg-white h-10 rounded-xl border-slate-200 text-start">
+                          <SelectTrigger className="w-full bg-white h-10 rounded-xl border-slate-200 text-end">
                             <SelectValue placeholder="اختر الحالة">{statusConfig[order.status]?.label}</SelectValue>
                           </SelectTrigger>
                           <SelectContent dir="rtl" className="rounded-xl">
@@ -198,7 +198,7 @@ export function OrderDetailsModal({ isOpen, onClose, orderId, onOrderUpdated }: 
                       <div className="space-y-2">
                         <label className="text-xs font-bold text-slate-600">حالة الدفع</label>
                         <Select disabled={isUpdating} value={order.paymentStatus} onValueChange={handlePaymentStatusChange}>
-                          <SelectTrigger className="w-full bg-white h-10 rounded-xl border-slate-200 text-start">
+                          <SelectTrigger className="w-full bg-white h-10 rounded-xl border-slate-200 text-end">
                             <SelectValue placeholder="اختر الحالة">{paymentStatusMap[order.paymentStatus]}</SelectValue>
                           </SelectTrigger>
                           <SelectContent dir="rtl" className="rounded-xl">
@@ -222,7 +222,7 @@ export function OrderDetailsModal({ isOpen, onClose, orderId, onOrderUpdated }: 
                           disabled={isUpdating || notes === (order.internalNotes || '')}
                           className="w-full h-10 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm"
                         >
-                          <Save className="w-4 h-4 ms-2" />
+                          <Save className="w-4 h-4 me-2" />
                           حفظ التتبع
                         </Button>
                       </div>
@@ -295,7 +295,7 @@ export function OrderDetailsModal({ isOpen, onClose, orderId, onOrderUpdated }: 
                                 </p>
                               )}
                             </div>
-                            <div className="text-end">
+                            <div className="text-start">
                               <p className="font-bold text-slate-800 text-sm">{item.price.toLocaleString('en-US')} د.ع</p>
                               <p className="text-xs text-slate-500 font-medium">الكمية: {item.quantity}</p>
                             </div>

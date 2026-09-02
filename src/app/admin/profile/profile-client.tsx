@@ -223,7 +223,7 @@ export default function ProfileClient({ currentUser, initialStaffUsers }: Profil
                   
                   <div className="mt-6 w-full pt-6 border-t border-slate-100">
                     <Badge className="bg-emerald-50 text-emerald-700 hover:bg-emerald-100 border border-emerald-200 px-6 py-2 rounded-xl font-bold shadow-sm text-sm">
-                      <Shield className="w-4 h-4 ms-2" />
+                      <Shield className="w-4 h-4 me-2" />
                       {roleMap[currentUser?.role || 'ADMIN']?.label}
                     </Badge>
                   </div>
@@ -247,11 +247,11 @@ export default function ProfileClient({ currentUser, initialStaffUsers }: Profil
                       <div className="space-y-3">
                         <Label className="text-sm font-bold text-slate-700">الاسم الكامل</Label>
                         <div className="relative">
-                          <UserCircle className="absolute start-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+                          <UserCircle className="absolute end-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
                           <Input 
                             value={profileData.name} 
                             onChange={e => setProfileData({...profileData, name: e.target.value})}
-                            className="h-14 ps-12 bg-slate-50 border-slate-200 focus:border-indigo-500 focus:bg-white rounded-2xl transition-colors font-medium text-base" 
+                            className="h-14 pe-12 bg-slate-50 border-slate-200 focus:border-indigo-500 focus:bg-white rounded-2xl transition-colors font-medium text-base" 
                           />
                         </div>
                       </div>
@@ -259,12 +259,12 @@ export default function ProfileClient({ currentUser, initialStaffUsers }: Profil
                       <div className="space-y-3">
                         <Label className="text-sm font-bold text-slate-700">البريد الإلكتروني</Label>
                         <div className="relative">
-                          <Mail className="absolute start-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400 z-10" />
+                          <Mail className="absolute end-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400 z-10" />
                           <Input 
                             type="email"
                             value={profileData.email} 
                             onChange={e => setProfileData({...profileData, email: e.target.value})}
-                            className="h-14 ps-12 pe-4 bg-slate-50 border-slate-200 focus:border-indigo-500 focus:bg-white rounded-2xl transition-colors font-mono text-sm text-start" 
+                            className="h-14 pe-12 ps-4 bg-slate-50 border-slate-200 focus:border-indigo-500 focus:bg-white rounded-2xl transition-colors font-mono text-sm text-end" 
                             dir="rtl"
                           />
                         </div>
@@ -316,7 +316,7 @@ export default function ProfileClient({ currentUser, initialStaffUsers }: Profil
               <p className="text-sm text-slate-500 mt-1">إدارة حسابات الموظفين وصلاحياتهم في لوحة التحكم.</p>
             </div>
             <Button onClick={() => setIsCreateModalOpen(true)} className="h-11 px-6 bg-primary hover:bg-primary/90 text-white rounded-xl font-bold shadow-lg shadow-primary/25 hover:-translate-y-0.5 transition-all">
-              <UserPlus className="w-5 h-5 ms-2" />
+              <UserPlus className="w-5 h-5 me-2" />
               دعوة عضو جديد
             </Button>
           </div>
@@ -325,14 +325,14 @@ export default function ProfileClient({ currentUser, initialStaffUsers }: Profil
             {users.map((user) => (
               <Card key={user.id} className="rounded-2xl border-slate-100 shadow-sm hover:shadow-md transition-all group overflow-hidden bg-white">
                 <div className="h-20 bg-slate-50 border-b border-slate-100 relative">
-                  <div className="absolute top-4 start-4">
+                  <div className="absolute top-4 end-4">
                     <DropdownMenu dir="rtl">
                       <DropdownMenuTrigger className={buttonVariants({ variant: "ghost", className: "h-9 w-9 p-0 rounded-xl hover:bg-white bg-white/50 border border-slate-200" })}>
                         <MoreHorizontal className="h-4 w-4 text-slate-600" />
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end" className="w-48 rounded-2xl shadow-xl shadow-slate-200/50 border-slate-100 p-1.5">
                         <DropdownMenuItem onClick={() => openEditModal(user)} className="rounded-xl cursor-pointer p-2.5 font-medium text-slate-700 hover:text-primary focus:text-primary focus:bg-blue-50/50 transition-colors">
-                          <Edit className="me-2.5 h-4 w-4 text-slate-400" />
+                          <Edit className="ms-2.5 h-4 w-4 text-slate-400" />
                           <span>تعديل المستخدم</span>
                         </DropdownMenuItem>
                         <DropdownMenuItem 
@@ -340,7 +340,7 @@ export default function ProfileClient({ currentUser, initialStaffUsers }: Profil
                           disabled={isDeletingUser === user.id}
                           className="rounded-xl cursor-pointer p-2.5 font-medium text-rose-600 hover:text-rose-700 focus:text-rose-700 focus:bg-rose-50 transition-colors mt-1"
                         >
-                          <Trash2 className="me-2.5 h-4 w-4" />
+                          <Trash2 className="ms-2.5 h-4 w-4" />
                           <span>{isDeletingUser === user.id ? 'جاري الحذف...' : 'حذف الحساب'}</span>
                         </DropdownMenuItem>
                       </DropdownMenuContent>
@@ -408,7 +408,7 @@ export default function ProfileClient({ currentUser, initialStaffUsers }: Profil
                   value={editUserData.email}
                   onChange={(e) => setEditUserData({...editUserData, email: e.target.value})}
                   dir="rtl"
-                  className="h-11 rounded-xl border-slate-200 focus:border-primary focus:bg-white bg-slate-50 transition-colors text-start"
+                  className="h-11 rounded-xl border-slate-200 focus:border-primary focus:bg-white bg-slate-50 transition-colors text-end"
                   required
                 />
               </div>
@@ -433,7 +433,7 @@ export default function ProfileClient({ currentUser, initialStaffUsers }: Profil
                   onChange={(e) => setEditUserData({...editUserData, password: e.target.value})}
                   placeholder="اتركه فارغاً لعدم التغيير"
                   dir="rtl"
-                  className="h-11 rounded-xl border-slate-200 focus:border-primary focus:bg-white bg-slate-50 transition-colors text-start mt-2"
+                  className="h-11 rounded-xl border-slate-200 focus:border-primary focus:bg-white bg-slate-50 transition-colors text-end mt-2"
                 />
               </div>
             </div>
@@ -478,7 +478,7 @@ export default function ProfileClient({ currentUser, initialStaffUsers }: Profil
                   onChange={(e) => setNewUserData({...newUserData, email: e.target.value})}
                   placeholder="admin@example.com"
                   dir="rtl"
-                  className="h-11 rounded-xl border-slate-200 focus:border-primary focus:bg-white bg-slate-50 transition-colors text-start"
+                  className="h-11 rounded-xl border-slate-200 focus:border-primary focus:bg-white bg-slate-50 transition-colors text-end"
                   required
                 />
               </div>
@@ -490,7 +490,7 @@ export default function ProfileClient({ currentUser, initialStaffUsers }: Profil
                   onChange={(e) => setNewUserData({...newUserData, password: e.target.value})}
                   placeholder="12345678 (افتراضي)"
                   dir="rtl"
-                  className="h-11 rounded-xl border-slate-200 focus:border-primary focus:bg-white bg-slate-50 transition-colors text-start"
+                  className="h-11 rounded-xl border-slate-200 focus:border-primary focus:bg-white bg-slate-50 transition-colors text-end"
                 />
               </div>
               <div className="space-y-2">
@@ -537,7 +537,7 @@ export default function ProfileClient({ currentUser, initialStaffUsers }: Profil
                   onChange={(e) => setNewPassword(e.target.value)}
                   placeholder="أدخل كلمة المرور الجديدة"
                   dir="rtl"
-                  className="h-11 rounded-xl border-slate-200 focus:border-primary focus:bg-white bg-slate-50 transition-colors text-start"
+                  className="h-11 rounded-xl border-slate-200 focus:border-primary focus:bg-white bg-slate-50 transition-colors text-end"
                   required
                   minLength={6}
                 />

@@ -62,9 +62,9 @@ export function StoreHeader({ user }: StoreHeaderProps) {
               <Input 
                 type="text" 
                 placeholder="ابحث عن هدية، منتج، أو مناسبة..." 
-                className="w-full h-12 ps-4 pe-12 rounded-full border-slate-200 bg-slate-50 focus-visible:ring-primary/20 text-base"
+                className="w-full h-12 pe-4 ps-12 rounded-full border-slate-200 bg-slate-50 focus-visible:ring-primary/20 text-base"
               />
-              <Button size="icon" className="absolute end-1 top-1 h-10 w-10 rounded-full bg-primary hover:bg-primary/90">
+              <Button size="icon" className="absolute start-1 top-1 h-10 w-10 rounded-full bg-primary hover:bg-primary/90">
                 <Search className="w-4 h-4 text-white" />
               </Button>
             </div>
@@ -75,7 +75,7 @@ export function StoreHeader({ user }: StoreHeaderProps) {
             <Link href="/favorites" className={buttonVariants({ variant: "ghost", size: "icon", className: "text-slate-600 hover:text-primary relative hidden sm:flex rounded-full" })}>
               <Heart className="w-5 h-5" />
               {mounted && favCount > 0 && (
-                <Badge className="absolute -top-1 -end-1 h-5 w-5 flex items-center justify-center p-0 text-[10px] rounded-full bg-rose-500 text-white border-0">
+                <Badge className="absolute -top-1 -start-1 h-5 w-5 flex items-center justify-center p-0 text-[10px] rounded-full bg-rose-500 text-white border-0">
                   {favCount}
                 </Badge>
               )}
@@ -84,7 +84,7 @@ export function StoreHeader({ user }: StoreHeaderProps) {
             <Link href="/cart" className={buttonVariants({ variant: "ghost", size: "icon", className: "text-slate-600 hover:text-primary relative rounded-full" })}>
               <ShoppingCart className="w-5 h-5" />
               {mounted && cartCount > 0 && (
-                <Badge className="absolute -top-1 -end-1 h-5 w-5 flex items-center justify-center p-0 text-[10px] rounded-full bg-primary text-white">
+                <Badge className="absolute -top-1 -start-1 h-5 w-5 flex items-center justify-center p-0 text-[10px] rounded-full bg-primary text-white">
                   {cartCount}
                 </Badge>
               )}
@@ -149,9 +149,9 @@ export function StoreHeader({ user }: StoreHeaderProps) {
             <Input 
               type="text" 
               placeholder="ابحث عن هدية..." 
-              className="w-full h-12 ps-4 pe-12 rounded-xl border-slate-200 bg-slate-50 text-base"
+              className="w-full h-12 pe-4 ps-12 rounded-xl border-slate-200 bg-slate-50 text-base"
             />
-            <Search className="absolute end-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+            <Search className="absolute start-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
           </div>
           <ul className="flex flex-col gap-4 text-slate-700 font-bold">
             <li><Link href="/" onClick={() => setIsMobileMenuOpen(false)}>الرئيسية</Link></li>
@@ -162,7 +162,7 @@ export function StoreHeader({ user }: StoreHeaderProps) {
             <li className="pt-4 border-t border-slate-100 flex gap-4">
               {user ? (
                 <Button variant="outline" className="w-full justify-start text-red-600 border-red-200 hover:bg-red-50" onClick={() => signOut()}>
-                  <LogOut className="w-4 h-4 ms-2" /> تسجيل الخروج
+                  <LogOut className="w-4 h-4 me-2" /> تسجيل الخروج
                 </Button>
               ) : (
                 <Link href="/auth/login" className="w-full" onClick={() => setIsMobileMenuOpen(false)}>

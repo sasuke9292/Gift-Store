@@ -21,10 +21,10 @@ const buttonVariants = cva(
       },
       size: {
         default:
-          "h-11 gap-2 px-5 has-data-[icon=inline-end]:pe-4 has-data-[icon=inline-start]:ps-4",
-        xs: "h-8 gap-1.5 rounded-lg px-3 text-xs in-data-[slot=button-group]:rounded-lg has-data-[icon=inline-end]:pe-2.5 has-data-[icon=inline-start]:ps-2.5 [&_svg:not([class*='size-'])]:size-3",
-        sm: "h-9 gap-2 rounded-xl px-4 text-sm in-data-[slot=button-group]:rounded-xl has-data-[icon=inline-end]:pe-3 has-data-[icon=inline-start]:ps-3 [&_svg:not([class*='size-'])]:size-4",
-        lg: "h-14 gap-2.5 px-8 rounded-2xl text-base has-data-[icon=inline-end]:pe-6 has-data-[icon=inline-start]:ps-6",
+          "h-11 gap-2 px-5 has-data-[icon=inline-end]:ps-4 has-data-[icon=inline-start]:pe-4",
+        xs: "h-8 gap-1.5 rounded-lg px-3 text-xs in-data-[slot=button-group]:rounded-lg has-data-[icon=inline-end]:ps-2.5 has-data-[icon=inline-start]:pe-2.5 [&_svg:not([class*='size-'])]:size-3",
+        sm: "h-9 gap-2 rounded-xl px-4 text-sm in-data-[slot=button-group]:rounded-xl has-data-[icon=inline-end]:ps-3 has-data-[icon=inline-start]:pe-3 [&_svg:not([class*='size-'])]:size-4",
+        lg: "h-14 gap-2.5 px-8 rounded-2xl text-base has-data-[icon=inline-end]:ps-6 has-data-[icon=inline-start]:pe-6",
         icon: "size-11",
         "icon-xs":
           "size-8 rounded-lg in-data-[slot=button-group]:rounded-lg [&_svg:not([class*='size-'])]:size-3",

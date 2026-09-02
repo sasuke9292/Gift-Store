@@ -75,7 +75,7 @@ export default function AdminNotificationsPage() {
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 bg-white p-8 rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-100 relative overflow-hidden">
         {/* Decorative blobs */}
-        <div className="absolute top-0 end-0 w-64 h-64 bg-primary/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
+        <div className="absolute top-0 start-0 w-64 h-64 bg-primary/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
         
         <div className="relative z-10 flex items-center gap-5">
           <div className="w-16 h-16 bg-gradient-to-tr from-primary/20 to-primary/5 rounded-2xl flex items-center justify-center shrink-0 shadow-inner">
@@ -97,18 +97,18 @@ export default function AdminNotificationsPage() {
         <div className="relative z-10 flex gap-3 w-full md:w-auto">
           <DropdownMenu>
             <DropdownMenuTrigger className="bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 rounded-xl h-12 px-6 font-bold transition-all shadow-sm flex items-center justify-center flex-1 md:flex-none">
-              <Filter className="w-5 h-5 ms-2 text-slate-400" />
+              <Filter className="w-5 h-5 me-2 text-slate-400" />
               خيارات متقدمة
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-56 rounded-2xl shadow-xl border-slate-100 p-2">
               <DropdownMenuLabel className="text-xs text-slate-400 font-bold px-2 py-1.5">إدارة الإشعارات</DropdownMenuLabel>
               <DropdownMenuItem className="rounded-xl cursor-pointer py-2.5 font-medium text-slate-700 hover:bg-slate-50" onClick={handleMarkAllAsRead}>
-                <CheckCheck className="ms-3 h-4 w-4 text-emerald-500" />
+                <CheckCheck className="me-3 h-4 w-4 text-emerald-500" />
                 <span>تحديد الكل كمقروء</span>
               </DropdownMenuItem>
               <DropdownMenuSeparator className="my-2" />
               <DropdownMenuItem className="rounded-xl cursor-pointer py-2.5 font-bold text-rose-600 hover:bg-rose-50" onClick={handleDeleteAll}>
-                <Trash2 className="ms-3 h-4 w-4" />
+                <Trash2 className="me-3 h-4 w-4" />
                 <span>مسح جميع الإشعارات</span>
               </DropdownMenuItem>
             </DropdownMenuContent>
@@ -134,10 +134,10 @@ export default function AdminNotificationsPage() {
         </div>
 
         <div className="relative w-full sm:max-w-xs">
-          <Search className="absolute end-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+          <Search className="absolute start-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
           <Input
             placeholder="ابحث في الإشعارات..."
-            className="ps-4 pe-12 bg-white border-slate-200 focus:border-primary focus-visible:ring-primary/20 h-12 rounded-2xl text-sm shadow-sm transition-all"
+            className="pe-4 ps-12 bg-white border-slate-200 focus:border-primary focus-visible:ring-primary/20 h-12 rounded-2xl text-sm shadow-sm transition-all"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
@@ -160,7 +160,7 @@ export default function AdminNotificationsPage() {
                   
                   {/* Read Indicator Line */}
                   {!notif.read && (
-                    <div className="absolute top-0 bottom-0 end-0 w-1.5 bg-primary shadow-[0_0_10px_rgba(37,99,235,0.5)]"></div>
+                    <div className="absolute top-0 bottom-0 start-0 w-1.5 bg-primary shadow-[0_0_10px_rgba(37,99,235,0.5)]"></div>
                   )}
 
                   <div className={`w-14 h-14 rounded-2xl flex items-center justify-center shrink-0 shadow-inner ${
@@ -195,7 +195,7 @@ export default function AdminNotificationsPage() {
                           className="rounded-xl cursor-pointer py-2.5 font-medium text-slate-700 hover:bg-slate-50"
                           onClick={() => toggleReadStatus(notif.id)}
                         >
-                          <CheckCircle2 className={`ms-3 h-4 w-4 ${notif.read ? 'text-slate-400' : 'text-primary'}`} />
+                          <CheckCircle2 className={`me-3 h-4 w-4 ${notif.read ? 'text-slate-400' : 'text-primary'}`} />
                           <span>{notif.read ? 'تحديد كغير مقروء' : 'تحديد كمقروء'}</span>
                         </DropdownMenuItem>
                         <DropdownMenuSeparator className="my-1" />
@@ -203,7 +203,7 @@ export default function AdminNotificationsPage() {
                           className="rounded-xl cursor-pointer py-2.5 font-bold text-rose-600 hover:bg-rose-50"
                           onClick={() => deleteNotification(notif.id)}
                         >
-                          <Trash2 className="ms-3 h-4 w-4" />
+                          <Trash2 className="me-3 h-4 w-4" />
                           <span>حذف الإشعار</span>
                         </DropdownMenuItem>
                       </DropdownMenuContent>

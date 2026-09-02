@@ -116,11 +116,11 @@ export function AdminHeader({ userRole = 'CUSTOMER', userName }: { userRole?: st
 
       <div className="flex items-center gap-3">
         <div className="relative hidden md:block w-56">
-          <Search className="absolute end-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+          <Search className="absolute start-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
           <Input
             type="text"
             placeholder="بحث سريع..."
-            className="ps-4 pe-10 bg-slate-100/60 border-transparent hover:bg-slate-100 focus:bg-white focus:border-indigo-300 focus:ring-2 focus:ring-indigo-100 rounded-xl h-9 transition-all text-sm"
+            className="pe-4 ps-10 bg-slate-100/60 border-transparent hover:bg-slate-100 focus:bg-white focus:border-indigo-300 focus:ring-2 focus:ring-indigo-100 rounded-xl h-9 transition-all text-sm"
           />
         </div>
 

@@ -36,10 +36,10 @@ export function ProductCard({ product }: ProductCardProps) {
 
 
   return (
-    <Card className="group border-0 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_25px_50px_-12px_rgba(30,58,138,0.15)] hover:-translate-y-1 hover:scale-[1.01] transition-all duration-500 bg-white overflow-hidden rounded-[2rem] h-full flex flex-col relative text-end">
+    <Card className="group border-0 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_25px_50px_-12px_rgba(30,58,138,0.15)] hover:-translate-y-1 hover:scale-[1.01] transition-all duration-500 bg-white overflow-hidden rounded-[2rem] h-full flex flex-col relative text-start">
       
       {/* Quick Actions (Hover) */}
-      <div className="absolute top-4 start-4 z-20 opacity-0 group-hover:opacity-100 -translate-x-4 group-hover:translate-x-0 transition-all duration-500 ease-out">
+      <div className="absolute top-4 end-4 z-20 opacity-0 group-hover:opacity-100 -translate-x-4 group-hover:translate-x-0 transition-all duration-500 ease-out">
         <Button 
           size="icon" 
           variant="secondary" 
@@ -99,7 +99,7 @@ export function ProductCard({ product }: ProductCardProps) {
           </div>
 
           {/* Badges Floating on Image */}
-          <div className="absolute top-3 end-3 z-20 flex flex-col gap-2">
+          <div className="absolute top-3 start-3 z-20 flex flex-col gap-2">
             {product.isNew && (
               <Badge className="bg-white/90 backdrop-blur-md text-slate-900 hover:bg-white shadow-sm border-none px-3 py-1 rounded-full text-[11px] font-bold tracking-wider">
                 جديد

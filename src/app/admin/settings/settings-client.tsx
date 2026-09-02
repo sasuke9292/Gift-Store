@@ -55,7 +55,7 @@ export default function SettingsClient({ initialSettings }: { initialSettings: S
           <Button onClick={handleSave} disabled={isSaving} className="bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl h-12 px-8 font-bold shadow-lg shadow-indigo-600/20 transition-all">
             {isSaving ? 'جاري الحفظ...' : (
               <>
-                <Save className="w-5 h-5 ms-2" />
+                <Save className="w-5 h-5 me-2" />
                 حفظ التغييرات
               </>
             )}
@@ -121,7 +121,7 @@ export default function SettingsClient({ initialSettings }: { initialSettings: S
                       onChange={(e) => setSettings({...settings, logoUrl: e.target.value})}
                       placeholder="https://..."
                       dir="rtl"
-                      className="h-14 rounded-2xl border-slate-200 focus-visible:ring-indigo-500 bg-slate-50 focus:bg-white transition-colors text-start text-sm font-mono flex-1" 
+                      className="h-14 rounded-2xl border-slate-200 focus-visible:ring-indigo-500 bg-slate-50 focus:bg-white transition-colors text-end text-sm font-mono flex-1" 
                     />
                   </div>
                 </div>
@@ -132,7 +132,7 @@ export default function SettingsClient({ initialSettings }: { initialSettings: S
                     value={settings.storeEmail}
                     onChange={(e) => setSettings({...settings, storeEmail: e.target.value})}
                     dir="rtl"
-                    className="h-14 rounded-2xl border-slate-200 focus-visible:ring-indigo-500 bg-slate-50 focus:bg-white transition-colors text-start font-mono text-sm" 
+                    className="h-14 rounded-2xl border-slate-200 focus-visible:ring-indigo-500 bg-slate-50 focus:bg-white transition-colors text-end font-mono text-sm" 
                   />
                 </div>
                 <div className="space-y-3">
@@ -141,7 +141,7 @@ export default function SettingsClient({ initialSettings }: { initialSettings: S
                     value={settings.storePhone}
                     onChange={(e) => setSettings({...settings, storePhone: e.target.value})}
                     dir="rtl"
-                    className="h-14 rounded-2xl border-slate-200 focus-visible:ring-indigo-500 bg-slate-50 focus:bg-white transition-colors text-start font-mono text-sm" 
+                    className="h-14 rounded-2xl border-slate-200 focus-visible:ring-indigo-500 bg-slate-50 focus:bg-white transition-colors text-end font-mono text-sm" 
                   />
                 </div>
               </div>

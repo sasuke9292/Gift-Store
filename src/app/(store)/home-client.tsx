@@ -69,7 +69,7 @@ export default function StoreHomeClient({ initialCategories: categories, initial
       <section className="relative min-h-[60vh] flex flex-col items-center justify-center pt-12 pb-16 overflow-hidden bg-[#FBFBFD]">
         
         {/* Subtle Background Glow */}
-        <div className="absolute top-0 start-1/2 -translate-x-1/2 w-full max-w-[1000px] h-[500px] bg-gradient-to-b from-blue-100/40 via-blue-50/20 to-transparent blur-3xl -z-10" />
+        <div className="absolute top-0 end-1/2 -translate-x-1/2 w-full max-w-[1000px] h-[500px] bg-gradient-to-b from-blue-100/40 via-blue-50/20 to-transparent blur-3xl -z-10" />
 
         <motion.div 
           style={{ opacity: heroOpacity, y: heroY }}
@@ -82,7 +82,7 @@ export default function StoreHomeClient({ initialCategories: categories, initial
             transition={{ duration: 0.8, ease: "easeOut" }}
             className="inline-flex items-center rounded-full border border-slate-200/60 bg-white/50 backdrop-blur-md px-6 py-2.5 text-sm font-medium text-slate-600 mb-10 shadow-sm"
           >
-            <Sparkles className="w-4 h-4 me-2 ms-2 text-rose-500" />
+            <Sparkles className="w-4 h-4 ms-2 me-2 text-rose-500" />
             التشكيلة الجديدة كلياً لعام 2026
           </motion.div>
           
@@ -121,7 +121,7 @@ export default function StoreHomeClient({ initialCategories: categories, initial
             </Link>
             <Link href="/gift-finder" className="inline-flex items-center justify-center w-full sm:w-auto h-14 px-10 text-lg rounded-full bg-white border border-slate-200 text-slate-900 font-semibold transition-all hover:border-slate-300 hover:bg-slate-50 hover:scale-105 active:scale-95 shadow-sm">
               مكتشف الهدايا الذكي
-              <ArrowUpLeft className="me-2 w-5 h-5" />
+              <ArrowUpLeft className="ms-2 w-5 h-5" />
             </Link>
           </motion.div>
         </motion.div>
@@ -175,7 +175,7 @@ export default function StoreHomeClient({ initialCategories: categories, initial
                   <div className="absolute inset-x-0 bottom-0 p-8 z-20 bg-gradient-to-t from-black/60 via-black/20 to-transparent">
                     <h3 className="text-3xl font-bold text-white mb-2">{category.name}</h3>
                     <span className="text-white/80 font-medium text-sm flex items-center">
-                      تصفح المجموعة <ArrowLeft className="w-4 h-4 me-2" />
+                      تصفح المجموعة <ArrowLeft className="w-4 h-4 ms-2" />
                     </span>
                   </div>
                 </Link>
@@ -217,7 +217,7 @@ export default function StoreHomeClient({ initialCategories: categories, initial
             </div>
             <Link href="/shop" className="inline-flex items-center text-rose-500 font-semibold hover:text-rose-600 group">
               تسوق كل المنتجات
-              <ArrowLeft className="me-2 w-5 h-5 group-hover:-translate-x-1 transition-transform" />
+              <ArrowLeft className="ms-2 w-5 h-5 group-hover:-translate-x-1 transition-transform" />
             </Link>
           </div>
 

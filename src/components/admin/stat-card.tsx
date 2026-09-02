@@ -35,7 +35,7 @@ export function StatCard({
               {trendValue && (
                 <span
                   className={cn(
-                    'font-medium me-2',
+                    'font-medium ms-2',
                     trend === 'up' && 'text-green-600',
                     trend === 'down' && 'text-red-600',
                     trend === 'neutral' && 'text-slate-600'

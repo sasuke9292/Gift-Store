@@ -50,7 +50,7 @@ export default function ProfileClient({ user, orders }: ProfileProps) {
             <div className="flex items-center justify-between mb-8">
               <h2 className="text-2xl font-bold text-slate-800">المعلومات الشخصية</h2>
               <Button variant="outline" className="rounded-xl border-primary/20 text-primary hover:bg-primary/5">
-                <Edit3 className="w-4 h-4 ms-2" />
+                <Edit3 className="w-4 h-4 me-2" />
                 تعديل
               </Button>
             </div>
@@ -133,7 +133,7 @@ export default function ProfileClient({ user, orders }: ProfileProps) {
                       </span>
                       <Button variant="ghost" className="rounded-xl text-slate-500 group-hover:text-primary transition-colors">
                         التفاصيل
-                        <ChevronLeft className="w-4 h-4 me-1" />
+                        <ChevronLeft className="w-4 h-4 ms-1" />
                       </Button>
                     </div>
                   </div>
@@ -153,7 +153,7 @@ export default function ProfileClient({ user, orders }: ProfileProps) {
             <div className="flex items-center justify-between mb-8">
               <h2 className="text-2xl font-bold text-slate-800">عناويني</h2>
               <Button className="rounded-xl h-12 px-6 shadow-md shadow-primary/20">
-                <MapPin className="w-4 h-4 ms-2" />
+                <MapPin className="w-4 h-4 me-2" />
                 إضافة عنوان جديد
               </Button>
             </div>
@@ -259,7 +259,7 @@ export default function ProfileClient({ user, orders }: ProfileProps) {
           <div className="w-full lg:w-80 shrink-0">
             {/* User Profile Card */}
             <div className="bg-white rounded-[2rem] p-8 shadow-sm border border-slate-100 mb-6 text-center relative overflow-hidden">
-              <div className="absolute top-0 start-0 end-0 h-32 bg-gradient-to-br from-primary/10 to-blue-500/10"></div>
+              <div className="absolute top-0 end-0 start-0 h-32 bg-gradient-to-br from-primary/10 to-blue-500/10"></div>
               
               <div className="relative mb-6 mx-auto w-28 h-28">
                 <div className="w-full h-full bg-white rounded-full flex items-center justify-center shadow-xl shadow-primary/5 border-4 border-white z-10 relative overflow-hidden">
@@ -267,7 +267,7 @@ export default function ProfileClient({ user, orders }: ProfileProps) {
                     {user.name.charAt(0)}
                   </div>
                 </div>
-                <button className="absolute bottom-0 start-0 bg-white p-2 rounded-full shadow-md border border-slate-100 text-slate-600 hover:text-primary transition-colors z-20">
+                <button className="absolute bottom-0 end-0 bg-white p-2 rounded-full shadow-md border border-slate-100 text-slate-600 hover:text-primary transition-colors z-20">
                   <Camera className="w-5 h-5" />
                 </button>
               </div>
@@ -290,7 +290,7 @@ export default function ProfileClient({ user, orders }: ProfileProps) {
                     }`}
                   >
                     <div className="flex items-center">
-                      <tab.icon className={`w-5 h-5 ms-3 ${activeTab === tab.id ? 'text-white' : 'text-slate-400'}`} />
+                      <tab.icon className={`w-5 h-5 me-3 ${activeTab === tab.id ? 'text-white' : 'text-slate-400'}`} />
                       {tab.label}
                     </div>
                     {tab.count !== undefined && (
@@ -308,7 +308,7 @@ export default function ProfileClient({ user, orders }: ProfileProps) {
                     onClick={() => signOut({ callbackUrl: '/' })}
                     className="w-full flex items-center p-4 rounded-xl text-rose-600 hover:bg-rose-50 font-bold transition-all duration-200"
                   >
-                    <LogOut className="w-5 h-5 ms-3 text-rose-400" />
+                    <LogOut className="w-5 h-5 me-3 text-rose-400" />
                     تسجيل الخروج
                   </button>
                 </div>

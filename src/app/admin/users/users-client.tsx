@@ -105,14 +105,14 @@ export default function UsersClient({ initialUsers }: { initialUsers: UserData[]
             className="bg-indigo-600 text-white hover:bg-indigo-700 rounded-xl h-12 px-6 font-bold shadow-lg shadow-indigo-600/20 transition-all"
             onClick={() => toast.info('قريباً: إضافة مستخدم جديد')}
           >
-            <UserCog className="w-5 h-5 ms-2" />
+            <UserCog className="w-5 h-5 me-2" />
             إضافة مستخدم
           </Button>
           <Button 
             onClick={handleExport}
             className="bg-slate-100 text-slate-600 hover:bg-slate-200 rounded-xl h-12 px-6 font-bold transition-all shadow-none"
           >
-            <Download className="w-5 h-5 ms-2" />
+            <Download className="w-5 h-5 me-2" />
             تصدير
           </Button>
         </div>
@@ -124,16 +124,16 @@ export default function UsersClient({ initialUsers }: { initialUsers: UserData[]
         {/* Toolbar */}
         <div className="p-6 md:p-8 border-b border-slate-100 bg-slate-50/50 flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="relative w-full md:max-w-md">
-            <Search className="absolute end-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+            <Search className="absolute start-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
             <Input
               placeholder="ابحث عن مستخدم بالاسم أو الإيميل..."
-              className="ps-4 pe-12 bg-white border-slate-200 focus:border-indigo-500 focus-visible:ring-indigo-100 h-14 rounded-2xl text-md shadow-sm transition-all"
+              className="pe-4 ps-12 bg-white border-slate-200 focus:border-indigo-500 focus-visible:ring-indigo-100 h-14 rounded-2xl text-md shadow-sm transition-all"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
           </div>
           <Button variant="outline" className="w-full md:w-auto h-14 rounded-2xl px-6 text-slate-700 font-bold border-slate-200 hover:bg-slate-50 shadow-sm">
-            <Filter className="w-5 h-5 ms-2 text-slate-500" />
+            <Filter className="w-5 h-5 me-2 text-slate-500" />
             تصفية الصلاحيات
           </Button>
         </div>
@@ -144,11 +144,11 @@ export default function UsersClient({ initialUsers }: { initialUsers: UserData[]
             <Table className="w-full min-w-[900px]">
               <TableHeader className="bg-slate-50 border-b border-slate-100">
                 <TableRow className="hover:bg-transparent">
-                  <TableHead className="text-start font-bold text-slate-600 py-5 px-8">المستخدم</TableHead>
-                  <TableHead className="text-start font-bold text-slate-600 py-5">البريد الإلكتروني</TableHead>
-                  <TableHead className="text-start font-bold text-slate-600 py-5">الدور (الصلاحية)</TableHead>
-                  <TableHead className="text-start font-bold text-slate-600 py-5">تاريخ الانضمام</TableHead>
-                  <TableHead className="text-start font-bold text-slate-600 py-5">الحالة</TableHead>
+                  <TableHead className="text-end font-bold text-slate-600 py-5 px-8">المستخدم</TableHead>
+                  <TableHead className="text-end font-bold text-slate-600 py-5">البريد الإلكتروني</TableHead>
+                  <TableHead className="text-end font-bold text-slate-600 py-5">الدور (الصلاحية)</TableHead>
+                  <TableHead className="text-end font-bold text-slate-600 py-5">تاريخ الانضمام</TableHead>
+                  <TableHead className="text-end font-bold text-slate-600 py-5">الحالة</TableHead>
                   <TableHead className="text-center font-bold text-slate-600 py-5 px-8">الإجراءات</TableHead>
                 </TableRow>
               </TableHeader>
@@ -230,12 +230,12 @@ export default function UsersClient({ initialUsers }: { initialUsers: UserData[]
                                 >
                                   {user.status === 'نشط' ? (
                                     <>
-                                      <Ban className="ms-3 h-4 w-4" />
+                                      <Ban className="me-3 h-4 w-4" />
                                       <span>حظر الحساب</span>
                                     </>
                                   ) : (
                                     <>
-                                      <CheckCircle2 className="ms-3 h-4 w-4" />
+                                      <CheckCircle2 className="me-3 h-4 w-4" />
                                       <span>تفعيل الحساب</span>
                                     </>
                                   )}
@@ -328,12 +328,12 @@ export default function UsersClient({ initialUsers }: { initialUsers: UserData[]
               
               <div className="space-y-2">
                 <label className="text-sm font-bold text-slate-700">البريد الإلكتروني</label>
-                <Input defaultValue={selectedUser.email} dir="rtl" className="h-12 rounded-xl border-slate-200 focus-visible:ring-indigo-500 bg-slate-50 focus:bg-white text-start" />
+                <Input defaultValue={selectedUser.email} dir="rtl" className="h-12 rounded-xl border-slate-200 focus-visible:ring-indigo-500 bg-slate-50 focus:bg-white text-end" />
               </div>
 
               <div className="space-y-2">
                 <label className="text-sm font-bold text-slate-700">تغيير كلمة المرور</label>
-                <Input type="password" placeholder="أدخل كلمة المرور الجديدة (اختياري)" dir="rtl" className="h-12 rounded-xl border-slate-200 focus-visible:ring-indigo-500 bg-slate-50 focus:bg-white text-start placeholder:text-end" />
+                <Input type="password" placeholder="أدخل كلمة المرور الجديدة (اختياري)" dir="rtl" className="h-12 rounded-xl border-slate-200 focus-visible:ring-indigo-500 bg-slate-50 focus:bg-white text-end placeholder:text-start" />
                 <p className="text-xs text-slate-400 font-medium">اترك الحقل فارغاً إذا كنت لا ترغب بتغيير كلمة المرور.</p>
               </div>
 

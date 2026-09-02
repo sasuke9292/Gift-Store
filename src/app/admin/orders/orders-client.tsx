@@ -113,7 +113,7 @@ export default function OrdersClient({ initialOrders }: { initialOrders: OrderDa
           <p className="text-slate-500 text-sm font-medium mt-1">متابعة وتحديث حالة الطلبات لمتجرك.</p>
         </div>
         <Button className="bg-slate-100 text-slate-600 hover:bg-slate-200 rounded-xl h-10 px-5 font-bold shadow-none transition-all text-sm">
-          <Download className="w-4 h-4 me-2" />
+          <Download className="w-4 h-4 ms-2" />
           تصدير البيانات
         </Button>
       </div>
@@ -124,10 +124,10 @@ export default function OrdersClient({ initialOrders }: { initialOrders: OrderDa
         <div className="p-4 md:p-5 border-b border-slate-100 bg-slate-50/50 space-y-3">
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-3">
             <div className="relative w-full md:max-w-sm">
-              <Search className="absolute end-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+              <Search className="absolute start-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
               <Input
                 placeholder="ابحث برقم الطلب أو العميل..."
-                className="ps-4 pe-11 bg-white border-slate-200 focus:border-indigo-500 focus-visible:ring-indigo-100 h-10 rounded-xl text-sm shadow-sm"
+                className="pe-4 ps-11 bg-white border-slate-200 focus:border-indigo-500 focus-visible:ring-indigo-100 h-10 rounded-xl text-sm shadow-sm"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
               />
@@ -157,11 +157,11 @@ export default function OrdersClient({ initialOrders }: { initialOrders: OrderDa
             <Table className="w-full min-w-[850px]">
               <TableHeader className="bg-slate-50 border-b border-slate-100">
                 <TableRow className="hover:bg-transparent">
-                  <TableHead className="text-start font-bold text-slate-600 py-4 px-6 text-xs uppercase tracking-wider">رقم الطلب</TableHead>
-                  <TableHead className="text-start font-bold text-slate-600 py-4 text-xs uppercase tracking-wider">العميل</TableHead>
-                  <TableHead className="text-start font-bold text-slate-600 py-4 text-xs uppercase tracking-wider">التاريخ</TableHead>
-                  <TableHead className="text-start font-bold text-slate-600 py-4 text-xs uppercase tracking-wider">الإجمالي</TableHead>
-                  <TableHead className="text-start font-bold text-slate-600 py-4 text-xs uppercase tracking-wider">الحالة</TableHead>
+                  <TableHead className="text-end font-bold text-slate-600 py-4 px-6 text-xs uppercase tracking-wider">رقم الطلب</TableHead>
+                  <TableHead className="text-end font-bold text-slate-600 py-4 text-xs uppercase tracking-wider">العميل</TableHead>
+                  <TableHead className="text-end font-bold text-slate-600 py-4 text-xs uppercase tracking-wider">التاريخ</TableHead>
+                  <TableHead className="text-end font-bold text-slate-600 py-4 text-xs uppercase tracking-wider">الإجمالي</TableHead>
+                  <TableHead className="text-end font-bold text-slate-600 py-4 text-xs uppercase tracking-wider">الحالة</TableHead>
                   <TableHead className="text-center font-bold text-slate-600 py-4 px-6 text-xs uppercase tracking-wider">الإجراءات</TableHead>
                 </TableRow>
               </TableHeader>
@@ -234,7 +234,7 @@ export default function OrdersClient({ initialOrders }: { initialOrders: OrderDa
                                   onClick={() => handleUpdateStatus(order.id, 'CANCELLED')}
                                   className="rounded-lg cursor-pointer py-2 font-bold text-amber-600 hover:bg-amber-50 text-sm"
                                 >
-                                  <XCircle className="me-2.5 h-3.5 w-3.5" />
+                                  <XCircle className="ms-2.5 h-3.5 w-3.5" />
                                   إلغاء الطلب
                                 </DropdownMenuItem>
                               )}
@@ -243,7 +243,7 @@ export default function OrdersClient({ initialOrders }: { initialOrders: OrderDa
                                 onClick={() => setDeleteId(order.id)}
                                 className="rounded-lg cursor-pointer py-2 font-bold text-rose-600 hover:bg-rose-50 text-sm"
                               >
-                                <Trash className="me-2.5 h-3.5 w-3.5" />
+                                <Trash className="ms-2.5 h-3.5 w-3.5" />
                                 حذف نهائي
                               </DropdownMenuItem>
                             </DropdownMenuContent>

@@ -60,10 +60,10 @@ export default function ShopClient({ initialProducts, categories, initialActiveC
           </div>
           <div className="flex items-center gap-4 w-full md:w-auto">
             <div className="relative flex-1 md:w-80">
-              <Search className="absolute end-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+              <Search className="absolute start-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
               <Input 
                 placeholder="ابحث عن منتج..." 
-                className="ps-4 pe-12 h-12 bg-slate-50 border-transparent focus:bg-white rounded-2xl w-full"
+                className="pe-4 ps-12 h-12 bg-slate-50 border-transparent focus:bg-white rounded-2xl w-full"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
@@ -91,7 +91,7 @@ export default function ShopClient({ initialProducts, categories, initialActiveC
                 <li>
                   <button
                     onClick={() => setActiveCategory('الكل')}
-                    className={`w-full text-end px-4 py-3 rounded-xl transition-all duration-300 ${
+                    className={`w-full text-start px-4 py-3 rounded-xl transition-all duration-300 ${
                       activeCategory === 'الكل'
                       ? 'bg-primary/10 text-primary font-bold' 
                       : 'text-slate-600 hover:bg-slate-50'
@@ -104,7 +104,7 @@ export default function ShopClient({ initialProducts, categories, initialActiveC
                   <li key={category.id}>
                     <button
                       onClick={() => setActiveCategory(category.name)}
-                      className={`w-full text-end px-4 py-3 rounded-xl transition-all duration-300 ${
+                      className={`w-full text-start px-4 py-3 rounded-xl transition-all duration-300 ${
                         activeCategory === category.name 
                         ? 'bg-primary/10 text-primary font-bold' 
                         : 'text-slate-600 hover:bg-slate-50'

@@ -51,8 +51,8 @@ export default function AdminLoginClient() {
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8 relative overflow-hidden" dir="rtl">
       {/* Decorative bg */}
-      <div className="absolute top-0 end-0 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
-      <div className="absolute bottom-0 start-0 w-96 h-96 bg-slate-500/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2" />
+      <div className="absolute top-0 start-0 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
+      <div className="absolute bottom-0 end-0 w-96 h-96 bg-slate-500/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2" />
 
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
@@ -74,7 +74,7 @@ export default function AdminLoginClient() {
                 البريد الإلكتروني
               </label>
               <div className="relative">
-                <div className="absolute inset-y-0 end-0 pe-4 flex items-center pointer-events-none">
+                <div className="absolute inset-y-0 start-0 ps-4 flex items-center pointer-events-none">
                   <Mail className="h-5 w-5 text-slate-400" />
                 </div>
                 <Input
@@ -82,7 +82,7 @@ export default function AdminLoginClient() {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="pe-12 bg-slate-50 border-slate-200 focus:bg-white"
+                  className="ps-12 bg-slate-50 border-slate-200 focus:bg-white"
                   placeholder="name@example.com"
                 />
               </div>
@@ -93,7 +93,7 @@ export default function AdminLoginClient() {
                 كلمة المرور
               </label>
               <div className="relative">
-                <div className="absolute inset-y-0 end-0 pe-4 flex items-center pointer-events-none">
+                <div className="absolute inset-y-0 start-0 ps-4 flex items-center pointer-events-none">
                   <Lock className="h-5 w-5 text-slate-400" />
                 </div>
                 <Input
@@ -101,7 +101,7 @@ export default function AdminLoginClient() {
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="pe-12 bg-slate-50 border-slate-200 focus:bg-white"
+                  className="ps-12 bg-slate-50 border-slate-200 focus:bg-white"
                   placeholder="••••••••"
                 />
               </div>
@@ -115,7 +115,7 @@ export default function AdminLoginClient() {
                   type="checkbox"
                   className="h-4 w-4 text-primary focus:ring-primary border-slate-300 rounded"
                 />
-                <label htmlFor="remember-me" className="me-2 block text-sm text-slate-600">
+                <label htmlFor="remember-me" className="ms-2 block text-sm text-slate-600">
                   تذكرني
                 </label>
               </div>
@@ -134,7 +134,7 @@ export default function AdminLoginClient() {
 
           <div className="mt-8">
             <Link href="/auth/login" className="w-full block text-center mt-6 text-sm text-slate-500 hover:text-indigo-600 font-medium">
-              <ArrowRight className="inline-block w-4 h-4 ms-1 rotate-180" />
+              <ArrowRight className="inline-block w-4 h-4 me-1 rotate-180" />
               العودة إلى متجر العملاء
             </Link>
           </div>
