@@ -28,19 +28,19 @@ import {
 
 import { LucideIcon } from 'lucide-react'
 
-type SidebarItem = {
+export type SidebarItem = {
   name: string
   href: string
   icon: LucideIcon
   allowedRoles?: string[]
 }
 
-type SidebarGroup = {
+export type SidebarGroup = {
   title: string
   items: SidebarItem[]
 }
 
-const sidebarGroups: SidebarGroup[] = [
+export const sidebarGroups: SidebarGroup[] = [
   {
     title: 'نظرة عامة',
     items: [

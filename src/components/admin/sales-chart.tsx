@@ -35,8 +35,8 @@ export function SalesChart() {
               data={data}
               margin={{
                 top: 10,
-                right: 30,
-                left: 0,
+                right: 0,
+                left: 30,
                 bottom: 0,
               }}
             >
@@ -56,6 +56,7 @@ export function SalesChart() {
                 padding={{ left: 10, right: 10 }}
               />
               <YAxis
+                orientation="right"
                 stroke="#94a3b8"
                 fontSize={12}
                 tickLine={false}

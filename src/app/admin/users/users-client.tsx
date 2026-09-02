@@ -142,11 +142,11 @@ export default function UsersClient({ initialUsers }: { initialUsers: UserData[]
             <Table className="w-full min-w-[900px]">
               <TableHeader className="bg-slate-50 border-b border-slate-100">
                 <TableRow className="hover:bg-transparent">
-                  <TableHead className="text-end font-bold text-slate-600 py-5 px-8">المستخدم</TableHead>
-                  <TableHead className="text-end font-bold text-slate-600 py-5">البريد الإلكتروني</TableHead>
-                  <TableHead className="text-end font-bold text-slate-600 py-5">الدور (الصلاحية)</TableHead>
-                  <TableHead className="text-end font-bold text-slate-600 py-5">تاريخ الانضمام</TableHead>
-                  <TableHead className="text-end font-bold text-slate-600 py-5">الحالة</TableHead>
+                  <TableHead className="text-start font-bold text-slate-600 py-5 px-8">المستخدم</TableHead>
+                  <TableHead className="text-start font-bold text-slate-600 py-5">البريد الإلكتروني</TableHead>
+                  <TableHead className="text-start font-bold text-slate-600 py-5">الدور (الصلاحية)</TableHead>
+                  <TableHead className="text-start font-bold text-slate-600 py-5">تاريخ الانضمام</TableHead>
+                  <TableHead className="text-start font-bold text-slate-600 py-5">الحالة</TableHead>
                   <TableHead className="text-center font-bold text-slate-600 py-5 px-8">الإجراءات</TableHead>
                 </TableRow>
               </TableHeader>

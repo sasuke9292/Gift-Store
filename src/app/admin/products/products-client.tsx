@@ -183,10 +183,10 @@ export default function ProductsClient({ initialProducts, categories }: { initia
                       className="border-slate-300 data-[state=checked]:bg-indigo-600 data-[state=checked]:border-indigo-600 rounded-lg w-5 h-5"
                     />
                   </TableHead>
-                  <TableHead className="text-end font-bold text-slate-600 py-5 px-6">المنتج</TableHead>
-                  <TableHead className="text-end font-bold text-slate-600 py-5">التصنيف</TableHead>
-                  <TableHead className="text-end font-bold text-slate-600 py-5">السعر</TableHead>
-                  <TableHead className="text-end font-bold text-slate-600 py-5">الحالة</TableHead>
+                  <TableHead className="text-start font-bold text-slate-600 py-5 px-6">المنتج</TableHead>
+                  <TableHead className="text-start font-bold text-slate-600 py-5">التصنيف</TableHead>
+                  <TableHead className="text-start font-bold text-slate-600 py-5">السعر</TableHead>
+                  <TableHead className="text-start font-bold text-slate-600 py-5">الحالة</TableHead>
                   <TableHead className="text-center font-bold text-slate-600 py-5 px-6">إجراءات</TableHead>
                 </TableRow>
               </TableHeader>

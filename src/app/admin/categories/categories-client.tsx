@@ -144,7 +144,7 @@ export default function CategoriesClient({ initialCategories }: { initialCategor
         {/* Table */}
         <CardContent className="p-0">
           <div className="overflow-x-auto">
-            <table className="w-full text-end min-w-[800px]">
+            <table className="w-full text-start min-w-[800px]">
               <thead className="bg-slate-50 border-b border-slate-100">
                 <tr>
                   <th className="px-8 py-5 font-bold text-slate-600">التصنيف</th>
