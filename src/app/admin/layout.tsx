@@ -27,7 +27,7 @@ export default async function AdminLayout({
       <AdminSidebar storeName={settings?.storeName} logoUrl={settings?.logoUrl} user={session?.user} />
       
       {/* Main Content */}
-      <div className="flex-1 flex flex-col min-w-0 lg:me-72">
+      <div className="flex-1 flex flex-col min-w-0 lg:ms-72">
         <AdminHeader userRole={session?.user?.role} />
         
         <main className="flex-1 p-6 overflow-x-hidden">

@@ -75,7 +75,7 @@ export function AdminSidebar({ storeName = 'گفتي بلس', logoUrl, user }: {
   const userRole = user?.role || 'CUSTOMER'
 
   return (
-    <aside className="fixed inset-y-0 end-0 z-50 w-72 bg-slate-900 text-slate-300 hidden lg:flex flex-col">
+    <aside className="fixed inset-y-0 start-0 z-50 w-72 bg-slate-900 text-slate-300 hidden lg:flex flex-col">
       <div className="h-16 flex items-center px-6 bg-slate-950/50">
         <Link href="/admin" className="flex items-center gap-3 w-full">
           {logoUrl ? (
