@@ -14,7 +14,5 @@ export default async function AdminProductsPage() {
     }
   })
 
-  const categories = await prisma.category.findMany()
-
-  return <ProductsClient initialProducts={products} categories={categories} />
+  return <ProductsClient initialProducts={products} />
 }

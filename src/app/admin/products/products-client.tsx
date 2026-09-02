@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import {
   Table,
   TableBody,
@@ -9,45 +10,23 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { Card, CardContent, CardHeader } from '@/components/ui/card'
+import { Card, CardContent } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
-import { Button, buttonVariants } from '@/components/ui/button'
+import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
-import { Search, Plus, MoreHorizontal, Edit, Trash, Image as ImageIcon, Package, UploadCloud, X, Tag, DollarSign } from 'lucide-react'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog'
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { Label } from '@/components/ui/label'
-import { Switch } from '@/components/ui/switch'
+import { Search, Plus, Trash, Image as ImageIcon, CheckCircle2, Edit } from 'lucide-react'
 import { Checkbox } from '@/components/ui/checkbox'
 import Image from 'next/image'
-import { createProduct, updateProduct, deleteProduct, deleteProducts } from '@/app/actions/admin/products'
+import { deleteProduct, deleteProducts } from '@/app/actions/admin/products'
 import { toast } from 'sonner'
-import { Textarea } from '@/components/ui/textarea'
-
+import Link from 'next/link'
 import { Product, Category } from '@prisma/client'
 
 type ProductWithCategory = Product & { category?: Category | null }
 
-export default function ProductsClient({ initialProducts, categories }: { initialProducts: ProductWithCategory[], categories: Category[] }) {
+export default function ProductsClient({ initialProducts }: { initialProducts: ProductWithCategory[] }) {
   const [products, setProducts] = useState<ProductWithCategory[]>(initialProducts)
   const [search, setSearch] = useState('')
-  
-  const [isModalOpen, setIsModalOpen] = useState(false)
-  const [isEditing, setIsEditing] = useState(false)
-  const [currentProduct, setCurrentProduct] = useState<Partial<Product> & { imagesList?: string[] }>({})
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [newImageUrl, setNewImageUrl] = useState('')
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set())
   const [isDeletingBulk, setIsDeletingBulk] = useState(false)
   const [statusFilter, setStatusFilter] = useState<'all' | 'active' | 'draft'>('all')
@@ -86,74 +65,6 @@ export default function ProductsClient({ initialProducts, categories }: { initia
     }
   }
 
-  const openModal = (product?: ProductWithCategory) => {
-    if (product) {
-      setIsEditing(true)
-      setCurrentProduct({
-        ...product,
-        imagesList: product.images || []
-      })
-    } else {
-      setIsEditing(false)
-      setCurrentProduct({ name: '', slug: '', description: '', price: 0, salePrice: 0, categoryId: categories[0]?.id || '', imagesList: [], isActive: true })
-    }
-    setIsModalOpen(true)
-  }
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setIsSubmitting(true)
-    
-    try {
-      const imagesArray = currentProduct.imagesList || []
-
-      if (isEditing && currentProduct.id) {
-        const res = await updateProduct(currentProduct.id, {
-          name: currentProduct.name || '',
-          slug: currentProduct.slug || '',
-          description: currentProduct.description || '',
-          price: Number(currentProduct.price) || 0,
-          salePrice: Number(currentProduct.salePrice) || null,
-          categoryId: currentProduct.categoryId || '',
-          images: imagesArray,
-          isActive: currentProduct.isActive ?? true,
-        })
-        if (res.success) {
-          toast.success('تم تحديث المنتج بنجاح')
-          const updatedCat = categories.find(c => c.id === currentProduct.categoryId)
-          setProducts(products.map(p => p.id === currentProduct.id ? { ...p, ...(res.data as ProductWithCategory), category: updatedCat } : p))
-          setIsModalOpen(false)
-        } else {
-          toast.error(res.error || 'حدث خطأ')
-        }
-      } else {
-        const res = await createProduct({
-          name: currentProduct.name || '',
-          slug: currentProduct.slug || `slug-${Date.now()}`,
-          description: currentProduct.description || '',
-          price: Number(currentProduct.price) || 0,
-          salePrice: Number(currentProduct.salePrice) || null,
-          categoryId: currentProduct.categoryId || '',
-          images: imagesArray,
-          isActive: currentProduct.isActive ?? true,
-        })
-        if (res.success) {
-          toast.success('تم إضافة المنتج بنجاح')
-          const newCat = categories.find(c => c.id === currentProduct.categoryId)
-          setProducts([{ ...(res.data as ProductWithCategory), category: newCat }, ...products])
-          setIsModalOpen(false)
-        } else {
-          toast.error(res.error || 'حدث خطأ')
-        }
-      }
-    } catch (err) {
-      console.error(err)
-      toast.error('حدث خطأ أثناء الحفظ. قد يكون حجم الصور كبيراً جداً (الحد الأقصى 10MB)')
-    } finally {
-      setIsSubmitting(false)
-    }
-  }
-
   const handleDelete = async (id: string) => {
     if (confirm('هل أنت متأكد من حذف هذا المنتج؟')) {
       const res = await deleteProduct(id)
@@ -174,142 +85,185 @@ export default function ProductsClient({ initialProducts, categories }: { initia
   })
 
   return (
-    <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+    <motion.div 
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="space-y-8 pb-12" 
+      dir="rtl"
+    >
+      {/* Header Section */}
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 bg-white p-8 rounded-3xl shadow-sm border border-slate-100">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">المنتجات</h1>
-          <p className="text-slate-500 mt-1.5 font-medium text-sm">إدارة المنتجات، المخزون، والأسعار الخاصة بمتجرك.</p>
+          <h1 className="text-3xl font-black text-slate-800 tracking-tight mb-2">إدارة المنتجات</h1>
+          <p className="text-slate-500 font-medium">إضافة وتعديل وحذف المنتجات في متجرك بكل سهولة.</p>
         </div>
-        <div className="flex gap-3">
-          <Button onClick={() => openModal()} className="h-12 bg-primary hover:bg-primary/90 text-white shadow-lg shadow-primary/25 hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300 rounded-2xl px-6 font-bold text-sm">
+        <Link href="/admin/products/new">
+          <Button className="bg-indigo-600 hover:bg-indigo-700 text-white shadow-lg shadow-indigo-600/20 rounded-xl px-6 h-12 font-bold transition-all w-full sm:w-auto">
             <Plus className="w-5 h-5 ml-2" />
             إضافة منتج جديد
           </Button>
-        </div>
+        </Link>
       </div>
 
-      {selectedIds.size > 0 && (
-        <div className="bg-blue-50/80 border border-blue-100 rounded-2xl p-4 flex items-center justify-between animate-in fade-in slide-in-from-top-4">
-          <p className="text-sm font-bold text-blue-900">
-            تم تحديد {selectedIds.size} منتج
-          </p>
-          <Button 
-            variant="destructive" 
-            size="sm" 
-            onClick={handleBulkDelete} 
-            disabled={isDeletingBulk}
-            className="rounded-xl font-bold shadow-sm hover:shadow-md transition-all"
+      <AnimatePresence>
+        {selectedIds.size > 0 && (
+          <motion.div 
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            className="bg-indigo-50 border border-indigo-100 rounded-2xl p-4 flex items-center justify-between"
           >
-            {isDeletingBulk ? 'جاري الحذف...' : 'حذف المحدد'}
-          </Button>
-        </div>
-      )}
-
-      <Card className="border-slate-100 shadow-sm overflow-hidden rounded-2xl">
-        <CardHeader className="border-b border-slate-100 bg-slate-50/50 pb-4">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-            <div className="relative w-full md:w-96">
-              <Search className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
-              <Input
-                placeholder="ابحث باسم المنتج أو الرمز (SKU)..."
-                className="pl-4 pr-12 bg-white hover:bg-slate-50 focus:bg-white border-slate-200 focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all rounded-2xl h-12 text-sm font-medium shadow-sm"
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-              />
+            <div className="flex items-center gap-3">
+              <CheckCircle2 className="w-5 h-5 text-indigo-600" />
+              <p className="text-sm font-bold text-indigo-900">
+                تم تحديد {selectedIds.size} منتج
+              </p>
             </div>
-            
-            <Tabs defaultValue="all" value={statusFilter} onValueChange={(v) => setStatusFilter(v as 'all' | 'active' | 'draft')} className="w-full md:w-auto" dir="rtl">
-              <TabsList className="bg-slate-100/80 p-1 rounded-xl h-12 w-full md:w-auto flex">
-                <TabsTrigger value="all" className="rounded-lg data-[state=active]:bg-white data-[state=active]:text-primary data-[state=active]:shadow-sm text-slate-600 flex-1 md:flex-none px-6 font-semibold">الكل</TabsTrigger>
-                <TabsTrigger value="active" className="rounded-lg data-[state=active]:bg-white data-[state=active]:text-primary data-[state=active]:shadow-sm text-slate-600 flex-1 md:flex-none px-6 font-semibold">نشط</TabsTrigger>
-                <TabsTrigger value="draft" className="rounded-lg data-[state=active]:bg-white data-[state=active]:text-primary data-[state=active]:shadow-sm text-slate-600 flex-1 md:flex-none px-6 font-semibold">مسودة</TabsTrigger>
-              </TabsList>
-            </Tabs>
+            <Button 
+              variant="destructive" 
+              onClick={handleBulkDelete} 
+              disabled={isDeletingBulk}
+              className="rounded-xl font-bold shadow-sm h-10 px-6 bg-rose-600 hover:bg-rose-700"
+            >
+              {isDeletingBulk ? 'جاري الحذف...' : 'حذف المحدد'}
+            </Button>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <Card className="border-slate-100 shadow-sm overflow-hidden rounded-[2.5rem] bg-white">
+        
+        {/* Toolbar */}
+        <div className="p-6 md:p-8 border-b border-slate-100 bg-slate-50/50 flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="relative w-full md:max-w-md">
+            <Search className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+            <Input
+              placeholder="ابحث باسم المنتج أو الرمز (SKU)..."
+              className="pl-4 pr-12 bg-white border-slate-200 focus:border-indigo-500 focus-visible:ring-indigo-100 h-14 rounded-2xl text-md shadow-sm transition-all"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
           </div>
-        </CardHeader>
+          
+          <div className="flex bg-slate-100/50 p-1.5 rounded-2xl w-full md:w-auto">
+            <button
+              onClick={() => setStatusFilter('all')}
+              className={`flex-1 md:flex-none px-6 py-2.5 rounded-xl font-bold text-sm transition-all ${statusFilter === 'all' ? 'bg-white text-indigo-600 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
+            >
+              الكل
+            </button>
+            <button
+              onClick={() => setStatusFilter('active')}
+              className={`flex-1 md:flex-none px-6 py-2.5 rounded-xl font-bold text-sm transition-all ${statusFilter === 'active' ? 'bg-white text-emerald-600 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
+            >
+              نشط
+            </button>
+            <button
+              onClick={() => setStatusFilter('draft')}
+              className={`flex-1 md:flex-none px-6 py-2.5 rounded-xl font-bold text-sm transition-all ${statusFilter === 'draft' ? 'bg-white text-slate-700 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
+            >
+              مسودة
+            </button>
+          </div>
+        </div>
+
+        {/* Table */}
         <CardContent className="p-0">
           <div className="overflow-x-auto">
-            <Table>
-              <TableHeader className="bg-slate-50/80 border-b border-slate-100">
+            <Table className="w-full min-w-[900px]">
+              <TableHeader className="bg-slate-50 border-b border-slate-100">
                 <TableRow className="hover:bg-transparent">
-                  <TableHead className="w-12 px-4">
+                  <TableHead className="w-16 px-6 py-5">
                     <Checkbox 
                       checked={filteredProducts.length > 0 && selectedIds.size === filteredProducts.length}
                       onCheckedChange={handleSelectAll}
-                      className="border-slate-300 data-[state=checked]:bg-primary data-[state=checked]:border-primary rounded-md"
+                      className="border-slate-300 data-[state=checked]:bg-indigo-600 data-[state=checked]:border-indigo-600 rounded-lg w-5 h-5"
                     />
                   </TableHead>
-                  <TableHead className="text-right font-bold text-slate-700 h-16">المنتج</TableHead>
-                  <TableHead className="text-right font-bold text-slate-700 h-16">التصنيف</TableHead>
-                  <TableHead className="text-right font-bold text-slate-700 h-16">السعر</TableHead>
-                  <TableHead className="text-right font-bold text-slate-700 h-16">الحالة</TableHead>
-                  <TableHead className="text-center font-bold text-slate-700 h-16 w-28">إجراءات</TableHead>
+                  <TableHead className="text-right font-bold text-slate-600 py-5 px-6">المنتج</TableHead>
+                  <TableHead className="text-right font-bold text-slate-600 py-5">التصنيف</TableHead>
+                  <TableHead className="text-right font-bold text-slate-600 py-5">السعر</TableHead>
+                  <TableHead className="text-right font-bold text-slate-600 py-5">الحالة</TableHead>
+                  <TableHead className="text-center font-bold text-slate-600 py-5 px-6">إجراءات</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {filteredProducts.map((product) => (
-                  <TableRow key={product.id} className={`group transition-all duration-300 border-b border-slate-50 last:border-0 relative ${selectedIds.has(product.id) ? 'bg-blue-50/50' : 'hover:bg-blue-50/30'}`}>
-                    <TableCell className="px-4">
-                      <Checkbox 
-                        checked={selectedIds.has(product.id)}
-                        onCheckedChange={(checked) => handleSelectRow(product.id, checked as boolean)}
-                        className="border-slate-300 data-[state=checked]:bg-primary data-[state=checked]:border-primary rounded-md"
-                      />
-                    </TableCell>
-                    <TableCell className="px-6 py-5">
-                      <div className="flex items-center gap-4">
-                        <div className="w-14 h-14 rounded-[1.25rem] bg-slate-50 border border-slate-100/80 flex items-center justify-center overflow-hidden relative shrink-0 shadow-sm group-hover:shadow-md group-hover:scale-105 transition-all duration-300">
-                          {product.images && product.images[0] ? (
-                            <Image src={product.images[0]} alt={product.name} fill className="object-cover" />
-                          ) : (
-                            <ImageIcon className="w-6 h-6 text-slate-300" />
-                          )}
+                <AnimatePresence>
+                  {filteredProducts.map((product) => (
+                    <motion.tr 
+                      key={product.id}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      className={`group transition-all duration-300 border-b border-slate-50 last:border-0 ${selectedIds.has(product.id) ? 'bg-indigo-50/30' : 'hover:bg-slate-50/50'}`}
+                    >
+                      <TableCell className="px-6 py-5">
+                        <Checkbox 
+                          checked={selectedIds.has(product.id)}
+                          onCheckedChange={(checked) => handleSelectRow(product.id, checked as boolean)}
+                          className="border-slate-300 data-[state=checked]:bg-indigo-600 data-[state=checked]:border-indigo-600 rounded-lg w-5 h-5"
+                        />
+                      </TableCell>
+                      <TableCell className="px-6 py-5">
+                        <div className="flex items-center gap-5">
+                          <div className="w-16 h-16 rounded-2xl bg-white flex items-center justify-center overflow-hidden relative shrink-0 shadow-sm border border-slate-100 group-hover:scale-105 transition-transform">
+                            {product.images && product.images[0] ? (
+                              <Image src={product.images[0]} alt={product.name} fill className="object-cover" />
+                            ) : (
+                              <ImageIcon className="w-6 h-6 text-slate-300" />
+                            )}
+                          </div>
+                          <div>
+                            <p className="font-bold text-slate-800 text-base group-hover:text-indigo-600 transition-colors">{product.name}</p>
+                            <p className="text-xs text-slate-400 font-mono mt-1">#{product.sku || product.id.slice(0, 8)}</p>
+                          </div>
                         </div>
-                        <div>
-                          <p className="font-bold text-slate-900 text-sm group-hover:text-primary transition-colors">{product.name}</p>
-                          <p className="text-xs text-slate-500 font-mono mt-1 opacity-80">{product.sku || product.id.slice(0, 8)}</p>
+                      </TableCell>
+                      <TableCell className="py-5">
+                        <Badge variant="secondary" className="bg-slate-100 text-slate-600 font-bold px-3 py-1 rounded-xl shadow-none border-0">
+                          {product.category?.name || 'بدون تصنيف'}
+                        </Badge>
+                      </TableCell>
+                      <TableCell className="py-5">
+                        <span className="font-black text-indigo-600 text-lg tracking-tight">
+                          {product.price.toLocaleString('en-US')} <span className="text-xs font-bold text-slate-400">د.ع</span>
+                        </span>
+                      </TableCell>
+                      <TableCell className="py-5">
+                        {product.isActive ? (
+                          <Badge className="bg-emerald-50 text-emerald-700 hover:bg-emerald-100 border-0 rounded-xl px-3 py-1.5 font-bold shadow-sm">
+                            <div className="w-2 h-2 rounded-full bg-emerald-500 mr-2 ml-1" />
+                            نشط
+                          </Badge>
+                        ) : (
+                          <Badge className="bg-slate-100 text-slate-700 hover:bg-slate-200 border-0 rounded-xl px-3 py-1.5 font-bold shadow-sm">
+                            <div className="w-2 h-2 rounded-full bg-slate-500 mr-2 ml-1" />
+                            مسودة
+                          </Badge>
+                        )}
+                      </TableCell>
+                      <TableCell className="text-center py-5 px-6">
+                        <div className="flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                          <Link href={`/admin/products/${product.id}`}>
+                            <Button variant="ghost" size="icon" className="w-10 h-10 rounded-xl text-slate-400 hover:text-indigo-600 hover:bg-indigo-50">
+                              <Edit className="w-4 h-4" />
+                            </Button>
+                          </Link>
+                          <Button variant="ghost" size="icon" className="w-10 h-10 rounded-xl text-slate-400 hover:text-rose-600 hover:bg-rose-50" onClick={() => handleDelete(product.id)}>
+                            <Trash className="w-4 h-4" />
+                          </Button>
                         </div>
-                      </div>
-                    </TableCell>
-                    <TableCell className="py-5">
-                      <span className="inline-flex items-center px-3 py-1 rounded-lg bg-slate-50 text-slate-600 font-semibold text-xs border border-slate-100">
-                        {product.category?.name || 'بدون تصنيف'}
-                      </span>
-                    </TableCell>
-                    <TableCell className="py-5">
-                      <span className="font-extrabold text-primary text-sm tracking-tight">{product.price.toLocaleString('en-US')} د.ع</span>
-                    </TableCell>
-                    <TableCell className="py-5">
-                      {product.isActive ? (
-                        <Badge className="bg-emerald-50 text-emerald-600 hover:bg-emerald-100 border border-emerald-200/50 rounded-xl px-3 py-1 font-bold text-xs shadow-sm">نشط</Badge>
-                      ) : (
-                        <Badge className="bg-slate-50 text-slate-600 hover:bg-slate-100 border border-slate-200/50 rounded-xl px-3 py-1 font-bold text-xs shadow-sm">مسودة</Badge>
-                      )}
-                    </TableCell>
-                    <TableCell className="text-center py-5">
-                      <DropdownMenu dir="rtl">
-                        <DropdownMenuTrigger className={buttonVariants({ variant: "outline", className: "h-9 w-9 p-0 text-slate-400 hover:text-primary hover:bg-blue-50 border-slate-200 rounded-xl shadow-sm transition-all focus-visible:ring-2 focus-visible:ring-primary/20" })}>
-                          <span className="sr-only">فتح القائمة</span>
-                          <MoreHorizontal className="h-4 w-4" />
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="start" className="w-48 rounded-2xl shadow-xl shadow-slate-200/50 border-slate-100 p-1.5 animate-in fade-in-0 zoom-in-95">
-                          <DropdownMenuItem onClick={() => openModal(product)} className="rounded-xl cursor-pointer p-2.5 font-medium text-slate-700 hover:text-primary focus:text-primary focus:bg-blue-50/50 transition-colors">
-                            <Edit className="mr-2.5 h-4 w-4 text-slate-400" />
-                            <span>تعديل بيانات المنتج</span>
-                          </DropdownMenuItem>
-                          <DropdownMenuItem onClick={() => handleDelete(product.id)} className="rounded-xl cursor-pointer p-2.5 font-medium text-rose-600 hover:text-rose-700 focus:text-rose-700 focus:bg-rose-50 transition-colors mt-1">
-                            <Trash className="mr-2.5 h-4 w-4" />
-                            <span>حذف نهائي للمنتج</span>
-                          </DropdownMenuItem>
-                        </DropdownMenuContent>
-                      </DropdownMenu>
-                    </TableCell>
-                  </TableRow>
-                ))}
+                      </TableCell>
+                    </motion.tr>
+                  ))}
+                </AnimatePresence>
                 {filteredProducts.length === 0 && (
                   <TableRow>
-                    <TableCell colSpan={6} className="text-center py-12 text-slate-500">
-                      لا يوجد منتجات مطابقة لبحثك
+                    <TableCell colSpan={6} className="h-64 text-center">
+                      <div className="flex flex-col items-center justify-center text-slate-400 gap-4">
+                        <Search className="w-12 h-12 text-slate-200" />
+                        <span className="text-lg font-medium text-slate-500">لا يوجد منتجات مطابقة للبحث</span>
+                      </div>
                     </TableCell>
                   </TableRow>
                 )}
@@ -318,238 +272,6 @@ export default function ProductsClient({ initialProducts, categories }: { initia
           </div>
         </CardContent>
       </Card>
-
-      {/* Add/Edit Modal */}
-      <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-        <DialogContent className="sm:max-w-3xl max-w-[95vw] h-[90vh] sm:h-auto sm:max-h-[90vh] p-0 overflow-hidden border-0 flex flex-col shadow-2xl bg-slate-50" dir="rtl" showCloseButton={false}>
-          <DialogHeader className="px-6 py-5 border-b border-slate-200 bg-white shadow-sm z-10 text-right">
-             <div className="flex items-center gap-4">
-               <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center shrink-0">
-                 <Package className="w-6 h-6 text-primary" />
-               </div>
-               <div className="flex flex-col">
-                 <DialogTitle className="text-xl font-bold text-slate-800">
-                   {isEditing ? 'تعديل بيانات المنتج' : 'إضافة منتج جديد'}
-                 </DialogTitle>
-                 <p className="text-sm text-slate-500 mt-1">
-                   {isEditing ? 'تحديث معلومات المنتج والصور' : 'أدخل تفاصيل المنتج للإضافة'}
-                 </p>
-               </div>
-             </div>
-          </DialogHeader>
-          
-          <div className="overflow-y-auto scrollbar-thin p-6 flex-1">
-            <form id="product-form" onSubmit={handleSubmit} className="flex flex-col gap-8 pb-10">
-              
-              {/* Media Section */}
-              <div className="space-y-5">
-                 <div className="flex items-center gap-2">
-                   <div className="w-8 h-8 rounded-lg bg-blue-100 flex items-center justify-center">
-                     <ImageIcon className="w-4 h-4 text-blue-600" />
-                   </div>
-                   <h3 className="font-semibold text-slate-800 text-lg">صور المنتج</h3>
-                 </div>
-                 
-                 <div className="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm space-y-4">
-                   {/* Upload Dropzone */}
-                   <div className="border-2 border-dashed border-slate-200 rounded-xl p-6 flex flex-col items-center justify-center text-center bg-slate-50 hover:bg-blue-50/50 hover:border-blue-300 transition-all cursor-pointer relative group min-h-[160px]">
-                      <input 
-                        type="file" 
-                        accept="image/*" 
-                        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
-                        onChange={async (e) => {
-                          const file = e.target.files?.[0]
-                          if (!file) return
-                          
-                          if (file.size > 2 * 1024 * 1024) {
-                            toast.error('حجم الصورة كبير جداً. الحد الأقصى هو 2 ميجابايت.')
-                            e.target.value = ''
-                            return
-                          }
-                          
-                          const toastId = toast.loading('جاري معالجة الصورة...')
-                          
-                          try {
-                            const reader = new FileReader()
-                            reader.readAsDataURL(file)
-                            reader.onload = () => {
-                              const base64String = reader.result as string
-                              const currentImages = currentProduct.imagesList || []
-                              setCurrentProduct({...currentProduct, imagesList: [...currentImages, base64String]})
-                              toast.success('تمت إضافة الصورة بنجاح', { id: toastId })
-                            }
-                            reader.onerror = () => {
-                              toast.error('حدث خطأ أثناء قراءة الصورة', { id: toastId })
-                            }
-                          } catch {
-                            toast.error('حدث خطأ غير متوقع', { id: toastId })
-                          } finally {
-                            e.target.value = '' 
-                          }
-                        }}
-                      />
-                      <div className="w-12 h-12 rounded-full bg-white shadow-sm flex items-center justify-center mb-3 group-hover:scale-110 group-hover:text-blue-600 transition-all duration-300 text-slate-400">
-                         <UploadCloud className="w-6 h-6" />
-                      </div>
-                      <p className="text-sm font-bold text-slate-700">اضغط أو اسحب الصور هنا</p>
-                      <p className="text-xs text-slate-500 mt-1">الحد الأقصى 2MB</p>
-                   </div>
-
-                   {/* Image Previews */}
-                   {currentProduct.imagesList && currentProduct.imagesList.length > 0 && (
-                     <div className="grid grid-cols-3 gap-3">
-                       {currentProduct.imagesList.map((img: string, idx: number) => (
-                          <div key={idx} className="relative aspect-square rounded-xl overflow-hidden border border-slate-200 group shadow-sm bg-slate-50">
-                             <Image src={img} alt="preview" fill className="object-cover" />
-                             <button 
-                               type="button" 
-                               onClick={() => {
-                                 const arr = [...(currentProduct.imagesList || [])]
-                                 arr.splice(idx, 1)
-                                 setCurrentProduct({...currentProduct, imagesList: arr})
-                               }} 
-                               className="absolute top-1.5 left-1.5 bg-white/90 w-7 h-7 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all hover:bg-rose-50 hover:text-rose-600 shadow-sm transform scale-90 group-hover:scale-100"
-                             >
-                                <X className="w-4 h-4" />
-                             </button>
-                          </div>
-                       ))}
-                     </div>
-                   )}
-                   
-                   <div className="pt-2 border-t border-slate-100 flex gap-2">
-                      <Input 
-                        value={newImageUrl} 
-                        onChange={e => setNewImageUrl(e.target.value)} 
-                        placeholder="أو أضف رابط صورة خارجي (URL)"
-                        className="h-10 rounded-xl bg-slate-50 border-transparent focus:border-blue-300 focus:bg-white flex-1 text-sm"
-                        dir="ltr"
-                      />
-                      <Button 
-                        type="button"
-                        variant="secondary"
-                        className="rounded-xl h-10 px-4"
-                        onClick={() => {
-                          if (newImageUrl.trim()) {
-                            const currentImages = currentProduct.imagesList || []
-                            setCurrentProduct({...currentProduct, imagesList: [...currentImages, newImageUrl.trim()]})
-                            setNewImageUrl('')
-                          }
-                        }}
-                      >
-                        إضافة
-                      </Button>
-                   </div>
-                 </div>
-              </div>
-
-              {/* Form Details */}
-              <div className="space-y-6">
-                 
-                 {/* Basic Info */}
-                 <div>
-                   <div className="flex items-center gap-2 mb-3">
-                     <div className="w-8 h-8 rounded-lg bg-emerald-100 flex items-center justify-center">
-                       <Tag className="w-4 h-4 text-emerald-600" />
-                     </div>
-                     <h3 className="font-semibold text-slate-800 text-lg">التفاصيل الأساسية</h3>
-                   </div>
-                   
-                   <div className="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm space-y-4">
-                     <div className="space-y-2">
-                       <Label className="text-sm font-semibold text-slate-700">اسم المنتج <span className="text-rose-500">*</span></Label>
-                       <Input required value={currentProduct.name} onChange={e => setCurrentProduct({...currentProduct, name: e.target.value})} className="h-11 rounded-xl bg-slate-50 border-transparent focus:border-emerald-300 focus:bg-white transition-colors" placeholder="مثال: عطر فاخر..." />
-                     </div>
-                     
-                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                       <div className="space-y-2">
-                         <Label className="text-sm font-semibold text-slate-700">التصنيف <span className="text-rose-500">*</span></Label>
-                         <select 
-                           required 
-                           className="flex h-11 w-full rounded-xl bg-slate-50 border-transparent focus:border-emerald-300 focus:bg-white transition-colors px-3 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-300"
-                           value={currentProduct.categoryId}
-                           onChange={e => setCurrentProduct({...currentProduct, categoryId: e.target.value})}
-                         >
-                           <option value="">اختر تصنيفاً...</option>
-                           {categories.map(cat => (
-                             <option key={cat.id} value={cat.id}>{cat.name}</option>
-                           ))}
-                         </select>
-                       </div>
-                       <div className="space-y-2">
-                         <Label className="text-sm font-semibold text-slate-700">الرابط (Slug) <span className="text-rose-500">*</span></Label>
-                         <Input required value={currentProduct.slug} onChange={e => setCurrentProduct({...currentProduct, slug: e.target.value})} dir="ltr" className="h-11 rounded-xl bg-slate-50 border-transparent focus:border-emerald-300 focus:bg-white transition-colors font-mono text-sm" placeholder="product-slug" />
-                       </div>
-                     </div>
-                     
-                     <div className="flex items-center justify-between p-4 bg-slate-50 rounded-xl border border-slate-100">
-                        <div>
-                          <Label className="text-sm font-semibold text-slate-700">حالة المنتج</Label>
-                          <p className="text-xs text-slate-500 mt-1">تحديد ما إذا كان المنتج مرئياً للعملاء في المتجر.</p>
-                        </div>
-                        <div className="flex bg-slate-200/50 p-1 rounded-xl">
-                          <button
-                            type="button"
-                            onClick={() => setCurrentProduct({...currentProduct, isActive: true})}
-                            className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${currentProduct.isActive ?? true ? 'bg-white text-emerald-600 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
-                          >
-                            نشط
-                          </button>
-                          <button
-                            type="button"
-                            onClick={() => setCurrentProduct({...currentProduct, isActive: false})}
-                            className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${!(currentProduct.isActive ?? true) ? 'bg-white text-slate-700 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
-                          >
-                            مسودة
-                          </button>
-                        </div>
-                     </div>
-                   </div>
-                 </div>
-
-                 {/* Pricing */}
-                 <div>
-                   <div className="flex items-center gap-2 mb-3">
-                     <div className="w-8 h-8 rounded-lg bg-amber-100 flex items-center justify-center">
-                       <DollarSign className="w-4 h-4 text-amber-600" />
-                     </div>
-                     <h3 className="font-semibold text-slate-800 text-lg">التسعير</h3>
-                   </div>
-
-                   <div className="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      <div className="space-y-2">
-                         <Label className="text-sm font-semibold text-slate-700">السعر الأساسي (د.ع) <span className="text-rose-500">*</span></Label>
-                         <Input required type="number" value={currentProduct.price || ''} onChange={e => setCurrentProduct({...currentProduct, price: Number(e.target.value)})} className="h-11 rounded-xl bg-slate-50 border-transparent focus:border-amber-300 focus:bg-white transition-colors font-bold text-primary text-lg" placeholder="0" />
-                      </div>
-                      <div className="space-y-2">
-                         <Label className="text-sm font-semibold text-slate-700">سعر التخفيض (اختياري)</Label>
-                         <Input type="number" value={currentProduct.salePrice || ''} onChange={e => setCurrentProduct({...currentProduct, salePrice: Number(e.target.value)})} className="h-11 rounded-xl bg-slate-50 border-transparent focus:border-amber-300 focus:bg-white transition-colors font-bold text-rose-600 text-lg" placeholder="0" />
-                      </div>
-                   </div>
-                 </div>
-
-                 {/* Description */}
-                 <div>
-                   <div className="space-y-2">
-                     <Label className="text-sm font-semibold text-slate-700">وصف المنتج</Label>
-                     <Textarea value={currentProduct.description} onChange={e => setCurrentProduct({...currentProduct, description: e.target.value})} className="min-h-[120px] rounded-xl bg-white border-slate-200 focus:border-primary transition-colors resize-none p-4" placeholder="اكتب تفاصيل المنتج ومميزاته هنا..." />
-                   </div>
-                 </div>
-
-              </div>
-            </form>
-          </div>
-          
-          <div className="p-5 border-t border-slate-200 bg-white flex justify-end gap-3 shrink-0">
-             <Button type="button" variant="ghost" onClick={() => setIsModalOpen(false)} className="rounded-xl h-12 px-6 hover:bg-slate-100 text-slate-600 font-semibold">
-               إلغاء
-             </Button>
-             <Button form="product-form" type="submit" disabled={isSubmitting} className="rounded-xl h-12 px-8 bg-primary hover:bg-primary/90 text-white shadow-lg shadow-primary/25 transition-all hover:shadow-xl hover:-translate-y-0.5 font-bold text-base">
-               {isSubmitting ? 'جاري الحفظ...' : 'حفظ التغييرات'}
-             </Button>
-          </div>
-        </DialogContent>
-      </Dialog>
-    </div>
+    </motion.div>
   )
 }

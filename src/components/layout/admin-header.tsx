@@ -1,28 +1,29 @@
 'use client'
 
-import React from 'react'
-import { Bell, Search, Menu, Package, UserPlus, AlertCircle, ChevronLeft } from 'lucide-react'
+import React, { useState } from 'react'
+import { Bell, Search, Menu, ChevronLeft } from 'lucide-react'
 import { Input } from '@/components/ui/input'
-import { Button, buttonVariants } from '@/components/ui/button'
-import { usePathname, useRouter } from 'next/navigation'
-import { signOut } from 'next-auth/react'
+import { Button } from '@/components/ui/button'
+import { usePathname } from 'next/navigation'
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from '@/components/ui/sheet'
 
 export function AdminHeader() {
   const pathname = usePathname()
-  const router = useRouter()
+  const [isNotificationsOpen, setIsNotificationsOpen] = useState(false)
   
   const getBreadcrumbs = () => {
     const paths = pathname.split('/').filter(Boolean)
-    if (paths.length <= 1) return null
+    if (paths.length <= 1) return (
+      <div className="hidden lg:flex items-center text-lg font-bold text-slate-800">
+        نظرة عامة
+      </div>
+    )
 
     const translate = (path: string) => {
       const dict: Record<string, string> = {
@@ -31,17 +32,17 @@ export function AdminHeader() {
         orders: 'الطلبات',
         categories: 'التصنيفات',
         customers: 'العملاء',
+        users: 'فريق العمل',
         settings: 'الإعدادات',
-        notifications: 'الإشعارات'
       }
       return dict[path] || path
     }
 
     return (
-      <div className="hidden lg:flex items-center gap-2 text-sm font-medium text-slate-500 mr-4">
+      <div className="hidden lg:flex items-center gap-2 text-sm font-medium text-slate-500">
         {paths.map((path, index) => (
           <React.Fragment key={path}>
-            <span className={index === paths.length - 1 ? 'text-primary font-bold' : ''}>
+            <span className={index === paths.length - 1 ? 'text-slate-900 font-bold text-lg' : 'hover:text-slate-700 cursor-pointer transition-colors'}>
               {translate(path)}
             </span>
             {index < paths.length - 1 && <ChevronLeft className="w-4 h-4 text-slate-300" />}
@@ -52,73 +53,49 @@ export function AdminHeader() {
   }
 
   return (
-    <header className="h-16 bg-white/80 backdrop-blur-md border-b border-slate-100 flex items-center justify-between px-6 sticky top-0 z-40">
-      <div className="flex items-center gap-4">
-        <Button variant="ghost" size="icon" className="lg:hidden text-slate-500">
-          <Menu className="w-5 h-5" />
+    <header className="h-20 bg-white/80 backdrop-blur-md border-b border-slate-200/50 flex items-center justify-between px-8 sticky top-0 z-40">
+      <div className="flex items-center gap-6">
+        <Button variant="ghost" size="icon" className="lg:hidden text-slate-500 hover:bg-slate-100">
+          <Menu className="w-6 h-6" />
         </Button>
         {getBreadcrumbs()}
-        <div className="relative hidden md:block w-96">
-          <Search className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-          <Input 
-            type="text" 
-            placeholder="ابحث عن طلب، منتج، أو عميل..." 
-            className="pl-4 pr-10 bg-slate-50 border-slate-200 focus-visible:ring-primary/20 rounded-full h-10"
-          />
-        </div>
       </div>
 
-      <div className="flex items-center gap-4">
-        <DropdownMenu>
-          <DropdownMenuTrigger className={buttonVariants({ variant: "ghost", className: "relative text-slate-500 hover:text-slate-900 rounded-full w-10 h-10 p-0" })}>
-            <Bell className="w-5 h-5" />
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="w-80 p-0 rounded-2xl shadow-lg border-slate-100 overflow-hidden">
-            <div className="p-4 border-b border-slate-100 bg-slate-50 flex items-center justify-between">
-              <h3 className="font-bold text-slate-800">التنبيهات</h3>
-              <span className="text-xs text-primary font-semibold cursor-pointer hover:underline">تحديد الكل كمقروء</span>
-            </div>
-            <div className="max-h-80 overflow-y-auto">
-              <div className="py-12 flex flex-col items-center justify-center text-slate-400">
-                <Bell className="w-8 h-8 mb-3 opacity-20" />
-                <p className="text-sm font-medium">لا توجد تنبيهات جديدة</p>
-              </div>
-            </div>
-            <div className="p-2 border-t border-slate-100 bg-slate-50 text-center">
-              <a href="/admin/notifications" className="text-sm text-primary font-semibold hover:underline p-2 block">عرض جميع التنبيهات</a>
-            </div>
-          </DropdownMenuContent>
-        </DropdownMenu>
+      <div className="flex items-center gap-6">
+        <div className="relative hidden md:block w-72">
+          <Search className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+          <Input 
+            type="text" 
+            placeholder="ابحث هنا..." 
+            className="pl-4 pr-12 bg-slate-100/50 border-transparent hover:bg-slate-100 focus:bg-white focus:border-indigo-300 focus:ring-2 focus:ring-indigo-100 rounded-full h-10 transition-all text-sm"
+          />
+        </div>
 
-        <DropdownMenu>
-          <DropdownMenuTrigger className={buttonVariants({ variant: "ghost", className: "relative h-10 w-10 rounded-full" })}>
-              <Avatar className="h-10 w-10 border-2 border-slate-100">
-                <AvatarImage src="/placeholder.jpg" alt="User" />
-                <AvatarFallback className="bg-primary/10 text-primary font-bold">أ</AvatarFallback>
-              </Avatar>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent className="w-56" align="end">
-            <DropdownMenuLabel className="font-normal">
-              <div className="flex flex-col space-y-1">
-                <p className="text-sm font-medium leading-none">أحمد الإداري</p>
-                <p className="text-xs leading-none text-muted-foreground">
-                  admin@giftstore.com
-                </p>
+        <Sheet open={isNotificationsOpen} onOpenChange={setIsNotificationsOpen}>
+          <SheetTrigger asChild>
+            <button className="relative p-2 text-slate-400 hover:text-slate-700 hover:bg-slate-100 rounded-full transition-all">
+              <Bell className="w-5 h-5" />
+              <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-rose-500 rounded-full border-2 border-white"></span>
+            </button>
+          </SheetTrigger>
+          <SheetContent side="left" className="w-full sm:max-w-md border-r-0 shadow-2xl p-0 flex flex-col bg-slate-50">
+            <SheetHeader className="p-6 bg-white border-b border-slate-100">
+              <div className="flex items-center justify-between">
+                <SheetTitle className="text-xl font-bold text-slate-800">الإشعارات</SheetTitle>
+                <button className="text-sm font-semibold text-indigo-600 hover:text-indigo-700 transition-colors">
+                  تحديد الكل كمقروء
+                </button>
               </div>
-            </DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={() => router.push('/admin/profile')}>
-              الملف الشخصي
-            </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => router.push('/admin/settings')}>
-              الإعدادات
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={() => signOut({ callbackUrl: '/auth/login' })} className="text-red-600 focus:text-red-600">
-              تسجيل الخروج
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+            </SheetHeader>
+            <div className="flex-1 overflow-y-auto p-6 flex flex-col items-center justify-center text-center">
+              <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mb-4 text-slate-300">
+                <Bell className="w-8 h-8" />
+              </div>
+              <h3 className="font-bold text-slate-700 text-lg mb-1">لا توجد إشعارات جديدة</h3>
+              <p className="text-slate-500 text-sm max-w-[200px]">أنت على اطلاع دائم بجميع التحديثات في متجرك.</p>
+            </div>
+          </SheetContent>
+        </Sheet>
       </div>
     </header>
   )
