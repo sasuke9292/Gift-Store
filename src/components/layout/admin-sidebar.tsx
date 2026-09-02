@@ -26,7 +26,21 @@ import {
   DropdownMenuLabel,
 } from '@/components/ui/dropdown-menu'
 
-const sidebarGroups = [
+import { LucideIcon } from 'lucide-react'
+
+type SidebarItem = {
+  name: string
+  href: string
+  icon: LucideIcon
+  allowedRoles?: string[]
+}
+
+type SidebarGroup = {
+  title: string
+  items: SidebarItem[]
+}
+
+const sidebarGroups: SidebarGroup[] = [
   {
     title: 'نظرة عامة',
     items: [
@@ -36,28 +50,29 @@ const sidebarGroups = [
   {
     title: 'التجارة',
     items: [
-      { name: 'الطلبات', href: '/admin/orders', icon: ShoppingCart },
-      { name: 'المنتجات', href: '/admin/products', icon: Package },
-      { name: 'التصنيفات', href: '/admin/categories', icon: Tags },
+      { name: 'الطلبات', href: '/admin/orders', icon: ShoppingCart, allowedRoles: ['SUPER_ADMIN', 'ADMIN', 'MANAGER', 'SALES'] },
+      { name: 'المنتجات', href: '/admin/products', icon: Package, allowedRoles: ['SUPER_ADMIN', 'ADMIN', 'MANAGER', 'EDITOR'] },
+      { name: 'التصنيفات', href: '/admin/categories', icon: Tags, allowedRoles: ['SUPER_ADMIN', 'ADMIN', 'MANAGER', 'EDITOR'] },
     ]
   },
   {
     title: 'المستخدمين',
     items: [
-      { name: 'العملاء', href: '/admin/customers', icon: Users },
-      { name: 'فريق العمل', href: '/admin/users', icon: Shield },
+      { name: 'العملاء', href: '/admin/customers', icon: Users, allowedRoles: ['SUPER_ADMIN', 'ADMIN', 'MANAGER', 'SUPPORT', 'SALES'] },
+      { name: 'فريق العمل', href: '/admin/users', icon: Shield, allowedRoles: ['SUPER_ADMIN', 'ADMIN'] },
     ]
   },
   {
     title: 'النظام',
     items: [
-      { name: 'إعدادات المتجر', href: '/admin/settings', icon: Settings },
+      { name: 'إعدادات المتجر', href: '/admin/settings', icon: Settings, allowedRoles: ['SUPER_ADMIN'] },
     ]
   }
 ]
 
 export function AdminSidebar({ storeName = 'گفتي بلس', logoUrl, user }: { storeName?: string, logoUrl?: string | null, user?: any }) {
   const pathname = usePathname()
+  const userRole = user?.role || 'CUSTOMER'
 
   return (
     <aside className="fixed inset-y-0 right-0 z-50 w-72 bg-slate-900 text-slate-300 hidden lg:flex flex-col">
@@ -77,33 +92,42 @@ export function AdminSidebar({ storeName = 'گفتي بلس', logoUrl, user }: {
       </div>
 
       <div className="flex-1 overflow-y-auto py-6 px-4 space-y-8 scrollbar-none">
-        {sidebarGroups.map((group, groupIdx) => (
-          <div key={groupIdx}>
-            <h3 className="px-3 text-xs font-semibold text-slate-500 uppercase tracking-wider mb-3">
-              {group.title}
-            </h3>
-            <div className="space-y-1">
-              {group.items.map((item) => {
-                const isActive = pathname === item.href || (item.href !== '/admin' && pathname.startsWith(`${item.href}/`))
-                return (
-                  <Link
-                    key={item.name}
-                    href={item.href}
-                    className={cn(
-                      'flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 group',
-                      isActive
-                        ? 'bg-indigo-500/10 text-indigo-400 font-medium'
-                        : 'text-slate-400 hover:bg-slate-800 hover:text-slate-200'
-                    )}
-                  >
-                    <item.icon className={cn('w-5 h-5 transition-transform duration-200 group-hover:scale-110', isActive ? 'text-indigo-400' : 'text-slate-500')} />
-                    <span>{item.name}</span>
-                  </Link>
-                )
-              })}
+        {sidebarGroups.map((group, groupIdx) => {
+          // Filter items based on user role
+          const visibleItems = group.items.filter(item => 
+            !item.allowedRoles || item.allowedRoles.includes(userRole)
+          )
+
+          if (visibleItems.length === 0) return null
+
+          return (
+            <div key={groupIdx}>
+              <h3 className="px-3 text-xs font-semibold text-slate-500 uppercase tracking-wider mb-3">
+                {group.title}
+              </h3>
+              <div className="space-y-1">
+                {visibleItems.map((item) => {
+                  const isActive = pathname === item.href || (item.href !== '/admin' && pathname.startsWith(`${item.href}/`))
+                  return (
+                    <Link
+                      key={item.name}
+                      href={item.href}
+                      className={cn(
+                        'flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 group',
+                        isActive
+                          ? 'bg-indigo-500/10 text-indigo-400 font-medium'
+                          : 'text-slate-400 hover:bg-slate-800 hover:text-slate-200'
+                      )}
+                    >
+                      <item.icon className={cn('w-5 h-5 transition-transform duration-200 group-hover:scale-110', isActive ? 'text-indigo-400' : 'text-slate-500')} />
+                      <span>{item.name}</span>
+                    </Link>
+                  )
+                })}
+              </div>
             </div>
-          </div>
-        ))}
+          )
+        })}
       </div>
 
       <div className="p-4 bg-slate-950/30">

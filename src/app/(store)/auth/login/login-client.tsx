@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
-import { signIn } from 'next-auth/react'
+import { signIn, getSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
@@ -31,7 +31,14 @@ export default function LoginClient() {
       setLoading(false)
     } else {
       toast.success('تم تسجيل الدخول بنجاح!')
-      router.push('/')
+      const session = await getSession()
+      const role = session?.user?.role || 'CUSTOMER'
+      
+      if (role === 'CUSTOMER') {
+        router.push('/')
+      } else {
+        router.push('/admin')
+      }
       router.refresh()
     }
   }

@@ -3,6 +3,7 @@ import { AdminSidebar } from '@/components/layout/admin-sidebar'
 import { AdminHeader } from '@/components/layout/admin-header'
 import { getStoreSettings } from '@/app/actions/admin/settings'
 import { auth } from '@/auth'
+import { redirect } from 'next/navigation'
 
 export default async function AdminLayout({
   children,
@@ -11,6 +12,14 @@ export default async function AdminLayout({
 }) {
   const settings = await getStoreSettings()
   const session = await auth()
+  
+  if (!session?.user) {
+    redirect('/auth/login')
+  }
+
+  if (session.user.role === 'CUSTOMER') {
+    redirect('/')
+  }
   
   return (
     <div className="min-h-screen bg-slate-50 flex">
