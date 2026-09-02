@@ -141,8 +141,9 @@ export function OrderDetailsModal({ isOpen, onClose, orderId, onOrderUpdated }: 
             <DialogHeader className="p-6 border-b border-slate-100 bg-white">
               <div className="flex items-center justify-between">
                 <div>
-                  <DialogTitle className="text-2xl font-black text-slate-800">
-                    طلب #{order.orderNumber}
+                  <DialogTitle className="text-2xl font-black text-slate-800 flex items-center gap-2">
+                    <span>طلب</span>
+                    <span dir="ltr">#{order.orderNumber}</span>
                   </DialogTitle>
                   <p className="text-slate-500 text-sm font-medium mt-1">
                     {new Date(order.createdAt).toLocaleString('ar-IQ')}
@@ -163,8 +164,109 @@ export function OrderDetailsModal({ isOpen, onClose, orderId, onOrderUpdated }: 
 
             <div className="p-6 overflow-y-auto max-h-[80vh]">
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+                {/* Right Column (First in RTL): Processing & Summary */}
+                <div className="lg:col-span-1 space-y-6">
+                  
+                  {/* Actions */}
+                  <Card className="rounded-2xl border-indigo-100 shadow-sm overflow-hidden bg-indigo-50/30">
+                    <div className="p-5 border-b border-indigo-100 bg-white">
+                      <h2 className="text-base font-bold text-indigo-900 flex items-center gap-2">
+                        <Truck className="w-5 h-5 text-indigo-600" />
+                        معالجة الطلب
+                      </h2>
+                    </div>
+                    <CardContent className="p-5 space-y-4">
+                      <div className="space-y-2">
+                        <label className="text-xs font-bold text-slate-600">تحديث الحالة</label>
+                        <Select dir="rtl" disabled={isUpdating} value={order.status} onValueChange={handleStatusChange}>
+                          <SelectTrigger className="w-full bg-white h-10 rounded-xl border-slate-200 text-start">
+                            <SelectValue placeholder="اختر الحالة">{statusConfig[order.status]?.label}</SelectValue>
+                          </SelectTrigger>
+                          <SelectContent dir="rtl" className="rounded-xl">
+                            <SelectItem value="PENDING">قيد المراجعة</SelectItem>
+                            <SelectItem value="CONFIRMED">مؤكد</SelectItem>
+                            <SelectItem value="PROCESSING">جاري التجهيز</SelectItem>
+                            <SelectItem value="SHIPPED">تم الشحن</SelectItem>
+                            <SelectItem value="DELIVERED">مكتمل</SelectItem>
+                            <SelectItem value="CANCELLED">ملغى</SelectItem>
+                            <SelectItem value="RETURNED">مرتجع</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+
+                      <div className="space-y-2">
+                        <label className="text-xs font-bold text-slate-600">الدفع ({paymentMethodMap[order.paymentMethod]})</label>
+                        <Select dir="rtl" disabled={isUpdating} value={order.paymentStatus} onValueChange={handlePaymentStatusChange}>
+                          <SelectTrigger className="w-full bg-white h-10 rounded-xl border-slate-200 text-start">
+                            <SelectValue placeholder="اختر الحالة">{paymentStatusMap[order.paymentStatus]}</SelectValue>
+                          </SelectTrigger>
+                          <SelectContent dir="rtl" className="rounded-xl">
+                            <SelectItem value="UNPAID">غير مدفوع</SelectItem>
+                            <SelectItem value="PAID">مدفوع</SelectItem>
+                            <SelectItem value="REFUNDED">مسترد</SelectItem>
+                            <SelectItem value="FAILED">فشل الدفع</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+
+                      <div className="pt-3 border-t border-indigo-100/50 space-y-2">
+                        <label className="text-xs font-bold text-slate-600">تفاصيل التتبع والملاحظات</label>
+                        <Textarea 
+                          placeholder="رقم التتبع، اسم المندوب..."
+                          className="min-h-[80px] resize-none rounded-xl bg-white border-slate-200 focus:border-indigo-500 text-sm"
+                          value={notes}
+                          onChange={(e) => setNotes(e.target.value)}
+                        />
+                        <Button 
+                          onClick={handleSaveNotes} 
+                          disabled={isUpdating || notes === (order.internalNotes || '')}
+                          className="w-full h-10 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm"
+                        >
+                          <Save className="w-4 h-4 ms-2" />
+                          حفظ التتبع
+                        </Button>
+                      </div>
+                    </CardContent>
+                  </Card>
+
+                  {/* Financials */}
+                  <Card className="rounded-2xl border-slate-100 shadow-sm overflow-hidden bg-white">
+                    <div className="p-5 border-b border-slate-100 bg-slate-50/50">
+                      <h2 className="text-base font-bold text-slate-800 flex items-center gap-2">
+                        <Receipt className="w-5 h-5 text-indigo-600" />
+                        الملخص المالي
+                      </h2>
+                    </div>
+                    <CardContent className="p-5">
+                      <div className="space-y-2 mb-4">
+                        <div className="flex justify-between items-center text-sm font-medium text-slate-600">
+                          <span>المجموع الفرعي</span>
+                          <span className="font-bold text-slate-800">{order.subtotal.toLocaleString('en-US')} د.ع</span>
+                        </div>
+                        <div className="flex justify-between items-center text-sm font-medium text-slate-600">
+                          <span>الشحن</span>
+                          <span className="font-bold text-slate-800">{order.shippingCost.toLocaleString('en-US')} د.ع</span>
+                        </div>
+                        {order.discount > 0 && (
+                          <div className="flex justify-between items-center text-sm font-medium text-rose-600">
+                            <span>الخصم</span>
+                            <span className="font-bold">- {order.discount.toLocaleString('en-US')} د.ع</span>
+                          </div>
+                        )}
+                        <div className="pt-2 border-t border-slate-100 flex justify-between items-center mt-2">
+                          <span className="font-black text-slate-800">الإجمالي</span>
+                          <span className="font-black text-indigo-600 tracking-tight">
+                            {order.total.toLocaleString('en-US')} <span className="text-xs font-bold text-slate-500">د.ع</span>
+                          </span>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+
+                </div>
                 
-                {/* Right Column: Details */}
+                {/* Left Column (Second in RTL): Details */}
                 <div className="lg:col-span-2 space-y-6">
                   
                   {/* Items */}
@@ -250,107 +352,6 @@ export function OrderDetailsModal({ isOpen, onClose, orderId, onOrderUpdated }: 
                               )}
                             </div>
                           </div>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-
-                </div>
-
-                {/* Left Column: Processing & Summary */}
-                <div className="lg:col-span-1 space-y-6">
-                  
-                  {/* Actions */}
-                  <Card className="rounded-2xl border-indigo-100 shadow-sm overflow-hidden bg-indigo-50/30">
-                    <div className="p-5 border-b border-indigo-100 bg-white">
-                      <h2 className="text-base font-bold text-indigo-900 flex items-center gap-2">
-                        <Truck className="w-5 h-5 text-indigo-600" />
-                        معالجة الطلب
-                      </h2>
-                    </div>
-                    <CardContent className="p-5 space-y-4">
-                      <div className="space-y-2">
-                        <label className="text-xs font-bold text-slate-600">تحديث الحالة</label>
-                        <Select disabled={isUpdating} value={order.status} onValueChange={handleStatusChange}>
-                          <SelectTrigger className="w-full bg-white h-10 rounded-xl border-slate-200">
-                            <SelectValue placeholder="اختر الحالة" />
-                          </SelectTrigger>
-                          <SelectContent dir="rtl" className="rounded-xl">
-                            <SelectItem value="PENDING">قيد المراجعة</SelectItem>
-                            <SelectItem value="CONFIRMED">مؤكد</SelectItem>
-                            <SelectItem value="PROCESSING">جاري التجهيز</SelectItem>
-                            <SelectItem value="SHIPPED">تم الشحن</SelectItem>
-                            <SelectItem value="DELIVERED">مكتمل</SelectItem>
-                            <SelectItem value="CANCELLED">ملغى</SelectItem>
-                            <SelectItem value="RETURNED">مرتجع</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </div>
-
-                      <div className="space-y-2">
-                        <label className="text-xs font-bold text-slate-600">الدفع ({paymentMethodMap[order.paymentMethod]})</label>
-                        <Select disabled={isUpdating} value={order.paymentStatus} onValueChange={handlePaymentStatusChange}>
-                          <SelectTrigger className="w-full bg-white h-10 rounded-xl border-slate-200">
-                            <SelectValue placeholder="اختر الحالة" />
-                          </SelectTrigger>
-                          <SelectContent dir="rtl" className="rounded-xl">
-                            <SelectItem value="UNPAID">غير مدفوع</SelectItem>
-                            <SelectItem value="PAID">مدفوع</SelectItem>
-                            <SelectItem value="REFUNDED">مسترد</SelectItem>
-                            <SelectItem value="FAILED">فشل الدفع</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </div>
-
-                      <div className="pt-3 border-t border-indigo-100/50 space-y-2">
-                        <label className="text-xs font-bold text-slate-600">تفاصيل التتبع والملاحظات</label>
-                        <Textarea 
-                          placeholder="رقم التتبع، اسم المندوب..."
-                          className="min-h-[80px] resize-none rounded-xl bg-white border-slate-200 focus:border-indigo-500 text-sm"
-                          value={notes}
-                          onChange={(e) => setNotes(e.target.value)}
-                        />
-                        <Button 
-                          onClick={handleSaveNotes} 
-                          disabled={isUpdating || notes === (order.internalNotes || '')}
-                          className="w-full h-10 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm"
-                        >
-                          <Save className="w-4 h-4 ms-2" />
-                          حفظ التتبع
-                        </Button>
-                      </div>
-                    </CardContent>
-                  </Card>
-
-                  {/* Financials */}
-                  <Card className="rounded-2xl border-slate-100 shadow-sm overflow-hidden bg-white">
-                    <div className="p-5 border-b border-slate-100 bg-slate-50/50">
-                      <h2 className="text-base font-bold text-slate-800 flex items-center gap-2">
-                        <Receipt className="w-5 h-5 text-indigo-600" />
-                        الملخص المالي
-                      </h2>
-                    </div>
-                    <CardContent className="p-5">
-                      <div className="space-y-2 mb-4">
-                        <div className="flex justify-between items-center text-sm font-medium text-slate-600">
-                          <span>المجموع الفرعي</span>
-                          <span className="font-bold text-slate-800">{order.subtotal.toLocaleString('en-US')} د.ع</span>
-                        </div>
-                        <div className="flex justify-between items-center text-sm font-medium text-slate-600">
-                          <span>الشحن</span>
-                          <span className="font-bold text-slate-800">{order.shippingCost.toLocaleString('en-US')} د.ع</span>
-                        </div>
-                        {order.discount > 0 && (
-                          <div className="flex justify-between items-center text-sm font-medium text-rose-600">
-                            <span>الخصم</span>
-                            <span className="font-bold">- {order.discount.toLocaleString('en-US')} د.ع</span>
-                          </div>
-                        )}
-                        <div className="pt-2 border-t border-slate-100 flex justify-between items-center mt-2">
-                          <span className="font-black text-slate-800">الإجمالي</span>
-                          <span className="font-black text-indigo-600 tracking-tight">
-                            {order.total.toLocaleString('en-US')} <span className="text-xs font-bold text-slate-500">د.ع</span>
-                          </span>
                         </div>
                       </div>
                     </CardContent>
