@@ -63,3 +63,23 @@ export async function deleteOrder(id: string) {
     return { success: false, error: error instanceof Error ? error.message : 'Unknown error' }
   }
 }
+
+export async function updateOrderTracking(id: string, internalNotes: string) {
+    const session = await auth()
+    if (!session || session.user.role === 'CUSTOMER') {
+      return { success: false, error: 'غير مصرح لك بالقيام بهذا الإجراء' }
+    }
+
+  try {
+    const order = await prisma.order.update({
+      where: { id },
+      data: { internalNotes }
+    })
+    revalidatePath('/admin/orders')
+    revalidatePath(`/admin/orders/${id}`)
+    return { success: true, data: order }
+  } catch (error) {
+    console.error('Error updating order tracking:', error)
+    return { success: false, error: error instanceof Error ? error.message : 'Unknown error' }
+  }
+}

@@ -1,6 +1,7 @@
-﻿'use client'
+'use client'
 
 import React, { useState } from 'react'
+import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   Table, TableBody, TableCell, TableHead, TableHeader, TableRow,
@@ -202,6 +203,11 @@ export default function OrdersClient({ initialOrders }: { initialOrders: OrderDa
                               توصيل
                             </Button>
                           )}
+                          <Link href={`/admin/orders/${order.id}`}>
+                            <Button size="icon" variant="ghost" className="h-8 w-8 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors">
+                              <Eye className="w-4 h-4" />
+                            </Button>
+                          </Link>
                           <DropdownMenu>
                             <DropdownMenuTrigger className="h-8 w-8 flex items-center justify-center text-slate-400 hover:text-slate-700 hover:bg-slate-100 rounded-lg transition-colors focus:outline-none">
                               <MoreHorizontal className="h-4 w-4" />
