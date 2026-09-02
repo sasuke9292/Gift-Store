@@ -179,7 +179,7 @@ export function OrderDetailsModal({ isOpen, onClose, orderId, onOrderUpdated }: 
                     <CardContent className="p-5 space-y-4">
                       <div className="space-y-2">
                         <label className="text-xs font-bold text-slate-600">تحديث الحالة</label>
-                        <Select dir="rtl" disabled={isUpdating} value={order.status} onValueChange={handleStatusChange}>
+                        <Select disabled={isUpdating} value={order.status} onValueChange={handleStatusChange}>
                           <SelectTrigger className="w-full bg-white h-10 rounded-xl border-slate-200 text-start">
                             <SelectValue placeholder="اختر الحالة">{statusConfig[order.status]?.label}</SelectValue>
                           </SelectTrigger>
@@ -197,7 +197,7 @@ export function OrderDetailsModal({ isOpen, onClose, orderId, onOrderUpdated }: 
 
                       <div className="space-y-2">
                         <label className="text-xs font-bold text-slate-600">الدفع ({paymentMethodMap[order.paymentMethod]})</label>
-                        <Select dir="rtl" disabled={isUpdating} value={order.paymentStatus} onValueChange={handlePaymentStatusChange}>
+                        <Select disabled={isUpdating} value={order.paymentStatus} onValueChange={handlePaymentStatusChange}>
                           <SelectTrigger className="w-full bg-white h-10 rounded-xl border-slate-200 text-start">
                             <SelectValue placeholder="اختر الحالة">{paymentStatusMap[order.paymentStatus]}</SelectValue>
                           </SelectTrigger>
