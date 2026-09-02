@@ -1,4 +1,4 @@
-﻿'use client'
+'use client'
 
 import React, { useState } from 'react'
 import Link from 'next/link'
@@ -68,6 +68,7 @@ export const sidebarGroups: SidebarGroup[] = [
     title: 'النظام',
     items: [
       { name: 'إعدادات المتجر', href: '/admin/settings', icon: Settings, allowedRoles: ['SUPER_ADMIN'] },
+      { name: 'الملف الشخصي', href: '/admin/profile', icon: User },
     ]
   }
 ]
