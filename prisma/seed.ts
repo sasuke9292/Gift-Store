@@ -280,13 +280,13 @@ async function main() {
 
   // 3. Admin User
   await prisma.user.upsert({
-    where: { email: 'admin@giftstore.com' },
+    where: { email: 'admin@admin.com' },
     update: {},
     create: {
-      email: 'admin@giftstore.com',
+      email: 'admin@admin.com',
       name: 'المدير العام',
       role: 'SUPER_ADMIN',
-      password: 'password123', // In real app, this MUST be hashed
+      password: 'Admin123', // In real app, this MUST be hashed
     }
   })
 
