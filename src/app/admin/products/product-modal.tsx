@@ -22,6 +22,7 @@ interface ProductModalProps {
 
 export default function ProductModal({ isOpen, setIsOpen, product, categories, onSuccess }: ProductModalProps) {
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [imageUrlInput, setImageUrlInput] = useState('')
   const [formData, setFormData] = useState({
     name: '',
     slug: '',
@@ -104,7 +105,7 @@ export default function ProductModal({ isOpen, setIsOpen, product, categories, o
       
       if (data.success) {
         setFormData(prev => ({...prev, imagesList: [...prev.imagesList, data.url]}))
-        toast.success('تمت إضافة الصورة بنجاح', { id: toastId })
+        toast.success('تم رفع الصورة بنجاح', { id: toastId })
       } else {
         toast.error(data.error || 'حدث خطأ أثناء الرفع', { id: toastId })
       }
@@ -113,6 +114,13 @@ export default function ProductModal({ isOpen, setIsOpen, product, categories, o
     } finally {
       e.target.value = '' 
     }
+  }
+
+  const handleAddImageUrl = () => {
+    if (!imageUrlInput.trim()) return
+    setFormData({...formData, imagesList: [...formData.imagesList, imageUrlInput.trim()]})
+    setImageUrlInput('')
+    toast.success('تمت إضافة رابط الصورة بنجاح')
   }
 
   return (
@@ -198,7 +206,24 @@ export default function ProductModal({ isOpen, setIsOpen, product, categories, o
                   <div className="w-12 h-12 rounded-full bg-white shadow-sm flex items-center justify-center mb-2 group-hover:scale-110 group-hover:text-indigo-600 transition-all text-slate-400">
                     <UploadCloud className="w-6 h-6" />
                   </div>
-                  <p className="text-sm font-bold text-slate-700 mb-1">اضغط أو اسحب الصور هنا</p>
+                  <p className="text-sm font-bold text-slate-700 mb-1">اضغط أو اسحب الصور من جهازك هنا</p>
+                </div>
+
+                <div className="flex gap-2 mt-3">
+                  <Input 
+                    placeholder="أو أدخل رابط الصورة هنا (URL)..." 
+                    value={imageUrlInput}
+                    onChange={(e) => setImageUrlInput(e.target.value)}
+                    className="flex-1 bg-slate-50 border-slate-200 focus-visible:ring-indigo-500 rounded-xl h-11 text-sm text-left"
+                    dir="ltr"
+                  />
+                  <Button 
+                    type="button" 
+                    onClick={handleAddImageUrl}
+                    className="h-11 rounded-xl bg-indigo-100 text-indigo-700 hover:bg-indigo-200 shadow-none font-bold px-6"
+                  >
+                    إضافة الرابط
+                  </Button>
                 </div>
 
                 {formData.imagesList.length > 0 && (
