@@ -18,8 +18,7 @@ const iraqiGovernorates = [
 ]
 
 export default function CheckoutPage() {
-  const [step, setStep] = useState(1) // 1: Shipping, 2: Payment, 3: Success
-  const [paymentMethod, setPaymentMethod] = useState('cod') // 'cod' or 'card'
+  const [step, setStep] = useState(1) // 1: Shipping, 2: Review, 3: Success
   const [orderId, setOrderId] = useState<string | null>(null)
   
   // Form State
@@ -100,14 +99,14 @@ export default function CheckoutPage() {
               <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-white transition-colors duration-500 ${step >= 2 ? 'bg-primary shadow-lg shadow-primary/30' : 'bg-slate-300'}`}>
                 2
               </div>
-              <span className="text-sm font-medium">الدفع</span>
+              <span className="text-sm font-medium">المراجعة</span>
             </div>
             
             <div className={`relative z-10 flex flex-col items-center gap-2 ${step >= 3 ? 'text-primary' : 'text-slate-400'}`}>
               <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-white transition-colors duration-500 ${step >= 3 ? 'bg-primary shadow-lg shadow-primary/30' : 'bg-slate-300'}`}>
                 3
               </div>
-              <span className="text-sm font-medium">التأكيد</span>
+              <span className="text-sm font-medium">تم الطلب</span>
             </div>
           </div>
         </div>
@@ -178,14 +177,14 @@ export default function CheckoutPage() {
 
                 <div className="pt-6 flex justify-end">
                   <Button onClick={handleNext} size="lg" className="w-full md:w-auto px-10 h-14 rounded-xl shadow-md hover:scale-105 transition-transform">
-                    متابعة للدفع
+                    مراجعة الطلب
                     <ChevronLeft className="w-5 h-5 me-2" />
                   </Button>
                 </div>
               </motion.div>
             )}
 
-            {/* Step 2: Payment */}
+            {/* Step 2: Review & Confirm */}
             {step === 2 && (
               <motion.div
                 key="step2"
@@ -197,44 +196,20 @@ export default function CheckoutPage() {
               >
                 <div className="mb-8">
                   <h2 className="text-2xl font-bold text-slate-800 flex items-center gap-2">
-                    <CreditCard className="w-6 h-6 text-primary" />
-                    طريقة الدفع
+                    <CheckCircle2 className="w-6 h-6 text-primary" />
+                    المراجعة والتأكيد
                   </h2>
-                  <p className="text-slate-500 mt-1">اختر طريقة الدفع المناسبة لك.</p>
+                  <p className="text-slate-500 mt-1">يرجى مراجعة تفاصيل طلبك قبل التأكيد النهائي.</p>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <label className={`cursor-pointer rounded-2xl border-2 p-6 flex flex-col items-center justify-center gap-4 transition-all duration-300 ${paymentMethod === 'cod' ? 'border-primary bg-primary/5 shadow-md' : 'border-slate-100 hover:border-slate-200 hover:bg-slate-50'}`}>
-                    <input 
-                      type="radio" 
-                      name="paymentMethod" 
-                      value="cod" 
-                      checked={paymentMethod === 'cod'} 
-                      onChange={() => setPaymentMethod('cod')}
-                      className="sr-only" 
-                    />
-                    <div className={`w-16 h-16 rounded-full flex items-center justify-center ${paymentMethod === 'cod' ? 'bg-primary text-white' : 'bg-slate-100 text-slate-400'}`}>
-                      <Banknote className="w-8 h-8" />
-                    </div>
-                    <span className="font-bold text-lg text-slate-800">الدفع عند الاستلام</span>
-                    <span className="text-sm text-slate-500 text-center">ادفع نقداً عند استلام طلبك</span>
-                  </label>
-
-                  <label className={`cursor-pointer rounded-2xl border-2 p-6 flex flex-col items-center justify-center gap-4 transition-all duration-300 ${paymentMethod === 'card' ? 'border-primary bg-primary/5 shadow-md' : 'border-slate-100 hover:border-slate-200 hover:bg-slate-50'}`}>
-                    <input 
-                      type="radio" 
-                      name="paymentMethod" 
-                      value="card" 
-                      checked={paymentMethod === 'card'} 
-                      onChange={() => setPaymentMethod('card')}
-                      className="sr-only" 
-                    />
-                    <div className={`w-16 h-16 rounded-full flex items-center justify-center ${paymentMethod === 'card' ? 'bg-primary text-white' : 'bg-slate-100 text-slate-400'}`}>
-                      <CreditCard className="w-8 h-8" />
-                    </div>
-                    <span className="font-bold text-lg text-slate-800">بطاقة مصرفية / زين كاش</span>
-                    <span className="text-sm text-slate-500 text-center">دفع إلكتروني آمن وسريع</span>
-                  </label>
+                <div className="bg-primary/5 border border-primary/20 rounded-2xl p-6 flex flex-col sm:flex-row items-center gap-4">
+                  <div className="w-16 h-16 rounded-full bg-primary text-white flex items-center justify-center shrink-0">
+                    <Banknote className="w-8 h-8" />
+                  </div>
+                  <div className="text-center sm:text-start">
+                    <h3 className="font-bold text-lg text-slate-800">الدفع عند الاستلام</h3>
+                    <p className="text-sm text-slate-500 mt-1">سيتم دفع المبلغ الإجمالي نقداً للمندوب عند توصيل الطلب إليك.</p>
+                  </div>
                 </div>
                 
                 {/* Order Summary */}

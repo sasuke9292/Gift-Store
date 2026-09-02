@@ -167,18 +167,6 @@ export default function SettingsClient({ initialSettings }: { initialSettings: S
                   className="data-[state=checked]:bg-emerald-500"
                 />
               </div>
-
-              <div className="flex items-center justify-between p-6 border border-slate-100 rounded-2xl bg-slate-50">
-                <div className="space-y-1">
-                  <Label className="text-lg font-bold text-slate-800">الدفع الإلكتروني (ZainCash / Visa)</Label>
-                  <p className="text-sm text-slate-500 font-medium">تفعيل قبول المدفوعات الإلكترونية عبر بوابات الدفع المرتبطة.</p>
-                </div>
-                <Switch 
-                  checked={settings.allowOnlinePayment}
-                  onCheckedChange={(checked) => setSettings({...settings, allowOnlinePayment: checked})}
-                  className="data-[state=checked]:bg-emerald-500"
-                />
-              </div>
             </CardContent>
           </Card>
         </TabsContent>
