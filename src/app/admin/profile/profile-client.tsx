@@ -190,35 +190,40 @@ export default function ProfileClient({ currentUser, initialStaffUsers }: Profil
       </div>
 
       <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-        <TabsList className="bg-white p-1 rounded-2xl h-auto flex gap-1 shadow-sm border border-slate-100 w-full sm:w-auto">
-          <TabsTrigger value="profile" className="rounded-xl data-[state=active]:bg-primary/10 data-[state=active]:text-primary data-[state=active]:shadow-none text-slate-600 px-6 py-3 font-bold transition-all flex items-center gap-2 flex-1 sm:flex-none">
-            <UserCircle className="w-5 h-5" />
+        <TabsList className="bg-white p-1.5 border border-slate-100 shadow-sm rounded-2xl w-full flex flex-col sm:flex-row h-auto gap-1">
+          <TabsTrigger value="profile" className="flex-1 rounded-xl data-[state=active]:bg-indigo-50 data-[state=active]:text-indigo-600 py-3 px-4 text-sm font-bold text-slate-500 transition-all w-full sm:w-auto gap-2">
+            <UserCircle className="w-4 h-4" />
             الملف الشخصي
           </TabsTrigger>
-          <TabsTrigger value="team" className="rounded-xl data-[state=active]:bg-primary/10 data-[state=active]:text-primary data-[state=active]:shadow-none text-slate-600 px-6 py-3 font-bold transition-all flex items-center gap-2 flex-1 sm:flex-none">
-            <Shield className="w-5 h-5" />
+          <TabsTrigger value="team" className="flex-1 rounded-xl data-[state=active]:bg-indigo-50 data-[state=active]:text-indigo-600 py-3 px-4 text-sm font-bold text-slate-500 transition-all w-full sm:w-auto gap-2">
+            <Shield className="w-4 h-4" />
             فريق العمل والصلاحيات
           </TabsTrigger>
         </TabsList>
 
-        <TabsContent value="profile" className="space-y-6 animate-in fade-in-50 zoom-in-[0.98]">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <TabsContent value="profile" className="space-y-8 animate-in fade-in-50 slide-in-from-bottom-2 duration-300">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             
-            {/* User Card */}
-            <div className="md:col-span-1">
-              <Card className="rounded-2xl border-slate-100 shadow-sm overflow-hidden">
-                <div className="h-24 bg-gradient-to-tr from-primary to-blue-400"></div>
-                <div className="px-6 pb-6 pt-0 text-center relative -mt-12">
-                  <Avatar className="w-24 h-24 border-4 border-white shadow-lg mx-auto bg-slate-50">
-                    <AvatarFallback className="bg-primary/10 text-primary font-black text-2xl">
-                      {profileData.name ? profileData.name[0] : 'م'}
-                    </AvatarFallback>
-                  </Avatar>
-                  <h2 className="mt-4 text-xl font-bold text-slate-800">{profileData.name || 'مدير النظام'}</h2>
-                  <p className="text-sm text-slate-500">{profileData.email}</p>
+            {/* User Profile Card */}
+            <div className="lg:col-span-1 space-y-6">
+              <Card className="rounded-3xl border-slate-100 shadow-sm overflow-hidden bg-white">
+                <div className="h-32 bg-gradient-to-br from-indigo-500 via-indigo-600 to-indigo-700 relative overflow-hidden">
+                  <div className="absolute inset-0 bg-white/10 mix-blend-overlay"></div>
+                </div>
+                <div className="px-8 pb-8 pt-0 text-center relative -mt-16 flex flex-col items-center">
+                  <div className="w-32 h-32 rounded-full border-4 border-white shadow-xl bg-white overflow-hidden flex items-center justify-center relative">
+                    <Avatar className="w-full h-full">
+                      <AvatarFallback className="bg-indigo-50 text-indigo-700 font-black text-4xl">
+                        {profileData.name ? profileData.name[0] : 'م'}
+                      </AvatarFallback>
+                    </Avatar>
+                  </div>
+                  <h2 className="mt-5 text-2xl font-black text-slate-800 tracking-tight">{profileData.name || 'مدير النظام'}</h2>
+                  <p className="text-slate-500 font-mono text-sm mt-1">{profileData.email}</p>
                   
-                  <div className="mt-6">
-                    <Badge className="bg-indigo-50 text-indigo-700 hover:bg-indigo-100 border border-indigo-200 px-4 py-1.5 rounded-full font-bold shadow-sm">
+                  <div className="mt-6 w-full pt-6 border-t border-slate-100">
+                    <Badge className="bg-emerald-50 text-emerald-700 hover:bg-emerald-100 border border-emerald-200 px-6 py-2 rounded-xl font-bold shadow-sm text-sm">
+                      <Shield className="w-4 h-4 ms-2" />
                       {roleMap[currentUser?.role || 'ADMIN']?.label}
                     </Badge>
                   </div>
@@ -227,44 +232,47 @@ export default function ProfileClient({ currentUser, initialStaffUsers }: Profil
             </div>
 
             {/* Edit Form */}
-            <div className="md:col-span-2 space-y-6">
-              <Card className="rounded-2xl border-slate-100 shadow-sm">
-                <CardHeader className="border-b border-slate-50 px-6 py-5">
-                  <CardTitle className="text-lg font-bold flex items-center gap-2 text-slate-800">
-                    <UserCircle className="w-5 h-5 text-primary" />
+            <div className="lg:col-span-2 space-y-8">
+              <Card className="rounded-3xl border-slate-100 shadow-sm overflow-hidden bg-white">
+                <div className="p-8 border-b border-slate-100 bg-slate-50/50">
+                  <h2 className="text-xl font-bold text-slate-800 flex items-center gap-2">
+                    <UserCircle className="w-5 h-5 text-indigo-600" />
                     المعلومات الشخصية
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="p-6">
-                  <form onSubmit={handleSaveProfile} className="space-y-5">
-                    <div className="space-y-2">
-                      <Label className="text-sm font-semibold text-slate-700">الاسم الكامل</Label>
-                      <div className="relative">
-                        <UserCircle className="absolute end-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
-                        <Input 
-                          value={profileData.name} 
-                          onChange={e => setProfileData({...profileData, name: e.target.value})}
-                          className="h-12 ps-4 pe-10 bg-slate-50 border-slate-200 focus:border-primary focus:bg-white rounded-xl transition-all" 
-                        />
+                  </h2>
+                  <p className="text-sm text-slate-500 mt-1 font-medium">تحديث بياناتك الشخصية الأساسية.</p>
+                </div>
+                <CardContent className="p-8">
+                  <form onSubmit={handleSaveProfile} className="space-y-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div className="space-y-3">
+                        <Label className="text-sm font-bold text-slate-700">الاسم الكامل</Label>
+                        <div className="relative">
+                          <UserCircle className="absolute start-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+                          <Input 
+                            value={profileData.name} 
+                            onChange={e => setProfileData({...profileData, name: e.target.value})}
+                            className="h-14 ps-12 bg-slate-50 border-slate-200 focus:border-indigo-500 focus:bg-white rounded-2xl transition-colors font-medium text-base" 
+                          />
+                        </div>
                       </div>
-                    </div>
-                    
-                    <div className="space-y-2">
-                      <Label className="text-sm font-semibold text-slate-700">البريد الإلكتروني</Label>
-                      <div className="relative">
-                        <Mail className="absolute end-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
-                        <Input 
-                          type="email"
-                          value={profileData.email} 
-                          onChange={e => setProfileData({...profileData, email: e.target.value})}
-                          className="h-12 ps-4 pe-10 bg-slate-50 border-slate-200 focus:border-primary focus:bg-white rounded-xl transition-all" 
-                          dir="ltr"
-                        />
+                      
+                      <div className="space-y-3">
+                        <Label className="text-sm font-bold text-slate-700">البريد الإلكتروني</Label>
+                        <div className="relative">
+                          <Mail className="absolute start-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400 z-10" />
+                          <Input 
+                            type="email"
+                            value={profileData.email} 
+                            onChange={e => setProfileData({...profileData, email: e.target.value})}
+                            className="h-14 ps-12 pe-4 bg-slate-50 border-slate-200 focus:border-indigo-500 focus:bg-white rounded-2xl transition-colors font-mono text-sm text-left" 
+                            dir="ltr"
+                          />
+                        </div>
                       </div>
                     </div>
 
                     <div className="pt-4 flex justify-end">
-                      <Button type="submit" disabled={isSavingProfile} className="h-12 px-8 rounded-xl font-bold bg-primary hover:bg-primary/90 text-white shadow-lg shadow-primary/25 hover:-translate-y-0.5 transition-all">
+                      <Button type="submit" disabled={isSavingProfile} className="h-12 px-8 rounded-xl font-bold bg-indigo-600 hover:bg-indigo-700 text-white shadow-lg shadow-indigo-600/20 transition-all w-full sm:w-auto">
                         {isSavingProfile ? 'جاري الحفظ...' : 'حفظ التغييرات'}
                       </Button>
                     </div>
@@ -272,26 +280,27 @@ export default function ProfileClient({ currentUser, initialStaffUsers }: Profil
                 </CardContent>
               </Card>
 
-              <Card className="rounded-2xl border-slate-100 shadow-sm">
-                <CardHeader className="border-b border-slate-50 px-6 py-5 flex flex-row items-center justify-between">
-                  <CardTitle className="text-lg font-bold flex items-center gap-2 text-slate-800">
-                    <Key className="w-5 h-5 text-slate-400" />
+              <Card className="rounded-3xl border-slate-100 shadow-sm overflow-hidden bg-white">
+                <div className="p-8 border-b border-slate-100 bg-slate-50/50">
+                  <h2 className="text-xl font-bold text-slate-800 flex items-center gap-2">
+                    <Key className="w-5 h-5 text-indigo-600" />
                     الأمان وكلمة المرور
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="p-6">
-                  <div className="flex items-center justify-between p-4 bg-slate-50 rounded-xl border border-slate-100">
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center border border-slate-200 shadow-sm">
-                        <Lock className="w-5 h-5 text-slate-400" />
+                  </h2>
+                  <p className="text-sm text-slate-500 mt-1 font-medium">حماية حسابك بتغيير كلمة المرور بشكل دوري.</p>
+                </div>
+                <CardContent className="p-8">
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 p-6 bg-slate-50 border border-slate-100 rounded-2xl">
+                    <div className="flex items-center gap-4">
+                      <div className="w-12 h-12 rounded-xl bg-white flex items-center justify-center border border-slate-200 shadow-sm shrink-0">
+                        <Lock className="w-6 h-6 text-slate-400" />
                       </div>
                       <div>
-                        <p className="font-bold text-slate-800">كلمة المرور</p>
-                        <p className="text-sm text-slate-500">تم التحديث منذ شهرين</p>
+                        <p className="font-bold text-slate-800 text-lg">كلمة المرور</p>
+                        <p className="text-sm text-slate-500 font-medium mt-0.5">يُنصح بتحديث كلمة المرور الخاصة بك بانتظام.</p>
                       </div>
                     </div>
-                    <Button onClick={() => setIsPasswordModalOpen(true)} variant="outline" className="rounded-xl font-bold border-slate-200 hover:bg-slate-100">
-                      تغيير كلمة المرور
+                    <Button onClick={() => setIsPasswordModalOpen(true)} variant="outline" className="h-12 px-6 rounded-xl font-bold border-slate-200 bg-white hover:bg-slate-100 hover:text-indigo-600 transition-colors w-full sm:w-auto shadow-sm">
+                      تحديث كلمة المرور
                     </Button>
                   </div>
                 </CardContent>
