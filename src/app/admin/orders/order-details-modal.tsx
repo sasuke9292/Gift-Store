@@ -130,7 +130,7 @@ export function OrderDetailsModal({ isOpen, onClose, orderId, onOrderUpdated }: 
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="max-w-4xl p-0 overflow-hidden bg-slate-50 border-0 rounded-3xl" dir="rtl">
+      <DialogContent className="sm:max-w-5xl w-[95vw] md:w-full p-0 overflow-hidden bg-slate-50 border-0 rounded-3xl" dir="rtl">
         {isLoading ? (
           <div className="flex flex-col items-center justify-center h-96 gap-4">
             <Loader2 className="w-10 h-10 animate-spin text-indigo-600" />
