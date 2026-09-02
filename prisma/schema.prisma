@@ -15,11 +15,10 @@ model User {
   emailVerified DateTime?
   image         String?
   password      String?
-  role          Role      @default(CUSTOMER)
+  role          Role      @default(EDITOR)
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 
-  customerProfile Customer?
   orders          Order[]
   auditLogs       AuditLog[]
   accounts        Account[]
@@ -69,31 +68,9 @@ enum Role {
   WAREHOUSE
   SUPPORT
   EDITOR
-  CUSTOMER
 }
 
-model Customer {
-  id        String   @id @default(cuid())
-  userId    String   @unique
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  phone     String?
-  addresses Address[]
-  wishlist  Wishlist?
-  reviews   Review[]
-}
 
-model Address {
-  id           String   @id @default(cuid())
-  customerId   String
-  customer     Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
-  governorate  String
-  city         String
-  region       String
-  street       String
-  nearestPoint String?
-  notes        String?
-  isDefault    Boolean  @default(false)
-}
 
 // Product Models
 model Category {
@@ -138,8 +115,6 @@ model Product {
 
   variants         ProductVariant[]
   orderItems       OrderItem[]
-  reviews          Review[]
-  wishlistItems    WishlistItem[]
   inventory        Inventory?
 }
 
@@ -229,33 +204,7 @@ enum PaymentStatus {
 }
 
 // Additional Features
-model Wishlist {
-  id         String         @id @default(cuid())
-  customerId String         @unique
-  customer   Customer       @relation(fields: [customerId], references: [id], onDelete: Cascade)
-  items      WishlistItem[]
-}
 
-model WishlistItem {
-  id         String   @id @default(cuid())
-  wishlistId String
-  wishlist   Wishlist @relation(fields: [wishlistId], references: [id], onDelete: Cascade)
-  productId  String
-  product    Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
-}
-
-model Review {
-  id         String   @id @default(cuid())
-  productId  String
-  product    Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
-  customerId String
-  customer   Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
-  rating     Int
-  comment    String?
-  isVerified Boolean  @default(false)
-  isApproved Boolean  @default(false)
-  createdAt  DateTime @default(now())
-}
 
 model AuditLog {
   id        String   @id @default(cuid())

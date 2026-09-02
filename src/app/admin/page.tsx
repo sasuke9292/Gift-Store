@@ -12,7 +12,6 @@ export default async function AdminDashboardPage() {
     completedOrders,
     pendingOrders,
     cancelledOrders,
-    totalCustomers,
     totalProducts,
     lowStockProducts,
     ordersData,
@@ -22,7 +21,6 @@ export default async function AdminDashboardPage() {
     prisma.order.count({ where: { status: 'DELIVERED' } }),
     prisma.order.count({ where: { status: 'PENDING' } }),
     prisma.order.count({ where: { status: 'CANCELLED' } }),
-    prisma.user.count({ where: { role: 'CUSTOMER' } }),
     prisma.product.count(),
     prisma.inventory.count({ where: { stock: { lt: 5 } } }),
     prisma.order.aggregate({
@@ -41,7 +39,6 @@ export default async function AdminDashboardPage() {
     completedOrders,
     pendingOrders,
     cancelledOrders,
-    totalCustomers,
     totalProducts,
     lowStockProducts
   }

@@ -290,17 +290,6 @@ async function main() {
     }
   })
 
-  // 4. Test Customer User
-  await prisma.user.upsert({
-    where: { email: 'customer@test.com' },
-    update: {},
-    create: {
-      email: 'customer@test.com',
-      name: 'أحمد العميل',
-      role: 'CUSTOMER',
-      password: 'password123', 
-    }
-  })
 
   console.log('Seeding complete. Inserted realistic data and images.')
 }

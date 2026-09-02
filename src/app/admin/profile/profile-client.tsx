@@ -45,8 +45,7 @@ const roleMap: Record<Role, { label: string, color: string }> = {
   SALES: { label: 'مبيعات', color: 'bg-amber-100 text-amber-700 border-amber-200' },
   WAREHOUSE: { label: 'أمين مستودع', color: 'bg-orange-100 text-orange-700 border-orange-200' },
   SUPPORT: { label: 'دعم فني', color: 'bg-cyan-100 text-cyan-700 border-cyan-200' },
-  EDITOR: { label: 'محرر محتوى', color: 'bg-purple-100 text-purple-700 border-purple-200' },
-  CUSTOMER: { label: 'عميل', color: 'bg-slate-100 text-slate-700 border-slate-200' },
+  EDITOR: { label: 'محرر محتوى', color: 'bg-purple-100 text-purple-700 border-purple-200' }
 }
 
 export default function ProfileClient({ currentUser, initialStaffUsers }: ProfileClientProps) {
@@ -357,7 +356,7 @@ export default function ProfileClient({ currentUser, initialStaffUsers }: Profil
                   <p className="text-sm text-slate-500 font-mono mt-0.5" dir="rtl">{user.email}</p>
                   
                   <div className="mt-4 mb-4">
-                    <Badge className={`px-4 py-1.5 rounded-full font-bold shadow-sm border ${roleMap[user.role]?.color || roleMap.CUSTOMER.color}`}>
+                    <Badge className={`px-4 py-1.5 rounded-full font-bold shadow-sm border ${roleMap[user.role]?.color || 'bg-slate-100 text-slate-700 border-slate-200'}`}>
                       {roleMap[user.role]?.label || user.role}
                     </Badge>
                   </div>
@@ -419,7 +418,7 @@ export default function ProfileClient({ currentUser, initialStaffUsers }: Profil
                   value={editUserData.role}
                   onChange={(e) => setEditUserData({...editUserData, role: e.target.value as Role})}
                 >
-                  {Object.entries(roleMap).filter(([k]) => k !== 'CUSTOMER').map(([key, role]) => (
+                  {Object.entries(roleMap).map(([key, role]) => (
                     <option key={key} value={key}>{role.label}</option>
                   ))}
                 </select>
@@ -500,7 +499,7 @@ export default function ProfileClient({ currentUser, initialStaffUsers }: Profil
                   value={newUserData.role}
                   onChange={(e) => setNewUserData({...newUserData, role: e.target.value as Role})}
                 >
-                  {Object.entries(roleMap).filter(([k]) => k !== 'CUSTOMER').map(([key, role]) => (
+                  {Object.entries(roleMap).map(([key, role]) => (
                     <option key={key} value={key}>{role.label}</option>
                   ))}
                 </select>

@@ -93,41 +93,6 @@ export function StoreHeader({ user, topBarText }: StoreHeaderProps) {
               )}
             </Link>
             
-            {user ? (
-              user.role === 'CUSTOMER' ? (
-                <DropdownMenu>
-                  <DropdownMenuTrigger className="hidden md:flex items-center gap-2 rounded-full px-4 py-2 text-slate-600 hover:bg-slate-100 transition-colors">
-                    <User className="w-5 h-5" />
-                    <span className="font-medium">{user.name?.split(' ')[0] || 'حسابي'}</span>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end" className="w-48">
-                    <DropdownMenuItem>
-                      <Link href="/profile" className="flex items-center gap-2 cursor-pointer w-full h-full">
-                        <User className="w-4 h-4" /> ملفي الشخصي
-                      </Link>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>
-                      <Link href="/profile" className="flex items-center gap-2 cursor-pointer w-full h-full">
-                        <Package className="w-4 h-4" /> طلباتي
-                      </Link>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => signOut()} className="text-red-600 focus:text-red-600 cursor-pointer">
-                      <LogOut className="w-4 h-4" /> تسجيل الخروج
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              ) : (
-                <Link href="/auth/login" className={buttonVariants({ variant: "ghost", className: "text-slate-600 hover:text-primary hidden md:flex items-center gap-2 rounded-full px-4" })}>
-                  <User className="w-5 h-5" />
-                  <span className="font-medium">تسجيل دخول العملاء</span>
-                </Link>
-              )
-            ) : (
-              <Link href="/auth/login" className={buttonVariants({ variant: "ghost", className: "text-slate-600 hover:text-primary hidden md:flex items-center gap-2 rounded-full px-4" })}>
-                <User className="w-5 h-5" />
-                <span className="font-medium">تسجيل الدخول</span>
-              </Link>
-            )}
           </div>
         </div>
       </div>
@@ -162,17 +127,6 @@ export function StoreHeader({ user, topBarText }: StoreHeaderProps) {
             <li><Link href="/category/women" onClick={() => setIsMobileMenuOpen(false)}>هدايا نسائية</Link></li>
             <li><Link href="/category/occasions" onClick={() => setIsMobileMenuOpen(false)}>مناسبات</Link></li>
             <li><Link href="/category/offers" className="text-red-500" onClick={() => setIsMobileMenuOpen(false)}>عروض وتخفيضات</Link></li>
-            <li className="pt-4 border-t border-slate-100 flex gap-4">
-              {user ? (
-                <Button variant="outline" className="w-full justify-start text-red-600 border-red-200 hover:bg-red-50" onClick={() => signOut()}>
-                  <LogOut className="w-4 h-4 me-2" /> تسجيل الخروج
-                </Button>
-              ) : (
-                <Link href="/auth/login" className="w-full" onClick={() => setIsMobileMenuOpen(false)}>
-                  <Button variant="outline" className="w-full justify-center">تسجيل الدخول</Button>
-                </Link>
-              )}
-            </li>
           </ul>
         </div>
       )}

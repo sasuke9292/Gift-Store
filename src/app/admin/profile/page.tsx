@@ -12,11 +12,7 @@ export default async function AdminProfilePage() {
   })
 
   const staffUsers = await prisma.user.findMany({
-    where: {
-      role: {
-        not: 'CUSTOMER'
-      }
-    },
+
     orderBy: {
       createdAt: 'desc'
     }

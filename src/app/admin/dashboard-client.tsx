@@ -30,7 +30,6 @@ export interface DashboardStats {
   completedOrders: number
   pendingOrders: number
   cancelledOrders: number
-  totalCustomers: number
   totalProducts: number
   lowStockProducts: number
 }
@@ -63,7 +62,7 @@ export default function AdminDashboardHome({ stats, recentOrders, userName }: { 
         variants={containerVariants}
         initial="hidden"
         animate="visible"
-        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
+        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
       >
         {/* KPI 1 */}
         <motion.div variants={itemVariants} className="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm relative overflow-hidden group">
@@ -109,23 +108,7 @@ export default function AdminDashboardHome({ stats, recentOrders, userName }: { 
           </div>
         </motion.div>
 
-        {/* KPI 3 */}
-        <motion.div variants={itemVariants} className="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm relative overflow-hidden group">
-          <div className="absolute top-0 end-0 p-6 opacity-10 transform translate-x-4 -translate-y-4 group-hover:scale-110 transition-transform">
-            <Users className="w-24 h-24 text-purple-600" />
-          </div>
-          <div className="relative z-10">
-            <div className="flex justify-between items-start mb-6">
-              <div className="w-12 h-12 rounded-2xl bg-purple-50 flex items-center justify-center">
-                <Users className="w-6 h-6 text-purple-600" />
-              </div>
-            </div>
-            <div>
-              <p className="text-slate-500 font-semibold mb-1 text-sm">إجمالي العملاء</p>
-              <h3 className="text-3xl font-black text-slate-800 tracking-tight">{stats.totalCustomers}</h3>
-            </div>
-          </div>
-        </motion.div>
+
 
         {/* KPI 4 */}
         <motion.div variants={itemVariants} className="bg-white p-6 rounded-3xl border border-rose-100 shadow-sm relative overflow-hidden group">

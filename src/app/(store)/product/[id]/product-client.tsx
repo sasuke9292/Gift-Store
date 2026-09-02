@@ -236,7 +236,7 @@ export default function ProductClient({ product }: { product: any }) {
               <div className="bg-slate-50 rounded-3xl p-8 border border-slate-100">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-8 gap-4">
                   <div>
-                    <h3 className="text-xl font-bold text-slate-800 mb-2">تقييمات العملاء</h3>
+                    <h3 className="text-xl font-bold text-slate-800 mb-2">التقييمات</h3>
                     <div className="flex items-center gap-2">
                       <div className="flex text-slate-300">
                         {[...Array(5)].map((_, i) => (

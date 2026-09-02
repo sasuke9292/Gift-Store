@@ -340,14 +340,10 @@ export function OrderDetailsModal({ isOpen, onClose, orderId, onOrderUpdated }: 
                           <div className="flex items-start gap-2 text-slate-700 font-medium text-sm">
                             <MapPin className="w-4 h-4 text-slate-400 mt-0.5 shrink-0" />
                             <div>
-                              {order.shippingAddress ? (
-                                <>
-                                  <p>{order.shippingAddress.governorate} - {order.shippingAddress.city}</p>
-                                  <p>{order.shippingAddress.region}، {order.shippingAddress.street}</p>
-                                  {order.shippingAddress.nearestPoint && <p className="text-slate-500 mt-1">أقرب نقطة دالة: {order.shippingAddress.nearestPoint}</p>}
-                                </>
+                              {order.shippingAddress?.address ? (
+                                <p className="leading-relaxed">{order.shippingAddress.address}</p>
                               ) : (
-                                <span className="text-slate-400">لا يوجد عنوان</span>
+                                <span className="text-slate-400">لا يوجد عنوان مسجل</span>
                               )}
                             </div>
                           </div>

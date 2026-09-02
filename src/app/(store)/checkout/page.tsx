@@ -23,12 +23,11 @@ export default function CheckoutPage() {
   
   // Form State
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
+    name: '',
     phone: '',
-    governorate: '',
-    city: '',
-    address: ''
+    phone2: '',
+    address: '',
+    landmark: ''
   })
 
   const [isPending, startTransition] = useTransition()
@@ -39,8 +38,8 @@ export default function CheckoutPage() {
   const total = subtotal + (cartItems.length > 0 ? shipping : 0)
 
   const handleNext = () => {
-    if (!formData.firstName || !formData.lastName || !formData.phone || !formData.governorate || !formData.city || !formData.address) {
-      toast.error('يرجى ملء جميع الحقول المطلوبة')
+    if (!formData.name || !formData.phone || !formData.address || !formData.landmark) {
+      toast.error('يرجى ملء جميع الحقول الأساسية (الاسم، الهاتف، العنوان، النقطة الدالة)')
       return
     }
     setStep(step + 1)
@@ -56,10 +55,10 @@ export default function CheckoutPage() {
           price: item.price,
           name: item.name,
         })),
-        customerName: `${formData.firstName} ${formData.lastName}`,
+        customerName: formData.name,
         customerEmail: '', // Optional for now
         customerPhone: formData.phone,
-        customerAddress: `${formData.governorate}, ${formData.city}, ${formData.address}`,
+        customerAddress: `${formData.address} - أٌقرب نقطة دالة: ${formData.landmark} ${formData.phone2 ? `- هاتف بديل: ${formData.phone2}` : ''}`,
         totalAmount: cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0)
       })
 
@@ -133,16 +132,12 @@ export default function CheckoutPage() {
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="space-y-2">
-                    <Label htmlFor="firstName">الاسم الأول</Label>
-                    <Input id="firstName" placeholder="محمد" className="h-12 bg-slate-50 rounded-xl" value={formData.firstName} onChange={(e) => setFormData({...formData, firstName: e.target.value})} />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="lastName">اسم العائلة</Label>
-                    <Input id="lastName" placeholder="علي" className="h-12 bg-slate-50 rounded-xl" value={formData.lastName} onChange={(e) => setFormData({...formData, lastName: e.target.value})} />
+                  <div className="space-y-2 md:col-span-2">
+                    <Label htmlFor="name">الاسم الكامل</Label>
+                    <Input id="name" placeholder="محمد علي" className="h-12 bg-slate-50 rounded-xl" value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})} />
                   </div>
                   
-                  <div className="space-y-2 md:col-span-2">
+                  <div className="space-y-2">
                     <Label htmlFor="phone">رقم الهاتف</Label>
                     <div className="relative">
                       <Phone className="absolute start-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
@@ -151,27 +146,21 @@ export default function CheckoutPage() {
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="governorate">المحافظة</Label>
-                    <Select value={formData.governorate} onValueChange={(val) => setFormData({...formData, governorate: val || ''})}>
-                      <SelectTrigger className="h-12 bg-slate-50 rounded-xl border-slate-200">
-                        <SelectValue placeholder="اختر المحافظة" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {iraqiGovernorates.map((gov) => (
-                          <SelectItem key={gov} value={gov}>{gov}</SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
+                    <Label htmlFor="phone2">رقم هاتف ثاني (اختياري)</Label>
+                    <div className="relative">
+                      <Phone className="absolute start-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+                      <Input id="phone2" placeholder="0780 000 0000" className="pe-4 ps-12 h-12 bg-slate-50 rounded-xl text-end" dir="rtl" value={formData.phone2} onChange={(e) => setFormData({...formData, phone2: e.target.value})} />
+                    </div>
                   </div>
                   
-                  <div className="space-y-2">
-                    <Label htmlFor="city">المدينة / المنطقة</Label>
-                    <Input id="city" placeholder="مثال: المنصور" className="h-12 bg-slate-50 rounded-xl" value={formData.city} onChange={(e) => setFormData({...formData, city: e.target.value})} />
+                  <div className="space-y-2 md:col-span-2">
+                    <Label htmlFor="address">العنوان الكامل (المحافظة والمنطقة)</Label>
+                    <Input id="address" placeholder="بغداد، المنصور، شارع 14 رمضان..." className="h-12 bg-slate-50 rounded-xl" value={formData.address} onChange={(e) => setFormData({...formData, address: e.target.value})} />
                   </div>
 
                   <div className="space-y-2 md:col-span-2">
-                    <Label htmlFor="address">العنوان التفصيلي (أقرب نقطة دالة)</Label>
-                    <Input id="address" placeholder="الشارع، المحلة، الزقاق، رقم الدار" className="h-12 bg-slate-50 rounded-xl" value={formData.address} onChange={(e) => setFormData({...formData, address: e.target.value})} />
+                    <Label htmlFor="landmark">أقرب نقطة دالة</Label>
+                    <Input id="landmark" placeholder="بالقرب من مول المنصور، مجاور صيدلية..." className="h-12 bg-slate-50 rounded-xl" value={formData.landmark} onChange={(e) => setFormData({...formData, landmark: e.target.value})} />
                   </div>
                 </div>
 

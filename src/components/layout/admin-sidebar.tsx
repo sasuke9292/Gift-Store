@@ -17,6 +17,7 @@ import {
   User,
   ChevronLeft,
   ChevronsLeft,
+  UserCog,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import {
@@ -54,14 +55,8 @@ export const sidebarGroups: SidebarGroup[] = [
     items: [
       { name: 'الطلبات', href: '/admin/orders', icon: ShoppingCart, allowedRoles: ['SUPER_ADMIN', 'ADMIN', 'MANAGER', 'SALES'] },
       { name: 'المنتجات', href: '/admin/products', icon: Package, allowedRoles: ['SUPER_ADMIN', 'ADMIN', 'MANAGER', 'EDITOR'] },
-      { name: 'التصنيفات', href: '/admin/categories', icon: Tags, allowedRoles: ['SUPER_ADMIN', 'ADMIN', 'MANAGER', 'EDITOR'] },
-    ]
-  },
-  {
-    title: 'المستخدمين',
-    items: [
-      { name: 'العملاء', href: '/admin/customers', icon: Users, allowedRoles: ['SUPER_ADMIN', 'ADMIN', 'MANAGER', 'SUPPORT', 'SALES'] },
-      { name: 'فريق العمل', href: '/admin/users', icon: Shield, allowedRoles: ['SUPER_ADMIN', 'ADMIN'] },
+      { name: 'التصنيفات', href: '/admin/categories', icon: Tags, allowedRoles: ['SUPER_ADMIN', 'ADMIN', 'MANAGER'] },
+      { name: 'المستخدمين', href: '/admin/users', icon: UserCog, allowedRoles: ['SUPER_ADMIN', 'ADMIN'] },
     ]
   },
   {

@@ -59,11 +59,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
         const loginType = credentials.loginType as string | undefined
         
-        if (loginType === 'customer' && user.role !== 'CUSTOMER') {
-          return null
-        }
-        
-        if (loginType === 'admin' && user.role === 'CUSTOMER') {
+        if (loginType === 'admin' && !['SUPER_ADMIN', 'ADMIN', 'MANAGER', 'EDITOR', 'SUPPORT', 'SALES'].includes(user.role)) {
           return null
         }
 

@@ -8,17 +8,13 @@ import bcrypt from 'bcryptjs'
 
 export async function getStaffUsers() {
     const session = await auth()
-    if (!session || session.user.role === 'CUSTOMER') {
+    if (!session || !session.user) {
       return { success: false, error: 'غير مصرح لك بالقيام بهذا الإجراء' }
     }
 
   try {
     const users = await prisma.user.findMany({
-      where: {
-        role: {
-          not: 'CUSTOMER'
-        }
-      },
+
       orderBy: {
         createdAt: 'desc'
       }
@@ -32,7 +28,7 @@ export async function getStaffUsers() {
 
 export async function updateUserRole(userId: string, role: Role) {
     const session = await auth()
-    if (!session || session.user.role === 'CUSTOMER') {
+    if (!session || !session.user) {
       return { success: false, error: 'غير مصرح لك بالقيام بهذا الإجراء' }
     }
 
@@ -50,7 +46,7 @@ export async function updateUserRole(userId: string, role: Role) {
 
 export async function updateProfile(userId: string, data: { name?: string, email?: string }) {
     const session = await auth()
-    if (!session || session.user.role === 'CUSTOMER') {
+    if (!session || !session.user) {
       return { success: false, error: 'غير مصرح لك بالقيام بهذا الإجراء' }
     }
 
@@ -68,7 +64,7 @@ export async function updateProfile(userId: string, data: { name?: string, email
 
 export async function createStaffUser(data: { name: string, email: string, password?: string, role: Role }) {
     const session = await auth()
-    if (!session || session.user.role === 'CUSTOMER') {
+    if (!session || !session.user) {
       return { success: false, error: 'غير مصرح لك بالقيام بهذا الإجراء' }
     }
 
@@ -102,7 +98,7 @@ export async function createStaffUser(data: { name: string, email: string, passw
 
 export async function changePassword(userId: string, newPassword: string) {
     const session = await auth()
-    if (!session || session.user.role === 'CUSTOMER') {
+    if (!session || !session.user) {
       return { success: false, error: 'غير مصرح لك بالقيام بهذا الإجراء' }
     }
 
@@ -123,7 +119,7 @@ export async function changePassword(userId: string, newPassword: string) {
 
 export async function updateStaffUser(userId: string, data: { name: string, email: string, role: Role, password?: string }) {
     const session = await auth()
-    if (!session || session.user.role === 'CUSTOMER') {
+    if (!session || !session.user) {
       return { success: false, error: 'غير مصرح لك بالقيام بهذا الإجراء' }
     }
 
@@ -152,7 +148,7 @@ export async function updateStaffUser(userId: string, data: { name: string, emai
 
 export async function deleteStaffUser(userId: string) {
     const session = await auth()
-    if (!session || session.user.role === 'CUSTOMER') {
+    if (!session || !session.user) {
       return { success: false, error: 'غير مصرح لك بالقيام بهذا الإجراء' }
     }
 
