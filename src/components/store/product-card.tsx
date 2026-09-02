@@ -75,8 +75,8 @@ export function ProductCard({ product }: ProductCardProps) {
       </div>
 
       {/* Image Section */}
-      <div className="relative aspect-square w-full bg-[#FAFAFA] p-3">
-        <div className="relative w-full h-full rounded-[1.5rem] overflow-hidden bg-slate-100">
+      <div className="relative aspect-square w-full bg-transparent p-3">
+        <div className="relative w-full h-full rounded-[1.5rem] overflow-hidden bg-transparent">
           
           {/* Hover Dark/Gradient Overlay */}
           <div className="absolute inset-0 bg-gradient-to-t from-slate-900/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10 pointer-events-none" />
