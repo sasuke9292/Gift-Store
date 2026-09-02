@@ -8,7 +8,7 @@ import { revalidatePath } from 'next/cache'
 export async function getStoreSettings() {
     const session = await auth()
     if (!session || session.user.role === 'CUSTOMER') {
-      return { success: false, error: 'غير مصرح لك بالقيام بهذا الإجراء' }
+      return null
     }
 
   try {
