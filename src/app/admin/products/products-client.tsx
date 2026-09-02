@@ -243,7 +243,7 @@ export default function ProductsClient({ initialProducts }: { initialProducts: P
                         )}
                       </TableCell>
                       <TableCell className="text-center py-5 px-6">
-                        <div className="flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <div className="flex items-center justify-center gap-2 transition-opacity">
                           <Link href={`/admin/products/${product.id}`}>
                             <Button variant="ghost" size="icon" className="w-10 h-10 rounded-xl text-slate-400 hover:text-indigo-600 hover:bg-indigo-50">
                               <Edit className="w-4 h-4" />

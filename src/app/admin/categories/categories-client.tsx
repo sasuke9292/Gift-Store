@@ -205,7 +205,7 @@ export default function CategoriesClient({ initialCategories }: { initialCategor
                         )}
                       </td>
                       <td className="px-8 py-5 text-center">
-                        <div className="flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <div className="flex items-center justify-center gap-2 transition-opacity">
                           <Button variant="ghost" size="icon" className="w-9 h-9 rounded-xl text-slate-400 hover:text-indigo-600 hover:bg-indigo-50" onClick={() => openModal(category)}>
                             <Edit className="w-4 h-4" />
                           </Button>
