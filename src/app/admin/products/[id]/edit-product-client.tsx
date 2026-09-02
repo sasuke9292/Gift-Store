@@ -196,7 +196,7 @@ export default function EditProductClient({ categories, initialProduct }: { cate
                           arr.splice(idx, 1)
                           setProduct({...product, imagesList: arr})
                         }} 
-                        className="absolute top-2 start-2 bg-white/90 w-8 h-8 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all hover:bg-rose-50 hover:text-rose-600 shadow-sm"
+                        className="absolute top-2 end-2 bg-white/90 w-8 h-8 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all hover:bg-rose-50 hover:text-rose-600 shadow-sm"
                       >
                         <X className="w-4 h-4" />
                       </button>

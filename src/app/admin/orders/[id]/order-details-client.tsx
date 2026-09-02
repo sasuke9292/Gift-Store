@@ -154,7 +154,7 @@ export default function OrderDetailsClient({ initialOrder }: { initialOrder: any
                         </p>
                       )}
                     </div>
-                    <div className="text-start">
+                    <div className="text-end">
                       <p className="font-bold text-slate-800">{item.price.toLocaleString('en-US')} د.ع</p>
                       <p className="text-sm text-slate-500 font-medium">الكمية: {item.quantity}</p>
                     </div>
@@ -288,7 +288,7 @@ export default function OrderDetailsClient({ initialOrder }: { initialOrder: any
                   disabled={isUpdating || notes === (order.internalNotes || '')}
                   className="w-full h-11 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold"
                 >
-                  <Save className="w-4 h-4 me-2" />
+                  <Save className="w-4 h-4 ms-2" />
                   حفظ الملاحظات
                 </Button>
               </div>

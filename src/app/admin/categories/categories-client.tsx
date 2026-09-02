@@ -127,7 +127,7 @@ export default function CategoriesClient({ initialCategories }: { initialCategor
           <p className="text-slate-500 text-sm font-medium mt-1">إدارة أقسام المتجر وتصنيفات المنتجات.</p>
         </div>
         <Button onClick={() => openModal()} className="bg-indigo-600 hover:bg-indigo-700 text-white shadow-lg shadow-indigo-600/20 rounded-xl px-5 h-10 font-bold transition-all text-sm">
-          <Plus className="w-4 h-4 ms-2" />
+          <Plus className="w-4 h-4 me-2" />
           إضافة تصنيف
         </Button>
       </div>
@@ -136,13 +136,13 @@ export default function CategoriesClient({ initialCategories }: { initialCategor
         {/* Toolbar */}
         <div className="p-4 md:p-5 border-b border-slate-100 bg-slate-50/50">
           <div className="relative w-full md:max-w-sm">
-            <Search className="absolute start-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+            <Search className="absolute end-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
             <Input
               type="text"
               placeholder="ابحث عن تصنيف..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="pe-4 ps-11 bg-white border-slate-200 focus:border-indigo-500 focus-visible:ring-indigo-100 h-10 rounded-xl text-sm shadow-sm transition-all"
+              className="ps-4 pe-11 bg-white border-slate-200 focus:border-indigo-500 focus-visible:ring-indigo-100 h-10 rounded-xl text-sm shadow-sm transition-all"
             />
           </div>
         </div>
@@ -150,7 +150,7 @@ export default function CategoriesClient({ initialCategories }: { initialCategor
         {/* Table */}
         <CardContent className="p-0">
           <div className="overflow-x-auto">
-            <table className="w-full text-end min-w-[700px]">
+            <table className="w-full text-start min-w-[700px]">
               <thead className="bg-slate-50 border-b border-slate-100">
                 <tr>
                   <th className="px-6 py-4 font-bold text-slate-600 text-sm">التصنيف</th>
@@ -193,12 +193,12 @@ export default function CategoriesClient({ initialCategories }: { initialCategor
                     <td className="px-6 py-4">
                       {category.isActive ? (
                         <Badge className="bg-emerald-50 text-emerald-700 border-0 rounded-lg px-2.5 py-1 font-bold shadow-sm text-xs">
-                          <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 ms-2" />
+                          <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 me-2" />
                           نشط
                         </Badge>
                       ) : (
                         <Badge className="bg-rose-50 text-rose-700 border-0 rounded-lg px-2.5 py-1 font-bold shadow-sm text-xs">
-                          <div className="w-1.5 h-1.5 rounded-full bg-rose-500 ms-2" />
+                          <div className="w-1.5 h-1.5 rounded-full bg-rose-500 me-2" />
                           معطل
                         </Badge>
                       )}
@@ -268,19 +268,19 @@ export default function CategoriesClient({ initialCategories }: { initialCategor
                 onChange={e => setCurrentCategory({ ...currentCategory, slug: e.target.value })}
                 required
                 dir="rtl"
-                className="h-11 rounded-xl border-slate-200 focus-visible:ring-indigo-500 bg-slate-50 focus:bg-white font-mono text-sm text-end"
+                className="h-11 rounded-xl border-slate-200 focus-visible:ring-indigo-500 bg-slate-50 focus:bg-white font-mono text-sm text-start"
               />
             </div>
 
             <div className="space-y-2">
               <Label htmlFor="image" className="text-sm font-bold text-slate-700">رابط الصورة (اختياري)</Label>
               <div className="relative">
-                <ImageIcon className="absolute start-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                <ImageIcon className="absolute end-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
                 <Input
                   id="image"
                   value={currentCategory.image || ''}
                   onChange={e => setCurrentCategory({ ...currentCategory, image: e.target.value })}
-                  className="h-11 ps-11 rounded-xl border-slate-200 focus-visible:ring-indigo-500 bg-slate-50 focus:bg-white"
+                  className="h-11 pe-11 rounded-xl border-slate-200 focus-visible:ring-indigo-500 bg-slate-50 focus:bg-white"
                   dir="rtl"
                   placeholder="https://..."
                 />

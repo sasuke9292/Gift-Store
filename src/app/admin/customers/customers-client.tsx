@@ -94,7 +94,7 @@ export default function CustomersClient({ initialCustomers }: { initialCustomers
             onClick={handleExport}
             className="bg-indigo-50 text-indigo-600 hover:bg-indigo-100 rounded-xl h-12 px-6 font-bold transition-all shadow-none"
           >
-            <Download className="w-5 h-5 me-2" />
+            <Download className="w-5 h-5 ms-2" />
             تصدير البيانات
           </Button>
         </div>
@@ -106,16 +106,16 @@ export default function CustomersClient({ initialCustomers }: { initialCustomers
         {/* Toolbar */}
         <div className="p-6 md:p-8 border-b border-slate-100 bg-slate-50/50 flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="relative w-full md:max-w-md">
-            <Search className="absolute start-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+            <Search className="absolute end-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
             <Input
               placeholder="ابحث عن عميل بالاسم أو الإيميل..."
-              className="pe-4 ps-12 bg-white border-slate-200 focus:border-indigo-500 focus-visible:ring-indigo-100 h-14 rounded-2xl text-md shadow-sm transition-all"
+              className="ps-4 pe-12 bg-white border-slate-200 focus:border-indigo-500 focus-visible:ring-indigo-100 h-14 rounded-2xl text-md shadow-sm transition-all"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
           </div>
           <Button variant="outline" className="w-full md:w-auto h-14 rounded-2xl px-6 text-slate-700 font-bold border-slate-200 hover:bg-slate-50 shadow-sm" onClick={() => toast.info('جاري تطوير فلاتر متقدمة قريباً')}>
-            <Filter className="w-5 h-5 me-2 text-slate-500" />
+            <Filter className="w-5 h-5 ms-2 text-slate-500" />
             تصفية متقدمة
           </Button>
         </div>
@@ -126,12 +126,12 @@ export default function CustomersClient({ initialCustomers }: { initialCustomers
             <Table className="w-full min-w-[900px]">
               <TableHeader className="bg-slate-50 border-b border-slate-100">
                 <TableRow className="hover:bg-transparent">
-                  <TableHead className="text-end font-bold text-slate-600 py-5 px-8">العميل</TableHead>
-                  <TableHead className="text-end font-bold text-slate-600 py-5">البريد الإلكتروني</TableHead>
-                  <TableHead className="text-end font-bold text-slate-600 py-5">الانضمام</TableHead>
+                  <TableHead className="text-start font-bold text-slate-600 py-5 px-8">العميل</TableHead>
+                  <TableHead className="text-start font-bold text-slate-600 py-5">البريد الإلكتروني</TableHead>
+                  <TableHead className="text-start font-bold text-slate-600 py-5">الانضمام</TableHead>
                   <TableHead className="text-center font-bold text-slate-600 py-5">الطلبات</TableHead>
-                  <TableHead className="text-end font-bold text-slate-600 py-5">إجمالي المشتريات</TableHead>
-                  <TableHead className="text-end font-bold text-slate-600 py-5">الحالة</TableHead>
+                  <TableHead className="text-start font-bold text-slate-600 py-5">إجمالي المشتريات</TableHead>
+                  <TableHead className="text-start font-bold text-slate-600 py-5">الحالة</TableHead>
                   <TableHead className="text-center font-bold text-slate-600 py-5 px-8">الإجراءات</TableHead>
                 </TableRow>
               </TableHeader>
@@ -209,12 +209,12 @@ export default function CustomersClient({ initialCustomers }: { initialCustomers
                               >
                                 {customer.status === 'نشط' ? (
                                   <>
-                                    <Ban className="me-3 h-4 w-4" />
+                                    <Ban className="ms-3 h-4 w-4" />
                                     <span>حظر الحساب</span>
                                   </>
                                 ) : (
                                   <>
-                                    <CheckCircle2 className="me-3 h-4 w-4 text-emerald-500" />
+                                    <CheckCircle2 className="ms-3 h-4 w-4 text-emerald-500" />
                                     <span className="text-emerald-600">تفعيل الحساب</span>
                                   </>
                                 )}

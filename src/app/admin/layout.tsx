@@ -27,7 +27,7 @@ export default async function AdminLayout({
       <AdminSidebar storeName={settings?.storeName} logoUrl={settings?.logoUrl} user={session?.user} />
       
       {/* Main Content - uses padding to avoid overlap with fixed sidebar */}
-      <div className="flex-1 flex flex-col min-w-0 lg:pe-72 transition-all duration-300">
+      <div className="flex-1 flex flex-col min-w-0 lg:ps-72 transition-all duration-300">
         <AdminHeader userRole={session?.user?.role} userName={session?.user?.name} />
         
         <main className="flex-1 p-4 md:p-6 overflow-x-hidden">

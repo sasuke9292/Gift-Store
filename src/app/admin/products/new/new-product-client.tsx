@@ -206,7 +206,7 @@ export default function NewProductClient({ categories }: { categories: Category[
                   placeholder="أو أدخل رابط الصورة هنا (URL)..." 
                   value={imageUrlInput}
                   onChange={(e) => setImageUrlInput(e.target.value)}
-                  className="flex-1 bg-slate-50 border-slate-200 focus-visible:ring-indigo-500 rounded-xl h-14 text-md text-end"
+                  className="flex-1 bg-slate-50 border-slate-200 focus-visible:ring-indigo-500 rounded-xl h-14 text-md text-start"
                   dir="rtl"
                 />
                 <Button 
@@ -230,7 +230,7 @@ export default function NewProductClient({ categories }: { categories: Category[
                           arr.splice(idx, 1)
                           setProduct({...product, imagesList: arr})
                         }} 
-                        className="absolute top-2 start-2 bg-white/90 w-8 h-8 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all hover:bg-rose-50 hover:text-rose-600 shadow-sm"
+                        className="absolute top-2 end-2 bg-white/90 w-8 h-8 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all hover:bg-rose-50 hover:text-rose-600 shadow-sm"
                       >
                         <X className="w-4 h-4" />
                       </button>

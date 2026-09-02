@@ -68,7 +68,7 @@ export function AdminHeader({ userRole = 'CUSTOMER', userName }: { userRole?: st
               <Menu className="w-5 h-5" />
             </Button>
           } />
-          <SheetContent side="right" className="w-72 bg-slate-900 border-s border-slate-800 p-0 text-slate-300">
+          <SheetContent side="right" className="w-72 bg-slate-900 border-e border-slate-800 p-0 text-slate-300">
             <SheetHeader className="h-16 flex items-center justify-center border-b border-slate-800 bg-slate-950/50 px-4">
               <SheetTitle className="text-white text-lg font-bold">القائمة الرئيسية</SheetTitle>
             </SheetHeader>
@@ -116,11 +116,11 @@ export function AdminHeader({ userRole = 'CUSTOMER', userName }: { userRole?: st
 
       <div className="flex items-center gap-3">
         <div className="relative hidden md:block w-56">
-          <Search className="absolute start-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+          <Search className="absolute end-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
           <Input
             type="text"
             placeholder="بحث سريع..."
-            className="pe-4 ps-10 bg-slate-100/60 border-transparent hover:bg-slate-100 focus:bg-white focus:border-indigo-300 focus:ring-2 focus:ring-indigo-100 rounded-xl h-9 transition-all text-sm"
+            className="ps-4 pe-10 bg-slate-100/60 border-transparent hover:bg-slate-100 focus:bg-white focus:border-indigo-300 focus:ring-2 focus:ring-indigo-100 rounded-xl h-9 transition-all text-sm"
           />
         </div>
 
@@ -132,7 +132,7 @@ export function AdminHeader({ userRole = 'CUSTOMER', userName }: { userRole?: st
           >
             <Bell className="w-5 h-5" />
           </button>
-          <SheetContent side="left" className="w-full sm:max-w-md border-s-0 shadow-2xl p-0 flex flex-col bg-slate-50">
+          <SheetContent side="left" className="w-full sm:max-w-md border-e-0 shadow-2xl p-0 flex flex-col bg-slate-50">
             <SheetHeader className="p-5 bg-white border-b border-slate-100">
               <div className="flex items-center justify-between flex-row">
                 <button className="text-sm font-semibold text-indigo-600 hover:text-indigo-700 transition-colors">

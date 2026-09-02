@@ -92,7 +92,7 @@ export function AdminSidebar({ storeName = 'گفتي بلس', logoUrl, user }: {
   return (
     <aside
       className={cn(
-        'fixed inset-y-0 end-0 z-50 bg-slate-900 text-slate-300 hidden lg:flex flex-col transition-all duration-300 ease-in-out',
+        'fixed inset-y-0 start-0 z-50 bg-slate-900 text-slate-300 hidden lg:flex flex-col transition-all duration-300 ease-in-out',
         isCollapsed ? 'w-20' : 'w-72'
       )}
     >
@@ -158,7 +158,7 @@ export function AdminSidebar({ storeName = 'گفتي بلس', logoUrl, user }: {
                         )}
                       >
                         {isActive && (
-                          <span className="absolute start-0 top-1/2 -translate-y-1/2 w-0.5 h-6 bg-indigo-400 rounded-full" />
+                          <span className="absolute end-0 top-1/2 -translate-y-1/2 w-0.5 h-6 bg-indigo-400 rounded-full" />
                         )}
                         <item.icon className={cn(
                           'shrink-0 transition-colors duration-150',
@@ -169,9 +169,9 @@ export function AdminSidebar({ storeName = 'گفتي بلس', logoUrl, user }: {
                       </Link>
                       {/* Tooltip when collapsed */}
                       {isCollapsed && (
-                        <div className="absolute start-full top-1/2 -translate-y-1/2 ms-3 px-2.5 py-1.5 bg-slate-800 text-slate-200 text-xs font-bold rounded-lg shadow-xl whitespace-nowrap opacity-0 group-hover/item:opacity-100 transition-opacity pointer-events-none z-50">
+                        <div className="absolute end-full top-1/2 -translate-y-1/2 me-3 px-2.5 py-1.5 bg-slate-800 text-slate-200 text-xs font-bold rounded-lg shadow-xl whitespace-nowrap opacity-0 group-hover/item:opacity-100 transition-opacity pointer-events-none z-50">
                           {item.name}
-                          <span className="absolute top-1/2 -translate-y-1/2 end-full border-4 border-transparent border-e-slate-800" />
+                          <span className="absolute top-1/2 -translate-y-1/2 start-full border-4 border-transparent border-s-slate-800" />
                         </div>
                       )}
                     </div>
@@ -229,7 +229,7 @@ export function AdminSidebar({ storeName = 'گفتي بلس', logoUrl, user }: {
             <DropdownMenuSeparator className="my-1 bg-slate-800" />
             <Link href="/admin/profile">
               <DropdownMenuItem className="rounded-xl cursor-pointer py-2.5 hover:bg-slate-800 hover:text-white font-medium focus:bg-slate-800 focus:text-white">
-                <User className="ms-3 h-4 w-4 text-indigo-400" />
+                <User className="me-3 h-4 w-4 text-indigo-400" />
                 الملف الشخصي
               </DropdownMenuItem>
             </Link>
@@ -241,7 +241,7 @@ export function AdminSidebar({ storeName = 'گفتي بلس', logoUrl, user }: {
                 signOut({ callbackUrl: '/auth/login' })
               }}
             >
-              <LogOut className="ms-3 h-4 w-4" />
+              <LogOut className="me-3 h-4 w-4" />
               تسجيل الخروج
             </DropdownMenuItem>
           </DropdownMenuContent>
