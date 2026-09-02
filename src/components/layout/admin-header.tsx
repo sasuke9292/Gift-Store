@@ -15,12 +15,8 @@ import {
 import { sidebarGroups } from './admin-sidebar'
 import Link from 'next/link'
 import { cn } from '@/lib/utils'
-import { useSession } from 'next-auth/react'
-
-export function AdminHeader() {
+export function AdminHeader({ userRole = 'CUSTOMER' }: { userRole?: string }) {
   const pathname = usePathname()
-  const { data: session } = useSession()
-  const userRole = session?.user?.role || 'CUSTOMER'
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   
