@@ -72,14 +72,13 @@ export function AdminHeader() {
         </div>
 
         <Sheet open={isNotificationsOpen} onOpenChange={setIsNotificationsOpen}>
-          <SheetTrigger 
-            render={
-              <button className="relative p-2 text-slate-400 hover:text-slate-700 hover:bg-slate-100 rounded-full transition-all" />
-            }
+          <button 
+            onClick={() => setIsNotificationsOpen(true)}
+            className="relative p-2 text-slate-400 hover:text-slate-700 hover:bg-slate-100 rounded-full transition-all"
           >
             <Bell className="w-5 h-5" />
             <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-rose-500 rounded-full border-2 border-white"></span>
-          </SheetTrigger>
+          </button>
           <SheetContent side="left" className="w-full sm:max-w-md border-r-0 shadow-2xl p-0 flex flex-col bg-slate-50">
             <SheetHeader className="p-6 bg-white border-b border-slate-100">
               <div className="flex items-center justify-between">

@@ -14,7 +14,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
-import { Search, Filter, Download, MoreVertical, Eye, Ban, CheckCircle2, Shield, Edit, UserCog, User, Trash2 } from 'lucide-react'
+import { Search, Filter, Download, MoreVertical, Eye, Ban, CheckCircle2, Shield, Edit, UserCog, User } from 'lucide-react'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -24,6 +24,7 @@ import {
   DropdownMenuLabel,
 } from '@/components/ui/dropdown-menu'
 import { toast } from 'sonner'
+import { Dialog, DialogContent } from '@/components/ui/dialog'
 
 interface UserData {
   id: string
@@ -48,6 +49,8 @@ const roleColors: Record<string, { bg: string, text: string, icon: any, label: s
 export default function UsersClient({ initialUsers }: { initialUsers: UserData[] }) {
   const [users, setUsers] = useState(initialUsers)
   const [search, setSearch] = useState('')
+  const [selectedUser, setSelectedUser] = useState<UserData | null>(null)
+  const [isDetailsOpen, setIsDetailsOpen] = useState(false)
 
   const filteredUsers = users.filter(
     u => u.name.toLowerCase().includes(search.toLowerCase()) || 
@@ -67,7 +70,11 @@ export default function UsersClient({ initialUsers }: { initialUsers: UserData[]
 
   const handleToggleStatus = (id: string, name: string) => {
     setUsers(prev => prev.map(u => u.id === id ? { ...u, status: u.status === 'نشط' ? 'محظور' : 'نشط' } : u))
-    toast.success(`تم تحديث حالة المستخدم ${name}`)
+    toast.success(`تم تحديث حالة الحساب للمستخدم ${name} بنجاح`)
+  }
+
+  const handleEditRole = (name: string) => {
+    toast.info(`قريباً: تعديل صلاحيات المستخدم ${name}`)
   }
 
   return (
@@ -78,14 +85,14 @@ export default function UsersClient({ initialUsers }: { initialUsers: UserData[]
       dir="rtl"
     >
       {/* Header Section */}
-      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 bg-white p-8 rounded-[2rem] shadow-sm border border-slate-100">
+      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 bg-white p-8 rounded-3xl shadow-sm border border-slate-100">
         <div>
-          <h1 className="text-3xl font-black text-slate-800 tracking-tight mb-2">إدارة المستخدمين</h1>
-          <p className="text-slate-500 font-medium">نظام متكامل لإدارة فريق العمل والعملاء وتحديد الصلاحيات.</p>
+          <h1 className="text-3xl font-black text-slate-800 tracking-tight mb-2">فريق العمل (المستخدمين)</h1>
+          <p className="text-slate-500 font-medium">إدارة صلاحيات الوصول لأعضاء الفريق والمديرين بكفاءة.</p>
         </div>
         <div className="flex gap-3">
           <Button 
-            className="bg-primary text-white hover:bg-primary/90 rounded-xl h-12 px-6 font-bold shadow-lg shadow-primary/20 transition-all"
+            className="bg-indigo-600 text-white hover:bg-indigo-700 rounded-xl h-12 px-6 font-bold shadow-lg shadow-indigo-600/20 transition-all"
             onClick={() => toast.info('قريباً: إضافة مستخدم جديد')}
           >
             <UserCog className="w-5 h-5 ml-2" />
@@ -93,7 +100,7 @@ export default function UsersClient({ initialUsers }: { initialUsers: UserData[]
           </Button>
           <Button 
             onClick={handleExport}
-            className="bg-primary/5 text-primary hover:bg-primary/10 rounded-xl h-12 px-6 font-bold transition-all shadow-none"
+            className="bg-slate-100 text-slate-600 hover:bg-slate-200 rounded-xl h-12 px-6 font-bold transition-all shadow-none"
           >
             <Download className="w-5 h-5 ml-2" />
             تصدير
@@ -102,7 +109,7 @@ export default function UsersClient({ initialUsers }: { initialUsers: UserData[]
       </div>
 
       {/* Main Content Card */}
-      <Card className="border-slate-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] overflow-hidden rounded-[2.5rem] bg-white">
+      <Card className="border-slate-100 shadow-sm overflow-hidden rounded-[2.5rem] bg-white">
         
         {/* Toolbar */}
         <div className="p-6 md:p-8 border-b border-slate-100 bg-slate-50/50 flex flex-col md:flex-row items-center justify-between gap-4">
@@ -110,7 +117,7 @@ export default function UsersClient({ initialUsers }: { initialUsers: UserData[]
             <Search className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
             <Input
               placeholder="ابحث عن مستخدم بالاسم أو الإيميل..."
-              className="pl-4 pr-12 bg-white border-slate-200 focus:border-primary focus-visible:ring-primary/20 h-14 rounded-2xl text-md shadow-sm transition-all"
+              className="pl-4 pr-12 bg-white border-slate-200 focus:border-indigo-500 focus-visible:ring-indigo-100 h-14 rounded-2xl text-md shadow-sm transition-all"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
@@ -124,13 +131,13 @@ export default function UsersClient({ initialUsers }: { initialUsers: UserData[]
         {/* Table */}
         <CardContent className="p-0">
           <div className="overflow-x-auto">
-            <Table className="w-full min-w-[800px]">
+            <Table className="w-full min-w-[900px]">
               <TableHeader className="bg-slate-50 border-b border-slate-100">
                 <TableRow className="hover:bg-transparent">
                   <TableHead className="text-right font-bold text-slate-600 py-5 px-8">المستخدم</TableHead>
                   <TableHead className="text-right font-bold text-slate-600 py-5">البريد الإلكتروني</TableHead>
-                  <TableHead className="text-right font-bold text-slate-600 py-5">تاريخ الانضمام</TableHead>
                   <TableHead className="text-right font-bold text-slate-600 py-5">الدور (الصلاحية)</TableHead>
+                  <TableHead className="text-right font-bold text-slate-600 py-5">تاريخ الانضمام</TableHead>
                   <TableHead className="text-right font-bold text-slate-600 py-5">الحالة</TableHead>
                   <TableHead className="text-center font-bold text-slate-600 py-5 px-8">الإجراءات</TableHead>
                 </TableRow>
@@ -147,19 +154,18 @@ export default function UsersClient({ initialUsers }: { initialUsers: UserData[]
                         exit={{ opacity: 0 }}
                         className="hover:bg-slate-50/80 transition-colors border-b border-slate-50 last:border-0 group"
                       >
-                        <TableCell className="px-8 py-4">
+                        <TableCell className="px-8 py-5">
                           <div className="flex items-center gap-4">
-                            <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-slate-100 to-slate-200 text-slate-700 flex items-center justify-center font-black text-lg shadow-sm border border-slate-200/50">
+                            <div className="w-12 h-12 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center font-black text-lg shadow-sm border border-indigo-100/50 group-hover:scale-105 transition-transform">
                               {user.name.charAt(0)}
                             </div>
                             <div className="flex flex-col">
-                              <span className="font-bold text-slate-800 text-md">{user.name}</span>
-                              <span className="text-xs text-slate-400 font-medium">ID: #{user.id.substring(0, 8)}</span>
+                              <span className="font-bold text-slate-800 text-md group-hover:text-indigo-600 transition-colors">{user.name}</span>
+                              <span className="text-xs text-slate-400 font-mono mt-0.5">#{user.id.substring(0, 8)}</span>
                             </div>
                           </div>
                         </TableCell>
-                        <TableCell className="text-slate-600 font-medium">{user.email}</TableCell>
-                        <TableCell className="text-slate-500 font-medium">{user.joinedAt}</TableCell>
+                        <TableCell className="text-slate-600 font-medium" dir="ltr">{user.email}</TableCell>
                         <TableCell>
                           <Badge 
                             variant="secondary" 
@@ -169,10 +175,11 @@ export default function UsersClient({ initialUsers }: { initialUsers: UserData[]
                             {roleColors[user.role]?.label || user.role}
                           </Badge>
                         </TableCell>
+                        <TableCell className="text-slate-500 font-medium">{user.joinedAt}</TableCell>
                         <TableCell>
                           <Badge
                             variant="outline"
-                            className={`px-4 py-1.5 rounded-full font-bold border-0 flex items-center gap-2 w-max shadow-sm ${
+                            className={`px-3 py-1.5 rounded-xl font-bold border-0 flex items-center gap-2 w-max shadow-sm ${
                               user.status === 'نشط'
                                 ? 'bg-emerald-50 text-emerald-600'
                                 : 'bg-rose-50 text-rose-600'
@@ -183,39 +190,53 @@ export default function UsersClient({ initialUsers }: { initialUsers: UserData[]
                           </Badge>
                         </TableCell>
                         <TableCell className="px-8 py-4 text-center">
-                          <DropdownMenu>
-                            <DropdownMenuTrigger className="mx-auto h-10 w-10 p-0 text-slate-400 hover:text-primary hover:bg-primary/10 rounded-xl transition-colors flex items-center justify-center focus:outline-none">
-                              <MoreVertical className="h-5 w-5" />
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end" className="w-56 rounded-2xl shadow-xl border-slate-100 p-2">
-                              <DropdownMenuLabel className="text-xs text-slate-400 font-bold px-2 py-1.5 uppercase tracking-wider">إدارة المستخدم</DropdownMenuLabel>
-                              <DropdownMenuItem className="rounded-xl cursor-pointer py-2.5 hover:bg-slate-50 font-medium text-slate-700">
-                                <Eye className="ml-3 h-4 w-4 text-primary" />
-                                عرض التفاصيل
-                              </DropdownMenuItem>
-                              <DropdownMenuItem className="rounded-xl cursor-pointer py-2.5 hover:bg-slate-50 font-medium text-slate-700">
-                                <Edit className="ml-3 h-4 w-4 text-amber-500" />
-                                تعديل الصلاحيات
-                              </DropdownMenuItem>
-                              <DropdownMenuSeparator className="my-2 bg-slate-100" />
-                              <DropdownMenuItem 
-                                className={`rounded-xl cursor-pointer py-2.5 font-bold ${user.status === 'نشط' ? 'text-rose-600 hover:bg-rose-50' : 'text-emerald-600 hover:bg-emerald-50'}`}
-                                onClick={() => handleToggleStatus(user.id, user.name)}
-                              >
-                                {user.status === 'نشط' ? (
-                                  <>
-                                    <Ban className="ml-3 h-4 w-4" />
-                                    <span>حظر الحساب</span>
-                                  </>
-                                ) : (
-                                  <>
-                                    <CheckCircle2 className="ml-3 h-4 w-4" />
-                                    <span>تفعيل الحساب</span>
-                                  </>
-                                )}
-                              </DropdownMenuItem>
-                            </DropdownMenuContent>
-                          </DropdownMenu>
+                          <div className="flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                            <Button 
+                              variant="ghost" 
+                              size="icon" 
+                              className="w-9 h-9 rounded-xl text-slate-400 hover:text-indigo-600 hover:bg-indigo-50"
+                              onClick={() => {
+                                setSelectedUser(user)
+                                setIsDetailsOpen(true)
+                              }}
+                            >
+                              <Eye className="w-4 h-4" />
+                            </Button>
+                            
+                            <Button 
+                              variant="ghost" 
+                              size="icon" 
+                              className="w-9 h-9 rounded-xl text-slate-400 hover:text-amber-600 hover:bg-amber-50"
+                              onClick={() => handleEditRole(user.name)}
+                            >
+                              <Edit className="w-4 h-4" />
+                            </Button>
+
+                            <DropdownMenu>
+                              <DropdownMenuTrigger className="h-9 w-9 p-0 text-slate-400 hover:text-slate-800 hover:bg-slate-100 rounded-xl transition-colors flex items-center justify-center focus:outline-none">
+                                <MoreVertical className="h-4 w-4" />
+                              </DropdownMenuTrigger>
+                              <DropdownMenuContent align="end" className="w-48 rounded-2xl shadow-xl border-slate-100 p-2">
+                                <DropdownMenuLabel className="text-xs text-slate-400 font-bold px-2 py-1.5 uppercase tracking-wider">إدارة إضافية</DropdownMenuLabel>
+                                <DropdownMenuItem 
+                                  className={`rounded-xl cursor-pointer py-2.5 font-bold mt-1 ${user.status === 'نشط' ? 'text-rose-600 hover:bg-rose-50' : 'text-emerald-600 hover:bg-emerald-50'}`}
+                                  onClick={() => handleToggleStatus(user.id, user.name)}
+                                >
+                                  {user.status === 'نشط' ? (
+                                    <>
+                                      <Ban className="ml-3 h-4 w-4" />
+                                      <span>حظر الحساب</span>
+                                    </>
+                                  ) : (
+                                    <>
+                                      <CheckCircle2 className="ml-3 h-4 w-4" />
+                                      <span>تفعيل الحساب</span>
+                                    </>
+                                  )}
+                                </DropdownMenuItem>
+                              </DropdownMenuContent>
+                            </DropdownMenu>
+                          </div>
                         </TableCell>
                       </motion.tr>
                     )
@@ -237,6 +258,53 @@ export default function UsersClient({ initialUsers }: { initialUsers: UserData[]
           </div>
         </CardContent>
       </Card>
+
+      {/* User Details Modal */}
+      <Dialog open={isDetailsOpen} onOpenChange={setIsDetailsOpen}>
+        <DialogContent className="sm:max-w-[450px] p-0 overflow-hidden rounded-[2rem] border-0 shadow-2xl" dir="rtl">
+          {selectedUser && (
+            <>
+              <div className="bg-slate-50/50 p-8 text-center relative border-b border-slate-100">
+                <div className="w-24 h-24 bg-white rounded-3xl flex items-center justify-center mx-auto mb-4 text-4xl font-black text-indigo-600 shadow-xl shadow-indigo-600/10 border-4 border-white">
+                  {selectedUser.name.charAt(0)}
+                </div>
+                <h2 className="text-2xl font-black text-slate-800">{selectedUser.name}</h2>
+                <Badge variant="outline" className={`mt-3 px-4 py-1.5 rounded-full font-bold border-0 shadow-sm ${selectedUser.status === 'نشط' ? 'bg-emerald-50 text-emerald-700' : 'bg-rose-50 text-rose-700'}`}>
+                  {selectedUser.status}
+                </Badge>
+              </div>
+
+              <div className="p-8 space-y-6 bg-white">
+                <div className="space-y-4">
+                  <div className="flex items-center gap-4 p-4 rounded-2xl border border-slate-100 bg-slate-50/50">
+                    <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center shrink-0 shadow-sm border border-slate-100">
+                      <UserCog className="w-4 h-4 text-slate-400" />
+                    </div>
+                    <div>
+                      <p className="text-sm font-medium text-slate-500 mb-0.5">الدور والصلاحية</p>
+                      <p className="font-bold text-slate-800 text-sm">{roleColors[selectedUser.role]?.label || selectedUser.role}</p>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-center gap-4 p-4 rounded-2xl border border-slate-100 bg-slate-50/50">
+                    <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center shrink-0 shadow-sm border border-slate-100">
+                      <Shield className="w-4 h-4 text-slate-400" />
+                    </div>
+                    <div>
+                      <p className="text-sm font-medium text-slate-500 mb-0.5">البريد الإلكتروني</p>
+                      <p className="font-bold text-slate-800 text-sm" dir="ltr">{selectedUser.email}</p>
+                    </div>
+                  </div>
+                </div>
+
+                <Button className="w-full h-14 rounded-2xl font-bold text-lg bg-slate-900 hover:bg-slate-800 text-white shadow-xl shadow-slate-900/20" onClick={() => setIsDetailsOpen(false)}>
+                  إغلاق
+                </Button>
+              </div>
+            </>
+          )}
+        </DialogContent>
+      </Dialog>
     </motion.div>
   )
 }
