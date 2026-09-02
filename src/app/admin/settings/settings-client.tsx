@@ -77,10 +77,7 @@ export default function SettingsClient({ initialSettings }: { initialSettings: S
             <Bell className="w-4 h-4" />
             الإشعارات
           </TabsTrigger>
-          <TabsTrigger value="security" className="flex-1 rounded-xl data-[state=active]:bg-indigo-50 data-[state=active]:text-indigo-600 py-3 px-4 text-sm font-bold text-slate-500 transition-all w-full sm:w-auto gap-2">
-            <Shield className="w-4 h-4" />
-            الأمان
-          </TabsTrigger>
+
         </TabsList>
 
         <TabsContent value="general" className="animate-in fade-in-50 slide-in-from-bottom-2 duration-300">
@@ -220,25 +217,6 @@ export default function SettingsClient({ initialSettings }: { initialSettings: S
           </Card>
         </TabsContent>
 
-        <TabsContent value="security" className="animate-in fade-in-50 slide-in-from-bottom-2 duration-300">
-          <Card className="border-0 shadow-sm rounded-3xl overflow-hidden bg-white">
-            <div className="p-8 border-b border-slate-100 bg-slate-50/50">
-              <h2 className="text-xl font-bold text-slate-800">الأمان والوصول</h2>
-              <p className="text-sm text-slate-500 mt-1 font-medium">حماية الحساب وإدارة كلمات المرور.</p>
-            </div>
-            <CardContent className="p-8 space-y-6">
-              <div className="p-6 border border-rose-200 bg-rose-50/50 rounded-2xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-                <div>
-                  <h4 className="font-bold text-rose-800 text-lg">تغيير كلمة المرور</h4>
-                  <p className="text-sm text-rose-600/80 mt-1 font-medium">يُنصح بتغيير كلمة المرور الخاصة بك بانتظام للحفاظ على أمان المتجر.</p>
-                </div>
-                <Button variant="outline" className="text-rose-600 font-bold border-rose-200 bg-white hover:bg-rose-100 hover:text-rose-700 rounded-xl h-12 px-6 w-full sm:w-auto">
-                  تغيير كلمة المرور
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
 
       </Tabs>
     </motion.div>
