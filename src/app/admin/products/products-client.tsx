@@ -21,15 +21,18 @@ import { deleteProduct, deleteProducts } from '@/app/actions/admin/products'
 import { toast } from 'sonner'
 import Link from 'next/link'
 import { Product, Category } from '@prisma/client'
+import ProductModal from './product-modal'
 
 type ProductWithCategory = Product & { category?: Category | null }
 
-export default function ProductsClient({ initialProducts }: { initialProducts: ProductWithCategory[] }) {
+export default function ProductsClient({ initialProducts, categories }: { initialProducts: ProductWithCategory[], categories: Category[] }) {
   const [products, setProducts] = useState<ProductWithCategory[]>(initialProducts)
   const [search, setSearch] = useState('')
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set())
   const [isDeletingBulk, setIsDeletingBulk] = useState(false)
   const [statusFilter, setStatusFilter] = useState<'all' | 'active' | 'draft'>('all')
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false)
+  const [currentEditProduct, setCurrentEditProduct] = useState<ProductWithCategory | null>(null)
 
   const handleSelectAll = (checked: boolean) => {
     if (checked) {
@@ -244,11 +247,9 @@ export default function ProductsClient({ initialProducts }: { initialProducts: P
                       </TableCell>
                       <TableCell className="text-center py-5 px-6">
                         <div className="flex items-center justify-center gap-2 transition-opacity">
-                          <Link href={`/admin/products/${product.id}`}>
-                            <Button variant="ghost" size="icon" className="w-10 h-10 rounded-xl text-slate-400 hover:text-indigo-600 hover:bg-indigo-50">
-                              <Edit className="w-4 h-4" />
-                            </Button>
-                          </Link>
+                          <Button variant="ghost" size="icon" className="w-10 h-10 rounded-xl text-slate-400 hover:text-indigo-600 hover:bg-indigo-50" onClick={() => { setCurrentEditProduct(product); setIsEditModalOpen(true); }}>
+                            <Edit className="w-4 h-4" />
+                          </Button>
                           <Button variant="ghost" size="icon" className="w-10 h-10 rounded-xl text-slate-400 hover:text-rose-600 hover:bg-rose-50" onClick={() => handleDelete(product.id)}>
                             <Trash className="w-4 h-4" />
                           </Button>
@@ -272,6 +273,16 @@ export default function ProductsClient({ initialProducts }: { initialProducts: P
           </div>
         </CardContent>
       </Card>
+
+      <ProductModal 
+        isOpen={isEditModalOpen} 
+        setIsOpen={setIsEditModalOpen} 
+        product={currentEditProduct} 
+        categories={categories} 
+        onSuccess={(updatedProduct) => {
+          setProducts(products.map(p => p.id === updatedProduct.id ? { ...p, ...updatedProduct, category: categories.find(c => c.id === updatedProduct.categoryId) } : p))
+        }} 
+      />
     </motion.div>
   )
 }
