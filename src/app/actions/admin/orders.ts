@@ -83,3 +83,44 @@ export async function updateOrderTracking(id: string, internalNotes: string) {
     return { success: false, error: error instanceof Error ? error.message : 'Unknown error' }
   }
 }
+
+export async function getOrderDetails(id: string) {
+  const session = await auth()
+  if (!session || session.user.role === 'CUSTOMER') {
+    return { success: false, error: 'غير مصرح لك بالقيام بهذا الإجراء' }
+  }
+
+  try {
+    const order = await prisma.order.findUnique({
+      where: { id },
+      include: {
+        items: {
+          include: {
+            product: {
+              select: {
+                images: true,
+                categoryId: true,
+              }
+            }
+          }
+        },
+        user: {
+          select: {
+            email: true,
+            name: true,
+            image: true
+          }
+        }
+      }
+    })
+
+    if (!order) {
+      return { success: false, error: 'الطلب غير موجود' }
+    }
+
+    return { success: true, data: order }
+  } catch (error) {
+    console.error('Error fetching order details:', error)
+    return { success: false, error: error instanceof Error ? error.message : 'Unknown error' }
+  }
+}

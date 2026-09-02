@@ -19,6 +19,7 @@ import { updateOrderStatus, deleteOrder } from '@/app/actions/admin/orders'
 import { toast } from 'sonner'
 import { OrderStatus } from '@prisma/client'
 import { ConfirmDialog } from '@/components/ui/confirm-dialog'
+import { OrderDetailsModal } from './order-details-modal'
 
 interface OrderData {
   id: string
@@ -55,6 +56,17 @@ export default function OrdersClient({ initialOrders }: { initialOrders: OrderDa
   const [statusFilter, setStatusFilter] = useState('all')
   const [deleteId, setDeleteId] = useState<string | null>(null)
   const [isDeleting, setIsDeleting] = useState(false)
+  const [selectedOrderId, setSelectedOrderId] = useState<string | null>(null)
+  const [isModalOpen, setIsModalOpen] = useState(false)
+
+  const handleOpenModal = (id: string) => {
+    setSelectedOrderId(id)
+    setIsModalOpen(true)
+  }
+
+  const handleOrderUpdated = (updatedOrder: any) => {
+    setOrders(orders.map(o => o.id === updatedOrder.id ? { ...o, status: updatedOrder.status } : o))
+  }
 
   const filteredOrders = orders.filter(o => {
     const matchesSearch = o.orderNumber.includes(search) || o.customer.includes(search)
@@ -203,11 +215,14 @@ export default function OrdersClient({ initialOrders }: { initialOrders: OrderDa
                               توصيل
                             </Button>
                           )}
-                          <Link href={`/admin/orders/${order.id}`}>
-                            <Button size="icon" variant="ghost" className="h-8 w-8 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors">
-                              <Eye className="w-4 h-4" />
-                            </Button>
-                          </Link>
+                          <Button 
+                            size="icon" 
+                            variant="ghost" 
+                            className="h-8 w-8 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors"
+                            onClick={() => handleOpenModal(order.id)}
+                          >
+                            <Eye className="w-4 h-4" />
+                          </Button>
                           <DropdownMenu>
                             <DropdownMenuTrigger className="h-8 w-8 flex items-center justify-center text-slate-400 hover:text-slate-700 hover:bg-slate-100 rounded-lg transition-colors focus:outline-none">
                               <MoreHorizontal className="h-4 w-4" />
@@ -266,6 +281,16 @@ export default function OrdersClient({ initialOrders }: { initialOrders: OrderDa
         variant="danger"
         onConfirm={handleDeleteConfirm}
         isLoading={isDeleting}
+      />
+
+      <OrderDetailsModal
+        isOpen={isModalOpen}
+        onClose={() => {
+          setIsModalOpen(false)
+          setSelectedOrderId(null)
+        }}
+        orderId={selectedOrderId}
+        onOrderUpdated={handleOrderUpdated}
       />
     </motion.div>
   )
