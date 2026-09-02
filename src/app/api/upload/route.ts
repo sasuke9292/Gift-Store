@@ -2,8 +2,14 @@ import { NextRequest, NextResponse } from 'next/server'
 import { writeFile, mkdir } from 'fs/promises'
 import { join } from 'path'
 
+import { auth } from '@/auth'
+
 export async function POST(request: NextRequest) {
   try {
+    const session = await auth()
+    if (!session || session.user.role === 'CUSTOMER') {
+      return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 403 })
+    }
     const data = await request.formData()
     const file: File | null = data.get('file') as unknown as File
 

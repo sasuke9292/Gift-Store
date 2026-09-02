@@ -14,7 +14,7 @@ export default async function AdminLayout({
   const session = await auth()
   
   if (!session?.user) {
-    redirect('/auth/login')
+    redirect('/auth/admin-login')
   }
 
   if (session.user.role === 'CUSTOMER') {

@@ -1,10 +1,17 @@
 'use server'
 
+import { auth } from '@/auth'
+
 import { prisma } from '@/lib/prisma'
 import { Role } from '@prisma/client'
 import bcrypt from 'bcryptjs'
 
 export async function getStaffUsers() {
+    const session = await auth()
+    if (!session || session.user.role === 'CUSTOMER') {
+      return { success: false, error: 'غير مصرح لك بالقيام بهذا الإجراء' }
+    }
+
   try {
     const users = await prisma.user.findMany({
       where: {
@@ -24,6 +31,11 @@ export async function getStaffUsers() {
 }
 
 export async function updateUserRole(userId: string, role: Role) {
+    const session = await auth()
+    if (!session || session.user.role === 'CUSTOMER') {
+      return { success: false, error: 'غير مصرح لك بالقيام بهذا الإجراء' }
+    }
+
   try {
     const updatedUser = await prisma.user.update({
       where: { id: userId },
@@ -37,6 +49,11 @@ export async function updateUserRole(userId: string, role: Role) {
 }
 
 export async function updateProfile(userId: string, data: { name?: string, email?: string }) {
+    const session = await auth()
+    if (!session || session.user.role === 'CUSTOMER') {
+      return { success: false, error: 'غير مصرح لك بالقيام بهذا الإجراء' }
+    }
+
   try {
     const updatedUser = await prisma.user.update({
       where: { id: userId },
@@ -50,6 +67,11 @@ export async function updateProfile(userId: string, data: { name?: string, email
 }
 
 export async function createStaffUser(data: { name: string, email: string, password?: string, role: Role }) {
+    const session = await auth()
+    if (!session || session.user.role === 'CUSTOMER') {
+      return { success: false, error: 'غير مصرح لك بالقيام بهذا الإجراء' }
+    }
+
   try {
     const existingUser = await prisma.user.findUnique({
       where: { email: data.email }
@@ -79,6 +101,11 @@ export async function createStaffUser(data: { name: string, email: string, passw
 }
 
 export async function changePassword(userId: string, newPassword: string) {
+    const session = await auth()
+    if (!session || session.user.role === 'CUSTOMER') {
+      return { success: false, error: 'غير مصرح لك بالقيام بهذا الإجراء' }
+    }
+
   try {
     const hashedPassword = await bcrypt.hash(newPassword, 10)
     
@@ -95,6 +122,11 @@ export async function changePassword(userId: string, newPassword: string) {
 }
 
 export async function updateStaffUser(userId: string, data: { name: string, email: string, role: Role, password?: string }) {
+    const session = await auth()
+    if (!session || session.user.role === 'CUSTOMER') {
+      return { success: false, error: 'غير مصرح لك بالقيام بهذا الإجراء' }
+    }
+
   try {
     const updateData: any = {
       name: data.name,
@@ -119,6 +151,11 @@ export async function updateStaffUser(userId: string, data: { name: string, emai
 }
 
 export async function deleteStaffUser(userId: string) {
+    const session = await auth()
+    if (!session || session.user.role === 'CUSTOMER') {
+      return { success: false, error: 'غير مصرح لك بالقيام بهذا الإجراء' }
+    }
+
   try {
     // Check if the user is the only SUPER_ADMIN
     const userToDelete = await prisma.user.findUnique({ where: { id: userId } })

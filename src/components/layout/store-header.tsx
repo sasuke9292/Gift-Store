@@ -23,6 +23,7 @@ export function StoreHeader({ user }: StoreHeaderProps) {
   const cartItems = useCartStore(state => state.items)
   const favorites = useFavoritesStore(state => state.items)
   const [mounted, setMounted] = useState(false)
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
   useEffect(() => {
     setMounted(true)
@@ -44,7 +45,7 @@ export function StoreHeader({ user }: StoreHeaderProps) {
           
           {/* Logo & Mobile Menu */}
           <div className="flex items-center gap-4">
-            <Button variant="ghost" size="icon" className="lg:hidden text-slate-500">
+            <Button variant="ghost" size="icon" className="lg:hidden text-slate-500" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
               <Menu className="w-6 h-6" />
             </Button>
             <Link href="/" className="flex items-center gap-2">
@@ -141,6 +142,37 @@ export function StoreHeader({ user }: StoreHeaderProps) {
           </ul>
         </div>
       </nav>
+      {/* Mobile Navigation */}
+      {isMobileMenuOpen && (
+        <div className="lg:hidden border-t border-slate-100 bg-white px-4 py-4 space-y-4 shadow-lg absolute w-full z-50">
+          <div className="relative mb-4">
+            <Input 
+              type="text" 
+              placeholder="ابحث عن هدية..." 
+              className="w-full h-12 ps-4 pe-12 rounded-xl border-slate-200 bg-slate-50 text-base"
+            />
+            <Search className="absolute end-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+          </div>
+          <ul className="flex flex-col gap-4 text-slate-700 font-bold">
+            <li><Link href="/" onClick={() => setIsMobileMenuOpen(false)}>الرئيسية</Link></li>
+            <li><Link href="/category/men" onClick={() => setIsMobileMenuOpen(false)}>هدايا رجالية</Link></li>
+            <li><Link href="/category/women" onClick={() => setIsMobileMenuOpen(false)}>هدايا نسائية</Link></li>
+            <li><Link href="/category/occasions" onClick={() => setIsMobileMenuOpen(false)}>مناسبات</Link></li>
+            <li><Link href="/category/offers" className="text-red-500" onClick={() => setIsMobileMenuOpen(false)}>عروض وتخفيضات</Link></li>
+            <li className="pt-4 border-t border-slate-100 flex gap-4">
+              {user ? (
+                <Button variant="outline" className="w-full justify-start text-red-600 border-red-200 hover:bg-red-50" onClick={() => signOut()}>
+                  <LogOut className="w-4 h-4 ms-2" /> تسجيل الخروج
+                </Button>
+              ) : (
+                <Link href="/auth/login" className="w-full" onClick={() => setIsMobileMenuOpen(false)}>
+                  <Button variant="outline" className="w-full justify-center">تسجيل الدخول</Button>
+                </Link>
+              )}
+            </li>
+          </ul>
+        </div>
+      )}
     </header>
   )
 }

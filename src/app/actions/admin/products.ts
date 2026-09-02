@@ -1,5 +1,7 @@
 'use server'
 
+import { auth } from '@/auth'
+
 import { prisma } from '@/lib/prisma'
 import { revalidatePath } from 'next/cache'
 
@@ -15,6 +17,11 @@ export async function createProduct(data: {
   isNew?: boolean
   isActive?: boolean
 }) {
+    const session = await auth()
+    if (!session || session.user.role === 'CUSTOMER') {
+      return { success: false, error: 'غير مصرح لك بالقيام بهذا الإجراء' }
+    }
+
   try {
     const product = await prisma.product.create({
       data: {
@@ -43,6 +50,11 @@ export async function updateProduct(id: string, data: Partial<{
   isNew: boolean
   isActive: boolean
 }>) {
+    const session = await auth()
+    if (!session || session.user.role === 'CUSTOMER') {
+      return { success: false, error: 'غير مصرح لك بالقيام بهذا الإجراء' }
+    }
+
   try {
     const product = await prisma.product.update({
       where: { id },
@@ -58,6 +70,11 @@ export async function updateProduct(id: string, data: Partial<{
 }
 
 export async function deleteProduct(id: string) {
+    const session = await auth()
+    if (!session || session.user.role === 'CUSTOMER') {
+      return { success: false, error: 'غير مصرح لك بالقيام بهذا الإجراء' }
+    }
+
   try {
     await prisma.product.delete({
       where: { id }
@@ -72,6 +89,11 @@ export async function deleteProduct(id: string) {
 }
 
 export async function deleteProducts(ids: string[]) {
+    const session = await auth()
+    if (!session || session.user.role === 'CUSTOMER') {
+      return { success: false, error: 'غير مصرح لك بالقيام بهذا الإجراء' }
+    }
+
   try {
     await prisma.product.deleteMany({
       where: { id: { in: ids } }

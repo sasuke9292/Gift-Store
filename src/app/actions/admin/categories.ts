@@ -1,9 +1,16 @@
 'use server'
 
+import { auth } from '@/auth'
+
 import { prisma } from '@/lib/prisma'
 import { revalidatePath } from 'next/cache'
 
 export async function createCategory(data: { name: string, slug: string, description?: string, image?: string }) {
+    const session = await auth()
+    if (!session || session.user.role === 'CUSTOMER') {
+      return { success: false, error: 'غير مصرح لك بالقيام بهذا الإجراء' }
+    }
+
   try {
     const category = await prisma.category.create({
       data: {
@@ -23,6 +30,11 @@ export async function createCategory(data: { name: string, slug: string, descrip
 }
 
 export async function updateCategory(id: string, data: { name?: string, slug?: string, description?: string, image?: string, isActive?: boolean }) {
+    const session = await auth()
+    if (!session || session.user.role === 'CUSTOMER') {
+      return { success: false, error: 'غير مصرح لك بالقيام بهذا الإجراء' }
+    }
+
   try {
     const category = await prisma.category.update({
       where: { id },
@@ -38,6 +50,11 @@ export async function updateCategory(id: string, data: { name?: string, slug?: s
 }
 
 export async function deleteCategory(id: string) {
+    const session = await auth()
+    if (!session || session.user.role === 'CUSTOMER') {
+      return { success: false, error: 'غير مصرح لك بالقيام بهذا الإجراء' }
+    }
+
   try {
     await prisma.category.delete({
       where: { id }
