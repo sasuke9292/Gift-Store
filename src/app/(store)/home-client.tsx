@@ -43,9 +43,18 @@ interface Product {
 interface StoreHomeClientProps {
   initialCategories: Category[]
   initialTopProducts: Product[]
+  heroBadge?: string
+  heroHeadline?: string
+  heroSubheadline?: string
 }
 
-export default function StoreHomeClient({ initialCategories: categories, initialTopProducts: topProducts }: StoreHomeClientProps) {
+export default function StoreHomeClient({ 
+  initialCategories: categories, 
+  initialTopProducts: topProducts,
+  heroBadge,
+  heroHeadline,
+  heroSubheadline
+}: StoreHomeClientProps) {
   
   const { scrollY } = useScroll();
   const heroOpacity = useTransform(scrollY, [0, 400], [1, 0]);
@@ -82,8 +91,8 @@ export default function StoreHomeClient({ initialCategories: categories, initial
             transition={{ duration: 0.8, ease: "easeOut" }}
             className="inline-flex items-center rounded-full border border-slate-200/60 bg-white/50 backdrop-blur-md px-6 py-2.5 text-sm font-medium text-slate-600 mb-10 shadow-sm"
           >
-            <Sparkles className="w-4 h-4 ms-2 me-2 text-rose-500" />
-            التشكيلة الجديدة كلياً لعام 2026
+            <Sparkles className="w-4 h-4 me-2 ms-2 text-rose-500" />
+            {heroBadge || "التشكيلة الجديدة كلياً لعام 2026"}
           </motion.div>
           
           {/* Headline */}
@@ -93,10 +102,16 @@ export default function StoreHomeClient({ initialCategories: categories, initial
             transition={{ duration: 0.8, delay: 0.1, ease: "easeOut" }}
             className="text-6xl sm:text-7xl lg:text-8xl font-black text-slate-900 tracking-[-0.04em] leading-[1.05] mb-8"
           >
-            لحظاتك الثمينة <br/>
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-700 via-blue-500 to-sky-400">
-              تستحق الأفضل.
-            </span>
+            {heroHeadline ? (
+              <span dangerouslySetInnerHTML={{ __html: heroHeadline.replace('\n', '<br/>') }} />
+            ) : (
+              <>
+                لحظاتك الثمينة <br/>
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-700 via-blue-500 to-sky-400">
+                  تستحق الأفضل.
+                </span>
+              </>
+            )}
           </motion.h1>
           
           {/* Subheadline */}
@@ -106,7 +121,7 @@ export default function StoreHomeClient({ initialCategories: categories, initial
             transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
             className="text-xl sm:text-2xl text-slate-500 max-w-2xl mx-auto font-medium mb-12 leading-relaxed"
           >
-            اكتشف مجموعة من الهدايا الاستثنائية التي تم اختيارها بعناية لتناسب أرقى الأذواق وتخلّد أجمل الذكريات.
+            {heroSubheadline || "اكتشف مجموعة من الهدايا الاستثنائية التي تم اختيارها بعناية لتناسب أرقى الأذواق وتخلّد أجمل الذكريات."}
           </motion.p>
           
           {/* Actions */}

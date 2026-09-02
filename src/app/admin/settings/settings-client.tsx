@@ -22,6 +22,10 @@ export interface SettingsData {
   orderNotifications: boolean
   marketingEmails: boolean
   logoUrl?: string | null
+  topBarText?: string
+  heroBadge?: string
+  heroHeadline?: string
+  heroSubheadline?: string
 }
 
 export default function SettingsClient({ initialSettings }: { initialSettings: SettingsData }) {
@@ -76,6 +80,10 @@ export default function SettingsClient({ initialSettings }: { initialSettings: S
           <TabsTrigger value="notifications" className="flex-1 rounded-xl data-[state=active]:bg-indigo-50 data-[state=active]:text-indigo-600 py-3 px-4 text-sm font-bold text-slate-500 transition-all w-full sm:w-auto gap-2">
             <Bell className="w-4 h-4" />
             الإشعارات
+          </TabsTrigger>
+          <TabsTrigger value="texts" className="flex-1 rounded-xl data-[state=active]:bg-indigo-50 data-[state=active]:text-indigo-600 py-3 px-4 text-sm font-bold text-slate-500 transition-all w-full sm:w-auto gap-2">
+            <UserIcon className="w-4 h-4" />
+            نصوص الواجهة
           </TabsTrigger>
 
         </TabsList>
@@ -205,6 +213,49 @@ export default function SettingsClient({ initialSettings }: { initialSettings: S
           </Card>
         </TabsContent>
 
+        <TabsContent value="texts" className="animate-in fade-in-50 slide-in-from-bottom-2 duration-300">
+          <Card className="border-0 shadow-sm rounded-3xl overflow-hidden bg-white">
+            <div className="p-8 border-b border-slate-100 bg-slate-50/50">
+              <h2 className="text-xl font-bold text-slate-800">نصوص الواجهة الرئيسية</h2>
+              <p className="text-sm text-slate-500 mt-1 font-medium">التحكم في النصوص والعناوين التي تظهر للعملاء في الصفحة الرئيسية.</p>
+            </div>
+            <CardContent className="p-8 space-y-8">
+              <div className="space-y-3">
+                <Label className="text-sm font-bold text-slate-700">شريط الإعلانات العلوي (Top Bar)</Label>
+                <Input 
+                  value={settings.topBarText || ''}
+                  onChange={(e) => setSettings({...settings, topBarText: e.target.value})}
+                  className="h-14 rounded-2xl border-slate-200 focus-visible:ring-indigo-500 bg-slate-50 focus:bg-white transition-colors text-base" 
+                />
+              </div>
+              <div className="space-y-3">
+                <Label className="text-sm font-bold text-slate-700">الشارة العلوية (Hero Badge)</Label>
+                <Input 
+                  value={settings.heroBadge || ''}
+                  onChange={(e) => setSettings({...settings, heroBadge: e.target.value})}
+                  className="h-14 rounded-2xl border-slate-200 focus-visible:ring-indigo-500 bg-slate-50 focus:bg-white transition-colors text-base" 
+                />
+              </div>
+              <div className="space-y-3">
+                <Label className="text-sm font-bold text-slate-700">العنوان الرئيسي (Hero Headline)</Label>
+                <Input 
+                  value={settings.heroHeadline || ''}
+                  onChange={(e) => setSettings({...settings, heroHeadline: e.target.value})}
+                  className="h-14 rounded-2xl border-slate-200 focus-visible:ring-indigo-500 bg-slate-50 focus:bg-white transition-colors text-base" 
+                />
+              </div>
+              <div className="space-y-3">
+                <Label className="text-sm font-bold text-slate-700">النص الفرعي (Hero Subheadline)</Label>
+                <textarea 
+                  value={settings.heroSubheadline || ''}
+                  onChange={(e) => setSettings({...settings, heroSubheadline: e.target.value})}
+                  rows={3}
+                  className="w-full rounded-2xl border border-slate-200 focus-visible:ring-indigo-500 focus-visible:outline-none focus-visible:ring-2 bg-slate-50 focus:bg-white transition-colors text-base p-4 resize-none" 
+                />
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
 
       </Tabs>
     </motion.div>

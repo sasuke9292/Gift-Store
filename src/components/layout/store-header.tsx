@@ -17,9 +17,10 @@ interface StoreHeaderProps {
     email?: string | null
     role?: string
   }
+  topBarText?: string
 }
 
-export function StoreHeader({ user }: StoreHeaderProps) {
+export function StoreHeader({ user, topBarText }: StoreHeaderProps) {
   const cartItems = useCartStore(state => state.items)
   const favorites = useFavoritesStore(state => state.items)
   const [mounted, setMounted] = useState(false)
@@ -35,9 +36,11 @@ export function StoreHeader({ user }: StoreHeaderProps) {
   return (
     <header className="bg-white border-b border-slate-100 sticky top-0 z-50">
       {/* Top Bar */}
-      <div className="bg-primary text-primary-foreground py-2 px-4 text-center text-sm font-medium">
-        شحن مجاني للطلبات أكثر من 100,000 د.ع 🎁
-      </div>
+      {topBarText && (
+        <div className="bg-primary text-primary-foreground py-2 px-4 text-center text-sm font-medium">
+          {topBarText}
+        </div>
+      )}
       
       {/* Main Header */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

@@ -278,5 +278,12 @@ model StoreSettings {
   allowOnlinePayment Boolean  @default(false)
   orderNotifications Boolean  @default(true)
   marketingEmails    Boolean  @default(true)
+  
+  // Home Page Settings
+  topBarText         String   @default("شحن مجاني للطلبات أكثر من 100,000 د.ع 🎁")
+  heroBadge          String   @default("التشكيلة الجديدة كلياً لعام 2026")
+  heroHeadline       String   @default("لحظاتك الثمينة تستحق الأفضل.")
+  heroSubheadline    String   @default("اكتشف مجموعة من الهدايا الاستثنائية التي تم اختيارها بعناية لتناسب أرقى الأذواق وتخلّد أجمل الذكريات.")
+
   updatedAt          DateTime @updatedAt
 }
