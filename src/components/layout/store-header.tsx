@@ -90,27 +90,33 @@ export function StoreHeader({ user }: StoreHeaderProps) {
             </Link>
             
             {user ? (
-              <DropdownMenu>
-                <DropdownMenuTrigger className="hidden md:flex items-center gap-2 rounded-full px-4 py-2 text-slate-600 hover:bg-slate-100 transition-colors">
-                  <User className="w-5 h-5" />
-                  <span className="font-medium">{user.name?.split(' ')[0] || 'حسابي'}</span>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-48">
-                  <DropdownMenuItem>
-                    <Link href="/profile" className="flex items-center gap-2 cursor-pointer w-full h-full">
-                      <User className="w-4 h-4" /> ملفي الشخصي
-                    </Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem>
-                    <Link href="/profile" className="flex items-center gap-2 cursor-pointer w-full h-full">
-                      <Package className="w-4 h-4" /> طلباتي
-                    </Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => signOut()} className="text-red-600 focus:text-red-600 cursor-pointer">
-                    <LogOut className="w-4 h-4" /> تسجيل الخروج
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
+              user.role === 'CUSTOMER' ? (
+                <DropdownMenu>
+                  <DropdownMenuTrigger className="hidden md:flex items-center gap-2 rounded-full px-4 py-2 text-slate-600 hover:bg-slate-100 transition-colors">
+                    <User className="w-5 h-5" />
+                    <span className="font-medium">{user.name?.split(' ')[0] || 'حسابي'}</span>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="w-48">
+                    <DropdownMenuItem>
+                      <Link href="/profile" className="flex items-center gap-2 cursor-pointer w-full h-full">
+                        <User className="w-4 h-4" /> ملفي الشخصي
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem>
+                      <Link href="/profile" className="flex items-center gap-2 cursor-pointer w-full h-full">
+                        <Package className="w-4 h-4" /> طلباتي
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => signOut()} className="text-red-600 focus:text-red-600 cursor-pointer">
+                      <LogOut className="w-4 h-4" /> تسجيل الخروج
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              ) : (
+                <Link href="/admin" className={buttonVariants({ variant: "default", className: "hidden md:flex items-center gap-2 rounded-full px-6 bg-indigo-600 hover:bg-indigo-700" })}>
+                  <span className="font-bold">لوحة التحكم</span>
+                </Link>
+              )
             ) : (
               <Link href="/auth/login" className={buttonVariants({ variant: "ghost", className: "text-slate-600 hover:text-primary hidden md:flex items-center gap-2 rounded-full px-4" })}>
                 <User className="w-5 h-5" />
