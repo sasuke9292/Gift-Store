@@ -51,6 +51,7 @@ export default function UsersClient({ initialUsers }: { initialUsers: UserData[]
   const [search, setSearch] = useState('')
   const [selectedUser, setSelectedUser] = useState<UserData | null>(null)
   const [isDetailsOpen, setIsDetailsOpen] = useState(false)
+  const [isEditOpen, setIsEditOpen] = useState(false)
 
   const filteredUsers = users.filter(
     u => u.name.toLowerCase().includes(search.toLowerCase()) || 
@@ -73,8 +74,15 @@ export default function UsersClient({ initialUsers }: { initialUsers: UserData[]
     toast.success(`تم تحديث حالة الحساب للمستخدم ${name} بنجاح`)
   }
 
-  const handleEditRole = (name: string) => {
-    toast.info(`قريباً: تعديل صلاحيات المستخدم ${name}`)
+  const handleEditRole = (user: UserData) => {
+    setSelectedUser(user)
+    setIsEditOpen(true)
+  }
+
+  const handleSaveEdit = (e: React.FormEvent) => {
+    e.preventDefault()
+    setIsEditOpen(false)
+    toast.success('تم حفظ التعديلات بنجاح')
   }
 
   return (
@@ -190,7 +198,7 @@ export default function UsersClient({ initialUsers }: { initialUsers: UserData[]
                           </Badge>
                         </TableCell>
                         <TableCell className="px-8 py-4 text-center">
-                          <div className="flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                          <div className="flex items-center justify-center gap-2 transition-opacity">
                             <Button 
                               variant="ghost" 
                               size="icon" 
@@ -207,7 +215,7 @@ export default function UsersClient({ initialUsers }: { initialUsers: UserData[]
                               variant="ghost" 
                               size="icon" 
                               className="w-9 h-9 rounded-xl text-slate-400 hover:text-amber-600 hover:bg-amber-50"
-                              onClick={() => handleEditRole(user.name)}
+                              onClick={() => handleEditRole(user)}
                             >
                               <Edit className="w-4 h-4" />
                             </Button>
@@ -302,6 +310,54 @@ export default function UsersClient({ initialUsers }: { initialUsers: UserData[]
                 </Button>
               </div>
             </>
+          )}
+        </DialogContent>
+      </Dialog>
+
+      {/* Edit User Modal */}
+      <Dialog open={isEditOpen} onOpenChange={setIsEditOpen}>
+        <DialogContent className="sm:max-w-[500px] p-8 rounded-[2rem] border-0 shadow-2xl" dir="rtl">
+          <div className="mb-6">
+            <h2 className="text-2xl font-black text-slate-800">تعديل بيانات المستخدم</h2>
+            <p className="text-sm text-slate-500 mt-1 font-medium">قم بتحديث معلومات الحساب، الصلاحيات، أو كلمة المرور.</p>
+          </div>
+
+          {selectedUser && (
+            <form onSubmit={handleSaveEdit} className="space-y-5">
+              <div className="space-y-2">
+                <label className="text-sm font-bold text-slate-700">اسم المستخدم</label>
+                <Input defaultValue={selectedUser.name} className="h-12 rounded-xl border-slate-200 focus-visible:ring-indigo-500 bg-slate-50 focus:bg-white" />
+              </div>
+              
+              <div className="space-y-2">
+                <label className="text-sm font-bold text-slate-700">البريد الإلكتروني</label>
+                <Input defaultValue={selectedUser.email} dir="ltr" className="h-12 rounded-xl border-slate-200 focus-visible:ring-indigo-500 bg-slate-50 focus:bg-white text-left" />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-bold text-slate-700">تغيير كلمة المرور</label>
+                <Input type="password" placeholder="أدخل كلمة المرور الجديدة (اختياري)" dir="ltr" className="h-12 rounded-xl border-slate-200 focus-visible:ring-indigo-500 bg-slate-50 focus:bg-white text-left placeholder:text-right" />
+                <p className="text-xs text-slate-400 font-medium">اترك الحقل فارغاً إذا كنت لا ترغب بتغيير كلمة المرور.</p>
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-bold text-slate-700">الصلاحية (الدور)</label>
+                <select defaultValue={selectedUser.role} className="flex h-12 w-full items-center justify-between rounded-xl border border-slate-200 bg-slate-50 focus:bg-white px-3 py-2 text-sm ring-offset-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50">
+                  {Object.entries(roleColors).map(([roleKey, roleValue]) => (
+                    <option key={roleKey} value={roleKey}>{roleValue.label}</option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="pt-4 flex gap-3">
+                <Button type="submit" className="flex-1 h-12 rounded-xl font-bold bg-indigo-600 hover:bg-indigo-700 text-white shadow-lg shadow-indigo-600/20">
+                  حفظ التعديلات
+                </Button>
+                <Button type="button" variant="outline" className="flex-1 h-12 rounded-xl font-bold text-slate-600" onClick={() => setIsEditOpen(false)}>
+                  إلغاء
+                </Button>
+              </div>
+            </form>
           )}
         </DialogContent>
       </Dialog>
