@@ -79,7 +79,7 @@ export default function ProductModal({ isOpen, setIsOpen, product, categories, o
     }
   }
 
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (!file) return
     
@@ -89,18 +89,27 @@ export default function ProductModal({ isOpen, setIsOpen, product, categories, o
       return
     }
     
-    const toastId = toast.loading('جاري معالجة الصورة...')
+    const toastId = toast.loading('جاري رفع الصورة...')
     
     try {
-      const reader = new FileReader()
-      reader.readAsDataURL(file)
-      reader.onload = () => {
-        const base64String = reader.result as string
-        setFormData({...formData, imagesList: [...formData.imagesList, base64String]})
+      const formDataUpload = new FormData()
+      formDataUpload.append('file', file)
+      
+      const res = await fetch('/api/upload', {
+        method: 'POST',
+        body: formDataUpload
+      })
+      
+      const data = await res.json()
+      
+      if (data.success) {
+        setFormData(prev => ({...prev, imagesList: [...prev.imagesList, data.url]}))
         toast.success('تمت إضافة الصورة بنجاح', { id: toastId })
+      } else {
+        toast.error(data.error || 'حدث خطأ أثناء الرفع', { id: toastId })
       }
     } catch {
-      toast.error('حدث خطأ', { id: toastId })
+      toast.error('حدث خطأ في الاتصال بالخادم', { id: toastId })
     } finally {
       e.target.value = '' 
     }
