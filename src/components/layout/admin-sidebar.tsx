@@ -122,14 +122,18 @@ export function AdminSidebar({ storeName = 'گفتي بلس', logoUrl, user }: {
           } />
           <DropdownMenuContent align="end" className="w-64 rounded-2xl shadow-xl border-slate-700 bg-slate-900 p-2 text-slate-300" sideOffset={10}>
             <DropdownMenuLabel className="text-xs text-slate-500 font-bold px-2 py-1.5 uppercase tracking-wider">حسابي</DropdownMenuLabel>
-            <DropdownMenuItem className="rounded-xl cursor-pointer py-2.5 hover:bg-slate-800 hover:text-white font-medium focus:bg-slate-800 focus:text-white">
-              <User className="ml-3 h-4 w-4 text-indigo-400" />
-              الملف الشخصي
-            </DropdownMenuItem>
-            <DropdownMenuItem className="rounded-xl cursor-pointer py-2.5 hover:bg-slate-800 hover:text-white font-medium focus:bg-slate-800 focus:text-white">
-              <Settings className="ml-3 h-4 w-4 text-slate-400" />
-              تفضيلات الحساب
-            </DropdownMenuItem>
+            <Link href="/admin/profile">
+              <DropdownMenuItem className="rounded-xl cursor-pointer py-2.5 hover:bg-slate-800 hover:text-white font-medium focus:bg-slate-800 focus:text-white">
+                <User className="ml-3 h-4 w-4 text-indigo-400" />
+                الملف الشخصي
+              </DropdownMenuItem>
+            </Link>
+            <Link href="/admin/settings">
+              <DropdownMenuItem className="rounded-xl cursor-pointer py-2.5 hover:bg-slate-800 hover:text-white font-medium focus:bg-slate-800 focus:text-white">
+                <Settings className="ml-3 h-4 w-4 text-slate-400" />
+                تفضيلات الحساب
+              </DropdownMenuItem>
+            </Link>
             <DropdownMenuSeparator className="my-2 bg-slate-800" />
             <DropdownMenuItem 
               className="rounded-xl cursor-pointer py-2.5 font-bold text-rose-400 hover:bg-rose-500/10 hover:text-rose-300 focus:bg-rose-500/10 focus:text-rose-300"
