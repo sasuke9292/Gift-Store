@@ -75,24 +75,24 @@ export default function ProductsClient({ initialProducts, categories }: { initia
     <motion.div 
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="space-y-8 pb-12" 
+      className="space-y-5 pb-12" 
       dir="rtl"
     >
       {/* Header Section */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white p-6 rounded-2xl shadow-[0_5px_30px_rgba(0,0,0,0.03)] border border-slate-100/50">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-[#0A1628] border border-white/[0.05] p-5 rounded-2xl">
         <div>
-          <div className="flex items-center gap-3 mb-2">
-            <div className="p-2 bg-slate-100/80 rounded-xl text-slate-600">
-              <Package className="w-5 h-5" />
+          <div className="flex items-center gap-2.5 mb-1">
+            <div className="w-8 h-8 bg-amber-500/10 border border-amber-500/20 rounded-xl flex items-center justify-center">
+              <Package className="w-4 h-4 text-amber-400" />
             </div>
-            <h1 className="text-3xl font-black text-slate-800 tracking-tight drop-shadow-sm">إدارة المنتجات</h1>
+            <h1 className="text-xl font-black text-white/85 tracking-tight">إدارة المنتجات</h1>
           </div>
-          <p className="text-slate-500 font-medium text-lg ms-1">إضافة وتعديل وحذف المنتجات في متجرك بكل سهولة.</p>
+          <p className="text-white/35 font-medium text-sm ms-10">إضافة وتعديل وحذف المنتجات في متجرك.</p>
         </div>
         <Link href="/admin/products/new">
-          <Button className="bg-[#050B14] hover:bg-[#0a1526] text-white shadow-[0_8px_20px_rgba(5,11,20,0.15)] border border-slate-800 rounded-xl px-5 h-10 font-bold transition-all w-full sm:w-auto text-sm">
-            <Plus className="w-5 h-5 ms-2 text-amber-400" />
-            إضافة منتج جديد
+          <Button className="bg-amber-500 hover:bg-amber-400 text-[#030810] shadow-[0_4px_20px_rgba(245,158,11,0.3)] rounded-xl px-5 h-9 font-bold transition-all w-full sm:w-auto text-sm">
+            <Plus className="w-4 h-4 ms-1.5" />
+            إضافة منتج
           </Button>
         </Link>
       </div>
@@ -103,11 +103,11 @@ export default function ProductsClient({ initialProducts, categories }: { initia
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="bg-amber-50/50 border border-amber-200/50 rounded-2xl p-4 flex items-center justify-between shadow-sm overflow-hidden"
+            className="bg-amber-500/10 border border-amber-500/20 rounded-xl p-3.5 flex items-center justify-between overflow-hidden"
           >
-            <div className="flex items-center gap-3">
-              <CheckCircle2 className="w-5 h-5 text-amber-600" />
-              <p className="text-sm font-bold text-amber-900">
+            <div className="flex items-center gap-2.5">
+              <CheckCircle2 className="w-4 h-4 text-amber-400" />
+              <p className="text-sm font-bold text-amber-300">
                 تم تحديد {selectedIds.size} منتج
               </p>
             </div>
@@ -115,7 +115,7 @@ export default function ProductsClient({ initialProducts, categories }: { initia
               variant="destructive" 
               onClick={handleBulkDelete} 
               disabled={isDeletingBulk}
-              className="rounded-xl font-bold shadow-sm h-10 px-6 bg-rose-600 hover:bg-rose-700 transition-colors"
+              className="rounded-lg font-bold h-8 px-4 bg-rose-500/80 hover:bg-rose-500 text-sm transition-colors"
             >
               {isDeletingBulk ? 'جاري الحذف...' : 'حذف المحدد'}
             </Button>
@@ -123,36 +123,36 @@ export default function ProductsClient({ initialProducts, categories }: { initia
         )}
       </AnimatePresence>
 
-      <div className="border-slate-100/50 shadow-[0_5px_30px_rgba(0,0,0,0.03)] overflow-hidden rounded-2xl bg-white border">
+      <div className="overflow-hidden rounded-2xl bg-[#0A1628] border border-white/[0.05]">
         
         {/* Toolbar */}
-        <div className="p-5 md:p-6 border-b border-slate-100/50 bg-slate-50/30 flex flex-col md:flex-row items-center justify-between gap-4">
-          <div className="relative w-full md:max-w-md group">
-            <Search className="absolute end-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-amber-500 transition-colors" />
-            <Input
-              placeholder="ابحث باسم المنتج أو الرمز (SKU)..."
-              className="ps-4 pe-10 bg-white border-slate-200 hover:border-slate-300 focus:border-amber-400 focus:ring-4 focus:ring-amber-500/10 h-10 rounded-xl text-sm shadow-sm transition-all"
+        <div className="p-4 md:p-5 border-b border-white/[0.05] flex flex-col md:flex-row items-center justify-between gap-3">
+          <div className="relative w-full md:max-w-sm group">
+            <Search className="absolute end-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-white/25 group-focus-within:text-amber-500 transition-colors" />
+            <input
+              placeholder="ابحث باسم المنتج..."
+              className="w-full h-9 ps-3 pe-9 bg-white/[0.04] border border-white/[0.07] hover:border-white/[0.12] focus:border-amber-500/50 rounded-xl text-sm text-white/70 placeholder:text-white/25 outline-none focus:ring-2 focus:ring-amber-500/10 transition-all"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
           </div>
           
-          <div className="flex bg-slate-100/50 p-1.5 rounded-2xl w-full md:w-auto shadow-inner">
+          <div className="flex bg-white/[0.03] p-1 rounded-xl w-full md:w-auto border border-white/[0.05]">
             <button
               onClick={() => setStatusFilter('all')}
-              className={`flex-1 md:flex-none px-5 py-2 rounded-lg font-bold text-xs transition-all ${statusFilter === 'all' ? 'bg-white text-slate-800 shadow-sm border border-slate-200/50' : 'text-slate-500 hover:text-slate-700'}`}
+              className={`flex-1 md:flex-none px-4 py-1.5 rounded-lg font-bold text-xs transition-all ${statusFilter === 'all' ? 'bg-white/10 text-white/80 border border-white/10' : 'text-white/30 hover:text-white/60'}`}
             >
               الكل
             </button>
             <button
               onClick={() => setStatusFilter('active')}
-              className={`flex-1 md:flex-none px-5 py-2 rounded-lg font-bold text-xs transition-all ${statusFilter === 'active' ? 'bg-white text-emerald-600 shadow-sm border border-slate-200/50' : 'text-slate-500 hover:text-slate-700'}`}
+              className={`flex-1 md:flex-none px-4 py-1.5 rounded-lg font-bold text-xs transition-all ${statusFilter === 'active' ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'text-white/30 hover:text-white/60'}`}
             >
               نشط
             </button>
             <button
               onClick={() => setStatusFilter('draft')}
-              className={`flex-1 md:flex-none px-5 py-2 rounded-lg font-bold text-xs transition-all ${statusFilter === 'draft' ? 'bg-white text-amber-600 shadow-sm border border-slate-200/50' : 'text-slate-500 hover:text-slate-700'}`}
+              className={`flex-1 md:flex-none px-4 py-1.5 rounded-lg font-bold text-xs transition-all ${statusFilter === 'draft' ? 'bg-amber-500/10 text-amber-400 border border-amber-500/20' : 'text-white/30 hover:text-white/60'}`}
             >
               مسودة
             </button>
@@ -160,105 +160,103 @@ export default function ProductsClient({ initialProducts, categories }: { initia
         </div>
 
         {/* Table */}
-        <div className="p-0">
-          <div className="overflow-x-auto">
-            <Table className="w-full min-w-[900px]">
-              <TableHeader className="bg-slate-50/80 border-b border-slate-100/50">
-                <TableRow className="hover:bg-transparent border-0">
-                  <TableHead className="w-12 px-5 py-4">
-                    <Checkbox 
-                      checked={filteredProducts.length > 0 && selectedIds.size === filteredProducts.length}
-                      onCheckedChange={handleSelectAll}
-                      className="border-slate-300 data-[state=checked]:bg-amber-500 data-[state=checked]:border-amber-500 rounded text-white shadow-sm"
-                    />
-                  </TableHead>
-                  <TableHead className="text-start font-bold text-slate-500 py-4 px-5 text-[11px] uppercase tracking-wider">المنتج</TableHead>
-                  <TableHead className="text-start font-bold text-slate-500 py-4 text-[11px] uppercase tracking-wider">التصنيف</TableHead>
-                  <TableHead className="text-start font-bold text-slate-500 py-4 text-[11px] uppercase tracking-wider">السعر</TableHead>
-                  <TableHead className="text-start font-bold text-slate-500 py-4 text-[11px] uppercase tracking-wider">الحالة</TableHead>
-                  <TableHead className="text-center font-bold text-slate-500 py-4 px-5 text-[11px] uppercase tracking-wider">إجراءات</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody className="divide-y divide-slate-100/50">
-                  {filteredProducts.map((product) => (
-                    <TableRow 
-                      key={product.id}
-                      className={`group transition-all duration-300 border-0 ${selectedIds.has(product.id) ? 'bg-amber-50/30' : 'hover:bg-slate-50/50'}`}
-                    >
-                      <TableCell className="px-5 py-3">
-                        <Checkbox 
-                          checked={selectedIds.has(product.id)}
-                          onCheckedChange={(checked) => handleSelectRow(product.id, checked as boolean)}
-                          className="border-slate-300 data-[state=checked]:bg-amber-500 data-[state=checked]:border-amber-500 rounded text-white shadow-sm"
-                        />
-                      </TableCell>
-                      <TableCell className="px-5 py-3">
-                        <div className="flex items-center gap-4">
-                          <div className="w-10 h-10 rounded-lg bg-white flex items-center justify-center overflow-hidden relative shrink-0 shadow-sm border border-slate-100 group-hover:border-amber-200 transition-colors">
-                            {product.images && product.images[0] ? (
-                              <Image src={product.images[0]} alt={product.name} fill className="object-cover" />
-                            ) : (
-                              <ImageIcon className="w-4 h-4 text-slate-300" />
-                            )}
-                          </div>
-                          <div>
-                            <p className="font-bold text-slate-800 text-sm group-hover:text-amber-600 transition-colors">{product.name}</p>
-                            <p className="text-[11px] text-slate-400 font-mono mt-1 bg-slate-100 px-1.5 py-0.5 rounded-md inline-flex w-max">
-                              <span className="opacity-60">#</span>{product.sku || product.id.slice(0, 8)}
-                            </p>
-                          </div>
+        <div className="overflow-x-auto">
+          <Table className="w-full min-w-[860px]">
+            <TableHeader className="border-b border-white/[0.05]">
+              <TableRow className="hover:bg-transparent border-0">
+                <TableHead className="w-12 px-5 py-3">
+                  <Checkbox 
+                    checked={filteredProducts.length > 0 && selectedIds.size === filteredProducts.length}
+                    onCheckedChange={handleSelectAll}
+                    className="border-white/20 data-[state=checked]:bg-amber-500 data-[state=checked]:border-amber-500 rounded"
+                  />
+                </TableHead>
+                <TableHead className="text-start font-bold text-white/30 py-3 px-5 text-[10px] uppercase tracking-widest">المنتج</TableHead>
+                <TableHead className="text-start font-bold text-white/30 py-3 text-[10px] uppercase tracking-widest">التصنيف</TableHead>
+                <TableHead className="text-start font-bold text-white/30 py-3 text-[10px] uppercase tracking-widest">السعر</TableHead>
+                <TableHead className="text-start font-bold text-white/30 py-3 text-[10px] uppercase tracking-widest">الحالة</TableHead>
+                <TableHead className="text-center font-bold text-white/30 py-3 px-5 text-[10px] uppercase tracking-widest">إجراءات</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody className="divide-y divide-white/[0.04]">
+                {filteredProducts.map((product) => (
+                  <TableRow 
+                    key={product.id}
+                    className={`group transition-all duration-200 border-0 ${selectedIds.has(product.id) ? 'bg-amber-500/5' : 'hover:bg-white/[0.02]'}`}
+                  >
+                    <TableCell className="px-5 py-3">
+                      <Checkbox 
+                        checked={selectedIds.has(product.id)}
+                        onCheckedChange={(checked) => handleSelectRow(product.id, checked as boolean)}
+                        className="border-white/20 data-[state=checked]:bg-amber-500 data-[state=checked]:border-amber-500 rounded"
+                      />
+                    </TableCell>
+                    <TableCell className="px-5 py-3">
+                      <div className="flex items-center gap-3">
+                        <div className="w-9 h-9 rounded-lg bg-white/[0.05] flex items-center justify-center overflow-hidden relative shrink-0 border border-white/[0.08] group-hover:border-amber-500/20 transition-colors">
+                          {product.images && product.images[0] ? (
+                            <Image src={product.images[0]} alt={product.name} fill className="object-cover" />
+                          ) : (
+                            <ImageIcon className="w-4 h-4 text-white/20" />
+                          )}
                         </div>
-                      </TableCell>
-                      <TableCell className="py-3">
-                        <Badge variant="secondary" className="bg-slate-100 text-slate-600 font-semibold px-2.5 py-1 rounded-md shadow-none border-0 text-[11px]">
-                          {product.category?.name || 'بدون تصنيف'}
-                        </Badge>
-                      </TableCell>
-                      <TableCell className="py-3">
-                        <span className="font-bold text-slate-800 text-sm tracking-tight group-hover:text-amber-600 transition-colors">
-                          {product.price.toLocaleString('en-US')} <span className="text-[10px] text-slate-400">د.ع</span>
+                        <div>
+                          <p className="font-bold text-white/75 text-sm group-hover:text-amber-400 transition-colors">{product.name}</p>
+                          <span className="text-[10px] text-white/25 font-mono bg-white/[0.04] px-1.5 py-0.5 rounded mt-0.5 inline-block">
+                            #{product.sku || product.id.slice(0, 8)}
+                          </span>
+                        </div>
+                      </div>
+                    </TableCell>
+                    <TableCell className="py-3">
+                      <span className="bg-white/[0.06] text-white/50 font-semibold px-2 py-0.5 rounded text-[11px] border border-white/[0.06]">
+                        {product.category?.name || 'بدون تصنيف'}
+                      </span>
+                    </TableCell>
+                    <TableCell className="py-3">
+                      <span className="font-bold text-amber-400/90 text-sm">
+                        {product.price.toLocaleString('en-US')} <span className="text-[10px] text-white/30">د.ع</span>
+                      </span>
+                    </TableCell>
+                    <TableCell className="py-3">
+                      {product.isActive ? (
+                        <span className="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 rounded-md px-2 py-0.5 font-bold text-[11px] flex items-center gap-1 w-max">
+                          <div className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                          نشط
                         </span>
-                      </TableCell>
-                      <TableCell className="py-3">
-                        {product.isActive ? (
-                          <Badge className="bg-emerald-50 text-emerald-600 border-0 rounded-md px-2.5 py-1 font-semibold shadow-sm text-[11px] flex items-center gap-1.5 w-max">
-                            <div className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-                            نشط
-                          </Badge>
-                        ) : (
-                          <Badge className="bg-slate-100 text-slate-600 border-0 rounded-md px-2.5 py-1 font-semibold shadow-sm text-[11px] flex items-center gap-1.5 w-max">
-                            <div className="w-1.5 h-1.5 rounded-full bg-slate-400" />
-                            مسودة
-                          </Badge>
-                        )}
-                      </TableCell>
-                      <TableCell className="text-center py-3 px-5">
-                        <div className="flex items-center justify-center gap-1">
-                          <Button variant="ghost" size="icon" className="w-8 h-8 rounded-lg text-slate-400 hover:text-amber-600 hover:bg-amber-50 hover:border-amber-100 transition-colors" onClick={() => { setCurrentEditProduct(product); setIsEditModalOpen(true); }} title="تعديل المنتج">
-                            <Edit className="w-3.5 h-3.5" />
-                          </Button>
-                          <Button variant="ghost" size="icon" className="w-8 h-8 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50 hover:border-rose-100 transition-colors" onClick={() => handleDelete(product.id)} title="حذف المنتج">
-                            <Trash className="w-3.5 h-3.5" />
-                          </Button>
-                        </div>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                {filteredProducts.length === 0 && (
-                  <TableRow>
-                    <TableCell colSpan={6} className="h-64 text-center border-0">
-                      <div className="flex flex-col items-center justify-center text-slate-400 gap-4">
-                        <div className="w-20 h-20 bg-slate-50 border border-slate-100 rounded-full flex items-center justify-center shadow-inner">
-                          <Search className="w-8 h-8 text-slate-300" />
-                        </div>
-                        <span className="text-lg font-black text-slate-500">لا توجد منتجات مطابقة للبحث</span>
+                      ) : (
+                        <span className="bg-white/[0.05] text-white/35 border border-white/[0.08] rounded-md px-2 py-0.5 font-bold text-[11px] flex items-center gap-1 w-max">
+                          <div className="w-1.5 h-1.5 rounded-full bg-white/30" />
+                          مسودة
+                        </span>
+                      )}
+                    </TableCell>
+                    <TableCell className="text-center py-3 px-5">
+                      <div className="flex items-center justify-center gap-1">
+                        <button className="w-8 h-8 rounded-lg text-white/30 hover:text-amber-400 hover:bg-amber-500/10 transition-colors flex items-center justify-center" onClick={() => { setCurrentEditProduct(product); setIsEditModalOpen(true); }}>
+                          <Edit className="w-3.5 h-3.5" />
+                        </button>
+                        <button className="w-8 h-8 rounded-lg text-white/30 hover:text-rose-400 hover:bg-rose-500/10 transition-colors flex items-center justify-center" onClick={() => handleDelete(product.id)}>
+                          <Trash className="w-3.5 h-3.5" />
+                        </button>
                       </div>
                     </TableCell>
                   </TableRow>
-                )}
-              </TableBody>
-            </Table>
-          </div>
+                ))}
+              {filteredProducts.length === 0 && (
+                <TableRow>
+                  <TableCell colSpan={6} className="h-52 text-center border-0">
+                    <div className="flex flex-col items-center justify-center gap-3">
+                      <div className="w-14 h-14 bg-white/[0.04] border border-white/[0.06] rounded-xl flex items-center justify-center">
+                        <Search className="w-6 h-6 text-white/20" />
+                      </div>
+                      <span className="font-bold text-white/30 text-sm">لا توجد منتجات مطابقة</span>
+                    </div>
+                  </TableCell>
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
         </div>
       </div>
 

@@ -33,12 +33,12 @@ interface OrderData {
 }
 
 const statusConfig: Record<string, { bg: string, text: string, icon: any, label: string }> = {
-  PENDING: { bg: 'bg-slate-100/80', text: 'text-slate-600', icon: Clock, label: 'قيد المراجعة' },
-  PROCESSING: { bg: 'bg-amber-100/80', text: 'text-amber-700', icon: Package, label: 'جاري التجهيز' },
-  SHIPPED: { bg: 'bg-blue-100/80', text: 'text-blue-700', icon: Truck, label: 'تم الشحن' },
-  DELIVERED: { bg: 'bg-emerald-100/80', text: 'text-emerald-700', icon: CheckCircle2, label: 'مكتمل' },
-  CONFIRMED: { bg: 'bg-emerald-100/80', text: 'text-emerald-700', icon: CheckCircle2, label: 'مؤكد' },
-  CANCELLED: { bg: 'bg-rose-100/80', text: 'text-rose-700', icon: XCircle, label: 'ملغى' },
+  PENDING: { bg: 'bg-white/[0.06]', text: 'text-white/50', icon: Clock, label: 'قيد المراجعة' },
+  PROCESSING: { bg: 'bg-amber-500/10', text: 'text-amber-400', icon: Package, label: 'جاري التجهيز' },
+  SHIPPED: { bg: 'bg-blue-500/10', text: 'text-blue-400', icon: Truck, label: 'تم الشحن' },
+  DELIVERED: { bg: 'bg-emerald-500/10', text: 'text-emerald-400', icon: CheckCircle2, label: 'مكتمل' },
+  CONFIRMED: { bg: 'bg-emerald-500/10', text: 'text-emerald-400', icon: CheckCircle2, label: 'مؤكد' },
+  CANCELLED: { bg: 'bg-rose-500/10', text: 'text-rose-400', icon: XCircle, label: 'ملغى' },
 }
 
 const statusFilters = [
@@ -106,47 +106,45 @@ export default function OrdersClient({ initialOrders }: { initialOrders: OrderDa
       dir="rtl"
     >
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-6 rounded-2xl shadow-[0_5px_30px_rgba(0,0,0,0.03)] border border-slate-100/50">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-[#0A1628] border border-white/[0.05] p-5 rounded-2xl">
         <div>
-          <div className="flex items-center gap-3 mb-2">
-            <div className="p-2 bg-slate-100/80 rounded-xl text-slate-600">
-              <ShoppingCart className="w-5 h-5" />
+          <div className="flex items-center gap-2.5 mb-1">
+            <div className="w-8 h-8 bg-amber-500/10 border border-amber-500/20 rounded-xl flex items-center justify-center">
+              <ShoppingCart className="w-4 h-4 text-amber-400" />
             </div>
-            <h1 className="text-3xl font-black text-slate-800 tracking-tight drop-shadow-sm">إدارة الطلبات</h1>
+            <h1 className="text-xl font-black text-white/85 tracking-tight">إدارة الطلبات</h1>
           </div>
-          <p className="text-slate-500 font-medium text-lg ms-1">متابعة وتحديث حالة الطلبات لمتجرك.</p>
+          <p className="text-white/35 font-medium text-sm ms-10">متابعة وتحديث حالة طلبات متجرك.</p>
         </div>
-        <Button className="bg-[#050B14] hover:bg-[#0a1526] text-white rounded-xl h-10 px-5 shadow-[0_8px_20px_rgba(5,11,20,0.15)] font-bold transition-all border border-slate-800 text-sm">
-          <Download className="w-4 h-4 me-2 text-amber-400" />
-          تصدير البيانات
+        <Button className="bg-white/[0.06] hover:bg-white/[0.1] text-white/60 hover:text-white rounded-xl h-9 px-4 font-bold transition-all border border-white/[0.08] text-sm">
+          <Download className="w-4 h-4 me-1.5 text-amber-400" />
+          تصدير
         </Button>
       </div>
 
       {/* Main Content */}
-      <div className="bg-white rounded-2xl shadow-[0_5px_30px_rgba(0,0,0,0.03)] border border-slate-100/50 overflow-hidden">
+      <div className="bg-[#0A1628] rounded-2xl border border-white/[0.05] overflow-hidden">
         {/* Toolbar */}
-        <div className="p-5 md:p-6 border-b border-slate-100/50 bg-slate-50/30 space-y-4">
-          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-            <div className="relative w-full md:max-w-md group">
-              <Search className="absolute end-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-amber-500 transition-colors" />
-              <Input
-                placeholder="ابحث برقم الطلب أو العميل..."
-                className="ps-4 pe-10 bg-white border-slate-200 hover:border-slate-300 focus:border-amber-400 focus:ring-4 focus:ring-amber-500/10 h-10 rounded-xl text-sm shadow-sm transition-all"
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-              />
-            </div>
+        <div className="p-4 border-b border-white/[0.05] space-y-3">
+          <div className="relative w-full md:max-w-sm group">
+            <Search className="absolute end-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-white/25 group-focus-within:text-amber-500 transition-colors" />
+            <input
+              placeholder="ابحث برقم الطلب أو العميل..."
+              className="w-full h-9 ps-3 pe-9 bg-white/[0.04] border border-white/[0.07] hover:border-white/[0.12] focus:border-amber-500/50 rounded-xl text-sm text-white/70 placeholder:text-white/25 outline-none focus:ring-2 focus:ring-amber-500/10 transition-all"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
           </div>
           {/* Status Filters */}
-          <div className="flex flex-wrap gap-2 pt-2">
+          <div className="flex flex-wrap gap-1.5">
             {statusFilters.map(f => (
               <button
                 key={f.value}
                 onClick={() => setStatusFilter(f.value)}
-                className={`px-4 py-2 rounded-lg text-xs font-bold transition-all border shadow-sm ${
+                className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all border ${
                   statusFilter === f.value
-                    ? 'bg-amber-500 text-white border-amber-600 shadow-[0_5px_15px_rgba(251,191,36,0.25)]'
-                    : 'bg-white text-slate-600 border-slate-200 hover:border-amber-300 hover:text-amber-600 hover:bg-amber-50/50'
+                    ? 'bg-amber-500 text-[#030810] border-amber-600'
+                    : 'bg-white/[0.04] text-white/40 border-white/[0.07] hover:border-white/[0.15] hover:text-white/70'
                 }`}
               >
                 {f.label}
@@ -156,130 +154,122 @@ export default function OrdersClient({ initialOrders }: { initialOrders: OrderDa
         </div>
 
         {/* Table */}
-        <div className="p-0">
-          <div className="overflow-x-auto">
-            <Table className="w-full min-w-[900px]">
-              <TableHeader className="bg-slate-50/80 border-b border-slate-100">
-                <TableRow className="hover:bg-transparent border-0">
-                  <TableHead className="text-start font-bold text-slate-500 py-4 px-5 text-[11px] uppercase tracking-wider">رقم الطلب</TableHead>
-                  <TableHead className="text-start font-bold text-slate-500 py-4 text-[11px] uppercase tracking-wider">العميل</TableHead>
-                  <TableHead className="text-start font-bold text-slate-500 py-4 text-[11px] uppercase tracking-wider">التاريخ</TableHead>
-                  <TableHead className="text-start font-bold text-slate-500 py-4 text-[11px] uppercase tracking-wider">الإجمالي</TableHead>
-                  <TableHead className="text-start font-bold text-slate-500 py-4 text-[11px] uppercase tracking-wider">الحالة</TableHead>
-                  <TableHead className="text-center font-bold text-slate-500 py-4 px-5 text-[11px] uppercase tracking-wider">الإجراءات</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {filteredOrders.map((order) => {
-                  const status = statusConfig[order.status] || statusConfig['PENDING']
-                  const StatusIcon = status.icon
-                  return (
-                    <TableRow key={order.id} className="hover:bg-slate-50/80 transition-colors border-b border-slate-100/50 last:border-0 group">
-                      <TableCell className="px-5 py-3">
-                        <span className="font-bold text-slate-700 text-xs font-mono bg-slate-100 px-2 py-1 rounded-md border border-slate-200/50 group-hover:border-amber-200 group-hover:bg-amber-50 group-hover:text-amber-700 transition-colors">
-                          <span className="opacity-50">#</span>{order.orderNumber}
-                        </span>
-                      </TableCell>
-                      <TableCell className="py-3">
-                        <div className="flex items-center gap-3">
-                          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-slate-100 to-slate-50 border border-slate-200/50 flex items-center justify-center text-slate-600 font-bold shrink-0 text-sm shadow-sm">
-                            {order.customer.charAt(0)}
-                          </div>
-                          <div className="flex flex-col">
-                            <span className="font-bold text-slate-800 text-xs group-hover:text-amber-600 transition-colors">{order.customer}</span>
-                            <span className="text-[10px] text-slate-400 font-medium mt-0.5">{order.products} منتجات</span>
-                          </div>
+        <div className="overflow-x-auto">
+          <Table className="w-full min-w-[860px]">
+            <TableHeader className="border-b border-white/[0.05]">
+              <TableRow className="hover:bg-transparent border-0">
+                <TableHead className="text-start font-bold text-white/30 py-3 px-5 text-[10px] uppercase tracking-widest">رقم الطلب</TableHead>
+                <TableHead className="text-start font-bold text-white/30 py-3 text-[10px] uppercase tracking-widest">العميل</TableHead>
+                <TableHead className="text-start font-bold text-white/30 py-3 text-[10px] uppercase tracking-widest">التاريخ</TableHead>
+                <TableHead className="text-start font-bold text-white/30 py-3 text-[10px] uppercase tracking-widest">الإجمالي</TableHead>
+                <TableHead className="text-start font-bold text-white/30 py-3 text-[10px] uppercase tracking-widest">الحالة</TableHead>
+                <TableHead className="text-center font-bold text-white/30 py-3 px-5 text-[10px] uppercase tracking-widest">إجراءات</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {filteredOrders.map((order) => {
+                const status = statusConfig[order.status] || statusConfig['PENDING']
+                const StatusIcon = status.icon
+                return (
+                  <TableRow key={order.id} className="hover:bg-white/[0.02] transition-colors border-b border-white/[0.04] last:border-0 group">
+                    <TableCell className="px-5 py-3">
+                      <span className="font-bold text-white/40 text-xs font-mono bg-white/[0.04] px-2 py-1 rounded border border-white/[0.06] group-hover:text-amber-400 group-hover:border-amber-500/20 transition-colors">
+                        <span className="opacity-40">#</span>{order.orderNumber}
+                      </span>
+                    </TableCell>
+                    <TableCell className="py-3">
+                      <div className="flex items-center gap-2.5">
+                        <div className="w-8 h-8 rounded-lg bg-white/[0.06] border border-white/[0.06] flex items-center justify-center text-amber-400 font-bold shrink-0 text-sm">
+                          {order.customer.charAt(0)}
                         </div>
-                      </TableCell>
-                      <TableCell className="text-slate-500 font-medium text-xs py-3">{order.date}</TableCell>
-                      <TableCell className="py-3">
-                        <span className="font-bold text-slate-800 text-xs tracking-tight drop-shadow-sm">
-                          {order.total.toLocaleString('en-US')} <span className="text-[10px] font-bold text-slate-400">د.ع</span>
-                        </span>
-                      </TableCell>
-                      <TableCell className="py-3">
-                        <Badge
-                          variant="secondary"
-                          className={`px-2.5 py-1 rounded-md font-semibold flex items-center gap-1.5 w-max border-0 shadow-sm text-[11px] ${status.bg} ${status.text}`}
+                        <div>
+                          <span className="font-bold text-white/70 text-xs group-hover:text-white/90 transition-colors block">{order.customer}</span>
+                          <span className="text-[10px] text-white/25 mt-0.5 block">{order.products} منتجات</span>
+                        </div>
+                      </div>
+                    </TableCell>
+                    <TableCell className="text-white/35 font-medium text-xs py-3">{order.date}</TableCell>
+                    <TableCell className="py-3">
+                      <span className="font-bold text-amber-400/90 text-xs">
+                        {order.total.toLocaleString('en-US')} <span className="text-[10px] text-white/25">د.ع</span>
+                      </span>
+                    </TableCell>
+                    <TableCell className="py-3">
+                      <span className={`px-2 py-0.5 rounded-md font-bold flex items-center gap-1.5 w-max border text-[11px] ${status.bg} ${status.text} border-current/20`}>
+                        <StatusIcon className="w-3 h-3" />
+                        {status.label}
+                      </span>
+                    </TableCell>
+                    <TableCell className="px-5 py-3">
+                      <div className="flex items-center justify-center gap-1.5">
+                        {order.status === 'PENDING' && (
+                          <button onClick={() => handleUpdateStatus(order.id, 'PROCESSING')}
+                            className="bg-amber-500/10 text-amber-400 hover:bg-amber-500/20 border border-amber-500/20 font-bold rounded-lg h-7 text-[11px] px-2.5 transition-colors">
+                            تجهيز
+                          </button>
+                        )}
+                        {order.status === 'PROCESSING' && (
+                          <button onClick={() => handleUpdateStatus(order.id, 'SHIPPED')}
+                            className="bg-blue-500/10 text-blue-400 hover:bg-blue-500/20 border border-blue-500/20 font-bold rounded-lg h-7 text-[11px] px-2.5 transition-colors">
+                            شحن
+                          </button>
+                        )}
+                        {order.status === 'SHIPPED' && (
+                          <button onClick={() => handleUpdateStatus(order.id, 'DELIVERED')}
+                            className="bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500/20 border border-emerald-500/20 font-bold rounded-lg h-7 text-[11px] px-2.5 transition-colors">
+                            توصيل
+                          </button>
+                        )}
+                        <button
+                          className="h-7 w-7 text-white/25 hover:text-amber-400 hover:bg-amber-500/10 rounded-lg transition-colors flex items-center justify-center border border-transparent hover:border-amber-500/20"
+                          onClick={() => handleOpenModal(order.id)}
                         >
-                          <StatusIcon className="w-3.5 h-3.5" />
-                          {status.label}
-                        </Badge>
-                      </TableCell>
-                      <TableCell className="px-5 py-3">
-                        <div className="flex items-center justify-center gap-2">
-                          {order.status === 'PENDING' && (
-                            <Button size="sm" onClick={() => handleUpdateStatus(order.id, 'PROCESSING')}
-                              className="bg-amber-100 text-amber-700 hover:bg-amber-200 shadow-sm font-bold rounded-lg h-8 text-[11px] px-3">
-                              تجهيز
-                            </Button>
-                          )}
-                          {order.status === 'PROCESSING' && (
-                            <Button size="sm" onClick={() => handleUpdateStatus(order.id, 'SHIPPED')}
-                              className="bg-blue-100 text-blue-700 hover:bg-blue-200 shadow-sm font-bold rounded-lg h-8 text-[11px] px-3">
-                              شحن
-                            </Button>
-                          )}
-                          {order.status === 'SHIPPED' && (
-                            <Button size="sm" onClick={() => handleUpdateStatus(order.id, 'DELIVERED')}
-                              className="bg-emerald-100 text-emerald-700 hover:bg-emerald-200 shadow-sm font-bold rounded-lg h-8 text-[11px] px-3">
-                              توصيل
-                            </Button>
-                          )}
-                          <Button 
-                            size="icon" 
-                            variant="ghost" 
-                            className="h-8 w-8 text-slate-400 hover:text-amber-500 hover:bg-amber-50 rounded-lg transition-colors border border-transparent hover:border-amber-100"
-                            onClick={() => handleOpenModal(order.id)}
-                            title="عرض التفاصيل"
-                          >
-                            <Eye className="w-3.5 h-3.5" />
-                          </Button>
-                          <DropdownMenu>
-                            <DropdownMenuTrigger className="h-8 w-8 flex items-center justify-center text-slate-400 hover:text-slate-700 hover:bg-slate-100 rounded-lg transition-colors focus:outline-none border border-transparent hover:border-slate-200">
-                              <MoreHorizontal className="h-3.5 w-3.5" />
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end" className="w-48 rounded-xl shadow-xl border-slate-100 p-1.5">
-                              <DropdownMenuLabel className="text-[10px] text-slate-400 font-bold px-2 py-1.5 uppercase tracking-wider">خيارات</DropdownMenuLabel>
-                              {order.status !== 'CANCELLED' && (
-                                <DropdownMenuItem
-                                  onClick={() => handleUpdateStatus(order.id, 'CANCELLED')}
-                                  className="rounded-lg cursor-pointer py-2 px-2.5 font-bold text-amber-600 hover:bg-amber-50 text-xs transition-colors"
-                                >
-                                  <XCircle className="me-2 h-3.5 w-3.5" />
-                                  إلغاء الطلب
-                                </DropdownMenuItem>
-                              )}
-                              <DropdownMenuSeparator className="my-1 bg-slate-100" />
+                          <Eye className="w-3.5 h-3.5" />
+                        </button>
+                        <DropdownMenu>
+                          <DropdownMenuTrigger className="h-7 w-7 flex items-center justify-center text-white/25 hover:text-white/60 hover:bg-white/[0.06] rounded-lg transition-colors focus:outline-none border border-transparent hover:border-white/[0.08]">
+                            <MoreHorizontal className="h-3.5 w-3.5" />
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent align="end" className="w-44 rounded-xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] border-white/10 bg-[#0A1628] p-1.5 text-white">
+                            <DropdownMenuLabel className="text-[10px] text-white/30 font-bold px-2 py-1.5 uppercase tracking-widest">خيارات</DropdownMenuLabel>
+                            {order.status !== 'CANCELLED' && (
                               <DropdownMenuItem
-                                onClick={() => setDeleteId(order.id)}
-                                className="rounded-lg cursor-pointer py-2 px-2.5 font-bold text-rose-600 hover:bg-rose-50 text-xs transition-colors"
+                                onClick={() => handleUpdateStatus(order.id, 'CANCELLED')}
+                                className="rounded-lg cursor-pointer py-2 px-2.5 font-bold text-amber-400 hover:bg-amber-500/10 text-xs transition-colors"
                               >
-                                <Trash className="me-2 h-3.5 w-3.5" />
-                                حذف نهائي
+                                <XCircle className="me-2 h-3.5 w-3.5" />
+                                إلغاء الطلب
                               </DropdownMenuItem>
-                            </DropdownMenuContent>
-                          </DropdownMenu>
-                        </div>
-                      </TableCell>
-                    </TableRow>
-                  )
-                })}
-                {filteredOrders.length === 0 && (
-                  <TableRow>
-                    <TableCell colSpan={6} className="h-64 text-center">
-                      <div className="flex flex-col items-center justify-center text-slate-400 gap-4">
-                        <div className="w-20 h-20 bg-slate-50 border border-slate-100 rounded-full flex items-center justify-center shadow-inner">
-                          <Search className="w-8 h-8 text-slate-300" />
-                        </div>
-                        <span className="text-lg font-black text-slate-500">لا توجد طلبات مطابقة للبحث</span>
+                            )}
+                            <DropdownMenuSeparator className="my-1 bg-white/[0.06]" />
+                            <DropdownMenuItem
+                              onClick={() => setDeleteId(order.id)}
+                              className="rounded-lg cursor-pointer py-2 px-2.5 font-bold text-rose-400 hover:bg-rose-500/10 text-xs transition-colors"
+                            >
+                              <Trash className="me-2 h-3.5 w-3.5" />
+                              حذف نهائي
+                            </DropdownMenuItem>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
                       </div>
                     </TableCell>
                   </TableRow>
-                )}
-              </TableBody>
-            </Table>
-          </div>
+                )
+              })}
+              {filteredOrders.length === 0 && (
+                <TableRow>
+                  <TableCell colSpan={6} className="h-52 text-center">
+                    <div className="flex flex-col items-center justify-center gap-3">
+                      <div className="w-14 h-14 bg-white/[0.04] border border-white/[0.06] rounded-xl flex items-center justify-center">
+                        <Search className="w-6 h-6 text-white/20" />
+                      </div>
+                      <span className="font-bold text-white/30 text-sm">لا توجد طلبات مطابقة</span>
+                    </div>
+                  </TableCell>
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
         </div>
       </div>
 
