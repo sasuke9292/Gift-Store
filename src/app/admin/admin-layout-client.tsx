@@ -27,10 +27,10 @@ export function AdminLayoutClient({
   if (!mounted) {
     return (
       <div className="min-h-screen bg-[#060D1A] flex font-sans" dir="rtl">
-        <div className="w-72 hidden lg:block border-e border-white/5 bg-[#030810]" />
-        <div className="flex-1 flex flex-col min-w-0 lg:ps-72">
-          <div className="h-16 bg-[#060D1A]/95 border-b border-white/5" />
-          <main className="flex-1 p-6" />
+        <div className="w-64 hidden lg:block border-e border-white/5 bg-[#030810]" />
+        <div className="flex-1 flex flex-col min-w-0 lg:ps-64">
+          <div className="h-14 bg-[#060D1A]/95 border-b border-white/5" />
+          <main className="flex-1 p-5 md:p-7" />
         </div>
       </div>
     )
@@ -50,7 +50,7 @@ export function AdminLayoutClient({
       {/* Main Content */}
       <div className={cn(
         "flex-1 flex flex-col min-w-0 transition-all duration-300 ease-in-out",
-        isCollapsed ? "lg:ps-20" : "lg:ps-72"
+        isCollapsed ? "lg:ps-[72px]" : "lg:ps-64"
       )}>
         <AdminHeader userRole={user?.role} userName={user?.name} />
         

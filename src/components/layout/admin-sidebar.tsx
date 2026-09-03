@@ -97,7 +97,7 @@ export function AdminSidebar({
   return (
     <aside
       className={cn(
-        'fixed inset-y-0 start-0 z-50 bg-[#030810] border-e border-white/[0.04] text-white/60 hidden lg:flex flex-col transition-all duration-300 ease-in-out relative overflow-hidden',
+        'fixed inset-y-0 start-0 z-50 bg-[#030810] border-e border-white/[0.04] text-white/60 hidden lg:flex flex-col transition-all duration-300 ease-in-out overflow-hidden',
         isCollapsed ? 'w-[72px]' : 'w-64'
       )}
     >
