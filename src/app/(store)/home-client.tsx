@@ -72,7 +72,7 @@ export default function StoreHomeClient({
   const smallCategories = categories.slice(2, 6);
 
   return (
-    <div className="flex flex-col min-h-screen bg-[#FBFBFD] selection:bg-rose-500/20 selection:text-rose-900">
+    <div className="flex flex-col min-h-screen bg-[#050B14] selection:bg-amber-500/20 selection:text-amber-200 text-white font-sans overflow-x-hidden">
       
       {/* 1. Hero Section (Premium 3D Modern RTL) */}
       <section className="relative min-h-[100vh] flex flex-col items-center justify-center pt-20 pb-16 overflow-hidden bg-[#050B14] perspective-[1200px]">
@@ -188,8 +188,8 @@ export default function StoreHomeClient({
         </motion.div>
       </section>
 
-      {/* 2. Trust Features (Minimalist Grid) */}
-      <section className="py-24 bg-white">
+      {/* 2. Trust Features (3D Glass Cards) */}
+      <section className="py-24 relative z-10 bg-transparent">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-16">
             {features.map((feature, idx) => (
@@ -199,41 +199,45 @@ export default function StoreHomeClient({
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-50px" }}
                 transition={{ delay: idx * 0.1, duration: 0.6 }}
-                className="flex flex-col items-center text-center"
+                className="flex flex-col items-center text-center group perspective-[1000px]"
               >
-                <div className="w-16 h-16 rounded-full bg-[#FBFBFD] border border-slate-100 text-slate-800 flex items-center justify-center mb-6 shadow-sm">
-                  <feature.icon className="w-7 h-7 stroke-[1.5]" />
+                <div className="w-20 h-20 rounded-2xl glass-card flex items-center justify-center mb-6 shadow-xl transform group-hover:scale-110 group-hover:-translate-y-2 group-hover:rotate-3 transition-all duration-500 ease-out border-white/10 before:absolute before:inset-0 before:bg-gradient-to-tr before:from-transparent before:to-white/10 before:rounded-2xl">
+                  <feature.icon className="w-8 h-8 stroke-[1.5] text-amber-300 drop-shadow-[0_0_10px_rgba(251,191,36,0.5)]" />
                 </div>
-                <h3 className="font-semibold text-slate-900 text-xl mb-3 tracking-tight">{feature.title}</h3>
-                <p className="text-base text-slate-500 leading-relaxed max-w-[250px] mx-auto">{feature.desc}</p>
+                <h3 className="font-bold text-white text-xl mb-3 tracking-wide">{feature.title}</h3>
+                <p className="text-base text-slate-400 leading-relaxed max-w-[250px] mx-auto">{feature.desc}</p>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* 3. Categories (Clean Grid) */}
-      <section className="py-32 bg-[#FBFBFD]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* 3. Categories (Premium 3D Grids) */}
+      <section className="py-32 relative bg-[#010306]">
+        {/* Subtle glowing elements */}
+        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-sky-500/5 rounded-full blur-[120px] pointer-events-none" />
+        <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-amber-500/5 rounded-full blur-[120px] pointer-events-none" />
+        
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center mb-20">
-            <h2 className="text-4xl sm:text-5xl font-bold text-slate-900 tracking-tight mb-5">مجموعات مختارة</h2>
-            <p className="text-xl text-slate-500 max-w-2xl mx-auto">تصفح أقسامنا لاكتشاف الهدايا التي تناسب ذوقك الرفيع.</p>
+            <h2 className="text-4xl sm:text-5xl font-black text-white tracking-tight mb-5 drop-shadow-md">مجموعات مختارة</h2>
+            <p className="text-xl text-slate-400 max-w-2xl mx-auto">تصفح أقسامنا لاكتشاف الهدايا التي تناسب ذوقك الرفيع في بيئة ثلاثية الأبعاد.</p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:h-[600px]">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:h-[600px] perspective-[1000px]">
             {/* 2 Large Categories on the left */}
             <div className="lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-8 h-full">
               {largeCategories.map((category) => (
-                <Link key={category.id} href={`/category/${category.slug}`} className="relative rounded-[2.5rem] overflow-hidden group h-[400px] lg:h-full bg-white shadow-sm hover:shadow-xl transition-all duration-500 border border-slate-100">
-                  <div className="absolute inset-0 bg-slate-900/10 group-hover:bg-transparent transition-colors z-10" />
+                <Link key={category.id} href={`/category/${category.slug}`} className="relative rounded-[2.5rem] overflow-hidden group h-[400px] lg:h-full glass-card hover:shadow-[0_20px_50px_rgba(37,99,235,0.15)] hover:-translate-y-2 hover:scale-[1.02] transition-all duration-700 ease-out border-white/5">
+                  <div className="absolute inset-0 bg-gradient-to-tr from-[#050B14]/80 to-transparent z-10 opacity-70 group-hover:opacity-40 transition-opacity duration-700" />
                   {category.image ? (
-                    <Image src={category.image} alt={category.name} fill className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out" />
+                    <Image src={category.image} alt={category.name} fill className="object-cover group-hover:scale-110 group-hover:rotate-1 transition-transform duration-1000 ease-[0.16,1,0.3,1] z-0" />
                   ) : (
-                    <div className="w-full h-full bg-slate-100" />
+                    <div className="w-full h-full bg-[#132347]/50" />
                   )}
-                  <div className="absolute inset-x-0 bottom-0 p-8 z-20 bg-gradient-to-t from-black/60 via-black/20 to-transparent">
-                    <h3 className="text-3xl font-bold text-white mb-2">{category.name}</h3>
-                    <span className="text-white/80 font-medium text-sm flex items-center">
+                  <div className="absolute inset-x-0 bottom-0 p-10 z-20 flex flex-col justify-end bg-gradient-to-t from-[#050B14] via-[#050B14]/80 to-transparent transform group-hover:translate-y-[-10px] transition-transform duration-500">
+                    <h3 className="text-3xl font-black text-white mb-3 drop-shadow-lg">{category.name}</h3>
+                    <span className="text-amber-300 font-bold text-sm flex items-center opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-500">
                       تصفح المجموعة <ArrowLeft className="w-4 h-4 ms-2" />
                     </span>
                   </div>
@@ -244,14 +248,14 @@ export default function StoreHomeClient({
             {/* Small Categories on the right */}
             <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-2 gap-8 h-full">
               {smallCategories.map((category) => (
-                <Link key={category.id} href={`/category/${category.slug}`} className="relative rounded-3xl overflow-hidden group h-48 sm:h-auto bg-white shadow-sm hover:shadow-lg transition-all duration-500 border border-slate-100">
+                <Link key={category.id} href={`/category/${category.slug}`} className="relative rounded-3xl overflow-hidden group h-48 sm:h-auto glass-card hover:shadow-[0_15px_40px_rgba(37,99,235,0.1)] hover:-translate-y-1 hover:scale-[1.03] transition-all duration-500 border-white/5">
                   {category.image ? (
-                    <Image src={category.image} alt={category.name} fill className="object-cover group-hover:scale-110 transition-transform duration-700 ease-out" />
+                    <Image src={category.image} alt={category.name} fill className="object-cover opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700 ease-out" />
                   ) : (
-                    <div className="w-full h-full bg-slate-100" />
+                    <div className="w-full h-full bg-[#132347]/30" />
                   )}
-                  <div className="absolute inset-0 z-20 flex flex-col items-center justify-center p-4 bg-black/20 group-hover:bg-black/40 transition-colors">
-                    <h3 className="text-xl font-bold text-white text-center">{category.name}</h3>
+                  <div className="absolute inset-0 z-20 flex flex-col items-center justify-center p-4 bg-gradient-to-t from-[#050B14]/90 to-[#050B14]/30 group-hover:from-[#050B14]/70 transition-colors duration-500">
+                    <h3 className="text-xl font-bold text-white text-center drop-shadow-md">{category.name}</h3>
                   </div>
                 </Link>
               ))}
@@ -259,22 +263,22 @@ export default function StoreHomeClient({
           </div>
           
           <div className="mt-16 text-center">
-            <Link href="/shop" className="inline-flex items-center justify-center h-12 px-8 rounded-full bg-slate-100 text-slate-700 font-semibold hover:bg-slate-200 transition-colors">
+            <Link href="/shop" className="inline-flex items-center justify-center h-14 px-10 rounded-full glass-button text-white font-bold tracking-wide">
               عرض كل الأقسام
             </Link>
           </div>
         </div>
       </section>
 
-      {/* 4. Top Products (Minimal Gallery) */}
-      <section className="py-32 bg-white">
+      {/* 4. Top Products (3D Floating Gallery) */}
+      <section className="py-32 relative bg-[#050B14] perspective-[1000px]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6 relative z-10">
             <div>
-              <h2 className="text-4xl font-bold text-slate-900 tracking-tight mb-4">الأكثر مبيعاً</h2>
-              <p className="text-xl text-slate-500">الهدايا المفضلة لدى عملائنا المميزين.</p>
+              <h2 className="text-4xl sm:text-5xl font-black text-white tracking-tight mb-4 drop-shadow-md">الأكثر مبيعاً</h2>
+              <p className="text-xl text-slate-400">الهدايا المفضلة لدى عملائنا المميزين.</p>
             </div>
-            <Link href="/shop" className="inline-flex items-center text-rose-500 font-semibold hover:text-rose-600 group">
+            <Link href="/shop" className="inline-flex items-center text-amber-400 font-bold hover:text-amber-300 group">
               تسوق كل المنتجات
               <ArrowLeft className="ms-2 w-5 h-5 group-hover:-translate-x-1 transition-transform" />
             </Link>
@@ -285,10 +289,10 @@ export default function StoreHomeClient({
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-16"
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-16 relative z-10"
           >
             {topProducts.map((product) => (
-              <motion.div key={product.id} variants={itemVariants}>
+              <motion.div key={product.id} variants={itemVariants} className="h-full">
                 <ProductCard product={product} />
               </motion.div>
             ))}
@@ -296,19 +300,28 @@ export default function StoreHomeClient({
         </div>
       </section>
 
-      {/* 5. Clean CTA */}
-      <section className="py-32 bg-[#FBFBFD] border-t border-slate-200/50">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="w-24 h-24 rounded-full bg-rose-50 flex items-center justify-center mx-auto mb-10">
-            <Gift className="w-12 h-12 text-rose-500" />
-          </div>
-          <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6 tracking-tight">
+      {/* 5. Clean CTA (Premium Glassmorphism Orb) */}
+      <section className="py-32 relative bg-[#010306] overflow-hidden">
+        {/* Abstract 3D Glowing Elements */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-tr from-rose-500/10 to-amber-500/10 rounded-full blur-[100px] pointer-events-none" />
+        
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+          <motion.div 
+            animate={{ y: [-10, 10, -10], rotate: [0, 5, 0] }}
+            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+            className="w-28 h-28 rounded-full glass-card flex items-center justify-center mx-auto mb-10 shadow-[0_20px_40px_rgba(0,0,0,0.5)] border-white/20 before:absolute before:inset-0 before:bg-gradient-to-tr before:from-transparent before:to-white/10 before:rounded-full"
+          >
+            <Gift className="w-14 h-14 text-amber-300 drop-shadow-[0_10px_10px_rgba(251,191,36,0.4)]" />
+          </motion.div>
+          
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-white mb-6 tracking-tight drop-shadow-lg">
             محتار في اختيار الهدية؟
           </h2>
-          <p className="text-xl text-slate-500 mb-12 leading-relaxed max-w-2xl mx-auto">
+          <p className="text-xl text-slate-400 mb-12 leading-relaxed max-w-2xl mx-auto drop-shadow-md">
             لقد صممنا "مكتشف الهدايا" ليكون مساعدك الشخصي. أجب عن أسئلة بسيطة وسنقترح لك الهدية التي ستصنع الفارق.
           </p>
-          <Link href="/gift-finder" className="inline-flex items-center justify-center h-14 px-10 text-lg rounded-full bg-slate-900 text-white font-semibold transition-all hover:bg-slate-800 hover:scale-105 active:scale-95 shadow-lg">
+          <Link href="/gift-finder" className="inline-flex items-center justify-center h-16 px-12 text-xl rounded-full bg-gradient-to-r from-amber-500 to-yellow-600 text-[#050B14] font-black transition-all hover:scale-105 active:scale-95 shadow-[0_10px_30px_rgba(251,191,36,0.3)] hover:shadow-[0_15px_40px_rgba(251,191,36,0.5)] overflow-hidden group">
+            <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/40 to-transparent group-hover:translate-x-full transition-transform duration-1000 ease-in-out -skew-x-12 translate-x-[-150%]" />
             جرب مكتشف الهدايا
           </Link>
         </div>

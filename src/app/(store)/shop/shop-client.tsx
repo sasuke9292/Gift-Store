@@ -45,36 +45,40 @@ export default function ShopClient({ initialProducts, categories, initialActiveC
   })
 
   return (
-    <div className="bg-slate-50 min-h-screen py-12">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="bg-[#050B14] min-h-screen py-32 relative overflow-hidden">
+      {/* 3D Depth Background */}
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-600/10 rounded-full blur-[120px] pointer-events-none mix-blend-screen" />
+      <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-amber-500/5 rounded-full blur-[120px] pointer-events-none mix-blend-screen" />
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Header Section */}
         <motion.div 
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12 bg-white p-6 rounded-3xl shadow-sm border border-slate-100"
+          className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12 glass-card p-8 rounded-3xl"
         >
           <div>
-            <h1 className="text-3xl font-bold text-slate-800 mb-2">المتجر</h1>
-            <p className="text-slate-500">تصفح تشكيلة واسعة من الهدايا المميزة لكل المناسبات.</p>
+            <h1 className="text-3xl font-black text-white mb-2 drop-shadow-md">المتجر</h1>
+            <p className="text-slate-400">تصفح تشكيلة واسعة من الهدايا المميزة لكل المناسبات.</p>
           </div>
           <div className="flex items-center gap-4 w-full md:w-auto">
-            <div className="relative flex-1 md:w-80">
-              <Search className="absolute start-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+            <div className="relative flex-1 md:w-80 group">
+              <Search className="absolute start-4 top-1/2 -translate-y-1/2 w-5 h-5 text-amber-300/70" />
               <Input 
                 placeholder="ابحث عن منتج..." 
-                className="pe-4 ps-12 h-12 bg-slate-50 border-transparent focus:bg-white rounded-2xl w-full"
+                className="pe-4 ps-12 h-12 bg-white/5 border border-white/10 focus-visible:ring-amber-500/50 focus:bg-white/10 text-white placeholder:text-white/40 rounded-2xl w-full transition-all shadow-inner"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
             </div>
-            <Button variant="outline" size="icon" className="h-12 w-12 rounded-2xl shrink-0">
-              <SlidersHorizontal className="w-5 h-5 text-slate-600" />
+            <Button variant="outline" size="icon" className="h-12 w-12 rounded-2xl shrink-0 glass-button border-white/10 text-amber-300">
+              <SlidersHorizontal className="w-5 h-5 drop-shadow-md" />
             </Button>
           </div>
         </motion.div>
 
-        <div className="flex flex-col lg:flex-row gap-8">
+        <div className="flex flex-col lg:flex-row gap-8 perspective-[1000px]">
           
           {/* Sidebar / Categories */}
           <motion.div 
@@ -82,9 +86,9 @@ export default function ShopClient({ initialProducts, categories, initialActiveC
             animate={{ opacity: 1, x: 0 }}
             className="w-full lg:w-64 shrink-0 space-y-8"
           >
-            <div className="bg-white p-6 rounded-3xl shadow-sm border border-slate-100">
-              <h3 className="font-bold text-lg text-slate-800 mb-6 flex items-center gap-2">
-                <Filter className="w-5 h-5 text-primary" />
+            <div className="glass-card p-6 rounded-3xl sticky top-24">
+              <h3 className="font-bold text-lg text-white mb-6 flex items-center gap-2 drop-shadow-md">
+                <Filter className="w-5 h-5 text-amber-400" />
                 التصنيفات
               </h3>
               <ul className="space-y-2">
@@ -93,8 +97,8 @@ export default function ShopClient({ initialProducts, categories, initialActiveC
                     onClick={() => setActiveCategory('الكل')}
                     className={`w-full text-start px-4 py-3 rounded-xl transition-all duration-300 ${
                       activeCategory === 'الكل'
-                      ? 'bg-primary/10 text-primary font-bold' 
-                      : 'text-slate-600 hover:bg-slate-50'
+                      ? 'bg-gradient-to-r from-amber-500/20 to-transparent text-amber-300 font-bold border-r-2 border-amber-400' 
+                      : 'text-slate-400 hover:bg-white/5 hover:text-white'
                     }`}
                   >
                     الكل
@@ -106,8 +110,8 @@ export default function ShopClient({ initialProducts, categories, initialActiveC
                       onClick={() => setActiveCategory(category.name)}
                       className={`w-full text-start px-4 py-3 rounded-xl transition-all duration-300 ${
                         activeCategory === category.name 
-                        ? 'bg-primary/10 text-primary font-bold' 
-                        : 'text-slate-600 hover:bg-slate-50'
+                        ? 'bg-gradient-to-r from-amber-500/20 to-transparent text-amber-300 font-bold border-r-2 border-amber-400' 
+                        : 'text-slate-400 hover:bg-white/5 hover:text-white'
                       }`}
                     >
                       {category.name}
@@ -129,6 +133,7 @@ export default function ShopClient({ initialProducts, categories, initialActiveC
                   exit={{ opacity: 0, scale: 0.9 }}
                   transition={{ duration: 0.3 }}
                   key={product.id}
+                  className="h-full"
                 >
                   <ProductCard product={product} />
                 </motion.div>
@@ -139,20 +144,20 @@ export default function ShopClient({ initialProducts, categories, initialActiveC
               <motion.div 
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                className="text-center py-20 bg-white rounded-3xl border border-slate-100"
+                className="text-center py-20 glass-card rounded-3xl"
               >
-                <div className="w-24 h-24 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <Search className="w-10 h-10 text-slate-300" />
+                <div className="w-24 h-24 bg-white/5 border border-white/10 rounded-full flex items-center justify-center mx-auto mb-6 shadow-inner">
+                  <Search className="w-10 h-10 text-white/20" />
                 </div>
-                <h3 className="text-xl font-bold text-slate-800 mb-2">لا توجد منتجات</h3>
-                <p className="text-slate-500">لم نتمكن من العثور على أي منتجات تطابق بحثك.</p>
+                <h3 className="text-xl font-bold text-white mb-2 drop-shadow-md">لا توجد منتجات</h3>
+                <p className="text-slate-400">لم نتمكن من العثور على أي منتجات تطابق بحثك.</p>
                 <Button 
                   onClick={() => {
                     setSearchQuery('')
                     setActiveCategory('الكل')
                   }}
                   variant="outline" 
-                  className="mt-6 rounded-xl"
+                  className="mt-6 rounded-xl glass-button text-white"
                 >
                   إعادة ضبط البحث
                 </Button>
