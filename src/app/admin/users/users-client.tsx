@@ -93,7 +93,7 @@ export default function UsersClient({ initialUsers }: { initialUsers: UserData[]
       dir="rtl"
     >
       {/* Header Section */}
-      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 bg-white p-8 rounded-[2rem] shadow-[0_10px_40px_rgba(0,0,0,0.03)] border border-slate-100/50">
+      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 bg-white p-6 rounded-2xl shadow-[0_5px_30px_rgba(0,0,0,0.03)] border border-slate-100/50">
         <div>
           <div className="flex items-center gap-3 mb-2">
             <div className="p-2 bg-slate-100/80 rounded-xl text-slate-600">
@@ -103,39 +103,39 @@ export default function UsersClient({ initialUsers }: { initialUsers: UserData[]
           </div>
           <p className="text-slate-500 font-medium text-lg ms-1">إدارة صلاحيات الوصول لأعضاء الفريق والمديرين بكفاءة.</p>
         </div>
-        <div className="flex flex-wrap gap-3">
+        <div className="flex flex-wrap gap-2">
           <Button 
-            className="bg-[#050B14] hover:bg-[#0a1526] text-white rounded-2xl h-12 px-6 font-bold shadow-[0_10px_30px_rgba(5,11,20,0.2)] transition-all border border-slate-800 w-full sm:w-auto"
+            className="bg-[#050B14] hover:bg-[#0a1526] text-white rounded-xl h-10 px-5 font-bold shadow-[0_8px_20px_rgba(5,11,20,0.15)] transition-all border border-slate-800 w-full sm:w-auto text-sm"
             onClick={() => toast.info('قريباً: إضافة مستخدم جديد')}
           >
-            <UserCog className="w-5 h-5 ms-2 text-amber-400" />
+            <UserCog className="w-4 h-4 ms-2 text-amber-400" />
             إضافة مستخدم
           </Button>
           <Button 
             onClick={handleExport}
-            className="bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200/60 rounded-2xl h-12 px-6 font-bold transition-all shadow-sm w-full sm:w-auto"
+            className="bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200/60 rounded-xl h-10 px-5 font-bold transition-all shadow-sm w-full sm:w-auto text-sm"
           >
-            <Download className="w-5 h-5 ms-2 text-slate-400" />
+            <Download className="w-4 h-4 ms-2 text-slate-400" />
             تصدير
           </Button>
         </div>
       </div>
 
       {/* Main Content Card */}
-      <div className="bg-white rounded-[2rem] shadow-[0_10px_40px_rgba(0,0,0,0.03)] border border-slate-100/50 overflow-hidden">
+      <div className="bg-white rounded-2xl shadow-[0_5px_30px_rgba(0,0,0,0.03)] border border-slate-100/50 overflow-hidden">
         
         {/* Toolbar */}
-        <div className="p-6 border-b border-slate-100/50 bg-slate-50/30 flex flex-col md:flex-row items-center justify-between gap-4">
+        <div className="p-5 md:p-6 border-b border-slate-100/50 bg-slate-50/30 flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="relative w-full md:max-w-md group">
             <Search className="absolute end-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-amber-500 transition-colors" />
             <Input
               placeholder="ابحث عن مستخدم بالاسم أو الإيميل..."
-              className="ps-4 pe-12 bg-white border-slate-200 hover:border-slate-300 focus:border-amber-400 focus:ring-4 focus:ring-amber-500/10 h-12 rounded-2xl text-sm shadow-sm transition-all"
+              className="ps-4 pe-10 bg-white border-slate-200 hover:border-slate-300 focus:border-amber-400 focus:ring-4 focus:ring-amber-500/10 h-10 rounded-xl text-sm shadow-sm transition-all"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
           </div>
-          <Button variant="outline" className="w-full md:w-auto h-12 rounded-2xl px-6 text-slate-700 font-bold border-slate-200 hover:bg-amber-50 hover:text-amber-700 hover:border-amber-200 transition-colors shadow-sm">
+          <Button variant="outline" className="w-full md:w-auto h-10 rounded-xl px-5 text-slate-700 font-bold border-slate-200 hover:bg-amber-50 hover:text-amber-700 hover:border-amber-200 transition-colors shadow-sm text-sm">
             <Filter className="w-4 h-4 ms-2 opacity-70" />
             تصفية الصلاحيات
           </Button>
@@ -147,12 +147,12 @@ export default function UsersClient({ initialUsers }: { initialUsers: UserData[]
             <Table className="w-full min-w-[900px]">
               <TableHeader className="bg-slate-50/80 border-b border-slate-100">
                 <TableRow className="hover:bg-transparent border-0">
-                  <TableHead className="text-start font-black text-slate-500 py-5 px-8 text-xs uppercase tracking-wider">المستخدم</TableHead>
-                  <TableHead className="text-start font-black text-slate-500 py-5 text-xs uppercase tracking-wider">البريد الإلكتروني</TableHead>
-                  <TableHead className="text-start font-black text-slate-500 py-5 text-xs uppercase tracking-wider">الدور (الصلاحية)</TableHead>
-                  <TableHead className="text-start font-black text-slate-500 py-5 text-xs uppercase tracking-wider">تاريخ الانضمام</TableHead>
-                  <TableHead className="text-start font-black text-slate-500 py-5 text-xs uppercase tracking-wider">الحالة</TableHead>
-                  <TableHead className="text-center font-black text-slate-500 py-5 px-8 text-xs uppercase tracking-wider">الإجراءات</TableHead>
+                  <TableHead className="text-start font-bold text-slate-500 py-4 px-6 text-[11px] uppercase tracking-wider">المستخدم</TableHead>
+                  <TableHead className="text-start font-bold text-slate-500 py-4 text-[11px] uppercase tracking-wider">البريد الإلكتروني</TableHead>
+                  <TableHead className="text-start font-bold text-slate-500 py-4 text-[11px] uppercase tracking-wider">الدور (الصلاحية)</TableHead>
+                  <TableHead className="text-start font-bold text-slate-500 py-4 text-[11px] uppercase tracking-wider">تاريخ الانضمام</TableHead>
+                  <TableHead className="text-start font-bold text-slate-500 py-4 text-[11px] uppercase tracking-wider">الحالة</TableHead>
+                  <TableHead className="text-center font-bold text-slate-500 py-4 px-6 text-[11px] uppercase tracking-wider">الإجراءات</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody className="divide-y divide-slate-100/50">
@@ -163,86 +163,86 @@ export default function UsersClient({ initialUsers }: { initialUsers: UserData[]
                         key={user.id}
                         className="hover:bg-slate-50/80 transition-colors group border-0"
                       >
-                        <TableCell className="px-8 py-5">
-                          <div className="flex items-center gap-4">
-                            <div className="w-12 h-12 rounded-2xl bg-slate-100 text-slate-700 flex items-center justify-center font-black text-lg shadow-sm border border-slate-200/50 group-hover:bg-amber-50 group-hover:text-amber-600 group-hover:border-amber-200 transition-colors group-hover:scale-105 duration-300">
+                        <TableCell className="px-6 py-3">
+                          <div className="flex items-center gap-3">
+                            <div className="w-10 h-10 rounded-lg bg-slate-100 text-slate-700 flex items-center justify-center font-bold text-sm shadow-sm border border-slate-200/50 group-hover:bg-amber-50 group-hover:text-amber-600 group-hover:border-amber-200 transition-colors group-hover:scale-105 duration-300">
                               {user.name.charAt(0)}
                             </div>
                             <div className="flex flex-col">
-                              <span className="font-bold text-slate-800 text-sm group-hover:text-amber-600 transition-colors">{user.name}</span>
-                              <span className="text-xs text-slate-400 font-mono mt-0.5 bg-slate-100 px-1.5 py-0.5 rounded-md inline-flex w-max">
+                              <span className="font-bold text-slate-800 text-xs group-hover:text-amber-600 transition-colors">{user.name}</span>
+                              <span className="text-[10px] text-slate-400 font-mono mt-0.5 bg-slate-100 px-1.5 py-0.5 rounded-md inline-flex w-max">
                                 <span className="opacity-60">#</span>{user.id.substring(0, 8)}
                               </span>
                             </div>
                           </div>
                         </TableCell>
-                        <TableCell className="text-slate-600 font-medium text-sm" dir="rtl">{user.email}</TableCell>
-                        <TableCell className="py-5">
+                        <TableCell className="text-slate-600 font-medium text-[11px]" dir="rtl">{user.email}</TableCell>
+                        <TableCell className="py-3">
                           <Badge 
                             variant="secondary" 
-                            className={`px-3 py-1.5 rounded-xl font-bold flex items-center gap-2 w-max shadow-none text-xs ${roleColors[user.role]?.bg || 'bg-slate-100'} ${roleColors[user.role]?.text || 'text-slate-700'}`}
+                            className={`px-2.5 py-1 rounded-md font-semibold flex items-center gap-1.5 w-max shadow-none text-[11px] ${roleColors[user.role]?.bg || 'bg-slate-100'} ${roleColors[user.role]?.text || 'text-slate-700'}`}
                           >
-                            <RoleIcon className="w-3.5 h-3.5" />
+                            <RoleIcon className="w-3 h-3" />
                             {roleColors[user.role]?.label || user.role}
                           </Badge>
                         </TableCell>
-                        <TableCell className="text-slate-500 font-medium text-sm">{user.joinedAt}</TableCell>
-                        <TableCell className="py-5">
+                        <TableCell className="text-slate-500 font-medium text-[11px] py-3">{user.joinedAt}</TableCell>
+                        <TableCell className="py-3">
                           <Badge
                             variant="outline"
-                            className={`px-3 py-1.5 rounded-xl font-bold border-0 flex items-center gap-2 w-max shadow-sm text-xs ${
+                            className={`px-2.5 py-1 rounded-md font-semibold border-0 flex items-center gap-1.5 w-max shadow-sm text-[11px] ${
                               user.status === 'نشط'
                                 ? 'bg-emerald-50 text-emerald-600'
                                 : 'bg-slate-100 text-slate-600'
                             }`}
                           >
-                            <div className={`w-1.5 h-1.5 rounded-full ${user.status === 'نشط' ? 'bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]' : 'bg-slate-400'}`} />
+                            <div className={`w-1.5 h-1.5 rounded-full ${user.status === 'نشط' ? 'bg-emerald-500' : 'bg-slate-400'}`} />
                             {user.status}
                           </Badge>
                         </TableCell>
-                        <TableCell className="px-8 py-5 text-center">
-                          <div className="flex items-center justify-center gap-2">
+                        <TableCell className="px-6 py-3 text-center">
+                          <div className="flex items-center justify-center gap-1">
                             <Button 
                               variant="ghost" 
                               size="icon" 
-                              className="w-9 h-9 rounded-xl text-slate-400 hover:text-amber-600 hover:bg-amber-50 transition-colors border border-transparent hover:border-amber-100"
+                              className="w-8 h-8 rounded-lg text-slate-400 hover:text-amber-600 hover:bg-amber-50 transition-colors border border-transparent hover:border-amber-100"
                               onClick={() => {
                                 setSelectedUser(user)
                                 setIsDetailsOpen(true)
                               }}
                               title="عرض التفاصيل"
                             >
-                              <Eye className="w-4 h-4" />
+                              <Eye className="w-3.5 h-3.5" />
                             </Button>
                             
                             <Button 
                               variant="ghost" 
                               size="icon" 
-                              className="w-9 h-9 rounded-xl text-slate-400 hover:text-amber-600 hover:bg-amber-50 transition-colors border border-transparent hover:border-amber-100"
+                              className="w-8 h-8 rounded-lg text-slate-400 hover:text-amber-600 hover:bg-amber-50 transition-colors border border-transparent hover:border-amber-100"
                               onClick={() => handleEditRole(user)}
                               title="تعديل المستخدم"
                             >
-                              <Edit className="w-4 h-4" />
+                              <Edit className="w-3.5 h-3.5" />
                             </Button>
 
                             <DropdownMenu>
-                              <DropdownMenuTrigger className="h-9 w-9 p-0 text-slate-400 hover:text-slate-800 hover:bg-slate-100 rounded-xl transition-colors flex items-center justify-center focus:outline-none border border-transparent">
-                                <MoreVertical className="h-4 w-4" />
+                              <DropdownMenuTrigger className="h-8 w-8 p-0 text-slate-400 hover:text-slate-800 hover:bg-slate-100 rounded-lg transition-colors flex items-center justify-center focus:outline-none border border-transparent">
+                                <MoreVertical className="h-3.5 w-3.5" />
                               </DropdownMenuTrigger>
-                              <DropdownMenuContent align="end" className="w-48 rounded-2xl shadow-xl border-slate-100/50 p-2">
+                              <DropdownMenuContent align="end" className="w-48 rounded-xl shadow-xl border-slate-100/50 p-1.5">
                                 <DropdownMenuLabel className="text-[10px] text-slate-400 font-bold px-2 py-1.5 uppercase tracking-wider">إدارة إضافية</DropdownMenuLabel>
                                 <DropdownMenuItem 
-                                  className={`rounded-xl cursor-pointer py-2.5 font-bold mt-1 ${user.status === 'نشط' ? 'text-rose-600 focus:text-rose-700 focus:bg-rose-50' : 'text-emerald-600 focus:text-emerald-700 focus:bg-emerald-50'}`}
+                                  className={`rounded-lg cursor-pointer py-2 font-bold mt-1 text-xs ${user.status === 'نشط' ? 'text-rose-600 focus:text-rose-700 focus:bg-rose-50' : 'text-emerald-600 focus:text-emerald-700 focus:bg-emerald-50'}`}
                                   onClick={() => handleToggleStatus(user.id)}
                                 >
                                   {user.status === 'نشط' ? (
                                     <>
-                                      <Ban className="ms-3 h-4 w-4" />
+                                      <Ban className="ms-2 h-3.5 w-3.5" />
                                       <span>حظر الحساب</span>
                                     </>
                                   ) : (
                                     <>
-                                      <CheckCircle2 className="ms-3 h-4 w-4" />
+                                      <CheckCircle2 className="ms-2 h-3.5 w-3.5" />
                                       <span>تفعيل الحساب</span>
                                     </>
                                   )}
@@ -275,43 +275,43 @@ export default function UsersClient({ initialUsers }: { initialUsers: UserData[]
 
       {/* User Details Modal */}
       <Dialog open={isDetailsOpen} onOpenChange={setIsDetailsOpen}>
-        <DialogContent className="sm:max-w-[450px] p-0 overflow-hidden rounded-[2rem] border border-slate-100 shadow-2xl" dir="rtl">
+        <DialogContent className="sm:max-w-[450px] p-0 overflow-hidden rounded-2xl border border-slate-100 shadow-2xl" dir="rtl">
           {selectedUser && (
             <>
-              <div className="bg-slate-50/80 p-8 text-center relative border-b border-slate-100/50">
-                <div className="w-24 h-24 bg-white rounded-[1.5rem] flex items-center justify-center mx-auto mb-5 text-4xl font-black text-slate-800 shadow-lg border border-slate-100">
+              <div className="bg-slate-50/80 p-6 text-center relative border-b border-slate-100/50">
+                <div className="w-16 h-16 bg-white rounded-xl flex items-center justify-center mx-auto mb-4 text-2xl font-black text-slate-800 shadow-lg border border-slate-100">
                   {selectedUser.name.charAt(0)}
                 </div>
-                <h2 className="text-2xl font-black text-slate-800">{selectedUser.name}</h2>
-                <Badge variant="outline" className={`mt-3 px-4 py-1.5 rounded-full font-bold border-0 shadow-sm ${selectedUser.status === 'نشط' ? 'bg-emerald-50 text-emerald-700' : 'bg-slate-100 text-slate-700'}`}>
+                <h2 className="text-xl font-black text-slate-800">{selectedUser.name}</h2>
+                <Badge variant="outline" className={`mt-2 px-3 py-1 rounded-full font-bold border-0 shadow-sm text-xs ${selectedUser.status === 'نشط' ? 'bg-emerald-50 text-emerald-700' : 'bg-slate-100 text-slate-700'}`}>
                   {selectedUser.status}
                 </Badge>
               </div>
 
-              <div className="p-8 space-y-6 bg-white">
-                <div className="space-y-4">
-                  <div className="flex items-center gap-4 p-4 rounded-2xl border border-slate-100/80 bg-slate-50/50">
-                    <div className="w-12 h-12 rounded-xl bg-white flex items-center justify-center shrink-0 shadow-sm border border-slate-100">
-                      <UserCog className="w-5 h-5 text-amber-500" />
+              <div className="p-6 space-y-5 bg-white">
+                <div className="space-y-3">
+                  <div className="flex items-center gap-3 p-3 rounded-xl border border-slate-100/80 bg-slate-50/50">
+                    <div className="w-10 h-10 rounded-lg bg-white flex items-center justify-center shrink-0 shadow-sm border border-slate-100">
+                      <UserCog className="w-4 h-4 text-amber-500" />
                     </div>
                     <div>
-                      <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-0.5">الدور والصلاحية</p>
-                      <p className="font-bold text-slate-800 text-sm">{roleColors[selectedUser.role]?.label || selectedUser.role}</p>
+                      <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-0.5">الدور والصلاحية</p>
+                      <p className="font-bold text-slate-800 text-xs">{roleColors[selectedUser.role]?.label || selectedUser.role}</p>
                     </div>
                   </div>
                   
-                  <div className="flex items-center gap-4 p-4 rounded-2xl border border-slate-100/80 bg-slate-50/50">
-                    <div className="w-12 h-12 rounded-xl bg-white flex items-center justify-center shrink-0 shadow-sm border border-slate-100">
-                      <Shield className="w-5 h-5 text-amber-500" />
+                  <div className="flex items-center gap-3 p-3 rounded-xl border border-slate-100/80 bg-slate-50/50">
+                    <div className="w-10 h-10 rounded-lg bg-white flex items-center justify-center shrink-0 shadow-sm border border-slate-100">
+                      <Shield className="w-4 h-4 text-amber-500" />
                     </div>
                     <div>
-                      <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-0.5">البريد الإلكتروني</p>
-                      <p className="font-bold text-slate-800 text-sm" dir="rtl">{selectedUser.email}</p>
+                      <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-0.5">البريد الإلكتروني</p>
+                      <p className="font-bold text-slate-800 text-xs" dir="rtl">{selectedUser.email}</p>
                     </div>
                   </div>
                 </div>
 
-                <Button className="w-full h-14 rounded-2xl font-bold text-lg bg-[#050B14] hover:bg-[#0a1526] text-white shadow-[0_10px_30px_rgba(5,11,20,0.2)] transition-all border border-slate-800" onClick={() => setIsDetailsOpen(false)}>
+                <Button className="w-full h-10 rounded-xl font-bold text-sm bg-[#050B14] hover:bg-[#0a1526] text-white shadow-[0_8px_20px_rgba(5,11,20,0.15)] transition-all border border-slate-800" onClick={() => setIsDetailsOpen(false)}>
                   إغلاق
                 </Button>
               </div>
@@ -322,44 +322,44 @@ export default function UsersClient({ initialUsers }: { initialUsers: UserData[]
 
       {/* Edit User Modal */}
       <Dialog open={isEditOpen} onOpenChange={setIsEditOpen}>
-        <DialogContent className="sm:max-w-[500px] p-8 rounded-[2rem] border border-slate-100 shadow-2xl" dir="rtl">
-          <div className="mb-6">
-            <h2 className="text-2xl font-black text-slate-800">تعديل بيانات المستخدم</h2>
-            <p className="text-sm text-slate-500 mt-1 font-medium">قم بتحديث معلومات الحساب، الصلاحيات، أو كلمة المرور.</p>
+        <DialogContent className="sm:max-w-[500px] p-6 rounded-2xl border border-slate-100 shadow-2xl" dir="rtl">
+          <div className="mb-5">
+            <h2 className="text-xl font-black text-slate-800">تعديل بيانات المستخدم</h2>
+            <p className="text-xs text-slate-500 mt-1 font-medium">قم بتحديث معلومات الحساب، الصلاحيات، أو كلمة المرور.</p>
           </div>
 
           {selectedUser && (
-            <form onSubmit={handleSaveEdit} className="space-y-5">
-              <div className="space-y-2">
-                <label className="text-sm font-bold text-slate-700">اسم المستخدم</label>
-                <Input defaultValue={selectedUser.name} className="h-12 rounded-xl border-slate-200 hover:border-slate-300 focus:border-amber-400 focus:ring-4 focus:ring-amber-500/10 transition-all bg-slate-50/50 focus:bg-white shadow-sm" />
+            <form onSubmit={handleSaveEdit} className="space-y-4">
+              <div className="space-y-1.5">
+                <label className="text-xs font-bold text-slate-700">اسم المستخدم</label>
+                <Input defaultValue={selectedUser.name} className="h-10 rounded-lg border-slate-200 hover:border-slate-300 focus:border-amber-400 focus:ring-4 focus:ring-amber-500/10 transition-all bg-slate-50/50 focus:bg-white shadow-sm text-sm" />
               </div>
               
-              <div className="space-y-2">
-                <label className="text-sm font-bold text-slate-700">البريد الإلكتروني</label>
-                <Input defaultValue={selectedUser.email} dir="rtl" className="h-12 rounded-xl border-slate-200 hover:border-slate-300 focus:border-amber-400 focus:ring-4 focus:ring-amber-500/10 transition-all bg-slate-50/50 focus:bg-white shadow-sm text-start" />
+              <div className="space-y-1.5">
+                <label className="text-xs font-bold text-slate-700">البريد الإلكتروني</label>
+                <Input defaultValue={selectedUser.email} dir="rtl" className="h-10 rounded-lg border-slate-200 hover:border-slate-300 focus:border-amber-400 focus:ring-4 focus:ring-amber-500/10 transition-all bg-slate-50/50 focus:bg-white shadow-sm text-start text-sm" />
               </div>
 
-              <div className="space-y-2">
-                <label className="text-sm font-bold text-slate-700">تغيير كلمة المرور</label>
-                <Input type="password" placeholder="أدخل كلمة المرور الجديدة (اختياري)" dir="rtl" className="h-12 rounded-xl border-slate-200 hover:border-slate-300 focus:border-amber-400 focus:ring-4 focus:ring-amber-500/10 transition-all bg-slate-50/50 focus:bg-white shadow-sm text-start placeholder:text-end" />
-                <p className="text-xs text-slate-400 font-medium">اترك الحقل فارغاً إذا كنت لا ترغب بتغيير كلمة المرور.</p>
+              <div className="space-y-1.5">
+                <label className="text-xs font-bold text-slate-700">تغيير كلمة المرور</label>
+                <Input type="password" placeholder="أدخل كلمة المرور الجديدة (اختياري)" dir="rtl" className="h-10 rounded-lg border-slate-200 hover:border-slate-300 focus:border-amber-400 focus:ring-4 focus:ring-amber-500/10 transition-all bg-slate-50/50 focus:bg-white shadow-sm text-start placeholder:text-end text-sm" />
+                <p className="text-[10px] text-slate-400 font-medium mt-1">اترك الحقل فارغاً إذا كنت لا ترغب بتغيير كلمة المرور.</p>
               </div>
 
-              <div className="space-y-2">
-                <label className="text-sm font-bold text-slate-700">الصلاحية (الدور)</label>
-                <select defaultValue={selectedUser.role} className="flex h-12 w-full items-center justify-between rounded-xl border border-slate-200 bg-slate-50/50 hover:border-slate-300 focus:bg-white px-3 py-2 text-sm ring-offset-white focus:outline-none focus:border-amber-400 focus:ring-4 focus:ring-amber-500/10 transition-all shadow-sm">
+              <div className="space-y-1.5">
+                <label className="text-xs font-bold text-slate-700">الصلاحية (الدور)</label>
+                <select defaultValue={selectedUser.role} className="flex h-10 w-full items-center justify-between rounded-lg border border-slate-200 bg-slate-50/50 hover:border-slate-300 focus:bg-white px-3 py-2 text-sm ring-offset-white focus:outline-none focus:border-amber-400 focus:ring-4 focus:ring-amber-500/10 transition-all shadow-sm">
                   {Object.entries(roleColors).map(([roleKey, roleValue]) => (
                     <option key={roleKey} value={roleKey}>{roleValue.label}</option>
                   ))}
                 </select>
               </div>
 
-              <div className="pt-4 flex gap-3">
-                <Button type="submit" className="flex-1 h-12 rounded-2xl font-bold bg-[#050B14] hover:bg-[#0a1526] text-white shadow-[0_10px_30px_rgba(5,11,20,0.2)] transition-all border border-slate-800">
+              <div className="pt-3 flex gap-2">
+                <Button type="submit" className="flex-1 h-10 rounded-xl font-bold bg-[#050B14] hover:bg-[#0a1526] text-white shadow-[0_8px_20px_rgba(5,11,20,0.15)] transition-all border border-slate-800 text-sm">
                   حفظ التعديلات
                 </Button>
-                <Button type="button" variant="outline" className="flex-1 h-12 rounded-2xl font-bold text-slate-600 border-slate-200 hover:bg-slate-50 transition-colors shadow-sm" onClick={() => setIsEditOpen(false)}>
+                <Button type="button" variant="outline" className="flex-1 h-10 rounded-xl font-bold text-slate-600 border-slate-200 hover:bg-slate-50 transition-colors shadow-sm text-sm" onClick={() => setIsEditOpen(false)}>
                   إلغاء
                 </Button>
               </div>

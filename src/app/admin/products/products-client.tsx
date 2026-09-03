@@ -79,7 +79,7 @@ export default function ProductsClient({ initialProducts, categories }: { initia
       dir="rtl"
     >
       {/* Header Section */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 bg-white p-8 rounded-[2rem] shadow-[0_10px_40px_rgba(0,0,0,0.03)] border border-slate-100/50">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white p-6 rounded-2xl shadow-[0_5px_30px_rgba(0,0,0,0.03)] border border-slate-100/50">
         <div>
           <div className="flex items-center gap-3 mb-2">
             <div className="p-2 bg-slate-100/80 rounded-xl text-slate-600">
@@ -90,7 +90,7 @@ export default function ProductsClient({ initialProducts, categories }: { initia
           <p className="text-slate-500 font-medium text-lg ms-1">إضافة وتعديل وحذف المنتجات في متجرك بكل سهولة.</p>
         </div>
         <Link href="/admin/products/new">
-          <Button className="bg-[#050B14] hover:bg-[#0a1526] text-white shadow-[0_10px_30px_rgba(5,11,20,0.2)] border border-slate-800 rounded-2xl px-6 h-12 font-bold transition-all w-full sm:w-auto">
+          <Button className="bg-[#050B14] hover:bg-[#0a1526] text-white shadow-[0_8px_20px_rgba(5,11,20,0.15)] border border-slate-800 rounded-xl px-5 h-10 font-bold transition-all w-full sm:w-auto text-sm">
             <Plus className="w-5 h-5 ms-2 text-amber-400" />
             إضافة منتج جديد
           </Button>
@@ -123,15 +123,15 @@ export default function ProductsClient({ initialProducts, categories }: { initia
         )}
       </AnimatePresence>
 
-      <div className="border-slate-100/50 shadow-[0_10px_40px_rgba(0,0,0,0.03)] overflow-hidden rounded-[2rem] bg-white border">
+      <div className="border-slate-100/50 shadow-[0_5px_30px_rgba(0,0,0,0.03)] overflow-hidden rounded-2xl bg-white border">
         
         {/* Toolbar */}
-        <div className="p-6 md:p-8 border-b border-slate-100/50 bg-slate-50/30 flex flex-col md:flex-row items-center justify-between gap-6">
+        <div className="p-5 md:p-6 border-b border-slate-100/50 bg-slate-50/30 flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="relative w-full md:max-w-md group">
             <Search className="absolute end-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-amber-500 transition-colors" />
             <Input
               placeholder="ابحث باسم المنتج أو الرمز (SKU)..."
-              className="ps-4 pe-12 bg-white border-slate-200 hover:border-slate-300 focus:border-amber-400 focus:ring-4 focus:ring-amber-500/10 h-12 rounded-2xl text-sm shadow-sm transition-all"
+              className="ps-4 pe-10 bg-white border-slate-200 hover:border-slate-300 focus:border-amber-400 focus:ring-4 focus:ring-amber-500/10 h-10 rounded-xl text-sm shadow-sm transition-all"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
@@ -140,19 +140,19 @@ export default function ProductsClient({ initialProducts, categories }: { initia
           <div className="flex bg-slate-100/50 p-1.5 rounded-2xl w-full md:w-auto shadow-inner">
             <button
               onClick={() => setStatusFilter('all')}
-              className={`flex-1 md:flex-none px-6 py-2.5 rounded-xl font-bold text-sm transition-all ${statusFilter === 'all' ? 'bg-white text-slate-800 shadow-sm border border-slate-200/50' : 'text-slate-500 hover:text-slate-700'}`}
+              className={`flex-1 md:flex-none px-5 py-2 rounded-lg font-bold text-xs transition-all ${statusFilter === 'all' ? 'bg-white text-slate-800 shadow-sm border border-slate-200/50' : 'text-slate-500 hover:text-slate-700'}`}
             >
               الكل
             </button>
             <button
               onClick={() => setStatusFilter('active')}
-              className={`flex-1 md:flex-none px-6 py-2.5 rounded-xl font-bold text-sm transition-all ${statusFilter === 'active' ? 'bg-white text-emerald-600 shadow-sm border border-slate-200/50' : 'text-slate-500 hover:text-slate-700'}`}
+              className={`flex-1 md:flex-none px-5 py-2 rounded-lg font-bold text-xs transition-all ${statusFilter === 'active' ? 'bg-white text-emerald-600 shadow-sm border border-slate-200/50' : 'text-slate-500 hover:text-slate-700'}`}
             >
               نشط
             </button>
             <button
               onClick={() => setStatusFilter('draft')}
-              className={`flex-1 md:flex-none px-6 py-2.5 rounded-xl font-bold text-sm transition-all ${statusFilter === 'draft' ? 'bg-white text-amber-600 shadow-sm border border-slate-200/50' : 'text-slate-500 hover:text-slate-700'}`}
+              className={`flex-1 md:flex-none px-5 py-2 rounded-lg font-bold text-xs transition-all ${statusFilter === 'draft' ? 'bg-white text-amber-600 shadow-sm border border-slate-200/50' : 'text-slate-500 hover:text-slate-700'}`}
             >
               مسودة
             </button>
@@ -165,18 +165,18 @@ export default function ProductsClient({ initialProducts, categories }: { initia
             <Table className="w-full min-w-[900px]">
               <TableHeader className="bg-slate-50/80 border-b border-slate-100/50">
                 <TableRow className="hover:bg-transparent border-0">
-                  <TableHead className="w-16 px-6 py-5">
+                  <TableHead className="w-12 px-5 py-4">
                     <Checkbox 
                       checked={filteredProducts.length > 0 && selectedIds.size === filteredProducts.length}
                       onCheckedChange={handleSelectAll}
-                      className="border-slate-300 data-[state=checked]:bg-amber-500 data-[state=checked]:border-amber-500 rounded-[0.4rem] w-5 h-5 shadow-sm transition-all"
+                      className="border-slate-300 data-[state=checked]:bg-amber-500 data-[state=checked]:border-amber-500 rounded text-white shadow-sm"
                     />
                   </TableHead>
-                  <TableHead className="text-start font-black text-slate-500 py-5 px-6 text-xs uppercase tracking-wider">المنتج</TableHead>
-                  <TableHead className="text-start font-black text-slate-500 py-5 text-xs uppercase tracking-wider">التصنيف</TableHead>
-                  <TableHead className="text-start font-black text-slate-500 py-5 text-xs uppercase tracking-wider">السعر</TableHead>
-                  <TableHead className="text-start font-black text-slate-500 py-5 text-xs uppercase tracking-wider">الحالة</TableHead>
-                  <TableHead className="text-center font-black text-slate-500 py-5 px-6 text-xs uppercase tracking-wider">إجراءات</TableHead>
+                  <TableHead className="text-start font-bold text-slate-500 py-4 px-5 text-[11px] uppercase tracking-wider">المنتج</TableHead>
+                  <TableHead className="text-start font-bold text-slate-500 py-4 text-[11px] uppercase tracking-wider">التصنيف</TableHead>
+                  <TableHead className="text-start font-bold text-slate-500 py-4 text-[11px] uppercase tracking-wider">السعر</TableHead>
+                  <TableHead className="text-start font-bold text-slate-500 py-4 text-[11px] uppercase tracking-wider">الحالة</TableHead>
+                  <TableHead className="text-center font-bold text-slate-500 py-4 px-5 text-[11px] uppercase tracking-wider">إجراءات</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody className="divide-y divide-slate-100/50">
@@ -185,20 +185,20 @@ export default function ProductsClient({ initialProducts, categories }: { initia
                       key={product.id}
                       className={`group transition-all duration-300 border-0 ${selectedIds.has(product.id) ? 'bg-amber-50/30' : 'hover:bg-slate-50/50'}`}
                     >
-                      <TableCell className="px-6 py-5">
+                      <TableCell className="px-5 py-3">
                         <Checkbox 
                           checked={selectedIds.has(product.id)}
                           onCheckedChange={(checked) => handleSelectRow(product.id, checked as boolean)}
-                          className="border-slate-300 data-[state=checked]:bg-amber-500 data-[state=checked]:border-amber-500 rounded-[0.4rem] w-5 h-5 shadow-sm transition-all"
+                          className="border-slate-300 data-[state=checked]:bg-amber-500 data-[state=checked]:border-amber-500 rounded text-white shadow-sm"
                         />
                       </TableCell>
-                      <TableCell className="px-6 py-5">
-                        <div className="flex items-center gap-5">
-                          <div className="w-16 h-16 rounded-2xl bg-white flex items-center justify-center overflow-hidden relative shrink-0 shadow-sm border border-slate-100 group-hover:scale-105 transition-transform duration-300">
+                      <TableCell className="px-5 py-3">
+                        <div className="flex items-center gap-4">
+                          <div className="w-10 h-10 rounded-lg bg-white flex items-center justify-center overflow-hidden relative shrink-0 shadow-sm border border-slate-100 group-hover:border-amber-200 transition-colors">
                             {product.images && product.images[0] ? (
                               <Image src={product.images[0]} alt={product.name} fill className="object-cover" />
                             ) : (
-                              <ImageIcon className="w-6 h-6 text-slate-300" />
+                              <ImageIcon className="w-4 h-4 text-slate-300" />
                             )}
                           </div>
                           <div>
@@ -209,36 +209,36 @@ export default function ProductsClient({ initialProducts, categories }: { initia
                           </div>
                         </div>
                       </TableCell>
-                      <TableCell className="py-5">
-                        <Badge variant="secondary" className="bg-slate-100 text-slate-600 font-bold px-3 py-1.5 rounded-xl shadow-none border-0 text-xs">
+                      <TableCell className="py-3">
+                        <Badge variant="secondary" className="bg-slate-100 text-slate-600 font-semibold px-2.5 py-1 rounded-md shadow-none border-0 text-[11px]">
                           {product.category?.name || 'بدون تصنيف'}
                         </Badge>
                       </TableCell>
-                      <TableCell className="py-5">
-                        <span className="font-black text-slate-800 text-base tracking-tight group-hover:text-amber-600 transition-colors">
-                          {product.price.toLocaleString('en-US')} <span className="text-[10px] font-bold text-slate-400">د.ع</span>
+                      <TableCell className="py-3">
+                        <span className="font-bold text-slate-800 text-sm tracking-tight group-hover:text-amber-600 transition-colors">
+                          {product.price.toLocaleString('en-US')} <span className="text-[10px] text-slate-400">د.ع</span>
                         </span>
                       </TableCell>
-                      <TableCell className="py-5">
+                      <TableCell className="py-3">
                         {product.isActive ? (
-                          <Badge className="bg-emerald-50 text-emerald-600 border-0 rounded-xl px-3 py-1.5 font-bold shadow-sm text-xs flex items-center gap-1.5 w-max">
-                            <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]" />
+                          <Badge className="bg-emerald-50 text-emerald-600 border-0 rounded-md px-2.5 py-1 font-semibold shadow-sm text-[11px] flex items-center gap-1.5 w-max">
+                            <div className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
                             نشط
                           </Badge>
                         ) : (
-                          <Badge className="bg-slate-100 text-slate-600 border-0 rounded-xl px-3 py-1.5 font-bold shadow-sm text-xs flex items-center gap-1.5 w-max">
+                          <Badge className="bg-slate-100 text-slate-600 border-0 rounded-md px-2.5 py-1 font-semibold shadow-sm text-[11px] flex items-center gap-1.5 w-max">
                             <div className="w-1.5 h-1.5 rounded-full bg-slate-400" />
                             مسودة
                           </Badge>
                         )}
                       </TableCell>
-                      <TableCell className="text-center py-5 px-6">
-                        <div className="flex items-center justify-center gap-2">
-                          <Button variant="ghost" size="icon" className="w-9 h-9 rounded-xl text-slate-400 hover:text-amber-600 hover:bg-amber-50 hover:border-amber-100 border border-transparent transition-colors" onClick={() => { setCurrentEditProduct(product); setIsEditModalOpen(true); }} title="تعديل المنتج">
-                            <Edit className="w-4 h-4" />
+                      <TableCell className="text-center py-3 px-5">
+                        <div className="flex items-center justify-center gap-1">
+                          <Button variant="ghost" size="icon" className="w-8 h-8 rounded-lg text-slate-400 hover:text-amber-600 hover:bg-amber-50 hover:border-amber-100 transition-colors" onClick={() => { setCurrentEditProduct(product); setIsEditModalOpen(true); }} title="تعديل المنتج">
+                            <Edit className="w-3.5 h-3.5" />
                           </Button>
-                          <Button variant="ghost" size="icon" className="w-9 h-9 rounded-xl text-slate-400 hover:text-rose-600 hover:bg-rose-50 hover:border-rose-100 border border-transparent transition-colors" onClick={() => handleDelete(product.id)} title="حذف المنتج">
-                            <Trash className="w-4 h-4" />
+                          <Button variant="ghost" size="icon" className="w-8 h-8 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50 hover:border-rose-100 transition-colors" onClick={() => handleDelete(product.id)} title="حذف المنتج">
+                            <Trash className="w-3.5 h-3.5" />
                           </Button>
                         </div>
                       </TableCell>

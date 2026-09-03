@@ -60,7 +60,7 @@ export function AdminHeader({ userRole = 'CUSTOMER', userName }: { userRole?: st
   }
 
   return (
-    <header className="h-20 bg-white/70 backdrop-blur-xl border-b border-white shadow-[0_4px_30px_rgba(0,0,0,0.03)] flex items-center justify-between px-4 md:px-8 sticky top-0 z-40 transition-all">
+    <header className="h-16 bg-white/70 backdrop-blur-xl border-b border-white shadow-[0_4px_30px_rgba(0,0,0,0.03)] flex items-center justify-between px-4 md:px-6 sticky top-0 z-40 transition-all">
       <div className="flex items-center gap-4">
         <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
           <SheetTrigger render={
@@ -69,10 +69,10 @@ export function AdminHeader({ userRole = 'CUSTOMER', userName }: { userRole?: st
             </Button>
           } />
           <SheetContent side="right" className="w-72 bg-[#050B14] border-e border-white/10 p-0 text-white/70">
-            <SheetHeader className="h-20 flex items-center justify-center border-b border-white/5 bg-[#010306]/50 px-6">
-              <SheetTitle className="text-white text-xl font-black drop-shadow-md">القائمة الرئيسية</SheetTitle>
+            <SheetHeader className="h-16 flex items-center justify-center border-b border-white/5 bg-[#010306]/50 px-6">
+              <SheetTitle className="text-white text-lg font-black drop-shadow-md">القائمة الرئيسية</SheetTitle>
             </SheetHeader>
-            <div className="overflow-y-auto py-6 px-4 space-y-6 scrollbar-none h-[calc(100vh-80px)]">
+            <div className="overflow-y-auto py-6 px-4 space-y-6 scrollbar-none h-[calc(100vh-64px)]">
               {sidebarGroups.map((group, groupIdx) => {
                 const visibleItems = group.items.filter(item =>
                   !item.allowedRoles || item.allowedRoles.includes(userRole)
@@ -120,14 +120,14 @@ export function AdminHeader({ userRole = 'CUSTOMER', userName }: { userRole?: st
           <Input
             type="text"
             placeholder="بحث في لوحة التحكم..."
-            className="ps-4 pe-12 bg-slate-50/50 border-slate-200 hover:bg-slate-50 hover:border-slate-300 focus:bg-white focus:border-amber-400 focus:ring-4 focus:ring-amber-500/10 rounded-2xl h-11 transition-all text-sm shadow-inner"
+            className="ps-4 pe-10 bg-slate-50/50 border-slate-200 hover:bg-slate-50 hover:border-slate-300 focus:bg-white focus:border-amber-400 focus:ring-4 focus:ring-amber-500/10 rounded-xl h-10 transition-all text-sm shadow-inner"
           />
         </div>
 
         <Sheet open={isNotificationsOpen} onOpenChange={setIsNotificationsOpen}>
           <button
             onClick={() => setIsNotificationsOpen(true)}
-            className="relative w-11 h-11 flex items-center justify-center text-slate-500 hover:text-amber-600 bg-slate-50 hover:bg-amber-50 rounded-2xl transition-all border border-slate-100 hover:border-amber-200 shadow-sm"
+            className="relative w-10 h-10 flex items-center justify-center text-slate-500 hover:text-amber-600 bg-slate-50 hover:bg-amber-50 rounded-xl transition-all border border-slate-100 hover:border-amber-200 shadow-sm"
             aria-label="الإشعارات"
           >
             <Bell className="w-5 h-5" />
@@ -153,7 +153,7 @@ export function AdminHeader({ userRole = 'CUSTOMER', userName }: { userRole?: st
         </Sheet>
 
         {/* User Avatar */}
-        <Link href="/admin/profile" className="w-11 h-11 rounded-2xl bg-gradient-to-tr from-amber-400 to-amber-600 flex items-center justify-center text-[#050B14] font-black shadow-[0_5px_15px_rgba(251,191,36,0.3)] hover:shadow-[0_8px_20px_rgba(251,191,36,0.5)] hover:-translate-y-0.5 transition-all text-lg" title="الملف الشخصي">
+        <Link href="/admin/profile" className="w-10 h-10 rounded-xl bg-gradient-to-tr from-amber-400 to-amber-600 flex items-center justify-center text-[#050B14] font-black shadow-[0_5px_15px_rgba(251,191,36,0.3)] hover:shadow-[0_8px_20px_rgba(251,191,36,0.5)] hover:-translate-y-0.5 transition-all text-base" title="الملف الشخصي">
           {userName ? userName[0] : 'أ'}
         </Link>
       </div>

@@ -108,25 +108,25 @@ export function AdminSidebar({
 
       {/* Logo Header */}
       <div className={cn(
-        'h-20 flex items-center bg-[#010306]/50 border-b border-white/5 transition-all duration-300',
+        'h-16 flex items-center bg-[#010306]/50 border-b border-white/5 transition-all duration-300',
         isCollapsed ? 'px-0 justify-center' : 'px-6 justify-between'
       )}>
         {isCollapsed ? (
-          <Link href="/admin" className="w-10 h-10 rounded-xl flex items-center justify-center font-black text-xl shadow-[0_0_15px_rgba(251,191,36,0.3)] transition-transform hover:scale-110 bg-gradient-to-tr from-amber-400 to-amber-600 text-[#050B14] shrink-0">
+          <Link href="/admin" className="w-8 h-8 rounded-lg flex items-center justify-center font-black text-lg shadow-[0_0_15px_rgba(251,191,36,0.3)] transition-transform hover:scale-110 bg-gradient-to-tr from-amber-400 to-amber-600 text-[#050B14] shrink-0">
             G
           </Link>
         ) : (
-          <Link href="/admin" className="flex items-center gap-4 min-w-0 group">
+          <Link href="/admin" className="flex items-center gap-3 min-w-0 group">
             {logoUrl ? (
-              <div className="w-10 h-10 rounded-xl overflow-hidden shrink-0 bg-white/10 p-1 border border-white/10 group-hover:border-amber-400/50 transition-colors shadow-lg">
-                <img src={logoUrl} alt={storeName} className="w-full h-full object-cover rounded-lg" />
+              <div className="w-8 h-8 rounded-lg overflow-hidden shrink-0 bg-white/10 p-1 border border-white/10 group-hover:border-amber-400/50 transition-colors shadow-lg">
+                <img src={logoUrl} alt={storeName} className="w-full h-full object-cover rounded-md" />
               </div>
             ) : (
-              <div className="w-10 h-10 rounded-xl flex items-center justify-center font-black text-xl shadow-[0_0_15px_rgba(251,191,36,0.3)] transition-transform group-hover:scale-105 bg-gradient-to-tr from-amber-400 to-amber-600 text-[#050B14] shrink-0">
+              <div className="w-8 h-8 rounded-lg flex items-center justify-center font-black text-lg shadow-[0_0_15px_rgba(251,191,36,0.3)] transition-transform group-hover:scale-105 bg-gradient-to-tr from-amber-400 to-amber-600 text-[#050B14] shrink-0">
                 G
               </div>
             )}
-            <span className="text-xl font-black text-white truncate tracking-wide drop-shadow-md">{storeName}</span>
+            <span className="text-lg font-black text-white truncate tracking-wide drop-shadow-md">{storeName}</span>
           </Link>
         )}
       </div>
@@ -158,8 +158,8 @@ export function AdminSidebar({
                       <Link
                         href={item.href}
                         className={cn(
-                          'flex items-center gap-3 rounded-2xl transition-all duration-300',
-                          isCollapsed ? 'px-0 py-3.5 justify-center' : 'px-4 py-3',
+                          'flex items-center gap-3 rounded-xl transition-all duration-300',
+                          isCollapsed ? 'px-0 py-3.5 justify-center' : 'px-3 py-2.5',
                           isActive
                             ? 'bg-gradient-to-r from-amber-500/10 to-transparent text-amber-400 font-bold border-r-4 border-amber-400 shadow-[inset_0_0_20px_rgba(251,191,36,0.05)]'
                             : 'text-white/60 hover:bg-white/5 hover:text-white border-r-4 border-transparent'
@@ -174,7 +174,7 @@ export function AdminSidebar({
                       </Link>
                       {/* Tooltip when collapsed */}
                       {isCollapsed && (
-                        <div className="absolute end-full top-1/2 -translate-y-1/2 me-3 px-3 py-2 bg-[#050B14] text-white text-xs font-bold rounded-xl shadow-xl whitespace-nowrap opacity-0 group-hover/item:opacity-100 transition-opacity pointer-events-none z-50 border border-white/10">
+                        <div className="absolute end-full top-1/2 -translate-y-1/2 me-3 px-2 py-1.5 bg-[#050B14] text-white text-xs font-bold rounded-lg shadow-xl whitespace-nowrap opacity-0 group-hover/item:opacity-100 transition-opacity pointer-events-none z-50 border border-white/10">
                           {item.name}
                           <span className="absolute top-1/2 -translate-y-1/2 start-full border-4 border-transparent border-s-[#050B14]" />
                         </div>
@@ -208,10 +208,10 @@ export function AdminSidebar({
         <DropdownMenu>
           <DropdownMenuTrigger render={
             <div className={cn(
-              'flex items-center gap-3 rounded-2xl cursor-pointer transition-all duration-300 group',
-              isCollapsed ? 'p-0 justify-center hover:scale-110' : 'p-2.5 bg-white/5 hover:bg-white/10 border border-white/5 hover:border-amber-400/30'
+              'flex items-center gap-3 rounded-xl cursor-pointer transition-all duration-300 group',
+              isCollapsed ? 'p-0 justify-center hover:scale-110' : 'p-2 bg-white/5 hover:bg-white/10 border border-white/5 hover:border-amber-400/30'
             )}>
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-amber-400 to-amber-600 flex items-center justify-center text-[#050B14] font-black shrink-0 shadow-[0_0_15px_rgba(251,191,36,0.3)] group-hover:shadow-[0_0_20px_rgba(251,191,36,0.5)] transition-all text-lg">
+              <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-amber-400 to-amber-600 flex items-center justify-center text-[#050B14] font-black shrink-0 shadow-[0_0_15px_rgba(251,191,36,0.3)] group-hover:shadow-[0_0_20px_rgba(251,191,36,0.5)] transition-all text-base">
                 {user?.name ? user.name[0] : 'أ'}
               </div>
               {!isCollapsed && (
@@ -225,22 +225,22 @@ export function AdminSidebar({
               )}
             </div>
           } />
-          <DropdownMenuContent align={isCollapsed ? "center" : "end"} side="top" className="w-64 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] border-white/10 bg-[#050B14]/95 backdrop-blur-xl p-2 text-white mb-4" sideOffset={10}>
-            <DropdownMenuLabel className="text-xs text-white/40 font-bold px-3 py-2 uppercase tracking-wider">حسابي</DropdownMenuLabel>
-            <div className="px-3 py-2 mb-2 bg-white/5 rounded-xl border border-white/5">
-              <p className="text-sm font-bold text-white mb-1">{user?.name || 'المدير'}</p>
+          <DropdownMenuContent align={isCollapsed ? "center" : "end"} side="top" className="w-56 rounded-xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] border-white/10 bg-[#050B14]/95 backdrop-blur-xl p-1.5 text-white mb-4" sideOffset={10}>
+            <DropdownMenuLabel className="text-[10px] text-white/40 font-bold px-2 py-1.5 uppercase tracking-wider">حسابي</DropdownMenuLabel>
+            <div className="px-2 py-1.5 mb-1 bg-white/5 rounded-lg border border-white/5">
+              <p className="text-sm font-bold text-white mb-0.5">{user?.name || 'المدير'}</p>
               <p className="text-xs text-white/50 font-mono truncate" dir="rtl">{user?.email || ''}</p>
             </div>
-            <DropdownMenuSeparator className="my-2 bg-white/10" />
+            <DropdownMenuSeparator className="my-1.5 bg-white/10" />
             <Link href="/admin/profile">
-              <DropdownMenuItem className="rounded-xl cursor-pointer py-3 px-3 hover:bg-white/10 hover:text-white font-bold focus:bg-white/10 focus:text-white transition-colors">
-                <User className="me-3 h-4 w-4 text-amber-400" />
+              <DropdownMenuItem className="rounded-lg cursor-pointer py-2 px-2 hover:bg-white/10 hover:text-white font-bold focus:bg-white/10 focus:text-white transition-colors">
+                <User className="me-2 h-4 w-4 text-amber-400" />
                 الملف الشخصي
               </DropdownMenuItem>
             </Link>
-            <DropdownMenuSeparator className="my-2 bg-white/10" />
+            <DropdownMenuSeparator className="my-1.5 bg-white/10" />
             <DropdownMenuItem
-              className="rounded-xl cursor-pointer py-3 px-3 font-bold text-rose-400 hover:bg-rose-500/20 hover:text-rose-300 focus:bg-rose-500/20 focus:text-rose-300 transition-colors"
+              className="rounded-lg cursor-pointer py-2 px-2 font-bold text-rose-400 hover:bg-rose-500/20 hover:text-rose-300 focus:bg-rose-500/20 focus:text-rose-300 transition-colors"
               onClick={(e) => {
                 e.preventDefault();
                 signOut({ callbackUrl: '/auth/login' })
