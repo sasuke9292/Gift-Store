@@ -16,7 +16,11 @@ export default async function AdminSettingsPage() {
     allowOnlinePayment: settings.allowOnlinePayment,
     orderNotifications: settings.orderNotifications,
     marketingEmails: settings.marketingEmails,
-    logoUrl: settings.logoUrl
+    logoUrl: settings.logoUrl,
+    topBarText: settings.topBarText || '',
+    heroBadge: settings.heroBadge || 'التشكيلة الجديدة كلياً لعام 2026',
+    heroHeadline: settings.heroHeadline || 'لحظاتك المهمة \nتستحق الأفضل',
+    heroSubheadline: settings.heroSubheadline || 'اكتشف مجموعة من الهدايا الاستثنائية التي تم اختيارها بعناية لتناسب أرقى الأذواق وتخلّد أجمل الذكريات.'
   } : {
     storeName: 'گفتي بلس | Gifty Plus',
     storeEmail: 'contact@giftstore.com',
@@ -26,7 +30,11 @@ export default async function AdminSettingsPage() {
     allowOnlinePayment: false,
     orderNotifications: true,
     marketingEmails: true,
-    logoUrl: null
+    logoUrl: null,
+    topBarText: '',
+    heroBadge: 'التشكيلة الجديدة كلياً لعام 2026',
+    heroHeadline: 'لحظاتك المهمة \nتستحق الأفضل',
+    heroSubheadline: 'اكتشف مجموعة من الهدايا الاستثنائية التي تم اختيارها بعناية لتناسب أرقى الأذواق وتخلّد أجمل الذكريات.'
   }
 
   return <SettingsClient initialSettings={initialSettings} />
