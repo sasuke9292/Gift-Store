@@ -79,10 +79,21 @@ const roleLabels: Record<string, string> = {
   CUSTOMER: 'عميل',
 }
 
-export function AdminSidebar({ storeName = 'گفتي بلس', logoUrl, user }: { storeName?: string, logoUrl?: string | null, user?: any }) {
+export function AdminSidebar({ 
+  storeName = 'گفتي بلس', 
+  logoUrl, 
+  user,
+  isCollapsed,
+  setIsCollapsed
+}: { 
+  storeName?: string, 
+  logoUrl?: string | null, 
+  user?: any,
+  isCollapsed: boolean,
+  setIsCollapsed: (v: boolean) => void
+}) {
   const pathname = usePathname()
   const userRole = user?.role || 'CUSTOMER'
-  const [isCollapsed, setIsCollapsed] = useState(false)
 
   return (
     <aside
