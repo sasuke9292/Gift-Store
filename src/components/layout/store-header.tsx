@@ -25,13 +25,25 @@ export function StoreHeader({ user, topBarText }: StoreHeaderProps) {
   const [mounted, setMounted] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
+  const [isScrollingDown, setIsScrollingDown] = useState(false)
 
   useEffect(() => {
     setMounted(true)
+    let lastScrollY = window.scrollY
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20)
+      const currentScrollY = window.scrollY
+      setIsScrolled(currentScrollY > 20)
+      
+      // Hide header if scrolling down, show if scrolling up
+      if (currentScrollY > lastScrollY && currentScrollY > 100) {
+        setIsScrollingDown(true)
+      } else if (currentScrollY < lastScrollY) {
+        setIsScrollingDown(false)
+      }
+      
+      lastScrollY = currentScrollY
     }
-    window.addEventListener('scroll', handleScroll)
+    window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
@@ -43,7 +55,8 @@ export function StoreHeader({ user, topBarText }: StoreHeaderProps) {
       "fixed top-0 inset-x-0 z-50 transition-all duration-500 border-b",
       isScrolled 
         ? "bg-[#050B14]/80 backdrop-blur-xl border-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.5)]" 
-        : "bg-transparent border-transparent"
+        : "bg-transparent border-transparent",
+      isScrollingDown ? "-translate-y-full" : "translate-y-0"
     )}>
       {/* Top Bar */}
       {topBarText && (
