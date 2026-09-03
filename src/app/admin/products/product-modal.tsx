@@ -126,10 +126,10 @@ export default function ProductModal({ isOpen, setIsOpen, product, categories, o
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogContent className="sm:max-w-[700px] rounded-[2rem] p-0 overflow-hidden border border-white/[0.05] bg-[#030810] shadow-2xl max-h-[90vh] flex flex-col" dir="rtl">
+      <DialogContent className="sm:max-w-[700px] rounded-[2rem] p-0 overflow-hidden border border-white/[0.05] bg-[#0A1628] shadow-2xl max-h-[90vh] flex flex-col" dir="rtl">
         
         {/* Header */}
-        <div className="px-8 py-6 border-b border-white/[0.05] bg-[#0A1628] flex items-center gap-4 shrink-0">
+        <div className="px-8 py-6 border-b border-white/[0.05] flex items-center gap-4 shrink-0">
           <div className="w-12 h-12 rounded-2xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center shrink-0">
             <Tag className="w-6 h-6 text-amber-400" />
           </div>
@@ -142,7 +142,7 @@ export default function ProductModal({ isOpen, setIsOpen, product, categories, o
         </div>
         
         {/* Body */}
-        <div className="overflow-y-auto p-8 flex-1">
+        <div className="overflow-y-auto p-8 flex-1 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-white/10 [&::-webkit-scrollbar-thumb]:rounded-full hover:[&::-webkit-scrollbar-thumb]:bg-white/20">
           <form id="edit-product-form" onSubmit={handleSubmit} className="space-y-8">
             
             <div className="space-y-6">
@@ -188,9 +188,9 @@ export default function ProductModal({ isOpen, setIsOpen, product, categories, o
                     value={formData.categoryId}
                     onChange={e => setFormData({...formData, categoryId: e.target.value})}
                   >
-                    <option value="" disabled className="bg-[#030810]">اختر تصنيفاً...</option>
+                    <option value="" disabled className="bg-[#0A1628]">اختر تصنيفاً...</option>
                     {categories.map(cat => (
-                      <option key={cat.id} value={cat.id} className="bg-[#030810]">{cat.name}</option>
+                      <option key={cat.id} value={cat.id} className="bg-[#0A1628]">{cat.name}</option>
                     ))}
                   </select>
                 </div>
@@ -292,7 +292,7 @@ export default function ProductModal({ isOpen, setIsOpen, product, categories, o
         </div>
 
         {/* Footer */}
-        <DialogFooter className="px-8 py-5 border-t border-white/[0.05] bg-[#0A1628] gap-3 sm:justify-start flex-row shrink-0">
+        <DialogFooter className="px-8 py-5 border-t border-white/[0.05] gap-3 sm:justify-start flex-row shrink-0">
           <Button form="edit-product-form" type="submit" disabled={isSubmitting} className="rounded-xl h-11 px-8 bg-amber-500 hover:bg-amber-400 text-[#030810] shadow-[0_4px_20px_rgba(245,158,11,0.3)] transition-all font-bold w-full sm:w-auto">
             {isSubmitting ? 'جاري الحفظ...' : 'حفظ التغييرات'}
           </Button>
