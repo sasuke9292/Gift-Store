@@ -104,7 +104,7 @@ export default function GiftFinderClient({ initialProducts: products }: { initia
   }
 
   return (
-    <div className="bg-[#050B14] min-h-screen py-32 relative overflow-hidden text-white">
+    <div className="bg-[#050B14] min-h-screen pt-48 pb-32 relative overflow-hidden text-white">
       
       {/* Decorative bg */}
       <div className="absolute top-0 start-0 w-[500px] h-[500px] bg-amber-500/10 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/2 pointer-events-none mix-blend-screen"></div>
