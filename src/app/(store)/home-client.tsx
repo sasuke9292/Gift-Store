@@ -74,41 +74,86 @@ export default function StoreHomeClient({
   return (
     <div className="flex flex-col min-h-screen bg-[#FBFBFD] selection:bg-rose-500/20 selection:text-rose-900">
       
-      {/* 1. Hero Section (Apple-style Centered Minimalist) */}
-      <section className="relative min-h-[60vh] flex flex-col items-center justify-center pt-12 pb-16 overflow-hidden bg-[#FBFBFD]">
+      {/* 1. Hero Section (Premium 3D Modern RTL) */}
+      <section className="relative min-h-[100vh] flex flex-col items-center justify-center pt-20 pb-16 overflow-hidden bg-[#050B14] perspective-[1200px]">
         
-        {/* Subtle Background Glow */}
-        <div className="absolute top-0 end-1/2 -translate-x-1/2 w-full max-w-[1000px] h-[500px] bg-gradient-to-b from-blue-100/40 via-blue-50/20 to-transparent blur-3xl -z-10" />
+        {/* 3D Depth Background & Lighting */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#132347] via-[#050B14] to-[#010306] -z-30" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120vw] h-[120vw] max-w-[1200px] max-h-[1200px] bg-blue-600/10 rounded-full blur-[120px] -z-20 mix-blend-screen" />
+        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-rose-500/10 rounded-full blur-[100px] -z-20 mix-blend-screen translate-x-1/3 -translate-y-1/3" />
+        <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-sky-500/10 rounded-full blur-[120px] -z-20 mix-blend-screen -translate-x-1/3 translate-y-1/3" />
+
+        {/* Floating 3D Elements (Glassmorphism & Depth) */}
+        <div className="absolute inset-0 -z-10 overflow-hidden pointer-events-none">
+          {/* Top Right - 3D Gift Box Placeholder (Glass Orb) */}
+          <motion.div 
+            animate={{ y: [0, -30, 0], rotateX: [0, 10, 0], rotateY: [0, 20, 0] }}
+            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+            className="absolute top-[15%] right-[10%] lg:right-[20%] w-32 h-32 md:w-48 md:h-48 rounded-full border border-white/10 bg-gradient-to-br from-white/10 to-white/0 backdrop-blur-xl shadow-[0_0_50px_rgba(37,99,235,0.2)] flex items-center justify-center before:absolute before:inset-0 before:rounded-full before:bg-gradient-to-tr before:from-transparent before:to-white/20"
+            style={{ transformStyle: 'preserve-3d' }}
+          >
+            <Gift className="w-12 h-12 md:w-20 md:h-20 text-white/80 drop-shadow-[0_10px_10px_rgba(0,0,0,0.5)] transform translate-z-[50px]" />
+          </motion.div>
+
+          {/* Bottom Left - 3D Ribbon/Card (Glass Card) */}
+          <motion.div 
+            animate={{ y: [0, 40, 0], rotateZ: [-10, -5, -10], rotateX: [10, 0, 10] }}
+            transition={{ duration: 8, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+            className="absolute bottom-[20%] left-[5%] lg:left-[15%] w-40 h-56 md:w-56 md:h-72 rounded-3xl border border-white/10 bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-md shadow-[0_30px_60px_rgba(0,0,0,0.5)] flex flex-col items-center justify-center overflow-hidden"
+            style={{ transformStyle: 'preserve-3d', transform: 'rotate(-10deg) rotateX(10deg)' }}
+          >
+            <div className="absolute inset-0 bg-gradient-to-b from-rose-500/20 to-transparent opacity-50" />
+            <HeartHandshake className="w-16 h-16 md:w-24 md:h-24 text-rose-300 drop-shadow-[0_20px_20px_rgba(0,0,0,0.4)] transform translate-z-[40px]" />
+          </motion.div>
+
+          {/* Center Right - Small Floating Star */}
+          <motion.div 
+            animate={{ y: [0, -20, 0], rotate: [0, 180, 360] }}
+            transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
+            className="absolute top-[45%] right-[5%] lg:right-[12%] w-16 h-16 rounded-full bg-gradient-to-tr from-amber-200 to-yellow-500 blur-[2px] shadow-[0_0_30px_rgba(251,191,36,0.6)] flex items-center justify-center opacity-80"
+          >
+            <Sparkles className="w-8 h-8 text-white" />
+          </motion.div>
+
+          {/* Top Left - Small Sparkle Orb */}
+          <motion.div 
+            animate={{ y: [0, 20, 0], scale: [1, 1.1, 1] }}
+            transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+            className="absolute top-[25%] left-[10%] lg:left-[25%] w-20 h-20 rounded-full border border-white/20 bg-white/5 backdrop-blur-sm shadow-[0_10px_30px_rgba(0,0,0,0.3)] flex items-center justify-center"
+          >
+            <Sparkles className="w-8 h-8 text-sky-300 drop-shadow-[0_0_15px_rgba(56,189,248,0.8)]" />
+          </motion.div>
+        </div>
 
         <motion.div 
           style={{ opacity: heroOpacity, y: heroY }}
-          className="relative z-10 w-full max-w-5xl mx-auto px-4 flex flex-col items-center text-center"
+          className="relative z-10 w-full max-w-5xl mx-auto px-4 flex flex-col items-center text-center transform-gpu"
         >
-          {/* Badge */}
+          {/* Premium Badge */}
           <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-            className="inline-flex items-center rounded-full border border-slate-200/60 bg-white/50 backdrop-blur-md px-6 py-2.5 text-sm font-medium text-slate-600 mb-10 shadow-sm"
+            initial={{ opacity: 0, y: 30, scale: 0.9 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+            className="inline-flex items-center rounded-full border border-white/20 bg-white/5 backdrop-blur-xl px-6 py-2.5 text-sm font-medium text-blue-100 mb-10 shadow-[0_0_20px_rgba(255,255,255,0.05)]"
           >
-            <Sparkles className="w-4 h-4 me-2 ms-2 text-rose-500" />
+            <Sparkles className="w-4 h-4 me-2 ms-2 text-amber-300 drop-shadow-[0_0_5px_rgba(251,191,36,0.8)]" />
             {heroBadge || "التشكيلة الجديدة كلياً لعام 2026"}
           </motion.div>
           
-          {/* Headline */}
+          {/* Headline - Exact Arabic Text */}
           <motion.h1 
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.1, ease: "easeOut" }}
-            className="text-6xl sm:text-7xl lg:text-8xl font-black text-slate-900 tracking-[-0.04em] leading-[1.05] mb-8"
+            transition={{ duration: 1, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+            className="text-6xl sm:text-7xl lg:text-[7rem] font-black tracking-[-0.02em] leading-[1.1] mb-8 drop-shadow-2xl"
           >
             {heroHeadline ? (
-              <span dangerouslySetInnerHTML={{ __html: heroHeadline.replace('\n', '<br/>') }} />
+              <span className="text-white" dangerouslySetInnerHTML={{ __html: heroHeadline.replace('\n', '<br/>') }} />
             ) : (
               <>
-                لحظاتك الثمينة <br/>
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-700 via-blue-500 to-sky-400">
-                  تستحق الأفضل.
+                <span className="text-white drop-shadow-[0_10px_20px_rgba(0,0,0,0.8)]">لحظاتك المهمة</span> <br/>
+                <span className="text-transparent bg-clip-text bg-gradient-to-b from-amber-100 via-amber-300 to-yellow-600 drop-shadow-[0_10px_20px_rgba(0,0,0,0.5)]">
+                  تستحق الأفضل
                 </span>
               </>
             )}
@@ -116,32 +161,31 @@ export default function StoreHomeClient({
           
           {/* Subheadline */}
           <motion.p 
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-            className="text-xl sm:text-2xl text-slate-500 max-w-2xl mx-auto font-medium mb-12 leading-relaxed"
+            transition={{ duration: 1, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+            className="text-xl sm:text-2xl text-slate-300 max-w-2xl mx-auto font-medium mb-12 leading-relaxed drop-shadow-lg"
           >
             {heroSubheadline || "اكتشف مجموعة من الهدايا الاستثنائية التي تم اختيارها بعناية لتناسب أرقى الأذواق وتخلّد أجمل الذكريات."}
           </motion.p>
           
-          {/* Actions */}
+          {/* Actions - Premium Buttons */}
           <motion.div 
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.3, ease: "easeOut" }}
-            className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto"
+            transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+            className="flex flex-col sm:flex-row items-center gap-6 w-full sm:w-auto"
           >
-            <Link href="/shop" className="inline-flex items-center justify-center w-full sm:w-auto h-14 px-10 text-lg rounded-full bg-slate-900 text-white font-semibold transition-all hover:bg-slate-800 hover:scale-105 active:scale-95 shadow-xl shadow-slate-900/20">
+            <Link href="/shop" className="relative group inline-flex items-center justify-center w-full sm:w-auto h-14 px-10 text-lg rounded-full bg-white text-slate-900 font-bold transition-all hover:scale-105 active:scale-95 shadow-[0_10px_30px_rgba(255,255,255,0.15)] hover:shadow-[0_15px_40px_rgba(255,255,255,0.25)] overflow-hidden">
+              <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/50 to-transparent group-hover:translate-x-full transition-transform duration-1000 ease-in-out -skew-x-12 translate-x-[-150%]" />
               تسوق المنتجات
             </Link>
-            <Link href="/gift-finder" className="inline-flex items-center justify-center w-full sm:w-auto h-14 px-10 text-lg rounded-full bg-white border border-slate-200 text-slate-900 font-semibold transition-all hover:border-slate-300 hover:bg-slate-50 hover:scale-105 active:scale-95 shadow-sm">
+            <Link href="/gift-finder" className="inline-flex items-center justify-center w-full sm:w-auto h-14 px-10 text-lg rounded-full bg-white/10 border border-white/20 text-white font-medium transition-all hover:bg-white/20 hover:border-white/40 hover:scale-105 active:scale-95 backdrop-blur-md shadow-lg">
               مكتشف الهدايا الذكي
-              <ArrowUpLeft className="ms-2 w-5 h-5" />
+              <ArrowUpLeft className="ms-3 w-5 h-5 text-amber-300" />
             </Link>
           </motion.div>
         </motion.div>
-
-
       </section>
 
       {/* 2. Trust Features (Minimalist Grid) */}
