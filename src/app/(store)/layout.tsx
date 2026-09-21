@@ -13,7 +13,7 @@ export default async function StoreLayout({
   const settings = await prisma.storeSettings.findUnique({ where: { id: 'default' } })
 
   return (
-    <div className="min-h-screen flex flex-col bg-slate-50">
+    <div className="min-h-screen flex flex-col bg-[#FAFAF8]">
       <StoreHeader user={session?.user} topBarText={settings?.topBarText} />
       <main className="flex-1">
         {children}

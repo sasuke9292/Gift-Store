@@ -4,71 +4,89 @@ import React from 'react'
 import { useFavoritesStore } from '@/lib/store'
 import { ProductCard } from '@/components/store/product-card'
 import { motion } from 'framer-motion'
-import { HeartCrack, ArrowRight } from 'lucide-react'
+import { Heart, ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
-import { buttonVariants } from '@/components/ui/button'
 
 export function FavoritesClient() {
   const favorites = useFavoritesStore(state => state.items)
   const [mounted, setMounted] = React.useState(false)
 
-  React.useEffect(() => {
-    setMounted(true)
-  }, [])
+  React.useEffect(() => { setMounted(true) }, [])
 
   if (!mounted) return null
 
-  if (favorites.length === 0) {
-    return (
-      <div className="min-h-[50vh] flex flex-col items-center justify-center p-8 text-center animate-in fade-in zoom-in duration-500 relative z-10">
-        <div className="w-24 h-24 glass-card rounded-full flex items-center justify-center mb-6 shadow-[0_10px_30px_rgba(244,63,94,0.2)] border-white/10 relative overflow-hidden group">
-          <div className="absolute inset-0 bg-gradient-to-tr from-rose-500/20 to-transparent" />
-          <HeartCrack className="w-10 h-10 text-rose-400 drop-shadow-md group-hover:scale-110 transition-transform" />
-        </div>
-        <h2 className="text-3xl font-black text-white mb-3 drop-shadow-md">لا توجد منتجات مفضلة</h2>
-        <p className="text-slate-400 max-w-md mx-auto mb-8 leading-relaxed">
-          لم تقم بإضافة أي هدايا إلى قائمتك المفضلة بعد. استكشف مجموعاتنا الرائعة واحتفظ بما يعجبك هنا!
-        </p>
-        <Link href="/" className="inline-flex items-center justify-center h-14 px-8 text-lg rounded-full bg-gradient-to-r from-amber-500 to-yellow-600 text-[#050B14] font-black transition-all hover:scale-105 active:scale-95 shadow-[0_10px_30px_rgba(251,191,36,0.3)] hover:shadow-[0_15px_40px_rgba(251,191,36,0.5)]">
-          استكشف المنتجات
-          <ArrowRight className="w-5 h-5 me-2 ms-2" />
-        </Link>
-      </div>
-    )
-  }
-
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-      <div className="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-4">
-        <div>
-          <h1 className="text-4xl lg:text-5xl font-black text-white mb-4 drop-shadow-md">قائمتي المفضلة</h1>
-          <p className="text-xl text-slate-400">تحتفظ بـ <span className="text-amber-400 font-bold mx-1">{favorites.length}</span> {favorites.length === 1 ? 'هدية' : 'هدايا'} مميزة هنا.</p>
-        </div>
-      </div>
+    <div className="min-h-screen bg-[#FAFAF8] pt-4 pb-20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8 perspective-[1000px]">
-        {favorites.map((product, index) => (
-          <motion.div 
-            key={product.id}
+        {/* Page Header */}
+        <div className="py-10">
+          <div className="flex items-center gap-3 mb-2">
+            <div className="w-10 h-10 rounded-xl bg-[#FDF2F4] flex items-center justify-center">
+              <Heart className="w-5 h-5 text-[#E85D75]" />
+            </div>
+            <h1 className="text-3xl font-black text-[#1C1917]">قائمة المفضلة</h1>
+            {favorites.length > 0 && (
+              <span className="bg-[#E85D75] text-white text-xs font-black px-2.5 py-1 rounded-full">
+                {favorites.length}
+              </span>
+            )}
+          </div>
+          {favorites.length > 0 && (
+            <p className="text-[#78716C] ms-14">
+              لديك <span className="font-bold text-[#E85D75]">{favorites.length}</span> {favorites.length === 1 ? 'هدية مفضلة' : 'هدايا مفضلة'}
+            </p>
+          )}
+        </div>
+
+        {favorites.length === 0 ? (
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: index * 0.1 }}
-            className="h-full"
+            className="text-center py-24"
           >
-            <ProductCard 
-              product={{
-                id: product.id,
-                name: product.name,
-                price: product.price,
-                salePrice: product.salePrice,
-                images: product.image ? [product.image] : undefined,
-                category: product.category ? { name: product.category } : undefined,
-                isNew: product.isNew,
-                isBestSeller: product.isBestSeller,
-              }} 
-            />
+            <div className="w-24 h-24 rounded-full bg-[#FDF2F4] flex items-center justify-center mx-auto mb-6">
+              <Heart className="w-10 h-10 text-[#E85D75]/40" />
+            </div>
+            <h2 className="text-2xl font-black text-[#1C1917] mb-3">لا توجد مفضلات بعد</h2>
+            <p className="text-[#78716C] mb-8 max-w-sm mx-auto">
+              استكشف مجموعاتنا الرائعة وأضف الهدايا التي تعجبك إلى قائمتك المفضلة!
+            </p>
+            <Link
+              href="/shop"
+              className="inline-flex items-center gap-2 h-12 px-8 rounded-xl font-bold text-white transition-all hover:-translate-y-0.5"
+              style={{ background: 'linear-gradient(135deg, #C9A96E 0%, #A07850 100%)' }}
+            >
+              استكشف المنتجات
+              <ArrowLeft className="w-4 h-4" />
+            </Link>
           </motion.div>
-        ))}
+        ) : (
+          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
+            {favorites.map((product, idx) => (
+              <motion.div
+                key={product.id}
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: Math.min(idx * 0.06, 0.4), duration: 0.4 }}
+                className="h-full"
+              >
+                <ProductCard
+                  product={{
+                    id: product.id,
+                    name: product.name,
+                    price: product.price,
+                    salePrice: product.salePrice,
+                    images: product.image ? [product.image] : undefined,
+                    category: product.category ? { name: product.category } : undefined,
+                    isNew: product.isNew,
+                    isBestSeller: product.isBestSeller,
+                  }}
+                />
+              </motion.div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   )

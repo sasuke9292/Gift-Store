@@ -2,24 +2,23 @@
 
 import React from 'react'
 import Link from 'next/link'
-import { buttonVariants } from '@/components/ui/button'
-import { Gift, ArrowLeft, Truck, ShieldCheck, HeartHandshake, ArrowUpLeft, Sparkles } from 'lucide-react'
-import { motion, useScroll, useTransform } from 'framer-motion'
+import { Gift, Truck, ShieldCheck, HeartHandshake, Sparkles, ArrowLeft, Star, Package, Zap, ArrowUpRight } from 'lucide-react'
+import { motion } from 'framer-motion'
 import Image from 'next/image'
 import { ProductCard } from '@/components/store/product-card'
-import { cn } from '@/lib/utils'
 
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
+const fadeUp = {
+  hidden: { opacity: 0, y: 20 },
+  visible: (i = 0) => ({
     opacity: 1,
-    transition: { staggerChildren: 0.1, delayChildren: 0.1 }
-  }
+    y: 0,
+    transition: { duration: 0.5, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }
+  })
 }
 
-const itemVariants = {
-  hidden: { opacity: 0, y: 15 },
-  visible: { opacity: 1, y: 0, transition: { type: "spring" as const, stiffness: 100, damping: 20 } }
+const stagger = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.08 } }
 }
 
 interface Category {
@@ -48,282 +47,484 @@ interface StoreHomeClientProps {
   heroSubheadline?: string
 }
 
-export default function StoreHomeClient({ 
-  initialCategories: categories, 
+const features = [
+  {
+    icon: Truck,
+    title: 'توصيل مجاني وسريع',
+    desc: 'لجميع الطلبات التي تتجاوز 100 ألف د.ع',
+    color: '#C9A96E',
+    bg: '#FBF6EE'
+  },
+  {
+    icon: Sparkles,
+    title: 'تغليف هدايا استثنائي',
+    desc: 'لمسة من الأناقة تليق بكل مناسبة',
+    color: '#E85D75',
+    bg: '#FDF2F4'
+  },
+  {
+    icon: ShieldCheck,
+    title: 'دفع آمن وموثوق',
+    desc: 'خيارات متعددة تشمل الدفع عند الاستلام',
+    color: '#10B981',
+    bg: '#F0FDF9'
+  },
+  {
+    icon: HeartHandshake,
+    title: 'دعم فني متواصل',
+    desc: 'نحن هنا لمساعدتك على مدار الساعة',
+    color: '#6366F1',
+    bg: '#F5F3FF'
+  },
+]
+
+export default function StoreHomeClient({
+  initialCategories: categories,
   initialTopProducts: topProducts,
   heroBadge,
   heroHeadline,
   heroSubheadline
 }: StoreHomeClientProps) {
-  
-  const { scrollY } = useScroll();
-  const heroOpacity = useTransform(scrollY, [0, 400], [1, 0]);
-  const heroScale = useTransform(scrollY, [0, 500], [1, 1.1]);
-  const heroY = useTransform(scrollY, [0, 500], [0, 150]);
 
-  const features = [
-    { icon: Truck, title: 'توصيل مجاني وسريع', desc: 'لجميع الطلبات التي تتجاوز 100 ألف د.ع' },
-    { icon: Sparkles, title: 'تغليف هدايا استثنائي', desc: 'لمسة من الأناقة تليق بكل مناسبة' },
-    { icon: ShieldCheck, title: 'دفع آمن وموثوق', desc: 'خيارات متعددة تشمل الدفع عند الاستلام' },
-    { icon: HeartHandshake, title: 'دعم فني متواصل', desc: 'نحن هنا لمساعدتك على مدار الساعة' },
-  ]
-
-  const largeCategories = categories.slice(0, 2);
-  const smallCategories = categories.slice(2, 6);
+  const heroCategories = categories.slice(0, 3)
+  const gridCategories = categories.slice(0, 6)
 
   return (
-    <div className="flex flex-col min-h-screen bg-[#050B14] selection:bg-amber-500/20 selection:text-amber-200 text-white font-sans overflow-x-hidden">
-      
-      {/* 1. Hero Section (Premium 3D Modern RTL) */}
-      <section className="relative min-h-[100vh] flex flex-col items-center justify-center pt-20 pb-16 overflow-hidden bg-[#050B14] perspective-[1200px]">
+    <div className="flex flex-col min-h-screen bg-[#FAFAF8] overflow-x-hidden">
+
+      {/* ===== 1. HERO SECTION ===== */}
+      <section className="relative overflow-hidden min-h-[92vh] flex flex-col justify-center">
+        {/* Warm gradient background */}
+        <div className="absolute inset-0 bg-gradient-to-br from-[#FAFAF8] via-[#F8F2EA] to-[#FDF6EE] -z-10" />
         
-        {/* 3D Depth Background & Lighting */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#132347] via-[#050B14] to-[#010306] -z-30" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120vw] h-[120vw] max-w-[1200px] max-h-[1200px] bg-blue-600/10 rounded-full blur-[120px] -z-20 mix-blend-screen" />
-        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-rose-500/10 rounded-full blur-[100px] -z-20 mix-blend-screen translate-x-1/3 -translate-y-1/3" />
-        <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-sky-500/10 rounded-full blur-[120px] -z-20 mix-blend-screen -translate-x-1/3 translate-y-1/3" />
+        {/* Decorative blobs */}
+        <div className="absolute top-0 end-0 w-[600px] h-[600px] bg-[#C9A96E]/8 rounded-full blur-[100px] -z-10 translate-x-1/3 -translate-y-1/3" />
+        <div className="absolute bottom-0 start-0 w-[400px] h-[400px] bg-[#E85D75]/5 rounded-full blur-[80px] -z-10 -translate-x-1/4 translate-y-1/4" />
+        
+        {/* Grid pattern overlay */}
+        <div className="absolute inset-0 opacity-[0.02] -z-10"
+          style={{
+            backgroundImage: 'radial-gradient(circle, #1C1917 1px, transparent 1px)',
+            backgroundSize: '32px 32px'
+          }}
+        />
 
-        {/* Floating 3D Elements (Glassmorphism & Depth) */}
-        <div className="absolute inset-0 -z-10 overflow-hidden pointer-events-none">
-          {/* Top Right - 3D Gift Box Placeholder (Glass Orb) */}
-          <motion.div 
-            animate={{ y: [0, -30, 0], rotateX: [0, 10, 0], rotateY: [0, 20, 0] }}
-            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute top-[15%] right-[10%] lg:right-[20%] w-32 h-32 md:w-48 md:h-48 rounded-full border border-white/10 bg-gradient-to-br from-white/10 to-white/0 backdrop-blur-xl shadow-[0_0_50px_rgba(37,99,235,0.2)] flex items-center justify-center before:absolute before:inset-0 before:rounded-full before:bg-gradient-to-tr before:from-transparent before:to-white/20"
-            style={{ transformStyle: 'preserve-3d' }}
-          >
-            <Gift className="w-12 h-12 md:w-20 md:h-20 text-white/80 drop-shadow-[0_10px_10px_rgba(0,0,0,0.5)] transform translate-z-[50px]" />
-          </motion.div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-20 w-full">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 items-center">
 
-          {/* Bottom Left - 3D Ribbon/Card (Glass Card) */}
-          <motion.div 
-            animate={{ y: [0, 40, 0], rotateZ: [-10, -5, -10], rotateX: [10, 0, 10] }}
-            transition={{ duration: 8, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-            className="absolute bottom-[20%] left-[5%] lg:left-[15%] w-40 h-56 md:w-56 md:h-72 rounded-3xl border border-white/10 bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-md shadow-[0_30px_60px_rgba(0,0,0,0.5)] flex flex-col items-center justify-center overflow-hidden"
-            style={{ transformStyle: 'preserve-3d', transform: 'rotate(-10deg) rotateX(10deg)' }}
-          >
-            <div className="absolute inset-0 bg-gradient-to-b from-rose-500/20 to-transparent opacity-50" />
-            <HeartHandshake className="w-16 h-16 md:w-24 md:h-24 text-rose-300 drop-shadow-[0_20px_20px_rgba(0,0,0,0.4)] transform translate-z-[40px]" />
-          </motion.div>
+            {/* Hero Text */}
+            <div className="relative z-10 text-center lg:text-end order-2 lg:order-1">
+              {/* Badge */}
+              <motion.div
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                className="inline-flex items-center gap-2 bg-[#FBF6EE] border border-[#C9A96E]/30 rounded-full px-4 py-2 text-sm font-bold text-[#A07850] mb-8"
+              >
+                <Sparkles className="w-3.5 h-3.5 text-[#C9A96E]" />
+                {heroBadge || 'التشكيلة الجديدة كلياً لعام 2026'}
+              </motion.div>
 
-          {/* Center Right - Small Floating Star */}
-          <motion.div 
-            animate={{ y: [0, -20, 0], rotate: [0, 180, 360] }}
-            transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
-            className="absolute top-[45%] right-[5%] lg:right-[12%] w-16 h-16 rounded-full bg-gradient-to-tr from-amber-200 to-yellow-500 blur-[2px] shadow-[0_0_30px_rgba(251,191,36,0.6)] flex items-center justify-center opacity-80"
-          >
-            <Sparkles className="w-8 h-8 text-white" />
-          </motion.div>
+              {/* Headline */}
+              <motion.h1
+                initial={{ opacity: 0, y: 24 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+                className="text-5xl sm:text-6xl lg:text-7xl font-black tracking-tight leading-[1.08] mb-6"
+              >
+                {heroHeadline ? (
+                  <span className="text-[#1C1917]" dangerouslySetInnerHTML={{ __html: heroHeadline.replace('\n', '<br/>') }} />
+                ) : (
+                  <>
+                    <span className="text-[#1C1917]">لحظاتك المهمة</span>
+                    <br />
+                    <span className="text-gold">تستحق الأفضل</span>
+                  </>
+                )}
+              </motion.h1>
 
-          {/* Top Left - Small Sparkle Orb */}
-          <motion.div 
-            animate={{ y: [0, 20, 0], scale: [1, 1.1, 1] }}
-            transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-            className="absolute top-[25%] left-[10%] lg:left-[25%] w-20 h-20 rounded-full border border-white/20 bg-white/5 backdrop-blur-sm shadow-[0_10px_30px_rgba(0,0,0,0.3)] flex items-center justify-center"
-          >
-            <Sparkles className="w-8 h-8 text-sky-300 drop-shadow-[0_0_15px_rgba(56,189,248,0.8)]" />
-          </motion.div>
+              {/* Subheadline */}
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+                className="text-lg text-[#78716C] max-w-lg mx-auto lg:mx-0 lg:me-auto mb-10 leading-relaxed"
+              >
+                {heroSubheadline || 'اكتشف مجموعة من الهدايا الاستثنائية التي تم اختيارها بعناية لتناسب أرقى الأذواق وتخلّد أجمل الذكريات.'}
+              </motion.p>
+
+              {/* CTA Buttons */}
+              <motion.div
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                className="flex flex-col sm:flex-row items-center justify-center lg:justify-end gap-4"
+              >
+                <Link
+                  href="/shop"
+                  className="group flex items-center justify-center gap-2 h-14 px-10 rounded-2xl text-white font-bold text-lg transition-all hover:-translate-y-0.5"
+                  style={{
+                    background: 'linear-gradient(135deg, #C9A96E 0%, #A07850 100%)',
+                    boxShadow: '0 4px 20px rgba(184,137,58,0.35)'
+                  }}
+                >
+                  تسوق الآن
+                  <ArrowLeft className="w-5 h-5 transition-transform group-hover:-translate-x-1" />
+                </Link>
+                <Link
+                  href="/gift-finder"
+                  className="flex items-center justify-center gap-2 h-14 px-8 rounded-2xl font-bold text-[#1C1917] bg-white border border-[#E8E4DF] hover:border-[#C9A96E]/40 hover:bg-[#FBF6EE] transition-all hover:-translate-y-0.5 shadow-[0_2px_8px_rgba(0,0,0,0.06)]"
+                >
+                  <Sparkles className="w-4 h-4 text-[#C9A96E]" />
+                  مكتشف الهدايا
+                </Link>
+              </motion.div>
+
+              {/* Trust Micro-stats */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.5, delay: 0.5 }}
+                className="flex items-center justify-center lg:justify-end gap-8 mt-10 text-sm"
+              >
+                {[
+                  { label: 'منتج متاح', value: '500+' },
+                  { label: 'عميل راضٍ', value: '12K+' },
+                  { label: 'تقييم متوسط', value: '4.9 ★' },
+                ].map(stat => (
+                  <div key={stat.label} className="text-center">
+                    <p className="text-2xl font-black text-[#1C1917]">{stat.value}</p>
+                    <p className="text-[#A8A29E] font-medium">{stat.label}</p>
+                  </div>
+                ))}
+              </motion.div>
+            </div>
+
+            {/* Hero Visual — Category Preview Cards */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.7, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+              className="relative order-1 lg:order-2"
+            >
+              {heroCategories.length > 0 ? (
+                <div className="grid grid-cols-2 gap-4">
+                  {heroCategories[0] && (
+                    <Link
+                      href={`/category/${heroCategories[0].slug}`}
+                      className="col-span-2 relative aspect-[16/9] rounded-3xl overflow-hidden group"
+                      style={{ boxShadow: '0 8px 40px rgba(0,0,0,0.12)' }}
+                    >
+                      {heroCategories[0].image ? (
+                        <Image src={heroCategories[0].image} alt={heroCategories[0].name} fill className="object-cover transition-transform duration-700 group-hover:scale-105" />
+                      ) : (
+                        <div className="w-full h-full bg-gradient-to-br from-[#C9A96E] to-[#A07850]" />
+                      )}
+                      <div className="absolute inset-0 img-overlay-bottom" />
+                      <div className="absolute bottom-4 start-4 end-4">
+                        <p className="text-white font-black text-xl">{heroCategories[0].name}</p>
+                      </div>
+                    </Link>
+                  )}
+                  {heroCategories.slice(1).map(cat => (
+                    <Link
+                      key={cat.id}
+                      href={`/category/${cat.slug}`}
+                      className="relative aspect-square rounded-2xl overflow-hidden group"
+                      style={{ boxShadow: '0 4px 20px rgba(0,0,0,0.08)' }}
+                    >
+                      {cat.image ? (
+                        <Image src={cat.image} alt={cat.name} fill className="object-cover transition-transform duration-700 group-hover:scale-105" />
+                      ) : (
+                        <div className="w-full h-full bg-gradient-to-br from-[#F5F0EA] to-[#E8DFD3]" />
+                      )}
+                      <div className="absolute inset-0 img-overlay-bottom opacity-60" />
+                      <div className="absolute bottom-3 start-3 end-3">
+                        <p className="text-white font-bold text-sm">{cat.name}</p>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              ) : (
+                /* Fallback decorative element when no categories */
+                <div className="relative">
+                  <div className="aspect-square max-w-md mx-auto rounded-3xl overflow-hidden"
+                    style={{ background: 'linear-gradient(135deg, #FBF6EE 0%, #F5EDD8 100%)', boxShadow: '0 20px 60px rgba(201,169,110,0.2)' }}>
+                    <div className="w-full h-full flex items-center justify-center">
+                      <Gift className="w-32 h-32 text-[#C9A96E]/40" />
+                    </div>
+                  </div>
+                  {/* Floating badges */}
+                  <motion.div
+                    animate={{ y: [0, -10, 0] }}
+                    transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
+                    className="absolute top-8 -start-6 bg-white rounded-2xl p-4 shadow-[0_8px_30px_rgba(0,0,0,0.1)] border border-[#E8E4DF]"
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-xl bg-[#FBF6EE] flex items-center justify-center">
+                        <Star className="w-5 h-5 text-[#C9A96E] fill-[#C9A96E]" />
+                      </div>
+                      <div>
+                        <p className="text-xs text-[#A8A29E]">تقييم العملاء</p>
+                        <p className="font-black text-[#1C1917]">4.9 / 5</p>
+                      </div>
+                    </div>
+                  </motion.div>
+                  <motion.div
+                    animate={{ y: [0, 10, 0] }}
+                    transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
+                    className="absolute bottom-16 -end-6 bg-white rounded-2xl p-4 shadow-[0_8px_30px_rgba(0,0,0,0.1)] border border-[#E8E4DF]"
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-xl bg-[#FDF2F4] flex items-center justify-center">
+                        <Package className="w-5 h-5 text-[#E85D75]" />
+                      </div>
+                      <div>
+                        <p className="text-xs text-[#A8A29E]">شُحن اليوم</p>
+                        <p className="font-black text-[#1C1917]">+120 طلب</p>
+                      </div>
+                    </div>
+                  </motion.div>
+                </div>
+              )}
+            </motion.div>
+          </div>
         </div>
-
-        <motion.div 
-          style={{ opacity: heroOpacity, y: heroY }}
-          className="relative z-10 w-full max-w-5xl mx-auto px-4 flex flex-col items-center text-center transform-gpu"
-        >
-          {/* Premium Badge */}
-          <motion.div 
-            initial={{ opacity: 0, y: 30, scale: 0.9 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-            className="inline-flex items-center rounded-full border border-white/20 bg-white/5 backdrop-blur-xl px-6 py-2.5 text-sm font-medium text-blue-100 mb-10 shadow-[0_0_20px_rgba(255,255,255,0.05)]"
-          >
-            <Sparkles className="w-4 h-4 me-2 ms-2 text-amber-300 drop-shadow-[0_0_5px_rgba(251,191,36,0.8)]" />
-            {heroBadge || "التشكيلة الجديدة كلياً لعام 2026"}
-          </motion.div>
-          
-          {/* Headline - Exact Arabic Text */}
-          <motion.h1 
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-            className="text-6xl sm:text-7xl lg:text-[7rem] font-black tracking-[-0.02em] leading-[1.1] mb-8 drop-shadow-2xl"
-          >
-            {heroHeadline ? (
-              <span className="text-white" dangerouslySetInnerHTML={{ __html: heroHeadline.replace('\n', '<br/>') }} />
-            ) : (
-              <>
-                <span className="text-white drop-shadow-[0_10px_20px_rgba(0,0,0,0.8)]">لحظاتك المهمة</span> <br/>
-                <span className="text-transparent bg-clip-text bg-gradient-to-b from-amber-100 via-amber-300 to-yellow-600 drop-shadow-[0_10px_20px_rgba(0,0,0,0.5)]">
-                  تستحق الأفضل
-                </span>
-              </>
-            )}
-          </motion.h1>
-          
-          {/* Subheadline */}
-          <motion.p 
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className="text-xl sm:text-2xl text-slate-300 max-w-2xl mx-auto font-medium mb-12 leading-relaxed drop-shadow-lg"
-          >
-            {heroSubheadline || "اكتشف مجموعة من الهدايا الاستثنائية التي تم اختيارها بعناية لتناسب أرقى الأذواق وتخلّد أجمل الذكريات."}
-          </motion.p>
-          
-          {/* Actions - Premium Buttons */}
-          <motion.div 
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="flex flex-col sm:flex-row items-center gap-6 w-full sm:w-auto"
-          >
-            <Link href="/shop" className="relative group inline-flex items-center justify-center w-full sm:w-auto h-14 px-10 text-lg rounded-full bg-white text-slate-900 font-bold transition-all hover:scale-105 active:scale-95 shadow-[0_10px_30px_rgba(255,255,255,0.15)] hover:shadow-[0_15px_40px_rgba(255,255,255,0.25)] overflow-hidden">
-              <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/50 to-transparent group-hover:translate-x-full transition-transform duration-1000 ease-in-out -skew-x-12 translate-x-[-150%]" />
-              تسوق المنتجات
-            </Link>
-            <Link href="/gift-finder" className="inline-flex items-center justify-center w-full sm:w-auto h-14 px-10 text-lg rounded-full bg-white/10 border border-white/20 text-white font-medium transition-all hover:bg-white/20 hover:border-white/40 hover:scale-105 active:scale-95 backdrop-blur-md shadow-lg">
-              مكتشف الهدايا الذكي
-              <ArrowUpLeft className="ms-3 w-5 h-5 text-amber-300" />
-            </Link>
-          </motion.div>
-        </motion.div>
       </section>
 
-      {/* 2. Trust Features (3D Glass Cards) */}
-      <section className="py-24 relative z-10 bg-transparent">
+      {/* ===== 2. TRUST FEATURES ===== */}
+      <section className="py-16 bg-white border-y border-[#E8E4DF]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-16">
+          <motion.div
+            variants={stagger}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: '-50px' }}
+            className="grid grid-cols-2 lg:grid-cols-4 gap-6"
+          >
             {features.map((feature, idx) => (
-              <motion.div 
+              <motion.div
+                key={idx}
+                variants={fadeUp}
+                custom={idx}
+                className="flex flex-col items-center text-center group"
+              >
+                <div
+                  className="w-14 h-14 rounded-2xl flex items-center justify-center mb-4 transition-transform duration-300 group-hover:scale-110 group-hover:-translate-y-1"
+                  style={{ background: feature.bg }}
+                >
+                  <feature.icon className="w-6 h-6" style={{ color: feature.color }} />
+                </div>
+                <h3 className="font-bold text-[#1C1917] text-sm mb-1">{feature.title}</h3>
+                <p className="text-xs text-[#A8A29E] leading-relaxed max-w-[180px]">{feature.desc}</p>
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ===== 3. CATEGORIES GRID ===== */}
+      {gridCategories.length > 0 && (
+        <section className="py-20 bg-[#FAFAF8]">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            {/* Section Header */}
+            <div className="flex items-end justify-between mb-10">
+              <div>
+                <p className="text-sm font-bold text-[#C9A96E] uppercase tracking-widest mb-2">استكشف</p>
+                <h2 className="text-3xl sm:text-4xl font-black text-[#1C1917] tracking-tight">مجموعاتنا المختارة</h2>
+              </div>
+              <Link
+                href="/shop"
+                className="flex items-center gap-2 text-sm font-bold text-[#78716C] hover:text-[#C9A96E] transition-colors group"
+              >
+                عرض الكل
+                <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
+              </Link>
+            </div>
+
+            {/* Category Grid */}
+            <motion.div
+              variants={stagger}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: '-50px' }}
+              className="grid grid-cols-2 md:grid-cols-3 gap-4"
+            >
+              {/* First large card */}
+              {gridCategories[0] && (
+                <motion.div variants={fadeUp} className="col-span-2 md:col-span-1 md:row-span-2">
+                  <Link
+                    href={`/category/${gridCategories[0].slug}`}
+                    className="group relative rounded-3xl overflow-hidden block h-64 md:h-full transition-all duration-300 hover:-translate-y-1"
+                    style={{ boxShadow: '0 4px 20px rgba(0,0,0,0.08)', minHeight: '280px' }}
+                  >
+                    {gridCategories[0].image ? (
+                      <Image src={gridCategories[0].image} alt={gridCategories[0].name} fill className="object-cover transition-transform duration-700 group-hover:scale-105" />
+                    ) : (
+                      <div style={{ background: 'linear-gradient(135deg, #C9A96E, #A07850)' }} className="w-full h-full" />
+                    )}
+                    <div className="absolute inset-0 img-overlay-bottom" />
+                    <div className="absolute bottom-0 start-0 end-0 p-6">
+                      <p className="text-white/70 text-xs font-bold uppercase tracking-widest mb-1">تصفح</p>
+                      <h3 className="text-white font-black text-2xl">{gridCategories[0].name}</h3>
+                    </div>
+                  </Link>
+                </motion.div>
+              )}
+
+              {/* Smaller cards */}
+              {gridCategories.slice(1).map((cat, idx) => (
+                <motion.div key={cat.id} variants={fadeUp} custom={idx + 1}>
+                  <Link
+                    href={`/category/${cat.slug}`}
+                    className="group relative rounded-2xl overflow-hidden block h-32 md:h-36 transition-all duration-300 hover:-translate-y-1"
+                    style={{ boxShadow: '0 4px 20px rgba(0,0,0,0.06)' }}
+                  >
+                    {cat.image ? (
+                      <Image src={cat.image} alt={cat.name} fill className="object-cover transition-transform duration-700 group-hover:scale-105" />
+                    ) : (
+                      <div className="w-full h-full bg-gradient-to-br from-[#F5F0EA] to-[#E8DFD3]" />
+                    )}
+                    <div className="absolute inset-0 img-overlay-bottom opacity-70" />
+                    <div className="absolute bottom-3 start-3 end-3">
+                      <h3 className="text-white font-bold text-base">{cat.name}</h3>
+                    </div>
+                  </Link>
+                </motion.div>
+              ))}
+            </motion.div>
+          </div>
+        </section>
+      )}
+
+      {/* ===== 4. TOP PRODUCTS ===== */}
+      {topProducts.length > 0 && (
+        <section className="py-20 bg-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            {/* Section Header */}
+            <div className="flex items-end justify-between mb-10">
+              <div>
+                <p className="text-sm font-bold text-[#E85D75] uppercase tracking-widest mb-2">الأكثر طلباً</p>
+                <h2 className="text-3xl sm:text-4xl font-black text-[#1C1917] tracking-tight">المنتجات الأكثر مبيعاً</h2>
+              </div>
+              <Link
+                href="/shop"
+                className="flex items-center gap-2 text-sm font-bold text-[#78716C] hover:text-[#C9A96E] transition-colors group"
+              >
+                عرض الكل
+                <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
+              </Link>
+            </div>
+
+            <motion.div
+              variants={stagger}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: '-50px' }}
+              className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6"
+            >
+              {topProducts.slice(0, 8).map((product, idx) => (
+                <motion.div key={product.id} variants={fadeUp} custom={idx} className="h-full">
+                  <ProductCard product={product} />
+                </motion.div>
+              ))}
+            </motion.div>
+          </div>
+        </section>
+      )}
+
+      {/* ===== 5. PROMOTIONAL BANNER ===== */}
+      <section className="py-8 px-4">
+        <div className="max-w-7xl mx-auto">
+          <div
+            className="relative rounded-3xl overflow-hidden p-10 md:p-16 text-center"
+            style={{ background: 'linear-gradient(135deg, #1C1917 0%, #2D2926 50%, #1C1917 100%)' }}
+          >
+            {/* Decorative elements */}
+            <div className="absolute top-0 end-0 w-96 h-96 bg-[#C9A96E]/10 rounded-full blur-[80px] pointer-events-none" />
+            <div className="absolute bottom-0 start-0 w-64 h-64 bg-[#E85D75]/8 rounded-full blur-[60px] pointer-events-none" />
+
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+              className="relative z-10"
+            >
+              <div className="w-16 h-16 rounded-2xl bg-[#C9A96E]/15 border border-[#C9A96E]/25 flex items-center justify-center mx-auto mb-6">
+                <Gift className="w-8 h-8 text-[#C9A96E]" />
+              </div>
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-white mb-4 tracking-tight">
+                محتار في اختيار الهدية؟
+              </h2>
+              <p className="text-white/55 text-lg mb-8 max-w-xl mx-auto leading-relaxed">
+                مكتشف الهدايا الذكي يساعدك في إيجاد الهدية المثالية في دقائق. أجب عن أسئلة بسيطة وسنقترح لك الهدية التي ستصنع الفارق.
+              </p>
+              <Link
+                href="/gift-finder"
+                className="inline-flex items-center gap-3 h-14 px-10 rounded-2xl font-black text-[#1C1917] transition-all hover:-translate-y-0.5 hover:shadow-[0_8px_30px_rgba(201,169,110,0.5)]"
+                style={{ background: 'linear-gradient(135deg, #C9A96E 0%, #A07850 100%)' }}
+              >
+                <Sparkles className="w-5 h-5" />
+                جرّب مكتشف الهدايا
+                <ArrowLeft className="w-5 h-5" />
+              </Link>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* ===== 6. WHY CHOOSE US ===== */}
+      <section className="py-20 bg-[#FAFAF8]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-14">
+            <p className="text-sm font-bold text-[#C9A96E] uppercase tracking-widest mb-2">لماذا نحن</p>
+            <h2 className="text-3xl sm:text-4xl font-black text-[#1C1917] tracking-tight">تجربة تسوق لا مثيل لها</h2>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[
+              {
+                icon: Zap,
+                title: 'اختيار ذكي وسريع',
+                desc: 'خوارزميات تساعدك في اختيار الهدية المناسبة لكل شخص ومناسبة في وقت قياسي',
+                color: '#C9A96E',
+                bg: '#FBF6EE'
+              },
+              {
+                icon: ShieldCheck,
+                title: 'جودة مضمونة 100%',
+                desc: 'كل منتج يمر بفحص دقيق قبل وصوله إليك مع ضمان الاسترجاع خلال 7 أيام',
+                color: '#10B981',
+                bg: '#F0FDF9'
+              },
+              {
+                icon: HeartHandshake,
+                title: 'تغليف يعكس مشاعرك',
+                desc: 'تغليف فاخر بشكل احترافي مع إمكانية إضافة بطاقة مخصصة برسالة من قلبك',
+                color: '#E85D75',
+                bg: '#FDF2F4'
+              },
+            ].map((item, idx) => (
+              <motion.div
                 key={idx}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-50px" }}
-                transition={{ delay: idx * 0.1, duration: 0.6 }}
-                className="flex flex-col items-center text-center group perspective-[1000px]"
+                viewport={{ once: true }}
+                transition={{ delay: idx * 0.1, duration: 0.5 }}
+                className="bg-white rounded-3xl p-8 border border-[#E8E4DF] hover:border-[#C9A96E]/30 hover:shadow-[0_8px_30px_rgba(0,0,0,0.07)] transition-all duration-300 group"
               >
-                <div className="w-20 h-20 rounded-2xl glass-card flex items-center justify-center mb-6 shadow-xl transform group-hover:scale-110 group-hover:-translate-y-2 group-hover:rotate-3 transition-all duration-500 ease-out border-white/10 before:absolute before:inset-0 before:bg-gradient-to-tr before:from-transparent before:to-white/10 before:rounded-2xl">
-                  <feature.icon className="w-8 h-8 stroke-[1.5] text-amber-300 drop-shadow-[0_0_10px_rgba(251,191,36,0.5)]" />
+                <div
+                  className="w-14 h-14 rounded-2xl flex items-center justify-center mb-5 transition-transform duration-300 group-hover:scale-110"
+                  style={{ background: item.bg }}
+                >
+                  <item.icon className="w-7 h-7" style={{ color: item.color }} />
                 </div>
-                <h3 className="font-bold text-white text-xl mb-3 tracking-wide">{feature.title}</h3>
-                <p className="text-base text-slate-400 leading-relaxed max-w-[250px] mx-auto">{feature.desc}</p>
+                <h3 className="font-black text-[#1C1917] text-xl mb-3">{item.title}</h3>
+                <p className="text-[#78716C] leading-relaxed text-sm">{item.desc}</p>
               </motion.div>
             ))}
           </div>
-        </div>
-      </section>
-
-      {/* 3. Categories (Premium 3D Grids) */}
-      <section className="py-32 relative bg-[#010306]">
-        {/* Subtle glowing elements */}
-        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-sky-500/5 rounded-full blur-[120px] pointer-events-none" />
-        <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-amber-500/5 rounded-full blur-[120px] pointer-events-none" />
-        
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="text-center mb-20">
-            <h2 className="text-4xl sm:text-5xl font-black text-white tracking-tight mb-5 drop-shadow-md">مجموعات مختارة</h2>
-            <p className="text-xl text-slate-400 max-w-2xl mx-auto">تصفح أقسامنا لاكتشاف الهدايا التي تناسب ذوقك الرفيع في بيئة ثلاثية الأبعاد.</p>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:h-[600px] perspective-[1000px]">
-            {/* 2 Large Categories on the left */}
-            <div className="lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-8 h-full">
-              {largeCategories.map((category) => (
-                <Link key={category.id} href={`/category/${category.slug}`} className="relative rounded-[2.5rem] overflow-hidden group h-[400px] lg:h-full glass-card hover:shadow-[0_20px_50px_rgba(37,99,235,0.15)] hover:-translate-y-2 hover:scale-[1.02] transition-all duration-700 ease-out border-white/5">
-                  <div className="absolute inset-0 bg-gradient-to-tr from-[#050B14]/80 to-transparent z-10 opacity-70 group-hover:opacity-40 transition-opacity duration-700" />
-                  {category.image ? (
-                    <Image src={category.image} alt={category.name} fill className="object-cover group-hover:scale-110 group-hover:rotate-1 transition-transform duration-1000 ease-[0.16,1,0.3,1] z-0" />
-                  ) : (
-                    <div className="w-full h-full bg-[#132347]/50" />
-                  )}
-                  <div className="absolute inset-x-0 bottom-0 p-10 z-20 flex flex-col justify-end bg-gradient-to-t from-[#050B14] via-[#050B14]/80 to-transparent transform group-hover:translate-y-[-10px] transition-transform duration-500">
-                    <h3 className="text-3xl font-black text-white mb-3 drop-shadow-lg">{category.name}</h3>
-                    <span className="text-amber-300 font-bold text-sm flex items-center opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-500">
-                      تصفح المجموعة <ArrowLeft className="w-4 h-4 ms-2" />
-                    </span>
-                  </div>
-                </Link>
-              ))}
-            </div>
-            
-            {/* Small Categories on the right */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-2 gap-8 h-full">
-              {smallCategories.map((category) => (
-                <Link key={category.id} href={`/category/${category.slug}`} className="relative rounded-3xl overflow-hidden group h-48 sm:h-auto glass-card hover:shadow-[0_15px_40px_rgba(37,99,235,0.1)] hover:-translate-y-1 hover:scale-[1.03] transition-all duration-500 border-white/5">
-                  {category.image ? (
-                    <Image src={category.image} alt={category.name} fill className="object-cover opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700 ease-out" />
-                  ) : (
-                    <div className="w-full h-full bg-[#132347]/30" />
-                  )}
-                  <div className="absolute inset-0 z-20 flex flex-col items-center justify-center p-4 bg-gradient-to-t from-[#050B14]/90 to-[#050B14]/30 group-hover:from-[#050B14]/70 transition-colors duration-500">
-                    <h3 className="text-xl font-bold text-white text-center drop-shadow-md">{category.name}</h3>
-                  </div>
-                </Link>
-              ))}
-            </div>
-          </div>
-          
-          <div className="mt-16 text-center">
-            <Link href="/shop" className="inline-flex items-center justify-center h-14 px-10 rounded-full glass-button text-white font-bold tracking-wide">
-              عرض كل الأقسام
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* 4. Top Products (3D Floating Gallery) */}
-      <section className="py-32 relative bg-[#050B14] perspective-[1000px]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6 relative z-10">
-            <div>
-              <h2 className="text-4xl sm:text-5xl font-black text-white tracking-tight mb-4 drop-shadow-md">الأكثر مبيعاً</h2>
-              <p className="text-xl text-slate-400">الهدايا المفضلة لدى عملائنا المميزين.</p>
-            </div>
-            <Link href="/shop" className="inline-flex items-center text-amber-400 font-bold hover:text-amber-300 group">
-              تسوق كل المنتجات
-              <ArrowLeft className="ms-2 w-5 h-5 group-hover:-translate-x-1 transition-transform" />
-            </Link>
-          </div>
-
-          <motion.div 
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-16 relative z-10"
-          >
-            {topProducts.map((product) => (
-              <motion.div key={product.id} variants={itemVariants} className="h-full">
-                <ProductCard product={product} />
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
-      </section>
-
-      {/* 5. Clean CTA (Premium Glassmorphism Orb) */}
-      <section className="py-32 relative bg-[#010306] overflow-hidden">
-        {/* Abstract 3D Glowing Elements */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-tr from-rose-500/10 to-amber-500/10 rounded-full blur-[100px] pointer-events-none" />
-        
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-          <motion.div 
-            animate={{ y: [-10, 10, -10], rotate: [0, 5, 0] }}
-            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-            className="w-28 h-28 rounded-full glass-card flex items-center justify-center mx-auto mb-10 shadow-[0_20px_40px_rgba(0,0,0,0.5)] border-white/20 before:absolute before:inset-0 before:bg-gradient-to-tr before:from-transparent before:to-white/10 before:rounded-full"
-          >
-            <Gift className="w-14 h-14 text-amber-300 drop-shadow-[0_10px_10px_rgba(251,191,36,0.4)]" />
-          </motion.div>
-          
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-white mb-6 tracking-tight drop-shadow-lg">
-            محتار في اختيار الهدية؟
-          </h2>
-          <p className="text-xl text-slate-400 mb-12 leading-relaxed max-w-2xl mx-auto drop-shadow-md">
-            لقد صممنا "مكتشف الهدايا" ليكون مساعدك الشخصي. أجب عن أسئلة بسيطة وسنقترح لك الهدية التي ستصنع الفارق.
-          </p>
-          <Link href="/gift-finder" className="inline-flex items-center justify-center h-16 px-12 text-xl rounded-full bg-gradient-to-r from-amber-500 to-yellow-600 text-[#050B14] font-black transition-all hover:scale-105 active:scale-95 shadow-[0_10px_30px_rgba(251,191,36,0.3)] hover:shadow-[0_15px_40px_rgba(251,191,36,0.5)] overflow-hidden group">
-            <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/40 to-transparent group-hover:translate-x-full transition-transform duration-1000 ease-in-out -skew-x-12 translate-x-[-150%]" />
-            جرب مكتشف الهدايا
-          </Link>
         </div>
       </section>
 

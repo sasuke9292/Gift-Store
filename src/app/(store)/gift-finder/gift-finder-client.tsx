@@ -2,11 +2,12 @@
 
 import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Button, buttonVariants } from '@/components/ui/button'
-import { Sparkles, ArrowLeft, RotateCcw, ShoppingCart } from 'lucide-react'
-import { Card, CardContent } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
+import { Sparkles, ArrowLeft, RotateCcw, ShoppingCart, Star, Check } from 'lucide-react'
 import Link from 'next/link'
 import Image from 'next/image'
+import { useCartStore } from '@/lib/store'
+import { toast } from 'sonner'
 
 const steps = [
   {
@@ -34,7 +35,7 @@ const steps = [
     question: 'ما هي ميزانيتك التقريبية؟',
     options: [
       { label: 'أقل من 30,000 د.ع', value: 'low', icon: '💰' },
-      { label: '30,000 - 80,000 د.ع', value: 'medium', icon: '💸' },
+      { label: '30,000 – 80,000 د.ع', value: 'medium', icon: '💸' },
       { label: 'أكثر من 80,000 د.ع', value: 'high', icon: '💎' },
       { label: 'الميزانية مفتوحة', value: 'any', icon: '✨' }
     ]
@@ -55,11 +56,11 @@ export default function GiftFinderClient({ initialProducts: products }: { initia
   const [answers, setAnswers] = useState<Record<string, string>>({})
   const [isFinished, setIsFinished] = useState(false)
   const [recommendedProducts, setRecommendedProducts] = useState<Product[]>([])
+  const addItem = useCartStore(state => state.addItem)
 
   const handleSelectOption = (value: string) => {
     const newAnswers = { ...answers, [steps[currentStep].id]: value }
     setAnswers(newAnswers)
-
     if (currentStep < steps.length - 1) {
       setCurrentStep(currentStep + 1)
     } else {
@@ -69,8 +70,6 @@ export default function GiftFinderClient({ initialProducts: products }: { initia
 
   const findGifts = (finalAnswers: Record<string, string>) => {
     let filtered = [...products]
-    
-    // Fake logic for demo based on placeholder data
     if (finalAnswers.recipient === 'men') {
       filtered = filtered.filter(p => p.category === 'هدايا رجالية')
     } else if (finalAnswers.recipient === 'women') {
@@ -78,7 +77,6 @@ export default function GiftFinderClient({ initialProducts: products }: { initia
     } else if (finalAnswers.recipient === 'kids') {
       filtered = filtered.filter(p => p.category === 'هدايا أطفال')
     }
-
     if (finalAnswers.budget === 'low') {
       filtered = filtered.filter(p => p.price <= 30000)
     } else if (finalAnswers.budget === 'medium') {
@@ -86,12 +84,9 @@ export default function GiftFinderClient({ initialProducts: products }: { initia
     } else if (finalAnswers.budget === 'high') {
       filtered = filtered.filter(p => p.price > 80000)
     }
-
-    // If nothing found, just recommend best sellers
     if (filtered.length === 0) {
       filtered = products.filter(p => p.isBestSeller)
     }
-
     setRecommendedProducts(filtered)
     setIsFinished(true)
   }
@@ -104,145 +99,218 @@ export default function GiftFinderClient({ initialProducts: products }: { initia
   }
 
   return (
-    <div className="bg-[#050B14] min-h-screen pt-48 pb-32 relative overflow-hidden text-white">
-      
-      {/* Decorative bg */}
-      <div className="absolute top-0 start-0 w-[500px] h-[500px] bg-amber-500/10 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/2 pointer-events-none mix-blend-screen"></div>
-      <div className="absolute bottom-0 end-0 w-[600px] h-[600px] bg-blue-600/10 rounded-full blur-[120px] translate-y-1/2 -translate-x-1/2 pointer-events-none mix-blend-screen"></div>
+    <div className="min-h-screen bg-[#FAFAF8] pt-4 pb-20">
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
 
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 perspective-[1000px]">
-        
-        <div className="text-center mb-16">
-          <motion.div 
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            className="w-24 h-24 bg-gradient-to-br from-amber-400 to-amber-600 rounded-full flex items-center justify-center mx-auto mb-8 shadow-[0_0_40px_rgba(251,191,36,0.6)] relative z-10 border-[4px] border-[#050B14]"
+        {/* Page Header */}
+        <div className="py-12 text-center">
+          <motion.div
+            initial={{ scale: 0, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            className="w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-[0_8px_30px_rgba(201,169,110,0.3)]"
+            style={{ background: 'linear-gradient(135deg, #C9A96E 0%, #A07850 100%)' }}
           >
-            <Sparkles className="w-12 h-12 text-[#050B14]" />
+            <Sparkles className="w-10 h-10 text-white" />
           </motion.div>
-          <motion.h1 
-            initial={{ opacity: 0, y: 20 }}
+          <motion.h1
+            initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-5xl font-black text-transparent bg-clip-text bg-gradient-to-br from-white to-slate-400 mb-6 drop-shadow-md"
+            transition={{ delay: 0.1 }}
+            className="text-4xl sm:text-5xl font-black text-[#1C1917] tracking-tight mb-4"
           >
             مكتشف الهدايا الذكي
           </motion.h1>
-          <motion.p 
-            initial={{ opacity: 0, y: 20 }}
+          <motion.p
+            initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="text-slate-400 text-xl max-w-2xl mx-auto leading-relaxed drop-shadow-sm"
+            transition={{ delay: 0.2 }}
+            className="text-[#78716C] text-lg max-w-md mx-auto leading-relaxed"
           >
-            أجب عن 3 أسئلة بسيطة وسنقوم باقتراح الهدايا المثالية التي تناسب ذوقك وميزانيتك بلمسة سحرية.
+            أجب عن 3 أسئلة بسيطة وسنقترح لك الهدايا المثالية التي تناسب ذوقك وميزانيتك.
           </motion.p>
         </div>
 
-        <div className="glass-card rounded-[3rem] p-8 md:p-14 shadow-2xl border-white/10 min-h-[400px] transform-gpu hover:rotate-y-1 transition-transform duration-700">
-          
+        {/* Main Card */}
+        <div className="bg-white rounded-3xl border border-[#E8E4DF] shadow-[0_4px_30px_rgba(0,0,0,0.07)] overflow-hidden">
           <AnimatePresence mode="wait">
-            {!isFinished ? (
+
+            {/* ===== QUIZ STEPS ===== */}
+            {!isFinished && (
               <motion.div
                 key={`step-${currentStep}`}
-                initial={{ opacity: 0, x: 50 }}
+                initial={{ opacity: 0, x: 30 }}
                 animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -50 }}
-                transition={{ duration: 0.3 }}
-                className="flex flex-col h-full"
+                exit={{ opacity: 0, x: -30 }}
+                transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                className="p-8 md:p-12"
               >
-                <div className="flex justify-between items-center mb-10">
-                  <span className="text-amber-400 font-bold drop-shadow-sm">الخطوة {currentStep + 1} من {steps.length}</span>
+                {/* Step Progress */}
+                <div className="flex items-center justify-between mb-8">
+                  <span className="text-sm font-bold text-[#C9A96E]">
+                    الخطوة {currentStep + 1} من {steps.length}
+                  </span>
                   <div className="flex gap-2">
                     {steps.map((_, idx) => (
-                      <div key={idx} className={`h-2 rounded-full transition-all duration-500 shadow-inner ${idx === currentStep ? 'w-10 bg-amber-400 shadow-[0_0_10px_rgba(251,191,36,0.5)]' : idx < currentStep ? 'w-3 bg-amber-500/40' : 'w-3 bg-white/10'}`} />
+                      <div
+                        key={idx}
+                        className="h-2 rounded-full transition-all duration-500"
+                        style={{
+                          width: idx === currentStep ? '40px' : '12px',
+                          background: idx === currentStep
+                            ? 'linear-gradient(90deg, #C9A96E, #A07850)'
+                            : idx < currentStep ? '#C9A96E' : '#E8E4DF'
+                        }}
+                      />
                     ))}
                   </div>
                 </div>
 
-                <h2 className="text-3xl md:text-4xl font-bold text-white mb-12 text-center drop-shadow-md">
+                {/* Question */}
+                <h2 className="text-2xl sm:text-3xl font-black text-[#1C1917] mb-8 text-center">
                   {steps[currentStep].question}
                 </h2>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {/* Options */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   {steps[currentStep].options.map((option, idx) => (
                     <motion.button
+                      key={idx}
+                      initial={{ opacity: 0, y: 12 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: idx * 0.06 }}
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
-                      key={idx}
                       onClick={() => handleSelectOption(option.value)}
-                      className="p-6 rounded-3xl glass-card border-white/5 hover:border-amber-400/50 hover:shadow-[0_10px_30px_rgba(251,191,36,0.15)] transition-all duration-300 text-start flex items-center gap-6 group hover:bg-white/5 relative overflow-hidden"
+                      className="p-5 rounded-2xl border-2 border-[#E8E4DF] hover:border-[#C9A96E]/50 hover:bg-[#FBF6EE] hover:shadow-[0_4px_16px_rgba(201,169,110,0.15)] transition-all duration-200 flex items-center gap-4 group text-start"
                     >
-                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-amber-500/5 to-transparent group-hover:translate-x-full transition-transform duration-1000 -skew-x-12 translate-x-[-150%]" />
-                      <div className="w-16 h-16 rounded-2xl bg-white/5 group-hover:bg-amber-500/20 group-hover:border-amber-500/30 border border-transparent flex items-center justify-center text-3xl shadow-inner transition-colors duration-300 relative z-10">
+                      <div className="w-14 h-14 rounded-xl bg-[#F5F0EA] group-hover:bg-[#F0E8DC] flex items-center justify-center text-3xl transition-colors shrink-0">
                         {option.icon}
                       </div>
-                      <span className="text-xl font-bold text-slate-300 group-hover:text-amber-400 transition-colors drop-shadow-sm relative z-10">{option.label}</span>
+                      <span className="font-bold text-[#1C1917] group-hover:text-[#A07850] transition-colors">
+                        {option.label}
+                      </span>
                     </motion.button>
                   ))}
                 </div>
-                
+
+                {/* Back button */}
                 {currentStep > 0 && (
-                  <div className="mt-10 flex justify-end">
-                    <Button 
-                      variant="ghost" 
+                  <div className="mt-8 flex justify-end">
+                    <button
                       onClick={() => setCurrentStep(currentStep - 1)}
-                      className="text-white/50 hover:text-white hover:bg-white/5 rounded-xl h-12 px-6"
+                      className="flex items-center gap-2 text-sm font-semibold text-[#78716C] hover:text-[#C9A96E] transition-colors"
                     >
-                      الرجوع للسؤال السابق
-                      <ArrowLeft className="w-4 h-4 ms-2" />
-                    </Button>
+                      <ArrowLeft className="w-4 h-4" />
+                      العودة للسؤال السابق
+                    </button>
                   </div>
                 )}
               </motion.div>
-            ) : (
+            )}
+
+            {/* ===== RESULTS ===== */}
+            {isFinished && (
               <motion.div
                 key="results"
-                initial={{ opacity: 0, scale: 0.95 }}
+                initial={{ opacity: 0, scale: 0.97 }}
                 animate={{ opacity: 1, scale: 1 }}
-                className="space-y-12"
+                transition={{ duration: 0.4 }}
+                className="p-8 md:p-10"
               >
-                <div className="text-center">
-                  <div className="inline-flex items-center gap-2 bg-amber-500/10 border border-amber-500/20 text-amber-400 px-6 py-3 rounded-full mb-6 shadow-[0_0_15px_rgba(251,191,36,0.2)]">
-                    <Sparkles className="w-5 h-5 drop-shadow-[0_0_5px_rgba(251,191,36,0.5)]" />
-                    <span className="font-bold text-md">وجدنا لك {recommendedProducts.length} هدايا مثالية</span>
+                {/* Results Header */}
+                <div className="text-center mb-8">
+                  <div className="inline-flex items-center gap-2 bg-[#FBF6EE] border border-[#C9A96E]/30 text-[#A07850] px-6 py-3 rounded-full mb-5 font-bold">
+                    <Sparkles className="w-4 h-4 text-[#C9A96E]" />
+                    وجدنا لك {recommendedProducts.length} هدايا مثالية!
                   </div>
-                  <h2 className="text-4xl font-black text-white drop-shadow-md">اقتراحاتنا السحرية لك</h2>
+                  <h2 className="text-3xl font-black text-[#1C1917]">اقتراحاتنا الذكية لك ✨</h2>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                  {recommendedProducts.map((product) => (
-                    <Card key={product.id} className="group glass-card border-white/5 hover:border-amber-400/30 shadow-lg hover:shadow-[0_15px_40px_rgba(0,0,0,0.6)] hover:-translate-y-2 transition-all duration-500 bg-transparent overflow-hidden rounded-[2rem] cursor-pointer">
+                {/* Product Cards */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+                  {recommendedProducts.slice(0, 4).map((product, idx) => (
+                    <motion.div
+                      key={product.id}
+                      initial={{ opacity: 0, y: 16 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: idx * 0.08 }}
+                      className="group bg-white rounded-2xl border border-[#E8E4DF] overflow-hidden hover:shadow-[0_8px_25px_rgba(0,0,0,0.09)] hover:-translate-y-1 hover:border-[#C9A96E]/30 transition-all duration-300"
+                    >
                       <Link href={`/product/${product.id}`} className="block">
-                        <div className="relative aspect-[4/3] bg-white/5 p-4 overflow-hidden border-b border-white/5">
-                          <div className="w-full h-full rounded-2xl overflow-hidden flex items-center justify-center text-slate-500 group-hover:scale-110 transition-transform duration-700 relative shadow-inner">
-                            {product.images && product.images[0] ? (
-                              <Image src={product.images[0]} alt={product.name} fill sizes="(max-width: 768px) 100vw, 33vw" className="object-cover drop-shadow-xl" />
-                            ) : (
-                              <span>صورة المنتج</span>
-                            )}
+                        <div className="relative aspect-[4/3] bg-[#F8F4EF] overflow-hidden">
+                          {product.images?.[0] ? (
+                            <Image
+                              src={product.images[0]}
+                              alt={product.name}
+                              fill
+                              sizes="(max-width: 640px) 100vw, 50vw"
+                              className="object-cover transition-transform duration-500 group-hover:scale-105"
+                            />
+                          ) : (
+                            <div className="w-full h-full flex items-center justify-center text-[#C9A96E]/30">
+                              <ShoppingCart className="w-10 h-10" />
+                            </div>
+                          )}
+                          {product.isBestSeller && (
+                            <span className="absolute top-3 start-3 inline-flex items-center gap-1 bg-[#E85D75] text-white text-[11px] font-black px-2.5 py-1 rounded-full">
+                              <Star className="w-2.5 h-2.5 fill-white" />
+                              الأكثر مبيعاً
+                            </span>
+                          )}
+                        </div>
+                        <div className="p-4">
+                          <p className="text-[11px] font-bold text-[#C9A96E] uppercase tracking-widest mb-1">{product.category}</p>
+                          <h3 className="font-bold text-[#1C1917] text-sm line-clamp-2 mb-3 group-hover:text-[#A07850] transition-colors">
+                            {product.name}
+                          </h3>
+                          <div className="flex items-center justify-between">
+                            <span className="text-lg font-black text-gold">
+                              {product.price.toLocaleString('en-US')}
+                              <span className="text-sm font-bold text-[#A8A29E] ms-1">د.ع</span>
+                            </span>
+                            <button
+                              className="w-9 h-9 rounded-xl flex items-center justify-center text-white shadow-[0_2px_8px_rgba(184,137,58,0.3)] transition-all hover:-translate-y-0.5"
+                              style={{ background: 'linear-gradient(135deg, #C9A96E 0%, #A07850 100%)' }}
+                              onClick={(e) => {
+                                e.preventDefault()
+                                e.stopPropagation()
+                                addItem({
+                                  id: `${product.id}-${Date.now()}`,
+                                  productId: product.id,
+                                  name: product.name,
+                                  price: product.price,
+                                  quantity: 1,
+                                  image: product.images?.[0],
+                                  category: product.category,
+                                })
+                                toast.success('تمت إضافة المنتج للسلة')
+                              }}
+                            >
+                              <ShoppingCart className="w-4 h-4" />
+                            </button>
                           </div>
                         </div>
-                        <CardContent className="p-6">
-                          <p className="text-sm font-bold text-amber-500/80 mb-2">{product.category}</p>
-                          <h3 className="font-bold text-white text-xl mb-4 line-clamp-2 drop-shadow-sm">{product.name}</h3>
-                          <div className="flex items-center justify-between">
-                            <span className="text-2xl font-black text-amber-400 drop-shadow-[0_0_10px_rgba(251,191,36,0.3)]">{product.price.toLocaleString('en-US')} <span className="text-lg">د.ع</span></span>
-                            <div className="w-12 h-12 rounded-full bg-gradient-to-r from-amber-500 to-yellow-600 text-[#050B14] flex items-center justify-center shadow-[0_5px_15px_rgba(251,191,36,0.4)] group-hover:scale-110 transition-transform">
-                              <ShoppingCart className="w-5 h-5" />
-                            </div>
-                          </div>
-                        </CardContent>
                       </Link>
-                    </Card>
+                    </motion.div>
                   ))}
                 </div>
 
-                <div className="pt-10 border-t border-white/10 flex flex-col sm:flex-row justify-center gap-4">
-                  <Button onClick={resetQuiz} variant="outline" size="lg" className="rounded-xl px-10 h-14 glass-button text-white border-white/10 hover:bg-white/10 w-full sm:w-auto">
-                    <RotateCcw className="w-5 h-5 me-2" />
+                {/* Actions */}
+                <div className="border-t border-[#E8E4DF] pt-6 flex flex-col sm:flex-row gap-3 justify-center">
+                  <button
+                    onClick={resetQuiz}
+                    className="flex items-center justify-center gap-2 h-12 px-6 rounded-xl font-bold text-[#78716C] border border-[#E8E4DF] hover:bg-[#F5F0EA] transition-all"
+                  >
+                    <RotateCcw className="w-4 h-4" />
                     إعادة البحث
-                  </Button>
-                  <Link href="/shop" className="inline-flex items-center justify-center w-full sm:w-auto px-10 h-14 rounded-xl shadow-[0_10px_30px_rgba(251,191,36,0.3)] bg-gradient-to-r from-amber-500 to-yellow-600 text-[#050B14] font-black hover:scale-[1.02] active:scale-95 transition-all duration-300">
+                  </button>
+                  <Link
+                    href="/shop"
+                    className="flex items-center justify-center gap-2 h-12 px-8 rounded-xl font-bold text-white transition-all hover:-translate-y-0.5 hover:shadow-[0_6px_20px_rgba(184,137,58,0.35)]"
+                    style={{ background: 'linear-gradient(135deg, #C9A96E 0%, #A07850 100%)' }}
+                  >
                     تصفح كل الهدايا
+                    <ArrowLeft className="w-4 h-4" />
                   </Link>
                 </div>
               </motion.div>

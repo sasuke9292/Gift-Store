@@ -8,8 +8,19 @@ export const dynamic = 'force-dynamic'
 
 export default async function StoreHome() {
   const categories = await getCategories()
-  const topProducts = await getTopProducts(4)
+  const rawTopProducts = await getTopProducts(8)
   const settings = await prisma.storeSettings.findUnique({ where: { id: 'default' } })
+
+  const topProducts = rawTopProducts.map(p => ({
+    id: p.id,
+    name: p.name,
+    price: p.price,
+    salePrice: p.salePrice,
+    isNew: p.isNew,
+    isBestSeller: p.isBestSeller,
+    images: Array.isArray(p.images) ? (p.images as string[]) : [],
+    category: p.category ? { name: p.category.name } : null,
+  }))
 
   return (
     <StoreHomeClient 

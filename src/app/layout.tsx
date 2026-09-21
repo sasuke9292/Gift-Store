@@ -22,7 +22,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ar" dir="rtl" suppressHydrationWarning className={cn(cairo.variable, "font-sans")}>
-      <body className="min-h-full flex flex-col antialiased bg-slate-50 text-slate-900">
+      <body className="min-h-full flex flex-col antialiased">
         {children}
         <Toaster position="top-center" richColors dir="rtl" />
       </body>
