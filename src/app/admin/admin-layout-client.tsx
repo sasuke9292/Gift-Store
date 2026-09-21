@@ -16,12 +16,20 @@ export function AdminLayoutClient({
   user: any
 }) {
   const mounted = useMounted()
-  const [isCollapsed, setIsCollapsed] = useState(false)
+  const [isCollapsed, setIsCollapsed] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return window.innerWidth < 1280
+    }
+    return false
+  })
 
   useEffect(() => {
-    if (window.innerWidth < 1280) {
-      setIsCollapsed(true)
+    const mql = window.matchMedia('(max-width: 1279px)')
+    const onChange = (e: MediaQueryListEvent) => {
+      setIsCollapsed(e.matches)
     }
+    mql.addEventListener('change', onChange)
+    return () => mql.removeEventListener('change', onChange)
   }, [])
 
   if (!mounted) {

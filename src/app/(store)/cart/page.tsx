@@ -9,18 +9,15 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { useCartStore } from '@/lib/store'
 import { toast } from 'sonner'
+import { useMounted } from '@/lib/use-mounted'
 
 export default function CartPage() {
   const cartItems = useCartStore(state => state.items)
   const updateQuantity = useCartStore(state => state.updateQuantity)
   const removeItem = useCartStore(state => state.removeItem)
   const subtotal = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0)
-  const [mounted, setMounted] = useState(false)
+  const mounted = useMounted()
   const [couponCode, setCouponCode] = useState('')
-
-  useEffect(() => {
-    setMounted(true)
-  }, [])
 
   const FREE_SHIPPING_THRESHOLD = 100000
   const shipping = subtotal > FREE_SHIPPING_THRESHOLD ? 0 : 5000

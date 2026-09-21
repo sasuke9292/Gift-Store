@@ -10,6 +10,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useCartStore, useFavoritesStore } from '@/lib/store'
 import { toast } from 'sonner'
+import { useMounted } from '@/lib/use-mounted'
 import { cn } from '@/lib/utils'
 
 export default function ProductClient({ product }: { product: any }) {
@@ -18,9 +19,7 @@ export default function ProductClient({ product }: { product: any }) {
   const [addedToCart, setAddedToCart] = useState(false)
   const addItem = useCartStore((state) => state.addItem)
   const { addFavorite, removeFavorite, hasFavorite } = useFavoritesStore()
-  const [mounted, setMounted] = React.useState(false)
-
-  React.useEffect(() => { setMounted(true) }, [])
+  const mounted = useMounted()
 
   const isFavorite = mounted && hasFavorite(product.id)
 

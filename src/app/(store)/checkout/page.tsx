@@ -396,7 +396,7 @@ export default function CheckoutPage() {
                 <p className="text-[#78716C] mb-2 max-w-md mx-auto leading-relaxed">
                   شكراً لتسوقك من گفتي بلس. رقم طلبك هو{' '}
                   <span className="font-black text-[#C9A96E]">
-                    #{orderId ? orderId.slice(-6).toUpperCase() : 'GP' + Math.random().toString(36).slice(2, 8).toUpperCase()}
+                    #{orderId ? orderId.slice(-6).toUpperCase() : 'GP-CONFIRMED'}
                   </span>
                 </p>
                 <p className="text-sm text-[#A8A29E] mb-10">

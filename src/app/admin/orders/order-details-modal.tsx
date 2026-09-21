@@ -56,38 +56,38 @@ export function OrderDetailsModal({ isOpen, onClose, orderId, onOrderUpdated }: 
   const [notes, setNotes] = useState('')
 
   useEffect(() => {
-    if (isOpen && orderId) {
-      fetchOrderDetails()
-    } else {
-      setOrder(null)
-      setNotes('')
-    }
-  }, [isOpen, orderId])
+    let isCancelled = false
+    if (!isOpen || !orderId) return
 
-  const fetchOrderDetails = async () => {
-    setIsLoading(true)
-    const res = await getOrderDetails(orderId!)
-    if (res.success && res.data) {
-      let parsedAddress = null
-      try {
-        if (res.data.shippingAddress) {
-          parsedAddress = typeof res.data.shippingAddress === 'string' 
-            ? JSON.parse(res.data.shippingAddress) 
-            : res.data.shippingAddress
+    async function load() {
+      setIsLoading(true)
+      const res = await getOrderDetails(orderId!)
+      if (isCancelled) return
+      if (res.success && res.data) {
+        let parsedAddress = null
+        try {
+          if (res.data.shippingAddress) {
+            parsedAddress = typeof res.data.shippingAddress === 'string' 
+              ? JSON.parse(res.data.shippingAddress) 
+              : res.data.shippingAddress
+          }
+        } catch (e) {
+          console.error('Failed to parse shipping address', e)
         }
-      } catch (e) {
-        console.error('Failed to parse shipping address', e)
+        
+        const formatted = { ...res.data, shippingAddress: parsedAddress }
+        setOrder(formatted)
+        setNotes(formatted.internalNotes || '')
+      } else {
+        toast.error(res.error || 'فشل جلب تفاصيل الطلب')
+        onClose()
       }
-      
-      const formatted = { ...res.data, shippingAddress: parsedAddress }
-      setOrder(formatted)
-      setNotes(formatted.internalNotes || '')
-    } else {
-      toast.error(res.error || 'فشل جلب تفاصيل الطلب')
-      onClose()
+      setIsLoading(false)
     }
-    setIsLoading(false)
-  }
+
+    load()
+    return () => { isCancelled = true }
+  }, [isOpen, orderId, onClose])
 
   const handleStatusChange = async (value: OrderStatus) => {
     setIsUpdating(true)

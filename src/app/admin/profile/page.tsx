@@ -7,7 +7,7 @@ export const dynamic = 'force-dynamic'
 export default async function AdminProfilePage() {
   
   // We mock a user for now since we don't have a full auth setup working perfectly in dev yet.
-  let currentUser = await prisma.user.findFirst({
+  const currentUser = await prisma.user.findFirst({
     where: { role: 'SUPER_ADMIN' }
   })
 

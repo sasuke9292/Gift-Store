@@ -34,7 +34,11 @@ export default function ProductModal({ isOpen, setIsOpen, product, categories, o
     isActive: true
   })
 
-  useEffect(() => {
+  const [prevProductId, setPrevProductId] = useState<string | null>(null)
+  const currentProductId = (isOpen && product) ? product.id : null
+
+  if (currentProductId !== prevProductId) {
+    setPrevProductId(currentProductId)
     if (product && isOpen) {
       setFormData({
         name: product.name,
@@ -47,7 +51,7 @@ export default function ProductModal({ isOpen, setIsOpen, product, categories, o
         isActive: product.isActive
       })
     }
-  }, [product, isOpen])
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()

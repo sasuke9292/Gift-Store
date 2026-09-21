@@ -99,25 +99,30 @@ export function StoreHeader({ user, topBarText }: StoreHeaderProps) {
 
   // Live search debounce
   useEffect(() => {
-    if (!searchQuery.trim() || searchQuery.trim().length < 2) {
-      setSearchResults([])
-      setIsSearching(false)
-      return
-    }
+    const query = searchQuery.trim()
+    if (query.length < 2) return
 
-    setIsSearching(true)
+    let isCancelled = false
     const timeout = setTimeout(async () => {
+      setIsSearching(true)
       try {
-        const results = await searchProducts(searchQuery)
-        setSearchResults(results)
+        const results = await searchProducts(query)
+        if (!isCancelled) {
+          setSearchResults(results)
+        }
       } catch (err) {
         console.error('Search error:', err)
       } finally {
-        setIsSearching(false)
+        if (!isCancelled) {
+          setIsSearching(false)
+        }
       }
     }, 280)
 
-    return () => clearTimeout(timeout)
+    return () => {
+      isCancelled = true
+      clearTimeout(timeout)
+    }
   }, [searchQuery])
 
   const handleSearchSubmit = (e: React.FormEvent) => {
@@ -208,7 +213,11 @@ export function StoreHeader({ user, topBarText }: StoreHeaderProps) {
                   )}
                   value={searchQuery}
                   onChange={(e) => {
-                    setSearchQuery(e.target.value)
+                    const val = e.target.value
+                    setSearchQuery(val)
+                    if (!val.trim() || val.trim().length < 2) {
+                      setSearchResults([])
+                    }
                     setIsSearchOpen(true)
                   }}
                   onFocus={() => setIsSearchOpen(true)}

@@ -6,12 +6,11 @@ import { ProductCard } from '@/components/store/product-card'
 import { motion } from 'framer-motion'
 import { Heart, ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
+import { useMounted } from '@/lib/use-mounted'
 
 export function FavoritesClient() {
   const favorites = useFavoritesStore(state => state.items)
-  const [mounted, setMounted] = React.useState(false)
-
-  React.useEffect(() => { setMounted(true) }, [])
+  const mounted = useMounted()
 
   if (!mounted) return null
 
