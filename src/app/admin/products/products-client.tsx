@@ -10,10 +10,8 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
-import { Search, Plus, Trash, Image as ImageIcon, CheckCircle2, Edit, Package } from 'lucide-react'
+import { Search, Plus, Trash, Image as ImageIcon, CheckCircle2, Edit, Package, ExternalLink } from 'lucide-react'
 import { Checkbox } from '@/components/ui/checkbox'
 import Image from 'next/image'
 import { deleteProduct, deleteProducts } from '@/app/actions/admin/products'
@@ -57,102 +55,133 @@ export default function ProductsClient({ initialProducts, categories }: { initia
 
   const handleBulkDelete = async () => {
     if (selectedIds.size === 0) return
-    setBulkDeleteConfirm(true)
+    setIsDeletingBulk(true)
+    const res = await deleteProducts(Array.from(selectedIds))
+    if (res.success) {
+      toast.success(`تم حذف ${selectedIds.size} منتجات بنجاح`)
+      setProducts(products.filter(p => !selectedIds.has(p.id)))
+      setSelectedIds(new Set())
+      setBulkDeleteConfirm(false)
+    } else {
+      toast.error(res.error || 'فشل حذف المنتجات المحددة')
+    }
+    setIsDeletingBulk(false)
   }
 
-  const handleDelete = (id: string) => {
-    setDeleteId(id)
+  const handleDelete = async () => {
+    if (!deleteId) return
+    setIsDeletingConfirm(true)
+    const res = await deleteProduct(deleteId)
+    if (res.success) {
+      toast.success('تم حذف المنتج بنجاح')
+      setProducts(products.filter(p => p.id !== deleteId))
+      setDeleteId(null)
+    } else {
+      toast.error(res.error || 'فشل حذف المنتج')
+    }
+    setIsDeletingConfirm(false)
   }
 
   const filteredProducts = products.filter(p => {
-    const matchesSearch = p.name.includes(search) || p.id.includes(search)
+    const matchesSearch = p.name.toLowerCase().includes(search.toLowerCase()) || 
+                          p.sku?.toLowerCase().includes(search.toLowerCase()) ||
+                          p.id.includes(search)
     if (statusFilter === 'active') return matchesSearch && p.isActive
     if (statusFilter === 'draft') return matchesSearch && !p.isActive
     return matchesSearch
   })
 
   return (
-    <motion.div 
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      className="space-y-5 pb-12" 
-      dir="rtl"
-    >
+    <div className="space-y-6 pb-12" dir="rtl">
       {/* Header Section */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-[#0A1628] border border-white/[0.05] p-5 rounded-2xl">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <div className="flex items-center gap-2.5 mb-1">
-            <div className="w-8 h-8 bg-amber-500/10 border border-amber-500/20 rounded-xl flex items-center justify-center">
-              <Package className="w-4 h-4 text-amber-400" />
-            </div>
-            <h1 className="text-xl font-black text-white/85 tracking-tight">إدارة المنتجات</h1>
-          </div>
-          <p className="text-white/35 font-medium text-sm ms-10">إضافة وتعديل وحذف المنتجات في متجرك.</p>
+          <h1 className="text-2xl font-black text-[#1C1917] tracking-tight">إدارة المنتجات</h1>
+          <p className="text-sm text-[#78716C] mt-1">
+            إضافة وتعديل وحذف منتجات المتجر ومتابعة الأسعار والتصنيفات ({products.length} منتج)
+          </p>
         </div>
         <Link href="/admin/products/new">
-          <Button className="bg-amber-500 hover:bg-amber-400 text-[#030810] shadow-[0_4px_20px_rgba(245,158,11,0.3)] rounded-xl px-5 h-9 font-bold transition-all w-full sm:w-auto text-sm">
-            <Plus className="w-4 h-4 ms-1.5" />
-            إضافة منتج
+          <Button 
+            className="text-white shadow-[0_4px_16px_rgba(201,169,110,0.35)] hover:-translate-y-0.5 rounded-xl px-5 h-11 font-bold transition-all w-full sm:w-auto text-sm cursor-pointer"
+            style={{ background: 'linear-gradient(135deg, #C9A96E 0%, #A07850 100%)' }}
+          >
+            <Plus className="w-4 h-4 ms-2" />
+            إضافة منتج جديد
           </Button>
         </Link>
       </div>
 
+      {/* Bulk Delete Bar */}
       <AnimatePresence>
         {selectedIds.size > 0 && (
           <motion.div 
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="bg-amber-500/10 border border-amber-500/20 rounded-xl p-3.5 flex items-center justify-between overflow-hidden"
+            className="bg-[#FBF6EE] border border-[#C9A96E]/30 rounded-2xl p-4 flex items-center justify-between shadow-sm"
           >
             <div className="flex items-center gap-2.5">
-              <CheckCircle2 className="w-4 h-4 text-amber-400" />
-              <p className="text-sm font-bold text-amber-300">
-                تم تحديد {selectedIds.size} منتج
+              <CheckCircle2 className="w-5 h-5 text-[#C9A96E]" />
+              <p className="text-sm font-bold text-[#1C1917]">
+                تم تحديد <span className="text-[#A07850]">{selectedIds.size}</span> منتج
               </p>
             </div>
             <Button 
               variant="destructive" 
-              onClick={handleBulkDelete} 
+              onClick={() => setBulkDeleteConfirm(true)} 
               disabled={isDeletingBulk}
-              className="rounded-lg font-bold h-8 px-4 bg-rose-500/80 hover:bg-rose-500 text-sm transition-colors"
+              className="rounded-xl font-bold h-9 px-4 bg-rose-600 hover:bg-rose-700 text-xs transition-colors cursor-pointer"
             >
-              {isDeletingBulk ? 'جاري الحذف...' : 'حذف المحدد'}
+              حذف المحدد
             </Button>
           </motion.div>
         )}
       </AnimatePresence>
 
-      <div className="overflow-hidden rounded-2xl bg-[#0A1628] border border-white/[0.05]">
+      {/* Main Table Card */}
+      <div className="bg-white rounded-3xl border border-[#E8E4DF] shadow-[0_2px_12px_rgba(0,0,0,0.03)] overflow-hidden">
         
         {/* Toolbar */}
-        <div className="p-4 md:p-5 border-b border-white/[0.05] flex flex-col md:flex-row items-center justify-between gap-3">
-          <div className="relative w-full md:max-w-sm group">
-            <Search className="absolute end-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-white/25 group-focus-within:text-amber-500 transition-colors" />
+        <div className="p-5 border-b border-[#E8E4DF] flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
+          <div className="relative w-full md:max-w-md group">
+            <Search className="absolute end-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#A8A29E] group-focus-within:text-[#C9A96E] transition-colors" />
             <input
-              placeholder="ابحث باسم المنتج..."
-              className="w-full h-9 ps-3 pe-9 bg-white/[0.04] border border-white/[0.07] hover:border-white/[0.12] focus:border-amber-500/50 rounded-xl text-sm text-white/70 placeholder:text-white/25 outline-none focus:ring-2 focus:ring-amber-500/10 transition-all"
+              placeholder="ابحث باسم المنتج أو رمز SKU..."
+              className="w-full h-11 ps-4 pe-10 bg-[#FAFAF8] border border-[#E8E4DF] hover:border-[#D5D0C9] focus:border-[#C9A96E]/50 focus:bg-white rounded-xl text-sm text-[#1C1917] placeholder:text-[#A8A29E] outline-none focus:ring-2 focus:ring-[#C9A96E]/15 transition-all"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
           </div>
           
-          <div className="flex bg-white/[0.03] p-1 rounded-xl w-full md:w-auto border border-white/[0.05]">
+          <div className="flex bg-[#FAFAF8] p-1 rounded-xl border border-[#E8E4DF]">
             <button
               onClick={() => setStatusFilter('all')}
-              className={`flex-1 md:flex-none px-4 py-1.5 rounded-lg font-bold text-xs transition-all ${statusFilter === 'all' ? 'bg-white/10 text-white/80 border border-white/10' : 'text-white/30 hover:text-white/60'}`}
+              className={`px-4 py-2 rounded-lg font-bold text-xs transition-all cursor-pointer ${
+                statusFilter === 'all' 
+                  ? 'bg-white text-[#1C1917] shadow-sm' 
+                  : 'text-[#78716C] hover:text-[#1C1917]'
+              }`}
             >
-              الكل
+              الكل ({products.length})
             </button>
             <button
               onClick={() => setStatusFilter('active')}
-              className={`flex-1 md:flex-none px-4 py-1.5 rounded-lg font-bold text-xs transition-all ${statusFilter === 'active' ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'text-white/30 hover:text-white/60'}`}
+              className={`px-4 py-2 rounded-lg font-bold text-xs transition-all cursor-pointer ${
+                statusFilter === 'active' 
+                  ? 'bg-emerald-50 text-emerald-700 shadow-sm border border-emerald-200' 
+                  : 'text-[#78716C] hover:text-[#1C1917]'
+              }`}
             >
               نشط
             </button>
             <button
               onClick={() => setStatusFilter('draft')}
-              className={`flex-1 md:flex-none px-4 py-1.5 rounded-lg font-bold text-xs transition-all ${statusFilter === 'draft' ? 'bg-amber-500/10 text-amber-400 border border-amber-500/20' : 'text-white/30 hover:text-white/60'}`}
+              className={`px-4 py-2 rounded-lg font-bold text-xs transition-all cursor-pointer ${
+                statusFilter === 'draft' 
+                  ? 'bg-amber-50 text-amber-700 shadow-sm border border-amber-200' 
+                  : 'text-[#78716C] hover:text-[#1C1917]'
+              }`}
             >
               مسودة
             </button>
@@ -161,161 +190,166 @@ export default function ProductsClient({ initialProducts, categories }: { initia
 
         {/* Table */}
         <div className="overflow-x-auto">
-          <Table className="w-full min-w-[860px]">
-            <TableHeader className="border-b border-white/[0.05]">
+          <Table className="w-full min-w-[840px]">
+            <TableHeader className="bg-[#FAFAF8] border-b border-[#E8E4DF]">
               <TableRow className="hover:bg-transparent border-0">
-                <TableHead className="w-12 px-5 py-3">
+                <TableHead className="w-12 px-6 py-4">
                   <Checkbox 
                     checked={filteredProducts.length > 0 && selectedIds.size === filteredProducts.length}
                     onCheckedChange={handleSelectAll}
-                    className="border-white/20 data-[state=checked]:bg-amber-500 data-[state=checked]:border-amber-500 rounded"
+                    className="rounded border-[#D5D0C9] data-[state=checked]:bg-[#C9A96E] data-[state=checked]:border-[#C9A96E]"
                   />
                 </TableHead>
-                <TableHead className="text-start font-bold text-white/30 py-3 px-5 text-[10px] uppercase tracking-widest">المنتج</TableHead>
-                <TableHead className="text-start font-bold text-white/30 py-3 text-[10px] uppercase tracking-widest">التصنيف</TableHead>
-                <TableHead className="text-start font-bold text-white/30 py-3 text-[10px] uppercase tracking-widest">السعر</TableHead>
-                <TableHead className="text-start font-bold text-white/30 py-3 text-[10px] uppercase tracking-widest">الحالة</TableHead>
-                <TableHead className="text-center font-bold text-white/30 py-3 px-5 text-[10px] uppercase tracking-widest">إجراءات</TableHead>
+                <TableHead className="text-start font-bold text-[#A8A29E] py-4 text-xs uppercase tracking-wider">المنتج</TableHead>
+                <TableHead className="text-start font-bold text-[#A8A29E] py-4 text-xs uppercase tracking-wider">التصنيف</TableHead>
+                <TableHead className="text-start font-bold text-[#A8A29E] py-4 text-xs uppercase tracking-wider">السعر</TableHead>
+                <TableHead className="text-start font-bold text-[#A8A29E] py-4 text-xs uppercase tracking-wider">الحالة</TableHead>
+                <TableHead className="text-center font-bold text-[#A8A29E] py-4 px-6 text-xs uppercase tracking-wider">إجراءات</TableHead>
               </TableRow>
             </TableHeader>
-            <TableBody className="divide-y divide-white/[0.04]">
-                {filteredProducts.map((product) => (
-                  <TableRow 
-                    key={product.id}
-                    className={`group transition-all duration-200 border-0 ${selectedIds.has(product.id) ? 'bg-amber-500/5' : 'hover:bg-white/[0.02]'}`}
-                  >
-                    <TableCell className="px-5 py-3">
-                      <Checkbox 
-                        checked={selectedIds.has(product.id)}
-                        onCheckedChange={(checked) => handleSelectRow(product.id, checked as boolean)}
-                        className="border-white/20 data-[state=checked]:bg-amber-500 data-[state=checked]:border-amber-500 rounded"
-                      />
-                    </TableCell>
-                    <TableCell className="px-5 py-3">
-                      <div className="flex items-center gap-3">
-                        <div className="w-9 h-9 rounded-lg bg-white/[0.05] flex items-center justify-center overflow-hidden relative shrink-0 border border-white/[0.08] group-hover:border-amber-500/20 transition-colors">
-                          {product.images && product.images[0] ? (
-                            <Image src={product.images[0]} alt={product.name} fill className="object-cover" />
-                          ) : (
-                            <ImageIcon className="w-4 h-4 text-white/20" />
-                          )}
-                        </div>
-                        <div>
-                          <p className="font-bold text-white/75 text-sm group-hover:text-amber-400 transition-colors">{product.name}</p>
-                          <span className="text-[10px] text-white/25 font-mono bg-white/[0.04] px-1.5 py-0.5 rounded mt-0.5 inline-block">
-                            #{product.sku || product.id.slice(0, 8)}
-                          </span>
-                        </div>
+            <TableBody>
+              {filteredProducts.map((product) => (
+                <TableRow 
+                  key={product.id}
+                  className={`group transition-all duration-150 border-b border-[#E8E4DF]/60 last:border-0 ${
+                    selectedIds.has(product.id) ? 'bg-[#FBF6EE]/60' : 'hover:bg-[#FAFAF8]'
+                  }`}
+                >
+                  <TableCell className="px-6 py-4">
+                    <Checkbox 
+                      checked={selectedIds.has(product.id)}
+                      onCheckedChange={(checked) => handleSelectRow(product.id, checked as boolean)}
+                      className="rounded border-[#D5D0C9] data-[state=checked]:bg-[#C9A96E] data-[state=checked]:border-[#C9A96E]"
+                    />
+                  </TableCell>
+                  <TableCell className="py-4">
+                    <div className="flex items-center gap-3.5">
+                      <div className="w-12 h-12 rounded-xl bg-[#FAFAF8] flex items-center justify-center overflow-hidden relative shrink-0 border border-[#E8E4DF]">
+                        {product.images && product.images[0] ? (
+                          <img src={product.images[0]} alt={product.name} className="w-full h-full object-cover" />
+                        ) : (
+                          <ImageIcon className="w-5 h-5 text-[#A8A29E]" />
+                        )}
                       </div>
-                    </TableCell>
-                    <TableCell className="py-3">
-                      <span className="bg-white/[0.06] text-white/50 font-semibold px-2 py-0.5 rounded text-[11px] border border-white/[0.06]">
-                        {product.category?.name || 'بدون تصنيف'}
-                      </span>
-                    </TableCell>
-                    <TableCell className="py-3">
-                      <span className="font-bold text-amber-400/90 text-sm">
-                        {product.price.toLocaleString('en-US')} <span className="text-[10px] text-white/30">د.ع</span>
-                      </span>
-                    </TableCell>
-                    <TableCell className="py-3">
-                      {product.isActive ? (
-                        <span className="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 rounded-md px-2 py-0.5 font-bold text-[11px] flex items-center gap-1 w-max">
-                          <div className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-                          نشط
+                      <div>
+                        <p className="font-bold text-[#1C1917] text-sm group-hover:text-[#A07850] transition-colors">
+                          {product.name}
+                        </p>
+                        <span className="text-[11px] text-[#A8A29E] font-mono">
+                          #{product.sku || product.id.slice(0, 8)}
                         </span>
-                      ) : (
-                        <span className="bg-white/[0.05] text-white/35 border border-white/[0.08] rounded-md px-2 py-0.5 font-bold text-[11px] flex items-center gap-1 w-max">
-                          <div className="w-1.5 h-1.5 rounded-full bg-white/30" />
-                          مسودة
+                      </div>
+                    </div>
+                  </TableCell>
+                  <TableCell className="py-4">
+                    <span className="bg-[#FAFAF8] text-[#78716C] font-semibold px-3 py-1 rounded-full text-xs border border-[#E8E4DF]">
+                      {product.category?.name || 'غير مصنف'}
+                    </span>
+                  </TableCell>
+                  <TableCell className="py-4">
+                    <div className="flex flex-col">
+                      <span className="font-black text-[#1C1917] text-sm">
+                        {product.price.toLocaleString('en-US')} <span className="text-xs font-normal text-[#78716C]">د.ع</span>
+                      </span>
+                      {product.salePrice && product.salePrice > 0 && (
+                        <span className="text-[11px] text-[#A8A29E] line-through">
+                          {product.salePrice.toLocaleString('en-US')} د.ع
                         </span>
                       )}
-                    </TableCell>
-                    <TableCell className="text-center py-3 px-5">
-                      <div className="flex items-center justify-center gap-1">
-                        <button className="w-8 h-8 rounded-lg text-white/30 hover:text-amber-400 hover:bg-amber-500/10 transition-colors flex items-center justify-center" onClick={() => { setCurrentEditProduct(product); setIsEditModalOpen(true); }}>
-                          <Edit className="w-3.5 h-3.5" />
-                        </button>
-                        <button className="w-8 h-8 rounded-lg text-white/30 hover:text-rose-400 hover:bg-rose-500/10 transition-colors flex items-center justify-center" onClick={() => handleDelete(product.id)}>
-                          <Trash className="w-3.5 h-3.5" />
-                        </button>
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              {filteredProducts.length === 0 && (
-                <TableRow>
-                  <TableCell colSpan={6} className="h-52 text-center border-0">
-                    <div className="flex flex-col items-center justify-center gap-3">
-                      <div className="w-14 h-14 bg-white/[0.04] border border-white/[0.06] rounded-xl flex items-center justify-center">
-                        <Search className="w-6 h-6 text-white/20" />
-                      </div>
-                      <span className="font-bold text-white/30 text-sm">لا توجد منتجات مطابقة</span>
+                    </div>
+                  </TableCell>
+                  <TableCell className="py-4">
+                    {product.isActive ? (
+                      <span className="bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-full px-3 py-1 font-bold text-xs inline-flex items-center gap-1.5">
+                        <div className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                        نشط
+                      </span>
+                    ) : (
+                      <span className="bg-stone-50 text-stone-600 border border-stone-200 rounded-full px-3 py-1 font-bold text-xs inline-flex items-center gap-1.5">
+                        <div className="w-1.5 h-1.5 rounded-full bg-stone-400" />
+                        مسودة
+                      </span>
+                    )}
+                  </TableCell>
+                  <TableCell className="text-center py-4 px-6">
+                    <div className="flex items-center justify-center gap-1.5">
+                      <Link
+                        href={`/product/${product.id}`}
+                        target="_blank"
+                        className="w-9 h-9 rounded-xl text-[#A8A29E] hover:text-[#1C1917] hover:bg-[#FAFAF8] border border-transparent hover:border-[#E8E4DF] transition-all flex items-center justify-center"
+                        title="معاينة في المتجر"
+                      >
+                        <ExternalLink className="w-4 h-4" />
+                      </Link>
+                      <button 
+                        className="w-9 h-9 rounded-xl text-[#78716C] hover:text-[#C9A96E] hover:bg-[#F5F0EA] border border-transparent hover:border-[#C9A96E]/30 transition-all flex items-center justify-center cursor-pointer" 
+                        onClick={() => { setCurrentEditProduct(product); setIsEditModalOpen(true); }}
+                        title="تعديل المنتج"
+                      >
+                        <Edit className="w-4 h-4" />
+                      </button>
+                      <button 
+                        className="w-9 h-9 rounded-xl text-[#A8A29E] hover:text-rose-600 hover:bg-rose-50 border border-transparent hover:border-rose-200 transition-all flex items-center justify-center cursor-pointer" 
+                        onClick={() => setDeleteId(product.id)}
+                        title="حذف المنتج"
+                      >
+                        <Trash className="w-4 h-4" />
+                      </button>
                     </div>
                   </TableCell>
                 </TableRow>
-              )}
+              ))}
             </TableBody>
           </Table>
+
+          {filteredProducts.length === 0 && (
+            <div className="py-16 text-center">
+              <div className="w-16 h-16 bg-[#FAFAF8] rounded-2xl flex items-center justify-center mx-auto mb-4 border border-[#E8E4DF]">
+                <Package className="w-8 h-8 text-[#A8A29E]" />
+              </div>
+              <h3 className="text-base font-bold text-[#1C1917] mb-1">لا توجد منتجات مطابقة</h3>
+              <p className="text-sm text-[#78716C] max-w-sm mx-auto">لم نعثر على أي منتج يطابق معايير البحث المحددة.</p>
+            </div>
+          )}
         </div>
       </div>
 
-      <ProductModal 
-        isOpen={isEditModalOpen} 
-        setIsOpen={setIsEditModalOpen} 
-        product={currentEditProduct} 
-        categories={categories} 
+      {/* Edit Product Modal */}
+      <ProductModal
+        isOpen={isEditModalOpen}
+        setIsOpen={setIsEditModalOpen}
+        product={currentEditProduct}
+        categories={categories}
         onSuccess={(updatedProduct) => {
-          setProducts(products.map(p => p.id === updatedProduct.id ? { ...p, ...updatedProduct, category: categories.find(c => c.id === updatedProduct.categoryId) } : p))
-        }} 
+          setProducts(products.map(p => p.id === updatedProduct.id ? { ...p, ...updatedProduct } : p))
+        }}
       />
 
+      {/* Single Delete Confirmation */}
       <ConfirmDialog
         open={!!deleteId}
         onOpenChange={(open) => !open && setDeleteId(null)}
-        title="حذف المنتج"
-        description="هل أنت متأكد من حذف هذا المنتج نهائياً؟ لا يمكن التراجع عن هذا الإجراء."
+        title="هل أنت متأكد من حذف هذا المنتج؟"
+        description="سيتم حذف هذا المنتج نهائياً من متجرك ولن يتمكن الزبائن من طلبه بعد ذلك."
         confirmText="حذف المنتج"
+        cancelText="إلغاء"
         variant="danger"
-        onConfirm={async () => {
-          if (deleteId) {
-            setIsDeletingConfirm(true)
-            const res = await deleteProduct(deleteId)
-            if (res.success) {
-              toast.success('تم الحذف بنجاح')
-              setProducts(products.filter(p => p.id !== deleteId))
-            } else {
-              toast.error(res.error || 'حدث خطأ')
-            }
-            setIsDeletingConfirm(false)
-            setDeleteId(null)
-          }
-        }}
         isLoading={isDeletingConfirm}
+        onConfirm={handleDelete}
       />
 
+      {/* Bulk Delete Confirmation */}
       <ConfirmDialog
         open={bulkDeleteConfirm}
         onOpenChange={setBulkDeleteConfirm}
-        title={`حذف ${selectedIds.size} منتج`}
-        description="هل أنت متأكد من حذف هذه المنتجات نهائياً؟ لا يمكن التراجع عن هذا الإجراء."
-        confirmText="حذف المحدد"
+        title={`هل أنت متأكد من حذف ${selectedIds.size} منتج؟`}
+        description="سيتم حذف جميع المنتجات المحددة نهائياً من النظام."
+        confirmText="حذف جميع المنتجات المحددة"
+        cancelText="إلغاء"
         variant="danger"
-        onConfirm={async () => {
-          setIsDeletingBulk(true)
-          const res = await deleteProducts(Array.from(selectedIds))
-          if (res.success) {
-            toast.success(`تم حذف ${selectedIds.size} منتج بنجاح`)
-            setProducts(products.filter(p => !selectedIds.has(p.id)))
-            setSelectedIds(new Set())
-          } else {
-            toast.error(res.error || 'حدث خطأ')
-          }
-          setIsDeletingBulk(false)
-          setBulkDeleteConfirm(false)
-        }}
         isLoading={isDeletingBulk}
+        onConfirm={handleBulkDelete}
       />
-    </motion.div>
+    </div>
   )
 }

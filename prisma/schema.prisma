@@ -68,6 +68,7 @@ enum Role {
   WAREHOUSE
   SUPPORT
   EDITOR
+  CUSTOMER
 }
 
 

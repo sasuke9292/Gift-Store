@@ -1,16 +1,15 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
-import { Dialog, DialogContent, DialogTitle, DialogFooter } from '@/components/ui/dialog'
+import { Dialog, DialogContent, DialogTitle, DialogHeader, DialogFooter } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
-import { UploadCloud, X, Tag } from 'lucide-react'
+import { UploadCloud, X, Tag, Plus, Loader2, Sparkles } from 'lucide-react'
 import { Switch } from '@/components/ui/switch'
 import { updateProduct } from '@/app/actions/admin/products'
 import { toast } from 'sonner'
-import Image from 'next/image'
 import { Category, Product } from '@prisma/client'
 
 interface ProductModalProps {
@@ -68,7 +67,7 @@ export default function ProductModal({ isOpen, setIsOpen, product, categories, o
       })
 
       if (res.success && res.data) {
-        toast.success('تم تعديل المنتج بنجاح')
+        toast.success('تم تعديل بيانات المنتج بنجاح')
         onSuccess(res.data)
         setIsOpen(false)
       } else {
@@ -81,226 +80,191 @@ export default function ProductModal({ isOpen, setIsOpen, product, categories, o
     }
   }
 
-  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0]
-    if (!file) return
-    
-    if (file.size > 2 * 1024 * 1024) {
-      toast.error('حجم الصورة كبير جداً. الحد الأقصى هو 2 ميجابايت.')
-      e.target.value = ''
-      return
-    }
-    
-    const toastId = toast.loading('جاري رفع الصورة...')
-    
-    try {
-      const formDataUpload = new FormData()
-      formDataUpload.append('file', file)
-      
-      const res = await fetch('/api/upload', {
-        method: 'POST',
-        body: formDataUpload
-      })
-      
-      const data = await res.json()
-      
-      if (data.success) {
-        setFormData(prev => ({...prev, imagesList: [...prev.imagesList, data.url]}))
-        toast.success('تم رفع الصورة بنجاح', { id: toastId })
-      } else {
-        toast.error(data.error || 'حدث خطأ أثناء الرفع', { id: toastId })
-      }
-    } catch {
-      toast.error('حدث خطأ في الاتصال بالخادم', { id: toastId })
-    } finally {
-      e.target.value = '' 
-    }
-  }
-
   const handleAddImageUrl = () => {
     if (!imageUrlInput.trim()) return
-    setFormData({...formData, imagesList: [...formData.imagesList, imageUrlInput.trim()]})
+    setFormData(prev => ({
+      ...prev,
+      imagesList: [...prev.imagesList, imageUrlInput.trim()]
+    }))
     setImageUrlInput('')
-    toast.success('تمت إضافة رابط الصورة بنجاح')
+  }
+
+  const handleRemoveImage = (index: number) => {
+    setFormData(prev => ({
+      ...prev,
+      imagesList: prev.imagesList.filter((_, i) => i !== index)
+    }))
   }
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogContent className="sm:max-w-[700px] rounded-[2rem] p-0 overflow-hidden border border-white/[0.05] bg-[#0A1628] shadow-2xl max-h-[90vh] flex flex-col" dir="rtl">
-        
-        {/* Header */}
-        <div className="px-8 py-6 border-b border-white/[0.05] flex items-center gap-4 shrink-0">
-          <div className="w-12 h-12 rounded-2xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center shrink-0">
-            <Tag className="w-6 h-6 text-amber-400" />
-          </div>
-          <div>
-            <DialogTitle className="text-2xl font-black text-white/85">
-              تعديل المنتج
+      <DialogContent className="max-w-2xl p-0 overflow-hidden rounded-3xl bg-white border border-[#E8E4DF] shadow-2xl" dir="rtl">
+        <form onSubmit={handleSubmit}>
+          <DialogHeader className="p-6 bg-[#FAFAF8] border-b border-[#E8E4DF]">
+            <DialogTitle className="text-xl font-black text-[#1C1917]">
+              تعديل بيانات المنتج
             </DialogTitle>
-            <p className="text-sm text-white/40 mt-1 font-medium">قم بتحديث بيانات المنتج الخاص بك.</p>
+            <p className="text-xs text-[#78716C] mt-1">قم بتحديث معلومات وصور وسعر المنتج في المتجر</p>
+          </DialogHeader>
+
+          <div className="p-6 space-y-5 max-h-[72vh] overflow-y-auto">
+            {/* Name */}
+            <div>
+              <Label className="text-xs font-bold text-[#1C1917] mb-1.5 block">اسم المنتج *</Label>
+              <Input
+                required
+                value={formData.name}
+                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                placeholder="مثال: طقم محفظة وحزام جلد طبيعي"
+                className="h-11 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] focus:border-[#C9A96E]/50 focus:bg-white text-sm"
+              />
+            </div>
+
+            {/* Category & Price */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <Label className="text-xs font-bold text-[#1C1917] mb-1.5 block">التصنيف *</Label>
+                <select
+                  required
+                  value={formData.categoryId}
+                  onChange={(e) => setFormData({ ...formData, categoryId: e.target.value })}
+                  className="w-full h-11 px-3 rounded-xl bg-[#FAFAF8] border border-[#E8E4DF] text-sm text-[#1C1917] focus:outline-none focus:border-[#C9A96E]/50 focus:bg-white"
+                >
+                  <option value="">اختر التصنيف...</option>
+                  {categories.map((c) => (
+                    <option key={c.id} value={c.id}>{c.name}</option>
+                  ))}
+                </select>
+              </div>
+
+              <div>
+                <Label className="text-xs font-bold text-[#1C1917] mb-1.5 block">السعر الأساسي (د.ع) *</Label>
+                <Input
+                  type="number"
+                  required
+                  value={formData.price}
+                  onChange={(e) => setFormData({ ...formData, price: Number(e.target.value) })}
+                  className="h-11 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-sm"
+                  dir="ltr"
+                />
+              </div>
+            </div>
+
+            {/* Sale Price & Slug */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <Label className="text-xs font-bold text-[#1C1917] mb-1.5 block">سعر التخفيض (اختياري)</Label>
+                <Input
+                  type="number"
+                  value={formData.salePrice || ''}
+                  onChange={(e) => setFormData({ ...formData, salePrice: Number(e.target.value) })}
+                  placeholder="0"
+                  className="h-11 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-sm"
+                  dir="ltr"
+                />
+              </div>
+
+              <div>
+                <Label className="text-xs font-bold text-[#1C1917] mb-1.5 block">الرابط المخصص (Slug)</Label>
+                <Input
+                  value={formData.slug}
+                  onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
+                  className="h-11 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-sm font-mono"
+                  dir="ltr"
+                />
+              </div>
+            </div>
+
+            {/* Description */}
+            <div>
+              <Label className="text-xs font-bold text-[#1C1917] mb-1.5 block">وصف المنتج</Label>
+              <Textarea
+                rows={4}
+                value={formData.description}
+                onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                placeholder="اكتب وصفاً جذاباً وتفصيلياً لمواصفات ومميزات المنتج..."
+                className="rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-sm resize-none"
+              />
+            </div>
+
+            {/* Images */}
+            <div>
+              <Label className="text-xs font-bold text-[#1C1917] mb-1.5 block">صور المنتج (رابط URL)</Label>
+              <div className="flex gap-2 mb-3">
+                <Input
+                  value={imageUrlInput}
+                  onChange={(e) => setImageUrlInput(e.target.value)}
+                  placeholder="https://images.unsplash.com/..."
+                  className="h-11 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-sm"
+                  dir="ltr"
+                />
+                <Button 
+                  type="button" 
+                  onClick={handleAddImageUrl}
+                  className="h-11 px-4 rounded-xl bg-[#1C1917] hover:bg-black text-white font-bold text-xs shrink-0 cursor-pointer"
+                >
+                  <Plus className="w-4 h-4 ms-1.5" />
+                  إضافة صورة
+                </Button>
+              </div>
+
+              {formData.imagesList.length > 0 && (
+                <div className="flex flex-wrap gap-2.5 p-3 rounded-2xl bg-[#FAFAF8] border border-[#E8E4DF]">
+                  {formData.imagesList.map((url, idx) => (
+                    <div key={idx} className="relative w-16 h-16 rounded-xl overflow-hidden border border-[#E8E4DF] group">
+                      <img src={url} alt={`img-${idx}`} className="w-full h-full object-cover" />
+                      <button
+                        type="button"
+                        onClick={() => handleRemoveImage(idx)}
+                        className="absolute inset-0 bg-black/60 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
+                      >
+                        <X className="w-4 h-4" />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* Active toggle */}
+            <div className="flex items-center justify-between p-4 bg-[#FAFAF8] rounded-2xl border border-[#E8E4DF]">
+              <div>
+                <p className="text-sm font-bold text-[#1C1917]">حالة ظهور المنتج</p>
+                <p className="text-xs text-[#78716C]">عرض المنتج للعملاء في المتجر أو حفظه كمسودة</p>
+              </div>
+              <Switch
+                checked={formData.isActive}
+                onCheckedChange={(val) => setFormData({ ...formData, isActive: val })}
+              />
+            </div>
           </div>
-        </div>
-        
-        {/* Body */}
-        <div className="overflow-y-auto p-8 flex-1 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-white/10 [&::-webkit-scrollbar-thumb]:rounded-full hover:[&::-webkit-scrollbar-thumb]:bg-white/20">
-          <form id="edit-product-form" onSubmit={handleSubmit} className="space-y-8">
-            
-            <div className="space-y-6">
-              <h2 className="text-lg font-bold text-white/85 border-b border-white/[0.05] pb-2">التفاصيل الأساسية</h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="space-y-3">
-                  <Label className="text-sm font-bold text-white/50">اسم المنتج <span className="text-rose-500">*</span></Label>
-                  <Input 
-                    required 
-                    value={formData.name} 
-                    onChange={e => setFormData({...formData, name: e.target.value})} 
-                    className="h-12 rounded-xl border border-white/[0.08] hover:border-white/[0.15] focus:border-amber-500/50 bg-white/[0.04] focus:bg-white/[0.06] transition-all outline-none focus-visible:ring-2 focus-visible:ring-amber-500/10 text-white/80" 
-                  />
-                </div>
-                <div className="space-y-3">
-                  <Label className="text-sm font-bold text-white/50">الرابط المخصص (Slug)</Label>
-                  <Input 
-                    value={formData.slug} 
-                    onChange={e => setFormData({...formData, slug: e.target.value})} 
-                    dir="rtl" 
-                    className="h-12 rounded-xl border border-white/[0.08] hover:border-white/[0.15] focus:border-amber-500/50 bg-white/[0.04] focus:bg-white/[0.06] transition-all outline-none focus-visible:ring-2 focus-visible:ring-amber-500/10 text-white/80 font-mono text-sm text-start" 
-                  />
-                </div>
-              </div>
-              <div className="space-y-3">
-                <Label className="text-sm font-bold text-white/50">وصف المنتج</Label>
-                <Textarea 
-                  value={formData.description} 
-                  onChange={e => setFormData({...formData, description: e.target.value})} 
-                  className="min-h-[100px] rounded-xl border border-white/[0.08] hover:border-white/[0.15] focus:border-amber-500/50 bg-white/[0.04] focus:bg-white/[0.06] transition-all outline-none focus-visible:ring-2 focus-visible:ring-amber-500/10 text-white/80 resize-y p-4" 
-                />
-              </div>
-            </div>
 
-            <div className="space-y-6">
-              <h2 className="text-lg font-bold text-white/85 border-b border-white/[0.05] pb-2">الصور والتصنيف</h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="space-y-3">
-                  <Label className="text-sm font-bold text-white/50">التصنيف <span className="text-rose-500">*</span></Label>
-                  <select 
-                    required 
-                    className="flex h-12 w-full rounded-xl border border-white/[0.08] hover:border-white/[0.15] bg-white/[0.04] focus:bg-white/[0.06] px-4 py-2 text-sm font-medium focus-visible:outline-none focus-visible:border-amber-500/50 focus-visible:ring-2 focus-visible:ring-amber-500/10 transition-all text-white/80"
-                    value={formData.categoryId}
-                    onChange={e => setFormData({...formData, categoryId: e.target.value})}
-                  >
-                    <option value="" disabled className="bg-[#0A1628]">اختر تصنيفاً...</option>
-                    {categories.map(cat => (
-                      <option key={cat.id} value={cat.id} className="bg-[#0A1628]">{cat.name}</option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-              <div className="space-y-3">
-                <Label className="text-sm font-bold text-white/50">صور المنتج</Label>
-                <div className="border-2 border-dashed border-white/[0.08] rounded-2xl p-6 flex flex-col items-center justify-center text-center bg-white/[0.02] hover:bg-amber-500/5 hover:border-amber-500/30 transition-all cursor-pointer relative group">
-                  <input 
-                    type="file" 
-                    accept="image/*" 
-                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
-                    onChange={handleImageUpload}
-                  />
-                  <div className="w-12 h-12 rounded-full bg-white/[0.05] shadow-sm flex items-center justify-center mb-2 group-hover:scale-110 group-hover:text-amber-400 group-hover:bg-amber-500/10 transition-all text-white/40">
-                    <UploadCloud className="w-6 h-6" />
-                  </div>
-                  <p className="text-sm font-bold text-white/50 mb-1">اضغط أو اسحب الصور من جهازك هنا</p>
-                </div>
-
-                <div className="flex gap-2 mt-3">
-                  <Input 
-                    placeholder="أو أدخل رابط الصورة هنا (URL)..." 
-                    value={imageUrlInput}
-                    onChange={(e) => setImageUrlInput(e.target.value)}
-                    className="flex-1 h-12 rounded-xl border border-white/[0.08] hover:border-white/[0.15] focus:border-amber-500/50 bg-white/[0.04] focus:bg-white/[0.06] transition-all outline-none focus-visible:ring-2 focus-visible:ring-amber-500/10 text-white/80 text-sm text-start"
-                    dir="rtl"
-                  />
-                  <Button 
-                    type="button" 
-                    onClick={handleAddImageUrl}
-                    className="h-12 rounded-xl bg-white/[0.05] hover:bg-white/[0.1] text-white shadow-none font-bold px-6 border border-white/[0.05]"
-                  >
-                    إضافة الرابط
-                  </Button>
-                </div>
-
-                {formData.imagesList.length > 0 && (
-                  <div className="grid grid-cols-5 gap-3 mt-4">
-                    {formData.imagesList.map((img, idx) => (
-                      <div key={idx} className="relative aspect-square rounded-xl overflow-hidden border border-white/[0.1] group shadow-sm">
-                        <Image src={img} alt="preview" fill className="object-cover" />
-                        <button 
-                          type="button" 
-                          onClick={() => {
-                            const arr = [...formData.imagesList]
-                            arr.splice(idx, 1)
-                            setFormData({...formData, imagesList: arr})
-                          }} 
-                          className="absolute top-1 end-1 bg-[#0A1628]/90 w-6 h-6 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 hover:bg-rose-500/20 hover:text-rose-400 shadow-sm transition-all text-white/70"
-                        >
-                          <X className="w-3 h-3" />
-                        </button>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-            </div>
-
-            <div className="space-y-6">
-              <h2 className="text-lg font-bold text-white/85 border-b border-white/[0.05] pb-2">التسعير والحالة</h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="space-y-3">
-                  <Label className="text-sm font-bold text-white/50">السعر الأساسي (د.ع) <span className="text-rose-500">*</span></Label>
-                  <Input 
-                    required 
-                    type="number" 
-                    value={formData.price || ''} 
-                    onChange={e => setFormData({...formData, price: Number(e.target.value)})} 
-                    className="h-12 rounded-xl border border-white/[0.08] hover:border-white/[0.15] focus:border-amber-500/50 bg-white/[0.04] focus:bg-white/[0.06] transition-all outline-none focus-visible:ring-2 focus-visible:ring-amber-500/10 font-bold text-amber-400" 
-                  />
-                </div>
-                <div className="space-y-3">
-                  <Label className="text-sm font-bold text-white/50">سعر التخفيض (اختياري)</Label>
-                  <Input 
-                    type="number" 
-                    value={formData.salePrice || ''} 
-                    onChange={e => setFormData({...formData, salePrice: Number(e.target.value)})} 
-                    className="h-12 rounded-xl border border-white/[0.08] hover:border-white/[0.15] focus:border-amber-500/50 bg-white/[0.04] focus:bg-white/[0.06] transition-all outline-none focus-visible:ring-2 focus-visible:ring-amber-500/10 font-bold text-emerald-400" 
-                  />
-                </div>
-              </div>
-              <div className="flex items-center justify-between p-4 bg-white/[0.02] rounded-xl border border-white/[0.08] w-full">
-                <div className="space-y-1">
-                  <Label className="text-sm font-bold text-white/85 cursor-pointer" onClick={() => setFormData({...formData, isActive: !formData.isActive})}>
-                    عرض المنتج للعملاء
-                  </Label>
-                  <p className="text-[11px] text-white/40 font-medium">إذا كان غير مفعل، لن يظهر المنتج في المتجر.</p>
-                </div>
-                <Switch
-                  checked={formData.isActive}
-                  onCheckedChange={(checked) => setFormData({...formData, isActive: checked})}
-                  className="data-[state=checked]:bg-emerald-500"
-                />
-              </div>
-            </div>
-
-          </form>
-        </div>
-
-        {/* Footer */}
-        <DialogFooter className="px-8 py-5 border-t border-white/[0.05] gap-3 sm:justify-start flex-row shrink-0">
-          <Button form="edit-product-form" type="submit" disabled={isSubmitting} className="rounded-xl h-11 px-8 bg-amber-500 hover:bg-amber-400 text-[#030810] shadow-[0_4px_20px_rgba(245,158,11,0.3)] transition-all font-bold w-full sm:w-auto">
-            {isSubmitting ? 'جاري الحفظ...' : 'حفظ التغييرات'}
-          </Button>
-          <Button type="button" variant="ghost" onClick={() => setIsOpen(false)} className="rounded-xl h-11 px-6 font-bold w-full sm:w-auto text-white/50 hover:text-white/80 hover:bg-white/[0.05] border border-white/[0.05] transition-all">
-            إلغاء
-          </Button>
-        </DialogFooter>
-
+          <DialogFooter className="p-5 bg-[#FAFAF8] border-t border-[#E8E4DF] flex items-center justify-end gap-2.5">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => setIsOpen(false)}
+              className="h-11 px-5 rounded-xl border-[#E8E4DF] text-[#1C1917] hover:bg-white font-bold text-xs cursor-pointer"
+            >
+              إلغاء
+            </Button>
+            <Button
+              type="submit"
+              disabled={isSubmitting}
+              className="h-11 px-6 rounded-xl text-white font-bold text-xs shadow-sm cursor-pointer"
+              style={{ background: 'linear-gradient(135deg, #C9A96E 0%, #A07850 100%)' }}
+            >
+              {isSubmitting ? (
+                <>
+                  <Loader2 className="w-4 h-4 animate-spin ms-2" />
+                  جاري الحفظ...
+                </>
+              ) : (
+                'حفظ التعديلات'
+              )}
+            </Button>
+          </DialogFooter>
+        </form>
       </DialogContent>
     </Dialog>
   )

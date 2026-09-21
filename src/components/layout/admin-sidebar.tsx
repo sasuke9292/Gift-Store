@@ -18,6 +18,8 @@ import {
   ChevronLeft,
   ChevronsLeft,
   UserCog,
+  ExternalLink,
+  Gift,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import {
@@ -26,7 +28,6 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
   DropdownMenuSeparator,
-  DropdownMenuLabel,
 } from '@/components/ui/dropdown-menu'
 import { LucideIcon } from 'lucide-react'
 
@@ -46,11 +47,11 @@ export const sidebarGroups: SidebarGroup[] = [
   {
     title: 'نظرة عامة',
     items: [
-      { name: 'الرئيسية', href: '/admin', icon: LayoutDashboard },
+      { name: 'لوحة التحكم', href: '/admin', icon: LayoutDashboard },
     ]
   },
   {
-    title: 'التجارة',
+    title: 'إدارة المتجر',
     items: [
       { name: 'الطلبات', href: '/admin/orders', icon: ShoppingCart, allowedRoles: ['SUPER_ADMIN', 'ADMIN', 'MANAGER', 'SALES'] },
       { name: 'المنتجات', href: '/admin/products', icon: Package, allowedRoles: ['SUPER_ADMIN', 'ADMIN', 'MANAGER', 'EDITOR'] },
@@ -59,7 +60,7 @@ export const sidebarGroups: SidebarGroup[] = [
     ]
   },
   {
-    title: 'النظام',
+    title: 'النظام والإعدادات',
     items: [
       { name: 'إعدادات المتجر', href: '/admin/settings', icon: Settings, allowedRoles: ['SUPER_ADMIN'] },
       { name: 'الملف الشخصي', href: '/admin/profile', icon: User },
@@ -79,7 +80,7 @@ const roleLabels: Record<string, string> = {
 }
 
 export function AdminSidebar({ 
-  storeName = 'گفتي بلس', 
+  storeName = 'گِفتي بلس', 
   logoUrl, 
   user,
   isCollapsed,
@@ -97,41 +98,67 @@ export function AdminSidebar({
   return (
     <aside
       className={cn(
-        'fixed inset-y-0 start-0 z-50 bg-[#030810] border-e border-white/[0.04] text-white/60 hidden lg:flex flex-col transition-all duration-300 ease-in-out overflow-hidden',
+        'fixed inset-y-0 start-0 z-50 bg-white border-e border-[#E8E4DF] text-[#78716C] hidden lg:flex flex-col transition-all duration-300 ease-in-out shadow-[1px_0_10px_rgba(0,0,0,0.02)]',
         isCollapsed ? 'w-[72px]' : 'w-64'
       )}
     >
-      {/* Ambient Glow */}
-      <div className="absolute top-0 right-0 w-48 h-48 bg-amber-500/[0.04] rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-1/3 left-0 w-32 h-32 bg-amber-600/[0.03] rounded-full blur-2xl pointer-events-none" />
-
       {/* Logo Header */}
       <div className={cn(
-        'h-16 flex items-center border-b border-white/[0.04] transition-all duration-300 shrink-0',
+        'h-16 flex items-center border-b border-[#E8E4DF] transition-all duration-300 shrink-0 bg-white',
         isCollapsed ? 'px-0 justify-center' : 'px-5 justify-between'
       )}>
         {isCollapsed ? (
-          <Link href="/admin" className="w-9 h-9 rounded-xl flex items-center justify-center font-black text-base shadow-[0_0_20px_rgba(245,158,11,0.3)] transition-all hover:shadow-[0_0_30px_rgba(245,158,11,0.5)] hover:scale-105 bg-gradient-to-br from-amber-400 to-amber-600 text-[#030810] shrink-0">
-            G
+          <Link 
+            href="/admin" 
+            className="w-10 h-10 rounded-xl flex items-center justify-center font-black text-white text-base shadow-[0_2px_8px_rgba(201,169,110,0.35)] transition-all hover:scale-105 shrink-0"
+            style={{ background: 'linear-gradient(135deg, #C9A96E 0%, #A07850 100%)' }}
+            title={storeName}
+          >
+            <Gift className="w-5 h-5 text-white" />
           </Link>
         ) : (
           <Link href="/admin" className="flex items-center gap-3 min-w-0 group">
             {logoUrl ? (
-              <div className="w-9 h-9 rounded-xl overflow-hidden shrink-0 bg-white/5 p-1 border border-white/10 group-hover:border-amber-400/40 transition-colors">
+              <div className="w-9 h-9 rounded-xl overflow-hidden shrink-0 bg-[#FAFAF8] p-1 border border-[#E8E4DF] group-hover:border-[#C9A96E]/50 transition-colors">
                 <img src={logoUrl} alt={storeName} className="w-full h-full object-cover rounded-lg" />
               </div>
             ) : (
-              <div className="w-9 h-9 rounded-xl flex items-center justify-center font-black text-base shadow-[0_0_20px_rgba(245,158,11,0.25)] bg-gradient-to-br from-amber-400 to-amber-600 text-[#030810] shrink-0 group-hover:shadow-[0_0_30px_rgba(245,158,11,0.4)] transition-all">
-                G
+              <div 
+                className="w-9 h-9 rounded-xl flex items-center justify-center font-black text-white shadow-[0_2px_8px_rgba(201,169,110,0.35)] shrink-0 transition-transform group-hover:scale-105"
+                style={{ background: 'linear-gradient(135deg, #C9A96E 0%, #A07850 100%)' }}
+              >
+                <Gift className="w-4 h-4 text-white" />
               </div>
             )}
-            <span className="text-base font-black text-white/90 truncate tracking-wide">{storeName}</span>
+            <div className="min-w-0">
+              <span className="text-base font-black text-[#1C1917] truncate tracking-tight block">{storeName}</span>
+              <span className="text-[10px] font-bold text-[#A8A29E] uppercase tracking-widest block">لوحة الإدارة</span>
+            </div>
           </Link>
         )}
       </div>
 
+      {/* View Live Store Button */}
+      <div className={cn('p-3', isCollapsed ? 'flex justify-center' : '')}>
+        <Link
+          href="/"
+          target="_blank"
+          className={cn(
+            'flex items-center gap-2 rounded-xl text-xs font-bold text-[#78716C] hover:text-[#1C1917] bg-[#FAFAF8] hover:bg-[#F5F0EA] border border-[#E8E4DF] transition-all duration-200',
+            isCollapsed ? 'w-10 h-10 justify-center p-0' : 'px-3 py-2 w-full justify-between'
+          )}
+          title="معاينة المتجر"
+        >
+          <div className="flex items-center gap-2">
+            <Store className="w-4 h-4 text-[#C9A96E]" />
+            {!isCollapsed && <span>معاينة المتجر</span>}
+          </div>
+          {!isCollapsed && <ExternalLink className="w-3.5 h-3.5 text-[#A8A29E]" />}
+        </Link>
+      </div>
+
       {/* Navigation */}
-      <div className="flex-1 overflow-y-auto scrollbar-none py-5 px-3 space-y-6">
+      <div className="flex-1 overflow-y-auto scrollbar-none px-3 py-2 space-y-5">
         {sidebarGroups.map((group, groupIdx) => {
           const visibleItems = group.items.filter(item =>
             !item.allowedRoles || item.allowedRoles.includes(userRole)
@@ -141,14 +168,14 @@ export function AdminSidebar({
           return (
             <div key={groupIdx}>
               {!isCollapsed && (
-                <p className="px-3 text-[10px] font-black text-white/25 uppercase tracking-[0.15em] mb-2">
+                <p className="px-3 text-[10px] font-bold text-[#A8A29E] uppercase tracking-wider mb-2">
                   {group.title}
                 </p>
               )}
               {isCollapsed && groupIdx > 0 && (
-                <div className="border-t border-white/[0.04] mb-4 mx-1" />
+                <div className="border-t border-[#E8E4DF] my-3 mx-1" />
               )}
-              <div className="space-y-0.5">
+              <div className="space-y-1">
                 {visibleItems.map((item) => {
                   const isActive = pathname === item.href || (item.href !== '/admin' && pathname.startsWith(`${item.href}/`))
                   return (
@@ -156,30 +183,31 @@ export function AdminSidebar({
                       <Link
                         href={item.href}
                         className={cn(
-                          'flex items-center gap-3 rounded-xl transition-all duration-200',
+                          'flex items-center gap-3 rounded-xl transition-all duration-200 text-sm',
                           isCollapsed ? 'px-0 py-3 justify-center w-full' : 'px-3 py-2.5',
                           isActive
-                            ? 'bg-amber-500/10 text-amber-400 font-bold border border-amber-500/20 shadow-[inset_0_1px_0_rgba(245,158,11,0.1)]'
-                            : 'text-white/40 hover:bg-white/[0.04] hover:text-white/70 border border-transparent'
+                            ? 'bg-[#FBF6EE] text-[#A07850] font-black border border-[#C9A96E]/30 shadow-[0_1px_4px_rgba(201,169,110,0.12)]'
+                            : 'text-[#78716C] hover:bg-[#FAFAF8] hover:text-[#1C1917] border border-transparent font-medium'
                         )}
                       >
                         <item.icon className={cn(
-                          'shrink-0 transition-all duration-200',
+                          'shrink-0 transition-colors duration-200',
                           isCollapsed ? 'w-5 h-5' : 'w-[18px] h-[18px]',
-                          isActive ? 'text-amber-400' : 'text-white/30 group-hover/item:text-white/60'
+                          isActive ? 'text-[#C9A96E]' : 'text-[#A8A29E] group-hover/item:text-[#1C1917]'
                         )} />
                         {!isCollapsed && (
-                          <span className="text-sm truncate">{item.name}</span>
+                          <span className="truncate">{item.name}</span>
                         )}
                         {isActive && !isCollapsed && (
-                          <div className="ms-auto w-1.5 h-1.5 rounded-full bg-amber-400 shadow-[0_0_6px_rgba(245,158,11,0.8)]" />
+                          <div className="ms-auto w-1.5 h-1.5 rounded-full bg-[#C9A96E]" />
                         )}
                       </Link>
+
                       {/* Tooltip when collapsed */}
                       {isCollapsed && (
-                        <div className="absolute end-full top-1/2 -translate-y-1/2 me-3 px-2.5 py-1.5 bg-[#0A1628] text-white text-xs font-bold rounded-lg shadow-[0_8px_30px_rgba(0,0,0,0.5)] whitespace-nowrap opacity-0 group-hover/item:opacity-100 transition-opacity pointer-events-none z-50 border border-white/10">
+                        <div className="absolute end-full top-1/2 -translate-y-1/2 me-3 px-3 py-1.5 bg-[#1C1917] text-white text-xs font-bold rounded-lg shadow-xl whitespace-nowrap opacity-0 group-hover/item:opacity-100 transition-opacity pointer-events-none z-50">
                           {item.name}
-                          <span className="absolute top-1/2 -translate-y-1/2 start-full border-[5px] border-transparent border-s-[#0A1628]" />
+                          <span className="absolute top-1/2 -translate-y-1/2 start-full border-[5px] border-transparent border-s-[#1C1917]" />
                         </div>
                       )}
                     </div>
@@ -192,62 +220,72 @@ export function AdminSidebar({
       </div>
 
       {/* Collapse Toggle */}
-      <div className={cn('px-3 pb-3', isCollapsed && 'flex justify-center px-0')}>
+      <div className={cn('px-3 pb-2 pt-1 border-t border-[#E8E4DF]/60', isCollapsed && 'flex justify-center px-0')}>
         <button
           onClick={() => setIsCollapsed(!isCollapsed)}
           className={cn(
-            'flex items-center gap-3 text-white/25 hover:text-white/60 hover:bg-white/[0.04] rounded-xl transition-all duration-200 text-xs font-bold border border-transparent hover:border-white/[0.06]',
-            isCollapsed ? 'w-10 h-10 justify-center' : 'w-full px-3 py-2.5'
+            'flex items-center gap-3 text-[#A8A29E] hover:text-[#1C1917] hover:bg-[#FAFAF8] rounded-xl transition-all duration-200 text-xs font-bold border border-transparent',
+            isCollapsed ? 'w-10 h-10 justify-center' : 'w-full px-3 py-2'
           )}
           title={isCollapsed ? 'توسيع القائمة' : 'تصغير القائمة'}
         >
-          <ChevronsLeft className={cn('w-4 h-4 transition-transform duration-500 shrink-0', isCollapsed && 'rotate-180')} />
-          {!isCollapsed && <span>تصغير</span>}
+          <ChevronsLeft className={cn('w-4 h-4 transition-transform duration-300 shrink-0', isCollapsed && 'rotate-180')} />
+          {!isCollapsed && <span>طي الشريط الجانبي</span>}
         </button>
       </div>
 
-      {/* User Profile */}
+      {/* User Profile Footer */}
       <div className={cn(
-        'border-t border-white/[0.04] bg-black/20',
+        'border-t border-[#E8E4DF] bg-[#FAFAF8]',
         isCollapsed ? 'p-3 flex justify-center' : 'p-3'
       )}>
         <DropdownMenu>
           <DropdownMenuTrigger render={
             <div className={cn(
-              'flex items-center gap-3 rounded-xl cursor-pointer transition-all duration-200 group',
-              isCollapsed
-                ? 'p-0 justify-center hover:scale-105'
-                : 'p-2.5 hover:bg-white/[0.05] border border-white/[0.04] hover:border-amber-500/20'
+              'flex items-center gap-3 rounded-xl cursor-pointer transition-all duration-200 group bg-white border border-[#E8E4DF] hover:border-[#C9A96E]/40 hover:shadow-sm',
+              isCollapsed ? 'p-1.5 justify-center' : 'p-2.5 w-full'
             )}>
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center text-[#030810] font-black shrink-0 shadow-[0_0_12px_rgba(245,158,11,0.3)] group-hover:shadow-[0_0_20px_rgba(245,158,11,0.5)] transition-all text-sm">
+              <div 
+                className="w-8 h-8 rounded-lg flex items-center justify-center text-white font-black shrink-0 shadow-sm text-sm"
+                style={{ background: 'linear-gradient(135deg, #C9A96E 0%, #A07850 100%)' }}
+              >
                 {user?.name ? user.name[0] : 'أ'}
               </div>
               {!isCollapsed && (
                 <>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm font-bold text-white/80 truncate leading-none mb-0.5">{user?.name || 'المدير'}</p>
-                    <p className="text-[11px] text-white/30 truncate font-medium">{roleLabels[userRole] || userRole}</p>
+                  <div className="flex-1 min-w-0 text-start">
+                    <p className="text-sm font-bold text-[#1C1917] truncate leading-tight">{user?.name || 'المدير'}</p>
+                    <p className="text-[11px] text-[#A8A29E] truncate font-medium">{roleLabels[userRole] || userRole}</p>
                   </div>
-                  <ChevronLeft className="w-3.5 h-3.5 text-white/25 group-hover:text-amber-400 transition-colors shrink-0" />
+                  <ChevronLeft className="w-4 h-4 text-[#A8A29E] group-hover:text-[#C9A96E] transition-colors shrink-0" />
                 </>
               )}
             </div>
           } />
-          <DropdownMenuContent align={isCollapsed ? "center" : "end"} side="top" className="w-52 rounded-xl shadow-[0_20px_60px_rgba(0,0,0,0.6)] border-white/10 bg-[#0A1628] backdrop-blur-xl p-1.5 text-white mb-2" sideOffset={8}>
-            <div className="px-2.5 py-2 mb-1 bg-white/5 rounded-lg border border-white/5">
-              <p className="text-sm font-bold text-white/90 mb-0.5">{user?.name || 'المدير'}</p>
-              <p className="text-xs text-white/40 font-mono truncate" dir="rtl">{user?.email || ''}</p>
+          <DropdownMenuContent align={isCollapsed ? "center" : "end"} side="top" className="w-56 rounded-2xl shadow-[0_12px_40px_rgba(0,0,0,0.08)] border-[#E8E4DF] bg-white p-2 text-[#1C1917] mb-2" sideOffset={8}>
+            <div className="px-3 py-2 mb-1 bg-[#FAFAF8] rounded-xl border border-[#E8E4DF]">
+              <p className="text-sm font-bold text-[#1C1917] mb-0.5">{user?.name || 'المدير'}</p>
+              <p className="text-xs text-[#78716C] font-mono truncate" dir="ltr">{user?.email || ''}</p>
+              <span className="inline-block mt-1 text-[10px] font-bold text-[#C9A96E] bg-[#FBF6EE] px-2 py-0.5 rounded-md">
+                {roleLabels[userRole] || userRole}
+              </span>
             </div>
-            <DropdownMenuSeparator className="my-1 bg-white/[0.06]" />
+            <DropdownMenuSeparator className="my-1 bg-[#E8E4DF]" />
             <Link href="/admin/profile">
-              <DropdownMenuItem className="rounded-lg cursor-pointer py-2 px-2.5 hover:bg-white/[0.08] hover:text-white font-bold focus:bg-white/[0.08] focus:text-white transition-colors text-white/60 text-sm">
-                <User className="me-2 h-4 w-4 text-amber-400" />
+              <DropdownMenuItem className="rounded-xl cursor-pointer py-2.5 px-3 hover:bg-[#FAFAF8] font-bold text-[#1C1917] transition-colors text-sm">
+                <User className="me-2.5 h-4 w-4 text-[#C9A96E]" />
                 الملف الشخصي
               </DropdownMenuItem>
             </Link>
-            <DropdownMenuSeparator className="my-1 bg-white/[0.06]" />
+            <Link href="/" target="_blank">
+              <DropdownMenuItem className="rounded-xl cursor-pointer py-2.5 px-3 hover:bg-[#FAFAF8] font-bold text-[#1C1917] transition-colors text-sm">
+                <Store className="me-2.5 h-4 w-4 text-[#78716C]" />
+                زيارة المتجر
+              </DropdownMenuItem>
+            </Link>
+            <DropdownMenuSeparator className="my-1 bg-[#E8E4DF]" />
             <DropdownMenuItem
-              className="rounded-lg cursor-pointer py-2 px-2.5 font-bold text-rose-400 hover:bg-rose-500/10 hover:text-rose-300 focus:bg-rose-500/10 focus:text-rose-300 transition-colors text-sm"
+              className="rounded-xl cursor-pointer py-2.5 px-3 font-bold text-rose-600 hover:bg-rose-50 hover:text-rose-700 transition-colors text-sm"
               onClick={(e) => {
                 e.preventDefault();
                 signOut({ callbackUrl: '/auth/login' })

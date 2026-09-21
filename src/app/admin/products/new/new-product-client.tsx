@@ -1,18 +1,18 @@
 'use client'
 
 import React, { useState } from 'react'
-import { motion } from 'framer-motion'
 import { Card, CardContent } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
-import { ArrowRight, Image as ImageIcon, UploadCloud, X, Tag, DollarSign, Package } from 'lucide-react'
+import { ArrowRight, Image as ImageIcon, Plus, X, Tag, DollarSign, Package, Loader2, Sparkles } from 'lucide-react'
 import { createProduct } from '@/app/actions/admin/products'
 import { toast } from 'sonner'
 import { useRouter } from 'next/navigation'
-import Image from 'next/image'
+import Link from 'next/link'
 import { Category } from '@prisma/client'
+import { Switch } from '@/components/ui/switch'
 
 export default function NewProductClient({ categories }: { categories: Category[] }) {
   const router = useRouter()
@@ -27,30 +27,46 @@ export default function NewProductClient({ categories }: { categories: Category[
     imagesList: [] as string[],
     isActive: true
   })
-  const [newImageUrl, setNewImageUrl] = useState('')
   const [imageUrlInput, setImageUrlInput] = useState('')
+
+  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = e.target.value
+    setProduct(prev => ({
+      ...prev,
+      name: val,
+      slug: prev.slug || val.trim().toLowerCase().replace(/[\s\W-]+/g, '-') || `prod-${Date.now().toString().slice(-6)}`
+    }))
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    if (!product.name || !product.categoryId || !product.price) {
+      toast.error('يرجى ملء جميع الحقول المطلوبة (الاسم، التصنيف، السعر)')
+      return
+    }
+
     setIsSubmitting(true)
 
     try {
       const res = await createProduct({
         name: product.name,
-        slug: product.slug || `slug-${Date.now()}`,
+        slug: product.slug || `prod-${Date.now()}`,
         description: product.description,
         price: Number(product.price),
         salePrice: Number(product.salePrice) || null,
         categoryId: product.categoryId,
-        images: product.imagesList,
+        images: product.imagesList.length > 0 ? product.imagesList : [
+          'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&q=80&w=800'
+        ],
         isActive: product.isActive,
       })
 
       if (res.success) {
-        toast.success('تم إضافة المنتج بنجاح')
+        toast.success('تمت إضافة المنتج الجديد بنجاح!')
         router.push('/admin/products')
+        router.refresh()
       } else {
-        toast.error(res.error || 'حدث خطأ أثناء الإضافة')
+        toast.error(res.error || 'حدث خطأ أثناء إضافة المنتج')
       }
     } catch (err) {
       toast.error('حدث خطأ غير متوقع. يرجى المحاولة مرة أخرى.')
@@ -59,276 +75,211 @@ export default function NewProductClient({ categories }: { categories: Category[
     }
   }
 
-  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0]
-    if (!file) return
-    
-    if (file.size > 2 * 1024 * 1024) {
-      toast.error('حجم الصورة كبير جداً. الحد الأقصى هو 2 ميجابايت.')
-      e.target.value = ''
-      return
-    }
-    
-    const toastId = toast.loading('جاري رفع الصورة...')
-    
-    try {
-      const formDataUpload = new FormData()
-      formDataUpload.append('file', file)
-      
-      const res = await fetch('/api/upload', {
-        method: 'POST',
-        body: formDataUpload
-      })
-      
-      const data = await res.json()
-      
-      if (data.success) {
-        setProduct(prev => ({...prev, imagesList: [...prev.imagesList, data.url]}))
-        toast.success('تم رفع الصورة بنجاح', { id: toastId })
-      } else {
-        toast.error(data.error || 'حدث خطأ أثناء الرفع', { id: toastId })
-      }
-    } catch {
-      toast.error('حدث خطأ في الاتصال بالخادم', { id: toastId })
-    } finally {
-      e.target.value = '' 
-    }
-  }
-
   const handleAddImageUrl = () => {
     if (!imageUrlInput.trim()) return
-    setProduct({...product, imagesList: [...product.imagesList, imageUrlInput.trim()]})
+    setProduct(prev => ({
+      ...prev,
+      imagesList: [...prev.imagesList, imageUrlInput.trim()]
+    }))
     setImageUrlInput('')
-    toast.success('تمت إضافة رابط الصورة بنجاح')
+  }
+
+  const handleRemoveImage = (index: number) => {
+    setProduct(prev => ({
+      ...prev,
+      imagesList: prev.imagesList.filter((_, i) => i !== index)
+    }))
   }
 
   return (
-    <motion.div 
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      className="max-w-5xl mx-auto space-y-8 pb-12" 
-      dir="rtl"
-    >
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-[#0A1628] border border-white/[0.05] p-5 rounded-2xl">
-        <div className="flex items-center gap-4">
-          <button 
-            className="w-10 h-10 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.08] flex items-center justify-center transition-colors shadow-sm" 
-            onClick={() => router.push('/admin/products')}
+    <div className="space-y-6 pb-16" dir="rtl">
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div className="flex items-center gap-3">
+          <Link
+            href="/admin/products"
+            className="w-10 h-10 rounded-xl bg-white border border-[#E8E4DF] flex items-center justify-center text-[#78716C] hover:text-[#1C1917] hover:bg-[#FAFAF8] transition-colors shadow-sm"
           >
-            <ArrowRight className="w-5 h-5 text-white/60" />
-          </button>
+            <ArrowRight className="w-5 h-5 rtl:-scale-x-100" />
+          </Link>
           <div>
-            <h1 className="text-xl font-black text-white/85 tracking-tight">إضافة منتج جديد</h1>
-            <p className="text-sm text-white/40 mt-1 font-medium">أضف منتجاً جديداً إلى الكتالوج الخاص بك.</p>
+            <h1 className="text-2xl font-black text-[#1C1917] tracking-tight">إضافة منتج جديد</h1>
+            <p className="text-sm text-[#78716C] mt-0.5">أدخل تفاصيل ومواصفات المنتج لإدراجه في المتجر</p>
           </div>
-        </div>
-        <div className="flex gap-2">
-          <Button 
-            variant="outline" 
-            className="rounded-xl h-10 px-6 font-bold text-white/60 bg-white/[0.04] hover:bg-white/[0.08] border-white/[0.08] transition-colors"
-            onClick={() => router.push('/admin/products')}
-          >
-            إلغاء
-          </Button>
-          <Button 
-            form="product-form"
-            type="submit" 
-            disabled={isSubmitting} 
-            className="rounded-xl h-10 px-8 bg-amber-500 hover:bg-amber-400 text-[#030810] font-bold shadow-[0_4px_20px_rgba(245,158,11,0.3)] transition-all"
-          >
-            {isSubmitting ? 'جاري الحفظ...' : 'حفظ المنتج'}
-          </Button>
         </div>
       </div>
 
-      <form id="product-form" onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        
-        {/* Main Content (Left Side in RTL) */}
-        <div className="lg:col-span-2 space-y-8">
-          
-          <div className="rounded-2xl border border-white/[0.05] overflow-hidden bg-[#0A1628] shadow-sm">
-            <div className="p-5 border-b border-white/[0.05] flex items-center gap-3">
-              <div className="w-9 h-9 rounded-lg bg-amber-500/10 flex items-center justify-center shrink-0 border border-amber-500/20">
-                <Tag className="w-4 h-4 text-amber-400" />
-              </div>
-              <h2 className="text-base font-bold text-white/85">التفاصيل الأساسية</h2>
-            </div>
-            <div className="p-6 space-y-5">
-              <div className="space-y-2">
-                <Label className="text-sm font-bold text-white/60">اسم المنتج <span className="text-rose-400">*</span></Label>
-                <input 
-                  required 
-                  value={product.name} 
-                  onChange={e => setProduct({...product, name: e.target.value})} 
-                  className="w-full h-12 px-4 rounded-xl border border-white/[0.08] focus:border-amber-500/50 hover:border-white/[0.15] bg-white/[0.04] focus:bg-white/[0.06] text-base font-medium transition-colors text-white/85 outline-none focus:ring-2 focus:ring-amber-500/10 placeholder:text-white/20" 
-                  placeholder="مثال: عطر فاخر 100مل..." 
-                />
-              </div>
-              
-              <div className="space-y-2">
-                <Label className="text-sm font-bold text-white/60">وصف المنتج</Label>
-                <textarea 
-                  value={product.description} 
-                  onChange={e => setProduct({...product, description: e.target.value})} 
-                  className="w-full min-h-[140px] rounded-xl bg-white/[0.04] focus:bg-white/[0.06] border border-white/[0.08] hover:border-white/[0.15] focus:border-amber-500/50 outline-none focus:ring-2 focus:ring-amber-500/10 transition-colors resize-y p-4 text-sm text-white/85 placeholder:text-white/20 leading-relaxed" 
-                  placeholder="اكتب تفاصيل المنتج ومميزاته هنا بشكل جذاب..." 
-                />
-              </div>
-            </div>
-          </div>
+      <form onSubmit={handleSubmit}>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
-          <div className="rounded-2xl border border-white/[0.05] overflow-hidden bg-[#0A1628] shadow-sm">
-            <div className="p-5 border-b border-white/[0.05] flex items-center gap-3">
-              <div className="w-9 h-9 rounded-lg bg-amber-500/10 flex items-center justify-center shrink-0 border border-amber-500/20">
-                <ImageIcon className="w-4 h-4 text-amber-400" />
-              </div>
-              <h2 className="text-base font-bold text-white/85">صور المنتج</h2>
-            </div>
-            <div className="p-6 space-y-6">
-              <div className="border-2 border-dashed border-white/[0.08] rounded-2xl p-8 flex flex-col items-center justify-center text-center bg-white/[0.02] hover:bg-white/[0.04] hover:border-amber-500/30 transition-all cursor-pointer relative group">
-                <input 
-                  type="file" 
-                  accept="image/*" 
-                  className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
-                  onChange={handleImageUpload}
+          {/* Left 2 Columns: Main Info */}
+          <div className="lg:col-span-2 space-y-6">
+            <Card className="rounded-3xl border-[#E8E4DF] shadow-[0_2px_12px_rgba(0,0,0,0.03)] bg-white overflow-hidden p-6 sm:p-7 space-y-5">
+              <h2 className="text-base font-black text-[#1C1917] pb-3 border-b border-[#E8E4DF] flex items-center gap-2">
+                <Package className="w-4 h-4 text-[#C9A96E]" />
+                المعلومات الأساسية
+              </h2>
+
+              <div>
+                <Label className="text-xs font-bold text-[#1C1917] mb-1.5 block">اسم المنتج *</Label>
+                <Input
+                  required
+                  value={product.name}
+                  onChange={handleNameChange}
+                  placeholder="مثال: ساعة يد كلاسيكية رجالية فاخرة"
+                  className="h-11 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-sm focus:border-[#C9A96E]/50 focus:bg-white"
                 />
-                <div className="w-14 h-14 rounded-full bg-white/[0.05] border border-white/10 flex items-center justify-center mb-3 group-hover:scale-110 group-hover:bg-amber-500/10 group-hover:border-amber-500/20 group-hover:text-amber-400 transition-all duration-300 text-white/40">
-                  <UploadCloud className="w-6 h-6" />
-                </div>
-                <h3 className="text-base font-bold text-white/70 mb-1">اضغط أو اسحب الصور من جهازك هنا</h3>
-                <p className="text-xs text-white/30">صيغ مدعومة: JPG, PNG, GIF (الحد الأقصى 2MB)</p>
               </div>
 
-              <div className="flex gap-2 mt-3">
-                <input 
-                  placeholder="أو أدخل رابط الصورة هنا (URL)..." 
+              <div>
+                <Label className="text-xs font-bold text-[#1C1917] mb-1.5 block">الرابط المخصص (Slug)</Label>
+                <Input
+                  value={product.slug}
+                  onChange={(e) => setProduct({ ...product, slug: e.target.value })}
+                  placeholder="men-classic-luxury-watch"
+                  className="h-11 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-sm font-mono"
+                  dir="ltr"
+                />
+              </div>
+
+              <div>
+                <Label className="text-xs font-bold text-[#1C1917] mb-1.5 block">وصف المنتج ومميزاته</Label>
+                <Textarea
+                  rows={6}
+                  value={product.description}
+                  onChange={(e) => setProduct({ ...product, description: e.target.value })}
+                  placeholder="اكتب وصفاً مفصلاً للمنتج ومواصفاته وجودة تصنيعه..."
+                  className="rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-sm resize-none"
+                />
+              </div>
+            </Card>
+
+            {/* Images Card */}
+            <Card className="rounded-3xl border-[#E8E4DF] shadow-[0_2px_12px_rgba(0,0,0,0.03)] bg-white overflow-hidden p-6 sm:p-7 space-y-4">
+              <h2 className="text-base font-black text-[#1C1917] pb-3 border-b border-[#E8E4DF] flex items-center gap-2">
+                <ImageIcon className="w-4 h-4 text-[#C9A96E]" />
+                صور المنتج
+              </h2>
+
+              <div className="flex gap-2">
+                <Input
                   value={imageUrlInput}
                   onChange={(e) => setImageUrlInput(e.target.value)}
-                  className="flex-1 px-4 bg-white/[0.04] border border-white/[0.08] focus:border-amber-500/50 hover:border-white/[0.15] outline-none focus:ring-2 focus:ring-amber-500/10 rounded-xl h-11 text-sm text-start text-white/80 placeholder:text-white/20 transition-all"
-                  dir="rtl"
+                  placeholder="https://images.unsplash.com/..."
+                  className="h-11 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-sm"
+                  dir="ltr"
                 />
-                <Button 
-                  type="button" 
+                <Button
+                  type="button"
                   onClick={handleAddImageUrl}
-                  className="h-11 rounded-xl bg-white/[0.04] border border-white/[0.08] hover:bg-white/[0.08] text-white/70 shadow-sm font-bold px-6 text-sm transition-colors"
+                  className="h-11 px-5 rounded-xl bg-[#1C1917] hover:bg-black text-white font-bold text-xs shrink-0 cursor-pointer"
                 >
-                  إضافة الرابط
+                  <Plus className="w-4 h-4 ms-1.5" />
+                  إضافة الصورة
                 </Button>
               </div>
 
-              {product.imagesList.length > 0 && (
-                <div className="grid grid-cols-4 gap-4 mt-6">
-                  {product.imagesList.map((img, idx) => (
-                    <div key={idx} className="relative aspect-square rounded-xl overflow-hidden border border-white/[0.1] group shadow-sm">
-                      <Image src={img} alt="preview" fill className="object-cover" />
-                      <button 
-                        type="button" 
-                        onClick={() => {
-                          const arr = [...product.imagesList]
-                          arr.splice(idx, 1)
-                          setProduct({...product, imagesList: arr})
-                        }} 
-                        className="absolute top-2 end-2 bg-[#0A1628]/80 backdrop-blur-sm border border-white/10 w-8 h-8 rounded-lg flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all hover:bg-rose-500/20 hover:text-rose-400 hover:border-rose-500/30 text-white/70"
+              {product.imagesList.length > 0 ? (
+                <div className="grid grid-cols-3 sm:grid-cols-4 gap-3 p-4 bg-[#FAFAF8] rounded-2xl border border-[#E8E4DF]">
+                  {product.imagesList.map((url, idx) => (
+                    <div key={idx} className="relative aspect-square rounded-xl overflow-hidden border border-[#E8E4DF] group">
+                      <img src={url} alt={`img-${idx}`} className="w-full h-full object-cover" />
+                      <button
+                        type="button"
+                        onClick={() => handleRemoveImage(idx)}
+                        className="absolute inset-0 bg-black/60 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
                       >
-                        <X className="w-4 h-4" />
+                        <X className="w-5 h-5" />
                       </button>
                     </div>
                   ))}
                 </div>
+              ) : (
+                <div className="p-8 text-center bg-[#FAFAF8] rounded-2xl border border-dashed border-[#E8E4DF]">
+                  <ImageIcon className="w-8 h-8 text-[#A8A29E] mx-auto mb-2" />
+                  <p className="text-xs text-[#78716C]">أضف روابط صور المنتج هنا، أو سيتم استخدام صورة افتراضية فاخرة تلقائياً.</p>
+                </div>
               )}
-            </div>
-          </div>
-        </div>
-
-        {/* Sidebar (Right Side in RTL) */}
-        <div className="space-y-8">
-          
-          <div className="rounded-2xl border border-white/[0.05] overflow-hidden bg-[#0A1628] shadow-sm">
-            <div className="p-5 border-b border-white/[0.05] flex items-center gap-3">
-              <div className="w-9 h-9 rounded-lg bg-amber-500/10 flex items-center justify-center shrink-0 border border-amber-500/20">
-                <DollarSign className="w-4 h-4 text-amber-400" />
-              </div>
-              <h2 className="text-base font-bold text-white/85">التسعير</h2>
-            </div>
-            <div className="p-6 space-y-5">
-              <div className="space-y-2">
-                <Label className="text-sm font-bold text-white/60">السعر الأساسي (د.ع) <span className="text-rose-400">*</span></Label>
-                <input 
-                  required 
-                  type="number" 
-                  value={product.price || ''} 
-                  onChange={e => setProduct({...product, price: Number(e.target.value)})} 
-                  className="w-full h-12 px-4 rounded-xl border border-white/[0.08] focus:border-amber-500/50 hover:border-white/[0.15] bg-white/[0.04] focus:bg-white/[0.06] transition-colors font-black text-amber-400 text-lg outline-none focus:ring-2 focus:ring-amber-500/10 placeholder:text-white/20" 
-                  placeholder="0" 
-                />
-              </div>
-              <div className="space-y-2">
-                <Label className="text-sm font-bold text-white/60">سعر التخفيض (اختياري)</Label>
-                <input 
-                  type="number" 
-                  value={product.salePrice || ''} 
-                  onChange={e => setProduct({...product, salePrice: Number(e.target.value)})} 
-                  className="w-full h-12 px-4 rounded-xl border border-white/[0.08] focus:border-amber-500/50 hover:border-white/[0.15] bg-white/[0.04] focus:bg-white/[0.06] transition-colors font-black text-rose-400 text-lg outline-none focus:ring-2 focus:ring-amber-500/10 placeholder:text-white/20" 
-                  placeholder="0" 
-                />
-              </div>
-            </div>
+            </Card>
           </div>
 
-          <div className="rounded-2xl border border-white/[0.05] overflow-hidden bg-[#0A1628] shadow-sm">
-            <div className="p-5 border-b border-white/[0.05] flex items-center gap-3">
-              <div className="w-9 h-9 rounded-lg bg-emerald-500/10 flex items-center justify-center shrink-0 border border-emerald-500/20">
-                <Package className="w-4 h-4 text-emerald-400" />
-              </div>
-              <h2 className="text-base font-bold text-white/85">التنظيم</h2>
-            </div>
-            <div className="p-6 space-y-5">
-              <div className="space-y-2">
-                <Label className="text-sm font-bold text-white/60">التصنيف <span className="text-rose-400">*</span></Label>
-                <select 
-                  required 
-                  className="flex h-12 w-full rounded-xl border border-white/[0.08] focus:border-amber-500/50 hover:border-white/[0.15] bg-white/[0.04] px-4 text-sm font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500/10 transition-colors text-white/80"
+          {/* Right Column: Pricing & Category */}
+          <div className="space-y-6">
+            <Card className="rounded-3xl border-[#E8E4DF] shadow-[0_2px_12px_rgba(0,0,0,0.03)] bg-white overflow-hidden p-6 space-y-5">
+              <h2 className="text-base font-black text-[#1C1917] pb-3 border-b border-[#E8E4DF]">
+                التسعير والتصنيف
+              </h2>
+
+              <div>
+                <Label className="text-xs font-bold text-[#1C1917] mb-1.5 block">التصنيف *</Label>
+                <select
+                  required
                   value={product.categoryId}
-                  onChange={e => setProduct({...product, categoryId: e.target.value})}
+                  onChange={(e) => setProduct({ ...product, categoryId: e.target.value })}
+                  className="w-full h-11 px-3 rounded-xl bg-[#FAFAF8] border border-[#E8E4DF] text-sm text-[#1C1917] focus:outline-none focus:border-[#C9A96E]/50 focus:bg-white cursor-pointer"
                 >
-                  <option value="" disabled className="bg-[#0A1628]">اختر تصنيفاً...</option>
-                  {categories.map(cat => (
-                    <option key={cat.id} value={cat.id} className="bg-[#0A1628]">{cat.name}</option>
+                  <option value="">اختر التصنيف...</option>
+                  {categories.map((c) => (
+                    <option key={c.id} value={c.id}>{c.name}</option>
                   ))}
                 </select>
               </div>
-              
-              <div className="space-y-2">
-                <Label className="text-sm font-bold text-white/60">الرابط المخصص (Slug)</Label>
-                <input 
-                  value={product.slug} 
-                  onChange={e => setProduct({...product, slug: e.target.value})} 
-                  dir="rtl" 
-                  className="w-full h-12 px-4 rounded-xl border border-white/[0.08] focus:border-amber-500/50 hover:border-white/[0.15] bg-white/[0.04] focus:bg-white/[0.06] transition-colors font-mono text-sm outline-none focus:ring-2 focus:ring-amber-500/10 text-white/80 placeholder:text-white/20" 
-                  placeholder="أتركه فارغاً للتوليد التلقائي" 
+
+              <div>
+                <Label className="text-xs font-bold text-[#1C1917] mb-1.5 block">السعر الأساسي (د.ع) *</Label>
+                <Input
+                  type="number"
+                  required
+                  value={product.price || ''}
+                  onChange={(e) => setProduct({ ...product, price: Number(e.target.value) })}
+                  placeholder="50000"
+                  className="h-11 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-sm font-bold"
+                  dir="ltr"
                 />
               </div>
 
-              <div className="pt-4 border-t border-white/[0.05]">
-                <div className="flex items-center justify-between p-4 bg-white/[0.02] rounded-xl border border-white/[0.05]">
-                  <div>
-                    <Label className="text-sm font-bold text-white/85">حالة المنتج</Label>
-                    <p className="text-[11px] text-white/40 mt-1 font-medium">عرض المنتج للعملاء؟</p>
-                  </div>
-                  <button
-                    type="button"
-                    onClick={() => setProduct({...product, isActive: !product.isActive})}
-                    className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none ${product.isActive ? 'bg-emerald-500' : 'bg-white/20'}`}
-                  >
-                    <span className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${product.isActive ? '-translate-x-6' : '-translate-x-1'}`} />
-                  </button>
-                </div>
+              <div>
+                <Label className="text-xs font-bold text-[#1C1917] mb-1.5 block">سعر التخفيض (اختياري)</Label>
+                <Input
+                  type="number"
+                  value={product.salePrice || ''}
+                  onChange={(e) => setProduct({ ...product, salePrice: Number(e.target.value) })}
+                  placeholder="40000"
+                  className="h-11 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-sm"
+                  dir="ltr"
+                />
               </div>
-            </div>
+
+              <div className="pt-3 border-t border-[#E8E4DF] flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-bold text-[#1C1917]">نشر المنتج فوراً</p>
+                  <p className="text-xs text-[#78716C]">متاح للبيع في المتجر</p>
+                </div>
+                <Switch
+                  checked={product.isActive}
+                  onCheckedChange={(val) => setProduct({ ...product, isActive: val })}
+                />
+              </div>
+
+              <Button
+                type="submit"
+                disabled={isSubmitting}
+                className="w-full h-12 rounded-xl text-white font-bold text-sm shadow-md transition-all hover:-translate-y-0.5 cursor-pointer mt-4"
+                style={{ background: 'linear-gradient(135deg, #C9A96E 0%, #A07850 100%)' }}
+              >
+                {isSubmitting ? (
+                  <>
+                    <Loader2 className="w-4 h-4 animate-spin ms-2" />
+                    جاري حفظ المنتج...
+                  </>
+                ) : (
+                  'حفظ ونشر المنتج'
+                )}
+              </Button>
+            </Card>
           </div>
-          
         </div>
       </form>
-    </motion.div>
+    </div>
   )
 }

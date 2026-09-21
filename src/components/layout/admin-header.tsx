@@ -1,8 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
-import { Bell, Search, Menu, ChevronLeft, ChevronRight } from 'lucide-react'
-import { Input } from '@/components/ui/input'
+import { Bell, Search, Menu, ChevronLeft, Store, ExternalLink } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { usePathname } from 'next/navigation'
 import {
@@ -28,7 +27,7 @@ export function AdminHeader({ userRole = 'CUSTOMER', userName }: { userRole?: st
       orders: 'الطلبات',
       categories: 'التصنيفات',
       customers: 'العملاء',
-      users: 'فريق العمل',
+      users: 'المستخدمين',
       settings: 'الإعدادات',
       profile: 'الملف الشخصي',
       notifications: 'الإشعارات',
@@ -40,39 +39,46 @@ export function AdminHeader({ userRole = 'CUSTOMER', userName }: { userRole?: st
   const getBreadcrumbs = () => {
     const paths = pathname.split('/').filter(Boolean)
     if (paths.length <= 1) return (
-      <div className="hidden lg:flex items-center text-base font-black text-white/80">
-        نظرة عامة
+      <div className="hidden lg:flex items-center text-sm font-black text-[#1C1917]">
+        لوحة التحكم
       </div>
     )
 
     return (
-      <div className="hidden lg:flex items-center gap-1.5 text-sm font-medium text-white/30">
-        {paths.map((path, index) => (
-          <React.Fragment key={`${path}-${index}`}>
-            <span className={index === paths.length - 1 ? 'text-white/80 font-black text-base' : 'hover:text-amber-400 cursor-pointer transition-colors'}>
-              {translate(path)}
-            </span>
-            {index < paths.length - 1 && <ChevronLeft className="w-3.5 h-3.5 text-white/15" />}
-          </React.Fragment>
-        ))}
+      <div className="hidden lg:flex items-center gap-1.5 text-xs font-medium text-[#78716C]">
+        <Link href="/admin" className="hover:text-[#C9A96E] transition-colors">
+          الرئيسية
+        </Link>
+        {paths.slice(1).map((path, index) => {
+          const isLast = index === paths.length - 2
+          return (
+            <React.Fragment key={`${path}-${index}`}>
+              <ChevronLeft className="w-3.5 h-3.5 text-[#A8A29E]" />
+              <span className={isLast ? 'text-[#1C1917] font-black' : 'hover:text-[#C9A96E] transition-colors'}>
+                {translate(path)}
+              </span>
+            </React.Fragment>
+          )
+        })}
       </div>
     )
   }
 
   return (
-    <header className="h-14 bg-[#060D1A]/95 backdrop-blur-xl border-b border-white/[0.05] flex items-center justify-between px-5 sticky top-0 z-40 shrink-0">
+    <header className="h-16 bg-white/95 backdrop-blur-xl border-b border-[#E8E4DF] flex items-center justify-between px-5 sm:px-8 sticky top-0 z-40 shrink-0">
       <div className="flex items-center gap-3">
+        {/* Mobile Hamburger Menu */}
         <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
           <SheetTrigger render={
-            <Button variant="ghost" size="icon" className="lg:hidden text-white/50 hover:bg-white/[0.06] hover:text-amber-400 w-9 h-9 rounded-xl transition-colors border border-white/[0.06]">
+            <Button variant="ghost" size="icon" className="lg:hidden text-[#1C1917] hover:bg-[#FAFAF8] w-9 h-9 rounded-xl transition-colors border border-[#E8E4DF]">
               <Menu className="w-4 h-4" />
             </Button>
           } />
-          <SheetContent side="right" className="w-64 bg-[#030810] border-e border-white/[0.04] p-0 text-white/60">
-            <SheetHeader className="h-14 flex items-center justify-center border-b border-white/[0.04] bg-black/20 px-5">
-              <SheetTitle className="text-white/80 text-base font-black">القائمة الرئيسية</SheetTitle>
+          <SheetContent side="right" className="w-72 bg-white border-e border-[#E8E4DF] p-0 text-[#1C1917]">
+            <SheetHeader className="h-16 flex items-center justify-center border-b border-[#E8E4DF] bg-[#FAFAF8] px-5">
+              <SheetTitle className="text-[#1C1917] text-base font-black">لوحة التحكم الإدارية</SheetTitle>
             </SheetHeader>
-            <div className="overflow-y-auto py-5 px-3 space-y-6 scrollbar-none h-[calc(100vh-56px)]">
+            <div className="overflow-y-auto py-5 px-3 space-y-6 scrollbar-none h-[calc(100vh-64px)]">
               {sidebarGroups.map((group, groupIdx) => {
                 const visibleItems = group.items.filter(item =>
                   !item.allowedRoles || item.allowedRoles.includes(userRole)
@@ -80,10 +86,10 @@ export function AdminHeader({ userRole = 'CUSTOMER', userName }: { userRole?: st
                 if (visibleItems.length === 0) return null
                 return (
                   <div key={groupIdx}>
-                    <p className="px-3 text-[10px] font-black text-white/25 uppercase tracking-[0.15em] mb-2">
+                    <p className="px-3 text-[10px] font-black text-[#A8A29E] uppercase tracking-wider mb-2">
                       {group.title}
                     </p>
-                    <div className="space-y-0.5">
+                    <div className="space-y-1">
                       {visibleItems.map((item) => {
                         const isActive = pathname === item.href || (item.href !== '/admin' && pathname.startsWith(`${item.href}/`))
                         return (
@@ -94,11 +100,11 @@ export function AdminHeader({ userRole = 'CUSTOMER', userName }: { userRole?: st
                             className={cn(
                               'flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 text-sm border',
                               isActive
-                                ? 'bg-amber-500/10 text-amber-400 font-bold border-amber-500/20'
-                                : 'text-white/40 hover:bg-white/[0.04] hover:text-white/70 border-transparent'
+                                ? 'bg-[#FBF6EE] text-[#A07850] font-black border-[#C9A96E]/30'
+                                : 'text-[#78716C] hover:bg-[#FAFAF8] hover:text-[#1C1917] border-transparent font-medium'
                             )}
                           >
-                            <item.icon className={cn('w-[18px] h-[18px] shrink-0', isActive ? 'text-amber-400' : 'text-white/30')} />
+                            <item.icon className={cn('w-[18px] h-[18px] shrink-0', isActive ? 'text-[#C9A96E]' : 'text-[#A8A29E]')} />
                             <span>{item.name}</span>
                           </Link>
                         )
@@ -107,48 +113,70 @@ export function AdminHeader({ userRole = 'CUSTOMER', userName }: { userRole?: st
                   </div>
                 )
               })}
+              
+              <div className="pt-4 border-t border-[#E8E4DF]">
+                <Link
+                  href="/"
+                  target="_blank"
+                  className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl bg-[#FAFAF8] border border-[#E8E4DF] text-xs font-bold text-[#1C1917] hover:bg-[#F5F0EA] transition-colors"
+                >
+                  <Store className="w-4 h-4 text-[#C9A96E]" />
+                  <span>معاينة المتجر</span>
+                </Link>
+              </div>
             </div>
           </SheetContent>
         </Sheet>
         {getBreadcrumbs()}
       </div>
 
-      <div className="flex items-center gap-2.5">
-        {/* Search */}
-        <div className="relative hidden md:block w-56 group">
-          <Search className="absolute end-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-white/25 group-focus-within:text-amber-500 transition-colors" />
+      <div className="flex items-center gap-2.5 sm:gap-3">
+        {/* Quick Search */}
+        <div className="relative hidden md:block w-60 group">
+          <Search className="absolute end-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#A8A29E] group-focus-within:text-[#C9A96E] transition-colors" />
           <input
             type="text"
-            placeholder="بحث..."
-            className="w-full h-9 ps-3 pe-9 bg-white/[0.04] border border-white/[0.07] hover:border-white/[0.12] focus:border-amber-500/50 focus:bg-white/[0.06] rounded-xl transition-all text-sm text-white/70 placeholder:text-white/25 outline-none focus:ring-2 focus:ring-amber-500/10"
+            placeholder="بحث سريع..."
+            className="w-full h-10 ps-3 pe-10 bg-[#FAFAF8] border border-[#E8E4DF] hover:border-[#D5D0C9] focus:border-[#C9A96E]/50 focus:bg-white rounded-xl transition-all text-sm text-[#1C1917] placeholder:text-[#A8A29E] outline-none focus:ring-2 focus:ring-[#C9A96E]/15"
           />
         </div>
+
+        {/* View Store Direct Button */}
+        <Link
+          href="/"
+          target="_blank"
+          className="hidden sm:flex items-center gap-1.5 h-10 px-3.5 rounded-xl bg-[#FAFAF8] hover:bg-[#F5F0EA] border border-[#E8E4DF] text-xs font-bold text-[#1C1917] transition-all hover:border-[#C9A96E]/40"
+          title="معاينة المتجر المباشر"
+        >
+          <Store className="w-4 h-4 text-[#C9A96E]" />
+          <span>المتجر</span>
+        </Link>
 
         {/* Notifications */}
         <Sheet open={isNotificationsOpen} onOpenChange={setIsNotificationsOpen}>
           <button
             onClick={() => setIsNotificationsOpen(true)}
-            className="relative w-9 h-9 flex items-center justify-center text-white/40 hover:text-amber-400 bg-white/[0.04] hover:bg-white/[0.07] rounded-xl transition-all border border-white/[0.06] hover:border-amber-500/20"
+            className="relative w-10 h-10 flex items-center justify-center text-[#78716C] hover:text-[#1C1917] bg-[#FAFAF8] hover:bg-[#F5F0EA] rounded-xl transition-all border border-[#E8E4DF] hover:border-[#C9A96E]/30 cursor-pointer"
             aria-label="الإشعارات"
           >
             <Bell className="w-4 h-4" />
-            <span className="absolute top-2 end-2 w-1.5 h-1.5 rounded-full bg-rose-500 shadow-[0_0_6px_rgba(239,68,68,0.8)] border border-[#060D1A]" />
+            <span className="absolute top-2 end-2 w-2 h-2 rounded-full bg-emerald-500 ring-2 ring-white" />
           </button>
-          <SheetContent side="left" className="w-full sm:max-w-sm border-e-0 shadow-2xl p-0 flex flex-col bg-[#060D1A] border-s border-white/[0.05]">
-            <SheetHeader className="p-5 bg-[#030810] border-b border-white/[0.05]">
+          <SheetContent side="left" className="w-full sm:max-w-sm border-e-0 shadow-2xl p-0 flex flex-col bg-white border-s border-[#E8E4DF]">
+            <SheetHeader className="p-5 bg-[#FAFAF8] border-b border-[#E8E4DF]">
               <div className="flex items-center justify-between flex-row">
-                <button className="text-xs font-bold text-amber-500 hover:text-amber-400 transition-colors">
+                <button className="text-xs font-bold text-[#C9A96E] hover:text-[#A07850] transition-colors cursor-pointer">
                   تحديد الكل كمقروء
                 </button>
-                <SheetTitle className="text-white/80 text-lg font-black">الإشعارات</SheetTitle>
+                <SheetTitle className="text-[#1C1917] text-base font-black">الإشعارات</SheetTitle>
               </div>
             </SheetHeader>
             <div className="flex-1 overflow-y-auto p-8 flex flex-col items-center justify-center text-center">
-              <div className="w-16 h-16 bg-white/[0.04] rounded-2xl flex items-center justify-center mb-5 border border-white/[0.06]">
-                <Bell className="w-8 h-8 text-white/20" />
+              <div className="w-16 h-16 bg-[#FAFAF8] rounded-2xl flex items-center justify-center mb-4 border border-[#E8E4DF]">
+                <Bell className="w-8 h-8 text-[#A8A29E]" />
               </div>
-              <h3 className="font-black text-white/60 text-lg mb-2">لا توجد إشعارات</h3>
-              <p className="text-white/30 text-sm max-w-[220px] leading-relaxed">أنت على اطلاع دائم بجميع التحديثات.</p>
+              <h3 className="font-bold text-[#1C1917] text-base mb-1">لا توجد إشعارات جديدة</h3>
+              <p className="text-[#78716C] text-sm max-w-[220px] leading-relaxed">أنت على اطلاع دائم بجميع مستجدات المتجر والطلبات.</p>
             </div>
           </SheetContent>
         </Sheet>
@@ -156,8 +184,9 @@ export function AdminHeader({ userRole = 'CUSTOMER', userName }: { userRole?: st
         {/* User Avatar */}
         <Link
           href="/admin/profile"
-          className="w-9 h-9 rounded-xl bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center text-[#030810] font-black shadow-[0_0_12px_rgba(245,158,11,0.3)] hover:shadow-[0_0_20px_rgba(245,158,11,0.5)] hover:scale-105 transition-all text-sm"
-          title="الملف الشخصي"
+          className="w-10 h-10 rounded-xl flex items-center justify-center text-white font-black shadow-sm hover:scale-105 transition-all text-sm shrink-0"
+          style={{ background: 'linear-gradient(135deg, #C9A96E 0%, #A07850 100%)' }}
+          title={userName || 'الملف الشخصي'}
         >
           {userName ? userName[0] : 'أ'}
         </Link>

@@ -12,81 +12,84 @@ import {
 } from 'recharts'
 
 const data = [
-  { name: 'السبت', total: 1200 },
-  { name: 'الأحد', total: 2100 },
-  { name: 'الإثنين', total: 1800 },
-  { name: 'الثلاثاء', total: 2400 },
-  { name: 'الأربعاء', total: 3200 },
-  { name: 'الخميس', total: 2800 },
-  { name: 'الجمعة', total: 4100 },
+  { name: 'السبت', total: 1200000 },
+  { name: 'الأحد', total: 2100000 },
+  { name: 'الإثنين', total: 1850000 },
+  { name: 'الثلاثاء', total: 2400000 },
+  { name: 'الأربعاء', total: 3250000 },
+  { name: 'الخميس', total: 2900000 },
+  { name: 'الجمعة', total: 4150000 },
 ]
 
 export function SalesChart() {
   return (
     <div className="w-full">
-      <div className="mb-5 flex items-center justify-between">
+      <div className="mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
         <div>
-          <h2 className="text-base font-black text-white/80 mb-0.5">نظرة عامة على المبيعات</h2>
-          <p className="text-xs text-white/30 font-medium">أداء المبيعات خلال الأيام السبعة الماضية</p>
+          <h2 className="text-base font-black text-[#1C1917] mb-0.5">نظرة عامة على المبيعات الأسبوعية</h2>
+          <p className="text-xs text-[#78716C] font-medium">أداء المبيعات وإيرادات المتجر خلال آخر 7 أيام</p>
         </div>
-        <div className="flex items-center gap-1.5">
-          <div className="w-2 h-2 rounded-full bg-amber-400" />
-          <span className="text-xs text-white/30 font-medium">المبيعات</span>
+        <div className="flex items-center gap-2 bg-[#FAFAF8] px-3 py-1.5 rounded-xl border border-[#E8E4DF]">
+          <div className="w-2.5 h-2.5 rounded-full bg-[#C9A96E]" />
+          <span className="text-xs text-[#78716C] font-bold">المبيعات الإجمالية</span>
         </div>
       </div>
-      <div className="h-[240px] w-full">
+      <div className="h-[270px] w-full">
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart
             data={data}
-            margin={{ top: 5, right: 0, left: 20, bottom: 0 }}
+            margin={{ top: 10, right: 10, left: 10, bottom: 0 }}
           >
             <defs>
-              <linearGradient id="colorTotal" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#f59e0b" stopOpacity={0.25} />
-                <stop offset="95%" stopColor="#f59e0b" stopOpacity={0} />
+              <linearGradient id="salesGoldGradient" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="5%" stopColor="#C9A96E" stopOpacity={0.35} />
+                <stop offset="95%" stopColor="#C9A96E" stopOpacity={0.02} />
               </linearGradient>
             </defs>
-            <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(255,255,255,0.04)" />
+            <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#F0ECE7" />
             <XAxis
               dataKey="name"
-              stroke="rgba(255,255,255,0.15)"
-              fontSize={11}
+              stroke="#A8A29E"
+              fontSize={12}
+              fontWeight={600}
               tickLine={false}
-              axisLine={false}
+              axisLine={{ stroke: '#E8E4DF' }}
               padding={{ left: 10, right: 10 }}
-              tick={{ fill: 'rgba(255,255,255,0.3)' }}
+              tick={{ fill: '#78716C' }}
             />
             <YAxis
               orientation="right"
-              stroke="rgba(255,255,255,0.15)"
+              stroke="#A8A29E"
               fontSize={11}
+              fontWeight={600}
               tickLine={false}
               axisLine={false}
-              tickFormatter={(value) => `${value}`}
+              tickFormatter={(value) => `${(value / 1000).toLocaleString('en-US')}k`}
               width={55}
-              tick={{ fill: 'rgba(255,255,255,0.3)' }}
+              tick={{ fill: '#78716C' }}
             />
             <Tooltip
               contentStyle={{
-                backgroundColor: '#0F1E35',
-                borderRadius: '12px',
-                border: '1px solid rgba(255,255,255,0.08)',
-                boxShadow: '0 20px 40px rgba(0,0,0,0.5)',
+                backgroundColor: '#ffffff',
+                borderRadius: '16px',
+                border: '1px solid #E8E4DF',
+                boxShadow: '0 12px 32px rgba(0,0,0,0.08)',
                 direction: 'rtl',
-                padding: '10px 14px',
+                padding: '12px 16px',
               }}
-              itemStyle={{ color: '#f59e0b', fontWeight: 900, fontSize: '1rem' }}
-              labelStyle={{ color: 'rgba(255,255,255,0.4)', fontWeight: 600, marginBottom: '2px', fontSize: '0.75rem' }}
-              cursor={{ stroke: 'rgba(245,158,11,0.2)', strokeWidth: 1 }}
+              itemStyle={{ color: '#A07850', fontWeight: 900, fontSize: '0.95rem' }}
+              labelStyle={{ color: '#1C1917', fontWeight: 800, marginBottom: '4px', fontSize: '0.8rem' }}
+              formatter={(value: any) => [`${Number(value).toLocaleString('en-US')} د.ع`, 'المبيعات']}
+              cursor={{ stroke: '#C9A96E', strokeWidth: 1.5, strokeDasharray: '4 4' }}
             />
             <Area
               type="monotone"
               dataKey="total"
-              stroke="#f59e0b"
-              strokeWidth={2.5}
+              stroke="#C9A96E"
+              strokeWidth={3}
               fillOpacity={1}
-              fill="url(#colorTotal)"
-              activeDot={{ r: 5, fill: '#f59e0b', stroke: '#0A1628', strokeWidth: 2 }}
+              fill="url(#salesGoldGradient)"
+              activeDot={{ r: 6, fill: '#A07850', stroke: '#ffffff', strokeWidth: 2 }}
             />
           </AreaChart>
         </ResponsiveContainer>

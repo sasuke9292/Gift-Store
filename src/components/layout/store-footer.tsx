@@ -1,6 +1,6 @@
 import React from 'react'
 import Link from 'next/link'
-import { MapPin, Phone, Mail, Instagram, Facebook, Twitter, Gift, ArrowLeft } from 'lucide-react'
+import { MapPin, Phone, Mail, MessageCircle, Share2, Gift, ArrowLeft } from 'lucide-react'
 
 const footerLinks = {
   quickLinks: [
@@ -69,9 +69,9 @@ export function StoreFooter() {
             {/* Social Links */}
             <div className="flex items-center gap-3 pt-1">
               {[
-                { icon: Instagram, href: '#', label: 'Instagram' },
-                { icon: Facebook, href: '#', label: 'Facebook' },
-                { icon: Twitter, href: '#', label: 'Twitter' },
+                { icon: MessageCircle, href: '#', label: 'واتساب' },
+                { icon: Share2, href: '#', label: 'تويتر' },
+                { icon: Mail, href: '#', label: 'إيميل' },
               ].map(({ icon: Icon, href, label }) => (
                 <a
                   key={label}

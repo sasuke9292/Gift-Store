@@ -2,13 +2,13 @@
 
 import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { Search, ShoppingCart, Heart, Menu, Sparkles, X, ChevronDown, Gift } from 'lucide-react'
+import { Search, ShoppingCart, Heart, Menu, Sparkles, X, Gift, User } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { Badge } from '@/components/ui/badge'
 import { useCartStore, useFavoritesStore } from '@/lib/store'
 import { cn } from '@/lib/utils'
 import { motion, AnimatePresence } from 'framer-motion'
+import { useMounted } from '@/lib/use-mounted'
 
 interface StoreHeaderProps {
   user?: {
@@ -32,14 +32,13 @@ const navLinks = [
 export function StoreHeader({ user, topBarText }: StoreHeaderProps) {
   const cartItems = useCartStore(state => state.items)
   const favorites = useFavoritesStore(state => state.items)
-  const [mounted, setMounted] = useState(false)
+  const mounted = useMounted()
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
   const [isSearchFocused, setIsSearchFocused] = useState(false)
 
   useEffect(() => {
-    setMounted(true)
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 10)
     }
@@ -146,6 +145,30 @@ export function StoreHeader({ user, topBarText }: StoreHeaderProps) {
                   </span>
                 )}
               </Link>
+
+              {/* User Account / Login */}
+              {user ? (
+                <Link
+                  href={user.role && user.role !== 'CUSTOMER' ? '/admin' : '#'}
+                  className="flex items-center gap-1.5 h-9 px-3 rounded-xl text-xs font-bold text-[#1C1917] bg-[#F5F0EA] hover:bg-[#EAE4DC] transition-all"
+                  title={user.name || user.email || 'الحساب'}
+                >
+                  <User className="w-4 h-4 text-[#C9A96E]" />
+                  <span className="max-w-[70px] truncate hidden sm:inline">{user.name?.split(' ')[0] || 'حسابي'}</span>
+                  {user.role && user.role !== 'CUSTOMER' && (
+                    <span className="text-[10px] bg-[#C9A96E] text-white px-1.5 py-0.5 rounded-full">إدارة</span>
+                  )}
+                </Link>
+              ) : (
+                <Link
+                  href="/auth/login"
+                  className="hidden sm:flex items-center justify-center w-9 h-9 rounded-xl text-[#78716C] hover:text-[#C9A96E] hover:bg-[#F5F0EA] transition-all duration-200"
+                  aria-label="تسجيل الدخول"
+                  title="تسجيل الدخول"
+                >
+                  <User className="w-5 h-5" />
+                </Link>
+              )}
 
               {/* Gift Finder CTA */}
               <Link
@@ -256,15 +279,18 @@ export function StoreHeader({ user, topBarText }: StoreHeaderProps) {
 
               {/* Mobile Quick Actions */}
               <div className="p-4 border-t border-[#E8E4DF] space-y-3">
+                {/* User / Account in mobile */}
                 <Link
-                  href="/favorites"
+                  href={user ? (user.role && user.role !== 'CUSTOMER' ? '/admin' : '#') : '/auth/login'}
                   onClick={() => setIsMobileMenuOpen(false)}
                   className="flex items-center gap-3 px-4 py-3 rounded-xl text-[#78716C] hover:bg-[#F5F0EA] transition-all"
                 >
-                  <Heart className="w-5 h-5" />
-                  <span className="font-semibold">المفضلة</span>
-                  {mounted && favCount > 0 && (
-                    <span className="ms-auto text-xs font-black text-[#E85D75]">{favCount}</span>
+                  <User className="w-5 h-5 text-[#C9A96E]" />
+                  <span className="font-semibold">
+                    {user ? (user.name || user.email || 'حسابي') : 'تسجيل الدخول'}
+                  </span>
+                  {user?.role && user.role !== 'CUSTOMER' && (
+                    <span className="ms-auto text-[10px] bg-[#C9A96E] text-white px-2 py-0.5 rounded-full font-bold">لوحة التحكم</span>
                   )}
                 </Link>
                 <Link

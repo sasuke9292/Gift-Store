@@ -6,9 +6,10 @@ import { Card, CardContent } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
+import { Textarea } from '@/components/ui/textarea'
 import { Switch } from '@/components/ui/switch'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { Store, CreditCard, Bell, Shield, Save, User as UserIcon, Settings } from 'lucide-react'
+import { Store, CreditCard, Bell, Save, Sparkles, Settings, Globe, Shield, Loader2 } from 'lucide-react'
 import { toast } from 'sonner'
 import { updateStoreSettings } from '@/app/actions/admin/settings'
 
@@ -37,231 +38,256 @@ export default function SettingsClient({ initialSettings }: { initialSettings: S
     const res = await updateStoreSettings(settings)
     setIsSaving(false)
     if (res.success) {
-      toast.success('تم حفظ الإعدادات بنجاح')
+      toast.success('تم حفظ إعدادات المتجر بنجاح')
     } else {
-      toast.error(res.error)
+      toast.error(res.error || 'حدث خطأ أثناء حفظ الإعدادات')
     }
   }
 
   return (
-    <motion.div 
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      className="space-y-8 max-w-6xl mx-auto pb-12"
-      dir="rtl"
-    >
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-[#0A1628] border border-white/[0.05] p-5 rounded-2xl">
+    <div className="space-y-6 max-w-5xl mx-auto pb-16" dir="rtl">
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <div className="flex items-center gap-2.5 mb-1">
-            <div className="w-8 h-8 bg-amber-500/10 border border-amber-500/20 rounded-xl flex items-center justify-center">
-              <Settings className="w-4 h-4 text-amber-400" />
-            </div>
-            <h1 className="text-xl font-black text-white/85 tracking-tight">إعدادات المتجر</h1>
-          </div>
-          <p className="text-white/35 font-medium text-sm ms-10">إدارة تفاصيل المتجر، بوابات الدفع، والملف الشخصي.</p>
+          <h1 className="text-2xl font-black text-[#1C1917] tracking-tight">إعدادات المتجر</h1>
+          <p className="text-sm text-[#78716C] mt-1">تخصيص هوية المتجر، بوابات الدفع، وإعدادات الواجهة الرئيسية</p>
         </div>
-        <div className="flex gap-2 w-full sm:w-auto">
-          <Button onClick={handleSave} disabled={isSaving} className="bg-amber-500 hover:bg-amber-400 text-[#030810] rounded-xl h-9 px-6 font-bold shadow-[0_4px_20px_rgba(245,158,11,0.3)] transition-all w-full sm:w-auto text-sm">
-            {isSaving ? 'جاري الحفظ...' : (
-              <>
-                <Save className="w-4 h-4 ms-1.5" />
-                حفظ التغييرات
-              </>
-            )}
-          </Button>
-        </div>
+        <Button 
+          onClick={handleSave} 
+          disabled={isSaving} 
+          className="text-white rounded-xl h-11 px-6 font-bold shadow-md hover:-translate-y-0.5 transition-all w-full sm:w-auto text-sm cursor-pointer"
+          style={{ background: 'linear-gradient(135deg, #C9A96E 0%, #A07850 100%)' }}
+        >
+          {isSaving ? (
+            <>
+              <Loader2 className="w-4 h-4 animate-spin ms-2" />
+              جاري الحفظ...
+            </>
+          ) : (
+            <>
+              <Save className="w-4 h-4 ms-2" />
+              حفظ الإعدادات
+            </>
+          )}
+        </Button>
       </div>
 
-      <Tabs defaultValue="general" className="w-full space-y-8">
-        <TabsList className="bg-white/[0.02] p-1.5 border border-white/[0.05] rounded-xl w-full flex flex-col sm:flex-row h-auto gap-1">
-          <TabsTrigger value="general" className="flex-1 rounded-lg data-[state=active]:bg-amber-500/10 data-[state=active]:text-amber-400 data-[state=active]:shadow-sm py-2 px-3 text-xs font-bold text-white/40 hover:text-white/80 transition-all w-full sm:w-auto gap-1.5 border border-transparent data-[state=active]:border-amber-500/20">
-            <Store className="w-4 h-4" />
-            إعدادات عامة
+      {/* Tabs */}
+      <Tabs defaultValue="general" className="w-full space-y-6">
+        <TabsList className="bg-white p-1.5 border border-[#E8E4DF] rounded-2xl w-full flex flex-col sm:flex-row h-auto gap-1 shadow-sm">
+          <TabsTrigger 
+            value="general" 
+            className="flex-1 rounded-xl data-[state=active]:bg-[#1C1917] data-[state=active]:text-white py-3 px-4 text-xs font-bold text-[#78716C] hover:text-[#1C1917] transition-all w-full sm:w-auto gap-2"
+          >
+            <Store className="w-4 h-4 text-[#C9A96E]" />
+            البيانات الأساسية
           </TabsTrigger>
-          <TabsTrigger value="payment" className="flex-1 rounded-lg data-[state=active]:bg-amber-500/10 data-[state=active]:text-amber-400 data-[state=active]:shadow-sm py-2 px-3 text-xs font-bold text-white/40 hover:text-white/80 transition-all w-full sm:w-auto gap-1.5 border border-transparent data-[state=active]:border-amber-500/20">
-            <CreditCard className="w-4 h-4" />
-            بوابات الدفع
+          <TabsTrigger 
+            value="texts" 
+            className="flex-1 rounded-xl data-[state=active]:bg-[#1C1917] data-[state=active]:text-white py-3 px-4 text-xs font-bold text-[#78716C] hover:text-[#1C1917] transition-all w-full sm:w-auto gap-2"
+          >
+            <Sparkles className="w-4 h-4 text-[#C9A96E]" />
+            الواجهة والعروض
           </TabsTrigger>
-          <TabsTrigger value="notifications" className="flex-1 rounded-lg data-[state=active]:bg-amber-500/10 data-[state=active]:text-amber-400 data-[state=active]:shadow-sm py-2 px-3 text-xs font-bold text-white/40 hover:text-white/80 transition-all w-full sm:w-auto gap-1.5 border border-transparent data-[state=active]:border-amber-500/20">
-            <Bell className="w-4 h-4" />
+          <TabsTrigger 
+            value="payment" 
+            className="flex-1 rounded-xl data-[state=active]:bg-[#1C1917] data-[state=active]:text-white py-3 px-4 text-xs font-bold text-[#78716C] hover:text-[#1C1917] transition-all w-full sm:w-auto gap-2"
+          >
+            <CreditCard className="w-4 h-4 text-[#C9A96E]" />
+            طرق الدفع
+          </TabsTrigger>
+          <TabsTrigger 
+            value="notifications" 
+            className="flex-1 rounded-xl data-[state=active]:bg-[#1C1917] data-[state=active]:text-white py-3 px-4 text-xs font-bold text-[#78716C] hover:text-[#1C1917] transition-all w-full sm:w-auto gap-2"
+          >
+            <Bell className="w-4 h-4 text-[#C9A96E]" />
             الإشعارات
-          </TabsTrigger>
-          <TabsTrigger value="texts" className="flex-1 rounded-lg data-[state=active]:bg-amber-500/10 data-[state=active]:text-amber-400 data-[state=active]:shadow-sm py-2 px-3 text-xs font-bold text-white/40 hover:text-white/80 transition-all w-full sm:w-auto gap-1.5 border border-transparent data-[state=active]:border-amber-500/20">
-            <UserIcon className="w-4 h-4" />
-            نصوص الواجهة
           </TabsTrigger>
         </TabsList>
 
-        <TabsContent value="general" className="animate-in fade-in-50 slide-in-from-bottom-2 duration-300">
-          <div className="border border-white/[0.05] rounded-2xl overflow-hidden bg-[#0A1628]">
-            <div className="p-5 border-b border-white/[0.05]">
-              <h2 className="text-base font-bold text-white/85">بيانات المتجر الأساسية</h2>
-              <p className="text-[11px] text-white/40 mt-1 font-medium">هذه المعلومات ستكون مرئية للعملاء في واجهة المتجر.</p>
+        {/* General Settings */}
+        <TabsContent value="general">
+          <div className="border border-[#E8E4DF] rounded-3xl overflow-hidden bg-white shadow-[0_2px_12px_rgba(0,0,0,0.03)]">
+            <div className="p-6 border-b border-[#E8E4DF] bg-[#FAFAF8]">
+              <h2 className="text-base font-black text-[#1C1917]">بيانات المتجر الأساسية</h2>
+              <p className="text-xs text-[#78716C] mt-1 font-medium">هذه المعلومات تظهر للعملاء في الترويسة والتذييل والفواتير.</p>
             </div>
-            <div className="p-5 space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                <div className="space-y-1.5">
-                  <Label className="text-xs font-bold text-white/50">اسم المتجر</Label>
-                  <input 
-                    value={settings.storeName}
-                    onChange={(e) => setSettings({...settings, storeName: e.target.value})}
-                    className="w-full h-9 px-3 rounded-lg border border-white/[0.08] hover:border-white/[0.15] focus:border-amber-500/50 bg-white/[0.04] focus:bg-white/[0.06] transition-all text-sm outline-none focus:ring-2 focus:ring-amber-500/10 text-white/80" 
+            <div className="p-6 sm:p-7 space-y-5">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                <div>
+                  <Label className="text-xs font-bold text-[#1C1917] mb-1.5 block">اسم المتجر *</Label>
+                  <Input 
+                    value={settings.storeName} 
+                    onChange={e => setSettings({...settings, storeName: e.target.value})}
+                    className="h-11 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-sm focus:border-[#C9A96E]/50 focus:bg-white"
                   />
                 </div>
-                <div className="space-y-1.5">
-                  <Label className="text-xs font-bold text-white/50">العملة الافتراضية</Label>
-                  <select 
-                    className="flex h-9 w-full rounded-lg border border-white/[0.08] hover:border-white/[0.15] bg-white/[0.04] focus:bg-white/[0.06] px-3 py-1.5 text-sm font-medium focus-visible:outline-none focus:border-amber-500/50 focus:ring-2 focus:ring-amber-500/10 transition-all text-white/80"
-                    value={settings.currency}
-                    onChange={(e) => setSettings({...settings, currency: e.target.value})}
-                  >
-                    <option value="د.ع" className="bg-[#0A1628]">الدينار العراقي (د.ع)</option>
-                    <option value="$" className="bg-[#0A1628]">الدولار الأمريكي ($)</option>
-                  </select>
-                </div>
-                
-                <div className="space-y-1.5 md:col-span-2">
-                  <Label className="text-xs font-bold text-white/50">رابط الشعار (Logo URL)</Label>
-                  <div className="flex gap-3 items-center">
-                    {settings.logoUrl && (
-                      <div className="w-10 h-10 bg-white/[0.04] rounded-lg flex items-center justify-center shrink-0 border border-white/[0.08] overflow-hidden">
-                        <img src={settings.logoUrl} alt="Logo Preview" className="w-full h-full object-contain p-1" />
-                      </div>
-                    )}
-                    <input 
-                      value={settings.logoUrl || ''}
-                      onChange={(e) => setSettings({...settings, logoUrl: e.target.value})}
-                      placeholder="https://..."
-                      dir="rtl"
-                      className="h-9 px-3 rounded-lg border border-white/[0.08] hover:border-white/[0.15] focus:border-amber-500/50 bg-white/[0.04] focus:bg-white/[0.06] transition-all text-start text-xs font-mono flex-1 outline-none focus:ring-2 focus:ring-amber-500/10 text-white/80 placeholder:text-white/20" 
-                    />
-                  </div>
-                </div>
-                
-                <div className="space-y-1.5">
-                  <Label className="text-xs font-bold text-white/50">البريد الإلكتروني للدعم</Label>
-                  <input 
-                    value={settings.storeEmail}
-                    onChange={(e) => setSettings({...settings, storeEmail: e.target.value})}
-                    dir="rtl"
-                    className="w-full h-9 px-3 rounded-lg border border-white/[0.08] hover:border-white/[0.15] focus:border-amber-500/50 bg-white/[0.04] focus:bg-white/[0.06] transition-all text-start font-mono text-sm outline-none focus:ring-2 focus:ring-amber-500/10 text-white/80" 
+                <div>
+                  <Label className="text-xs font-bold text-[#1C1917] mb-1.5 block">رمز العملة *</Label>
+                  <Input 
+                    value={settings.currency} 
+                    onChange={e => setSettings({...settings, currency: e.target.value})}
+                    className="h-11 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-sm focus:border-[#C9A96E]/50 focus:bg-white"
                   />
                 </div>
-                <div className="space-y-1.5">
-                  <Label className="text-xs font-bold text-white/50">رقم الهاتف الأساسي</Label>
-                  <input 
-                    value={settings.storePhone}
-                    onChange={(e) => setSettings({...settings, storePhone: e.target.value})}
-                    dir="rtl"
-                    className="w-full h-9 px-3 rounded-lg border border-white/[0.08] hover:border-white/[0.15] focus:border-amber-500/50 bg-white/[0.04] focus:bg-white/[0.06] transition-all text-start font-mono text-sm outline-none focus:ring-2 focus:ring-amber-500/10 text-white/80" 
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                <div>
+                  <Label className="text-xs font-bold text-[#1C1917] mb-1.5 block">البريد الإلكتروني للتواصل</Label>
+                  <Input 
+                    type="email"
+                    value={settings.storeEmail || ''} 
+                    onChange={e => setSettings({...settings, storeEmail: e.target.value})}
+                    className="h-11 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-sm"
+                    dir="ltr"
+                    placeholder="info@giftstore.iq"
                   />
                 </div>
+                <div>
+                  <Label className="text-xs font-bold text-[#1C1917] mb-1.5 block">رقم الهاتف وخدمة العملاء</Label>
+                  <Input 
+                    value={settings.storePhone || ''} 
+                    onChange={e => setSettings({...settings, storePhone: e.target.value})}
+                    className="h-11 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-sm"
+                    dir="ltr"
+                    placeholder="+964 770 123 4567"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <Label className="text-xs font-bold text-[#1C1917] mb-1.5 block">رابط شعار المتجر (Logo URL)</Label>
+                <Input 
+                  value={settings.logoUrl || ''} 
+                  onChange={e => setSettings({...settings, logoUrl: e.target.value})}
+                  className="h-11 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-sm"
+                  dir="ltr"
+                  placeholder="https://example.com/logo.png"
+                />
               </div>
             </div>
           </div>
         </TabsContent>
 
-        <TabsContent value="payment" className="animate-in fade-in-50 slide-in-from-bottom-2 duration-300">
-          <div className="border border-white/[0.05] rounded-2xl overflow-hidden bg-[#0A1628]">
-            <div className="p-5 border-b border-white/[0.05]">
-              <h2 className="text-base font-bold text-white/85">بوابات وطرق الدفع</h2>
-              <p className="text-[11px] text-white/40 mt-1 font-medium">التحكم في خيارات الدفع المتاحة للعملاء في صفحة إتمام الطلب.</p>
+        {/* Storefront Texts & Hero */}
+        <TabsContent value="texts">
+          <div className="border border-[#E8E4DF] rounded-3xl overflow-hidden bg-white shadow-[0_2px_12px_rgba(0,0,0,0.03)]">
+            <div className="p-6 border-b border-[#E8E4DF] bg-[#FAFAF8]">
+              <h2 className="text-base font-black text-[#1C1917]">نصوص الواجهة الرئيسية والعروض</h2>
+              <p className="text-xs text-[#78716C] mt-1 font-medium">تخصيص شريط الإعلانات العلوي وقسم البانر الرئيسي للمتجر.</p>
             </div>
-            <div className="p-5 space-y-4">
-              <div className="flex items-center justify-between p-4 border border-white/[0.08] rounded-xl bg-white/[0.02]">
-                <div className="space-y-1">
-                  <Label className="text-sm font-bold text-white/85">الدفع عند الاستلام (COD)</Label>
-                  <p className="text-[11px] text-white/40 font-medium">السماح للعملاء بالدفع نقداً عند توصيل الطلب.</p>
+            <div className="p-6 sm:p-7 space-y-5">
+              <div>
+                <Label className="text-xs font-bold text-[#1C1917] mb-1.5 block">شريط الإعلانات العلوي (Top Announcement Bar)</Label>
+                <Input 
+                  value={settings.topBarText || ''} 
+                  onChange={e => setSettings({...settings, topBarText: e.target.value})}
+                  placeholder="مثال: شحن مجاني لجميع الطلبات أكثر من 100,000 د.ع 🎁"
+                  className="h-11 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-sm"
+                />
+              </div>
+
+              <div>
+                <Label className="text-xs font-bold text-[#1C1917] mb-1.5 block">شارة البانر الترويجية (Hero Badge)</Label>
+                <Input 
+                  value={settings.heroBadge || ''} 
+                  onChange={e => setSettings({...settings, heroBadge: e.target.value})}
+                  placeholder="مثال: التشكيلة الملكية الفاخرة 2026 ✨"
+                  className="h-11 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-sm"
+                />
+              </div>
+
+              <div>
+                <Label className="text-xs font-bold text-[#1C1917] mb-1.5 block">العنوان الرئيسي للبانر (Hero Headline)</Label>
+                <Input 
+                  value={settings.heroHeadline || ''} 
+                  onChange={e => setSettings({...settings, heroHeadline: e.target.value})}
+                  placeholder="مثال: لحظاتك الثمينة تستحق أرقى الهدايا"
+                  className="h-11 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-sm font-bold"
+                />
+              </div>
+
+              <div>
+                <Label className="text-xs font-bold text-[#1C1917] mb-1.5 block">العنوان الفرعي للبانر (Hero Subheadline)</Label>
+                <Textarea 
+                  rows={3}
+                  value={settings.heroSubheadline || ''} 
+                  onChange={e => setSettings({...settings, heroSubheadline: e.target.value})}
+                  placeholder="مثال: نجمع لك أرقى الهدايا المختارة بعناية فائقة لتصنع ذكريات لا تُنسى مع من تحب."
+                  className="rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-sm resize-none"
+                />
+              </div>
+            </div>
+          </div>
+        </TabsContent>
+
+        {/* Payment Settings */}
+        <TabsContent value="payment">
+          <div className="border border-[#E8E4DF] rounded-3xl overflow-hidden bg-white shadow-[0_2px_12px_rgba(0,0,0,0.03)]">
+            <div className="p-6 border-b border-[#E8E4DF] bg-[#FAFAF8]">
+              <h2 className="text-base font-black text-[#1C1917]">طرق الدفع والتحصيل</h2>
+              <p className="text-xs text-[#78716C] mt-1 font-medium">التحكم في خيارات الدفع المتاحة للزبائن عند إتمام الطلب.</p>
+            </div>
+            <div className="p-6 sm:p-7 space-y-4">
+              <div className="flex items-center justify-between p-4 rounded-2xl bg-[#FAFAF8] border border-[#E8E4DF]">
+                <div>
+                  <p className="text-sm font-bold text-[#1C1917]">الدفع عند الاستلام (COD)</p>
+                  <p className="text-xs text-[#78716C]">السماح للزبائن بالدفع نقداً لمندوب التوصيل عند استلام الهدية</p>
                 </div>
                 <Switch 
                   checked={settings.allowCod}
-                  onCheckedChange={(checked) => setSettings({...settings, allowCod: checked})}
-                  className="data-[state=checked]:bg-emerald-500"
+                  onCheckedChange={val => setSettings({...settings, allowCod: val})}
+                />
+              </div>
+
+              <div className="flex items-center justify-between p-4 rounded-2xl bg-[#FAFAF8] border border-[#E8E4DF]">
+                <div>
+                  <p className="text-sm font-bold text-[#1C1917]">الدفع الإلكتروني (بطاقات ماستركارد / فيزا / زين كاش)</p>
+                  <p className="text-xs text-[#78716C]">تمكين بوابات الدفع الإلكتروني المباشر في صفحة الدفع</p>
+                </div>
+                <Switch 
+                  checked={settings.allowOnlinePayment}
+                  onCheckedChange={val => setSettings({...settings, allowOnlinePayment: val})}
                 />
               </div>
             </div>
           </div>
         </TabsContent>
 
-        <TabsContent value="notifications" className="animate-in fade-in-50 slide-in-from-bottom-2 duration-300">
-          <div className="border border-white/[0.05] rounded-2xl overflow-hidden bg-[#0A1628]">
-            <div className="p-5 border-b border-white/[0.05]">
-              <h2 className="text-base font-bold text-white/85">التنبيهات والإشعارات</h2>
-              <p className="text-[11px] text-white/40 mt-1 font-medium">تخصيص الإشعارات التي تصلك وتصل لعملائك.</p>
+        {/* Notification Settings */}
+        <TabsContent value="notifications">
+          <div className="border border-[#E8E4DF] rounded-3xl overflow-hidden bg-white shadow-[0_2px_12px_rgba(0,0,0,0.03)]">
+            <div className="p-6 border-b border-[#E8E4DF] bg-[#FAFAF8]">
+              <h2 className="text-base font-black text-[#1C1917]">إعدادات الإشعارات والتنبيهات</h2>
+              <p className="text-xs text-[#78716C] mt-1 font-medium">إدارة إشعارات الطلبات الجديدة والتنبيهات البريدية.</p>
             </div>
-            <div className="p-5 space-y-4">
-              <div className="flex items-center justify-between p-4 border border-white/[0.08] rounded-xl bg-white/[0.02]">
-                <div className="space-y-1">
-                  <Label className="text-sm font-bold text-white/85">تنبيهات الطلبات الجديدة</Label>
-                  <p className="text-[11px] text-white/40 font-medium">استلام بريد إلكتروني وإشعار نظام فور تسجيل طلب جديد.</p>
+            <div className="p-6 sm:p-7 space-y-4">
+              <div className="flex items-center justify-between p-4 rounded-2xl bg-[#FAFAF8] border border-[#E8E4DF]">
+                <div>
+                  <p className="text-sm font-bold text-[#1C1917]">إشعارات الطلبات الجديدة</p>
+                  <p className="text-xs text-[#78716C]">تنبيه الإدارة فور ورود أي طلب جديد من خلال لوحة التحكم</p>
                 </div>
                 <Switch 
                   checked={settings.orderNotifications}
-                  onCheckedChange={(checked) => setSettings({...settings, orderNotifications: checked})}
-                  className="data-[state=checked]:bg-emerald-500"
+                  onCheckedChange={val => setSettings({...settings, orderNotifications: val})}
                 />
               </div>
 
-              <div className="flex items-center justify-between p-4 border border-white/[0.08] rounded-xl bg-white/[0.02]">
-                <div className="space-y-1">
-                  <Label className="text-sm font-bold text-white/85">الرسائل التسويقية للعملاء</Label>
-                  <p className="text-[11px] text-white/40 font-medium">إرسال نشرة بريدية وتحديثات تلقائية للعملاء المسجلين.</p>
+              <div className="flex items-center justify-between p-4 rounded-2xl bg-[#FAFAF8] border border-[#E8E4DF]">
+                <div>
+                  <p className="text-sm font-bold text-[#1C1917]">رسائل التحديثات التسويقية</p>
+                  <p className="text-xs text-[#78716C]">إرسال عروض ترويجية للزبائن المسجلين في القائمة البريدية</p>
                 </div>
                 <Switch 
                   checked={settings.marketingEmails}
-                  onCheckedChange={(checked) => setSettings({...settings, marketingEmails: checked})}
-                  className="data-[state=checked]:bg-emerald-500"
+                  onCheckedChange={val => setSettings({...settings, marketingEmails: val})}
                 />
               </div>
             </div>
           </div>
         </TabsContent>
-
-        <TabsContent value="texts" className="animate-in fade-in-50 slide-in-from-bottom-2 duration-300">
-          <div className="border border-white/[0.05] rounded-2xl overflow-hidden bg-[#0A1628]">
-            <div className="p-5 border-b border-white/[0.05]">
-              <h2 className="text-base font-bold text-white/85">نصوص الواجهة الرئيسية</h2>
-              <p className="text-[11px] text-white/40 mt-1 font-medium">التحكم في النصوص والعناوين التي تظهر للعملاء في الصفحة الرئيسية.</p>
-            </div>
-            <div className="p-5 space-y-5">
-              <div className="space-y-1.5">
-                <Label className="text-xs font-bold text-white/50">شريط الإعلانات العلوي (Top Bar)</Label>
-                <input 
-                  value={settings.topBarText || ''}
-                  onChange={(e) => setSettings({...settings, topBarText: e.target.value})}
-                  className="w-full h-9 px-3 rounded-lg border border-white/[0.08] hover:border-white/[0.15] focus:border-amber-500/50 bg-white/[0.04] focus:bg-white/[0.06] transition-all text-sm outline-none focus:ring-2 focus:ring-amber-500/10 text-white/80" 
-                />
-              </div>
-              <div className="space-y-1.5">
-                <Label className="text-xs font-bold text-white/50">الشارة العلوية (Hero Badge)</Label>
-                <input 
-                  value={settings.heroBadge || ''}
-                  onChange={(e) => setSettings({...settings, heroBadge: e.target.value})}
-                  className="w-full h-9 px-3 rounded-lg border border-white/[0.08] hover:border-white/[0.15] focus:border-amber-500/50 bg-white/[0.04] focus:bg-white/[0.06] transition-all text-sm outline-none focus:ring-2 focus:ring-amber-500/10 text-white/80" 
-                />
-              </div>
-              <div className="space-y-1.5">
-                <Label className="text-xs font-bold text-white/50">العنوان الرئيسي (Hero Headline)</Label>
-                <input 
-                  value={settings.heroHeadline || ''}
-                  onChange={(e) => setSettings({...settings, heroHeadline: e.target.value})}
-                  className="w-full h-9 px-3 rounded-lg border border-white/[0.08] hover:border-white/[0.15] focus:border-amber-500/50 bg-white/[0.04] focus:bg-white/[0.06] transition-all text-sm outline-none focus:ring-2 focus:ring-amber-500/10 text-white/80" 
-                />
-              </div>
-              <div className="space-y-1.5">
-                <Label className="text-xs font-bold text-white/50">النص الفرعي (Hero Subheadline)</Label>
-                <textarea 
-                  value={settings.heroSubheadline || ''}
-                  onChange={(e) => setSettings({...settings, heroSubheadline: e.target.value})}
-                  rows={3}
-                  className="w-full rounded-lg border border-white/[0.08] hover:border-white/[0.15] focus:border-amber-500/50 bg-white/[0.04] focus:bg-white/[0.06] transition-all text-sm outline-none focus:ring-2 focus:ring-amber-500/10 text-white/80 p-3 resize-none" 
-                />
-              </div>
-            </div>
-          </div>
-        </TabsContent>
-
       </Tabs>
-    </motion.div>
+    </div>
   )
 }

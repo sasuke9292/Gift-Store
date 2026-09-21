@@ -1,6 +1,7 @@
 import { Mail, Phone, MapPin, Clock, MessageCircle, ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
 import type { Metadata } from 'next'
+import { ContactForm } from './contact-form'
 
 export const metadata: Metadata = {
   title: 'اتصل بنا | گفتي بلس',
@@ -84,43 +85,7 @@ export default function ContactPage() {
           </div>
 
           {/* Quick Message Form */}
-          <div className="bg-white rounded-3xl border border-[#E8E4DF] p-8 shadow-[0_2px_12px_rgba(0,0,0,0.05)]">
-            <h2 className="text-2xl font-black text-[#1C1917] mb-6">أرسل لنا رسالة</h2>
-            <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
-              <div>
-                <label className="text-sm font-bold text-[#1C1917] block mb-1.5">الاسم</label>
-                <input
-                  type="text"
-                  placeholder="اسمك الكامل"
-                  className="w-full h-12 px-4 rounded-xl bg-[#FAFAF8] border border-[#E8E4DF] text-[#1C1917] placeholder:text-[#C8C4BE] focus:outline-none focus:border-[#C9A96E]/50 focus:ring-2 focus:ring-[#C9A96E]/15 transition-all"
-                />
-              </div>
-              <div>
-                <label className="text-sm font-bold text-[#1C1917] block mb-1.5">رقم الهاتف</label>
-                <input
-                  type="tel"
-                  placeholder="07XX XXX XXXX"
-                  dir="ltr"
-                  className="w-full h-12 px-4 rounded-xl bg-[#FAFAF8] border border-[#E8E4DF] text-[#1C1917] placeholder:text-[#C8C4BE] focus:outline-none focus:border-[#C9A96E]/50 focus:ring-2 focus:ring-[#C9A96E]/15 transition-all"
-                />
-              </div>
-              <div>
-                <label className="text-sm font-bold text-[#1C1917] block mb-1.5">رسالتك</label>
-                <textarea
-                  rows={5}
-                  placeholder="اكتب رسالتك هنا..."
-                  className="w-full p-4 rounded-xl bg-[#FAFAF8] border border-[#E8E4DF] text-[#1C1917] placeholder:text-[#C8C4BE] focus:outline-none focus:border-[#C9A96E]/50 focus:ring-2 focus:ring-[#C9A96E]/15 transition-all resize-none"
-                />
-              </div>
-              <button
-                type="submit"
-                className="w-full h-12 rounded-xl font-bold text-white transition-all hover:-translate-y-0.5 hover:shadow-[0_6px_20px_rgba(184,137,58,0.35)]"
-                style={{ background: 'linear-gradient(135deg, #C9A96E 0%, #A07850 100%)' }}
-              >
-                إرسال الرسالة
-              </button>
-            </form>
-          </div>
+          <ContactForm />
         </div>
       </div>
     </div>

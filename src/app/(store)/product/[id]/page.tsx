@@ -10,7 +10,7 @@ export default async function ProductDetailsPage({ params }: { params: Promise<{
     include: {
       category: true,
     }
-  })
+  }).catch(() => null)
 
   if (!product) {
     notFound()

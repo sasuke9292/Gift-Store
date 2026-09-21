@@ -1,21 +1,21 @@
 'use client'
 
 import React, { useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { Button } from '@/components/ui/button'
-import { Plus, Search, Edit, Trash2, FolderTree, Image as ImageIcon } from 'lucide-react'
+import { Plus, Search, Edit, Trash2, FolderTree, Image as ImageIcon, Loader2 } from 'lucide-react'
 import { Input } from '@/components/ui/input'
-import { Badge } from '@/components/ui/badge'
-import Image from 'next/image'
 import { toast } from 'sonner'
 import { createCategory, updateCategory, deleteCategory } from '@/app/actions/admin/categories'
 import {
   Dialog,
   DialogContent,
   DialogTitle,
+  DialogHeader,
   DialogFooter,
 } from '@/components/ui/dialog'
 import { Label } from '@/components/ui/label'
+import { Textarea } from '@/components/ui/textarea'
 import { ConfirmDialog } from '@/components/ui/confirm-dialog'
 import { Switch } from '@/components/ui/switch'
 
@@ -43,7 +43,8 @@ export default function CategoriesClient({ initialCategories }: { initialCategor
   const [isDeleting, setIsDeleting] = useState(false)
 
   const filteredCategories = categories.filter(cat =>
-    cat.name.includes(searchQuery) || cat.slug.includes(searchQuery)
+    cat.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
+    cat.slug.toLowerCase().includes(searchQuery.toLowerCase())
   )
 
   const openModal = (category?: Category) => {
@@ -59,37 +60,42 @@ export default function CategoriesClient({ initialCategories }: { initialCategor
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    if (!currentCategory.name) {
+      toast.error('يرجى إدخال اسم التصنيف')
+      return
+    }
+
     setIsSubmitting(true)
 
     try {
       if (isEditing && currentCategory.id) {
         const res = await updateCategory(currentCategory.id, {
           name: currentCategory.name,
-          slug: currentCategory.slug,
+          slug: currentCategory.slug || `cat-${Date.now()}`,
           description: currentCategory.description || undefined,
           image: currentCategory.image || undefined,
           isActive: currentCategory.isActive,
         })
         if (res.success) {
-          toast.success('تم تحديث التصنيف بنجاح')
+          toast.success('تم تحديث بيانات التصنيف بنجاح')
           setCategories(categories.map(c => c.id === currentCategory.id ? { ...c, ...res.data } : c))
           setIsModalOpen(false)
         } else {
-          toast.error(res.error || 'حدث خطأ')
+          toast.error(res.error || 'حدث خطأ أثناء التحديث')
         }
       } else {
         const res = await createCategory({
           name: currentCategory.name || '',
-          slug: currentCategory.slug || '',
+          slug: currentCategory.slug || currentCategory.name.trim().toLowerCase().replace(/[\s\W-]+/g, '-') || `cat-${Date.now()}`,
           description: currentCategory.description || undefined,
           image: currentCategory.image || undefined,
         })
         if (res.success && res.data) {
-          toast.success('تم إنشاء التصنيف بنجاح')
+          toast.success('تم إنشاء التصنيف الجديد بنجاح')
           setCategories([res.data as Category, ...categories])
           setIsModalOpen(false)
         } else {
-          toast.error(res.error || 'حدث خطأ')
+          toast.error(res.error || 'حدث خطأ أثناء الإنشاء')
         }
       }
     } finally {
@@ -112,41 +118,37 @@ export default function CategoriesClient({ initialCategories }: { initialCategor
   }
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 16 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3 }}
-      className="space-y-8 pb-12"
-      dir="rtl"
-    >
+    <div className="space-y-6 pb-12" dir="rtl">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-[#0A1628] border border-white/[0.05] p-5 rounded-2xl">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <div className="flex items-center gap-2.5 mb-1">
-            <div className="w-8 h-8 bg-amber-500/10 border border-amber-500/20 rounded-xl flex items-center justify-center">
-              <FolderTree className="w-4 h-4 text-amber-400" />
-            </div>
-            <h1 className="text-xl font-black text-white/85 tracking-tight">التصنيفات</h1>
-          </div>
-          <p className="text-white/35 font-medium text-sm ms-10">إدارة أقسام المتجر وتصنيفات المنتجات.</p>
+          <h1 className="text-2xl font-black text-[#1C1917] tracking-tight">إدارة التصنيفات</h1>
+          <p className="text-sm text-[#78716C] mt-1">
+            إدارة أقسام وتصنيفات المنتجات لتسهيل تصفح المتجر على العملاء ({categories.length} تصنيف)
+          </p>
         </div>
-        <Button onClick={() => openModal()} className="bg-amber-500 hover:bg-amber-400 text-[#030810] shadow-[0_4px_20px_rgba(245,158,11,0.3)] rounded-xl px-5 h-9 font-bold transition-all w-full sm:w-auto text-sm">
-          <Plus className="w-4 h-4 ms-1.5" />
-          إضافة تصنيف
+        <Button 
+          onClick={() => openModal()} 
+          className="text-white shadow-[0_4px_16px_rgba(201,169,110,0.35)] hover:-translate-y-0.5 rounded-xl px-5 h-11 font-bold transition-all w-full sm:w-auto text-sm cursor-pointer"
+          style={{ background: 'linear-gradient(135deg, #C9A96E 0%, #A07850 100%)' }}
+        >
+          <Plus className="w-4 h-4 ms-2" />
+          إضافة تصنيف جديد
         </Button>
       </div>
 
-      <div className="bg-[#0A1628] rounded-2xl border border-white/[0.05] overflow-hidden">
+      {/* Main Table Card */}
+      <div className="bg-white rounded-3xl border border-[#E8E4DF] shadow-[0_2px_12px_rgba(0,0,0,0.03)] overflow-hidden">
         {/* Toolbar */}
-        <div className="p-4 border-b border-white/[0.05]">
-          <div className="relative w-full md:max-w-sm group">
-            <Search className="absolute end-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-white/25 group-focus-within:text-amber-500 transition-colors" />
+        <div className="p-5 border-b border-[#E8E4DF]">
+          <div className="relative w-full md:max-w-md group">
+            <Search className="absolute end-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#A8A29E] group-focus-within:text-[#C9A96E] transition-colors" />
             <input
               type="text"
-              placeholder="ابحث عن تصنيف..."
+              placeholder="ابحث عن تصنيف بالاسم أو الرابط..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full h-9 ps-3 pe-9 bg-white/[0.04] border border-white/[0.07] hover:border-white/[0.12] focus:border-amber-500/50 rounded-xl text-sm text-white/70 placeholder:text-white/25 outline-none focus:ring-2 focus:ring-amber-500/10 transition-all"
+              className="w-full h-11 ps-4 pe-10 bg-[#FAFAF8] border border-[#E8E4DF] hover:border-[#D5D0C9] focus:border-[#C9A96E]/50 focus:bg-white rounded-xl text-sm text-[#1C1917] placeholder:text-[#A8A29E] outline-none focus:ring-2 focus:ring-[#C9A96E]/15 transition-all"
             />
           </div>
         </div>
@@ -154,180 +156,212 @@ export default function CategoriesClient({ initialCategories }: { initialCategor
         {/* Table */}
         <div className="overflow-x-auto">
           <table className="w-full text-start min-w-[700px]">
-            <thead className="border-b border-white/[0.05]">
+            <thead className="bg-[#FAFAF8] border-b border-[#E8E4DF]">
               <tr>
-                <th className="px-5 py-3 font-bold text-white/30 text-[10px] uppercase tracking-widest text-start">التصنيف</th>
-                <th className="px-5 py-3 font-bold text-white/30 text-[10px] uppercase tracking-widest text-start">الرابط</th>
-                <th className="px-5 py-3 font-bold text-white/30 text-[10px] uppercase tracking-widest text-center">المنتجات</th>
-                <th className="px-5 py-3 font-bold text-white/30 text-[10px] uppercase tracking-widest text-start">الحالة</th>
-                <th className="px-5 py-3 font-bold text-white/30 text-[10px] uppercase tracking-widest text-center">إجراءات</th>
+                <th className="px-6 py-4 font-bold text-[#A8A29E] text-xs uppercase tracking-wider text-start">التصنيف</th>
+                <th className="px-6 py-4 font-bold text-[#A8A29E] text-xs uppercase tracking-wider text-start">الرابط (Slug)</th>
+                <th className="px-6 py-4 font-bold text-[#A8A29E] text-xs uppercase tracking-wider text-center">المنتجات</th>
+                <th className="px-6 py-4 font-bold text-[#A8A29E] text-xs uppercase tracking-wider text-start">الحالة</th>
+                <th className="px-6 py-4 font-bold text-[#A8A29E] text-xs uppercase tracking-wider text-center">إجراءات</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-white/[0.04]">
+            <tbody className="divide-y divide-[#E8E4DF]/60">
               {filteredCategories.map((category) => (
-                <tr key={category.id} className="hover:bg-white/[0.02] transition-colors group">
-                  <td className="px-5 py-3">
-                    <div className="flex items-center gap-3">
-                      <div className="w-9 h-9 rounded-lg bg-white/[0.05] flex items-center justify-center overflow-hidden relative shrink-0 border border-white/[0.08] group-hover:border-amber-500/20 transition-colors">
+                <tr key={category.id} className="hover:bg-[#FAFAF8] transition-colors group">
+                  <td className="px-6 py-4">
+                    <div className="flex items-center gap-3.5">
+                      <div className="w-12 h-12 rounded-xl bg-[#FAFAF8] flex items-center justify-center overflow-hidden relative shrink-0 border border-[#E8E4DF]">
                         {category.image ? (
-                          <Image src={category.image} alt={category.name} fill className="object-cover" />
+                          <img src={category.image} alt={category.name} className="w-full h-full object-cover" />
                         ) : (
-                          <FolderTree className="w-4 h-4 text-white/20" />
+                          <FolderTree className="w-5 h-5 text-[#A8A29E]" />
                         )}
                       </div>
                       <div>
-                        <div className="font-bold text-white/75 text-sm group-hover:text-amber-400 transition-colors">{category.name}</div>
+                        <p className="font-bold text-[#1C1917] text-sm group-hover:text-[#A07850] transition-colors">
+                          {category.name}
+                        </p>
                         {category.description && (
-                          <div className="text-[10px] text-white/25 line-clamp-1 max-w-[200px] mt-0.5">{category.description}</div>
+                          <p className="text-xs text-[#78716C] line-clamp-1 max-w-[240px] mt-0.5">
+                            {category.description}
+                          </p>
                         )}
                       </div>
                     </div>
                   </td>
-                  <td className="px-5 py-3">
-                    <span className="bg-white/[0.04] text-white/35 px-2 py-0.5 rounded font-mono text-[11px] border border-white/[0.06] group-hover:text-amber-400 group-hover:border-amber-500/20 transition-colors">
-                      <span className="opacity-40">/</span>{category.slug}
+                  <td className="px-6 py-4">
+                    <span className="bg-[#FAFAF8] text-[#78716C] px-2.5 py-1 rounded-lg font-mono text-xs border border-[#E8E4DF]">
+                      /{category.slug}
                     </span>
                   </td>
-                  <td className="px-5 py-3 text-center">
-                    <span className="bg-white/[0.06] text-white/50 rounded-md px-2.5 py-0.5 font-bold border border-white/[0.06] text-[11px]">
+                  <td className="px-6 py-4 text-center">
+                    <span className="bg-[#FAFAF8] text-[#1C1917] font-bold px-3 py-1 rounded-full border border-[#E8E4DF] text-xs">
                       {category._count?.products || 0}
                     </span>
                   </td>
-                  <td className="px-5 py-3">
+                  <td className="px-6 py-4">
                     {category.isActive ? (
-                      <span className="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 rounded-md px-2 py-0.5 font-bold text-[11px] flex items-center w-max gap-1">
-                        <div className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                      <span className="bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-full px-3 py-1 font-bold text-xs inline-flex items-center gap-1.5">
+                        <div className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
                         نشط
                       </span>
                     ) : (
-                      <span className="bg-white/[0.05] text-white/35 border border-white/[0.08] rounded-md px-2 py-0.5 font-bold text-[11px] flex items-center w-max gap-1">
-                        <div className="w-1.5 h-1.5 rounded-full bg-white/30" />
+                      <span className="bg-stone-50 text-stone-600 border border-stone-200 rounded-full px-3 py-1 font-bold text-xs inline-flex items-center gap-1.5">
+                        <div className="w-1.5 h-1.5 rounded-full bg-stone-400" />
                         معطل
                       </span>
                     )}
                   </td>
-                  <td className="px-5 py-3 text-center">
-                    <div className="flex items-center justify-center gap-1">
-                      <button className="w-8 h-8 rounded-lg text-white/30 hover:text-amber-400 hover:bg-amber-500/10 transition-colors flex items-center justify-center" onClick={() => openModal(category)}>
-                        <Edit className="w-3.5 h-3.5" />
+                  <td className="px-6 py-4 text-center">
+                    <div className="flex items-center justify-center gap-1.5">
+                      <button 
+                        className="w-9 h-9 rounded-xl text-[#78716C] hover:text-[#C9A96E] hover:bg-[#F5F0EA] border border-transparent hover:border-[#C9A96E]/30 transition-all flex items-center justify-center cursor-pointer" 
+                        onClick={() => openModal(category)}
+                        title="تعديل التصنيف"
+                      >
+                        <Edit className="w-4 h-4" />
                       </button>
-                      <button className="w-8 h-8 rounded-lg text-white/30 hover:text-rose-400 hover:bg-rose-500/10 transition-colors flex items-center justify-center" onClick={() => setDeleteId(category.id)}>
-                        <Trash2 className="w-3.5 h-3.5" />
+                      <button 
+                        className="w-9 h-9 rounded-xl text-[#A8A29E] hover:text-rose-600 hover:bg-rose-50 border border-transparent hover:border-rose-200 transition-all flex items-center justify-center cursor-pointer" 
+                        onClick={() => setDeleteId(category.id)}
+                        title="حذف التصنيف"
+                      >
+                        <Trash2 className="w-4 h-4" />
                       </button>
                     </div>
                   </td>
                 </tr>
               ))}
-              {filteredCategories.length === 0 && (
-                <tr>
-                  <td colSpan={5} className="px-6 py-16 text-center">
-                    <div className="flex flex-col items-center justify-center gap-3">
-                      <div className="w-14 h-14 bg-white/[0.04] border border-white/[0.06] rounded-xl flex items-center justify-center">
-                        <Search className="w-6 h-6 text-white/20" />
-                      </div>
-                      <span className="font-bold text-white/30 text-sm">لا توجد تصنيفات مطابقة</span>
-                    </div>
-                  </td>
-                </tr>
-              )}
             </tbody>
           </table>
+
+          {filteredCategories.length === 0 && (
+            <div className="py-16 text-center">
+              <div className="w-16 h-16 bg-[#FAFAF8] rounded-2xl flex items-center justify-center mx-auto mb-4 border border-[#E8E4DF]">
+                <FolderTree className="w-8 h-8 text-[#A8A29E]" />
+              </div>
+              <h3 className="text-base font-bold text-[#1C1917] mb-1">لا توجد تصنيفات مطابقة</h3>
+              <p className="text-sm text-[#78716C] max-w-sm mx-auto">لم نعثر على أي تصنيف يطابق كلمة البحث.</p>
+            </div>
+          )}
         </div>
       </div>
 
-      {/* Add/Edit Modal */}
+      {/* Add / Edit Category Dialog */}
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-        <DialogContent className="sm:max-w-[460px] rounded-2xl p-0 overflow-hidden border border-white/10 shadow-[0_25px_60px_rgba(0,0,0,0.6)] bg-[#0A1628]" dir="rtl">
-          <div className="px-5 py-4 border-b border-white/[0.06] flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center shrink-0">
-              <FolderTree className="w-4 h-4 text-amber-400" />
-            </div>
-            <div>
-              <DialogTitle className="text-base font-black text-white/85">
-                {isEditing ? 'تعديل التصنيف' : 'إضافة تصنيف'}
+        <DialogContent className="max-w-md p-0 overflow-hidden rounded-3xl bg-white border border-[#E8E4DF] shadow-2xl" dir="rtl">
+          <form onSubmit={handleSubmit}>
+            <DialogHeader className="p-6 bg-[#FAFAF8] border-b border-[#E8E4DF]">
+              <DialogTitle className="text-xl font-black text-[#1C1917]">
+                {isEditing ? 'تعديل التصنيف' : 'إضافة تصنيف جديد'}
               </DialogTitle>
-              <p className="text-[11px] text-white/30 mt-0.5">أدخل بيانات التصنيف</p>
-            </div>
-          </div>
+              <p className="text-xs text-[#78716C] mt-1">أدخل بيانات ومعلومات التصنيف</p>
+            </DialogHeader>
 
-          <form onSubmit={handleSubmit} className="p-5 space-y-4">
-            <div className="space-y-1.5">
-              <Label htmlFor="name" className="text-xs font-bold text-white/50">اسم التصنيف <span className="text-rose-400">*</span></Label>
-              <input
-                id="name"
-                value={currentCategory.name || ''}
-                onChange={e => setCurrentCategory({ ...currentCategory, name: e.target.value })}
-                required
-                className="w-full h-9 px-3 bg-white/[0.04] border border-white/[0.08] hover:border-white/[0.15] focus:border-amber-500/50 rounded-lg text-sm text-white/80 placeholder:text-white/20 outline-none focus:ring-2 focus:ring-amber-500/10 transition-all"
-              />
-            </div>
-
-            <div className="space-y-1.5">
-              <Label htmlFor="slug" className="text-xs font-bold text-white/50">الرابط (Slug) <span className="text-rose-400">*</span></Label>
-              <input
-                id="slug"
-                value={currentCategory.slug || ''}
-                onChange={e => setCurrentCategory({ ...currentCategory, slug: e.target.value })}
-                required
-                dir="rtl"
-                className="w-full h-9 px-3 bg-white/[0.04] border border-white/[0.08] hover:border-white/[0.15] focus:border-amber-500/50 rounded-lg text-sm text-white/80 placeholder:text-white/20 outline-none focus:ring-2 focus:ring-amber-500/10 transition-all font-mono"
-              />
-            </div>
-
-            <div className="space-y-1.5">
-              <Label htmlFor="image" className="text-xs font-bold text-white/50">رابط الصورة (اختياري)</Label>
-              <div className="relative">
-                <ImageIcon className="absolute end-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-white/25" />
-                <input
-                  id="image"
-                  value={currentCategory.image || ''}
-                  onChange={e => setCurrentCategory({ ...currentCategory, image: e.target.value })}
-                  className="w-full h-9 ps-3 pe-9 bg-white/[0.04] border border-white/[0.08] hover:border-white/[0.15] focus:border-amber-500/50 rounded-lg text-sm text-white/80 placeholder:text-white/20 outline-none focus:ring-2 focus:ring-amber-500/10 transition-all"
-                  dir="rtl"
-                  placeholder="https://..."
+            <div className="p-6 space-y-4">
+              <div>
+                <Label className="text-xs font-bold text-[#1C1917] mb-1.5 block">اسم التصنيف *</Label>
+                <Input
+                  required
+                  value={currentCategory.name || ''}
+                  onChange={(e) => setCurrentCategory({ 
+                    ...currentCategory, 
+                    name: e.target.value,
+                    slug: currentCategory.slug || e.target.value.trim().toLowerCase().replace(/[\s\W-]+/g, '-')
+                  })}
+                  placeholder="مثال: هدايا رجالية"
+                  className="h-11 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-sm"
                 />
               </div>
+
+              <div>
+                <Label className="text-xs font-bold text-[#1C1917] mb-1.5 block">الرابط المخصص (Slug)</Label>
+                <Input
+                  value={currentCategory.slug || ''}
+                  onChange={(e) => setCurrentCategory({ ...currentCategory, slug: e.target.value })}
+                  placeholder="men-gifts"
+                  className="h-11 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-sm font-mono"
+                  dir="ltr"
+                />
+              </div>
+
+              <div>
+                <Label className="text-xs font-bold text-[#1C1917] mb-1.5 block">رابط صورة التصنيف</Label>
+                <Input
+                  value={currentCategory.image || ''}
+                  onChange={(e) => setCurrentCategory({ ...currentCategory, image: e.target.value })}
+                  placeholder="https://images.unsplash.com/..."
+                  className="h-11 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-sm"
+                  dir="ltr"
+                />
+              </div>
+
+              <div>
+                <Label className="text-xs font-bold text-[#1C1917] mb-1.5 block">وصف مختصر</Label>
+                <Textarea
+                  rows={3}
+                  value={currentCategory.description || ''}
+                  onChange={(e) => setCurrentCategory({ ...currentCategory, description: e.target.value })}
+                  placeholder="وصف يساعد العملاء على فهم محتوى هذا القسم..."
+                  className="rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-sm resize-none"
+                />
+              </div>
+
+              {isEditing && (
+                <div className="flex items-center justify-between p-3.5 bg-[#FAFAF8] rounded-xl border border-[#E8E4DF]">
+                  <div>
+                    <p className="text-xs font-bold text-[#1C1917]">حالة التفعيل</p>
+                    <p className="text-[11px] text-[#78716C]">ظهور التصنيف في القائمة الرئيسية</p>
+                  </div>
+                  <Switch
+                    checked={currentCategory.isActive ?? true}
+                    onCheckedChange={(val) => setCurrentCategory({ ...currentCategory, isActive: val })}
+                  />
+                </div>
+              )}
             </div>
 
-            <div className="flex items-center gap-3 p-3 bg-white/[0.03] rounded-xl border border-white/[0.06]">
-              <Switch
-                checked={currentCategory.isActive ?? true}
-                onCheckedChange={(checked) => setCurrentCategory({ ...currentCategory, isActive: checked })}
-                className="data-[state=checked]:bg-emerald-500"
-              />
-              <Label className="text-xs font-bold text-white/50 cursor-pointer select-none" onClick={() => setCurrentCategory({ ...currentCategory, isActive: !currentCategory.isActive })}>
-                تفعيل التصنيف وعرضه للعملاء
-              </Label>
-            </div>
-
-            <DialogFooter className="pt-4 border-t border-white/[0.06] gap-2 sm:justify-start flex-row">
-              <Button type="submit" disabled={isSubmitting} className="rounded-xl h-9 px-5 bg-amber-500 hover:bg-amber-400 text-[#030810] font-bold transition-all text-sm">
-                {isSubmitting ? (
-                  <span className="flex items-center gap-2">
-                    <span className="w-3 h-3 border-2 border-[#030810]/30 border-t-[#030810] rounded-full animate-spin" />
-                    جاري الحفظ...
-                  </span>
-                ) : 'حفظ التغييرات'}
-              </Button>
-              <Button type="button" variant="ghost" onClick={() => setIsModalOpen(false)} className="rounded-xl h-9 px-4 font-bold text-white/40 hover:text-white/70 hover:bg-white/[0.06] transition-colors text-sm">
+            <DialogFooter className="p-5 bg-[#FAFAF8] border-t border-[#E8E4DF] flex items-center justify-end gap-2.5">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => setIsModalOpen(false)}
+                className="h-11 px-5 rounded-xl border-[#E8E4DF] text-[#1C1917] hover:bg-white font-bold text-xs cursor-pointer"
+              >
                 إلغاء
+              </Button>
+              <Button
+                type="submit"
+                disabled={isSubmitting}
+                className="h-11 px-6 rounded-xl text-white font-bold text-xs shadow-sm cursor-pointer"
+                style={{ background: 'linear-gradient(135deg, #C9A96E 0%, #A07850 100%)' }}
+              >
+                {isSubmitting ? (
+                  <>
+                    <Loader2 className="w-4 h-4 animate-spin ms-2" />
+                    جاري الحفظ...
+                  </>
+                ) : (
+                  isEditing ? 'حفظ التعديلات' : 'إضافة التصنيف'
+                )}
               </Button>
             </DialogFooter>
           </form>
         </DialogContent>
       </Dialog>
 
-      {/* Delete Confirm Dialog */}
+      {/* Delete Confirmation */}
       <ConfirmDialog
         open={!!deleteId}
         onOpenChange={(open) => !open && setDeleteId(null)}
-        title="حذف التصنيف"
-        description="هل أنت متأكد من حذف هذا التصنيف؟ ستبقى المنتجات المرتبطة به لكن بدون تصنيف."
+        title="هل أنت متأكد من حذف هذا التصنيف؟"
+        description="سيتم حذف التصنيف نهائياً. تأكد من عدم ارتباط منتجات نشطة بهذا التصنيف."
         confirmText="حذف التصنيف"
+        cancelText="إلغاء"
         variant="danger"
-        onConfirm={handleDeleteConfirm}
         isLoading={isDeleting}
+        onConfirm={handleDeleteConfirm}
       />
-    </motion.div>
+    </div>
   )
 }

@@ -6,27 +6,27 @@ import {
 } from '@/components/ui/dialog'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
 import { Textarea } from '@/components/ui/textarea'
 import {
   Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
 } from '@/components/ui/select'
 import { 
   Package, Clock, Truck, CheckCircle2, XCircle, 
-  User, Phone, Mail, MapPin, Receipt, Save, Loader2
+  User, Phone, Mail, MapPin, Receipt, Save, Loader2,
+  Calendar, CreditCard
 } from 'lucide-react'
 import { getOrderDetails, updateOrderStatus, updatePaymentStatus, updateOrderTracking } from '@/app/actions/admin/orders'
 import { toast } from 'sonner'
 import { OrderStatus, PaymentStatus } from '@prisma/client'
 
-const statusConfig: Record<string, { bg: string, text: string, icon: any, label: string }> = {
-  PENDING: { bg: 'bg-slate-100', text: 'text-slate-600', icon: Clock, label: 'قيد المراجعة' },
-  CONFIRMED: { bg: 'bg-emerald-100', text: 'text-emerald-700', icon: CheckCircle2, label: 'مؤكد' },
-  PROCESSING: { bg: 'bg-amber-100', text: 'text-amber-700', icon: Package, label: 'جاري التجهيز' },
-  SHIPPED: { bg: 'bg-blue-100', text: 'text-blue-700', icon: Truck, label: 'تم الشحن' },
-  DELIVERED: { bg: 'bg-emerald-100', text: 'text-emerald-700', icon: CheckCircle2, label: 'مكتمل' },
-  CANCELLED: { bg: 'bg-rose-100', text: 'text-rose-700', icon: XCircle, label: 'ملغى' },
-  RETURNED: { bg: 'bg-rose-100', text: 'text-rose-700', icon: XCircle, label: 'مرتجع' },
+const statusConfig: Record<string, { bg: string, text: string, border: string, icon: any, label: string }> = {
+  PENDING: { bg: 'bg-amber-50', text: 'text-amber-700', border: 'border-amber-200', icon: Clock, label: 'قيد المراجعة' },
+  CONFIRMED: { bg: 'bg-emerald-50', text: 'text-emerald-700', border: 'border-emerald-200', icon: CheckCircle2, label: 'مؤكد' },
+  PROCESSING: { bg: 'bg-amber-50', text: 'text-amber-700', border: 'border-amber-200', icon: Package, label: 'جاري التجهيز' },
+  SHIPPED: { bg: 'bg-blue-50', text: 'text-blue-700', border: 'border-blue-200', icon: Truck, label: 'تم الشحن' },
+  DELIVERED: { bg: 'bg-emerald-50', text: 'text-emerald-700', border: 'border-emerald-200', icon: CheckCircle2, label: 'مكتمل' },
+  CANCELLED: { bg: 'bg-rose-50', text: 'text-rose-700', border: 'border-rose-200', icon: XCircle, label: 'ملغى' },
+  RETURNED: { bg: 'bg-rose-50', text: 'text-rose-700', border: 'border-rose-200', icon: XCircle, label: 'مرتجع' },
 }
 
 const paymentStatusMap: Record<string, string> = {
@@ -93,11 +93,11 @@ export function OrderDetailsModal({ isOpen, onClose, orderId, onOrderUpdated }: 
     setIsUpdating(true)
     const res = await updateOrderStatus(order.id, value)
     if (res.success) {
-      toast.success('تم تحديث حالة الطلب')
+      toast.success('تم تحديث حالة الطلب بنجاح')
       setOrder({ ...order, status: value })
       onOrderUpdated({ ...order, status: value })
     } else {
-      toast.error(res.error || 'حدث خطأ')
+      toast.error(res.error || 'حدث خطأ أثناء التحديث')
     }
     setIsUpdating(false)
   }
@@ -106,10 +106,10 @@ export function OrderDetailsModal({ isOpen, onClose, orderId, onOrderUpdated }: 
     setIsUpdating(true)
     const res = await updatePaymentStatus(order.id, value)
     if (res.success) {
-      toast.success('تم تحديث حالة الدفع')
+      toast.success('تم تحديث حالة الدفع بنجاح')
       setOrder({ ...order, paymentStatus: value })
     } else {
-      toast.error(res.error || 'حدث خطأ')
+      toast.error(res.error || 'حدث خطأ أثناء التحديث')
     }
     setIsUpdating(false)
   }
@@ -118,245 +118,237 @@ export function OrderDetailsModal({ isOpen, onClose, orderId, onOrderUpdated }: 
     setIsUpdating(true)
     const res = await updateOrderTracking(order.id, notes)
     if (res.success) {
-      toast.success('تم حفظ الملاحظات وتفاصيل التتبع')
+      toast.success('تم حفظ التتبع والملاحظات')
       setOrder({ ...order, internalNotes: notes })
     } else {
-      toast.error(res.error || 'حدث خطأ')
+      toast.error(res.error || 'حدث خطأ أثناء الحفظ')
     }
     setIsUpdating(false)
   }
 
-  if (!isOpen) return null
-
   return (
-    <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="sm:max-w-5xl w-[95vw] md:w-full p-0 overflow-hidden bg-[#060D1A] border border-white/[0.05] rounded-3xl shadow-2xl" dir="rtl">
+    <Dialog open={isOpen} onOpenChange={onClose}>
+      <DialogContent className="max-w-4xl p-0 overflow-hidden rounded-3xl bg-white border border-[#E8E4DF] shadow-2xl" dir="rtl">
         {isLoading ? (
-          <div className="flex flex-col items-center justify-center h-96 gap-4">
-            <Loader2 className="w-10 h-10 animate-spin text-amber-500" />
-            <p className="font-bold text-white/50">جاري تحميل تفاصيل الطلب...</p>
+          <div className="p-16 flex flex-col items-center justify-center gap-3">
+            <Loader2 className="w-8 h-8 text-[#C9A96E] animate-spin" />
+            <p className="text-sm font-bold text-[#78716C]">جاري تحميل تفاصيل الطلب...</p>
           </div>
         ) : order ? (
-          <>
-            <DialogHeader className="p-6 border-b border-white/[0.05] bg-[#0A1628]">
-              <div className="flex items-center justify-between">
+          <div>
+            {/* Header */}
+            <DialogHeader className="p-6 bg-[#FAFAF8] border-b border-[#E8E4DF]">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>
-                  <DialogTitle className="text-xl font-black text-white/90 flex items-center gap-2">
-                    <span>طلب</span>
-                    <span dir="rtl" className="text-amber-400">#{order.orderNumber}</span>
+                  <DialogTitle className="text-xl font-black text-[#1C1917] flex items-center gap-2.5">
+                    <span>طلب #{order.orderNumber}</span>
                   </DialogTitle>
-                  <p className="text-white/40 text-sm font-medium mt-1">
-                    {new Date(order.createdAt).toLocaleString('ar-IQ')}
+                  <p className="text-xs text-[#78716C] mt-1 flex items-center gap-2">
+                    <Calendar className="w-3.5 h-3.5 text-[#A8A29E]" />
+                    {new Date(order.createdAt).toLocaleDateString('ar-IQ', {
+                      year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit'
+                    })}
                   </p>
                 </div>
                 {(() => {
                   const currentStatus = statusConfig[order.status] || statusConfig['PENDING']
                   const StatusIcon = currentStatus.icon
                   return (
-                    <Badge variant="secondary" className={`px-4 py-2 rounded-xl font-bold flex items-center gap-2 border-0 shadow-sm text-sm ${currentStatus.bg.replace('bg-', 'bg-').replace('-100', '-500/10')} ${currentStatus.text.replace('text-', 'text-').replace('-700', '-400')}`}>
+                    <span className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold border ${currentStatus.bg} ${currentStatus.text} ${currentStatus.border}`}>
                       <StatusIcon className="w-4 h-4" />
                       {currentStatus.label}
-                    </Badge>
+                    </span>
                   )
                 })()}
               </div>
             </DialogHeader>
 
-            <div className="p-6 overflow-y-auto max-h-[80vh]">
+            <div className="p-6 overflow-y-auto max-h-[75vh]">
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
-                {/* Right Column (First in RTL): Processing & Summary */}
+                {/* Left Column (Processing & Summary) */}
                 <div className="lg:col-span-1 space-y-6">
                   
-                  {/* Actions */}
-                  <Card className="rounded-2xl border-amber-500/20 shadow-sm overflow-hidden bg-amber-500/[0.02]">
-                    <div className="p-5 border-b border-amber-500/10 bg-amber-500/5">
-                      <h2 className="text-base font-bold text-amber-400 flex items-center gap-2">
-                        <Truck className="w-5 h-5 text-amber-500" />
+                  {/* Processing Card */}
+                  <Card className="rounded-2xl border-[#E8E4DF] shadow-sm overflow-hidden bg-white">
+                    <div className="p-4 border-b border-[#E8E4DF] bg-[#FAFAF8]">
+                      <h2 className="text-sm font-bold text-[#1C1917] flex items-center gap-2">
+                        <Truck className="w-4 h-4 text-[#C9A96E]" />
                         معالجة الطلب
                       </h2>
                     </div>
-                    <CardContent className="p-5 space-y-4">
-                      <div className="space-y-2">
-                        <label className="text-xs font-bold text-white/50">تحديث الحالة</label>
+                    <CardContent className="p-4 space-y-4">
+                      <div className="space-y-1.5">
+                        <label className="text-xs font-bold text-[#78716C]">حالة الطلب</label>
                         <Select disabled={isUpdating} value={order.status} onValueChange={handleStatusChange}>
-                          <SelectTrigger className="w-full bg-[#0A1628] h-10 rounded-xl border-white/[0.08] text-white/80 text-start hover:border-amber-500/50 transition-colors focus:ring-amber-500/20">
+                          <SelectTrigger className="w-full bg-[#FAFAF8] h-10 rounded-xl border-[#E8E4DF] text-[#1C1917] text-start focus:ring-[#C9A96E]/20">
                             <SelectValue placeholder="اختر الحالة">{statusConfig[order.status]?.label}</SelectValue>
                           </SelectTrigger>
-                          <SelectContent dir="rtl" className="rounded-xl bg-[#0A1628] border-white/[0.08]">
-                            <SelectItem value="PENDING" className="text-white/80 focus:bg-white/[0.04]">قيد المراجعة</SelectItem>
-                            <SelectItem value="CONFIRMED" className="text-white/80 focus:bg-white/[0.04]">مؤكد</SelectItem>
-                            <SelectItem value="PROCESSING" className="text-white/80 focus:bg-white/[0.04]">جاري التجهيز</SelectItem>
-                            <SelectItem value="SHIPPED" className="text-white/80 focus:bg-white/[0.04]">تم الشحن</SelectItem>
-                            <SelectItem value="DELIVERED" className="text-white/80 focus:bg-white/[0.04]">مكتمل</SelectItem>
-                            <SelectItem value="CANCELLED" className="text-white/80 focus:bg-white/[0.04]">ملغى</SelectItem>
-                            <SelectItem value="RETURNED" className="text-white/80 focus:bg-white/[0.04]">مرتجع</SelectItem>
+                          <SelectContent dir="rtl" className="rounded-xl bg-white border-[#E8E4DF]">
+                            <SelectItem value="PENDING">قيد المراجعة</SelectItem>
+                            <SelectItem value="CONFIRMED">مؤكد</SelectItem>
+                            <SelectItem value="PROCESSING">جاري التجهيز</SelectItem>
+                            <SelectItem value="SHIPPED">تم الشحن</SelectItem>
+                            <SelectItem value="DELIVERED">مكتمل</SelectItem>
+                            <SelectItem value="CANCELLED" className="text-rose-600">ملغى</SelectItem>
+                            <SelectItem value="RETURNED" className="text-rose-600">مرتجع</SelectItem>
                           </SelectContent>
                         </Select>
                       </div>
 
-                      <div className="space-y-2">
-                        <label className="text-xs font-bold text-white/50">حالة الدفع</label>
+                      <div className="space-y-1.5">
+                        <label className="text-xs font-bold text-[#78716C]">حالة الدفع</label>
                         <Select disabled={isUpdating} value={order.paymentStatus} onValueChange={handlePaymentStatusChange}>
-                          <SelectTrigger className="w-full bg-[#0A1628] h-10 rounded-xl border-white/[0.08] text-white/80 text-start hover:border-amber-500/50 transition-colors focus:ring-amber-500/20">
+                          <SelectTrigger className="w-full bg-[#FAFAF8] h-10 rounded-xl border-[#E8E4DF] text-[#1C1917] text-start focus:ring-[#C9A96E]/20">
                             <SelectValue placeholder="اختر الحالة">{paymentStatusMap[order.paymentStatus]}</SelectValue>
                           </SelectTrigger>
-                          <SelectContent dir="rtl" className="rounded-xl bg-[#0A1628] border-white/[0.08]">
-                            <SelectItem value="UNPAID" className="text-white/80 focus:bg-white/[0.04]">غير مدفوع</SelectItem>
-                            <SelectItem value="PAID" className="text-white/80 focus:bg-white/[0.04]">مدفوع</SelectItem>
-                            <SelectItem value="REFUNDED" className="text-white/80 focus:bg-white/[0.04]">مسترد</SelectItem>
+                          <SelectContent dir="rtl" className="rounded-xl bg-white border-[#E8E4DF]">
+                            <SelectItem value="UNPAID">غير مدفوع</SelectItem>
+                            <SelectItem value="PAID">مدفوع</SelectItem>
+                            <SelectItem value="REFUNDED">مسترد</SelectItem>
+                            <SelectItem value="FAILED">فشل الدفع</SelectItem>
                           </SelectContent>
                         </Select>
                       </div>
 
-                      <div className="pt-3 border-t border-amber-500/10 space-y-2">
-                        <label className="text-xs font-bold text-white/50">تفاصيل التتبع والملاحظات</label>
+                      <div className="pt-3 border-t border-[#E8E4DF] space-y-2">
+                        <label className="text-xs font-bold text-[#78716C]">ملاحظات داخلية ورقم التتبع</label>
                         <Textarea 
-                          placeholder="رقم التتبع، اسم المندوب..."
-                          className="min-h-[80px] resize-none rounded-xl bg-[#0A1628] border-white/[0.08] hover:border-amber-500/50 focus:border-amber-500 focus:ring-amber-500/20 text-sm text-white/80 placeholder:text-white/20 transition-colors"
+                          placeholder="رقم تتبع الشحنة، اسم المندوب..."
+                          className="min-h-[80px] resize-none rounded-xl bg-[#FAFAF8] border-[#E8E4DF] focus:border-[#C9A96E] text-xs text-[#1C1917] placeholder:text-[#A8A29E]"
                           value={notes}
                           onChange={(e) => setNotes(e.target.value)}
                         />
                         <Button 
                           onClick={handleSaveNotes} 
                           disabled={isUpdating || notes === (order.internalNotes || '')}
-                          className="w-full h-10 rounded-xl bg-amber-500 hover:bg-amber-400 text-[#030810] font-bold text-sm shadow-[0_4px_15px_rgba(245,158,11,0.2)] transition-all"
+                          className="w-full h-9 rounded-xl font-bold text-white text-xs shadow-sm cursor-pointer"
+                          style={{ background: 'linear-gradient(135deg, #C9A96E 0%, #A07850 100%)' }}
                         >
-                          <Save className="w-4 h-4 ms-2" />
-                          حفظ التتبع
+                          <Save className="w-3.5 h-3.5 ms-1.5" />
+                          حفظ الملاحظات
                         </Button>
                       </div>
                     </CardContent>
                   </Card>
 
-                  {/* Financials */}
-                  <Card className="rounded-2xl border-white/[0.05] shadow-sm overflow-hidden bg-[#0A1628]">
-                    <div className="p-5 border-b border-white/[0.05] bg-white/[0.02]">
-                      <h2 className="text-base font-bold text-white/85 flex items-center gap-2">
-                        <Receipt className="w-5 h-5 text-amber-500" />
+                  {/* Financials Card */}
+                  <Card className="rounded-2xl border-[#E8E4DF] shadow-sm overflow-hidden bg-white">
+                    <div className="p-4 border-b border-[#E8E4DF] bg-[#FAFAF8]">
+                      <h2 className="text-sm font-bold text-[#1C1917] flex items-center gap-2">
+                        <Receipt className="w-4 h-4 text-[#C9A96E]" />
                         الملخص المالي
                       </h2>
                     </div>
-                    <CardContent className="p-5">
-                      <div className="space-y-2 mb-4">
-                        <div className="flex justify-between items-center text-sm font-medium text-white/60">
-                          <span>المجموع الفرعي</span>
-                          <span className="font-bold text-white/90">{order.subtotal.toLocaleString('en-US')} د.ع</span>
+                    <CardContent className="p-4 space-y-2.5">
+                      <div className="flex justify-between items-center text-xs text-[#78716C]">
+                        <span>المجموع الفرعي:</span>
+                        <span className="font-bold text-[#1C1917]">{order.subtotal?.toLocaleString('en-US')} د.ع</span>
+                      </div>
+                      <div className="flex justify-between items-center text-xs text-[#78716C]">
+                        <span>أجور التوصيل:</span>
+                        <span className="font-bold text-[#1C1917]">{order.shippingCost?.toLocaleString('en-US')} د.ع</span>
+                      </div>
+                      {order.discount > 0 && (
+                        <div className="flex justify-between items-center text-xs text-emerald-600 font-bold">
+                          <span>الخصم:</span>
+                          <span>-{order.discount?.toLocaleString('en-US')} د.ع</span>
                         </div>
-                        <div className="flex justify-between items-center text-sm font-medium text-white/60">
-                          <span>الشحن</span>
-                          <span className="font-bold text-white/90">{order.shippingCost.toLocaleString('en-US')} د.ع</span>
-                        </div>
-                        {order.discount > 0 && (
-                          <div className="flex justify-between items-center text-sm font-medium text-rose-400">
-                            <span>الخصم</span>
-                            <span className="font-bold">- {order.discount.toLocaleString('en-US')} د.ع</span>
-                          </div>
-                        )}
-                        <div className="pt-2 border-t border-white/[0.05] flex justify-between items-center mt-2">
-                          <span className="font-black text-white/90">الإجمالي</span>
-                          <span className="font-black text-amber-400 tracking-tight">
-                            {order.total.toLocaleString('en-US')} <span className="text-xs font-bold text-amber-500/60">د.ع</span>
-                          </span>
-                        </div>
+                      )}
+                      <div className="pt-2 border-t border-[#E8E4DF] flex justify-between items-center text-sm font-black text-[#1C1917]">
+                        <span>الإجمالي النهائي:</span>
+                        <span className="text-[#A07850]">{order.total?.toLocaleString('en-US')} د.ع</span>
+                      </div>
+                      <div className="pt-2 text-xs text-[#78716C] flex items-center gap-1.5">
+                        <CreditCard className="w-3.5 h-3.5 text-[#A8A29E]" />
+                        <span>طريقة الدفع: <strong>{paymentMethodMap[order.paymentMethod] || order.paymentMethod}</strong></span>
                       </div>
                     </CardContent>
                   </Card>
-
                 </div>
-                
-                {/* Left Column (Second in RTL): Details */}
+
+                {/* Right Column: Customer Details & Items */}
                 <div className="lg:col-span-2 space-y-6">
-                  
-                  {/* Items */}
-                  <Card className="rounded-2xl border-white/[0.05] shadow-sm overflow-hidden bg-[#0A1628]">
-                    <div className="p-5 border-b border-white/[0.05] bg-white/[0.02]">
-                      <h2 className="text-base font-bold text-white/85 flex items-center gap-2">
-                        <Package className="w-5 h-5 text-amber-500" />
-                        المنتجات ({order.items.length})
+
+                  {/* Customer Information Card */}
+                  <Card className="rounded-2xl border-[#E8E4DF] shadow-sm overflow-hidden bg-white">
+                    <div className="p-4 border-b border-[#E8E4DF] bg-[#FAFAF8]">
+                      <h2 className="text-sm font-bold text-[#1C1917] flex items-center gap-2">
+                        <User className="w-4 h-4 text-[#C9A96E]" />
+                        معلومات العميل والشحن
                       </h2>
                     </div>
-                    <CardContent className="p-0">
-                      <div className="divide-y divide-white/[0.05] max-h-64 overflow-y-auto">
-                        {order.items.map((item: any) => (
-                          <div key={item.id} className="p-4 flex items-start sm:items-center gap-4 hover:bg-white/[0.02] transition-colors">
-                            <div className="w-14 h-14 rounded-xl bg-white/[0.02] shrink-0 border border-white/[0.05] overflow-hidden flex items-center justify-center">
+                    <CardContent className="p-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <div>
+                        <p className="text-xs text-[#A8A29E] font-bold uppercase mb-1">اسم العميل</p>
+                        <p className="text-sm font-bold text-[#1C1917]">{order.customerName}</p>
+                      </div>
+                      <div>
+                        <p className="text-xs text-[#A8A29E] font-bold uppercase mb-1">رقم الهاتف</p>
+                        <p className="text-sm font-bold text-[#1C1917]" dir="ltr">{order.customerPhone}</p>
+                      </div>
+                      {order.customerEmail && (
+                        <div>
+                          <p className="text-xs text-[#A8A29E] font-bold uppercase mb-1">البريد الإلكتروني</p>
+                          <p className="text-sm font-bold text-[#1C1917] font-mono" dir="ltr">{order.customerEmail}</p>
+                        </div>
+                      )}
+                      <div>
+                        <p className="text-xs text-[#A8A29E] font-bold uppercase mb-1">عنوان التوصيل</p>
+                        <p className="text-sm font-medium text-[#1C1917]">
+                          {order.shippingAddress 
+                            ? `${order.shippingAddress.governorate || ''}، ${order.shippingAddress.city || ''}، ${order.shippingAddress.street || ''}`
+                            : 'العنوان غير محدد'}
+                        </p>
+                      </div>
+                      {order.notes && (
+                        <div className="sm:col-span-2 bg-[#FAFAF8] p-3 rounded-xl border border-[#E8E4DF]">
+                          <p className="text-xs font-bold text-[#78716C] mb-1">ملاحظات العميل مع الطلب:</p>
+                          <p className="text-xs text-[#1C1917]">{order.notes}</p>
+                        </div>
+                      )}
+                    </CardContent>
+                  </Card>
+
+                  {/* Order Items Table */}
+                  <Card className="rounded-2xl border-[#E8E4DF] shadow-sm overflow-hidden bg-white">
+                    <div className="p-4 border-b border-[#E8E4DF] bg-[#FAFAF8]">
+                      <h2 className="text-sm font-bold text-[#1C1917] flex items-center gap-2">
+                        <Package className="w-4 h-4 text-[#C9A96E]" />
+                        المنتجات المطلوبة ({order.items?.length || 0})
+                      </h2>
+                    </div>
+                    <div className="divide-y divide-[#E8E4DF]">
+                      {order.items?.map((item: any) => (
+                        <div key={item.id} className="p-4 flex items-center justify-between gap-4">
+                          <div className="flex items-center gap-3">
+                            <div className="w-12 h-12 rounded-xl bg-[#FAFAF8] border border-[#E8E4DF] overflow-hidden shrink-0 flex items-center justify-center">
                               {item.product?.images?.[0] ? (
                                 <img src={item.product.images[0]} alt={item.productName} className="w-full h-full object-cover" />
                               ) : (
-                                <Package className="w-5 h-5 text-white/20" />
+                                <Package className="w-5 h-5 text-[#A8A29E]" />
                               )}
                             </div>
-                            <div className="flex-1 min-w-0">
-                              <h4 className="font-bold text-white/90 text-sm truncate">{item.productName}</h4>
-                              {item.customOptions && (
-                                <p className="text-xs text-white/40 mt-1 truncate">
-                                  {typeof item.customOptions === 'string' ? item.customOptions : JSON.stringify(item.customOptions)}
-                                </p>
-                              )}
-                            </div>
-                            <div className="text-end">
-                              <p className="font-bold text-amber-400 text-sm">{item.price.toLocaleString('en-US')} د.ع</p>
-                              <p className="text-xs text-white/50 font-medium">الكمية: {item.quantity}</p>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    </CardContent>
-                  </Card>
-
-                  {/* Customer */}
-                  <Card className="rounded-2xl border-white/[0.05] shadow-sm overflow-hidden bg-[#0A1628]">
-                    <div className="p-5 border-b border-white/[0.05] bg-white/[0.02]">
-                      <h2 className="text-base font-bold text-white/85 flex items-center gap-2">
-                        <User className="w-5 h-5 text-amber-500" />
-                        العميل والتوصيل
-                      </h2>
-                    </div>
-                    <CardContent className="p-5">
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                        <div className="space-y-3">
-                          <h3 className="text-xs font-bold text-white/40 uppercase tracking-wider">معلومات التواصل</h3>
-                          <div className="space-y-2">
-                            <div className="flex items-center gap-2 text-white/70 font-medium text-sm">
-                              <User className="w-4 h-4 text-amber-500/60" />
-                              {order.customerName}
-                            </div>
-                            <div className="flex items-center gap-2 text-white/70 font-medium text-sm">
-                              <Phone className="w-4 h-4 text-amber-500/60" />
-                              <span dir="rtl">{order.customerPhone}</span>
-                            </div>
-                            {order.customerEmail && (
-                              <div className="flex items-center gap-2 text-white/70 font-medium text-sm">
-                                <Mail className="w-4 h-4 text-amber-500/60" />
-                                {order.customerEmail}
-                              </div>
-                            )}
-                          </div>
-                        </div>
-
-                        <div className="space-y-3">
-                          <h3 className="text-xs font-bold text-white/40 uppercase tracking-wider">عنوان التوصيل</h3>
-                          <div className="flex items-start gap-2 text-white/70 font-medium text-sm">
-                            <MapPin className="w-4 h-4 text-amber-500/60 mt-0.5 shrink-0" />
                             <div>
-                              {order.shippingAddress?.address ? (
-                                <p className="leading-relaxed">{order.shippingAddress.address}</p>
-                              ) : (
-                                <span className="text-white/30">لا يوجد عنوان مسجل</span>
-                              )}
+                              <p className="text-sm font-bold text-[#1C1917]">{item.productName}</p>
+                              <p className="text-xs text-[#78716C]">
+                                الكمية: <strong className="text-[#1C1917]">{item.quantity}</strong> × {item.price?.toLocaleString('en-US')} د.ع
+                              </p>
                             </div>
                           </div>
+                          <div className="text-end">
+                            <span className="text-sm font-black text-[#1C1917]">
+                              {(item.quantity * item.price).toLocaleString('en-US')} د.ع
+                            </span>
+                          </div>
                         </div>
-                      </div>
-                    </CardContent>
+                      ))}
+                    </div>
                   </Card>
-
                 </div>
-
               </div>
             </div>
-          </>
+          </div>
         ) : null}
       </DialogContent>
     </Dialog>

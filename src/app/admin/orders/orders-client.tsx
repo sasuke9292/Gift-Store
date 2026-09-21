@@ -1,15 +1,12 @@
 'use client'
 
 import React, { useState } from 'react'
-import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   Table, TableBody, TableCell, TableHead, TableHeader, TableRow,
 } from '@/components/ui/table'
-import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
-import { Search, Filter, Download, MoreHorizontal, Eye, Trash, CheckCircle2, Package, Clock, XCircle, Truck, Sparkles, ShoppingCart } from 'lucide-react'
+import { Search, Download, MoreHorizontal, Eye, Trash, CheckCircle2, Package, Clock, XCircle, Truck, ShoppingCart } from 'lucide-react'
 import {
   DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger,
   DropdownMenuSeparator, DropdownMenuLabel,
@@ -32,19 +29,20 @@ interface OrderData {
   shipping: string
 }
 
-const statusConfig: Record<string, { bg: string, text: string, icon: any, label: string }> = {
-  PENDING: { bg: 'bg-white/[0.06]', text: 'text-white/50', icon: Clock, label: 'قيد المراجعة' },
-  PROCESSING: { bg: 'bg-amber-500/10', text: 'text-amber-400', icon: Package, label: 'جاري التجهيز' },
-  SHIPPED: { bg: 'bg-blue-500/10', text: 'text-blue-400', icon: Truck, label: 'تم الشحن' },
-  DELIVERED: { bg: 'bg-emerald-500/10', text: 'text-emerald-400', icon: CheckCircle2, label: 'مكتمل' },
-  CONFIRMED: { bg: 'bg-emerald-500/10', text: 'text-emerald-400', icon: CheckCircle2, label: 'مؤكد' },
-  CANCELLED: { bg: 'bg-rose-500/10', text: 'text-rose-400', icon: XCircle, label: 'ملغى' },
+const statusConfig: Record<string, { bg: string, text: string, border: string, icon: any, label: string }> = {
+  PENDING: { bg: 'bg-amber-50', text: 'text-amber-700', border: 'border-amber-200', icon: Clock, label: 'قيد المراجعة' },
+  PROCESSING: { bg: 'bg-amber-50', text: 'text-amber-700', border: 'border-amber-200', icon: Package, label: 'جاري التجهيز' },
+  SHIPPED: { bg: 'bg-blue-50', text: 'text-blue-700', border: 'border-blue-200', icon: Truck, label: 'تم الشحن' },
+  DELIVERED: { bg: 'bg-emerald-50', text: 'text-emerald-700', border: 'border-emerald-200', icon: CheckCircle2, label: 'مكتمل' },
+  CONFIRMED: { bg: 'bg-emerald-50', text: 'text-emerald-700', border: 'border-emerald-200', icon: CheckCircle2, label: 'مؤكد' },
+  CANCELLED: { bg: 'bg-rose-50', text: 'text-rose-700', border: 'border-rose-200', icon: XCircle, label: 'ملغى' },
 }
 
 const statusFilters = [
-  { label: 'الكل', value: 'all' },
+  { label: 'جميع الطلبات', value: 'all' },
   { label: 'قيد المراجعة', value: 'PENDING' },
-  { label: 'التجهيز', value: 'PROCESSING' },
+  { label: 'جاري التجهيز', value: 'PROCESSING' },
+  { label: 'تم الشحن', value: 'SHIPPED' },
   { label: 'مكتمل', value: 'DELIVERED' },
   { label: 'ملغى', value: 'CANCELLED' },
 ]
@@ -68,83 +66,103 @@ export default function OrdersClient({ initialOrders }: { initialOrders: OrderDa
   }
 
   const filteredOrders = orders.filter(o => {
-    const matchesSearch = o.orderNumber.includes(search) || o.customer.includes(search)
+    const matchesSearch = 
+      o.orderNumber.toLowerCase().includes(search.toLowerCase()) ||
+      o.customer.toLowerCase().includes(search.toLowerCase())
     const matchesStatus = statusFilter === 'all' || o.status === statusFilter
     return matchesSearch && matchesStatus
   })
 
-  const handleUpdateStatus = async (id: string, newStatus: OrderStatus) => {
-    const res = await updateOrderStatus(id, newStatus)
+  const handleStatusChange = async (id: string, status: OrderStatus) => {
+    const res = await updateOrderStatus(id, status)
     if (res.success) {
       toast.success('تم تحديث حالة الطلب بنجاح')
-      setOrders(orders.map(o => o.id === id ? { ...o, status: newStatus } : o))
+      setOrders(orders.map(o => o.id === id ? { ...o, status } : o))
     } else {
-      toast.error(res.error || 'حدث خطأ')
+      toast.error(res.error || 'فشل تحديث حالة الطلب')
     }
   }
 
-  const handleDeleteConfirm = async () => {
+  const handleDelete = async () => {
     if (!deleteId) return
     setIsDeleting(true)
     const res = await deleteOrder(deleteId)
     if (res.success) {
       toast.success('تم حذف الطلب بنجاح')
       setOrders(orders.filter(o => o.id !== deleteId))
+      setDeleteId(null)
     } else {
-      toast.error(res.error || 'حدث خطأ')
+      toast.error(res.error || 'فشل حذف الطلب')
     }
     setIsDeleting(false)
-    setDeleteId(null)
+  }
+
+  const exportCSV = () => {
+    const headers = ['رقم الطلب', 'العميل', 'التاريخ', 'المنتجات', 'الإجمالي', 'طريقة الدفع', 'الحالة']
+    const csvRows = [
+      headers.join(','),
+      ...filteredOrders.map(o => [
+        o.orderNumber,
+        `"${o.customer}"`,
+        o.date,
+        o.products,
+        o.total,
+        `"${o.payment}"`,
+        o.status
+      ].join(','))
+    ]
+    const blob = new Blob(['\uFEFF' + csvRows.join('\n')], { type: 'text/csv;charset=utf-8;' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `orders-export-${new Date().toISOString().slice(0, 10)}.csv`
+    a.click()
+    URL.revokeObjectURL(url)
+    toast.success('تم تصدير ملف الطلبات بنجاح')
   }
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 16 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3 }}
-      className="space-y-8 pb-12"
-      dir="rtl"
-    >
+    <div className="space-y-6 pb-12">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-[#0A1628] border border-white/[0.05] p-5 rounded-2xl">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <div className="flex items-center gap-2.5 mb-1">
-            <div className="w-8 h-8 bg-amber-500/10 border border-amber-500/20 rounded-xl flex items-center justify-center">
-              <ShoppingCart className="w-4 h-4 text-amber-400" />
-            </div>
-            <h1 className="text-xl font-black text-white/85 tracking-tight">إدارة الطلبات</h1>
-          </div>
-          <p className="text-white/35 font-medium text-sm ms-10">متابعة وتحديث حالة طلبات متجرك.</p>
+          <h1 className="text-2xl font-black text-[#1C1917] tracking-tight">إدارة الطلبات</h1>
+          <p className="text-sm text-[#78716C] mt-1">متابعة وإدارة طلبات الزبائن وتحديث حالات الشحن والدفع</p>
         </div>
-        <Button className="bg-white/[0.06] hover:bg-white/[0.1] text-white/60 hover:text-white rounded-xl h-9 px-4 font-bold transition-all border border-white/[0.08] text-sm">
-          <Download className="w-4 h-4 me-1.5 text-amber-400" />
-          تصدير
+        <Button 
+          onClick={exportCSV} 
+          variant="outline"
+          className="h-11 px-4 rounded-xl border-[#E8E4DF] bg-white hover:bg-[#FAFAF8] text-[#1C1917] font-bold text-sm shadow-sm flex items-center gap-2 cursor-pointer"
+        >
+          <Download className="w-4 h-4 text-[#C9A96E]" />
+          تصدير ملف CSV
         </Button>
       </div>
 
-      {/* Main Content */}
-      <div className="bg-[#0A1628] rounded-2xl border border-white/[0.05] overflow-hidden">
+      {/* Main Container */}
+      <div className="bg-white rounded-3xl border border-[#E8E4DF] shadow-[0_2px_12px_rgba(0,0,0,0.03)] overflow-hidden">
         {/* Toolbar */}
-        <div className="p-4 border-b border-white/[0.05] space-y-3">
-          <div className="relative w-full md:max-w-sm group">
-            <Search className="absolute end-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-white/25 group-focus-within:text-amber-500 transition-colors" />
+        <div className="p-5 border-b border-[#E8E4DF] flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
+          <div className="relative w-full md:max-w-md group">
+            <Search className="absolute end-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#A8A29E] group-focus-within:text-[#C9A96E] transition-colors" />
             <input
-              placeholder="ابحث برقم الطلب أو العميل..."
-              className="w-full h-9 ps-3 pe-9 bg-white/[0.04] border border-white/[0.07] hover:border-white/[0.12] focus:border-amber-500/50 rounded-xl text-sm text-white/70 placeholder:text-white/25 outline-none focus:ring-2 focus:ring-amber-500/10 transition-all"
+              placeholder="ابحث برقم الطلب أو اسم العميل..."
+              className="w-full h-11 ps-4 pe-10 bg-[#FAFAF8] border border-[#E8E4DF] hover:border-[#D5D0C9] focus:border-[#C9A96E]/50 focus:bg-white rounded-xl text-sm text-[#1C1917] placeholder:text-[#A8A29E] outline-none focus:ring-2 focus:ring-[#C9A96E]/15 transition-all"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
           </div>
+
           {/* Status Filters */}
-          <div className="flex flex-wrap gap-1.5">
+          <div className="flex flex-wrap gap-2">
             {statusFilters.map(f => (
               <button
                 key={f.value}
                 onClick={() => setStatusFilter(f.value)}
-                className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all border ${
+                className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
                   statusFilter === f.value
-                    ? 'bg-amber-500 text-[#030810] border-amber-600'
-                    : 'bg-white/[0.04] text-white/40 border-white/[0.07] hover:border-white/[0.15] hover:text-white/70'
+                    ? 'bg-[#1C1917] text-white shadow-sm'
+                    : 'bg-[#FAFAF8] text-[#78716C] hover:bg-[#F5F0EA] hover:text-[#1C1917] border border-[#E8E4DF]'
                 }`}
               >
                 {f.label}
@@ -155,15 +173,15 @@ export default function OrdersClient({ initialOrders }: { initialOrders: OrderDa
 
         {/* Table */}
         <div className="overflow-x-auto">
-          <Table className="w-full min-w-[860px]">
-            <TableHeader className="border-b border-white/[0.05]">
+          <Table className="w-full min-w-[800px]">
+            <TableHeader className="bg-[#FAFAF8] border-b border-[#E8E4DF]">
               <TableRow className="hover:bg-transparent border-0">
-                <TableHead className="text-start font-bold text-white/30 py-3 px-5 text-[10px] uppercase tracking-widest">رقم الطلب</TableHead>
-                <TableHead className="text-start font-bold text-white/30 py-3 text-[10px] uppercase tracking-widest">العميل</TableHead>
-                <TableHead className="text-start font-bold text-white/30 py-3 text-[10px] uppercase tracking-widest">التاريخ</TableHead>
-                <TableHead className="text-start font-bold text-white/30 py-3 text-[10px] uppercase tracking-widest">الإجمالي</TableHead>
-                <TableHead className="text-start font-bold text-white/30 py-3 text-[10px] uppercase tracking-widest">الحالة</TableHead>
-                <TableHead className="text-center font-bold text-white/30 py-3 px-5 text-[10px] uppercase tracking-widest">إجراءات</TableHead>
+                <TableHead className="text-start font-bold text-[#A8A29E] py-4 px-6 text-xs uppercase tracking-wider">رقم الطلب</TableHead>
+                <TableHead className="text-start font-bold text-[#A8A29E] py-4 text-xs uppercase tracking-wider">العميل</TableHead>
+                <TableHead className="text-start font-bold text-[#A8A29E] py-4 text-xs uppercase tracking-wider">التاريخ</TableHead>
+                <TableHead className="text-start font-bold text-[#A8A29E] py-4 text-xs uppercase tracking-wider">الإجمالي</TableHead>
+                <TableHead className="text-start font-bold text-[#A8A29E] py-4 text-xs uppercase tracking-wider">الحالة</TableHead>
+                <TableHead className="text-center font-bold text-[#A8A29E] py-4 px-6 text-xs uppercase tracking-wider">إجراءات</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -171,83 +189,72 @@ export default function OrdersClient({ initialOrders }: { initialOrders: OrderDa
                 const status = statusConfig[order.status] || statusConfig['PENDING']
                 const StatusIcon = status.icon
                 return (
-                  <TableRow key={order.id} className="hover:bg-white/[0.02] transition-colors border-b border-white/[0.04] last:border-0 group">
-                    <TableCell className="px-5 py-3">
-                      <span className="font-bold text-white/40 text-xs font-mono bg-white/[0.04] px-2 py-1 rounded border border-white/[0.06] group-hover:text-amber-400 group-hover:border-amber-500/20 transition-colors">
-                        <span className="opacity-40">#</span>{order.orderNumber}
+                  <TableRow key={order.id} className="hover:bg-[#FAFAF8] transition-colors border-b border-[#E8E4DF]/60 last:border-0 group">
+                    <TableCell className="px-6 py-4">
+                      <span className="font-bold text-[#1C1917] text-xs font-mono bg-[#FAFAF8] px-2.5 py-1.5 rounded-lg border border-[#E8E4DF] group-hover:border-[#C9A96E]/40 transition-colors">
+                        #{order.orderNumber}
                       </span>
                     </TableCell>
-                    <TableCell className="py-3">
-                      <div className="flex items-center gap-2.5">
-                        <div className="w-8 h-8 rounded-lg bg-white/[0.06] border border-white/[0.06] flex items-center justify-center text-amber-400 font-bold shrink-0 text-sm">
-                          {order.customer.charAt(0)}
-                        </div>
-                        <div>
-                          <span className="font-bold text-white/70 text-xs group-hover:text-white/90 transition-colors block">{order.customer}</span>
-                          <span className="text-[10px] text-white/25 mt-0.5 block">{order.products} منتجات</span>
-                        </div>
-                      </div>
+                    <TableCell className="py-4">
+                      <p className="font-bold text-[#1C1917] text-sm">{order.customer}</p>
+                      <p className="text-xs text-[#78716C]">{order.products} منتج • {order.payment}</p>
                     </TableCell>
-                    <TableCell className="text-white/35 font-medium text-xs py-3">{order.date}</TableCell>
-                    <TableCell className="py-3">
-                      <span className="font-bold text-amber-400/90 text-xs">
-                        {order.total.toLocaleString('en-US')} <span className="text-[10px] text-white/25">د.ع</span>
+                    <TableCell className="py-4 text-xs text-[#78716C] font-medium">
+                      {order.date}
+                    </TableCell>
+                    <TableCell className="py-4">
+                      <span className="font-black text-[#1C1917] text-sm">
+                        {order.total.toLocaleString('en-US')}{' '}
+                        <span className="text-xs font-normal text-[#78716C]">د.ع</span>
                       </span>
                     </TableCell>
-                    <TableCell className="py-3">
-                      <span className={`px-2 py-0.5 rounded-md font-bold flex items-center gap-1.5 w-max border text-[11px] ${status.bg} ${status.text} border-current/20`}>
-                        <StatusIcon className="w-3 h-3" />
+                    <TableCell className="py-4">
+                      <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold border ${status.bg} ${status.text} ${status.border}`}>
+                        <StatusIcon className="w-3.5 h-3.5" />
                         {status.label}
                       </span>
                     </TableCell>
-                    <TableCell className="px-5 py-3">
-                      <div className="flex items-center justify-center gap-1.5">
-                        {order.status === 'PENDING' && (
-                          <button onClick={() => handleUpdateStatus(order.id, 'PROCESSING')}
-                            className="bg-amber-500/10 text-amber-400 hover:bg-amber-500/20 border border-amber-500/20 font-bold rounded-lg h-7 text-[11px] px-2.5 transition-colors">
-                            تجهيز
-                          </button>
-                        )}
-                        {order.status === 'PROCESSING' && (
-                          <button onClick={() => handleUpdateStatus(order.id, 'SHIPPED')}
-                            className="bg-blue-500/10 text-blue-400 hover:bg-blue-500/20 border border-blue-500/20 font-bold rounded-lg h-7 text-[11px] px-2.5 transition-colors">
-                            شحن
-                          </button>
-                        )}
-                        {order.status === 'SHIPPED' && (
-                          <button onClick={() => handleUpdateStatus(order.id, 'DELIVERED')}
-                            className="bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500/20 border border-emerald-500/20 font-bold rounded-lg h-7 text-[11px] px-2.5 transition-colors">
-                            توصيل
-                          </button>
-                        )}
-                        <button
-                          className="h-7 w-7 text-white/25 hover:text-amber-400 hover:bg-amber-500/10 rounded-lg transition-colors flex items-center justify-center border border-transparent hover:border-amber-500/20"
+                    <TableCell className="px-6 py-4 text-center">
+                      <div className="flex items-center justify-center gap-2">
+                        <Button
+                          variant="ghost"
+                          size="sm"
                           onClick={() => handleOpenModal(order.id)}
+                          className="h-9 px-3 rounded-xl hover:bg-[#F5F0EA] text-[#78716C] hover:text-[#C9A96E] font-bold text-xs flex items-center gap-1.5 cursor-pointer"
                         >
-                          <Eye className="w-3.5 h-3.5" />
-                        </button>
+                          <Eye className="w-4 h-4" />
+                          عرض
+                        </Button>
                         <DropdownMenu>
-                          <DropdownMenuTrigger className="h-7 w-7 flex items-center justify-center text-white/25 hover:text-white/60 hover:bg-white/[0.06] rounded-lg transition-colors focus:outline-none border border-transparent hover:border-white/[0.08]">
-                            <MoreHorizontal className="h-3.5 w-3.5" />
-                          </DropdownMenuTrigger>
-                          <DropdownMenuContent align="end" className="w-44 rounded-xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] border-white/10 bg-[#0A1628] p-1.5 text-white">
-                            <DropdownMenuLabel className="text-[10px] text-white/30 font-bold px-2 py-1.5 uppercase tracking-widest">خيارات</DropdownMenuLabel>
-                            {order.status !== 'CANCELLED' && (
-                              <DropdownMenuItem
-                                onClick={() => handleUpdateStatus(order.id, 'CANCELLED')}
-                                className="rounded-lg cursor-pointer py-2 px-2.5 font-bold text-amber-400 hover:bg-amber-500/10 text-xs transition-colors"
-                              >
-                                <XCircle className="me-2 h-3.5 w-3.5" />
-                                إلغاء الطلب
-                              </DropdownMenuItem>
-                            )}
-                            <DropdownMenuSeparator className="my-1 bg-white/[0.06]" />
+                          <DropdownMenuTrigger render={
+                            <Button variant="ghost" size="icon" className="h-9 w-9 rounded-xl hover:bg-[#FAFAF8] text-[#A8A29E] hover:text-[#1C1917]">
+                              <MoreHorizontal className="w-4 h-4" />
+                            </Button>
+                          } />
+                          <DropdownMenuContent align="end" className="w-48 rounded-2xl shadow-xl border-[#E8E4DF] bg-white p-1.5 text-[#1C1917]">
+                            <DropdownMenuLabel className="text-xs font-bold text-[#A8A29E] px-2.5 py-1">تغيير الحالة</DropdownMenuLabel>
+                            <DropdownMenuItem onClick={() => handleStatusChange(order.id, 'PENDING')} className="rounded-xl text-xs font-medium cursor-pointer py-2">
+                              قيد المراجعة
+                            </DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => handleStatusChange(order.id, 'PROCESSING')} className="rounded-xl text-xs font-medium cursor-pointer py-2">
+                              جاري التجهيز
+                            </DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => handleStatusChange(order.id, 'SHIPPED')} className="rounded-xl text-xs font-medium cursor-pointer py-2">
+                              تم الشحن
+                            </DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => handleStatusChange(order.id, 'DELIVERED')} className="rounded-xl text-xs font-medium cursor-pointer py-2">
+                              مكتمل
+                            </DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => handleStatusChange(order.id, 'CANCELLED')} className="rounded-xl text-xs font-medium cursor-pointer py-2 text-rose-600">
+                              إلغاء الطلب
+                            </DropdownMenuItem>
+                            <DropdownMenuSeparator className="bg-[#E8E4DF]" />
                             <DropdownMenuItem
+                              className="rounded-xl text-xs font-bold text-rose-600 hover:bg-rose-50 cursor-pointer py-2"
                               onClick={() => setDeleteId(order.id)}
-                              className="rounded-lg cursor-pointer py-2 px-2.5 font-bold text-rose-400 hover:bg-rose-500/10 text-xs transition-colors"
                             >
-                              <Trash className="me-2 h-3.5 w-3.5" />
-                              حذف نهائي
+                              <Trash className="w-3.5 h-3.5 me-2" />
+                              حذف الطلب
                             </DropdownMenuItem>
                           </DropdownMenuContent>
                         </DropdownMenu>
@@ -256,44 +263,40 @@ export default function OrdersClient({ initialOrders }: { initialOrders: OrderDa
                   </TableRow>
                 )
               })}
-              {filteredOrders.length === 0 && (
-                <TableRow>
-                  <TableCell colSpan={6} className="h-52 text-center">
-                    <div className="flex flex-col items-center justify-center gap-3">
-                      <div className="w-14 h-14 bg-white/[0.04] border border-white/[0.06] rounded-xl flex items-center justify-center">
-                        <Search className="w-6 h-6 text-white/20" />
-                      </div>
-                      <span className="font-bold text-white/30 text-sm">لا توجد طلبات مطابقة</span>
-                    </div>
-                  </TableCell>
-                </TableRow>
-              )}
             </TableBody>
           </Table>
+
+          {filteredOrders.length === 0 && (
+            <div className="py-16 text-center">
+              <div className="w-16 h-16 bg-[#FAFAF8] rounded-2xl flex items-center justify-center mx-auto mb-4 border border-[#E8E4DF]">
+                <ShoppingCart className="w-8 h-8 text-[#A8A29E]" />
+              </div>
+              <h3 className="text-base font-bold text-[#1C1917] mb-1">لا توجد طلبات مطابقة</h3>
+              <p className="text-sm text-[#78716C] max-w-sm mx-auto">لم نعثر على أي طلب يطابق معايير البحث أو الفلتر المحددة.</p>
+            </div>
+          )}
         </div>
       </div>
 
-      {/* Delete Confirm */}
-      <ConfirmDialog
-        open={!!deleteId}
-        onOpenChange={(open) => !open && setDeleteId(null)}
-        title="حذف الطلب"
-        description="هل أنت متأكد من حذف هذا الطلب بشكل نهائي؟ لا يمكن التراجع عن هذا الإجراء."
-        confirmText="حذف الطلب"
-        variant="danger"
-        onConfirm={handleDeleteConfirm}
-        isLoading={isDeleting}
-      />
-
+      {/* Modals */}
       <OrderDetailsModal
         isOpen={isModalOpen}
-        onClose={() => {
-          setIsModalOpen(false)
-          setSelectedOrderId(null)
-        }}
+        onClose={() => setIsModalOpen(false)}
         orderId={selectedOrderId}
         onOrderUpdated={handleOrderUpdated}
       />
-    </motion.div>
+
+      <ConfirmDialog
+        open={!!deleteId}
+        onOpenChange={(open) => !open && setDeleteId(null)}
+        title="هل أنت متأكد من حذف الطلب؟"
+        description="سيتم حذف سجل هذا الطلب وجميع العناصر المرتبطة به نهائياً من النظام."
+        confirmText="حذف نهائي"
+        cancelText="إلغاء"
+        variant="danger"
+        isLoading={isDeleting}
+        onConfirm={handleDelete}
+      />
+    </div>
   )
 }

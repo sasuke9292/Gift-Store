@@ -3,13 +3,11 @@
 import React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
 import { Heart, ShoppingBag, Star } from 'lucide-react'
-import { motion } from 'framer-motion'
 import { useCartStore, useFavoritesStore } from '@/lib/store'
 import { toast } from 'sonner'
 import { cn } from '@/lib/utils'
+import { useMounted } from '@/lib/use-mounted'
 
 export interface ProductCardProps {
   product: {
@@ -27,12 +25,8 @@ export interface ProductCardProps {
 export function ProductCard({ product }: ProductCardProps) {
   const addToCart = useCartStore(state => state.addItem)
   const { addFavorite, removeFavorite, hasFavorite } = useFavoritesStore()
-  const [mounted, setMounted] = React.useState(false)
+  const mounted = useMounted()
   const [imgError, setImgError] = React.useState(false)
-
-  React.useEffect(() => {
-    setMounted(true)
-  }, [])
 
   const isFav = mounted && hasFavorite(product.id)
   const displayPrice = product.salePrice ?? product.price
