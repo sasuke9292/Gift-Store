@@ -1,14 +1,30 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import Link from 'next/link'
-import { Search, ShoppingCart, Heart, Menu, Sparkles, X, Gift, User } from 'lucide-react'
+import { useRouter } from 'next/navigation'
+import Image from 'next/image'
+import { 
+  Search, 
+  ShoppingCart, 
+  Heart, 
+  Menu, 
+  Sparkles, 
+  X, 
+  Gift, 
+  User, 
+  ArrowLeft,
+  Phone,
+  Flame,
+  Clock,
+  Compass
+} from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
 import { useCartStore, useFavoritesStore } from '@/lib/store'
 import { cn } from '@/lib/utils'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useMounted } from '@/lib/use-mounted'
+import { searchProducts } from '@/app/actions/products'
 
 interface StoreHeaderProps {
   user?: {
@@ -20,31 +36,97 @@ interface StoreHeaderProps {
   topBarText?: string
 }
 
+interface SearchItem {
+  id: string
+  name: string
+  price: number
+  salePrice?: number | null
+  images: string[]
+  category: { name: string; slug: string } | null
+}
+
 const navLinks = [
   { href: '/', label: 'الرئيسية' },
+  { href: '/shop', label: 'كل المنتجات' },
   { href: '/category/men', label: 'هدايا رجالية' },
   { href: '/category/women', label: 'هدايا نسائية' },
-  { href: '/category/occasions', label: 'مناسبات' },
-  { href: '/category/custom', label: 'مخصصة' },
-  { href: '/category/offers', label: 'عروض', highlight: true },
+  { href: '/category/occasions', label: 'مناسبات خاصة' },
+  { href: '/category/custom', label: 'هدايا مخصصة' },
+  { href: '/category/offers', label: 'عروض وتخفيضات', highlight: true },
+]
+
+const popularKeywords = [
+  'عطور فاخرة',
+  'ساعات يد',
+  'بوكسات هدايا',
+  'أساور ومجوهرات',
+  'محافظ جلدية',
 ]
 
 export function StoreHeader({ user, topBarText }: StoreHeaderProps) {
+  const router = useRouter()
   const cartItems = useCartStore(state => state.items)
   const favorites = useFavoritesStore(state => state.items)
   const mounted = useMounted()
+  
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
-  const [isSearchFocused, setIsSearchFocused] = useState(false)
+  const [isSearchOpen, setIsSearchOpen] = useState(false)
+  const [searchResults, setSearchResults] = useState<SearchItem[]>([])
+  const [isSearching, setIsSearching] = useState(false)
+  
+  const searchContainerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10)
+      setIsScrolled(window.scrollY > 15)
     }
     window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
+
+  // Close search on click outside
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (searchContainerRef.current && !searchContainerRef.current.contains(e.target as Node)) {
+        setIsSearchOpen(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [])
+
+  // Live search debounce
+  useEffect(() => {
+    if (!searchQuery.trim() || searchQuery.trim().length < 2) {
+      setSearchResults([])
+      setIsSearching(false)
+      return
+    }
+
+    setIsSearching(true)
+    const timeout = setTimeout(async () => {
+      try {
+        const results = await searchProducts(searchQuery)
+        setSearchResults(results)
+      } catch (err) {
+        console.error('Search error:', err)
+      } finally {
+        setIsSearching(false)
+      }
+    }, 280)
+
+    return () => clearTimeout(timeout)
+  }, [searchQuery])
+
+  const handleSearchSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (searchQuery.trim()) {
+      setIsSearchOpen(false)
+      router.push(`/shop?q=${encodeURIComponent(searchQuery.trim())}`)
+    }
+  }
 
   const cartCount = cartItems.reduce((acc, item) => acc + item.quantity, 0)
   const favCount = favorites.length
@@ -54,93 +136,235 @@ export function StoreHeader({ user, topBarText }: StoreHeaderProps) {
       <header className={cn(
         "fixed top-0 inset-x-0 z-50 transition-all duration-300",
         isScrolled 
-          ? "bg-white/95 backdrop-blur-xl shadow-[0_1px_0_rgba(0,0,0,0.06),0_4px_20px_rgba(0,0,0,0.06)]" 
+          ? "bg-white/95 backdrop-blur-xl shadow-[0_2px_20px_rgba(0,0,0,0.06)] border-b border-[#E8E4DF]/80" 
           : "bg-white border-b border-[#E8E4DF]"
       )}>
         {/* Top Announcement Bar */}
-        {topBarText && (
-          <div className="bg-gradient-to-r from-[#1C1917] via-[#2D2926] to-[#1C1917] text-white/90 py-2 px-4 text-center text-xs font-bold tracking-wide">
-            <Sparkles className="inline-block w-3 h-3 me-1.5 text-[#C9A96E]" />
-            {topBarText}
+        <div className="bg-gradient-to-l from-[#1C1917] via-[#2A2624] to-[#1C1917] text-white/90 py-2 px-4 text-xs font-semibold">
+          <div className="max-w-7xl mx-auto flex items-center justify-between">
+            <div className="flex items-center gap-2 mx-auto sm:mx-0">
+              <span className="w-2 h-2 rounded-full bg-[#C9A96E] animate-pulse" />
+              <span className="text-[#C9A96E] font-bold">✨ عرض استثنائي:</span>
+              <span>{topBarText || 'توصيل مجاني لكافة طلبات الهدايا الأكثر من 100 ألف د.ع • تغليف ملكي مجاني'}</span>
+            </div>
+            <div className="hidden sm:flex items-center gap-4 text-white/60 text-xs">
+              <Link href="/track-order" className="hover:text-[#C9A96E] transition-colors flex items-center gap-1">
+                <Clock className="w-3.5 h-3.5 text-[#C9A96E]" />
+                تتبع شحنتك
+              </Link>
+              <span>•</span>
+              <a href="tel:07700000000" className="hover:text-[#C9A96E] transition-colors flex items-center gap-1" dir="ltr">
+                <Phone className="w-3.5 h-3.5 text-[#C9A96E]" />
+                +964 770 000 0000
+              </a>
+            </div>
           </div>
-        )}
+        </div>
 
-        {/* Main Header */}
+        {/* Main Header Bar */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16 gap-4 lg:gap-8">
+          <div className="flex items-center justify-between h-18 py-2.5 gap-4 lg:gap-8">
 
-            {/* Logo */}
-            <div className="flex items-center gap-3">
+            {/* Right: Logo & Mobile Toggle */}
+            <div className="flex items-center gap-3 shrink-0">
               <Button 
                 variant="ghost" 
                 size="icon" 
-                className="lg:hidden text-[#1C1917] hover:bg-[#F5F0EA] rounded-xl"
+                className="lg:hidden text-[#1C1917] hover:bg-[#F5F0EA] rounded-xl w-10 h-10"
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                 aria-label="القائمة"
               >
                 {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
               </Button>
-              <Link href="/" className="flex items-center gap-2.5 group flex-shrink-0">
-                <div className="w-9 h-9 rounded-xl flex items-center justify-center font-black text-base transition-all group-hover:scale-105 shadow-[0_2px_8px_rgba(201,169,110,0.4)]"
-                  style={{ background: 'linear-gradient(135deg, #C9A96E 0%, #A07850 100%)' }}>
-                  <Gift className="w-4 h-4 text-white" />
+
+              <Link href="/" className="flex items-center gap-3 group">
+                <div 
+                  className="w-10 h-10 rounded-2xl flex items-center justify-center font-black transition-all group-hover:scale-105 shadow-[0_4px_15px_rgba(201,169,110,0.35)]"
+                  style={{ background: 'linear-gradient(135deg, #C9A96E 0%, #A07850 100%)' }}
+                >
+                  <Gift className="w-5 h-5 text-white" />
                 </div>
-                <span className="text-xl font-black hidden sm:block tracking-tight text-[#1C1917]">
-                  گِفتي بلس
-                </span>
+                <div className="flex flex-col text-start">
+                  <span className="text-xl font-black tracking-tight text-[#1C1917] leading-none">
+                    گِفتي بلس
+                  </span>
+                  <span className="text-[10px] font-bold text-[#A07850] tracking-wider mt-0.5">
+                    GIFTY PLUS LUXURY
+                  </span>
+                </div>
               </Link>
             </div>
 
-            {/* Search Bar — Desktop */}
-            <div className="flex-1 max-w-xl hidden lg:block">
-              <div className={cn(
-                "relative transition-all duration-200",
-                isSearchFocused && "scale-[1.01]"
-              )}>
-                <Input
+            {/* Center: Live Interactive Search */}
+            <div ref={searchContainerRef} className="flex-1 max-w-2xl hidden lg:block relative">
+              <form onSubmit={handleSearchSubmit} className="relative">
+                <input
                   type="text"
-                  placeholder="ابحث عن هدية، منتج، أو مناسبة..."
+                  placeholder="ابحث عن هدية راقية، عطر، ساعة، أو مناسبة خاصة..."
                   className={cn(
-                    "w-full h-10 pe-4 ps-11 rounded-xl border text-sm transition-all",
-                    "bg-[#F5F0EA] border-transparent text-[#1C1917] placeholder:text-[#A8A29E]",
-                    "focus-visible:bg-white focus-visible:border-[#C9A96E]/40 focus-visible:ring-2 focus-visible:ring-[#C9A96E]/20 focus-visible:shadow-[0_0_0_3px_rgba(201,169,110,0.1)]"
+                    "w-full h-11 ps-11 pe-10 rounded-2xl border text-sm transition-all text-start",
+                    "bg-[#F8F5F0] border-[#E8E4DF] text-[#1C1917] placeholder:text-[#A8A29E]",
+                    "focus:bg-white focus:border-[#C9A96E] focus:ring-4 focus:ring-[#C9A96E]/15 focus:outline-none shadow-xs"
                   )}
                   value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  onFocus={() => setIsSearchFocused(true)}
-                  onBlur={() => setIsSearchFocused(false)}
+                  onChange={(e) => {
+                    setSearchQuery(e.target.value)
+                    setIsSearchOpen(true)
+                  }}
+                  onFocus={() => setIsSearchOpen(true)}
                 />
-                <div className="absolute start-3 top-1/2 -translate-y-1/2">
-                  <Search className="w-4 h-4 text-[#A8A29E]" />
+                <div className="absolute start-3.5 top-1/2 -translate-y-1/2 pointer-events-none text-[#A07850]">
+                  <Search className="w-4 h-4" />
                 </div>
-              </div>
+                {searchQuery && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setSearchQuery('')
+                      setSearchResults([])
+                    }}
+                    className="absolute end-3 top-1/2 -translate-y-1/2 p-1 text-[#A8A29E] hover:text-[#1C1917] rounded-full"
+                    aria-label="مسح البحث"
+                  >
+                    <X className="w-3.5 h-3.5" />
+                  </button>
+                )}
+              </form>
+
+              {/* Live Search Dropdown Popover */}
+              <AnimatePresence>
+                {isSearchOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 8, scale: 0.98 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: 8, scale: 0.98 }}
+                    transition={{ duration: 0.18 }}
+                    className="absolute top-full start-0 end-0 mt-2 bg-white rounded-2xl border border-[#E8E4DF] shadow-[0_12px_40px_rgba(0,0,0,0.12)] p-4 z-50 overflow-hidden"
+                  >
+                    {/* Quick suggestions when query is short */}
+                    {searchQuery.trim().length < 2 && (
+                      <div>
+                        <div className="flex items-center gap-1.5 text-xs font-bold text-[#A07850] mb-2.5">
+                          <Flame className="w-3.5 h-3.5 text-[#E85D75]" />
+                          الأكثر بحثاً الآن
+                        </div>
+                        <div className="flex flex-wrap gap-2">
+                          {popularKeywords.map(tag => (
+                            <button
+                              key={tag}
+                              type="button"
+                              onClick={() => {
+                                setSearchQuery(tag)
+                                router.push(`/shop?q=${encodeURIComponent(tag)}`)
+                                setIsSearchOpen(false)
+                              }}
+                              className="text-xs px-3 py-1.5 rounded-xl bg-[#F8F5F0] hover:bg-[#F0EBE1] text-[#44403C] hover:text-[#1C1917] transition-colors border border-[#E8E4DF]/60"
+                            >
+                              {tag}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Loading State */}
+                    {isSearching && (
+                      <div className="py-6 text-center text-sm text-[#A8A29E]">
+                        <span className="inline-block w-4 h-4 border-2 border-[#C9A96E] border-t-transparent rounded-full animate-spin me-2 align-middle" />
+                        جاري البحث عن أفخم الهدايا...
+                      </div>
+                    )}
+
+                    {/* Results List */}
+                    {!isSearching && searchQuery.trim().length >= 2 && (
+                      <div>
+                        {searchResults.length > 0 ? (
+                          <div>
+                            <p className="text-xs font-bold text-[#78716C] mb-2 text-start">
+                              نتائج البحث ({searchResults.length}):
+                            </p>
+                            <div className="divide-y divide-[#F0ECE6]">
+                              {searchResults.map(prod => (
+                                <Link
+                                  key={prod.id}
+                                  href={`/product/${prod.id}`}
+                                  onClick={() => setIsSearchOpen(false)}
+                                  className="flex items-center gap-3 py-2.5 px-2 hover:bg-[#FAF7F2] rounded-xl transition-colors group"
+                                >
+                                  <div className="relative w-12 h-12 rounded-lg bg-[#F5F0EA] overflow-hidden shrink-0 border border-[#E8E4DF]">
+                                    {prod.images && prod.images[0] ? (
+                                      <Image src={prod.images[0]} alt={prod.name} fill className="object-cover group-hover:scale-105 transition-transform" />
+                                    ) : (
+                                      <Gift className="w-5 h-5 text-[#C9A96E] m-auto" />
+                                    )}
+                                  </div>
+                                  <div className="flex-1 min-w-0 text-start">
+                                    <p className="text-xs text-[#A07850] font-semibold">{prod.category?.name || 'هدية فاخرة'}</p>
+                                    <p className="text-sm font-bold text-[#1C1917] truncate group-hover:text-[#A07850] transition-colors">
+                                      {prod.name}
+                                    </p>
+                                  </div>
+                                  <div className="text-end shrink-0">
+                                    <p className="text-sm font-black text-[#A07850]">
+                                      {(prod.salePrice ?? prod.price).toLocaleString('en-US')}
+                                      <span className="text-xs font-bold text-[#A8A29E] ms-1">د.ع</span>
+                                    </p>
+                                  </div>
+                                </Link>
+                              ))}
+                            </div>
+                            <div className="pt-3 border-t border-[#F0ECE6] mt-2 text-center">
+                              <Link
+                                href={`/shop?q=${encodeURIComponent(searchQuery)}`}
+                                onClick={() => setIsSearchOpen(false)}
+                                className="inline-flex items-center gap-1.5 text-xs font-bold text-[#A07850] hover:text-[#8C6838] transition-colors"
+                              >
+                                عرض جميع النتائج في المتجر
+                                <ArrowLeft className="w-3.5 h-3.5" />
+                              </Link>
+                            </div>
+                          </div>
+                        ) : (
+                          <div className="py-6 text-center">
+                            <p className="text-sm font-bold text-[#1C1917] mb-1">لم نجد نتائج مطابقة لـ &quot;{searchQuery}&quot;</p>
+                            <p className="text-xs text-[#A8A29E]">جرّب البحث بكلمات عامة مثل: عطور، ساعات، أو تصفح الأقسام</p>
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
 
-            {/* Actions */}
-            <div className="flex items-center gap-1 sm:gap-2">
-              {/* Favorites */}
+            {/* Left: Actions (Favorites, Cart, Account, Gift Finder) */}
+            <div className="flex items-center gap-2 sm:gap-2.5">
+              
+              {/* Favorites Icon */}
               <Link
                 href="/favorites"
-                className="relative hidden sm:flex items-center justify-center w-9 h-9 rounded-xl text-[#78716C] hover:text-[#C9A96E] hover:bg-[#F5F0EA] transition-all duration-200"
+                className="relative flex items-center justify-center w-10 h-10 rounded-2xl text-[#78716C] hover:text-[#E85D75] hover:bg-[#FDF2F4] transition-all border border-transparent hover:border-[#E85D75]/20"
                 aria-label="المفضلة"
+                title="المفضلة"
               >
                 <Heart className="w-5 h-5" />
                 {mounted && favCount > 0 && (
-                  <span className="absolute -top-1 -start-1 w-4 h-4 flex items-center justify-center text-[10px] font-black rounded-full bg-[#E85D75] text-white">
+                  <span className="absolute -top-1 -start-1 w-4 h-4 flex items-center justify-center text-[10px] font-black rounded-full bg-[#E85D75] text-white shadow-sm">
                     {favCount}
                   </span>
                 )}
               </Link>
 
-              {/* Cart */}
+              {/* Cart Icon */}
               <Link
                 href="/cart"
-                className="relative flex items-center justify-center w-9 h-9 rounded-xl text-[#78716C] hover:text-[#C9A96E] hover:bg-[#F5F0EA] transition-all duration-200"
-                aria-label="السلة"
+                className="relative flex items-center justify-center w-10 h-10 rounded-2xl text-[#78716C] hover:text-[#A07850] hover:bg-[#FBF6EE] transition-all border border-transparent hover:border-[#C9A96E]/20"
+                aria-label="سلة المشتريات"
+                title="السلة"
               >
                 <ShoppingCart className="w-5 h-5" />
                 {mounted && cartCount > 0 && (
-                  <span className="absolute -top-1 -start-1 w-4 h-4 flex items-center justify-center text-[10px] font-black rounded-full bg-[#C9A96E] text-white">
+                  <span className="absolute -top-1 -start-1 min-w-4 h-4 px-1 flex items-center justify-center text-[10px] font-black rounded-full bg-[#C9A96E] text-white shadow-sm">
                     {cartCount}
                   </span>
                 )}
@@ -150,19 +374,21 @@ export function StoreHeader({ user, topBarText }: StoreHeaderProps) {
               {user ? (
                 <Link
                   href={user.role && user.role !== 'CUSTOMER' ? '/admin' : '#'}
-                  className="flex items-center gap-1.5 h-9 px-3 rounded-xl text-xs font-bold text-[#1C1917] bg-[#F5F0EA] hover:bg-[#EAE4DC] transition-all"
+                  className="flex items-center gap-1.5 h-10 px-3 rounded-2xl text-xs font-bold text-[#1C1917] bg-[#F8F5F0] hover:bg-[#F0EBE1] border border-[#E8E4DF] transition-all"
                   title={user.name || user.email || 'الحساب'}
                 >
-                  <User className="w-4 h-4 text-[#C9A96E]" />
-                  <span className="max-w-[70px] truncate hidden sm:inline">{user.name?.split(' ')[0] || 'حسابي'}</span>
+                  <User className="w-4 h-4 text-[#A07850]" />
+                  <span className="max-w-[75px] truncate hidden sm:inline">{user.name?.split(' ')[0] || 'حسابي'}</span>
                   {user.role && user.role !== 'CUSTOMER' && (
-                    <span className="text-[10px] bg-[#C9A96E] text-white px-1.5 py-0.5 rounded-full">إدارة</span>
+                    <span className="text-[10px] bg-[#C9A96E] text-white px-2 py-0.5 rounded-full font-black">
+                      إدارة
+                    </span>
                   )}
                 </Link>
               ) : (
                 <Link
                   href="/auth/login"
-                  className="hidden sm:flex items-center justify-center w-9 h-9 rounded-xl text-[#78716C] hover:text-[#C9A96E] hover:bg-[#F5F0EA] transition-all duration-200"
+                  className="hidden sm:flex items-center justify-center w-10 h-10 rounded-2xl text-[#78716C] hover:text-[#A07850] hover:bg-[#FBF6EE] transition-all border border-[#E8E4DF]"
                   aria-label="تسجيل الدخول"
                   title="تسجيل الدخول"
                 >
@@ -170,45 +396,52 @@ export function StoreHeader({ user, topBarText }: StoreHeaderProps) {
                 </Link>
               )}
 
-              {/* Gift Finder CTA */}
+              {/* Gift Finder High-Tech CTA Button */}
               <Link
                 href="/gift-finder"
-                className="hidden md:flex items-center gap-1.5 h-9 px-4 rounded-xl text-sm font-bold text-white transition-all duration-200 hover:-translate-y-0.5"
-                style={{ background: 'linear-gradient(135deg, #C9A96E 0%, #A07850 100%)', boxShadow: '0 2px 10px rgba(184,137,58,0.3)' }}
+                className="hidden sm:inline-flex items-center gap-2 h-10 px-4 rounded-2xl text-xs font-extrabold text-white transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_4px_16px_rgba(201,169,110,0.45)] shrink-0"
+                style={{ background: 'linear-gradient(135deg, #C9A96E 0%, #A07850 100%)' }}
               >
-                <Sparkles className="w-3.5 h-3.5" />
-                مكتشف الهدايا
+                <Sparkles className="w-3.5 h-3.5 animate-pulse" />
+                <span>مكتشف الهدايا</span>
               </Link>
             </div>
           </div>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center gap-1 h-11 border-t border-[#E8E4DF]/60">
-            {navLinks.map(link => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className={cn(
-                  "px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200",
-                  link.highlight 
-                    ? "text-[#E85D75] hover:bg-[#FDF2F4]" 
-                    : "text-[#78716C] hover:text-[#1C1917] hover:bg-[#F5F0EA]"
-                )}
+          {/* Desktop Categories Navigation Row (Clean RTL Alignment) */}
+          <nav className="hidden lg:flex items-center justify-between h-12 border-t border-[#E8E4DF]/70 text-start">
+            <div className="flex items-center gap-1">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={cn(
+                    "px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all duration-200",
+                    link.highlight
+                      ? "text-[#E85D75] bg-[#FDF2F4] hover:bg-[#FCE7EB]"
+                      : "text-[#57534E] hover:text-[#1C1917] hover:bg-[#F8F5F0]"
+                  )}
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </div>
+
+            {/* Left Tag / Quick Assistance */}
+            <div className="flex items-center gap-3 text-xs font-semibold text-[#78716C]">
+              <Link 
+                href="/gift-finder"
+                className="flex items-center gap-1 text-[#A07850] hover:underline"
               >
-                {link.label}
+                <Compass className="w-3.5 h-3.5" />
+                <span>مستشار الهدايا الذكي</span>
               </Link>
-            ))}
-            <Link
-              href="/shop"
-              className="ms-auto px-4 py-2 rounded-lg text-sm font-semibold text-[#78716C] hover:text-[#1C1917] hover:bg-[#F5F0EA] transition-all duration-200"
-            >
-              كل المنتجات
-            </Link>
+            </div>
           </nav>
         </div>
       </header>
 
-      {/* Mobile Menu */}
+      {/* Mobile Menu Drawer */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <>
@@ -216,100 +449,130 @@ export function StoreHeader({ user, topBarText }: StoreHeaderProps) {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="fixed inset-0 bg-black/20 z-40 lg:hidden backdrop-blur-sm"
+              className="fixed inset-0 bg-black/40 z-50 lg:hidden backdrop-blur-xs"
               onClick={() => setIsMobileMenuOpen(false)}
             />
             <motion.div
               initial={{ x: '100%' }}
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
-              transition={{ type: 'spring', damping: 28, stiffness: 260 }}
-              className="fixed top-0 end-0 h-full w-80 max-w-[90vw] bg-white shadow-2xl z-50 flex flex-col"
+              transition={{ type: 'spring', damping: 28, stiffness: 280 }}
+              className="fixed top-0 end-0 h-full w-84 max-w-[85vw] bg-white shadow-2xl z-50 flex flex-col border-s border-[#E8E4DF]"
+              dir="rtl"
             >
-              {/* Mobile Menu Header */}
+              {/* Mobile Drawer Header */}
               <div className="flex items-center justify-between p-5 border-b border-[#E8E4DF]">
-                <span className="text-lg font-black text-[#1C1917]">القائمة</span>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="rounded-xl text-[#78716C] hover:bg-[#F5F0EA]"
+                <div className="flex items-center gap-2.5">
+                  <div 
+                    className="w-8 h-8 rounded-xl flex items-center justify-center font-black"
+                    style={{ background: 'linear-gradient(135deg, #C9A96E 0%, #A07850 100%)' }}
+                  >
+                    <Gift className="w-4 h-4 text-white" />
+                  </div>
+                  <span className="font-black text-lg text-[#1C1917]">گِفتي بلس</span>
+                </div>
+                <button
                   onClick={() => setIsMobileMenuOpen(false)}
+                  className="w-8 h-8 rounded-xl bg-[#F8F5F0] flex items-center justify-center text-[#78716C] hover:text-[#1C1917]"
+                  aria-label="إغلاق"
                 >
-                  <X className="w-5 h-5" />
-                </Button>
+                  <X className="w-4 h-4" />
+                </button>
               </div>
 
               {/* Mobile Search */}
               <div className="p-4 border-b border-[#E8E4DF]">
-                <div className="relative">
-                  <Search className="absolute start-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#A8A29E]" />
-                  <Input
+                <form
+                  onSubmit={(e) => {
+                    handleSearchSubmit(e)
+                    setIsMobileMenuOpen(false)
+                  }}
+                  className="relative"
+                >
+                  <input
                     type="text"
-                    placeholder="ابحث عن هدية..."
-                    className="w-full ps-10 h-10 rounded-xl bg-[#F5F0EA] border-transparent text-sm placeholder:text-[#A8A29E] focus-visible:bg-white focus-visible:border-[#C9A96E]/40 focus-visible:ring-2 focus-visible:ring-[#C9A96E]/20"
+                    placeholder="ابحث عن هدية راقية..."
+                    className="w-full h-10 ps-10 pe-4 rounded-xl bg-[#F8F5F0] border border-[#E8E4DF] text-xs focus:outline-none focus:border-[#C9A96E]"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
                   />
-                </div>
+                  <Search className="w-4 h-4 text-[#A8A29E] absolute start-3 top-1/2 -translate-y-1/2" />
+                </form>
               </div>
 
-              {/* Mobile Nav Links */}
-              <nav className="flex-1 overflow-y-auto p-4 space-y-1">
-                {navLinks.map(link => (
+              {/* Mobile Navigation Links */}
+              <div className="flex-1 overflow-y-auto p-4 space-y-1 text-start">
+                <p className="text-[11px] font-bold text-[#A8A29E] px-3 mb-2">أقسام المتجر</p>
+                {navLinks.map((link) => (
                   <Link
                     key={link.href}
                     href={link.href}
                     onClick={() => setIsMobileMenuOpen(false)}
                     className={cn(
-                      "flex items-center px-4 py-3 rounded-xl text-base font-semibold transition-all",
+                      "flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-bold transition-colors",
                       link.highlight
-                        ? "text-[#E85D75] hover:bg-[#FDF2F4]"
-                        : "text-[#1C1917] hover:bg-[#F5F0EA]"
+                        ? "text-[#E85D75] bg-[#FDF2F4]"
+                        : "text-[#1C1917] hover:bg-[#F8F5F0]"
                     )}
                   >
-                    {link.label}
+                    <span>{link.label}</span>
+                    <ArrowLeft className="w-4 h-4 text-[#A8A29E]" />
                   </Link>
                 ))}
-                <Link
-                  href="/shop"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className="flex items-center px-4 py-3 rounded-xl text-base font-semibold text-[#1C1917] hover:bg-[#F5F0EA] transition-all"
-                >
-                  كل المنتجات
-                </Link>
-              </nav>
 
-              {/* Mobile Quick Actions */}
-              <div className="p-4 border-t border-[#E8E4DF] space-y-3">
-                {/* User / Account in mobile */}
-                <Link
-                  href={user ? (user.role && user.role !== 'CUSTOMER' ? '/admin' : '#') : '/auth/login'}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className="flex items-center gap-3 px-4 py-3 rounded-xl text-[#78716C] hover:bg-[#F5F0EA] transition-all"
-                >
-                  <User className="w-5 h-5 text-[#C9A96E]" />
-                  <span className="font-semibold">
-                    {user ? (user.name || user.email || 'حسابي') : 'تسجيل الدخول'}
-                  </span>
-                  {user?.role && user.role !== 'CUSTOMER' && (
-                    <span className="ms-auto text-[10px] bg-[#C9A96E] text-white px-2 py-0.5 rounded-full font-bold">لوحة التحكم</span>
-                  )}
-                </Link>
-                <Link
-                  href="/gift-finder"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className="flex items-center justify-center gap-2 w-full py-3 rounded-xl text-white font-bold"
-                  style={{ background: 'linear-gradient(135deg, #C9A96E 0%, #A07850 100%)' }}
-                >
-                  <Sparkles className="w-4 h-4" />
-                  مكتشف الهدايا الذكي
-                </Link>
+                <div className="pt-4 mt-4 border-t border-[#E8E4DF] space-y-1">
+                  <p className="text-[11px] font-bold text-[#A8A29E] px-3 mb-2">خدمات حصرية</p>
+                  <Link
+                    href="/gift-finder"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-sm font-bold text-[#A07850] bg-[#FBF6EE]"
+                  >
+                    <Sparkles className="w-4 h-4" />
+                    <span>مكتشف الهدايا الذكي</span>
+                  </Link>
+                  <Link
+                    href="/track-order"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-sm font-bold text-[#57534E] hover:bg-[#F8F5F0]"
+                  >
+                    <Clock className="w-4 h-4" />
+                    <span>تتبع الطلب والشحنة</span>
+                  </Link>
+                </div>
+              </div>
+
+              {/* Mobile Drawer Footer */}
+              <div className="p-4 border-t border-[#E8E4DF] bg-[#FAF7F2]">
+                {user ? (
+                  <Link
+                    href={user.role && user.role !== 'CUSTOMER' ? '/admin' : '#'}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="flex items-center justify-between p-2.5 rounded-xl bg-white border border-[#E8E4DF]"
+                  >
+                    <div className="flex items-center gap-2">
+                      <User className="w-4 h-4 text-[#A07850]" />
+                      <span className="text-xs font-bold text-[#1C1917]">{user.name || 'حسابي'}</span>
+                    </div>
+                    {user.role && user.role !== 'CUSTOMER' && (
+                      <span className="text-[10px] bg-[#C9A96E] text-white px-2 py-0.5 rounded-full font-bold">لوحة الإدارة</span>
+                    )}
+                  </Link>
+                ) : (
+                  <Link
+                    href="/auth/login"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="flex items-center justify-center gap-2 w-full h-11 rounded-xl text-xs font-bold text-white shadow-sm"
+                    style={{ background: 'linear-gradient(135deg, #C9A96E 0%, #A07850 100%)' }}
+                  >
+                    <User className="w-4 h-4" />
+                    <span>تسجيل الدخول / إنشاء حساب</span>
+                  </Link>
+                )}
               </div>
             </motion.div>
           </>
         )}
       </AnimatePresence>
-
-      {/* Spacer for fixed header (nav + optional topbar) */}
-      <div className={cn("transition-all duration-300", topBarText ? "h-[108px]" : "h-[107px]")} />
     </>
   )
 }

@@ -1,48 +1,51 @@
 import React from 'react'
 import Link from 'next/link'
-import { MapPin, Phone, Mail, MessageCircle, Share2, Gift, ArrowLeft } from 'lucide-react'
+import { MapPin, Phone, Mail, MessageCircle, Share2, Gift, ArrowLeft, ShieldCheck, CreditCard } from 'lucide-react'
 
 const footerLinks = {
   quickLinks: [
     { href: '/about', label: 'من نحن' },
-    { href: '/shop', label: 'المتجر' },
-    { href: '/gift-finder', label: 'مكتشف الهدايا' },
-    { href: '/track-order', label: 'تتبع طلبك' },
+    { href: '/shop', label: 'المتجر الإلكتروني' },
+    { href: '/gift-finder', label: 'مكتشف الهدايا الذكي' },
+    { href: '/track-order', label: 'تتبع الشحنة' },
     { href: '/faq', label: 'الأسئلة الشائعة' },
     { href: '/contact', label: 'اتصل بنا' },
   ],
   categories: [
-    { href: '/category/men', label: 'هدايا رجالية' },
-    { href: '/category/women', label: 'هدايا نسائية' },
-    { href: '/category/kids', label: 'هدايا أطفال' },
-    { href: '/category/occasions', label: 'هدايا المناسبات' },
-    { href: '/custom-gifts', label: 'هدايا مخصصة' },
-    { href: '/category/offers', label: 'عروض وتخفيضات' },
+    { href: '/category/men', label: 'هدايا رجالية فاخرة' },
+    { href: '/category/women', label: 'هدايا نسائية راقية' },
+    { href: '/category/kids', label: 'هدايا أطفال ومواليد' },
+    { href: '/category/occasions', label: 'بوكسات المناسبات' },
+    { href: '/category/custom', label: 'هدايا مخصصة بالاسم' },
+    { href: '/category/offers', label: 'عروض وتخفيضات خاصة' },
   ],
 }
 
 export function StoreFooter() {
   return (
-    <footer className="bg-[#1C1917] text-white/80 relative overflow-hidden">
+    <footer className="bg-[#1C1917] text-white/80 relative overflow-hidden text-start" dir="rtl">
       {/* Subtle warm glow */}
-      <div className="absolute top-0 start-1/4 w-96 h-96 bg-[#C9A96E]/5 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-0 end-1/4 w-64 h-64 bg-[#E85D75]/5 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute top-0 start-1/4 w-96 h-96 bg-[#C9A96E]/8 rounded-full blur-[140px] pointer-events-none" />
+      <div className="absolute bottom-0 end-1/4 w-80 h-80 bg-[#E85D75]/6 rounded-full blur-[120px] pointer-events-none" />
 
-      {/* Newsletter Banner */}
+      {/* Newsletter / CTA Banner */}
       <div className="border-b border-white/10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
             <div className="text-center md:text-start">
-              <h3 className="text-2xl font-black text-white mb-2">هل تبحث عن الهدية المثالية؟</h3>
-              <p className="text-white/50 text-sm">جرّب مكتشف الهدايا الذكي للحصول على توصيات مخصصة لك</p>
+              <span className="inline-flex items-center gap-1.5 text-xs font-bold text-[#C9A96E] mb-2">
+                <Gift className="w-3.5 h-3.5" />
+                خدمة استثنائية لكافة المناسبات
+              </span>
+              <h3 className="text-xl sm:text-2xl font-black text-white">هل تبحث عن هدية لا تُنسى؟</h3>
+              <p className="text-white/50 text-xs sm:text-sm mt-1">جرّب مكتشف الهدايا الذكي للحصول على اقتراحات تلائم ذوقك وميزانيتك بدقة</p>
             </div>
             <Link
               href="/gift-finder"
-              className="flex items-center gap-2 h-12 px-8 rounded-xl font-bold text-[#1C1917] transition-all hover:-translate-y-0.5 hover:shadow-[0_8px_20px_rgba(201,169,110,0.4)] flex-shrink-0"
+              className="flex items-center gap-2 h-12 px-7 rounded-2xl font-black text-[#1C1917] transition-all hover:-translate-y-0.5 hover:shadow-[0_8px_25px_rgba(201,169,110,0.4)] shrink-0 text-sm"
               style={{ background: 'linear-gradient(135deg, #C9A96E 0%, #A07850 100%)' }}
             >
-              <Gift className="w-4 h-4" />
-              جرّب المكتشف
+              <span>جرّب مكتشف الهدايا</span>
               <ArrowLeft className="w-4 h-4" />
             </Link>
           </div>
@@ -50,34 +53,44 @@ export function StoreFooter() {
       </div>
 
       {/* Main Footer Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-12 mb-12">
 
-          {/* Brand */}
-          <div className="space-y-5 lg:col-span-1">
+          {/* Brand & About */}
+          <div className="space-y-4 lg:col-span-1 text-start">
             <Link href="/" className="flex items-center gap-3 group w-fit">
-              <div className="w-10 h-10 rounded-xl flex items-center justify-center transition-transform group-hover:scale-105"
-                style={{ background: 'linear-gradient(135deg, #C9A96E 0%, #A07850 100%)' }}>
+              <div 
+                className="w-10 h-10 rounded-2xl flex items-center justify-center transition-transform group-hover:scale-105 shadow-md"
+                style={{ background: 'linear-gradient(135deg, #C9A96E 0%, #A07850 100%)' }}
+              >
                 <Gift className="w-5 h-5 text-white" />
               </div>
-              <span className="text-2xl font-black text-white tracking-tight">گفتي بلس</span>
+              <div className="flex flex-col text-start">
+                <span className="text-2xl font-black text-white tracking-tight">گِفتي بلس</span>
+                <span className="text-[10px] font-bold text-[#C9A96E] tracking-widest">GIFTY PLUS</span>
+              </div>
             </Link>
-            <p className="text-[#C9A96E] font-bold text-sm">خلّي هديتك تحچي عنك</p>
-            <p className="text-white/45 leading-relaxed text-sm">
-              الوجهة الأولى لاختيار الهدايا الراقية في العراق. تشكيلة واسعة لكل المناسبات مع توصيل سريع وتغليف فاخر.
+            
+            <p className="text-[#C9A96E] font-extrabold text-xs">خلّي هديتك تحچي عنك ✨</p>
+            
+            <p className="text-white/50 leading-relaxed text-xs sm:text-sm">
+              الوجهة الأولى لاختيار وتنسيق الهدايا الفاخرة في العراق. تشكيلة منتقاة بعناية لجميع المناسبات مع تغليف يدوي راقٍ وتوصيل سريع وموثوق لكافة المحافظات.
             </p>
+
             {/* Social Links */}
-            <div className="flex items-center gap-3 pt-1">
+            <div className="flex items-center gap-2.5 pt-1">
               {[
-                { icon: MessageCircle, href: '#', label: 'واتساب' },
-                { icon: Share2, href: '#', label: 'تويتر' },
-                { icon: Mail, href: '#', label: 'إيميل' },
+                { icon: MessageCircle, href: 'https://wa.me/9647700000000', label: 'واتساب' },
+                { icon: Share2, href: '#', label: 'مشاركة' },
+                { icon: Mail, href: 'mailto:info@giftstore.iq', label: 'إيميل' },
               ].map(({ icon: Icon, href, label }) => (
                 <a
                   key={label}
                   href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   aria-label={label}
-                  className="w-9 h-9 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-white/50 hover:text-[#C9A96E] hover:bg-white/10 hover:border-[#C9A96E]/30 transition-all duration-200"
+                  className="w-9 h-9 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-white/60 hover:text-[#C9A96E] hover:bg-white/10 hover:border-[#C9A96E]/40 transition-all"
                 >
                   <Icon className="w-4 h-4" />
                 </a>
@@ -86,86 +99,103 @@ export function StoreFooter() {
           </div>
 
           {/* Quick Links */}
-          <div>
-            <h3 className="font-black text-white mb-5 text-sm uppercase tracking-widest">روابط سريعة</h3>
-            <ul className="space-y-3">
+          <div className="text-start">
+            <h3 className="font-black text-white mb-4 text-xs uppercase tracking-widest flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#C9A96E]" />
+              روابط سريعة
+            </h3>
+            <ul className="space-y-2.5">
               {footerLinks.quickLinks.map(link => (
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-sm text-white/45 hover:text-[#C9A96E] transition-colors duration-200 flex items-center gap-2 group"
+                    className="text-xs sm:text-sm text-white/50 hover:text-[#C9A96E] transition-colors duration-200 flex items-center gap-2 group"
                   >
-                    <span className="w-1 h-1 rounded-full bg-[#C9A96E]/40 group-hover:bg-[#C9A96E] transition-colors" />
-                    {link.label}
+                    <span className="w-1 h-1 rounded-full bg-white/20 group-hover:bg-[#C9A96E] transition-colors" />
+                    <span>{link.label}</span>
                   </Link>
                 </li>
               ))}
               <li className="pt-2">
                 <Link
                   href="/admin"
-                  className="text-xs text-white/25 hover:text-white/40 transition-colors"
+                  className="text-xs text-white/30 hover:text-[#C9A96E] transition-colors inline-flex items-center gap-1"
                 >
-                  لوحة الإدارة
+                  <span>لوحة إدارة المتجر</span>
                 </Link>
               </li>
             </ul>
           </div>
 
           {/* Categories */}
-          <div>
-            <h3 className="font-black text-white mb-5 text-sm uppercase tracking-widest">الأقسام</h3>
-            <ul className="space-y-3">
+          <div className="text-start">
+            <h3 className="font-black text-white mb-4 text-xs uppercase tracking-widest flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#C9A96E]" />
+              أقسام الهدايا
+            </h3>
+            <ul className="space-y-2.5">
               {footerLinks.categories.map(link => (
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-sm text-white/45 hover:text-[#C9A96E] transition-colors duration-200 flex items-center gap-2 group"
+                    className="text-xs sm:text-sm text-white/50 hover:text-[#C9A96E] transition-colors duration-200 flex items-center gap-2 group"
                   >
-                    <span className="w-1 h-1 rounded-full bg-[#C9A96E]/40 group-hover:bg-[#C9A96E] transition-colors" />
-                    {link.label}
+                    <span className="w-1 h-1 rounded-full bg-white/20 group-hover:bg-[#C9A96E] transition-colors" />
+                    <span>{link.label}</span>
                   </Link>
                 </li>
               ))}
             </ul>
           </div>
 
-          {/* Contact */}
-          <div>
-            <h3 className="font-black text-white mb-5 text-sm uppercase tracking-widest">تواصل معنا</h3>
-            <ul className="space-y-4">
-              <li className="flex items-start gap-3 text-sm text-white/45">
+          {/* Contact & Payment */}
+          <div className="text-start">
+            <h3 className="font-black text-white mb-4 text-xs uppercase tracking-widest flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#C9A96E]" />
+              خدمة العملاء والتوصيل
+            </h3>
+            <ul className="space-y-3">
+              <li className="flex items-start gap-2.5 text-xs sm:text-sm text-white/50">
                 <MapPin className="w-4 h-4 text-[#C9A96E] shrink-0 mt-0.5" />
                 <span>بغداد، المنصور، شارع 14 رمضان</span>
               </li>
-              <li className="flex items-center gap-3 text-sm text-white/45">
+              <li className="flex items-center gap-2.5 text-xs sm:text-sm text-white/50">
                 <Phone className="w-4 h-4 text-[#C9A96E] shrink-0" />
-                <span dir="rtl">+964 770 123 4567</span>
+                <span dir="ltr">+964 770 123 4567</span>
               </li>
-              <li className="flex items-center gap-3 text-sm text-white/45">
+              <li className="flex items-center gap-2.5 text-xs sm:text-sm text-white/50">
                 <Mail className="w-4 h-4 text-[#C9A96E] shrink-0" />
                 <span>info@giftstore.iq</span>
               </li>
             </ul>
 
-            {/* Working Hours */}
-            <div className="mt-6 p-3 rounded-xl bg-white/5 border border-white/10">
-              <p className="text-xs font-bold text-white/40 uppercase tracking-wider mb-2">أوقات العمل</p>
-              <p className="text-sm text-white/60 font-medium">السبت – الخميس</p>
-              <p className="text-sm text-[#C9A96E] font-bold">9 صباحاً – 9 مساءً</p>
+            {/* Payment & Security Badge */}
+            <div className="mt-5 p-3 rounded-2xl bg-white/5 border border-white/10">
+              <p className="text-[11px] font-bold text-[#C9A96E] mb-1.5 flex items-center gap-1">
+                <ShieldCheck className="w-3.5 h-3.5" />
+                طرق دفع متعددة وآمنة
+              </p>
+              <div className="flex flex-wrap gap-1.5 text-[10px] font-semibold text-white/60">
+                <span className="px-2 py-0.5 rounded-md bg-white/10">الدفع عند الاستلام</span>
+                <span className="px-2 py-0.5 rounded-md bg-white/10">زين كاش</span>
+                <span className="px-2 py-0.5 rounded-md bg-white/10">FIB</span>
+                <span className="px-2 py-0.5 rounded-md bg-white/10">MasterCard / Visa</span>
+              </div>
             </div>
           </div>
+
         </div>
 
         {/* Bottom Bar */}
-        <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-xs text-white/30">
-            © 2026 گفتي بلس. جميع الحقوق محفوظة.
+        <div className="border-t border-white/10 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-start">
+          <p className="text-xs text-white/40">
+            © 2026 گِفتي بلس | Gifty Plus. جميع الحقوق محفوظة.
           </p>
           <div className="flex items-center gap-6">
-            <Link href="/privacy" className="text-xs text-white/30 hover:text-white/60 transition-colors">
+            <Link href="/privacy" className="text-xs text-white/40 hover:text-[#C9A96E] transition-colors">
               سياسة الخصوصية
             </Link>
-            <Link href="/terms" className="text-xs text-white/30 hover:text-white/60 transition-colors">
+            <Link href="/terms" className="text-xs text-white/40 hover:text-[#C9A96E] transition-colors">
               الشروط والأحكام
             </Link>
           </div>
