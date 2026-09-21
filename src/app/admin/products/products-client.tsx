@@ -232,10 +232,22 @@ export default function ProductsClient({ initialProducts, categories }: { initia
                         )}
                       </div>
                       <div>
-                        <p className="font-bold text-[#1C1917] text-sm group-hover:text-[#A07850] transition-colors">
-                          {product.name}
-                        </p>
-                        <span className="text-[11px] text-[#A8A29E] font-mono">
+                        <div className="flex items-center gap-1.5">
+                          <p className="font-bold text-[#1C1917] text-sm group-hover:text-[#A07850] transition-colors">
+                            {product.name}
+                          </p>
+                          {product.isBestSeller && (
+                            <span className="bg-amber-100 text-amber-800 border border-amber-200 text-[10px] font-bold px-1.5 py-0.5 rounded-md shrink-0">
+                              الأكثر طلباً
+                            </span>
+                          )}
+                          {product.isNew && (
+                            <span className="bg-[#FBF6EE] text-[#8C6838] border border-[#C9A96E]/30 text-[10px] font-bold px-1.5 py-0.5 rounded-md shrink-0">
+                              جديد
+                            </span>
+                          )}
+                        </div>
+                        <span className="text-[11px] text-[#A8A29E] font-mono block mt-0.5">
                           #{product.sku || product.id.slice(0, 8)}
                         </span>
                       </div>
@@ -247,13 +259,14 @@ export default function ProductsClient({ initialProducts, categories }: { initia
                     </span>
                   </TableCell>
                   <TableCell className="py-4">
-                    <div className="flex flex-col">
+                    <div className="flex flex-col text-start">
                       <span className="font-black text-[#1C1917] text-sm">
-                        {product.price.toLocaleString('en-US')} <span className="text-xs font-normal text-[#78716C]">د.ع</span>
+                        {(product.salePrice && product.salePrice > 0 ? product.salePrice : product.price).toLocaleString('en-US')}{' '}
+                        <span className="text-xs font-normal text-[#78716C]">د.ع</span>
                       </span>
                       {product.salePrice && product.salePrice > 0 && (
-                        <span className="text-[11px] text-[#A8A29E] line-through">
-                          {product.salePrice.toLocaleString('en-US')} د.ع
+                        <span className="text-[11px] text-[#A8A29E] line-through font-medium">
+                          {product.price.toLocaleString('en-US')} د.ع
                         </span>
                       )}
                     </div>
@@ -282,6 +295,8 @@ export default function ProductsClient({ initialProducts, categories }: { initia
                         <ExternalLink className="w-4 h-4" />
                       </Link>
                       <button 
+                        id={`edit-product-${product.id}`}
+                        data-testid="edit-product-btn"
                         className="w-9 h-9 rounded-xl text-[#78716C] hover:text-[#C9A96E] hover:bg-[#F5F0EA] border border-transparent hover:border-[#C9A96E]/30 transition-all flex items-center justify-center cursor-pointer" 
                         onClick={() => { setCurrentEditProduct(product); setIsEditModalOpen(true); }}
                         title="تعديل المنتج"
