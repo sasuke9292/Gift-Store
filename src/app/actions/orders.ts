@@ -39,10 +39,12 @@ export async function createOrderAction(data: CheckoutData) {
       return { error: 'عذراً، بعض المنتجات في سلتك لم تعد متوفرة في قاعدة البيانات (ربما تم حذفها). يرجى إفراغ السلة والمحاولة مجدداً.' }
     }
 
-    // In a real app, you should re-calculate the price from the DB to prevent tampering
-    // For this prototype, we'll trust the client total or calculate it simply
+    const settings = await prisma.storeSettings.findUnique({ where: { id: 'default' } }).catch(() => null)
+    const freeThreshold = settings?.freeShippingThreshold ?? 100000
+    const shippingFee = settings?.shippingCostBaghdad ?? 5000
+
     const calculatedSubtotal = data.items.reduce((acc, item) => acc + item.price * item.quantity, 0)
-    const calculatedShipping = calculatedSubtotal > 100000 ? 0 : 5000
+    const calculatedShipping = calculatedSubtotal >= freeThreshold ? 0 : shippingFee
     const calculatedTotal = calculatedSubtotal + calculatedShipping
     
     // Create the order

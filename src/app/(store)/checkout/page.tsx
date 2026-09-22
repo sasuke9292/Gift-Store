@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useTransition } from 'react'
+import React, { useState, useEffect, useTransition } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -9,6 +9,7 @@ import { MapPin, Phone, CheckCircle2, ChevronLeft, Loader2, Package, Shield, Gif
 import Link from 'next/link'
 import { useCartStore } from '@/lib/store'
 import { createOrderAction } from '@/app/actions/orders'
+import { getPublicStoreSettings } from '@/app/actions/admin/settings'
 import { toast } from 'sonner'
 import { cn } from '@/lib/utils'
 
@@ -30,12 +31,30 @@ export default function CheckoutPage() {
     landmark: ''
   })
 
+  const [shippingSettings, setShippingSettings] = useState({
+    freeThreshold: 100000,
+    shippingCost: 5000,
+    currency: 'د.ع'
+  })
+
+  useEffect(() => {
+    getPublicStoreSettings().then(res => {
+      if (res) {
+        setShippingSettings({
+          freeThreshold: res.freeShippingThreshold ?? 100000,
+          shippingCost: res.shippingCostBaghdad ?? 5000,
+          currency: res.currency || 'د.ع'
+        })
+      }
+    })
+  }, [])
+
   const [errors, setErrors] = useState<Partial<typeof formData>>({})
   const [isPending, startTransition] = useTransition()
   const cartItems = useCartStore(state => state.items)
   const clearCart = useCartStore(state => state.clearCart)
   const subtotal = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0)
-  const shipping = subtotal > 100000 ? 0 : 5000
+  const shipping = subtotal >= shippingSettings.freeThreshold ? 0 : shippingSettings.shippingCost
   const total = subtotal + (cartItems.length > 0 ? shipping : 0)
 
   const validate = () => {

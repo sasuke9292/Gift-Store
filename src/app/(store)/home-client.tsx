@@ -48,6 +48,7 @@ interface StoreHomeClientProps {
   heroBadge?: string
   heroHeadline?: string
   heroSubheadline?: string
+  settings?: any
 }
 
 // Verified high-resolution luxury gift showcase slides
@@ -149,10 +150,42 @@ export default function StoreHomeClient({
   initialTopProducts: topProducts,
   heroBadge,
   heroHeadline,
-  heroSubheadline
+  heroSubheadline,
+  settings
 }: StoreHomeClientProps) {
   const [activeSlide, setActiveSlide] = useState(0)
   const [activeProductTab, setActiveProductTab] = useState<'all' | 'best' | 'new' | 'sale'>('all')
+
+  const dynamicFeatures = [
+    {
+      icon: Truck,
+      title: settings?.feature1Title || 'شحن سريع وموثوق',
+      desc: settings?.feature1Desc || 'توصيل لكافة محافظات العراق خلال 24 - 48 ساعة مع تتبع فوري للشحنة',
+      color: '#C9A96E',
+      bg: '#FBF6EE',
+    },
+    {
+      icon: Sparkles,
+      title: settings?.feature2Title || 'تغليف ملكي فاخر',
+      desc: settings?.feature2Desc || 'علب هدايا فاخرة مع أشرطة حريرية وكارت إهداء بكلماتك مجاناً مع كل طلب',
+      color: '#E85D75',
+      bg: '#FDF2F4',
+    },
+    {
+      icon: ShieldCheck,
+      title: settings?.feature3Title || 'دفع آمن عند الاستلام',
+      desc: settings?.feature3Desc || 'عاين هديتك وافحصها قبل الاستلام، مع خيارات دفع بـ زين كاش والماستر كارد',
+      color: '#10B981',
+      bg: '#F0FDF9',
+    },
+    {
+      icon: Compass,
+      title: settings?.feature4Title || 'مستشار هدايا ذكي',
+      desc: settings?.feature4Desc || 'خوارزمية ذكية وفريق متخصص يساعدك في اختيار الهدية المثالية لأي مناسبة',
+      color: '#6366F1',
+      bg: '#F5F3FF',
+    },
+  ]
 
   // Interactive Gift Finder Mini Quiz State
   const [quizRecipient, setQuizRecipient] = useState<'him' | 'her' | 'occasions' | null>(null)
@@ -200,7 +233,7 @@ export default function StoreHomeClient({
                 className="inline-flex items-center gap-2 bg-[#FBF6EE] border border-[#C9A96E]/30 rounded-full px-4 py-2 text-xs sm:text-sm font-bold text-[#8C6838] mb-6 shadow-2xs"
               >
                 <Sparkles className="w-4 h-4 text-[#C9A96E] animate-pulse" />
-                <span>{heroBadge || 'التشكيلة الجديدة لعام 2026 • تغليف ملكي مجاني'}</span>
+                <span>{settings?.heroBadge || heroBadge || 'التشكيلة الجديدة لعام 2026 • تغليف ملكي مجاني'}</span>
               </motion.div>
 
               {/* Master Headline (Alexandria Luxury Style) */}
@@ -210,8 +243,8 @@ export default function StoreHomeClient({
                 transition={{ duration: 0.5, delay: 0.1 }}
                 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-[1.15] text-[#1C1917] mb-6"
               >
-                {heroHeadline ? (
-                  <span dangerouslySetInnerHTML={{ __html: heroHeadline.replace('\n', '<br/>') }} />
+                {(settings?.heroHeadline || heroHeadline) ? (
+                  <span dangerouslySetInnerHTML={{ __html: (settings?.heroHeadline || heroHeadline).replace(/\n/g, '<br/>') }} />
                 ) : (
                   <>
                     <span>لحظاتك الثمينة</span>
@@ -230,7 +263,7 @@ export default function StoreHomeClient({
                 transition={{ duration: 0.5, delay: 0.2 }}
                 className="text-base sm:text-lg text-[#57534E] max-w-xl mb-8 leading-relaxed font-normal"
               >
-                {heroSubheadline || 'اكتشف تجربة إهداء استثنائية في العراق تجمع بين فخامة التصميم وأناقة التفاصيل، مع تغليف يدوي فاخر وبطاقة مخصصة تخلّد أجمل الذكريات.'}
+                {settings?.heroSubheadline || heroSubheadline || 'اكتشف تجربة إهداء استثنائية في العراق تجمع بين فخامة التصميم وأناقة التفاصيل، مع تغليف يدوي فاخر وبطاقة مخصصة تخلّد أجمل الذكريات.'}
               </motion.p>
 
               {/* Quick Category Chips */}
@@ -265,23 +298,23 @@ export default function StoreHomeClient({
                 className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 w-full sm:w-auto mb-10"
               >
                 <Link
-                  href="/shop"
+                  href={settings?.heroPrimaryBtnLink || '/shop'}
                   className="group flex items-center justify-center gap-2.5 h-13 sm:h-14 px-8 sm:px-9 rounded-2xl text-white font-extrabold text-base transition-all hover:-translate-y-0.5"
                   style={{
                     background: 'linear-gradient(135deg, #C9A96E 0%, #A07850 100%)',
                     boxShadow: '0 6px 24px rgba(184,137,58,0.38)'
                   }}
                 >
-                  <span>استكشف التشكيلة الفاخرة</span>
+                  <span>{settings?.heroPrimaryBtnText || 'استكشف التشكيلة الفاخرة'}</span>
                   <ArrowLeft className="w-5 h-5 transition-transform group-hover:-translate-x-1" />
                 </Link>
 
                 <Link
-                  href="/gift-finder"
+                  href={settings?.heroSecondaryBtnLink || '/gift-finder'}
                   className="flex items-center justify-center gap-2 h-13 sm:h-14 px-7 rounded-2xl font-extrabold text-[#1C1917] bg-white border border-[#E8E4DF] hover:border-[#C9A96E]/50 hover:bg-[#FBF6EE] transition-all hover:-translate-y-0.5 shadow-xs"
                 >
                   <Sparkles className="w-4 h-4 text-[#C9A96E]" />
-                  <span>مكتشف الهدايا الذكي</span>
+                  <span>{settings?.heroSecondaryBtnText || 'مكتشف الهدايا الذكي'}</span>
                 </Link>
               </motion.div>
 
@@ -293,19 +326,19 @@ export default function StoreHomeClient({
                 className="grid grid-cols-3 gap-4 sm:gap-8 pt-6 border-t border-[#E8E4DF]/70 w-full max-w-xl text-start"
               >
                 <div>
-                  <p className="text-2xl sm:text-3xl font-black text-[#1C1917]" dir="ltr">15K+</p>
-                  <p className="text-xs text-[#78716C] font-semibold mt-0.5">عميل سعيد بالعراق</p>
+                  <p className="text-2xl sm:text-3xl font-black text-[#1C1917]" dir="ltr">{settings?.stat1Value || '15K+'}</p>
+                  <p className="text-xs text-[#78716C] font-semibold mt-0.5">{settings?.stat1Label || 'عميل سعيد بالعراق'}</p>
                 </div>
                 <div>
                   <div className="flex items-center gap-1 text-2xl sm:text-3xl font-black text-[#1C1917]">
                     <span className="text-[#C9A96E] text-xl">★</span>
-                    <span dir="ltr">4.9</span>
+                    <span dir="ltr">{settings?.stat2Value || '4.9'}</span>
                   </div>
-                  <p className="text-xs text-[#78716C] font-semibold mt-0.5">تقييم ممتاز موثق</p>
+                  <p className="text-xs text-[#78716C] font-semibold mt-0.5">{settings?.stat2Label || 'تقييم ممتاز موثق'}</p>
                 </div>
                 <div>
-                  <p className="text-2xl sm:text-3xl font-black text-[#8C6838]">100%</p>
-                  <p className="text-xs text-[#78716C] font-semibold mt-0.5">تغليف ملكي مجاني</p>
+                  <p className="text-2xl sm:text-3xl font-black text-[#8C6838]">{settings?.stat3Value || '100%'}</p>
+                  <p className="text-xs text-[#78716C] font-semibold mt-0.5">{settings?.stat3Label || 'تغليف ملكي مجاني'}</p>
                 </div>
               </motion.div>
             </div>
@@ -443,7 +476,7 @@ export default function StoreHomeClient({
       <section className="py-12 bg-white border-y border-[#E8E4DF]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-            {features.map((feature, idx) => (
+            {dynamicFeatures.map((feature, idx) => (
               <div
                 key={idx}
                 className="flex items-start gap-4 p-5 rounded-2xl bg-[#FAFAF8] border border-[#E8E4DF]/80 hover:border-[#C9A96E]/40 hover:bg-white hover:shadow-[0_8px_25px_rgba(201,169,110,0.1)] transition-all duration-300 text-start group"

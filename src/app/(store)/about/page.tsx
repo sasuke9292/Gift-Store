@@ -1,16 +1,17 @@
 import Link from 'next/link'
-import { Info, Heart, Star, ArrowLeft, Users, Award, Shield } from 'lucide-react'
-import type { Metadata } from 'next'
+import { Info, Heart, ArrowLeft, Award, Shield } from 'lucide-react'
+import { prisma } from '@/lib/prisma'
 
-export const metadata: Metadata = {
-  title: 'من نحن | گفتي بلس',
-  description: 'اكتشف قصة گفتي بلس — الوجهة الأولى للهدايا الراقية في العراق'
-}
+export const dynamic = 'force-dynamic'
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const settings = await prisma.storeSettings.findUnique({ where: { id: 'default' } }).catch(() => null)
+
+  const storeName = settings?.storeName?.split('|')[0]?.trim() || 'گفتي بلس'
+  const storeDesc = settings?.storeDescription || 'في گفتي بلس، نؤمن أن كل هدية تحمل قصة وتعبّر عن مشاعر لا تُقال بالكلمات. لذلك جعلنا مهمتنا أن نقدّم لك تجربة تسوق استثنائية تجمع بين التنوع والجودة والأناقة — لأن كل لحظة تستحق أن تُحتفل بها بأفضل طريقة.'
+
   return (
-    <div className="min-h-screen bg-[#FAFAF8] pb-20">
-
+    <div className="min-h-screen bg-[#FAFAF8] pb-20" dir="rtl">
       {/* Hero */}
       <section className="relative bg-[#1C1917] text-white py-24 px-4 overflow-hidden">
         <div className="absolute inset-0 opacity-10"
@@ -21,23 +22,24 @@ export default function AboutPage() {
             <Info className="w-8 h-8 text-[#C9A96E]" />
           </div>
           <h1 className="text-4xl sm:text-5xl font-black mb-4 tracking-tight">من نحن</h1>
-          <p className="text-white/60 text-lg max-w-2xl mx-auto">قصتنا مع الهدايا التي تصنع الفارق</p>
+          <p className="text-white/60 text-lg max-w-2xl mx-auto">
+            {settings?.storeSlogan || 'قصتنا مع الهدايا التي تصنع الفارق'}
+          </p>
         </div>
       </section>
 
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
 
         {/* Mission */}
-        <div className="bg-white rounded-3xl border border-[#E8E4DF] p-10 mb-8 shadow-[0_2px_12px_rgba(0,0,0,0.05)]">
+        <div className="bg-white rounded-3xl border border-[#E8E4DF] p-10 mb-8 shadow-[0_2px_12px_rgba(0,0,0,0.05)] text-start">
           <h2 className="text-2xl font-black text-[#1C1917] mb-4">رسالتنا</h2>
           <p className="text-[#78716C] leading-loose text-lg">
-            في <span className="font-bold text-[#C9A96E]">گفتي بلس</span>، نؤمن أن كل هدية تحمل قصة وتعبّر عن مشاعر لا تُقال بالكلمات.
-            لذلك جعلنا مهمتنا أن نقدّم لك تجربة تسوق استثنائية تجمع بين التنوع والجودة والأناقة — لأن كل لحظة تستحق أن تُحتفل بها بأفضل طريقة.
+            {storeDesc}
           </p>
         </div>
 
         {/* Values Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8 text-start">
           {[
             { icon: Heart, title: 'بكل محبة', desc: 'نختار كل منتج بعناية لنضمن أنه يحمل قيمة حقيقية ويعبّر عن المشاعر بأجمل صورة.', color: '#E85D75', bg: '#FDF2F4' },
             { icon: Award, title: 'جودة بلا تنازل', desc: 'كل منتج يمر بمعايير صارمة للجودة قبل وصوله إليك لضمان رضاك التام.', color: '#C9A96E', bg: '#FBF6EE' },
@@ -57,9 +59,9 @@ export default function AboutPage() {
         <div className="bg-[#1C1917] rounded-3xl p-10 text-white text-center mb-8">
           <div className="grid grid-cols-3 gap-8">
             {[
-              { value: '500+', label: 'منتج متاح' },
-              { value: '12K+', label: 'عميل سعيد' },
-              { value: '4.9 ★', label: 'متوسط التقييم' },
+              { value: settings?.stat1Value || '+15K', label: settings?.stat1Label || 'عميل سعيد' },
+              { value: settings?.stat2Value || '4.9★', label: settings?.stat2Label || 'متوسط التقييم' },
+              { value: settings?.stat3Value || '100%', label: settings?.stat3Label || 'تغليف ملكي مجاني' },
             ].map(stat => (
               <div key={stat.label}>
                 <p className="text-3xl font-black text-[#C9A96E]">{stat.value}</p>

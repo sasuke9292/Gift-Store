@@ -29,6 +29,7 @@ export default async function StoreHome() {
       heroBadge={settings?.heroBadge}
       heroHeadline={settings?.heroHeadline}
       heroSubheadline={settings?.heroSubheadline}
+      settings={settings}
     />
   )
 }

@@ -1,16 +1,59 @@
-import { Mail, Phone, MapPin, Clock, MessageCircle, ArrowLeft } from 'lucide-react'
-import Link from 'next/link'
-import type { Metadata } from 'next'
+import { Mail, Phone, MapPin, Clock, MessageCircle } from 'lucide-react'
 import { ContactForm } from './contact-form'
+import { prisma } from '@/lib/prisma'
 
-export const metadata: Metadata = {
-  title: 'اتصل بنا | گفتي بلس',
-  description: 'تواصل مع فريق گفتي بلس - نحن هنا لمساعدتك'
-}
+export const dynamic = 'force-dynamic'
 
-export default function ContactPage() {
+export default async function ContactPage() {
+  const settings = await prisma.storeSettings.findUnique({ where: { id: 'default' } }).catch(() => null)
+
+  const phone = settings?.storePhone || '+964 770 123 4567'
+  const email = settings?.storeEmail || 'info@giftstore.iq'
+  const address = settings?.storeAddress || 'بغداد، المنصور'
+  const addressDetails = settings?.addressDetails || 'شارع 14 رمضان، بالقرب من مول المنصور'
+  const workingHours = settings?.workingHours || 'السبت – الخميس: 9:00 صباحاً – 10:00 مساءً'
+
+  const contactItems = [
+    {
+      icon: Phone,
+      title: 'الهاتف وخدمة العملاء',
+      value: phone,
+      desc: 'متاح للاتصال والاستفسار المباشر',
+      href: `tel:${phone.replace(/\s+/g, '')}`,
+      color: '#C9A96E',
+      bg: '#FBF6EE'
+    },
+    {
+      icon: Mail,
+      title: 'البريد الإلكتروني',
+      value: email,
+      desc: 'نرد خلال 24 ساعة كحد أقصى',
+      href: `mailto:${email}`,
+      color: '#6366F1',
+      bg: '#F5F3FF'
+    },
+    {
+      icon: MapPin,
+      title: 'موقع الفرع الرئيسي',
+      value: address,
+      desc: addressDetails,
+      href: '#',
+      color: '#E85D75',
+      bg: '#FDF2F4'
+    },
+    {
+      icon: Clock,
+      title: 'أوقات وساعات العمل',
+      value: workingHours,
+      desc: 'فريقنا جاهز لخدمتكم طوال الأسبوع',
+      href: '#',
+      color: '#10B981',
+      bg: '#F0FDF9'
+    },
+  ]
+
   return (
-    <div className="min-h-screen bg-[#FAFAF8] pb-20">
+    <div className="min-h-screen bg-[#FAFAF8] pb-20" dir="rtl">
       <section className="relative bg-[#1C1917] text-white py-24 px-4 overflow-hidden">
         <div className="absolute top-0 end-0 w-96 h-96 bg-[#C9A96E]/10 rounded-full blur-[100px]" />
         <div className="max-w-4xl mx-auto text-center relative z-10">
@@ -18,7 +61,7 @@ export default function ContactPage() {
             <MessageCircle className="w-8 h-8 text-[#C9A96E]" />
           </div>
           <h1 className="text-4xl sm:text-5xl font-black mb-4">اتصل بنا</h1>
-          <p className="text-white/60 text-lg">فريقنا مستعد لمساعدتك في أي وقت</p>
+          <p className="text-white/60 text-lg">فريق {settings?.storeName?.split('|')[0] || 'گفتي بلس'} مستعد لمساعدتك في أي وقت</p>
         </div>
       </section>
 
@@ -29,55 +72,18 @@ export default function ContactPage() {
           <div className="space-y-5">
             <h2 className="text-2xl font-black text-[#1C1917] mb-6">طرق التواصل معنا</h2>
 
-            {[
-              {
-                icon: Phone,
-                title: 'الهاتف',
-                value: '+964 770 123 4567',
-                desc: 'متاح من 9 صباحاً حتى 9 مساءً',
-                href: 'tel:+9647701234567',
-                color: '#C9A96E',
-                bg: '#FBF6EE'
-              },
-              {
-                icon: Mail,
-                title: 'البريد الإلكتروني',
-                value: 'info@giftstore.iq',
-                desc: 'نرد خلال 24 ساعة',
-                href: 'mailto:info@giftstore.iq',
-                color: '#6366F1',
-                bg: '#F5F3FF'
-              },
-              {
-                icon: MapPin,
-                title: 'الموقع',
-                value: 'بغداد، المنصور',
-                desc: 'شارع 14 رمضان، بالقرب من مول المنصور',
-                href: '#',
-                color: '#E85D75',
-                bg: '#FDF2F4'
-              },
-              {
-                icon: Clock,
-                title: 'أوقات العمل',
-                value: 'السبت – الخميس',
-                desc: '9:00 صباحاً – 9:00 مساءً',
-                href: '#',
-                color: '#10B981',
-                bg: '#F0FDF9'
-              },
-            ].map((item) => (
+            {contactItems.map((item) => (
               <a
                 key={item.title}
                 href={item.href}
-                className="flex items-center gap-5 p-5 bg-white rounded-2xl border border-[#E8E4DF] hover:border-[#C9A96E]/30 hover:shadow-[0_4px_16px_rgba(0,0,0,0.07)] transition-all duration-200 group block"
+                className="flex items-center gap-5 p-5 bg-white rounded-2xl border border-[#E8E4DF] hover:border-[#C9A96E]/30 hover:shadow-[0_4px_16px_rgba(0,0,0,0.07)] transition-all duration-200 group block text-start"
               >
                 <div className="w-14 h-14 rounded-2xl flex items-center justify-center shrink-0 transition-transform group-hover:scale-110" style={{ background: item.bg }}>
                   <item.icon className="w-6 h-6" style={{ color: item.color }} />
                 </div>
                 <div>
                   <p className="text-xs font-bold uppercase tracking-widest text-[#A8A29E] mb-0.5">{item.title}</p>
-                  <p className="font-bold text-[#1C1917]">{item.value}</p>
+                  <p className="font-bold text-[#1C1917]" dir="ltr">{item.value}</p>
                   <p className="text-sm text-[#78716C]">{item.desc}</p>
                 </div>
               </a>

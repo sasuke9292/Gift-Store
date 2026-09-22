@@ -34,6 +34,7 @@ interface StoreHeaderProps {
     role?: string
   }
   topBarText?: string
+  settings?: any
 }
 
 interface SearchItem {
@@ -63,7 +64,7 @@ const popularKeywords = [
   'محافظ جلدية',
 ]
 
-export function StoreHeader({ user, topBarText }: StoreHeaderProps) {
+export function StoreHeader({ user, topBarText, settings }: StoreHeaderProps) {
   const router = useRouter()
   const cartItems = useCartStore(state => state.items)
   const favorites = useFavoritesStore(state => state.items)
@@ -136,6 +137,11 @@ export function StoreHeader({ user, topBarText }: StoreHeaderProps) {
   const cartCount = cartItems.reduce((acc, item) => acc + item.quantity, 0)
   const favCount = favorites.length
 
+  const effectiveTopBarText = settings?.topBarText || topBarText || 'توصيل مجاني لكافة طلبات الهدايا الأكثر من 100 ألف د.ع • تغليف ملكي مجاني 🎁'
+  const effectiveHeaderPhone = settings?.headerPhone || settings?.storePhone || '+964 770 000 0000'
+  const storeDisplayName = (settings?.storeName || 'گِفتي بلس | Gifty Plus').split('|')[0].trim()
+  const storeDisplayTag = settings?.storeName?.includes('|') ? settings.storeName.split('|')[1].trim() : (settings?.storeSlogan || 'GIFTY PLUS LUXURY')
+
   return (
     <>
       <header className={cn(
@@ -145,26 +151,36 @@ export function StoreHeader({ user, topBarText }: StoreHeaderProps) {
           : "bg-white border-b border-[#E8E4DF]"
       )}>
         {/* Top Announcement Bar */}
-        <div className="bg-gradient-to-l from-[#1C1917] via-[#2A2624] to-[#1C1917] text-white/90 py-2 px-4 text-xs font-semibold">
-          <div className="max-w-7xl mx-auto flex items-center justify-between">
-            <div className="flex items-center gap-2 mx-auto sm:mx-0">
-              <span className="w-2 h-2 rounded-full bg-[#C9A96E] animate-pulse" />
-              <span className="text-[#C9A96E] font-bold">✨ عرض استثنائي:</span>
-              <span>{topBarText || 'توصيل مجاني لكافة طلبات الهدايا الأكثر من 100 ألف د.ع • تغليف ملكي مجاني'}</span>
-            </div>
-            <div className="hidden sm:flex items-center gap-4 text-white/60 text-xs">
-              <Link href="/track-order" className="hover:text-[#C9A96E] transition-colors flex items-center gap-1">
-                <Clock className="w-3.5 h-3.5 text-[#C9A96E]" />
-                تتبع شحنتك
-              </Link>
-              <span>•</span>
-              <a href="tel:07700000000" className="hover:text-[#C9A96E] transition-colors flex items-center gap-1" dir="ltr">
-                <Phone className="w-3.5 h-3.5 text-[#C9A96E]" />
-                +964 770 000 0000
-              </a>
+        {(settings?.showTopBar ?? true) && (
+          <div className="bg-gradient-to-l from-[#1C1917] via-[#2A2624] to-[#1C1917] text-white/90 py-2 px-4 text-xs font-semibold">
+            <div className="max-w-7xl mx-auto flex items-center justify-between">
+              <div className="flex items-center gap-2 mx-auto sm:mx-0">
+                <span className="w-2 h-2 rounded-full bg-[#C9A96E] animate-pulse" />
+                <span className="text-[#C9A96E] font-bold">✨ عرض استثنائي:</span>
+                {settings?.topBarLink ? (
+                  <Link href={settings.topBarLink} className="hover:underline transition-all">
+                    {effectiveTopBarText}
+                  </Link>
+                ) : (
+                  <span>{effectiveTopBarText}</span>
+                )}
+              </div>
+              <div className="hidden sm:flex items-center gap-4 text-white/60 text-xs">
+                {(settings?.showTrackOrder ?? true) && (
+                  <Link href="/track-order" className="hover:text-[#C9A96E] transition-colors flex items-center gap-1">
+                    <Clock className="w-3.5 h-3.5 text-[#C9A96E]" />
+                    تتبع شحنتك
+                  </Link>
+                )}
+                <span>•</span>
+                <a href={`tel:${effectiveHeaderPhone.replace(/\s+/g, '')}`} className="hover:text-[#C9A96E] transition-colors flex items-center gap-1" dir="ltr">
+                  <Phone className="w-3.5 h-3.5 text-[#C9A96E]" />
+                  {effectiveHeaderPhone}
+                </a>
+              </div>
             </div>
           </div>
-        </div>
+        )}
 
         {/* Main Header Bar */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -183,18 +199,24 @@ export function StoreHeader({ user, topBarText }: StoreHeaderProps) {
               </Button>
 
               <Link href="/" className="flex items-center gap-3 group">
-                <div 
-                  className="w-10 h-10 rounded-2xl flex items-center justify-center font-black transition-all group-hover:scale-105 shadow-[0_4px_15px_rgba(201,169,110,0.35)]"
-                  style={{ background: 'linear-gradient(135deg, #C9A96E 0%, #A07850 100%)' }}
-                >
-                  <Gift className="w-5 h-5 text-white" />
-                </div>
+                {settings?.logoUrl ? (
+                  <div className="relative w-10 h-10 rounded-2xl overflow-hidden shadow-[0_4px_15px_rgba(201,169,110,0.35)]">
+                    <Image src={settings.logoUrl} alt={storeDisplayName} fill className="object-cover group-hover:scale-105 transition-transform" />
+                  </div>
+                ) : (
+                  <div 
+                    className="w-10 h-10 rounded-2xl flex items-center justify-center font-black transition-all group-hover:scale-105 shadow-[0_4px_15px_rgba(201,169,110,0.35)]"
+                    style={{ background: 'linear-gradient(135deg, #C9A96E 0%, #A07850 100%)' }}
+                  >
+                    <Gift className="w-5 h-5 text-white" />
+                  </div>
+                )}
                 <div className="flex flex-col text-start">
                   <span className="text-xl font-black tracking-tight text-[#1C1917] leading-none">
-                    گِفتي بلس
+                    {storeDisplayName}
                   </span>
                   <span className="text-[10px] font-bold text-[#A07850] tracking-wider mt-0.5">
-                    GIFTY PLUS LUXURY
+                    {storeDisplayTag}
                   </span>
                 </div>
               </Link>
@@ -406,14 +428,16 @@ export function StoreHeader({ user, topBarText }: StoreHeaderProps) {
               )}
 
               {/* Gift Finder High-Tech CTA Button */}
-              <Link
-                href="/gift-finder"
-                className="hidden sm:inline-flex items-center gap-2 h-10 px-4 rounded-2xl text-xs font-extrabold text-white transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_4px_16px_rgba(201,169,110,0.45)] shrink-0"
-                style={{ background: 'linear-gradient(135deg, #C9A96E 0%, #A07850 100%)' }}
-              >
-                <Sparkles className="w-3.5 h-3.5 animate-pulse" />
-                <span>مكتشف الهدايا</span>
-              </Link>
+              {(settings?.showGiftFinder ?? true) && (
+                <Link
+                  href="/gift-finder"
+                  className="hidden sm:inline-flex items-center gap-2 h-10 px-4 rounded-2xl text-xs font-extrabold text-white transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_4px_16px_rgba(201,169,110,0.45)] shrink-0"
+                  style={{ background: 'linear-gradient(135deg, #C9A96E 0%, #A07850 100%)' }}
+                >
+                  <Sparkles className="w-3.5 h-3.5 animate-pulse" />
+                  <span>مكتشف الهدايا</span>
+                </Link>
+              )}
             </div>
           </div>
 

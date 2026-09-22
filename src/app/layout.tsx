@@ -3,6 +3,7 @@ import { Alexandria, Readex_Pro } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { Toaster } from "sonner";
+import { prisma } from "@/lib/prisma";
 
 const alexandria = Alexandria({
   subsets: ["arabic", "latin"],
@@ -25,82 +26,99 @@ export const viewport: Viewport = {
   maximumScale: 5,
 };
 
-export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXTAUTH_URL || 'https://gift-store-rl7i-three.vercel.app'),
-  title: {
-    default: "گِفتي بلس | Gifty Plus — متجر الهدايا الفاخرة في العراق",
-    template: "%s | گِفتي بلس Gifty Plus",
-  },
-  description: "الوجهة الأولى لاختيار وتنسيق الهدايا الفاخرة والمخصصة في العراق. تشكيلة حصرية من العطور والساعات وبوكسات الهدايا مع تغليف ملكي مجاني وتوصيل سريع لكافة المحافظات.",
-  keywords: [
-    "متجر هدايا",
-    "هدايا العراق",
-    "هدايا بغداد",
-    "توصيل هدايا",
-    "عطور فاخرة",
-    "ساعات رجالية",
-    "هدايا نسائية",
-    "بوكسات مناسبات",
-    "هدايا تخرج",
-    "گفتي بلس",
-    "Gifty Plus",
-  ],
-  authors: [{ name: "Gifty Plus Team" }],
-  creator: "Gifty Plus",
-  publisher: "Gifty Plus Luxury",
-  formatDetection: {
-    telephone: true,
-    address: true,
-    email: true,
-  },
-  openGraph: {
-    type: "website",
-    locale: "ar_IQ",
-    url: "/",
-    siteName: "گِفتي بلس | Gifty Plus",
-    title: "گِفتي بلس | Gifty Plus — متجر الهدايا الفاخرة",
-    description: "الوجهة الأولى لاختيار وتنسيق الهدايا الفاخرة في العراق مع تغليف ملكي مجاني وتوصيل سريع.",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "گِفتي بلس | Gifty Plus",
-    description: "خلّي هديتك تحچي عنك ✨ أفخم الهدايا مع تغليف ملكي مجاني لكافة محافظات العراق.",
-  },
-  robots: {
-    index: true,
-    follow: true,
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const settings = await prisma.storeSettings.findUnique({ where: { id: 'default' } }).catch(() => null);
+  const storeName = settings?.storeName || 'گِفتي بلس | Gifty Plus';
+  const title = settings?.metaTitle || `${storeName} — متجر الهدايا الفاخرة في العراق`;
+  const description = settings?.metaDescription || settings?.storeDescription || 'الوجهة الأولى لاختيار وتنسيق الهدايا الفاخرة والمخصصة في العراق. تشكيلة حصرية من العطور والساعات وبوكسات الهدايا مع تغليف ملكي مجاني وتوصيل سريع لكافة المحافظات.';
+  
+  const keywords = settings?.metaKeywords 
+    ? settings.metaKeywords.split(',').map(k => k.trim()) 
+    : [
+        "متجر هدايا",
+        "هدايا العراق",
+        "هدايا بغداد",
+        "توصيل هدايا",
+        "عطور فاخرة",
+        "ساعات رجالية",
+        "هدايا نسائية",
+        "بوكسات مناسبات",
+        "هدايا تخرج",
+        "گفتي بلس",
+        "Gifty Plus",
+      ];
 
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@type": "OnlineStore",
-  name: "گِفتي بلس | Gifty Plus",
-  description: "المتجر الأول للهدايا الفاخرة والمخصصة في العراق",
-  url: "https://gift-store-rl7i-three.vercel.app",
-  priceRange: "د.ع 10,000 - د.ع 500,000",
-  address: {
-    "@type": "PostalAddress",
-    streetAddress: "المنصور، شارع 14 رمضان",
-    addressLocality: "بغداد",
-    addressCountry: "IQ",
-  },
-  telephone: "+9647701234567",
-  openingHoursSpecification: [
-    {
-      "@type": "OpeningHoursSpecification",
-      dayOfWeek: ["Saturday", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday"],
-      opens: "09:00",
-      closes: "21:00",
+  return {
+    metadataBase: new URL(process.env.NEXTAUTH_URL || 'https://gift-store-rl7i-three.vercel.app'),
+    title: {
+      default: title,
+      template: `%s | ${storeName}`,
     },
-  ],
-};
+    description,
+    keywords,
+    icons: settings?.faviconUrl ? [{ rel: 'icon', url: settings.faviconUrl }] : undefined,
+    authors: [{ name: "Gifty Plus Team" }],
+    creator: storeName,
+    publisher: storeName,
+    formatDetection: {
+      telephone: true,
+      address: true,
+      email: true,
+    },
+    openGraph: {
+      type: "website",
+      locale: "ar_IQ",
+      url: "/",
+      siteName: storeName,
+      title,
+      description,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: storeName,
+      description: settings?.storeSlogan || description,
+    },
+    robots: {
+      index: true,
+      follow: true,
+    },
+  };
+}
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const settings = await prisma.storeSettings.findUnique({ where: { id: 'default' } }).catch(() => null);
+  const storeName = settings?.storeName || 'گِفتي بلس | Gifty Plus';
+  const storePhone = settings?.storePhone || '+9647701234567';
+  const storeAddress = settings?.storeAddress || 'بغداد، المنصور، شارع 14 رمضان';
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "OnlineStore",
+    name: storeName,
+    description: settings?.storeDescription || "المتجر الأول للهدايا الفاخرة والمخصصة في العراق",
+    url: process.env.NEXTAUTH_URL || "https://gift-store-rl7i-three.vercel.app",
+    priceRange: "د.ع 10,000 - د.ع 500,000",
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: storeAddress,
+      addressLocality: "بغداد",
+      addressCountry: "IQ",
+    },
+    telephone: storePhone.replace(/\s+/g, ''),
+    openingHoursSpecification: [
+      {
+        "@type": "OpeningHoursSpecification",
+        dayOfWeek: ["Saturday", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday"],
+        opens: "09:00",
+        closes: "22:00",
+      },
+    ],
+  };
+
   return (
     <html
       lang="ar"

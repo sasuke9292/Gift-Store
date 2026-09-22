@@ -11,6 +11,8 @@ import { useCartStore } from '@/lib/store'
 import { toast } from 'sonner'
 import { useMounted } from '@/lib/use-mounted'
 
+import { getPublicStoreSettings } from '@/app/actions/admin/settings'
+
 export default function CartPage() {
   const cartItems = useCartStore(state => state.items)
   const updateQuantity = useCartStore(state => state.updateQuantity)
@@ -19,8 +21,26 @@ export default function CartPage() {
   const mounted = useMounted()
   const [couponCode, setCouponCode] = useState('')
 
-  const FREE_SHIPPING_THRESHOLD = 100000
-  const shipping = subtotal > FREE_SHIPPING_THRESHOLD ? 0 : 5000
+  const [shippingSettings, setShippingSettings] = useState({
+    freeThreshold: 100000,
+    shippingCost: 5000,
+    currency: 'د.ع'
+  })
+
+  useEffect(() => {
+    getPublicStoreSettings().then(res => {
+      if (res) {
+        setShippingSettings({
+          freeThreshold: res.freeShippingThreshold ?? 100000,
+          shippingCost: res.shippingCostBaghdad ?? 5000,
+          currency: res.currency || 'د.ع'
+        })
+      }
+    })
+  }, [])
+
+  const FREE_SHIPPING_THRESHOLD = shippingSettings.freeThreshold
+  const shipping = subtotal >= FREE_SHIPPING_THRESHOLD ? 0 : shippingSettings.shippingCost
   const total = subtotal + (cartItems.length > 0 ? shipping : 0)
   const progressToFreeShipping = Math.min((subtotal / FREE_SHIPPING_THRESHOLD) * 100, 100)
   const remainingForFreeShipping = FREE_SHIPPING_THRESHOLD - subtotal

@@ -1,6 +1,7 @@
 import React from 'react'
 import Link from 'next/link'
-import { MapPin, Phone, Mail, MessageCircle, Share2, Gift, ArrowLeft, ShieldCheck, CreditCard } from 'lucide-react'
+import Image from 'next/image'
+import { MapPin, Phone, Mail, MessageCircle, Share2, Gift, ArrowLeft, ShieldCheck, CreditCard, Send } from 'lucide-react'
 
 const footerLinks = {
   quickLinks: [
@@ -21,7 +22,44 @@ const footerLinks = {
   ],
 }
 
-export function StoreFooter() {
+interface StoreFooterProps {
+  settings?: {
+    storeName?: string
+    storeSlogan?: string
+    storeDescription?: string
+    logoUrl?: string | null
+    storePhone?: string | null
+    storeEmail?: string | null
+    storeAddress?: string | null
+    whatsappNumber?: string | null
+    instagramUrl?: string | null
+    facebookUrl?: string | null
+    tiktokUrl?: string | null
+    telegramUrl?: string | null
+    showFooterCta?: boolean
+    footerCtaTitle?: string
+    footerCtaSubtitle?: string
+    footerCtaBtnText?: string
+    footerCtaBtnLink?: string
+    copyrightText?: string
+  } | null
+}
+
+export function StoreFooter({ settings }: StoreFooterProps) {
+  const storeName = settings?.storeName || 'گِفتي بلس | Gifty Plus'
+  const storeSlogan = settings?.storeSlogan || 'خلّي هديتك تحچي عنك ✨'
+  const storeDesc = settings?.storeDescription || 'الوجهة الأولى لاختيار وتنسيق الهدايا الفاخرة في العراق. تشكيلة منتقاة بعناية لجميع المناسبات مع تغليف يدوي راقٍ وتوصيل سريع وموثوق لكافة المحافظات.'
+  const storePhone = settings?.storePhone || '+964 770 123 4567'
+  const storeEmail = settings?.storeEmail || 'info@giftstore.iq'
+  const storeAddress = settings?.storeAddress || 'بغداد، المنصور، شارع 14 رمضان'
+  
+  const rawWa = settings?.whatsappNumber || '9647700000000'
+  const whatsappHref = rawWa.startsWith('http') 
+    ? rawWa 
+    : `https://wa.me/${rawWa.replace(/[^0-9]/g, '')}`
+
+  const showCta = settings?.showFooterCta ?? true
+
   return (
     <footer className="bg-[#1C1917] text-white/80 relative overflow-hidden text-start" dir="rtl">
       {/* Subtle warm glow */}
@@ -29,28 +67,34 @@ export function StoreFooter() {
       <div className="absolute bottom-0 end-1/4 w-80 h-80 bg-[#E85D75]/6 rounded-full blur-[120px] pointer-events-none" />
 
       {/* Newsletter / CTA Banner */}
-      <div className="border-b border-white/10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-            <div className="text-center md:text-start">
-              <span className="inline-flex items-center gap-1.5 text-xs font-bold text-[#C9A96E] mb-2">
-                <Gift className="w-3.5 h-3.5" />
-                خدمة استثنائية لكافة المناسبات
-              </span>
-              <h3 className="text-xl sm:text-2xl font-black text-white">هل تبحث عن هدية لا تُنسى؟</h3>
-              <p className="text-white/50 text-xs sm:text-sm mt-1">جرّب مكتشف الهدايا الذكي للحصول على اقتراحات تلائم ذوقك وميزانيتك بدقة</p>
+      {showCta && (
+        <div className="border-b border-white/10">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+            <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+              <div className="text-center md:text-start">
+                <span className="inline-flex items-center gap-1.5 text-xs font-bold text-[#C9A96E] mb-2">
+                  <Gift className="w-3.5 h-3.5" />
+                  خدمة استثنائية لكافة المناسبات
+                </span>
+                <h3 className="text-xl sm:text-2xl font-black text-white">
+                  {settings?.footerCtaTitle || 'هل تبحث عن هدية لا تُنسى؟'}
+                </h3>
+                <p className="text-white/50 text-xs sm:text-sm mt-1">
+                  {settings?.footerCtaSubtitle || 'جرّب مكتشف الهدايا الذكي للحصول على اقتراحات تلائم ذوقك وميزانيتك بدقة'}
+                </p>
+              </div>
+              <Link
+                href={settings?.footerCtaBtnLink || '/gift-finder'}
+                className="flex items-center gap-2 h-12 px-7 rounded-2xl font-black text-[#1C1917] transition-all hover:-translate-y-0.5 hover:shadow-[0_8px_25px_rgba(201,169,110,0.4)] shrink-0 text-sm"
+                style={{ background: 'linear-gradient(135deg, #C9A96E 0%, #A07850 100%)' }}
+              >
+                <span>{settings?.footerCtaBtnText || 'جرّب مكتشف الهدايا'}</span>
+                <ArrowLeft className="w-4 h-4" />
+              </Link>
             </div>
-            <Link
-              href="/gift-finder"
-              className="flex items-center gap-2 h-12 px-7 rounded-2xl font-black text-[#1C1917] transition-all hover:-translate-y-0.5 hover:shadow-[0_8px_25px_rgba(201,169,110,0.4)] shrink-0 text-sm"
-              style={{ background: 'linear-gradient(135deg, #C9A96E 0%, #A07850 100%)' }}
-            >
-              <span>جرّب مكتشف الهدايا</span>
-              <ArrowLeft className="w-4 h-4" />
-            </Link>
           </div>
         </div>
-      </div>
+      )}
 
       {/* Main Footer Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
@@ -59,42 +103,81 @@ export function StoreFooter() {
           {/* Brand & About */}
           <div className="space-y-4 lg:col-span-1 text-start">
             <Link href="/" className="flex items-center gap-3 group w-fit">
-              <div 
-                className="w-10 h-10 rounded-2xl flex items-center justify-center transition-transform group-hover:scale-105 shadow-md"
-                style={{ background: 'linear-gradient(135deg, #C9A96E 0%, #A07850 100%)' }}
-              >
-                <Gift className="w-5 h-5 text-white" />
-              </div>
+              {settings?.logoUrl ? (
+                <div className="relative w-10 h-10 rounded-2xl overflow-hidden shadow-md">
+                  <Image src={settings.logoUrl} alt={storeName} fill className="object-cover" />
+                </div>
+              ) : (
+                <div 
+                  className="w-10 h-10 rounded-2xl flex items-center justify-center transition-transform group-hover:scale-105 shadow-md"
+                  style={{ background: 'linear-gradient(135deg, #C9A96E 0%, #A07850 100%)' }}
+                >
+                  <Gift className="w-5 h-5 text-white" />
+                </div>
+              )}
               <div className="flex flex-col text-start">
-                <span className="text-2xl font-black text-white tracking-tight">گِفتي بلس</span>
-                <span className="text-[10px] font-bold text-[#C9A96E] tracking-widest">GIFTY PLUS</span>
+                <span className="text-xl font-black text-white tracking-tight">
+                  {storeName.split('|')[0].trim()}
+                </span>
+                <span className="text-[10px] font-bold text-[#C9A96E] tracking-widest">
+                  {storeName.includes('|') ? storeName.split('|')[1].trim() : 'GIFTY PLUS'}
+                </span>
               </div>
             </Link>
             
-            <p className="text-[#C9A96E] font-extrabold text-xs">خلّي هديتك تحچي عنك ✨</p>
+            <p className="text-[#C9A96E] font-extrabold text-xs">{storeSlogan}</p>
             
             <p className="text-white/50 leading-relaxed text-xs sm:text-sm">
-              الوجهة الأولى لاختيار وتنسيق الهدايا الفاخرة في العراق. تشكيلة منتقاة بعناية لجميع المناسبات مع تغليف يدوي راقٍ وتوصيل سريع وموثوق لكافة المحافظات.
+              {storeDesc}
             </p>
 
             {/* Social Links */}
             <div className="flex items-center gap-2.5 pt-1">
-              {[
-                { icon: MessageCircle, href: 'https://wa.me/9647700000000', label: 'واتساب' },
-                { icon: Share2, href: '#', label: 'مشاركة' },
-                { icon: Mail, href: 'mailto:info@giftstore.iq', label: 'إيميل' },
-              ].map(({ icon: Icon, href, label }) => (
+              <a
+                href={whatsappHref}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="واتساب"
+                className="w-9 h-9 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-white/60 hover:text-[#C9A96E] hover:bg-white/10 hover:border-[#C9A96E]/40 transition-all"
+                title="واتساب"
+              >
+                <MessageCircle className="w-4 h-4" />
+              </a>
+
+              {settings?.instagramUrl && (
                 <a
-                  key={label}
-                  href={href}
+                  href={settings.instagramUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  aria-label={label}
+                  aria-label="إنستغرام"
                   className="w-9 h-9 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-white/60 hover:text-[#C9A96E] hover:bg-white/10 hover:border-[#C9A96E]/40 transition-all"
+                  title="إنستغرام"
                 >
-                  <Icon className="w-4 h-4" />
+                  <Share2 className="w-4 h-4" />
                 </a>
-              ))}
+              )}
+
+              {settings?.telegramUrl && (
+                <a
+                  href={settings.telegramUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="تيليغرام"
+                  className="w-9 h-9 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-white/60 hover:text-[#C9A96E] hover:bg-white/10 hover:border-[#C9A96E]/40 transition-all"
+                  title="تيليغرام"
+                >
+                  <Send className="w-4 h-4" />
+                </a>
+              )}
+
+              <a
+                href={`mailto:${storeEmail}`}
+                aria-label="إيميل"
+                className="w-9 h-9 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-white/60 hover:text-[#C9A96E] hover:bg-white/10 hover:border-[#C9A96E]/40 transition-all"
+                title="البريد الإلكتروني"
+              >
+                <Mail className="w-4 h-4" />
+              </a>
             </div>
           </div>
 
@@ -157,15 +240,15 @@ export function StoreFooter() {
             <ul className="space-y-3">
               <li className="flex items-start gap-2.5 text-xs sm:text-sm text-white/50">
                 <MapPin className="w-4 h-4 text-[#C9A96E] shrink-0 mt-0.5" />
-                <span>بغداد، المنصور، شارع 14 رمضان</span>
+                <span>{storeAddress}</span>
               </li>
               <li className="flex items-center gap-2.5 text-xs sm:text-sm text-white/50">
                 <Phone className="w-4 h-4 text-[#C9A96E] shrink-0" />
-                <span dir="ltr">+964 770 123 4567</span>
+                <span dir="ltr">{storePhone}</span>
               </li>
               <li className="flex items-center gap-2.5 text-xs sm:text-sm text-white/50">
                 <Mail className="w-4 h-4 text-[#C9A96E] shrink-0" />
-                <span>info@giftstore.iq</span>
+                <span>{storeEmail}</span>
               </li>
             </ul>
 
@@ -189,7 +272,7 @@ export function StoreFooter() {
         {/* Bottom Bar */}
         <div className="border-t border-white/10 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-start">
           <p className="text-xs text-white/40">
-            © 2026 گِفتي بلس | Gifty Plus. جميع الحقوق محفوظة.
+            {settings?.copyrightText || '© 2026 گِفتي بلس | Gifty Plus. جميع الحقوق محفوظة.'}
           </p>
           <div className="flex items-center gap-6">
             <Link href="/privacy" className="text-xs text-white/40 hover:text-[#C9A96E] transition-colors">

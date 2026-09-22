@@ -217,23 +217,100 @@ model AuditLog {
 }
 
 model StoreSettings {
-  id                 String   @id @default("default")
-  storeName          String   @default("گفتي بلس")
-  storeEmail         String?
-  storePhone         String?
-  currency           String   @default("د.ع")
-  logoUrl            String?
-  faviconUrl         String?
-  allowCod           Boolean  @default(true)
-  allowOnlinePayment Boolean  @default(false)
-  orderNotifications Boolean  @default(true)
-  marketingEmails    Boolean  @default(true)
-  
-  // Home Page Settings
-  topBarText         String   @default("شحن مجاني للطلبات أكثر من 100,000 د.ع 🎁")
-  heroBadge          String   @default("التشكيلة الجديدة كلياً لعام 2026")
-  heroHeadline       String   @default("لحظاتك الثمينة تستحق الأفضل.")
-  heroSubheadline    String   @default("اكتشف مجموعة من الهدايا الاستثنائية التي تم اختيارها بعناية لتناسب أرقى الأذواق وتخلّد أجمل الذكريات.")
+  id                    String   @id @default("default")
 
-  updatedAt          DateTime @updatedAt
+  // 1. General & Store Identity
+  storeName             String   @default("گفتي بلس | Gifty Plus")
+  storeSlogan           String   @default("خلّي هديتك تحچي عنك ✨")
+  storeDescription      String   @default("الوجهة الأولى لاختيار وتنسيق الهدايا الفاخرة في العراق. تشكيلة منتقاة بعناية لجميع المناسبات مع تغليف يدوي راقٍ وتوصيل سريع وموثوق لكافة المحافظات.")
+  currency              String   @default("د.ع")
+  logoUrl               String?
+  faviconUrl            String?
+  maintenanceMode       Boolean  @default(false)
+  maintenanceMessage    String   @default("المتجر في وضع الصيانة والتحديث حالياً، سنعود إليكم قريباً بأجمل العروض!")
+
+  // 2. Announcement & Header
+  showTopBar            Boolean  @default(true)
+  topBarText            String   @default("توصيل مجاني لكافة طلبات الهدايا الأكثر من 100 ألف د.ع • تغليف ملكي مجاني 🎁")
+  topBarLink            String?  @default("/shop")
+  headerPhone           String   @default("+964 770 000 0000")
+  showTrackOrder        Boolean  @default(true)
+  showGiftFinder        Boolean  @default(true)
+
+  // 3. Hero & Storefront Showcase
+  heroBadge             String   @default("التشكيلة الجديدة كلياً لعام 2026 ✨")
+  heroHeadline          String   @default("لحظاتك الثمينة تستحق الأفضل.")
+  heroSubheadline       String   @default("اكتشف مجموعة من الهدايا الاستثنائية التي تم اختيارها بعناية لتناسب أرقى الأذواق وتخلّد أجمل الذكريات.")
+  heroPrimaryBtnText    String   @default("اكتشف التشكيلة الفاخرة")
+  heroPrimaryBtnLink    String   @default("/shop")
+  heroSecondaryBtnText  String   @default("مكتشف الهدايا الذكي")
+  heroSecondaryBtnLink  String   @default("/gift-finder")
+
+  // Hero Trust Stats
+  stat1Value            String   @default("+15K")
+  stat1Label            String   @default("عميل سعيد وموثوق")
+  stat2Value            String   @default("4.9★")
+  stat2Label            String   @default("تقييم خدماتنا")
+  stat3Value            String   @default("100%")
+  stat3Label            String   @default("تغليف يدوي ملكي")
+
+  // 4. Shipping, Delivery & Orders
+  freeShippingThreshold Float    @default(100000)
+  shippingCostBaghdad   Float    @default(5000)
+  shippingCostProvinces Float    @default(7000)
+  deliveryTimeEstimate  String   @default("24 - 48 ساعة")
+  minOrderValue         Float    @default(0)
+  enableGiftPackaging   Boolean  @default(true)
+  enableGiftCardNote    Boolean  @default(true)
+
+  // 5. Payment Methods
+  allowCod              Boolean  @default(true)
+  allowOnlinePayment    Boolean  @default(false)
+  enableZainCash        Boolean  @default(true)
+  zainCashNumber        String?  @default("07800000000")
+  enableFib             Boolean  @default(true)
+  fibAccountNumber      String?  @default("IQ00FIB00000000000000")
+  paymentNotes          String?  @default("يمكنك الدفع نقداً عند استلام الهدية أو التحويل عبر زين كاش والبطاقات المصرفية.")
+
+  // 6. Contact Information & Working Hours
+  storeEmail            String?  @default("info@giftstore.iq")
+  storePhone            String?  @default("+964 770 123 4567")
+  whatsappNumber        String?  @default("+9647700000000")
+  storeAddress          String   @default("بغداد، المنصور، شارع 14 رمضان")
+  addressDetails        String?  @default("بالقرب من مول المنصور")
+  workingHours          String   @default("السبت – الخميس: 9:00 ص – 10:00 م")
+
+  // 7. Social Media Links
+  instagramUrl          String?  @default("https://instagram.com")
+  facebookUrl           String?  @default("https://facebook.com")
+  tiktokUrl             String?  @default("https://tiktok.com")
+  telegramUrl           String?  @default("https://t.me")
+
+  // 8. Footer & Features
+  footerCtaTitle        String   @default("هل تبحث عن هدية لا تُنسى؟")
+  footerCtaSubtitle     String   @default("جرّب مكتشف الهدايا الذكي للحصول على اقتراحات تلائم ذوقك وميزانيتك بدقة")
+  footerCtaBtnText      String   @default("جرّب مكتشف الهدايا")
+  footerCtaBtnLink      String   @default("/gift-finder")
+  showFooterCta         Boolean  @default(true)
+  copyrightText         String   @default("© 2026 گِفتي بلس | Gifty Plus. جميع الحقوق محفوظة.")
+
+  // Homepage 4 Features
+  feature1Title         String   @default("شحن سريع وموثوق")
+  feature1Desc          String   @default("توصيل لكافة محافظات العراق خلال 24 - 48 ساعة مع تتبع فوري للشحنة")
+  feature2Title         String   @default("تغليف ملكي فاخر")
+  feature2Desc          String   @default("علب هدايا فاخرة مع أشرطة حريرية وكارت إهداء بكلماتك مجاناً مع كل طلب")
+  feature3Title         String   @default("دفع آمن عند الاستلام")
+  feature3Desc          String   @default("عاين هديتك وافحصها قبل الاستلام، مع خيارات دفع بـ زين كاش والماستر كارد")
+  feature4Title         String   @default("مستشار هدايا ذكي")
+  feature4Desc          String   @default("خوارزمية ذكية وفريق متخصص يساعدك في اختيار الهدية المثالية لأي مناسبة")
+
+  // 9. SEO & Notifications
+  metaTitle             String   @default("گِفتي بلس | متجر الهدايا الفاخرة الأول في العراق")
+  metaDescription       String   @default("الوجهة الأولى لاختيار وتنسيق الهدايا الفاخرة في العراق. تشكيلة منتقاة بعناية لجميع المناسبات مع تغليف يدوي راقٍ وتوصيل سريع.")
+  metaKeywords          String   @default("هدايا, عطور, ساعات, هدايا رجالية, هدايا نسائية, تغليف هدايا, العراق, بغداد")
+  orderNotifications    Boolean  @default(true)
+  marketingEmails       Boolean  @default(true)
+  lowStockThreshold     Int      @default(5)
+
+  updatedAt             DateTime @updatedAt
 }
