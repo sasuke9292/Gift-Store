@@ -21,6 +21,11 @@ interface OrderData {
   id: string
   orderNumber: string
   customer: string
+  phone?: string
+  source?: string
+  province?: string
+  area?: string
+  deliveryType?: string
   date: string
   products: number
   total: number
@@ -51,10 +56,21 @@ export default function OrdersClient({ initialOrders }: { initialOrders: OrderDa
   const [orders, setOrders] = useState(initialOrders)
   const [search, setSearch] = useState('')
   const [statusFilter, setStatusFilter] = useState('all')
+  const [sourceFilter, setSourceFilter] = useState<'all' | 'WHATSAPP'>('all')
   const [deleteId, setDeleteId] = useState<string | null>(null)
   const [isDeleting, setIsDeleting] = useState(false)
   const [selectedOrderId, setSelectedOrderId] = useState<string | null>(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
+
+  // Listen to source param if opened via sidebar
+  React.useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search)
+      if (params.get('source') === 'WHATSAPP') {
+        setSourceFilter('WHATSAPP')
+      }
+    }
+  }, [])
 
   const handleOpenModal = (id: string) => {
     setSelectedOrderId(id)
@@ -68,9 +84,11 @@ export default function OrdersClient({ initialOrders }: { initialOrders: OrderDa
   const filteredOrders = orders.filter(o => {
     const matchesSearch = 
       o.orderNumber.toLowerCase().includes(search.toLowerCase()) ||
-      o.customer.toLowerCase().includes(search.toLowerCase())
+      o.customer.toLowerCase().includes(search.toLowerCase()) ||
+      (o.phone && o.phone.includes(search))
     const matchesStatus = statusFilter === 'all' || o.status === statusFilter
-    return matchesSearch && matchesStatus
+    const matchesSource = sourceFilter === 'all' || o.source === sourceFilter
+    return matchesSearch && matchesStatus && matchesSource
   })
 
   const handleStatusChange = async (id: string, status: OrderStatus) => {
@@ -153,8 +171,33 @@ export default function OrdersClient({ initialOrders }: { initialOrders: OrderDa
             />
           </div>
 
-          {/* Status Filters */}
-          <div className="flex flex-wrap gap-2">
+          {/* Status & Source Filters */}
+          <div className="flex flex-wrap items-center gap-2">
+            {/* Source Toggle */}
+            <div className="flex rounded-xl bg-[#FAFAF8] p-1 border border-[#E8E4DF] me-2">
+              <button
+                type="button"
+                onClick={() => setSourceFilter('all')}
+                className={`px-3 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                  sourceFilter === 'all' ? 'bg-[#1C1917] text-white shadow-xs' : 'text-[#78716C] hover:text-[#1C1917]'
+                }`}
+              >
+                الكل
+              </button>
+              <button
+                type="button"
+                onClick={() => setSourceFilter('WHATSAPP')}
+                className={`px-3 py-1 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
+                  sourceFilter === 'WHATSAPP' ? 'bg-[#25D366] text-white shadow-xs' : 'text-[#78716C] hover:text-[#1C1917]'
+                }`}
+              >
+                <svg className={`w-3.5 h-3.5 ${sourceFilter === 'WHATSAPP' ? 'fill-white' : 'fill-[#25D366]'}`} viewBox="0 0 24 24">
+                  <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86.173.086.274.072.376-.043s.433-.506.549-.68c.116-.173.231-.145.39-.086s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.099.824zm-3.394-10.416c-5.523 0-10 4.477-10 10 0 1.77.46 3.432 1.264 4.881l-1.344 4.912 5.044-1.323c1.402.766 3.003 1.2 4.707 1.2 5.522 0 10-4.477 10-10s-4.478-10-9.671-10z" />
+                </svg>
+                <span>طلبات واتساب</span>
+              </button>
+            </div>
+
             {statusFilters.map(f => (
               <button
                 key={f.value}
@@ -196,8 +239,19 @@ export default function OrdersClient({ initialOrders }: { initialOrders: OrderDa
                       </span>
                     </TableCell>
                     <TableCell className="py-4">
-                      <p className="font-bold text-[#1C1917] text-sm">{order.customer}</p>
-                      <p className="text-xs text-[#78716C]">{order.products} منتج • {order.payment}</p>
+                      <div className="flex items-center gap-2">
+                        <p className="font-bold text-[#1C1917] text-sm">{order.customer}</p>
+                        {order.source === 'WHATSAPP' && (
+                          <span className="inline-flex items-center gap-1 bg-[#25D366]/15 text-[#128C7E] text-[10px] font-black px-2 py-0.5 rounded-full">
+                            واتساب
+                          </span>
+                        )}
+                      </div>
+                      <p className="text-xs text-[#78716C] mt-0.5">
+                        {order.phone ? <span dir="ltr" className="font-mono text-stone-600 me-1">{order.phone}</span> : null}
+                        {order.province ? `• ${order.province}` : ''}
+                        {` • ${order.products} منتج`}
+                      </p>
                     </TableCell>
                     <TableCell className="py-4 text-xs text-[#78716C] font-medium">
                       {order.date}
@@ -216,6 +270,29 @@ export default function OrdersClient({ initialOrders }: { initialOrders: OrderDa
                     </TableCell>
                     <TableCell className="px-6 py-4 text-center">
                       <div className="flex items-center justify-center gap-2">
+                        {/* Direct WhatsApp Chat Action */}
+                        {order.phone && (
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => {
+                              let clean = (order.phone || '').replace(/\D/g, '')
+                              if (clean.startsWith('07') && clean.length === 11) {
+                                clean = '964' + clean.slice(1)
+                              }
+                              const msg = `السلام عليكم أستاذ ${order.customer} 👋 بخصوص طلبك رقم ${order.orderNumber} من متجر الهدايا:`
+                              window.open(`https://wa.me/${clean}?text=${encodeURIComponent(msg)}`, '_blank')
+                            }}
+                            className="h-9 px-2.5 rounded-xl border-[#25D366]/40 hover:bg-emerald-50 text-[#128C7E] font-bold text-xs flex items-center gap-1.5 cursor-pointer"
+                            title="فتح محادثة واتساب مع العميل"
+                          >
+                            <svg className="w-3.5 h-3.5 fill-[#25D366]" viewBox="0 0 24 24">
+                              <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86.173.086.274.072.376-.043s.433-.506.549-.68c.116-.173.231-.145.39-.086s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.099.824zm-3.394-10.416c-5.523 0-10 4.477-10 10 0 1.77.46 3.432 1.264 4.881l-1.344 4.912 5.044-1.323c1.402.766 3.003 1.2 4.707 1.2 5.522 0 10-4.477 10-10s-4.478-10-9.671-10z" />
+                            </svg>
+                            <span>واتساب</span>
+                          </Button>
+                        )}
+
                         <Button
                           variant="ghost"
                           size="sm"

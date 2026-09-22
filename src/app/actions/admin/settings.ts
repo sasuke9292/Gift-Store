@@ -77,6 +77,16 @@ export async function updateStoreSettings(rawData: Record<string, any>) {
     if (data.lowStockThreshold !== undefined) {
       data.lowStockThreshold = parseInt(data.lowStockThreshold, 10) || 5
     }
+    if (data.whatsappOrderEnabled !== undefined) {
+      data.whatsappOrderEnabled = Boolean(data.whatsappOrderEnabled)
+    }
+    if (data.whatsappNumber !== undefined && typeof data.whatsappNumber === 'string') {
+      let cleaned = data.whatsappNumber.replace(/\D/g, '')
+      if (cleaned.startsWith('07') && cleaned.length === 11) {
+        cleaned = '964' + cleaned.slice(1)
+      }
+      data.whatsappNumber = cleaned || '9647700000000'
+    }
 
     const settings = await prisma.storeSettings.upsert({
       where: { id: 'default' },

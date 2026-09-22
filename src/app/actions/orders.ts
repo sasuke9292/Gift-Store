@@ -3,71 +3,177 @@
 import { prisma } from '@/lib/prisma'
 import { auth } from '@/auth'
 
-interface CheckoutItem {
+export interface WhatsAppOrderItemInput {
   id: string
   quantity: number
-  price: number
-  name: string
 }
 
-interface CheckoutData {
-  items: CheckoutItem[]
+export interface WhatsAppOrderInput {
   customerName: string
-  customerEmail: string
   customerPhone: string
-  customerAddress: string
-  totalAmount: number
+  province: string
+  area: string
+  address: string
+  deliveryType?: 'DELIVERY' | 'PICKUP'
+  notes?: string
+  items: WhatsAppOrderItemInput[]
 }
 
-export async function createOrderAction(data: CheckoutData) {
-  try {
-    const session = await auth()
-    const userId = session?.user?.id
+function cleanWhatsAppNumber(rawNumber?: string | null): string {
+  if (!rawNumber) return '9647700000000'
+  // Remove spaces, dashes, parentheses, and leading plus sign
+  let cleaned = rawNumber.replace(/\D/g, '')
+  // If number starts with 07 (Iraqi domestic format e.g. 07701234567), replace leading 0 with 964
+  if (cleaned.startsWith('07') && cleaned.length === 11) {
+    cleaned = '964' + cleaned.slice(1)
+  }
+  return cleaned || '9647700000000'
+}
 
+function generateOrderNumber(): string {
+  const now = new Date()
+  const year = now.getFullYear()
+  const month = String(now.getMonth() + 1).padStart(2, '0')
+  const day = String(now.getDate()).padStart(2, '0')
+  const randomSuffix = Math.floor(100 + Math.random() * 900) // 3-digit random
+  return `ORD-${year}${month}${day}-${randomSuffix}`
+}
+
+export async function createWhatsAppOrderAction(data: WhatsAppOrderInput) {
+  try {
+    // 1. Validate customer inputs
+    const name = data.customerName?.trim()
+    const phone = data.customerPhone?.trim()
+    const province = data.province?.trim()
+    const area = data.area?.trim()
+    const address = data.address?.trim()
+    const deliveryType = data.deliveryType === 'PICKUP' ? 'PICKUP' : 'DELIVERY'
+    const notes = data.notes?.trim() || ''
+
+    if (!name || name.length < 2) {
+      return { error: 'يرجى إدخال الاسم الكامل بشكل صحيح.' }
+    }
+    if (!phone || phone.replace(/\D/g, '').length < 10) {
+      return { error: 'يرجى إدخال رقم هاتف صحيح (10 أرقام على الأقل).' }
+    }
+    if (!province) {
+      return { error: 'يرجى اختيار المحافظة.' }
+    }
+    if (!area) {
+      return { error: 'يرجى إدخال المنطقة أو القضاء.' }
+    }
+    if (deliveryType === 'DELIVERY' && (!address || address.length < 3)) {
+      return { error: 'يرجى إدخال العنوان بالتفصيل (أقرب نقطة دالة، زقاق، دار).' }
+    }
     if (!data.items || data.items.length === 0) {
-      return { error: 'السلة فارغة.' }
+      return { error: 'السلة فارغة. يرجى إضافة منتجات قبل إتمام الطلب.' }
     }
 
-    // Verify all products exist
-    const productIds = data.items.map(item => item.id)
-    const existingProducts = await prisma.product.findMany({
-      where: { id: { in: productIds } },
-      select: { id: true }
+    // 2. Fetch Store Settings for WhatsApp and Shipping
+    const settings = await prisma.storeSettings.findUnique({ where: { id: 'default' } }).catch(() => null)
+    
+    // Check if WhatsApp ordering is enabled
+    if (settings && settings.whatsappOrderEnabled === false) {
+      return { error: 'عذراً، خدمة الطلب عبر WhatsApp معطلة مؤقتاً في المتجر حالياً. يرجى مراجعتنا لاحقاً.' }
+    }
+
+    const freeThreshold = settings?.freeShippingThreshold ?? 100000
+    const baghdadFee = settings?.shippingCostBaghdad ?? 5000
+    const provincesFee = settings?.shippingCostProvinces ?? 7000
+    const currency = settings?.currency || 'د.ع'
+    const storeWhatsApp = cleanWhatsAppNumber(settings?.whatsappNumber)
+    const welcomeMsg = settings?.whatsappWelcomeMsg || 'السلام عليكم 👋\nأرغب بتأكيد هذا الطلب:'
+    const footerNote = settings?.whatsappFooterNote || 'أرجو تأكيد الطلب، شكراً ❤️'
+
+    // 3. Security: Fetch TRUE prices and active status from DB to prevent client tampering
+    const itemMap = new Map<string, number>()
+    data.items.forEach(item => {
+      const current = itemMap.get(item.id) || 0
+      itemMap.set(item.id, current + Math.max(1, Math.floor(item.quantity)))
     })
 
-    if (existingProducts.length !== productIds.length) {
-      return { error: 'عذراً، بعض المنتجات في سلتك لم تعد متوفرة في قاعدة البيانات (ربما تم حذفها). يرجى إفراغ السلة والمحاولة مجدداً.' }
+    const productIds = Array.from(itemMap.keys())
+    const dbProducts = await prisma.product.findMany({
+      where: {
+        id: { in: productIds },
+        isActive: true
+      },
+      select: {
+        id: true,
+        name: true,
+        price: true,
+        salePrice: true,
+        images: true
+      }
+    })
+
+    if (dbProducts.length !== productIds.length) {
+      return {
+        error: 'بعض المنتجات في السلة غير متوفرة حالياً أو تم تغيير حالتها. يرجى مراجعة السلة والمحاولة مجدداً.'
+      }
     }
 
-    const settings = await prisma.storeSettings.findUnique({ where: { id: 'default' } }).catch(() => null)
-    const freeThreshold = settings?.freeShippingThreshold ?? 100000
-    const shippingFee = settings?.shippingCostBaghdad ?? 5000
+    // Calculate subtotal from verified DB prices
+    let subtotal = 0
+    const verifiedItems = dbProducts.map(product => {
+      const quantity = itemMap.get(product.id) || 1
+      const price = product.salePrice ?? product.price
+      const total = price * quantity
+      subtotal += total
+      return {
+        id: product.id,
+        name: product.name,
+        quantity,
+        price,
+        total,
+        image: product.images?.[0] || null
+      }
+    })
 
-    const calculatedSubtotal = data.items.reduce((acc, item) => acc + item.price * item.quantity, 0)
-    const calculatedShipping = calculatedSubtotal >= freeThreshold ? 0 : shippingFee
-    const calculatedTotal = calculatedSubtotal + calculatedShipping
-    
-    // Create the order
+    // Calculate shipping fee
+    let shippingCost = 0
+    if (deliveryType === 'PICKUP') {
+      shippingCost = 0
+    } else if (subtotal >= freeThreshold) {
+      shippingCost = 0
+    } else {
+      const isBaghdad = province.includes('بغداد') || province.toLowerCase().includes('baghdad')
+      shippingCost = isBaghdad ? baghdadFee : provincesFee
+    }
+
+    const totalAmount = subtotal + shippingCost
+    const orderNumber = generateOrderNumber()
+
+    // 4. Record order in PostgreSQL as Guest Order (source: WHATSAPP)
     const order = await prisma.order.create({
       data: {
-        orderNumber: `ORD-${Math.floor(Date.now() / 1000)}`,
-        customerName: data.customerName,
-        customerPhone: data.customerPhone,
-        customerEmail: data.customerEmail,
-        paymentMethod: 'COD',
-        subtotal: calculatedSubtotal,
-        shippingCost: calculatedShipping,
-        discount: 0,
-        total: calculatedTotal,
-        shippingAddress: { address: data.customerAddress },
+        orderNumber,
+        customerName: name,
+        customerPhone: phone,
+        source: 'WHATSAPP',
+        province,
+        area,
+        deliveryType,
         status: 'PENDING',
-        userId: userId || null, // Guest checkout if no user
+        paymentMethod: 'WHATSAPP',
+        paymentStatus: 'UNPAID',
+        subtotal,
+        shippingCost,
+        discount: 0,
+        total: totalAmount,
+        shippingAddress: {
+          province,
+          area,
+          address: deliveryType === 'PICKUP' ? 'استلام مباشر من الفرع' : address,
+          deliveryType
+        },
+        notes: notes || null,
         items: {
-          create: data.items.map(item => ({
+          create: verifiedItems.map(item => ({
             productId: item.id,
-            quantity: item.quantity,
-            price: item.price,
             productName: item.name,
+            quantity: item.quantity,
+            price: item.price
           }))
         }
       },
@@ -76,9 +182,70 @@ export async function createOrderAction(data: CheckoutData) {
       }
     })
 
-    return { success: true, orderId: order.id }
+    // 5. Construct Clean, Professional WhatsApp Message
+    const deliveryMethodArabic = deliveryType === 'PICKUP' ? 'استلام من المتجر 🏬' : 'توصيل للمنزل 🚚'
+    const shippingText = shippingCost === 0 ? 'مجاني 🎁' : `${shippingCost.toLocaleString('en-US')} ${currency}`
+
+    const itemsText = verifiedItems
+      .map(
+        item =>
+          `🎁 ${item.name}\nالكمية: ${item.quantity}\nالسعر: ${(item.price * item.quantity).toLocaleString('en-US')} ${currency}`
+      )
+      .join('\n\n')
+
+    const addressBlock =
+      deliveryType === 'PICKUP'
+        ? `📍 طريقة الاستلام: استلام من المتجر 🏬\n📍 المحافظة: ${province}`
+        : `📍 طريقة الاستلام: توصيل للمنزل 🚚\n📍 المحافظة: ${province}\n📍 المنطقة / القضاء: ${area}\n📍 العنوان التفصيلي: ${address}`
+
+    const notesBlock = notes ? `\n📝 ملاحظات إضافية:\n${notes}` : ''
+
+    const fullWhatsAppText = `${welcomeMsg}
+
+🧾 رقم الطلب: ${orderNumber}
+
+🛍️ تفاصيل الطلب:
+━━━━━━━━━━━━━━
+${itemsText}
+━━━━━━━━━━━━━━
+📦 التوصيل: ${shippingText}
+💰 المجموع الكلي: ${totalAmount.toLocaleString('en-US')} ${currency}
+
+👤 معلومات العميل:
+الاسم: ${name}
+الهاتف: ${phone}
+${addressBlock}${notesBlock}
+
+${footerNote}`
+
+    const encodedText = encodeURIComponent(fullWhatsAppText)
+    const whatsappUrl = `https://wa.me/${storeWhatsApp}?text=${encodedText}`
+
+    return {
+      success: true,
+      orderNumber,
+      orderId: order.id,
+      whatsappUrl,
+      subtotal,
+      shippingCost,
+      totalAmount,
+      currency
+    }
   } catch (error) {
-    console.error('Order creation error:', error)
-    return { error: 'حدث خطأ أثناء إنشاء الطلب.' }
+    console.error('WhatsApp order creation error:', error)
+    return { error: 'حدث خطأ غير متوقع أثناء معالجة الطلب. يرجى المحاولة مرة أخرى.' }
   }
+}
+
+// Retain backward-compatible createOrderAction for existing callers
+export async function createOrderAction(data: any) {
+  return createWhatsAppOrderAction({
+    customerName: data.customerName,
+    customerPhone: data.customerPhone,
+    province: 'بغداد',
+    area: 'عام',
+    address: data.customerAddress || '',
+    deliveryType: 'DELIVERY',
+    items: data.items || []
+  })
 }

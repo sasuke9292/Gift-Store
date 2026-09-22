@@ -20,6 +20,7 @@ import {
   UserCog,
   ExternalLink,
   Gift,
+  MessageCircle,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import {
@@ -54,6 +55,7 @@ export const sidebarGroups: SidebarGroup[] = [
     title: 'إدارة المتجر',
     items: [
       { name: 'الطلبات', href: '/admin/orders', icon: ShoppingCart, allowedRoles: ['SUPER_ADMIN', 'ADMIN', 'MANAGER', 'SALES'] },
+      { name: 'طلبات WhatsApp', href: '/admin/orders?source=WHATSAPP', icon: MessageCircle, allowedRoles: ['SUPER_ADMIN', 'ADMIN', 'MANAGER', 'SALES'] },
       { name: 'المنتجات', href: '/admin/products', icon: Package, allowedRoles: ['SUPER_ADMIN', 'ADMIN', 'MANAGER', 'EDITOR'] },
       { name: 'التصنيفات', href: '/admin/categories', icon: Tags, allowedRoles: ['SUPER_ADMIN', 'ADMIN', 'MANAGER'] },
       { name: 'المستخدمين', href: '/admin/users', icon: UserCog, allowedRoles: ['SUPER_ADMIN', 'ADMIN'] },
@@ -62,6 +64,7 @@ export const sidebarGroups: SidebarGroup[] = [
   {
     title: 'النظام والإعدادات',
     items: [
+      { name: 'إعدادات WhatsApp', href: '/admin/settings?tab=whatsapp', icon: MessageCircle, allowedRoles: ['SUPER_ADMIN'] },
       { name: 'إعدادات المتجر', href: '/admin/settings', icon: Settings, allowedRoles: ['SUPER_ADMIN'] },
       { name: 'الملف الشخصي', href: '/admin/profile', icon: User },
     ]

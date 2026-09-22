@@ -164,6 +164,12 @@ model Order {
   notes           String?
   internalNotes   String?
 
+  // WhatsApp & Guest Order Fields
+  source          String      @default("WHATSAPP") // "WHATSAPP", "WEB"
+  province        String?     // e.g. "بغداد", "كربلاء"
+  area            String?     // e.g. "المنصور", "حي الحسين"
+  deliveryType    String?     @default("DELIVERY") // "DELIVERY" (توصيل), "PICKUP" (استلام)
+
   items         OrderItem[]
   createdAt     DateTime    @default(now())
   updatedAt     DateTime    @updatedAt
@@ -195,6 +201,7 @@ enum PaymentMethod {
   COD
   MANUAL
   ONLINE
+  WHATSAPP
 }
 
 enum PaymentStatus {
@@ -272,10 +279,13 @@ model StoreSettings {
   fibAccountNumber      String?  @default("IQ00FIB00000000000000")
   paymentNotes          String?  @default("يمكنك الدفع نقداً عند استلام الهدية أو التحويل عبر زين كاش والبطاقات المصرفية.")
 
-  // 6. Contact Information & Working Hours
+  // 6. Contact Information & WhatsApp Settings
   storeEmail            String?  @default("info@giftstore.iq")
   storePhone            String?  @default("+964 770 123 4567")
-  whatsappNumber        String?  @default("+9647700000000")
+  whatsappNumber        String?  @default("9647700000000")
+  whatsappOrderEnabled  Boolean  @default(true)
+  whatsappWelcomeMsg    String   @default("السلام عليكم 👋\nأرغب بتأكيد هذا الطلب:")
+  whatsappFooterNote    String   @default("أرجو تأكيد الطلب، شكراً ❤️")
   storeAddress          String   @default("بغداد، المنصور، شارع 14 رمضان")
   addressDetails        String?  @default("بالقرب من مول المنصور")
   workingHours          String   @default("السبت – الخميس: 9:00 ص – 10:00 م")

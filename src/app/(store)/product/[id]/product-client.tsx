@@ -8,12 +8,14 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Star, Minus, Plus, ShoppingCart, Heart, Share2, ShieldCheck, Truck, RotateCcw, ArrowLeft, Check } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { useCartStore, useFavoritesStore } from '@/lib/store'
 import { toast } from 'sonner'
 import { useMounted } from '@/lib/use-mounted'
 import { cn } from '@/lib/utils'
 
 export default function ProductClient({ product }: { product: any }) {
+  const router = useRouter()
   const [quantity, setQuantity] = useState(1)
   const [activeImage, setActiveImage] = useState(product.images?.[0] || '')
   const [addedToCart, setAddedToCart] = useState(false)
@@ -277,23 +279,28 @@ export default function ProductClient({ product }: { product: any }) {
               </div>
             </div>
 
-            {/* Buy Now */}
-            <Link
-              href="/checkout"
+            {/* Buy Now via Cart & WhatsApp */}
+            <button
+              type="button"
               onClick={() => {
                 addItem({
-                  id: crypto.randomUUID(),
+                  id: product.id,
                   productId: product.id,
                   name: product.name,
                   price: product.salePrice ?? product.price,
                   image: product.images?.[0] || '',
                   quantity: quantity
                 })
+                router.push('/cart')
               }}
-              className="flex items-center justify-center gap-2 h-12 rounded-xl font-bold text-[#1C1917] border-2 border-[#1C1917] hover:bg-[#1C1917] hover:text-white transition-all duration-200 mb-6 text-sm"
+              className="flex items-center justify-center gap-2 w-full h-12 rounded-xl font-bold text-white transition-all duration-200 mb-6 text-sm cursor-pointer shadow-md hover:shadow-lg"
+              style={{ background: 'linear-gradient(135deg, #25D366 0%, #128C7E 100%)' }}
             >
-              اشترِ الآن — الدفع السريع
-            </Link>
+              <svg className="w-5 h-5 fill-white shrink-0" viewBox="0 0 24 24">
+                <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86.173.086.274.072.376-.043s.433-.506.549-.68c.116-.173.231-.145.39-.086s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.099.824zm-3.394-10.416c-5.523 0-10 4.477-10 10 0 1.77.46 3.432 1.264 4.881l-1.344 4.912 5.044-1.323c1.402.766 3.003 1.2 4.707 1.2 5.522 0 10-4.477 10-10s-4.478-10-9.671-10z" />
+              </svg>
+              <span>طلب مباشر عبر WhatsApp</span>
+            </button>
 
             {/* Trust Guarantees */}
             <div className="grid grid-cols-3 gap-3">

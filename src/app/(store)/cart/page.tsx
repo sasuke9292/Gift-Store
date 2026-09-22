@@ -12,6 +12,7 @@ import { toast } from 'sonner'
 import { useMounted } from '@/lib/use-mounted'
 
 import { getPublicStoreSettings } from '@/app/actions/admin/settings'
+import { WhatsAppOrderModal } from '@/components/cart/whatsapp-order-modal'
 
 export default function CartPage() {
   const cartItems = useCartStore(state => state.items)
@@ -21,26 +22,31 @@ export default function CartPage() {
   const mounted = useMounted()
   const [couponCode, setCouponCode] = useState('')
 
-  const [shippingSettings, setShippingSettings] = useState({
+  const [isWhatsAppModalOpen, setIsWhatsAppModalOpen] = useState(false)
+  const [storeSettings, setStoreSettings] = useState({
     freeThreshold: 100000,
-    shippingCost: 5000,
-    currency: 'د.ع'
+    shippingCostBaghdad: 5000,
+    shippingCostProvinces: 7000,
+    currency: 'د.ع',
+    whatsappOrderEnabled: true
   })
 
   useEffect(() => {
     getPublicStoreSettings().then(res => {
       if (res) {
-        setShippingSettings({
+        setStoreSettings({
           freeThreshold: res.freeShippingThreshold ?? 100000,
-          shippingCost: res.shippingCostBaghdad ?? 5000,
-          currency: res.currency || 'د.ع'
+          shippingCostBaghdad: res.shippingCostBaghdad ?? 5000,
+          shippingCostProvinces: res.shippingCostProvinces ?? 7000,
+          currency: res.currency || 'د.ع',
+          whatsappOrderEnabled: res.whatsappOrderEnabled ?? true
         })
       }
     })
   }, [])
 
-  const FREE_SHIPPING_THRESHOLD = shippingSettings.freeThreshold
-  const shipping = subtotal >= FREE_SHIPPING_THRESHOLD ? 0 : shippingSettings.shippingCost
+  const FREE_SHIPPING_THRESHOLD = storeSettings.freeThreshold
+  const shipping = subtotal >= FREE_SHIPPING_THRESHOLD ? 0 : storeSettings.shippingCostBaghdad
   const total = subtotal + (cartItems.length > 0 ? shipping : 0)
   const progressToFreeShipping = Math.min((subtotal / FREE_SHIPPING_THRESHOLD) * 100, 100)
   const remainingForFreeShipping = FREE_SHIPPING_THRESHOLD - subtotal
@@ -261,15 +267,27 @@ export default function CartPage() {
                   </Button>
                 </div>
 
-                {/* Checkout Button */}
-                <Link
-                  href="/checkout"
-                  className="flex items-center justify-center gap-2 w-full h-13 py-3.5 rounded-xl font-bold text-white text-base transition-all hover:-translate-y-0.5 hover:shadow-[0_6px_20px_rgba(184,137,58,0.35)]"
-                  style={{ background: 'linear-gradient(135deg, #C9A96E 0%, #A07850 100%)' }}
-                >
-                  متابعة الدفع
-                  <ArrowLeft className="w-4 h-4" />
-                </Link>
+                {/* WhatsApp Checkout Button */}
+                {storeSettings.whatsappOrderEnabled ? (
+                  <button
+                    type="button"
+                    onClick={() => setIsWhatsAppModalOpen(true)}
+                    className="flex items-center justify-center gap-2.5 w-full h-14 py-3.5 px-4 rounded-2xl font-black text-white text-base transition-all duration-200 hover:-translate-y-0.5 shadow-[0_6px_20px_rgba(37,211,102,0.3)] hover:shadow-[0_8px_25px_rgba(37,211,102,0.4)] cursor-pointer"
+                    style={{ background: 'linear-gradient(135deg, #25D366 0%, #128C7E 100%)' }}
+                  >
+                    <svg className="w-6 h-6 fill-white shrink-0" viewBox="0 0 24 24">
+                      <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86.173.086.274.072.376-.043s.433-.506.549-.68c.116-.173.231-.145.39-.086s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.099.824zm-3.394-10.416c-5.523 0-10 4.477-10 10 0 1.77.46 3.432 1.264 4.881l-1.344 4.912 5.044-1.323c1.402.766 3.003 1.2 4.707 1.2 5.522 0 10-4.477 10-10s-4.478-10-9.671-10z" />
+                    </svg>
+                    <span>إتمام الطلب عبر WhatsApp</span>
+                    <ArrowLeft className="w-4 h-4 ms-auto" />
+                  </button>
+                ) : (
+                  <div className="bg-amber-50 border border-amber-200 rounded-2xl p-4 text-center">
+                    <p className="text-xs font-bold text-amber-800">
+                      خدمة الطلب عبر WhatsApp معطلة مؤقتاً في المتجر
+                    </p>
+                  </div>
+                )}
 
                 {/* Trust Badges */}
                 <div className="mt-5 flex items-center justify-center gap-4 text-xs text-[#A8A29E]">
@@ -281,6 +299,43 @@ export default function CartPage() {
             </motion.div>
           </div>
         )}
+
+        {/* Mobile Sticky Checkout Bar */}
+        {cartItems.length > 0 && storeSettings.whatsappOrderEnabled && (
+          <div className="fixed bottom-0 start-0 end-0 bg-white/95 backdrop-blur-md border-t border-[#E8E4DF] p-4 z-40 lg:hidden shadow-[0_-4px_20px_rgba(0,0,0,0.08)]">
+            <div className="flex items-center justify-between gap-3 max-w-md mx-auto">
+              <div>
+                <p className="text-[11px] text-[#78716C] font-bold">الإجمالي الكلي</p>
+                <p className="text-lg font-black text-[#1C1917]">
+                  {total.toLocaleString('en-US')} <span className="text-xs font-normal text-[#A8A29E]">د.ع</span>
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setIsWhatsAppModalOpen(true)}
+                className="flex-1 h-12 rounded-xl font-extrabold text-white text-sm flex items-center justify-center gap-2 shadow-md cursor-pointer"
+                style={{ background: 'linear-gradient(135deg, #25D366 0%, #128C7E 100%)' }}
+              >
+                <svg className="w-5 h-5 fill-white shrink-0" viewBox="0 0 24 24">
+                  <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86.173.086.274.072.376-.043s.433-.506.549-.68c.116-.173.231-.145.39-.086s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.099.824zm-3.394-10.416c-5.523 0-10 4.477-10 10 0 1.77.46 3.432 1.264 4.881l-1.344 4.912 5.044-1.323c1.402.766 3.003 1.2 4.707 1.2 5.522 0 10-4.477 10-10s-4.478-10-9.671-10z" />
+                </svg>
+                <span>طلب عبر WhatsApp</span>
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* WhatsApp Order Modal */}
+        <WhatsAppOrderModal
+          isOpen={isWhatsAppModalOpen}
+          onClose={() => setIsWhatsAppModalOpen(false)}
+          shippingSettings={{
+            freeThreshold: storeSettings.freeThreshold,
+            shippingCostBaghdad: storeSettings.shippingCostBaghdad,
+            shippingCostProvinces: storeSettings.shippingCostProvinces,
+            currency: storeSettings.currency
+          }}
+        />
       </div>
     </div>
   )

@@ -18,12 +18,17 @@ export default async function AdminOrdersPage() {
     id: order.id,
     orderNumber: order.orderNumber,
     customer: order.customerName,
+    phone: order.customerPhone,
+    source: order.source || 'WHATSAPP',
+    province: order.province || '',
+    area: order.area || '',
+    deliveryType: order.deliveryType || 'DELIVERY',
     date: new Date(order.createdAt).toLocaleDateString('ar-IQ'),
     products: order.items.length,
     total: order.total,
     payment: order.paymentMethod,
     status: order.status,
-    shipping: 'العنوان', 
+    shipping: order.province ? `${order.province} - ${order.area || ''}` : 'العنوان', 
   }))
 
   return <OrdersClient initialOrders={formattedOrders} />

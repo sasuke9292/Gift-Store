@@ -284,21 +284,47 @@ export function OrderDetailsModal({ isOpen, onClose, orderId, onOrderUpdated }: 
                         <p className="text-sm font-bold text-[#1C1917]">{order.customerName}</p>
                       </div>
                       <div>
-                        <p className="text-xs text-[#A8A29E] font-bold uppercase mb-1">رقم الهاتف</p>
+                        <div className="flex items-center justify-between mb-1">
+                          <p className="text-xs text-[#A8A29E] font-bold uppercase">رقم الهاتف</p>
+                          {order.customerPhone && (
+                            <button
+                              type="button"
+                              onClick={() => {
+                                let clean = (order.customerPhone || '').replace(/\D/g, '')
+                                if (clean.startsWith('07') && clean.length === 11) {
+                                  clean = '964' + clean.slice(1)
+                                }
+                                const msg = `السلام عليكم أستاذ ${order.customerName} 👋 بخصوص طلبك رقم ${order.orderNumber} من متجر الهدايا:`
+                                window.open(`https://wa.me/${clean}?text=${encodeURIComponent(msg)}`, '_blank')
+                              }}
+                              className="inline-flex items-center gap-1 text-[11px] font-bold text-[#128C7E] hover:underline cursor-pointer"
+                            >
+                              <svg className="w-3 h-3 fill-[#25D366]" viewBox="0 0 24 24">
+                                <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86.173.086.274.072.376-.043s.433-.506.549-.68c.116-.173.231-.145.39-.086s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.099.824zm-3.394-10.416c-5.523 0-10 4.477-10 10 0 1.77.46 3.432 1.264 4.881l-1.344 4.912 5.044-1.323c1.402.766 3.003 1.2 4.707 1.2 5.522 0 10-4.477 10-10s-4.478-10-9.671-10z" />
+                              </svg>
+                              محادثة WhatsApp
+                            </button>
+                          )}
+                        </div>
                         <p className="text-sm font-bold text-[#1C1917]" dir="ltr">{order.customerPhone}</p>
                       </div>
-                      {order.customerEmail && (
-                        <div>
-                          <p className="text-xs text-[#A8A29E] font-bold uppercase mb-1">البريد الإلكتروني</p>
-                          <p className="text-sm font-bold text-[#1C1917] font-mono" dir="ltr">{order.customerEmail}</p>
-                        </div>
-                      )}
                       <div>
-                        <p className="text-xs text-[#A8A29E] font-bold uppercase mb-1">عنوان التوصيل</p>
+                        <p className="text-xs text-[#A8A29E] font-bold uppercase mb-1">طريقة ومصدر الاستلام</p>
+                        <p className="text-sm font-bold text-[#1C1917]">
+                          {order.deliveryType === 'PICKUP' ? 'استلام مباشر من المتجر 🏬' : 'توصيل للعنوان 🚚'}
+                          {order.source === 'WHATSAPP' && (
+                            <span className="ms-2 text-[10px] bg-[#25D366]/20 text-[#128C7E] px-2 py-0.5 rounded-full font-black">
+                              طلب واتساب
+                            </span>
+                          )}
+                        </p>
+                      </div>
+                      <div className="sm:col-span-2">
+                        <p className="text-xs text-[#A8A29E] font-bold uppercase mb-1">عنوان التوصيل الكامل</p>
                         <p className="text-sm font-medium text-[#1C1917]">
-                          {order.shippingAddress 
-                            ? `${order.shippingAddress.governorate || ''}، ${order.shippingAddress.city || ''}، ${order.shippingAddress.street || ''}`
-                            : 'العنوان غير محدد'}
+                          {order.province ? `${order.province}` : ''}
+                          {order.area ? `، ${order.area}` : ''}
+                          {order.shippingAddress?.address ? `، ${order.shippingAddress.address}` : (order.shippingAddress?.street ? `، ${order.shippingAddress.street}` : '')}
                         </p>
                       </div>
                       {order.notes && (

@@ -25,7 +25,8 @@ import {
   Sliders,
   Layers,
   Info,
-  ChevronLeft
+  ChevronLeft,
+  MessageCircle
 } from 'lucide-react'
 import { toast } from 'sonner'
 import { updateStoreSettings } from '@/app/actions/admin/settings'
@@ -89,6 +90,9 @@ export interface SettingsData {
   storeEmail: string
   storePhone: string
   whatsappNumber: string
+  whatsappOrderEnabled: boolean
+  whatsappWelcomeMsg: string
+  whatsappFooterNote: string
   storeAddress: string
   addressDetails?: string | null
   workingHours: string
@@ -126,7 +130,7 @@ export interface SettingsData {
   lowStockThreshold: number
 }
 
-type TabType = 'general' | 'hero' | 'header' | 'shipping' | 'payment' | 'contact' | 'social' | 'footer' | 'seo'
+type TabType = 'general' | 'hero' | 'header' | 'shipping' | 'payment' | 'whatsapp' | 'contact' | 'social' | 'footer' | 'seo'
 
 const TABS: { id: TabType; label: string; icon: React.ElementType; desc: string }[] = [
   { id: 'general', label: 'الهوية والبيانات', icon: Store, desc: 'اسم المتجر، الشعار، العملة، ووضع الصيانة' },
@@ -134,6 +138,7 @@ const TABS: { id: TabType; label: string; icon: React.ElementType; desc: string 
   { id: 'header', label: 'الترويسة والإعلانات', icon: Megaphone, desc: 'الشريط الإعلاني العلوي وروابط الترويسة' },
   { id: 'shipping', label: 'الشحن والطلبات', icon: Truck, desc: 'حد الشحن المجاني وتكاليف التوصيل' },
   { id: 'payment', label: 'طرق الدفع', icon: CreditCard, desc: 'الدفع عند الاستلام، زين كاش، و FIB' },
+  { id: 'whatsapp', label: 'إعدادات WhatsApp', icon: MessageCircle, desc: 'رقم واتساب المتجر، تفعيل الطلب، وتخصيص الرسائل' },
   { id: 'contact', label: 'التواصل والعمل', icon: PhoneCall, desc: 'أرقام الاتصال، الواتساب، وأوقات الدوام' },
   { id: 'social', label: 'التواصل الاجتماعي', icon: Share2, desc: 'روابط انستغرام، فيسبوك، وتيك توك' },
   { id: 'footer', label: 'المزايا والفوتر', icon: Gift, desc: 'المزايا الأربعة، بانر الفوتر، وحقوق النشر' },
@@ -145,6 +150,17 @@ export default function SettingsClient({ initialSettings }: { initialSettings: S
   const [activeTab, setActiveTab] = useState<TabType>('general')
   const [isSaving, setIsSaving] = useState(false)
   const [hasChanges, setHasChanges] = useState(false)
+
+  // Listen to tab query param if accessed directly from sidebar
+  React.useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search)
+      const tabParam = params.get('tab') as TabType
+      if (tabParam && TABS.some(t => t.id === tabParam)) {
+        setActiveTab(tabParam)
+      }
+    }
+  }, [])
 
   const updateField = <K extends keyof SettingsData>(field: K, value: SettingsData[K]) => {
     setSettings(prev => ({ ...prev, [field]: value }))
@@ -826,6 +842,161 @@ export default function SettingsClient({ initialSettings }: { initialSettings: S
                 placeholder="ملاحظات تظهر للزبون في صفحة الدفع..."
               />
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* ========================================================= */}
+      {/* WhatsApp Settings Tab                                     */}
+      {/* ========================================================= */}
+      {activeTab === 'whatsapp' && (
+        <div className="border border-[#E8E4DF] rounded-3xl overflow-hidden bg-white shadow-xs">
+          <div className="p-6 border-b border-[#E8E4DF] bg-[#FAFAF8] flex items-center justify-between">
+            <div>
+              <h2 className="text-base font-black text-[#1C1917] flex items-center gap-2">
+                <span>إعدادات WhatsApp ونظام الطلب المباشر</span>
+                <span className="text-[10px] bg-[#25D366]/20 text-[#128C7E] px-2.5 py-0.5 rounded-full font-bold">
+                  Guest WhatsApp Flow
+                </span>
+              </h2>
+              <p className="text-xs text-[#78716C] mt-1 font-medium">
+                إدارة رقم واتساب المتجر، تفعيل أو إيقاف استقبال الطلبات، وتخصيص صيغة الرسائل المجهزة.
+              </p>
+            </div>
+            <div className="w-10 h-10 rounded-2xl bg-[#25D366]/10 border border-[#25D366]/20 flex items-center justify-center">
+              <svg className="w-5 h-5 fill-[#25D366]" viewBox="0 0 24 24">
+                <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86.173.086.274.072.376-.043s.433-.506.549-.68c.116-.173.231-.145.39-.086s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.099.824zm-3.394-10.416c-5.523 0-10 4.477-10 10 0 1.77.46 3.432 1.264 4.881l-1.344 4.912 5.044-1.323c1.402.766 3.003 1.2 4.707 1.2 5.522 0 10-4.477 10-10s-4.478-10-9.671-10z" />
+              </svg>
+            </div>
+          </div>
+
+          <div className="p-6 sm:p-8 space-y-6">
+            
+            {/* Toggle Status */}
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 rounded-2xl bg-[#FAFAF8] border border-[#E8E4DF]">
+              <div>
+                <div className="flex items-center gap-2">
+                  <p className="text-sm font-bold text-[#1C1917]">تفعيل استقبال الطلبات عبر WhatsApp</p>
+                  <span className={cn(
+                    "text-[10px] font-bold px-2.5 py-0.5 rounded-full border",
+                    settings.whatsappOrderEnabled
+                      ? "bg-emerald-50 text-emerald-700 border-emerald-200"
+                      : "bg-rose-50 text-rose-700 border-rose-200"
+                  )}>
+                    {settings.whatsappOrderEnabled ? 'مفعّل ويستقبل الطلبات' : 'معطل مؤقتاً'}
+                  </span>
+                </div>
+                <p className="text-xs text-[#78716C] mt-1">
+                  عند التعطيل، سيتم إخفاء أزرار إتمام الطلب عبر واتساب وإظهار تنبيه لطيف للعملاء في السلة.
+                </p>
+              </div>
+              <Switch 
+                checked={settings.whatsappOrderEnabled ?? true}
+                onCheckedChange={val => updateField('whatsappOrderEnabled', val)}
+              />
+            </div>
+
+            {/* Store WhatsApp Number */}
+            <div className="space-y-1.5">
+              <Label className="text-xs font-bold text-[#1C1917] flex items-center justify-between">
+                <span>رقم WhatsApp الخاص بالمتجر *</span>
+                <span className="text-[11px] text-[#A8A29E] font-normal">صيغة دولية بدون + أو مسافات</span>
+              </Label>
+              <div className="flex gap-3">
+                <Input 
+                  value={settings.whatsappNumber || ''} 
+                  onChange={e => updateField('whatsappNumber', e.target.value)}
+                  className="h-11 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-sm text-end font-mono focus:border-[#C9A96E]/50 focus:bg-white"
+                  dir="ltr"
+                  placeholder="9647XXXXXXXXX"
+                />
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => {
+                    const clean = (settings.whatsappNumber || '').replace(/\D/g, '')
+                    if (!clean) {
+                      toast.error('يرجى كتابة رقم هاتف أولاً')
+                      return
+                    }
+                    const url = `https://wa.me/${clean}?text=${encodeURIComponent('تجربة اتصال من لوحة تحكم متجر الهدايا ✅')}`
+                    window.open(url, '_blank')
+                  }}
+                  className="h-11 px-4 rounded-xl border-[#E8E4DF] hover:bg-[#F5F0EA] text-xs font-bold text-[#1C1917] shrink-0 flex items-center gap-1.5 cursor-pointer"
+                >
+                  <Eye className="w-4 h-4 text-[#25D366]" />
+                  اختبار فتح الرقم
+                </Button>
+              </div>
+              <p className="text-[11px] text-[#78716C]">
+                💡 ملاحظة: يمكنك إدخال الرقم بصيغة محلية (مثل 07701234567) وسيقوم النظام تلقائياً بتحويله للصيغة الدولية 9647701234567 عند الحفظ.
+              </p>
+            </div>
+
+            {/* Template Messages (Welcome & Footer) */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-2 border-t border-[#F0ECE6]">
+              <div className="space-y-1.5">
+                <Label className="text-xs font-bold text-[#1C1917]">رسالة الترحيب (مقدمة الطلب)</Label>
+                <Textarea 
+                  rows={3}
+                  value={settings.whatsappWelcomeMsg || ''} 
+                  onChange={e => updateField('whatsappWelcomeMsg', e.target.value)}
+                  className="rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-xs focus:border-[#C9A96E]/50 focus:bg-white resize-none"
+                  placeholder="السلام عليكم 👋&#10;أرغب بتأكيد هذا الطلب:"
+                />
+                <span className="text-[11px] text-[#A8A29E] block">النص الذي يظهر في السطر الأول لرسالة واتساب</span>
+              </div>
+
+              <div className="space-y-1.5">
+                <Label className="text-xs font-bold text-[#1C1917]">ملاحظة الخاتمة (تذييل الطلب)</Label>
+                <Textarea 
+                  rows={3}
+                  value={settings.whatsappFooterNote || ''} 
+                  onChange={e => updateField('whatsappFooterNote', e.target.value)}
+                  className="rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-xs focus:border-[#C9A96E]/50 focus:bg-white resize-none"
+                  placeholder="أرجو تأكيد الطلب، شكراً ❤️"
+                />
+                <span className="text-[11px] text-[#A8A29E] block">النص الختامي ورسالة الشكر أسفل تفاصيل الطلب</span>
+              </div>
+            </div>
+
+            {/* Live Interactive WhatsApp Bubble Preview */}
+            <div className="pt-4 border-t border-[#F0ECE6]">
+              <Label className="text-xs font-bold text-[#1C1917] mb-2 flex items-center gap-2">
+                <Sparkles className="w-3.5 h-3.5 text-[#C9A96E]" />
+                معاينة حية لشكل رسالة الطلب داخل WhatsApp:
+              </Label>
+              
+              <div className="bg-[#EFEAE2] p-4 sm:p-6 rounded-2xl border border-[#D5D0C9] max-w-lg mx-auto">
+                {/* Chat bubble */}
+                <div className="bg-[#E7FFDB] p-4 rounded-2xl rounded-tr-none shadow-sm border border-[#D0EBC2] text-xs text-[#111B21] space-y-2 whitespace-pre-wrap font-sans">
+                  <p className="font-bold">{settings.whatsappWelcomeMsg || 'السلام عليكم 👋\nأرغب بتأكيد هذا الطلب:'}</p>
+                  <p className="font-mono text-[11px] font-bold text-[#128C7E]">🧾 رقم الطلب: ORD-20260922-101</p>
+                  <div className="border-t border-[#D0EBC2] pt-2 text-[11px]">
+                    <p className="font-bold">🛍️ تفاصيل الطلب:</p>
+                    <p>━━━━━━━━━━━━━━</p>
+                    <p>🎁 بوكس هدية ملكي فاخر</p>
+                    <p className="text-stone-600">الكمية: 1 • السعر: 45,000 د.ع</p>
+                    <p>━━━━━━━━━━━━━━</p>
+                    <p>📦 التوصيل: مجاني 🎁</p>
+                    <p className="font-bold text-stone-900">💰 المجموع الكلي: 45,000 د.ع</p>
+                  </div>
+                  <div className="border-t border-[#D0EBC2] pt-2 text-[11px]">
+                    <p className="font-bold">👤 معلومات العميل:</p>
+                    <p>الاسم: أحمد مصطفى</p>
+                    <p>الهاتف: 07701234567</p>
+                    <p>📍 طريقة الاستلام: توصيل للمنزل 🚚</p>
+                    <p>📍 المحافظة: بغداد</p>
+                    <p>📍 المنطقة: المنصور</p>
+                  </div>
+                  <p className="border-t border-[#D0EBC2] pt-2 text-[11px] text-stone-600">
+                    {settings.whatsappFooterNote || 'أرجو تأكيد الطلب، شكراً ❤️'}
+                  </p>
+                  <div className="text-end text-[10px] text-stone-400">10:30 ص ✓✓</div>
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
       )}

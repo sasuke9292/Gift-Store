@@ -401,29 +401,17 @@ export function StoreHeader({ user, topBarText, settings }: StoreHeaderProps) {
                 )}
               </Link>
 
-              {/* User Account / Login */}
-              {user ? (
+              {/* Staff / Admin Dashboard shortcut if staff is logged in */}
+              {user && user.role && user.role !== 'CUSTOMER' && (
                 <Link
-                  href={user.role && user.role !== 'CUSTOMER' ? '/admin' : '#'}
+                  href="/admin"
                   className="flex items-center gap-1.5 h-10 px-3 rounded-2xl text-xs font-bold text-[#1C1917] bg-[#F8F5F0] hover:bg-[#F0EBE1] border border-[#E8E4DF] transition-all"
-                  title={user.name || user.email || 'الحساب'}
+                  title="لوحة تحكم الإدارة"
                 >
                   <User className="w-4 h-4 text-[#A07850]" />
-                  <span className="max-w-[75px] truncate hidden sm:inline">{user.name?.split(' ')[0] || 'حسابي'}</span>
-                  {user.role && user.role !== 'CUSTOMER' && (
-                    <span className="text-[10px] bg-[#C9A96E] text-white px-2 py-0.5 rounded-full font-black">
-                      إدارة
-                    </span>
-                  )}
-                </Link>
-              ) : (
-                <Link
-                  href="/auth/login"
-                  className="hidden sm:flex items-center justify-center w-10 h-10 rounded-2xl text-[#78716C] hover:text-[#A07850] hover:bg-[#FBF6EE] transition-all border border-[#E8E4DF]"
-                  aria-label="تسجيل الدخول"
-                  title="تسجيل الدخول"
-                >
-                  <User className="w-5 h-5" />
+                  <span className="text-[10px] bg-[#C9A96E] text-white px-2 py-0.5 rounded-full font-black">
+                    لوحة الإدارة
+                  </span>
                 </Link>
               )}
 
@@ -576,30 +564,22 @@ export function StoreHeader({ user, topBarText, settings }: StoreHeaderProps) {
 
               {/* Mobile Drawer Footer */}
               <div className="p-4 border-t border-[#E8E4DF] bg-[#FAF7F2]">
-                {user ? (
+                {user && user.role && user.role !== 'CUSTOMER' ? (
                   <Link
-                    href={user.role && user.role !== 'CUSTOMER' ? '/admin' : '#'}
+                    href="/admin"
                     onClick={() => setIsMobileMenuOpen(false)}
                     className="flex items-center justify-between p-2.5 rounded-xl bg-white border border-[#E8E4DF]"
                   >
                     <div className="flex items-center gap-2">
                       <User className="w-4 h-4 text-[#A07850]" />
-                      <span className="text-xs font-bold text-[#1C1917]">{user.name || 'حسابي'}</span>
+                      <span className="text-xs font-bold text-[#1C1917]">{user.name || 'المشرف'}</span>
                     </div>
-                    {user.role && user.role !== 'CUSTOMER' && (
-                      <span className="text-[10px] bg-[#C9A96E] text-white px-2 py-0.5 rounded-full font-bold">لوحة الإدارة</span>
-                    )}
+                    <span className="text-[10px] bg-[#C9A96E] text-white px-2 py-0.5 rounded-full font-bold">لوحة الإدارة</span>
                   </Link>
                 ) : (
-                  <Link
-                    href="/auth/login"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                    className="flex items-center justify-center gap-2 w-full h-11 rounded-xl text-xs font-bold text-white shadow-sm"
-                    style={{ background: 'linear-gradient(135deg, #C9A96E 0%, #A07850 100%)' }}
-                  >
-                    <User className="w-4 h-4" />
-                    <span>تسجيل الدخول / إنشاء حساب</span>
-                  </Link>
+                  <div className="text-center py-1">
+                    <p className="text-[11px] font-bold text-[#A07850]">✨ متجر الهدايا الفاخرة • طلب فوري عبر WhatsApp</p>
+                  </div>
                 )}
               </div>
             </motion.div>
