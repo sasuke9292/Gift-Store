@@ -54,8 +54,7 @@ export const sidebarGroups: SidebarGroup[] = [
   {
     title: 'إدارة المتجر',
     items: [
-      { name: 'الطلبات', href: '/admin/orders', icon: ShoppingCart, allowedRoles: ['SUPER_ADMIN', 'ADMIN', 'MANAGER', 'SALES'] },
-      { name: 'طلبات WhatsApp', href: '/admin/orders?source=WHATSAPP', icon: MessageCircle, allowedRoles: ['SUPER_ADMIN', 'ADMIN', 'MANAGER', 'SALES'] },
+      { name: 'طلبات WhatsApp', href: '/admin/orders', icon: MessageCircle, allowedRoles: ['SUPER_ADMIN', 'ADMIN', 'MANAGER', 'SALES'] },
       { name: 'المنتجات', href: '/admin/products', icon: Package, allowedRoles: ['SUPER_ADMIN', 'ADMIN', 'MANAGER', 'EDITOR'] },
       { name: 'التصنيفات', href: '/admin/categories', icon: Tags, allowedRoles: ['SUPER_ADMIN', 'ADMIN', 'MANAGER'] },
       { name: 'المستخدمين', href: '/admin/users', icon: UserCog, allowedRoles: ['SUPER_ADMIN', 'ADMIN'] },

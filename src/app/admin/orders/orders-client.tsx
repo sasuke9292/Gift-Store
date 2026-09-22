@@ -16,6 +16,8 @@ import { toast } from 'sonner'
 import { OrderStatus } from '@prisma/client'
 import { ConfirmDialog } from '@/components/ui/confirm-dialog'
 import { OrderDetailsModal } from './order-details-modal'
+import { getWhatsAppStatusUrl, ORDER_STATUS_LABELS } from '@/lib/whatsapp'
+import { MessageCircle } from 'lucide-react'
 
 interface OrderData {
   id: string
@@ -87,15 +89,34 @@ export default function OrdersClient({ initialOrders }: { initialOrders: OrderDa
       o.customer.toLowerCase().includes(search.toLowerCase()) ||
       (o.phone && o.phone.includes(search))
     const matchesStatus = statusFilter === 'all' || o.status === statusFilter
-    const matchesSource = sourceFilter === 'all' || o.source === sourceFilter
-    return matchesSearch && matchesStatus && matchesSource
+    return matchesSearch && matchesStatus
   })
 
   const handleStatusChange = async (id: string, status: OrderStatus) => {
+    const targetOrder = orders.find(o => o.id === id)
     const res = await updateOrderStatus(id, status)
     if (res.success) {
-      toast.success('تم تحديث حالة الطلب بنجاح')
+      toast.success(`تم تحديث حالة الطلب إلى "${ORDER_STATUS_LABELS[status] || status}"`)
       setOrders(orders.map(o => o.id === id ? { ...o, status } : o))
+
+      // Trigger prompt to notify customer on WhatsApp
+      if (targetOrder?.phone) {
+        const url = getWhatsAppStatusUrl({
+          phone: targetOrder.phone,
+          customerName: targetOrder.customer,
+          orderNumber: targetOrder.orderNumber,
+          status
+        })
+        if (url) {
+          toast.info('إشعار العميل بالحالة الجديدة', {
+            action: {
+              label: 'إرسال WhatsApp للعميل 📲',
+              onClick: () => window.open(url, '_blank')
+            },
+            duration: 10000
+          })
+        }
+      }
     } else {
       toast.error(res.error || 'فشل تحديث حالة الطلب')
     }
@@ -144,8 +165,16 @@ export default function OrdersClient({ initialOrders }: { initialOrders: OrderDa
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-black text-[#1C1917] tracking-tight">إدارة الطلبات</h1>
-          <p className="text-sm text-[#78716C] mt-1">متابعة وإدارة طلبات الزبائن وتحديث حالات الشحن والدفع</p>
+          <div className="flex items-center gap-2.5">
+            <h1 className="text-2xl font-black text-[#1C1917] tracking-tight">إدارة طلبات WhatsApp</h1>
+            <span className="inline-flex items-center gap-1.5 bg-[#25D366]/15 text-[#128C7E] text-xs font-black px-3 py-1 rounded-full border border-[#25D366]/30">
+              <svg className="w-3.5 h-3.5 fill-[#25D366]" viewBox="0 0 24 24">
+                <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86.173.086.274.072.376-.043s.433-.506.549-.68c.116-.173.231-.145.39-.086s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.099.824zm-3.394-10.416c-5.523 0-10 4.477-10 10 0 1.77.46 3.432 1.264 4.881l-1.344 4.912 5.044-1.323c1.402.766 3.003 1.2 4.707 1.2 5.522 0 10-4.477 10-10s-4.478-10-9.671-10z" />
+              </svg>
+              طلبات واتساب فقط
+            </span>
+          </div>
+          <p className="text-sm text-[#78716C] mt-1">متابعة وإدارة كافة طلبات الزبائن الواردة عبر WhatsApp وتحديث الحالات مع إرسال إشعارات فورية</p>
         </div>
         <Button 
           onClick={exportCSV} 
@@ -164,40 +193,15 @@ export default function OrdersClient({ initialOrders }: { initialOrders: OrderDa
           <div className="relative w-full md:max-w-md group">
             <Search className="absolute end-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#A8A29E] group-focus-within:text-[#C9A96E] transition-colors" />
             <input
-              placeholder="ابحث برقم الطلب أو اسم العميل..."
+              placeholder="ابحث برقم الطلب، اسم العميل، أو رقم الهاتف..."
               className="w-full h-11 ps-4 pe-10 bg-[#FAFAF8] border border-[#E8E4DF] hover:border-[#D5D0C9] focus:border-[#C9A96E]/50 focus:bg-white rounded-xl text-sm text-[#1C1917] placeholder:text-[#A8A29E] outline-none focus:ring-2 focus:ring-[#C9A96E]/15 transition-all"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
           </div>
 
-          {/* Status & Source Filters */}
+          {/* Status Filters */}
           <div className="flex flex-wrap items-center gap-2">
-            {/* Source Toggle */}
-            <div className="flex rounded-xl bg-[#FAFAF8] p-1 border border-[#E8E4DF] me-2">
-              <button
-                type="button"
-                onClick={() => setSourceFilter('all')}
-                className={`px-3 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer ${
-                  sourceFilter === 'all' ? 'bg-[#1C1917] text-white shadow-xs' : 'text-[#78716C] hover:text-[#1C1917]'
-                }`}
-              >
-                الكل
-              </button>
-              <button
-                type="button"
-                onClick={() => setSourceFilter('WHATSAPP')}
-                className={`px-3 py-1 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
-                  sourceFilter === 'WHATSAPP' ? 'bg-[#25D366] text-white shadow-xs' : 'text-[#78716C] hover:text-[#1C1917]'
-                }`}
-              >
-                <svg className={`w-3.5 h-3.5 ${sourceFilter === 'WHATSAPP' ? 'fill-white' : 'fill-[#25D366]'}`} viewBox="0 0 24 24">
-                  <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86.173.086.274.072.376-.043s.433-.506.549-.68c.116-.173.231-.145.39-.086s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.099.824zm-3.394-10.416c-5.523 0-10 4.477-10 10 0 1.77.46 3.432 1.264 4.881l-1.344 4.912 5.044-1.323c1.402.766 3.003 1.2 4.707 1.2 5.522 0 10-4.477 10-10s-4.478-10-9.671-10z" />
-                </svg>
-                <span>طلبات واتساب</span>
-              </button>
-            </div>
-
             {statusFilters.map(f => (
               <button
                 key={f.value}
@@ -326,6 +330,23 @@ export default function OrdersClient({ initialOrders }: { initialOrders: OrderDa
                               إلغاء الطلب
                             </DropdownMenuItem>
                             <DropdownMenuSeparator className="bg-[#E8E4DF]" />
+                            {order.phone && (
+                              <DropdownMenuItem
+                                onClick={() => {
+                                  const url = getWhatsAppStatusUrl({
+                                    phone: order.phone,
+                                    customerName: order.customer,
+                                    orderNumber: order.orderNumber,
+                                    status: order.status
+                                  })
+                                  if (url) window.open(url, '_blank')
+                                }}
+                                className="rounded-xl text-xs font-bold text-[#128C7E] hover:bg-emerald-50 cursor-pointer py-2 flex items-center gap-2"
+                              >
+                                <MessageCircle className="w-3.5 h-3.5 text-[#25D366]" />
+                                إشعار بالحالة عبر WhatsApp 📲
+                              </DropdownMenuItem>
+                            )}
                             <DropdownMenuItem
                               className="rounded-xl text-xs font-bold text-rose-600 hover:bg-rose-50 cursor-pointer py-2"
                               onClick={() => setDeleteId(order.id)}

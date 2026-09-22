@@ -18,6 +18,7 @@ import {
 import { getOrderDetails, updateOrderStatus, updatePaymentStatus, updateOrderTracking } from '@/app/actions/admin/orders'
 import { toast } from 'sonner'
 import { OrderStatus, PaymentStatus } from '@prisma/client'
+import { getWhatsAppStatusUrl, ORDER_STATUS_LABELS } from '@/lib/whatsapp'
 
 const statusConfig: Record<string, { bg: string, text: string, border: string, icon: any, label: string }> = {
   PENDING: { bg: 'bg-amber-50', text: 'text-amber-700', border: 'border-amber-200', icon: Clock, label: 'قيد المراجعة' },
@@ -93,9 +94,29 @@ export function OrderDetailsModal({ isOpen, onClose, orderId, onOrderUpdated }: 
     setIsUpdating(true)
     const res = await updateOrderStatus(order.id, value)
     if (res.success) {
-      toast.success('تم تحديث حالة الطلب بنجاح')
+      toast.success(`تم تحديث حالة الطلب إلى "${ORDER_STATUS_LABELS[value] || value}"`)
       setOrder({ ...order, status: value })
       onOrderUpdated({ ...order, status: value })
+
+      // Automatically offer sending WhatsApp notification to the customer
+      if (order.customerPhone) {
+        const url = getWhatsAppStatusUrl({
+          phone: order.customerPhone,
+          customerName: order.customerName,
+          orderNumber: order.orderNumber,
+          status: value,
+          internalNotes: notes || order.internalNotes
+        })
+        if (url) {
+          toast.info('إشعار العميل بالحالة الجديدة', {
+            action: {
+              label: 'إرسال WhatsApp للعميل 📲',
+              onClick: () => window.open(url, '_blank')
+            },
+            duration: 10000
+          })
+        }
+      }
     } else {
       toast.error(res.error || 'حدث خطأ أثناء التحديث')
     }
@@ -194,6 +215,31 @@ export function OrderDetailsModal({ isOpen, onClose, orderId, onOrderUpdated }: 
                             <SelectItem value="RETURNED" className="text-rose-600">مرتجع</SelectItem>
                           </SelectContent>
                         </Select>
+
+                        {/* Send WhatsApp Status Notification Button */}
+                        {order.customerPhone && (
+                          <Button
+                            type="button"
+                            size="sm"
+                            variant="outline"
+                            onClick={() => {
+                              const url = getWhatsAppStatusUrl({
+                                phone: order.customerPhone,
+                                customerName: order.customerName,
+                                orderNumber: order.orderNumber,
+                                status: order.status,
+                                internalNotes: notes || order.internalNotes
+                              })
+                              if (url) window.open(url, '_blank')
+                            }}
+                            className="w-full h-9 rounded-xl border-[#25D366]/40 bg-[#25D366]/10 hover:bg-[#25D366]/20 text-[#128C7E] text-xs font-bold flex items-center justify-center gap-1.5 cursor-pointer mt-1"
+                          >
+                            <svg className="w-3.5 h-3.5 fill-[#25D366]" viewBox="0 0 24 24">
+                              <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86.173.086.274.072.376-.043s.433-.506.549-.68c.116-.173.231-.145.39-.086s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.099.824zm-3.394-10.416c-5.523 0-10 4.477-10 10 0 1.77.46 3.432 1.264 4.881l-1.344 4.912 5.044-1.323c1.402.766 3.003 1.2 4.707 1.2 5.522 0 10-4.477 10-10s-4.478-10-9.671-10z" />
+                            </svg>
+                            <span>إرسال إشعار الحالة للعميل عبر WhatsApp</span>
+                          </Button>
+                        )}
                       </div>
 
                       <div className="space-y-1.5">
