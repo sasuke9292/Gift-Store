@@ -93,8 +93,6 @@ export default async function RootLayout({
   const settings = await prisma.storeSettings.findUnique({ where: { id: 'default' } }).catch(() => null);
   const storeName = settings?.storeName || 'گِفتي بلس | Gifty Plus';
   const storePhone = settings?.storePhone || '+9647701234567';
-  const storeAddress = settings?.storeAddress || 'بغداد، المنصور، شارع 14 رمضان';
-
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "OnlineStore",
@@ -104,8 +102,6 @@ export default async function RootLayout({
     priceRange: "د.ع 10,000 - د.ع 500,000",
     address: {
       "@type": "PostalAddress",
-      streetAddress: storeAddress,
-      addressLocality: "بغداد",
       addressCountry: "IQ",
     },
     telephone: storePhone.replace(/\s+/g, ''),

@@ -92,7 +92,7 @@ export async function updateStoreSettings(rawData: Record<string, any>) {
     // Clean string fields: if empty string on nullable fields, set to null
     const nullableFields = [
       'logoUrl', 'faviconUrl', 'topBarLink', 'zainCashNumber', 'fibAccountNumber',
-      'paymentNotes', 'storeEmail', 'storePhone', 'addressDetails',
+      'paymentNotes', 'storeEmail', 'storePhone', 'storeAddress', 'addressDetails',
       'instagramUrl', 'facebookUrl', 'tiktokUrl', 'telegramUrl'
     ]
     for (const field of nullableFields) {

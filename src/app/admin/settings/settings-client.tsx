@@ -1060,24 +1060,17 @@ export default function SettingsClient({ initialSettings }: { initialSettings: S
                 />
               </div>
 
-              <div>
-                <Label className="text-xs font-bold text-[#1C1917] mb-1.5 block">العنوان الفعلي للمحل أو المقر *</Label>
-                <Input 
-                  value={settings.storeAddress} 
-                  onChange={e => updateField('storeAddress', e.target.value)}
-                  className="h-11 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-sm"
-                  placeholder="بغداد، المنصور، شارع 14 رمضان"
-                />
-              </div>
-
-              <div>
-                <Label className="text-xs font-bold text-[#1C1917] mb-1.5 block">تفاصيل الموقع / أقرب نقطة دالة</Label>
-                <Input 
-                  value={settings.addressDetails || ''} 
-                  onChange={e => updateField('addressDetails', e.target.value)}
-                  className="h-11 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-sm"
-                  placeholder="بالقرب من مول المنصور"
-                />
+              {/* Online Store Notice (No physical office or shop) */}
+              <div className="p-4 rounded-2xl bg-[#FBF6EE] border border-[#C9A96E]/30 flex items-start gap-3.5">
+                <div className="w-10 h-10 rounded-xl bg-[#C9A96E]/20 flex items-center justify-center text-[#A07850] shrink-0 mt-0.5">
+                  <Truck className="w-5 h-5 text-[#C9A96E]" />
+                </div>
+                <div>
+                  <h4 className="text-sm font-black text-[#1C1917]">طبيعة المتجر: متجر إلكتروني 100% (أونلاين)</h4>
+                  <p className="text-xs text-[#78716C] mt-1 leading-relaxed">
+                    تم إلغاء العناوين الفعلية والمقار من المتجر العام وصفحة التواصل والفوتر. المتجر يعمل كمنصة بيع إلكترونية بالكامل ويتم توصيل الطلبات مباشرة لعنوان العميل عبر شركات التوصيل.
+                  </p>
+                </div>
               </div>
             </div>
           </div>

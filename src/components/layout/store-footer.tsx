@@ -1,7 +1,7 @@
 import React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { MapPin, Phone, Mail, MessageCircle, Share2, Gift, ArrowLeft, ShieldCheck, CreditCard, Send } from 'lucide-react'
+import { MapPin, Phone, Mail, MessageCircle, Share2, Gift, ArrowLeft, ShieldCheck, CreditCard, Send, Truck } from 'lucide-react'
 
 const footerLinks = {
   quickLinks: [
@@ -238,9 +238,9 @@ export function StoreFooter({ settings }: StoreFooterProps) {
               خدمة العملاء والتوصيل
             </h3>
             <ul className="space-y-3">
-              <li className="flex items-start gap-2.5 text-xs sm:text-sm text-white/50">
-                <MapPin className="w-4 h-4 text-[#C9A96E] shrink-0 mt-0.5" />
-                <span>{storeAddress}</span>
+              <li className="flex items-center gap-2.5 text-xs sm:text-sm text-white/50">
+                <Truck className="w-4 h-4 text-[#C9A96E] shrink-0" />
+                <span>متجر إلكتروني • توصيل لكافة محافظات العراق</span>
               </li>
               <li className="flex items-center gap-2.5 text-xs sm:text-sm text-white/50">
                 <Phone className="w-4 h-4 text-[#C9A96E] shrink-0" />

@@ -376,7 +376,7 @@ export function OrderDetailsModal({ isOpen, onClose, orderId, onOrderUpdated }: 
                         <p className="text-xs text-[#A8A29E] font-bold">طريقة الاستلام والمصدر</p>
                         <div className="flex items-center gap-2 flex-wrap">
                           <span className="text-sm font-bold text-[#1C1917]">
-                            {order.deliveryType === 'PICKUP' ? 'استلام من المتجر 🏬' : 'توصيل للعنوان 🚚'}
+                            توصيل للعنوان 🚚
                           </span>
                           {order.source === 'WHATSAPP' && (
                             <span className="text-[10px] bg-[#25D366]/20 text-[#128C7E] px-2 py-0.5 rounded-full font-black">

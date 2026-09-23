@@ -1,4 +1,4 @@
-import { Mail, Phone, MapPin, Clock, MessageCircle } from 'lucide-react'
+import { Mail, Phone, Truck, Clock, MessageCircle } from 'lucide-react'
 import { ContactForm } from './contact-form'
 import { prisma } from '@/lib/prisma'
 
@@ -9,8 +9,6 @@ export default async function ContactPage() {
 
   const phone = settings?.storePhone || '+964 770 123 4567'
   const email = settings?.storeEmail || 'info@giftstore.iq'
-  const address = settings?.storeAddress || 'بغداد، المنصور'
-  const addressDetails = settings?.addressDetails || 'شارع 14 رمضان، بالقرب من مول المنصور'
   const workingHours = settings?.workingHours || 'السبت – الخميس: 9:00 صباحاً – 10:00 مساءً'
 
   const contactItems = [
@@ -18,7 +16,7 @@ export default async function ContactPage() {
       icon: Phone,
       title: 'الهاتف وخدمة العملاء',
       value: phone,
-      desc: 'متاح للاتصال والاستفسار المباشر',
+      desc: 'متاح للاتصال والاستفسار المباشر عبر واتساب وهاتفياً',
       href: `tel:${phone.replace(/\s+/g, '')}`,
       color: '#C9A96E',
       bg: '#FBF6EE'
@@ -33,10 +31,10 @@ export default async function ContactPage() {
       bg: '#F5F3FF'
     },
     {
-      icon: MapPin,
-      title: 'موقع الفرع الرئيسي',
-      value: address,
-      desc: addressDetails,
+      icon: Truck,
+      title: 'طبيعة المتجر والتوصيل',
+      value: 'متجر إلكتروني 100% (أونلاين)',
+      desc: 'خدمة التوصيل السريع لباب بيتك لكافة محافظات العراق',
       href: '#',
       color: '#E85D75',
       bg: '#FDF2F4'
