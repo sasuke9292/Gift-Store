@@ -148,36 +148,36 @@ export function ProductCard({ product }: ProductCardProps) {
       </div>
 
       {/* Product Details Content */}
-      <div className="p-4 sm:p-4.5 flex-1 flex flex-col text-start">
+      <div className="p-3 sm:p-4.5 flex-1 flex flex-col text-start">
         {/* Category Pill */}
         {product.category?.name && (
-          <p className="text-[11px] font-bold text-[#A07850] mb-1.5 flex items-center gap-1">
+          <p className="text-[10px] sm:text-[11px] font-bold text-[#A07850] mb-1 flex items-center gap-1">
             <span className="w-1.5 h-1.5 rounded-full bg-[#C9A96E]" />
-            {product.category.name}
+            <span className="truncate">{product.category.name}</span>
           </p>
         )}
 
         {/* Title */}
-        <h3 className="font-bold text-[#1C1917] text-sm sm:text-base leading-snug line-clamp-2 mb-3 flex-1 group-hover:text-[#A07850] transition-colors">
+        <h3 className="font-bold text-[#1C1917] text-xs sm:text-sm md:text-base leading-snug line-clamp-2 mb-2 sm:mb-3 flex-1 group-hover:text-[#A07850] transition-colors">
           <Link href={`/product/${product.id}`}>
             {product.name}
           </Link>
         </h3>
 
         {/* Price & Action Row */}
-        <div className="flex items-center justify-between mt-auto pt-3 border-t border-[#F0ECE6]">
+        <div className="flex items-center justify-between gap-1 mt-auto pt-2.5 sm:pt-3 border-t border-[#F0ECE6]">
           {/* Price Block */}
-          <div className="flex flex-col text-start">
+          <div className="flex flex-col text-start min-w-0">
             {hasDiscount && (
-              <span className="text-xs text-[#A8A29E] line-through font-medium" dir="ltr">
+              <span className="text-[10px] sm:text-xs text-[#A8A29E] line-through font-medium" dir="ltr">
                 {product.price.toLocaleString('en-US')} د.ع
               </span>
             )}
-            <div className="flex items-baseline gap-1" dir="ltr">
-              <span className="text-base sm:text-lg font-black text-[#8C6838]">
+            <div className="flex items-baseline gap-0.5 sm:gap-1" dir="ltr">
+              <span className="text-sm sm:text-base lg:text-lg font-black text-[#8C6838]">
                 {displayPrice.toLocaleString('en-US')}
               </span>
-              <span className="text-xs font-bold text-[#A8A29E]">د.ع</span>
+              <span className="text-[10px] sm:text-xs font-bold text-[#A8A29E]">د.ع</span>
             </div>
           </div>
 
@@ -186,7 +186,7 @@ export function ProductCard({ product }: ProductCardProps) {
             onClick={handleAddToCart}
             disabled={isAdding}
             className={cn(
-              "h-9 px-3 sm:px-3.5 rounded-2xl flex items-center gap-1.5 text-xs font-bold transition-all duration-300 shrink-0",
+              "h-8 sm:h-9 px-2 sm:px-3.5 rounded-xl sm:rounded-2xl flex items-center gap-1 sm:gap-1.5 text-xs font-bold transition-all duration-300 shrink-0 cursor-pointer",
               isAdding
                 ? "bg-emerald-600 text-white"
                 : "bg-[#F8F5F0] hover:bg-[#C9A96E] text-[#1C1917] hover:text-white border border-[#E8E4DF] hover:border-[#C9A96E] hover:shadow-[0_4px_12px_rgba(201,169,110,0.35)]"

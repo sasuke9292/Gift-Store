@@ -32,6 +32,17 @@ interface ShopClientProps {
 
 type SortOption = 'default' | 'price-asc' | 'price-desc' | 'new'
 
+function normalizeArabic(text: string): string {
+  if (!text) return ''
+  return text
+    .toLowerCase()
+    .replace(/[أإآ]/g, 'ا')
+    .replace(/ة/g, 'ه')
+    .replace(/ى/g, 'ي')
+    .replace(/[\u064B-\u065F\u0670]/g, '')
+    .trim()
+}
+
 export default function ShopClient({ initialProducts, categories, initialActiveCategory }: ShopClientProps) {
   const [activeCategory, setActiveCategory] = useState(initialActiveCategory || 'الكل')
   const [searchQuery, setSearchQuery] = useState('')
@@ -39,9 +50,13 @@ export default function ShopClient({ initialProducts, categories, initialActiveC
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false)
 
   const filteredAndSorted = useMemo(() => {
+    const normalizedQuery = normalizeArabic(searchQuery)
+
     let result = initialProducts.filter(product => {
       const matchesCategory = activeCategory === 'الكل' || product.category?.name === activeCategory
-      const matchesSearch = !searchQuery || product.name.toLowerCase().includes(searchQuery.toLowerCase())
+      const matchesSearch = !normalizedQuery || 
+        normalizeArabic(product.name).includes(normalizedQuery) ||
+        normalizeArabic(product.category?.name || '').includes(normalizedQuery)
       return matchesCategory && matchesSearch
     })
 

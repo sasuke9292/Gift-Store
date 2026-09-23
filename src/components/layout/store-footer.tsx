@@ -1,7 +1,7 @@
 import React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { MapPin, Phone, Mail, MessageCircle, Share2, Gift, ArrowLeft, ShieldCheck, CreditCard, Send, Truck } from 'lucide-react'
+import { Phone, Mail, MessageCircle, Share2, Gift, ArrowLeft, ShieldCheck, CreditCard, Send, Truck } from 'lucide-react'
 
 const footerLinks = {
   quickLinks: [
@@ -52,7 +52,6 @@ export function StoreFooter({ settings }: StoreFooterProps) {
   const storeDesc = settings?.storeDescription || 'الوجهة الأولى لاختيار وتنسيق الهدايا الفاخرة في العراق. تشكيلة منتقاة بعناية لجميع المناسبات مع تغليف يدوي راقٍ وتوصيل سريع وموثوق لكافة المحافظات.'
   const storePhone = settings?.storePhone || '+964 770 123 4567'
   const storeEmail = settings?.storeEmail || 'info@giftstore.iq'
-  const storeAddress = settings?.storeAddress || 'بغداد، المنصور، شارع 14 رمضان'
   
   const rawWa = settings?.whatsappNumber || '9647700000000'
   const whatsappHref = rawWa.startsWith('http') 

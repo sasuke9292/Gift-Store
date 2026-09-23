@@ -234,3 +234,58 @@ export async function createOrderAction(data: any) {
     items: data.items || []
   })
 }
+
+export async function trackOrderPublicAction(query: string) {
+  if (!query || query.trim().length < 3) {
+    return { success: false, error: 'يرجى إدخال رقم طلب صحيح أو رقم هاتف مكون من 10 أرقام على الأقل' }
+  }
+
+  const cleanQuery = query.trim().replace(/^#/, '')
+  const cleanPhone = cleanQuery.replace(/\D/g, '')
+
+  try {
+    const order = await prisma.order.findFirst({
+      where: {
+        OR: [
+          { orderNumber: { equals: cleanQuery, mode: 'insensitive' } },
+          ...(cleanPhone.length >= 10 ? [{ customerPhone: { contains: cleanPhone.slice(-10) } }] : [])
+        ]
+      },
+      include: {
+        items: true
+      },
+      orderBy: { createdAt: 'desc' }
+    })
+
+    if (!order) {
+      return { success: false, error: 'لم نعثر على أي طلب يطابق هذا الرقم. يرجى التأكد من رقم الطلب والمحاولة مجدداً.' }
+    }
+
+    return {
+      success: true,
+      order: {
+        id: order.id,
+        orderNumber: order.orderNumber,
+        customerName: order.customerName,
+        customerPhone: order.customerPhone ? `${order.customerPhone.slice(0, 4)}***${order.customerPhone.slice(-3)}` : '',
+        status: order.status,
+        date: order.createdAt.toLocaleDateString('ar-IQ', { year: 'numeric', month: 'long', day: 'numeric' }),
+        province: order.province,
+        area: order.area,
+        total: order.total,
+        shippingCost: order.shippingCost,
+        subtotal: order.subtotal,
+        itemsCount: order.items.length,
+        items: order.items.map(i => ({
+          name: i.productName,
+          quantity: i.quantity,
+          price: i.price
+        }))
+      }
+    }
+  } catch (error) {
+    console.error('Error tracking order:', error)
+    return { success: false, error: 'حدث خطأ أثناء البحث عن الطلب. يرجى المحاولة لاحقاً.' }
+  }
+}
+

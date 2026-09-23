@@ -51,19 +51,55 @@ export async function getTopProducts(limit = 4) {
   }
 }
 
+function getArabicSearchVariants(term: string): string[] {
+  const clean = term.trim()
+  if (!clean) return []
+  const variants = new Set<string>()
+  variants.add(clean)
+
+  // Standardize alifs: أ, إ, آ -> ا
+  const normAlif = clean.replace(/[أإآ]/g, 'ا')
+  variants.add(normAlif)
+
+  // Standardize taa marboota: ة -> ه and ه -> ة
+  const normTaa = clean.replace(/ة/g, 'ه')
+  const normHaa = clean.replace(/ه/g, 'ة')
+  variants.add(normTaa)
+  variants.add(normHaa)
+
+  // Standardize yaa: ى -> ي and ي -> ى
+  const normYaa = clean.replace(/ى/g, 'ي')
+  const normAlifM = clean.replace(/ي/g, 'ى')
+  variants.add(normYaa)
+  variants.add(normAlifM)
+
+  // Combined normalization
+  const fullyNormalized = clean
+    .replace(/[أإآ]/g, 'ا')
+    .replace(/ة/g, 'ه')
+    .replace(/ى/g, 'ي')
+    .replace(/[\u064B-\u065F\u0670]/g, '')
+  variants.add(fullyNormalized)
+
+  return Array.from(variants).filter(v => v.length > 0)
+}
+
 export async function searchProducts(query: string) {
   if (!query || query.trim().length < 2) return []
   try {
+    const variants = getArabicSearchVariants(query)
+    const orConditions = variants.flatMap(v => [
+      { name: { contains: v, mode: 'insensitive' as const } },
+      { description: { contains: v, mode: 'insensitive' as const } },
+      { category: { name: { contains: v, mode: 'insensitive' as const } } },
+    ])
+
     const products = await prisma.product.findMany({
       where: {
         isActive: true,
-        OR: [
-          { name: { contains: query.trim(), mode: 'insensitive' } },
-          { description: { contains: query.trim(), mode: 'insensitive' } },
-          { category: { name: { contains: query.trim(), mode: 'insensitive' } } },
-        ],
+        OR: orConditions,
       },
-      take: 6,
+      take: 8,
       include: {
         category: true,
       },

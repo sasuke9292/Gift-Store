@@ -6,7 +6,7 @@ import { revalidatePath } from 'next/cache'
 
 export async function getStoreSettings() {
   const session = await auth()
-  if (!session || session.user.role === 'CUSTOMER') {
+  if (!session?.user || session.user.role === 'CUSTOMER') {
     return null
   }
 
@@ -53,7 +53,7 @@ export async function getPublicStoreSettings() {
 
 export async function updateStoreSettings(rawData: Record<string, any>) {
   const session = await auth()
-  if (!session || session.user.role === 'CUSTOMER') {
+  if (!session?.user || session.user.role === 'CUSTOMER') {
     return { success: false, error: 'غير مصرح لك بالقيام بهذا الإجراء' }
   }
 

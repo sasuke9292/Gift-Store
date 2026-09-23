@@ -6,15 +6,17 @@ import { prisma } from '@/lib/prisma'
 import { Role } from '@prisma/client'
 import bcrypt from 'bcryptjs'
 
+const ADMIN_ROLES = ['SUPER_ADMIN', 'ADMIN']
+const STAFF_VIEW_ROLES = ['SUPER_ADMIN', 'ADMIN', 'MANAGER']
+
 export async function getStaffUsers() {
-    const session = await auth()
-    if (!session || !session.user) {
-      return { success: false, error: 'غير مصرح لك بالقيام بهذا الإجراء' }
-    }
+  const session = await auth()
+  if (!session?.user || !STAFF_VIEW_ROLES.includes(session.user.role)) {
+    return { success: false, error: 'غير مصرح لك بعرض بيانات الموظفين' }
+  }
 
   try {
     const users = await prisma.user.findMany({
-
       orderBy: {
         createdAt: 'desc'
       }
@@ -27,12 +29,17 @@ export async function getStaffUsers() {
 }
 
 export async function updateUserRole(userId: string, role: Role) {
-    const session = await auth()
-    if (!session || !session.user) {
-      return { success: false, error: 'غير مصرح لك بالقيام بهذا الإجراء' }
-    }
+  const session = await auth()
+  if (!session?.user || !ADMIN_ROLES.includes(session.user.role)) {
+    return { success: false, error: 'تعديل الصلاحيات مقتصر على مدراء النظام فقط' }
+  }
 
   try {
+    const targetUser = await prisma.user.findUnique({ where: { id: userId } })
+    if (targetUser?.role === 'SUPER_ADMIN' && session.user.role !== 'SUPER_ADMIN') {
+      return { success: false, error: 'لا يمكن لغير المدير العام تعديل صلاحيات مدير عام آخر' }
+    }
+
     const updatedUser = await prisma.user.update({
       where: { id: userId },
       data: { role }
@@ -45,10 +52,15 @@ export async function updateUserRole(userId: string, role: Role) {
 }
 
 export async function updateProfile(userId: string, data: { name?: string, email?: string }) {
-    const session = await auth()
-    if (!session || !session.user) {
-      return { success: false, error: 'غير مصرح لك بالقيام بهذا الإجراء' }
-    }
+  const session = await auth()
+  if (!session?.user) {
+    return { success: false, error: 'غير مصرح لك بالقيام بهذا الإجراء' }
+  }
+
+  // User can only update their own profile unless they are an admin
+  if (session.user.id !== userId && !ADMIN_ROLES.includes(session.user.role)) {
+    return { success: false, error: 'غير مصرح لك بتعديل بيانات مستخدم آخر' }
+  }
 
   try {
     const updatedUser = await prisma.user.update({
@@ -63,10 +75,15 @@ export async function updateProfile(userId: string, data: { name?: string, email
 }
 
 export async function createStaffUser(data: { name: string, email: string, password?: string, role: Role }) {
-    const session = await auth()
-    if (!session || !session.user) {
-      return { success: false, error: 'غير مصرح لك بالقيام بهذا الإجراء' }
-    }
+  const session = await auth()
+  if (!session?.user || !ADMIN_ROLES.includes(session.user.role)) {
+    return { success: false, error: 'إضافة موظفين جدد مقتصرة على مدراء النظام فقط' }
+  }
+
+  // Only SUPER_ADMIN can create another SUPER_ADMIN
+  if (data.role === 'SUPER_ADMIN' && session.user.role !== 'SUPER_ADMIN') {
+    return { success: false, error: 'لا يمكن لغير المدير العام إنشاء حساب مدير عام آخر' }
+  }
 
   try {
     const existingUser = await prisma.user.findUnique({
@@ -97,10 +114,15 @@ export async function createStaffUser(data: { name: string, email: string, passw
 }
 
 export async function changePassword(userId: string, newPassword: string) {
-    const session = await auth()
-    if (!session || !session.user) {
-      return { success: false, error: 'غير مصرح لك بالقيام بهذا الإجراء' }
-    }
+  const session = await auth()
+  if (!session?.user) {
+    return { success: false, error: 'غير مصرح لك بالقيام بهذا الإجراء' }
+  }
+
+  // User can only change their own password unless they are an admin
+  if (session.user.id !== userId && !ADMIN_ROLES.includes(session.user.role)) {
+    return { success: false, error: 'غير مصرح لك بتغيير كلمة مرور مستخدم آخر' }
+  }
 
   try {
     const hashedPassword = await bcrypt.hash(newPassword, 10)
@@ -118,12 +140,17 @@ export async function changePassword(userId: string, newPassword: string) {
 }
 
 export async function updateStaffUser(userId: string, data: { name: string, email: string, role: Role, password?: string }) {
-    const session = await auth()
-    if (!session || !session.user) {
-      return { success: false, error: 'غير مصرح لك بالقيام بهذا الإجراء' }
-    }
+  const session = await auth()
+  if (!session?.user || !ADMIN_ROLES.includes(session.user.role)) {
+    return { success: false, error: 'تعديل بيانات الموظفين مقتصر على مدراء النظام' }
+  }
 
   try {
+    const targetUser = await prisma.user.findUnique({ where: { id: userId } })
+    if (targetUser?.role === 'SUPER_ADMIN' && session.user.role !== 'SUPER_ADMIN') {
+      return { success: false, error: 'لا يمكن لغير المدير العام تعديل بيانات المدير العام' }
+    }
+
     const updateData: any = {
       name: data.name,
       email: data.email,
@@ -147,18 +174,29 @@ export async function updateStaffUser(userId: string, data: { name: string, emai
 }
 
 export async function deleteStaffUser(userId: string) {
-    const session = await auth()
-    if (!session || !session.user) {
-      return { success: false, error: 'غير مصرح لك بالقيام بهذا الإجراء' }
-    }
+  const session = await auth()
+  if (!session?.user || !ADMIN_ROLES.includes(session.user.role)) {
+    return { success: false, error: 'حذف الموظفين مقتصر على مدراء النظام' }
+  }
+
+  // Prevent self-deletion
+  if (session.user.id === userId) {
+    return { success: false, error: 'لا يمكنك حذف حسابك الخاص أثناء تسجيل الدخول' }
+  }
 
   try {
-    // Check if the user is the only SUPER_ADMIN
     const userToDelete = await prisma.user.findUnique({ where: { id: userId } })
-    if (userToDelete?.role === 'SUPER_ADMIN') {
+    if (!userToDelete) {
+      return { success: false, error: 'المستخدم غير موجود' }
+    }
+
+    if (userToDelete.role === 'SUPER_ADMIN') {
       const superAdminsCount = await prisma.user.count({ where: { role: 'SUPER_ADMIN' } })
       if (superAdminsCount <= 1) {
         return { success: false, error: 'لا يمكن حذف المدير العام الوحيد في النظام' }
+      }
+      if (session.user.role !== 'SUPER_ADMIN') {
+        return { success: false, error: 'لا يمكن لغير المدير العام حذف حساب مدير عام' }
       }
     }
 

@@ -218,8 +218,122 @@ export default function OrdersClient({ initialOrders }: { initialOrders: OrderDa
           </div>
         </div>
 
-        {/* Table */}
-        <div className="overflow-x-auto">
+        {/* Mobile Cards View (sm/md screens) */}
+        <div className="md:hidden divide-y divide-[#E8E4DF]">
+          {filteredOrders.map((order) => {
+            const status = statusConfig[order.status] || statusConfig['PENDING']
+            const StatusIcon = status.icon
+            return (
+              <div key={order.id} className="p-4 space-y-3 bg-white">
+                <div className="flex items-center justify-between gap-2">
+                  <div className="flex items-center gap-2">
+                    <span className="font-bold text-[#1C1917] text-xs font-mono bg-[#FAFAF8] px-2.5 py-1 rounded-lg border border-[#E8E4DF]">
+                      #{order.orderNumber}
+                    </span>
+                    {order.source === 'WHATSAPP' && (
+                      <span className="inline-flex items-center gap-1 bg-[#25D366]/15 text-[#128C7E] text-[10px] font-black px-2 py-0.5 rounded-full">
+                        واتساب
+                      </span>
+                    )}
+                  </div>
+                  <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold border ${status.bg} ${status.text} ${status.border}`}>
+                    <StatusIcon className="w-3 h-3" />
+                    {status.label}
+                  </span>
+                </div>
+
+                <div className="flex items-start justify-between gap-2">
+                  <div>
+                    <h4 className="font-black text-[#1C1917] text-sm">{order.customer}</h4>
+                    <p className="text-xs text-[#78716C] mt-0.5">
+                      {order.phone ? <span dir="ltr" className="font-mono text-stone-600 me-1">{order.phone}</span> : null}
+                      {order.province ? `• ${order.province}` : ''}
+                      {` • ${order.products} منتج`}
+                    </p>
+                    <p className="text-[11px] text-[#A8A29E] mt-0.5">{order.date}</p>
+                  </div>
+                  <div className="text-end shrink-0">
+                    <p className="text-xs text-[#A8A29E] font-bold">الإجمالي</p>
+                    <p className="font-black text-[#1C1917] text-base">
+                      {order.total.toLocaleString('en-US')}{' '}
+                      <span className="text-xs font-normal text-[#78716C]">د.ع</span>
+                    </p>
+                  </div>
+                </div>
+
+                {/* Mobile Action Buttons */}
+                <div className="flex items-center gap-2 pt-1 border-t border-[#F0ECE6]">
+                  {order.phone && (
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => {
+                        let clean = (order.phone || '').replace(/\D/g, '')
+                        if (clean.startsWith('07') && clean.length === 11) {
+                          clean = '964' + clean.slice(1)
+                        }
+                        const msg = `السلام عليكم أستاذ ${order.customer} 👋 بخصوص طلبك رقم ${order.orderNumber} من متجر الهدايا:`
+                        window.open(`https://wa.me/${clean}?text=${encodeURIComponent(msg)}`, '_blank')
+                      }}
+                      className="flex-1 h-9 rounded-xl border-[#25D366]/40 hover:bg-emerald-50 text-[#128C7E] font-bold text-xs flex items-center justify-center gap-1.5 cursor-pointer"
+                    >
+                      <svg className="w-3.5 h-3.5 fill-[#25D366]" viewBox="0 0 24 24">
+                        <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86.173.086.274.072.376-.043s.433-.506.549-.68c.116-.173.231-.145.39-.086s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.099.824zm-3.394-10.416c-5.523 0-10 4.477-10 10 0 1.77.46 3.432 1.264 4.881l-1.344 4.912 5.044-1.323c1.402.766 3.003 1.2 4.707 1.2 5.522 0 10-4.477 10-10s-4.478-10-9.671-10z" />
+                      </svg>
+                      <span>واتساب</span>
+                    </Button>
+                  )}
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => handleOpenModal(order.id)}
+                    className="flex-1 h-9 rounded-xl border-[#E8E4DF] hover:bg-[#FAFAF8] text-[#1C1917] font-bold text-xs flex items-center justify-center gap-1 cursor-pointer"
+                  >
+                    <Eye className="w-3.5 h-3.5 text-[#C9A96E]" />
+                    <span>تفاصيل</span>
+                  </Button>
+
+                  <DropdownMenu>
+                    <DropdownMenuTrigger render={
+                      <Button variant="ghost" size="icon" className="h-9 w-9 rounded-xl hover:bg-[#FAFAF8] text-[#A8A29E] hover:text-[#1C1917] border border-[#E8E4DF]">
+                        <MoreHorizontal className="w-4 h-4" />
+                      </Button>
+                    } />
+                    <DropdownMenuContent align="end" className="w-48 rounded-2xl shadow-xl border-[#E8E4DF] bg-white p-1.5 text-[#1C1917]">
+                      <DropdownMenuLabel className="text-xs font-bold text-[#A8A29E] px-2.5 py-1">تغيير الحالة</DropdownMenuLabel>
+                      <DropdownMenuItem onClick={() => handleStatusChange(order.id, 'PENDING')} className="rounded-xl text-xs font-medium cursor-pointer py-2">
+                        قيد المراجعة
+                      </DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => handleStatusChange(order.id, 'PROCESSING')} className="rounded-xl text-xs font-medium cursor-pointer py-2">
+                        جاري التجهيز
+                      </DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => handleStatusChange(order.id, 'SHIPPED')} className="rounded-xl text-xs font-medium cursor-pointer py-2">
+                        تم الشحن
+                      </DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => handleStatusChange(order.id, 'DELIVERED')} className="rounded-xl text-xs font-medium cursor-pointer py-2">
+                        مكتمل
+                      </DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => handleStatusChange(order.id, 'CANCELLED')} className="rounded-xl text-xs font-medium cursor-pointer py-2 text-rose-600">
+                        إلغاء الطلب
+                      </DropdownMenuItem>
+                      <DropdownMenuSeparator className="bg-[#E8E4DF]" />
+                      <DropdownMenuItem
+                        className="rounded-xl text-xs font-bold text-rose-600 hover:bg-rose-50 cursor-pointer py-2"
+                        onClick={() => setDeleteId(order.id)}
+                      >
+                        <Trash className="w-3.5 h-3.5 me-2" />
+                        حذف الطلب
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </div>
+              </div>
+            )
+          })}
+        </div>
+
+        {/* Desktop Table View */}
+        <div className="hidden md:block overflow-x-auto">
           <Table className="w-full min-w-[800px]">
             <TableHeader className="bg-[#FAFAF8] border-b border-[#E8E4DF]">
               <TableRow className="hover:bg-transparent border-0">

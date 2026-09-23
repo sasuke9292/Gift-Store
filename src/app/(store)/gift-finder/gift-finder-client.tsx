@@ -69,25 +69,68 @@ export default function GiftFinderClient({ initialProducts: products }: { initia
   }
 
   const findGifts = (finalAnswers: Record<string, string>) => {
-    let filtered = [...products]
-    if (finalAnswers.recipient === 'men') {
-      filtered = filtered.filter(p => p.category === 'هدايا رجالية')
-    } else if (finalAnswers.recipient === 'women') {
-      filtered = filtered.filter(p => p.category === 'هدايا نسائية' || p.category === 'مناسبات')
-    } else if (finalAnswers.recipient === 'kids') {
-      filtered = filtered.filter(p => p.category === 'هدايا أطفال')
+    const scored = products.map((product) => {
+      let score = 0
+      const text = `${product.name} ${product.category}`.toLowerCase()
+
+      // Recipient matching
+      if (finalAnswers.recipient === 'men') {
+        if (/رجال|رجالي|شباب|رجل|شماغ|ساعة|عطر/.test(text)) score += 6
+      } else if (finalAnswers.recipient === 'women') {
+        if (/نساء|نسائي|بنات|انثى|أنثى|ورد|عطور|مكياج|اكسسوار/.test(text)) score += 6
+      } else if (finalAnswers.recipient === 'kids') {
+        if (/طفل|أطفال|اطفال|بناتي صغار|ولادي|لعب/.test(text)) score += 6
+      } else if (finalAnswers.recipient === 'partner') {
+        if (/حب|شريك|رومانس|عطر|ساعة|فاخر|طقم|ذهب|فضة/.test(text)) score += 5
+        score += 2
+      }
+
+      // Budget matching
+      if (finalAnswers.budget === 'low') {
+        if (product.price <= 30000) score += 5
+        else if (product.price <= 45000) score += 2
+      } else if (finalAnswers.budget === 'medium') {
+        if (product.price >= 30000 && product.price <= 80000) score += 5
+        else if (product.price <= 100000) score += 2
+      } else if (finalAnswers.budget === 'high') {
+        if (product.price > 80000) score += 5
+        else if (product.price >= 60000) score += 2
+      } else if (finalAnswers.budget === 'any') {
+        score += 3
+      }
+
+      // Occasion matching
+      if (finalAnswers.occasion === 'birthday') {
+        if (/ميلاد|عيد|حفلة|كيك|شوكولات|مفاج|هدية/.test(text)) score += 4
+      } else if (finalAnswers.occasion === 'anniversary') {
+        if (/ذكرى|زواج|حب|طقم|ساعة|عطر|ورد|ذهب/.test(text)) score += 4
+      } else if (finalAnswers.occasion === 'graduation') {
+        if (/تخرج|نجاح|قلم|محفظة|درع|مبروك/.test(text)) score += 4
+      } else if (finalAnswers.occasion === 'surprise') {
+        score += 2
+      }
+
+      // Best seller boost
+      if (product.isBestSeller) score += 2
+
+      return { product, score }
+    })
+
+    // Sort descending by score
+    scored.sort((a, b) => b.score - a.score)
+
+    let results = scored.filter(item => item.score >= 5).map(item => item.product)
+    if (results.length === 0) {
+      results = scored.filter(item => item.score > 0).map(item => item.product)
     }
-    if (finalAnswers.budget === 'low') {
-      filtered = filtered.filter(p => p.price <= 30000)
-    } else if (finalAnswers.budget === 'medium') {
-      filtered = filtered.filter(p => p.price > 30000 && p.price <= 80000)
-    } else if (finalAnswers.budget === 'high') {
-      filtered = filtered.filter(p => p.price > 80000)
+    if (results.length === 0) {
+      results = products.filter(p => p.isBestSeller)
     }
-    if (filtered.length === 0) {
-      filtered = products.filter(p => p.isBestSeller)
+    if (results.length === 0) {
+      results = products.slice(0, 8)
     }
-    setRecommendedProducts(filtered)
+
+    setRecommendedProducts(results)
     setIsFinished(true)
   }
 
@@ -228,7 +271,7 @@ export default function GiftFinderClient({ initialProducts: products }: { initia
 
                 {/* Product Cards */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
-                  {recommendedProducts.slice(0, 4).map((product, idx) => (
+                  {recommendedProducts.slice(0, 8).map((product, idx) => (
                     <motion.div
                       key={product.id}
                       initial={{ opacity: 0, y: 16 }}

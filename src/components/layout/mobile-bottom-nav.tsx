@@ -17,8 +17,8 @@ export function MobileBottomNav() {
   const cartCount = cartItems.reduce((acc, item) => acc + item.quantity, 0)
   const favCount = favorites.length
 
-  // Hide on admin routes
-  if (pathname.startsWith('/admin')) {
+  // Hide on admin routes and cart page (where dedicated sticky checkout action bar is active)
+  if (pathname.startsWith('/admin') || pathname === '/cart') {
     return null
   }
 

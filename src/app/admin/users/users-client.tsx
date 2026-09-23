@@ -142,8 +142,91 @@ export default function UsersClient({ initialUsers }: { initialUsers: UserData[]
           </div>
         </div>
 
-        {/* Table */}
-        <div className="overflow-x-auto">
+        {/* Mobile Cards View (sm/md screens) */}
+        <div className="md:hidden divide-y divide-[#E8E4DF]">
+          {filteredUsers.map((user) => {
+            const roleConfig = roleColors[user.role] || roleColors['CUSTOMER']
+            const RoleIcon = roleConfig.icon
+            return (
+              <div key={user.id} className="p-4 space-y-3 bg-white">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="flex items-center gap-3">
+                    <div 
+                      className="w-10 h-10 rounded-xl flex items-center justify-center font-black text-sm shrink-0 shadow-sm"
+                      style={{ background: 'linear-gradient(135deg, #FBF6EE 0%, #F5EDE0 100%)', color: '#A07850', border: '1px solid rgba(201,169,110,0.2)' }}
+                    >
+                      {user.name ? user.name.charAt(0) : 'م'}
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-[#1C1917] text-sm">{user.name}</h4>
+                      <p className="text-xs text-[#78716C] font-mono" dir="ltr">{user.email}</p>
+                    </div>
+                  </div>
+
+                  <span className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold border ${roleConfig.bg} ${roleConfig.text} ${roleConfig.border} shrink-0`}>
+                    <RoleIcon className="w-3 h-3" />
+                    {roleConfig.label}
+                  </span>
+                </div>
+
+                <div className="flex items-center justify-between text-xs text-[#78716C] pt-1 border-t border-[#F0ECE6]">
+                  <div>
+                    <span className="text-[#A8A29E]">انضم: </span>
+                    <span>{user.joinedAt}</span>
+                  </div>
+                  <span className={`inline-block text-[10px] font-bold px-2 py-0.5 rounded-full border ${
+                    user.status === 'نشط' 
+                      ? 'bg-emerald-50 text-emerald-700 border-emerald-200' 
+                      : 'bg-rose-50 text-rose-700 border-rose-200'
+                  }`}>
+                    {user.status}
+                  </span>
+                </div>
+
+                {/* Mobile Action Buttons */}
+                <div className="flex items-center gap-2 pt-1 border-t border-[#F0ECE6]">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => {
+                      setSelectedUser(user)
+                      setIsDetailsOpen(true)
+                    }}
+                    className="flex-1 h-9 rounded-xl border-[#E8E4DF] hover:bg-[#FAFAF8] text-[#1C1917] font-bold text-xs flex items-center justify-center gap-1 cursor-pointer"
+                  >
+                    <Eye className="w-3.5 h-3.5 text-[#C9A96E]" />
+                    <span>التفاصيل</span>
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => handleEditRole(user)}
+                    className="flex-1 h-9 rounded-xl border-[#E8E4DF] hover:bg-[#F5F0EA] text-[#1C1917] font-bold text-xs flex items-center justify-center gap-1 cursor-pointer"
+                  >
+                    <Edit className="w-3.5 h-3.5 text-[#A07850]" />
+                    <span>الصلاحية</span>
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setToggleStatusUser(user)}
+                    className={`h-9 px-3 rounded-xl border font-bold text-xs flex items-center justify-center cursor-pointer ${
+                      user.status === 'نشط'
+                        ? 'border-rose-200 text-rose-600 hover:bg-rose-50'
+                        : 'border-emerald-200 text-emerald-600 hover:bg-emerald-50'
+                    }`}
+                    title={user.status === 'نشط' ? 'حظر الحساب' : 'تفعيل الحساب'}
+                  >
+                    {user.status === 'نشط' ? <Ban className="w-3.5 h-3.5" /> : <CheckCircle2 className="w-3.5 h-3.5" />}
+                  </Button>
+                </div>
+              </div>
+            )
+          })}
+        </div>
+
+        {/* Desktop Table */}
+        <div className="hidden md:block overflow-x-auto">
           <table className="w-full min-w-[850px] text-start">
             <thead className="bg-[#FAFAF8] border-b border-[#E8E4DF]">
               <tr>

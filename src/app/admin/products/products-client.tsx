@@ -188,8 +188,103 @@ export default function ProductsClient({ initialProducts, categories }: { initia
           </div>
         </div>
 
-        {/* Table */}
-        <div className="overflow-x-auto">
+        {/* Mobile Cards View (sm/md screens) */}
+        <div className="md:hidden divide-y divide-[#E8E4DF]">
+          {filteredProducts.map((product) => (
+            <div key={product.id} className="p-4 space-y-3 bg-white">
+              <div className="flex items-start gap-3">
+                <div className="w-14 h-14 rounded-xl bg-[#FAFAF8] flex items-center justify-center overflow-hidden relative shrink-0 border border-[#E8E4DF]">
+                  {product.images && product.images[0] ? (
+                    <img src={product.images[0]} alt={product.name} className="w-full h-full object-cover" />
+                  ) : (
+                    <ImageIcon className="w-6 h-6 text-[#A8A29E]" />
+                  )}
+                </div>
+
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-1.5 flex-wrap">
+                    <h4 className="font-bold text-[#1C1917] text-sm truncate">{product.name}</h4>
+                    {product.isBestSeller && (
+                      <span className="bg-amber-100 text-amber-800 border border-amber-200 text-[10px] font-bold px-1.5 py-0.5 rounded-md shrink-0">
+                        الأكثر طلباً
+                      </span>
+                    )}
+                    {product.isNew && (
+                      <span className="bg-[#FBF6EE] text-[#8C6838] border border-[#C9A96E]/30 text-[10px] font-bold px-1.5 py-0.5 rounded-md shrink-0">
+                        جديد
+                      </span>
+                    )}
+                  </div>
+                  <p className="text-[11px] text-[#A8A29E] font-mono mt-0.5">
+                    #{product.sku || product.id.slice(0, 8)}
+                  </p>
+                  <p className="text-xs text-[#78716C] mt-1">
+                    {product.category?.name || 'غير مصنف'}
+                  </p>
+                </div>
+
+                <div className="text-end shrink-0">
+                  {product.salePrice ? (
+                    <div>
+                      <span className="text-xs text-[#A8A29E] line-through block" dir="ltr">
+                        {product.price.toLocaleString('en-US')} د.ع
+                      </span>
+                      <span className="text-sm font-black text-[#A07850]" dir="ltr">
+                        {product.salePrice.toLocaleString('en-US')}{' '}
+                        <span className="text-xs font-normal text-[#78716C]">د.ع</span>
+                      </span>
+                    </div>
+                  ) : (
+                    <span className="text-sm font-black text-[#1C1917]" dir="ltr">
+                      {product.price.toLocaleString('en-US')}{' '}
+                      <span className="text-xs font-normal text-[#78716C]">د.ع</span>
+                    </span>
+                  )}
+                  <span className={`inline-block mt-1.5 text-[10px] font-bold px-2 py-0.5 rounded-full border ${
+                    product.isActive 
+                      ? 'bg-emerald-50 text-emerald-700 border-emerald-200' 
+                      : 'bg-stone-100 text-stone-600 border-stone-200'
+                  }`}>
+                    {product.isActive ? 'نشط' : 'مسودة'}
+                  </span>
+                </div>
+              </div>
+
+              {/* Mobile Actions Bar */}
+              <div className="flex items-center gap-2 pt-2 border-t border-[#F0ECE6]">
+                <Link
+                  href={`/product/${product.id}`}
+                  target="_blank"
+                  className="flex-1 h-9 rounded-xl border border-[#E8E4DF] hover:bg-[#FAFAF8] text-[#1C1917] font-bold text-xs flex items-center justify-center gap-1 transition-colors"
+                >
+                  <ExternalLink className="w-3.5 h-3.5 text-[#C9A96E]" />
+                  <span>معاينة</span>
+                </Link>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => { setCurrentEditProduct(product); setIsEditModalOpen(true); }}
+                  className="flex-1 h-9 rounded-xl border-[#E8E4DF] hover:bg-[#F5F0EA] text-[#1C1917] font-bold text-xs flex items-center justify-center gap-1 cursor-pointer"
+                >
+                  <Edit className="w-3.5 h-3.5 text-[#A07850]" />
+                  <span>تعديل</span>
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setDeleteId(product.id)}
+                  className="h-9 px-3 rounded-xl border-rose-200 text-rose-600 hover:bg-rose-50 font-bold text-xs flex items-center justify-center cursor-pointer"
+                  title="حذف"
+                >
+                  <Trash className="w-3.5 h-3.5" />
+                </Button>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Desktop Table */}
+        <div className="hidden md:block overflow-x-auto">
           <Table className="w-full min-w-[840px]">
             <TableHeader className="bg-[#FAFAF8] border-b border-[#E8E4DF]">
               <TableRow className="hover:bg-transparent border-0">

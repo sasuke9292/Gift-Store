@@ -51,9 +51,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           user.password
         ).catch(() => false)
 
-        const isPlaintextValid = credentials.password === user.password
-
-        if (!isPasswordValid && !isPlaintextValid) {
+        if (!isPasswordValid) {
           return null
         }
 

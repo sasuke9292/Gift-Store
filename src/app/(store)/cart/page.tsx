@@ -54,7 +54,7 @@ export default function CartPage() {
   if (!mounted) return null
 
   return (
-    <div className="min-h-screen bg-[#FAFAF8] pt-4 pb-20">
+    <div className="min-h-screen bg-[#FAFAF8] pt-4 pb-32 sm:pb-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Page Header */}
@@ -302,7 +302,7 @@ export default function CartPage() {
 
         {/* Mobile Sticky Checkout Bar */}
         {cartItems.length > 0 && storeSettings.whatsappOrderEnabled && (
-          <div className="fixed bottom-0 start-0 end-0 bg-white/95 backdrop-blur-md border-t border-[#E8E4DF] p-4 z-40 lg:hidden shadow-[0_-4px_20px_rgba(0,0,0,0.08)]">
+          <div className="fixed bottom-0 start-0 end-0 bg-white/95 backdrop-blur-md border-t border-[#E8E4DF] p-4 pb-[max(1rem,env(safe-area-inset-bottom))] z-40 lg:hidden shadow-[0_-4px_20px_rgba(0,0,0,0.08)]">
             <div className="flex items-center justify-between gap-3 max-w-md mx-auto">
               <div>
                 <p className="text-[11px] text-[#78716C] font-bold">الإجمالي الكلي</p>

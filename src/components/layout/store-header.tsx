@@ -478,7 +478,7 @@ export function StoreHeader({ user, topBarText, settings }: StoreHeaderProps) {
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
               transition={{ type: 'spring', damping: 28, stiffness: 280 }}
-              className="fixed top-0 end-0 h-full w-84 max-w-[85vw] bg-white shadow-2xl z-50 flex flex-col border-s border-[#E8E4DF]"
+              className="fixed top-0 right-0 h-full w-80 max-w-[85vw] bg-white shadow-2xl z-50 flex flex-col border-l border-[#E8E4DF]"
               dir="rtl"
             >
               {/* Mobile Drawer Header */}

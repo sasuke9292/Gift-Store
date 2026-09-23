@@ -17,10 +17,10 @@ export async function createProduct(data: {
   isNew?: boolean
   isActive?: boolean
 }) {
-    const session = await auth()
-    if (!session || session.user.role === 'CUSTOMER') {
-      return { success: false, error: 'غير مصرح لك بالقيام بهذا الإجراء' }
-    }
+  const session = await auth()
+  if (!session?.user || session.user.role === 'CUSTOMER') {
+    return { success: false, error: 'غير مصرح لك بالقيام بهذا الإجراء' }
+  }
 
   try {
     const product = await prisma.product.create({
@@ -50,10 +50,10 @@ export async function updateProduct(id: string, data: Partial<{
   isNew: boolean
   isActive: boolean
 }>) {
-    const session = await auth()
-    if (!session || session.user.role === 'CUSTOMER') {
-      return { success: false, error: 'غير مصرح لك بالقيام بهذا الإجراء' }
-    }
+  const session = await auth()
+  if (!session?.user || session.user.role === 'CUSTOMER') {
+    return { success: false, error: 'غير مصرح لك بالقيام بهذا الإجراء' }
+  }
 
   try {
     const product = await prisma.product.update({
@@ -70,10 +70,10 @@ export async function updateProduct(id: string, data: Partial<{
 }
 
 export async function deleteProduct(id: string) {
-    const session = await auth()
-    if (!session || session.user.role === 'CUSTOMER') {
-      return { success: false, error: 'غير مصرح لك بالقيام بهذا الإجراء' }
-    }
+  const session = await auth()
+  if (!session?.user || session.user.role === 'CUSTOMER') {
+    return { success: false, error: 'غير مصرح لك بالقيام بهذا الإجراء' }
+  }
 
   try {
     await prisma.product.delete({
@@ -89,10 +89,10 @@ export async function deleteProduct(id: string) {
 }
 
 export async function deleteProducts(ids: string[]) {
-    const session = await auth()
-    if (!session || session.user.role === 'CUSTOMER') {
-      return { success: false, error: 'غير مصرح لك بالقيام بهذا الإجراء' }
-    }
+  const session = await auth()
+  if (!session?.user || session.user.role === 'CUSTOMER') {
+    return { success: false, error: 'غير مصرح لك بالقيام بهذا الإجراء' }
+  }
 
   try {
     await prisma.product.deleteMany({
