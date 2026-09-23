@@ -13,7 +13,7 @@ import {
 import { 
   Package, Clock, Truck, CheckCircle2, XCircle, 
   User, Phone, Mail, MapPin, Receipt, Save, Loader2,
-  Calendar, CreditCard
+  Calendar, CreditCard, X
 } from 'lucide-react'
 import { getOrderDetails, updateOrderStatus, updatePaymentStatus, updateOrderTracking } from '@/app/actions/admin/orders'
 import { toast } from 'sonner'
@@ -149,7 +149,7 @@ export function OrderDetailsModal({ isOpen, onClose, orderId, onOrderUpdated }: 
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-4xl p-0 overflow-hidden rounded-3xl bg-white border border-[#E8E4DF] shadow-2xl" dir="rtl">
+      <DialogContent showCloseButton={false} className="max-w-4xl p-0 overflow-hidden rounded-3xl bg-white border border-[#E8E4DF] shadow-2xl" dir="rtl">
         {isLoading ? (
           <div className="p-16 flex flex-col items-center justify-center gap-3">
             <Loader2 className="w-8 h-8 text-[#C9A96E] animate-spin" />
@@ -158,29 +158,42 @@ export function OrderDetailsModal({ isOpen, onClose, orderId, onOrderUpdated }: 
         ) : order ? (
           <div>
             {/* Header */}
-            <DialogHeader className="p-6 bg-[#FAFAF8] border-b border-[#E8E4DF]">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                <div>
-                  <DialogTitle className="text-xl font-black text-[#1C1917] flex items-center gap-2.5">
-                    <span>طلب #{order.orderNumber}</span>
-                  </DialogTitle>
-                  <p className="text-xs text-[#78716C] mt-1 flex items-center gap-2">
-                    <Calendar className="w-3.5 h-3.5 text-[#A8A29E]" />
-                    {new Date(order.createdAt).toLocaleDateString('ar-IQ', {
-                      year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit'
-                    })}
-                  </p>
+            <DialogHeader className="p-5 sm:p-6 bg-[#FAFAF8] border-b border-[#E8E4DF]">
+              <div className="flex items-center justify-between gap-4">
+                <div className="flex flex-wrap items-center gap-3">
+                  <div>
+                    <DialogTitle className="text-xl font-black text-[#1C1917] flex items-center gap-2.5">
+                      <span>طلب #{order.orderNumber}</span>
+                    </DialogTitle>
+                    <p className="text-xs text-[#78716C] mt-1 flex items-center gap-2">
+                      <Calendar className="w-3.5 h-3.5 text-[#A8A29E]" />
+                      {new Date(order.createdAt).toLocaleDateString('ar-IQ', {
+                        year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit'
+                      })}
+                    </p>
+                  </div>
+                  {(() => {
+                    const currentStatus = statusConfig[order.status] || statusConfig['PENDING']
+                    const StatusIcon = currentStatus.icon
+                    return (
+                      <span className={`inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold border ${currentStatus.bg} ${currentStatus.text} ${currentStatus.border} shadow-2xs`}>
+                        <StatusIcon className="w-4 h-4" />
+                        {currentStatus.label}
+                      </span>
+                    )
+                  })()}
                 </div>
-                {(() => {
-                  const currentStatus = statusConfig[order.status] || statusConfig['PENDING']
-                  const StatusIcon = currentStatus.icon
-                  return (
-                    <span className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold border ${currentStatus.bg} ${currentStatus.text} ${currentStatus.border}`}>
-                      <StatusIcon className="w-4 h-4" />
-                      {currentStatus.label}
-                    </span>
-                  )
-                })()}
+
+                {/* Close Button */}
+                <button
+                  type="button"
+                  onClick={onClose}
+                  className="w-9 h-9 rounded-full bg-stone-200/70 hover:bg-stone-300 active:scale-90 text-stone-600 hover:text-stone-900 flex items-center justify-center transition-all cursor-pointer shrink-0 shadow-2xs"
+                  title="إغلاق النافذة"
+                  aria-label="إغلاق"
+                >
+                  <X className="w-4 h-4" />
+                </button>
               </div>
             </DialogHeader>
 
@@ -232,12 +245,12 @@ export function OrderDetailsModal({ isOpen, onClose, orderId, onOrderUpdated }: 
                               })
                               if (url) window.open(url, '_blank')
                             }}
-                            className="w-full h-9 rounded-xl border-[#25D366]/40 bg-[#25D366]/10 hover:bg-[#25D366]/20 text-[#128C7E] text-xs font-bold flex items-center justify-center gap-1.5 cursor-pointer mt-1"
+                            className="w-full h-9 rounded-xl border-[#25D366]/40 bg-[#25D366]/10 hover:bg-[#25D366]/20 text-[#128C7E] text-xs font-bold flex items-center justify-center gap-1.5 cursor-pointer mt-1.5 transition-colors"
                           >
-                            <svg className="w-3.5 h-3.5 fill-[#25D366]" viewBox="0 0 24 24">
+                            <svg className="w-3.5 h-3.5 fill-[#25D366] shrink-0" viewBox="0 0 24 24">
                               <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86.173.086.274.072.376-.043s.433-.506.549-.68c.116-.173.231-.145.39-.086s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.099.824zm-3.394-10.416c-5.523 0-10 4.477-10 10 0 1.77.46 3.432 1.264 4.881l-1.344 4.912 5.044-1.323c1.402.766 3.003 1.2 4.707 1.2 5.522 0 10-4.477 10-10s-4.478-10-9.671-10z" />
                             </svg>
-                            <span>إرسال إشعار الحالة للعميل عبر WhatsApp</span>
+                            <span className="truncate">إشعار العميل عبر واتساب</span>
                           </Button>
                         )}
                       </div>
@@ -325,13 +338,17 @@ export function OrderDetailsModal({ isOpen, onClose, orderId, onOrderUpdated }: 
                       </h2>
                     </div>
                     <CardContent className="p-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      <div>
-                        <p className="text-xs text-[#A8A29E] font-bold uppercase mb-1">اسم العميل</p>
+                      <div className="space-y-1">
+                        <p className="text-xs text-[#A8A29E] font-bold">اسم العميل</p>
                         <p className="text-sm font-bold text-[#1C1917]">{order.customerName}</p>
                       </div>
-                      <div>
-                        <div className="flex items-center justify-between mb-1">
-                          <p className="text-xs text-[#A8A29E] font-bold uppercase">رقم الهاتف</p>
+
+                      <div className="space-y-1">
+                        <p className="text-xs text-[#A8A29E] font-bold">رقم الهاتف والتواصل</p>
+                        <div className="flex items-center gap-2 flex-wrap">
+                          <span className="text-sm font-bold font-mono text-[#1C1917]" dir="ltr">
+                            {order.customerPhone}
+                          </span>
                           {order.customerPhone && (
                             <button
                               type="button"
@@ -343,40 +360,51 @@ export function OrderDetailsModal({ isOpen, onClose, orderId, onOrderUpdated }: 
                                 const msg = `السلام عليكم أستاذ ${order.customerName} 👋 بخصوص طلبك رقم ${order.orderNumber} من متجر الهدايا:`
                                 window.open(`https://wa.me/${clean}?text=${encodeURIComponent(msg)}`, '_blank')
                               }}
-                              className="inline-flex items-center gap-1 text-[11px] font-bold text-[#128C7E] hover:underline cursor-pointer"
+                              className="inline-flex items-center gap-1 px-2 py-0.5 rounded-lg bg-[#25D366]/15 hover:bg-[#25D366]/25 text-[#128C7E] text-[11px] font-bold transition-colors cursor-pointer shadow-2xs"
+                              title="محادثة عبر واتساب"
                             >
                               <svg className="w-3 h-3 fill-[#25D366]" viewBox="0 0 24 24">
                                 <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86.173.086.274.072.376-.043s.433-.506.549-.68c.116-.173.231-.145.39-.086s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.099.824zm-3.394-10.416c-5.523 0-10 4.477-10 10 0 1.77.46 3.432 1.264 4.881l-1.344 4.912 5.044-1.323c1.402.766 3.003 1.2 4.707 1.2 5.522 0 10-4.477 10-10s-4.478-10-9.671-10z" />
                               </svg>
-                              محادثة WhatsApp
+                              <span>واتساب</span>
                             </button>
                           )}
                         </div>
-                        <p className="text-sm font-bold text-[#1C1917]" dir="ltr">{order.customerPhone}</p>
                       </div>
-                      <div>
-                        <p className="text-xs text-[#A8A29E] font-bold uppercase mb-1">طريقة ومصدر الاستلام</p>
-                        <p className="text-sm font-bold text-[#1C1917]">
-                          {order.deliveryType === 'PICKUP' ? 'استلام مباشر من المتجر 🏬' : 'توصيل للعنوان 🚚'}
+
+                      <div className="space-y-1">
+                        <p className="text-xs text-[#A8A29E] font-bold">طريقة الاستلام والمصدر</p>
+                        <div className="flex items-center gap-2 flex-wrap">
+                          <span className="text-sm font-bold text-[#1C1917]">
+                            {order.deliveryType === 'PICKUP' ? 'استلام من المتجر 🏬' : 'توصيل للعنوان 🚚'}
+                          </span>
                           {order.source === 'WHATSAPP' && (
-                            <span className="ms-2 text-[10px] bg-[#25D366]/20 text-[#128C7E] px-2 py-0.5 rounded-full font-black">
+                            <span className="text-[10px] bg-[#25D366]/20 text-[#128C7E] px-2 py-0.5 rounded-full font-black">
                               طلب واتساب
                             </span>
                           )}
-                        </p>
+                        </div>
                       </div>
-                      <div className="sm:col-span-2">
-                        <p className="text-xs text-[#A8A29E] font-bold uppercase mb-1">عنوان التوصيل الكامل</p>
+
+                      <div className="space-y-1 sm:col-span-2">
+                        <p className="text-xs text-[#A8A29E] font-bold">عنوان التوصيل بالتفصيل</p>
                         <p className="text-sm font-medium text-[#1C1917]">
-                          {order.province ? `${order.province}` : ''}
-                          {order.area ? `، ${order.area}` : ''}
-                          {order.shippingAddress?.address ? `، ${order.shippingAddress.address}` : (order.shippingAddress?.street ? `، ${order.shippingAddress.street}` : '')}
+                          {(() => {
+                            const addr = order.shippingAddress?.address || order.shippingAddress?.street
+                            const parts = [
+                              order.province,
+                              order.area,
+                              addr && addr !== order.area ? addr : null
+                            ].filter(Boolean)
+                            return parts.length > 0 ? parts.join('، ') : 'غير محدد'
+                          })()}
                         </p>
                       </div>
+
                       {order.notes && (
                         <div className="sm:col-span-2 bg-[#FAFAF8] p-3 rounded-xl border border-[#E8E4DF]">
                           <p className="text-xs font-bold text-[#78716C] mb-1">ملاحظات العميل مع الطلب:</p>
-                          <p className="text-xs text-[#1C1917]">{order.notes}</p>
+                          <p className="text-xs text-[#1C1917] whitespace-pre-wrap">{order.notes}</p>
                         </div>
                       )}
                     </CardContent>

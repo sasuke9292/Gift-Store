@@ -249,7 +249,7 @@ export default function ProductModal({ isOpen, setIsOpen, product, categories, o
               </div>
 
               {/* Status Pill in Header */}
-              <div className="flex items-center gap-2 self-start sm:self-auto">
+              <div className="flex items-center gap-2 self-start sm:self-auto pe-10 sm:pe-12">
                 <span className={cn(
                   "px-3.5 py-1.5 rounded-full text-xs font-bold border flex items-center gap-2 shadow-2xs",
                   formData.isActive 
