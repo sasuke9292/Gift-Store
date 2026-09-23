@@ -9,7 +9,6 @@ export default async function AdminLayout({
 }: {
   children: React.ReactNode
 }) {
-  const settings = await getStoreSettings()
   const session = await auth()
   
   if (!session?.user) {
@@ -19,6 +18,8 @@ export default async function AdminLayout({
   if (session.user.role === 'CUSTOMER') {
     redirect('/')
   }
+
+  const settings = await getStoreSettings()
   
   return (
     <AdminLayoutClient settings={settings} user={session?.user}>
