@@ -100,7 +100,7 @@ export function ProductCard({ product }: ProductCardProps) {
           )}
           {product.isBestSeller && (
             <span className="inline-flex items-center gap-1 bg-[#1C1917] text-white text-[10px] font-extrabold px-2.5 py-0.5 rounded-full shadow-xs">
-              <Star className="w-2.5 h-2.5 fill-[#13213c] text-[#13213c]" />
+              <Star className="w-2.5 h-2.5 fill-amber-400 text-amber-400" />
               الأكثر طلباً
             </span>
           )}

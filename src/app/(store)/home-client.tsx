@@ -683,8 +683,8 @@ export default function StoreHomeClient({
               
               {/* Left Content */}
               <div className="lg:col-span-6 text-start">
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-black bg-[#13213c]/20 text-[#13213c] border border-[#13213c]/30 mb-4">
-                  <Sparkles className="w-3.5 h-3.5" />
+                <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-black bg-blue-500/20 text-[#93c5fd] border border-blue-400/30 mb-4">
+                  <Sparkles className="w-3.5 h-3.5 text-[#93c5fd]" />
                   مستشار الإهداء الذكي
                 </span>
                 <h2 className="text-3xl sm:text-4xl font-black text-white leading-tight mb-4">
@@ -702,7 +702,7 @@ export default function StoreHomeClient({
 
               {/* Right Mini-Interactive Widget */}
               <div className="lg:col-span-6 bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/15">
-                <p className="text-xs font-black text-[#7ea6e6] mb-3">الخطوة 1: لمن الهدية؟</p>
+                <p className="text-xs font-black text-[#93c5fd] mb-3">الخطوة 1: لمن الهدية؟</p>
                 <div className="grid grid-cols-3 gap-2 mb-4">
                   {[
                     { id: 'him', label: 'له 👨', href: '/category/men' },
@@ -713,10 +713,10 @@ export default function StoreHomeClient({
                       key={item.id}
                       onClick={() => setQuizRecipient(item.id as any)}
                       className={cn(
-                        "py-2.5 px-3 rounded-xl text-xs font-bold transition-all border",
+                        "py-2.5 px-3 rounded-xl text-xs font-bold transition-all border cursor-pointer",
                         quizRecipient === item.id
-                          ? "bg-[#22385e] text-white border-[#5c8fd6] font-black shadow-sm"
-                          : "bg-white/5 text-white border-white/10 hover:bg-white/15"
+                          ? "bg-blue-600 text-white border-blue-400 font-black shadow-[0_2px_12px_rgba(37,99,235,0.45)] scale-[1.02]"
+                          : "bg-white/10 text-white/90 border-white/15 hover:bg-white/20 hover:text-white"
                       )}
                     >
                       {item.label}
@@ -724,7 +724,7 @@ export default function StoreHomeClient({
                   ))}
                 </div>
 
-                <p className="text-xs font-black text-[#7ea6e6] mb-3">الخطوة 2: حدد الميزانية التقريبية</p>
+                <p className="text-xs font-black text-[#93c5fd] mb-3">الخطوة 2: حدد الميزانية التقريبية</p>
                 <div className="grid grid-cols-3 gap-2 mb-6">
                   {[
                     { id: '50k', label: 'أقل من 50 ألف د.ع' },
@@ -735,10 +735,10 @@ export default function StoreHomeClient({
                       key={b.id}
                       onClick={() => setQuizBudget(b.id)}
                       className={cn(
-                        "py-2 px-2 rounded-xl text-[11px] font-bold transition-all border",
+                        "py-2.5 px-2 rounded-xl text-[11px] font-bold transition-all border cursor-pointer",
                         quizBudget === b.id
-                          ? "bg-[#22385e] text-white border-[#5c8fd6] font-black shadow-sm"
-                          : "bg-white/5 text-white border-white/10 hover:bg-white/15"
+                          ? "bg-blue-600 text-white border-blue-400 font-black shadow-[0_2px_12px_rgba(37,99,235,0.45)] scale-[1.02]"
+                          : "bg-white/10 text-white/90 border-white/15 hover:bg-white/20 hover:text-white"
                       )}
                     >
                       {b.label}
@@ -748,12 +748,12 @@ export default function StoreHomeClient({
 
                 <Link
                   href={quizRecipient ? `/category/${quizRecipient}` : '/gift-finder'}
-                  className="flex items-center justify-center gap-2 w-full h-12 rounded-xl font-black text-[#1C1917] text-sm transition-all hover:brightness-110 shadow-lg"
-                  style={{ background: 'linear-gradient(135deg, #22385e 0%, #13213c 100%)' }}
+                  className="flex items-center justify-center gap-2 w-full h-12 rounded-xl font-black text-white text-sm transition-all hover:brightness-110 hover:-translate-y-0.5 shadow-[0_4px_25px_rgba(37,99,235,0.45)] border border-blue-400/40 cursor-pointer"
+                  style={{ background: 'linear-gradient(135deg, #2563eb 0%, #1d4ed8 50%, #13213c 100%)' }}
                 >
-                  <Sparkles className="w-4 h-4" />
+                  <Sparkles className="w-4 h-4 text-blue-200" />
                   <span>اعثر على الهدية الآن</span>
-                  <ArrowLeft className="w-4 h-4" />
+                  <ArrowLeft className="w-4 h-4 text-blue-200" />
                 </Link>
               </div>
 

@@ -33,9 +33,9 @@ export default async function StoreLayout({
   // Maintenance Mode screen for regular visitors
   if (settings?.maintenanceMode && !isStaff) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-[#1C1917] text-white px-4 text-center" dir="rtl">
-        <div className="w-20 h-20 rounded-3xl bg-[#13213c]/20 border border-[#13213c]/40 flex items-center justify-center mx-auto mb-6">
-          <Clock className="w-10 h-10 text-[#13213c] animate-pulse" />
+      <div className="min-h-screen flex flex-col items-center justify-center bg-[#0c1424] text-white px-4 text-center" dir="rtl">
+        <div className="w-20 h-20 rounded-3xl bg-[#22385e]/40 border border-[#3b5e94]/40 flex items-center justify-center mx-auto mb-6">
+          <Clock className="w-10 h-10 text-[#7ea6e6] animate-pulse" />
         </div>
         <h1 className="text-3xl sm:text-4xl font-black text-white mb-3">
           {settings.storeName || 'گفتي بلس'} في وضع التحديث
@@ -46,7 +46,7 @@ export default async function StoreLayout({
         <div className="flex items-center gap-4">
           <Link
             href="/auth/admin-login"
-            className="text-xs text-[#13213c] hover:underline"
+            className="text-xs text-[#7ea6e6] hover:underline"
           >
             دخول المشرفين والإدارة
           </Link>
