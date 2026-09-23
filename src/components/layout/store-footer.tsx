@@ -9,7 +9,8 @@ import {
   Gift, 
   ArrowLeft, 
   Send, 
-  Lock 
+  Lock,
+  Sparkles
 } from 'lucide-react'
 
 const footerLinks = {
@@ -108,7 +109,7 @@ export function StoreFooter({ settings }: StoreFooterProps) {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-10 mb-10">
 
           {/* Col 1: Brand & Slogan & Socials (4 Cols) */}
-          <div className="lg:col-span-4 space-y-3.5 text-start">
+          <div className="lg:col-span-4 space-y-4 text-start">
             <Link href="/" className="flex items-center gap-3 group w-fit">
               {settings?.logoUrl ? (
                 <div className="relative w-10 h-10 rounded-2xl overflow-hidden shadow-md">
@@ -123,23 +124,26 @@ export function StoreFooter({ settings }: StoreFooterProps) {
                 </div>
               )}
               <div className="flex flex-col text-start">
-                <span className="text-xl font-black text-white tracking-tight">
+                <span className="text-xl font-black text-white leading-tight">
                   {storeName.split('|')[0].trim()}
                 </span>
-                <span className="text-[10px] font-bold text-[#7ea6e6] tracking-widest">
+                <span className="text-[10px] font-bold text-[#7ea6e6] tracking-widest mt-1">
                   {storeName.includes('|') ? storeName.split('|')[1].trim() : 'GIFTY PLUS'}
                 </span>
               </div>
             </Link>
             
-            <p className="text-[#7ea6e6] font-bold text-xs">{storeSlogan}</p>
+            <div className="flex items-center gap-1.5 text-[#7ea6e6] font-bold text-xs">
+              <Sparkles className="w-3.5 h-3.5 text-[#7ea6e6] shrink-0" />
+              <span>{storeSlogan.replace(/[✨*]/g, '').trim()}</span>
+            </div>
             
-            <p className="text-white/50 leading-relaxed text-xs max-w-sm">
+            <p className="text-white/60 leading-relaxed text-xs max-w-sm">
               {storeDesc}
             </p>
 
             {/* Social Icons Row */}
-            <div className="flex items-center gap-2 pt-1">
+            <div className="flex items-center gap-2.5 pt-1">
               <a
                 href={whatsappHref}
                 target="_blank"
@@ -188,18 +192,18 @@ export function StoreFooter({ settings }: StoreFooterProps) {
             </div>
           </div>
 
-          {/* Col 2: Categories (2.5 Cols) */}
+          {/* Col 2: Categories (2 Cols) */}
           <div className="lg:col-span-2 text-start">
-            <h3 className="font-black text-white mb-3 text-xs tracking-wider flex items-center gap-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#5c8fd6]" />
-              أقسام الهدايا
+            <h3 className="font-extrabold text-white mb-4 text-xs flex items-center gap-2" dir="rtl">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#5c8fd6] shrink-0" />
+              <span>أقسام الهدايا</span>
             </h3>
-            <ul className="space-y-2">
+            <ul className="space-y-2.5">
               {footerLinks.categories.map(link => (
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-xs text-white/50 hover:text-[#7ea6e6] hover:-translate-x-0.5 transition-all inline-block"
+                    className="text-xs text-white/50 hover:text-[#7ea6e6] hover:-translate-x-1 transition-all inline-block font-medium"
                   >
                     {link.label}
                   </Link>
@@ -208,18 +212,18 @@ export function StoreFooter({ settings }: StoreFooterProps) {
             </ul>
           </div>
 
-          {/* Col 3: Quick Links (2.5 Cols) */}
-          <div className="lg:col-span-2 text-start">
-            <h3 className="font-black text-white mb-3 text-xs tracking-wider flex items-center gap-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#5c8fd6]" />
-              روابط سريعة
+          {/* Col 3: Quick Links (3 Cols) */}
+          <div className="lg:col-span-3 text-start">
+            <h3 className="font-extrabold text-white mb-4 text-xs flex items-center gap-2" dir="rtl">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#5c8fd6] shrink-0" />
+              <span>روابط سريعة</span>
             </h3>
-            <ul className="space-y-2">
+            <ul className="space-y-2.5">
               {footerLinks.quickLinks.map(link => (
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-xs text-white/50 hover:text-[#7ea6e6] hover:-translate-x-0.5 transition-all inline-block"
+                    className="text-xs text-white/50 hover:text-[#7ea6e6] hover:-translate-x-1 transition-all inline-block font-medium"
                   >
                     {link.label}
                   </Link>
@@ -228,40 +232,48 @@ export function StoreFooter({ settings }: StoreFooterProps) {
             </ul>
           </div>
 
-          {/* Col 4: Customer Care & Direct Contacts (3.5 Cols) */}
-          <div className="lg:col-span-4 text-start space-y-4">
-            <h3 className="font-black text-white text-xs tracking-wider flex items-center gap-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#5c8fd6]" />
-              خدمة العملاء
+          {/* Col 4: Customer Care & Direct Contacts (3 Cols) */}
+          <div className="lg:col-span-3 text-start space-y-4">
+            <h3 className="font-extrabold text-white text-xs mb-4 flex items-center gap-2" dir="rtl">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#5c8fd6] shrink-0" />
+              <span>خدمة العملاء</span>
             </h3>
 
             {/* Direct Clickable Contacts */}
-            <div className="space-y-2.5">
+            <div className="space-y-3">
               <a 
                 href={whatsappHref} 
                 target="_blank" 
                 rel="noopener noreferrer" 
-                className="flex items-center gap-2.5 text-xs text-white/60 hover:text-[#7ea6e6] transition-colors group"
+                className="flex items-center gap-3 p-3 rounded-2xl bg-white/[0.03] hover:bg-white/[0.07] border border-white/5 hover:border-[#3b5e94]/40 transition-all group"
               >
-                <div className="w-7 h-7 rounded-lg bg-white/5 group-hover:bg-[#22385e]/40 flex items-center justify-center text-[#7ea6e6] shrink-0 transition-colors">
-                  <Phone className="w-3.5 h-3.5" />
+                <div className="w-9 h-9 rounded-xl bg-[#22385e]/40 border border-[#3b5e94]/30 flex items-center justify-center text-[#7ea6e6] shrink-0 group-hover:scale-105 group-hover:bg-[#22385e]/60 transition-all">
+                  <Phone className="w-4 h-4" />
                 </div>
-                <div>
-                  <span className="text-[10px] text-white/40 block">الطلب عبر واتساب والهاتف</span>
-                  <span className="font-bold text-white/80 group-hover:text-[#7ea6e6]" dir="ltr">{storePhone}</span>
+                <div className="flex flex-col text-start min-w-0">
+                  <span className="text-[11px] text-white/50 font-medium mb-1 leading-none">
+                    الطلب عبر واتساب والهاتف
+                  </span>
+                  <span className="text-xs font-bold text-white/90 group-hover:text-[#7ea6e6] tracking-wide" dir="ltr">
+                    {storePhone}
+                  </span>
                 </div>
               </a>
 
               <a 
                 href={`mailto:${storeEmail}`} 
-                className="flex items-center gap-2.5 text-xs text-white/60 hover:text-[#7ea6e6] transition-colors group"
+                className="flex items-center gap-3 p-3 rounded-2xl bg-white/[0.03] hover:bg-white/[0.07] border border-white/5 hover:border-[#3b5e94]/40 transition-all group"
               >
-                <div className="w-7 h-7 rounded-lg bg-white/5 group-hover:bg-[#22385e]/40 flex items-center justify-center text-[#7ea6e6] shrink-0 transition-colors">
-                  <Mail className="w-3.5 h-3.5" />
+                <div className="w-9 h-9 rounded-xl bg-[#22385e]/40 border border-[#3b5e94]/30 flex items-center justify-center text-[#7ea6e6] shrink-0 group-hover:scale-105 group-hover:bg-[#22385e]/60 transition-all">
+                  <Mail className="w-4 h-4" />
                 </div>
-                <div>
-                  <span className="text-[10px] text-white/40 block">البريد الإلكتروني للدعم</span>
-                  <span className="font-bold text-white/80 group-hover:text-[#7ea6e6]">{storeEmail}</span>
+                <div className="flex flex-col text-start min-w-0">
+                  <span className="text-[11px] text-white/50 font-medium mb-1 leading-none">
+                    البريد الإلكتروني للدعم
+                  </span>
+                  <span className="text-xs font-bold text-white/90 group-hover:text-[#7ea6e6] truncate" dir="ltr">
+                    {storeEmail}
+                  </span>
                 </div>
               </a>
             </div>
