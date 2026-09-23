@@ -145,7 +145,7 @@ export function StoreHeader({ user, topBarText, settings }: StoreHeaderProps) {
   return (
     <>
       <header className={cn(
-        "fixed top-0 inset-x-0 z-50 transition-all duration-300",
+        "sticky top-0 inset-x-0 z-50 transition-all duration-300",
         isScrolled 
           ? "bg-white/95 backdrop-blur-xl shadow-[0_2px_20px_rgba(0,0,0,0.06)] border-b border-[#E8E4DF]/80" 
           : "bg-white border-b border-[#E8E4DF]"
