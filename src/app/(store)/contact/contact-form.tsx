@@ -31,7 +31,7 @@ export function ContactForm() {
             setSubmitted(false)
             setFormData({ name: '', phone: '', message: '' })
           }}
-          className="text-sm font-bold text-[#C9A96E] hover:underline"
+          className="text-sm font-bold text-[#13213c] hover:underline"
         >
           إرسال رسالة أخرى
         </button>
@@ -51,7 +51,7 @@ export function ContactForm() {
             placeholder="اسمك الكامل"
             value={formData.name}
             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-            className="w-full h-12 px-4 rounded-xl bg-[#FAFAF8] border border-[#E8E4DF] text-[#1C1917] placeholder:text-[#C8C4BE] focus:outline-none focus:border-[#C9A96E]/50 focus:ring-2 focus:ring-[#C9A96E]/15 transition-all"
+            className="w-full h-12 px-4 rounded-xl bg-[#FAFAF8] border border-[#E8E4DF] text-[#1C1917] placeholder:text-[#C8C4BE] focus:outline-none focus:border-[#13213c]/50 focus:ring-2 focus:ring-[#13213c]/15 transition-all"
           />
         </div>
         <div>
@@ -63,7 +63,7 @@ export function ContactForm() {
             dir="ltr"
             value={formData.phone}
             onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-            className="w-full h-12 px-4 rounded-xl bg-[#FAFAF8] border border-[#E8E4DF] text-[#1C1917] placeholder:text-[#C8C4BE] focus:outline-none focus:border-[#C9A96E]/50 focus:ring-2 focus:ring-[#C9A96E]/15 transition-all"
+            className="w-full h-12 px-4 rounded-xl bg-[#FAFAF8] border border-[#E8E4DF] text-[#1C1917] placeholder:text-[#C8C4BE] focus:outline-none focus:border-[#13213c]/50 focus:ring-2 focus:ring-[#13213c]/15 transition-all"
           />
         </div>
         <div>
@@ -74,14 +74,14 @@ export function ContactForm() {
             placeholder="اكتب رسالتك هنا..."
             value={formData.message}
             onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-            className="w-full p-4 rounded-xl bg-[#FAFAF8] border border-[#E8E4DF] text-[#1C1917] placeholder:text-[#C8C4BE] focus:outline-none focus:border-[#C9A96E]/50 focus:ring-2 focus:ring-[#C9A96E]/15 transition-all resize-none"
+            className="w-full p-4 rounded-xl bg-[#FAFAF8] border border-[#E8E4DF] text-[#1C1917] placeholder:text-[#C8C4BE] focus:outline-none focus:border-[#13213c]/50 focus:ring-2 focus:ring-[#13213c]/15 transition-all resize-none"
           />
         </div>
         <button
           type="submit"
           disabled={loading}
-          className="w-full h-12 rounded-xl font-bold text-white transition-all hover:-translate-y-0.5 hover:shadow-[0_6px_20px_rgba(184,137,58,0.35)] flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
-          style={{ background: 'linear-gradient(135deg, #C9A96E 0%, #A07850 100%)' }}
+          className="w-full h-12 rounded-xl font-bold text-white transition-all hover:-translate-y-0.5 hover:shadow-[0_6px_20px_rgba(19, 33, 60,0.35)] flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
+          style={{ background: 'linear-gradient(135deg, #22385e 0%, #13213c 100%)' }}
         >
           <Send className="w-4 h-4 rtl:-scale-x-100" />
           {loading ? 'جاري الإرسال...' : 'إرسال الرسالة'}

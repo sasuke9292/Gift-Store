@@ -18,8 +18,8 @@ export default async function ContactPage() {
       value: phone,
       desc: 'متاح للاتصال والاستفسار المباشر عبر واتساب وهاتفياً',
       href: `tel:${phone.replace(/\s+/g, '')}`,
-      color: '#C9A96E',
-      bg: '#FBF6EE'
+      color: '#13213c',
+      bg: '#F0F4F9'
     },
     {
       icon: Mail,
@@ -52,11 +52,11 @@ export default async function ContactPage() {
 
   return (
     <div className="min-h-screen bg-[#FAFAF8] pb-20" dir="rtl">
-      <section className="relative bg-[#1C1917] text-white py-24 px-4 overflow-hidden">
-        <div className="absolute top-0 end-0 w-96 h-96 bg-[#C9A96E]/10 rounded-full blur-[100px]" />
+      <section className="relative bg-[#0c1424] text-white py-24 px-4 overflow-hidden">
+        <div className="absolute top-0 end-0 w-96 h-96 bg-[#22385e]/25 rounded-full blur-[100px]" />
         <div className="max-w-4xl mx-auto text-center relative z-10">
-          <div className="w-16 h-16 rounded-2xl bg-[#C9A96E]/15 border border-[#C9A96E]/25 flex items-center justify-center mx-auto mb-6">
-            <MessageCircle className="w-8 h-8 text-[#C9A96E]" />
+          <div className="w-16 h-16 rounded-2xl bg-[#22385e]/40 border border-[#3b5e94]/40 flex items-center justify-center mx-auto mb-6">
+            <MessageCircle className="w-8 h-8 text-[#7ea6e6]" />
           </div>
           <h1 className="text-4xl sm:text-5xl font-black mb-4">اتصل بنا</h1>
           <p className="text-white/60 text-lg">فريق {settings?.storeName?.split('|')[0] || 'گفتي بلس'} مستعد لمساعدتك في أي وقت</p>
@@ -74,7 +74,7 @@ export default async function ContactPage() {
               <a
                 key={item.title}
                 href={item.href}
-                className="flex items-center gap-5 p-5 bg-white rounded-2xl border border-[#E8E4DF] hover:border-[#C9A96E]/30 hover:shadow-[0_4px_16px_rgba(0,0,0,0.07)] transition-all duration-200 group block text-start"
+                className="flex items-center gap-5 p-5 bg-white rounded-2xl border border-[#E8E4DF] hover:border-[#13213c]/30 hover:shadow-[0_4px_16px_rgba(0,0,0,0.07)] transition-all duration-200 group block text-start"
               >
                 <div className="w-14 h-14 rounded-2xl flex items-center justify-center shrink-0 transition-transform group-hover:scale-110" style={{ background: item.bg }}>
                   <item.icon className="w-6 h-6" style={{ color: item.color }} />

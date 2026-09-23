@@ -146,7 +146,7 @@ export function AdminHeader({ userRole = 'CUSTOMER', userName }: { userRole?: st
 
     return (
       <div className="hidden lg:flex items-center gap-1.5 text-xs font-medium text-[#78716C]">
-        <Link href="/admin" className="hover:text-[#C9A96E] transition-colors">
+        <Link href="/admin" className="hover:text-[#13213c] transition-colors">
           الرئيسية
         </Link>
         {paths.slice(1).map((path, index) => {
@@ -154,7 +154,7 @@ export function AdminHeader({ userRole = 'CUSTOMER', userName }: { userRole?: st
           return (
             <React.Fragment key={`${path}-${index}`}>
               <ChevronLeft className="w-3.5 h-3.5 text-[#A8A29E]" />
-              <span className={isLast ? 'text-[#1C1917] font-black' : 'hover:text-[#C9A96E] transition-colors'}>
+              <span className={isLast ? 'text-[#1C1917] font-black' : 'hover:text-[#13213c] transition-colors'}>
                 {translate(path)}
               </span>
             </React.Fragment>
@@ -200,11 +200,11 @@ export function AdminHeader({ userRole = 'CUSTOMER', userName }: { userRole?: st
                             className={cn(
                               'flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 text-sm border',
                               isActive
-                                ? 'bg-[#FBF6EE] text-[#A07850] font-black border-[#C9A96E]/30'
+                                ? 'bg-[#F0F4F9] text-[#13213c] font-black border-[#13213c]/30'
                                 : 'text-[#78716C] hover:bg-[#FAFAF8] hover:text-[#1C1917] border-transparent font-medium'
                             )}
                           >
-                            <item.icon className={cn('w-[18px] h-[18px] shrink-0', isActive ? 'text-[#C9A96E]' : 'text-[#A8A29E]')} />
+                            <item.icon className={cn('w-[18px] h-[18px] shrink-0', isActive ? 'text-[#13213c]' : 'text-[#A8A29E]')} />
                             <span>{item.name}</span>
                           </Link>
                         )
@@ -220,7 +220,7 @@ export function AdminHeader({ userRole = 'CUSTOMER', userName }: { userRole?: st
                   target="_blank"
                   className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl bg-[#FAFAF8] border border-[#E8E4DF] text-xs font-bold text-[#1C1917] hover:bg-[#F5F0EA] transition-colors"
                 >
-                  <Store className="w-4 h-4 text-[#C9A96E]" />
+                  <Store className="w-4 h-4 text-[#13213c]" />
                   <span>معاينة المتجر</span>
                 </Link>
               </div>
@@ -244,7 +244,7 @@ export function AdminHeader({ userRole = 'CUSTOMER', userName }: { userRole?: st
               }}
               onFocus={() => setIsSearchOpen(true)}
               placeholder="بحث سريع في الإدارة والإعدادات..."
-              className="w-full h-10 ps-8 pe-10 bg-[#FAFAF8] border border-[#E8E4DF] hover:border-[#D5D0C9] focus:border-[#C9A96E]/50 focus:bg-white rounded-xl transition-all text-xs text-[#1C1917] placeholder:text-[#A8A29E] outline-none focus:ring-2 focus:ring-[#C9A96E]/15"
+              className="w-full h-10 ps-8 pe-10 bg-[#FAFAF8] border border-[#E8E4DF] hover:border-[#D5D0C9] focus:border-[#13213c]/50 focus:bg-white rounded-xl transition-all text-xs text-[#1C1917] placeholder:text-[#A8A29E] outline-none focus:ring-2 focus:ring-[#13213c]/15"
             />
             {searchQuery && (
               <button
@@ -282,20 +282,20 @@ export function AdminHeader({ userRole = 'CUSTOMER', userName }: { userRole?: st
                         key={item.id}
                         type="button"
                         onClick={() => handleSelectSearchItem(item.href)}
-                        className="w-full flex items-center gap-2.5 p-2 rounded-xl text-start hover:bg-[#FBF6EE] group transition-colors cursor-pointer"
+                        className="w-full flex items-center gap-2.5 p-2 rounded-xl text-start hover:bg-[#F0F4F9] group transition-colors cursor-pointer"
                       >
-                        <div className="w-8 h-8 rounded-lg bg-[#FAFAF8] border border-[#E8E4DF] group-hover:border-[#C9A96E]/40 group-hover:bg-white flex items-center justify-center shrink-0 transition-colors">
-                          <ItemIcon className="w-4 h-4 text-[#78716C] group-hover:text-[#A07850]" />
+                        <div className="w-8 h-8 rounded-lg bg-[#FAFAF8] border border-[#E8E4DF] group-hover:border-[#13213c]/40 group-hover:bg-white flex items-center justify-center shrink-0 transition-colors">
+                          <ItemIcon className="w-4 h-4 text-[#78716C] group-hover:text-[#13213c]" />
                         </div>
                         <div className="flex-1 min-w-0">
-                          <p className="text-xs font-bold text-[#1C1917] group-hover:text-[#A07850] truncate transition-colors">
+                          <p className="text-xs font-bold text-[#1C1917] group-hover:text-[#13213c] truncate transition-colors">
                             {item.title}
                           </p>
                           <p className="text-[10px] text-[#A8A29E] truncate">
                             {item.group}
                           </p>
                         </div>
-                        <ChevronLeft className="w-3.5 h-3.5 text-[#A8A29E] group-hover:text-[#A07850] shrink-0" />
+                        <ChevronLeft className="w-3.5 h-3.5 text-[#A8A29E] group-hover:text-[#13213c] shrink-0" />
                       </button>
                     )
                   })
@@ -309,10 +309,10 @@ export function AdminHeader({ userRole = 'CUSTOMER', userName }: { userRole?: st
         <Link
           href="/"
           target="_blank"
-          className="hidden sm:flex items-center gap-1.5 h-10 px-3.5 rounded-xl bg-[#FAFAF8] hover:bg-[#F5F0EA] border border-[#E8E4DF] text-xs font-bold text-[#1C1917] transition-all hover:border-[#C9A96E]/40"
+          className="hidden sm:flex items-center gap-1.5 h-10 px-3.5 rounded-xl bg-[#FAFAF8] hover:bg-[#F5F0EA] border border-[#E8E4DF] text-xs font-bold text-[#1C1917] transition-all hover:border-[#13213c]/40"
           title="معاينة المتجر المباشر"
         >
-          <Store className="w-4 h-4 text-[#C9A96E]" />
+          <Store className="w-4 h-4 text-[#13213c]" />
           <span>المتجر</span>
         </Link>
 
@@ -320,7 +320,7 @@ export function AdminHeader({ userRole = 'CUSTOMER', userName }: { userRole?: st
         <Sheet open={isNotificationsOpen} onOpenChange={setIsNotificationsOpen}>
           <button
             onClick={() => setIsNotificationsOpen(true)}
-            className="relative w-10 h-10 flex items-center justify-center text-[#78716C] hover:text-[#1C1917] bg-[#FAFAF8] hover:bg-[#F5F0EA] rounded-xl transition-all border border-[#E8E4DF] hover:border-[#C9A96E]/30 cursor-pointer"
+            className="relative w-10 h-10 flex items-center justify-center text-[#78716C] hover:text-[#1C1917] bg-[#FAFAF8] hover:bg-[#F5F0EA] rounded-xl transition-all border border-[#E8E4DF] hover:border-[#13213c]/30 cursor-pointer"
             aria-label="الإشعارات"
           >
             <Bell className="w-4 h-4" />
@@ -329,7 +329,7 @@ export function AdminHeader({ userRole = 'CUSTOMER', userName }: { userRole?: st
           <SheetContent side="left" className="w-full sm:max-w-sm border-e-0 shadow-2xl p-0 flex flex-col bg-white border-s border-[#E8E4DF]">
             <SheetHeader className="p-5 bg-[#FAFAF8] border-b border-[#E8E4DF]">
               <div className="flex items-center justify-between flex-row">
-                <button className="text-xs font-bold text-[#C9A96E] hover:text-[#A07850] transition-colors cursor-pointer">
+                <button className="text-xs font-bold text-[#13213c] hover:text-[#13213c] transition-colors cursor-pointer">
                   تحديد الكل كمقروء
                 </button>
                 <SheetTitle className="text-[#1C1917] text-base font-black">الإشعارات</SheetTitle>
@@ -349,7 +349,7 @@ export function AdminHeader({ userRole = 'CUSTOMER', userName }: { userRole?: st
         <Link
           href="/admin/profile"
           className="w-10 h-10 rounded-xl flex items-center justify-center text-white font-black shadow-sm hover:scale-105 transition-all text-sm shrink-0"
-          style={{ background: 'linear-gradient(135deg, #C9A96E 0%, #A07850 100%)' }}
+          style={{ background: 'linear-gradient(135deg, #22385e 0%, #13213c 100%)' }}
           title={userName || 'الملف الشخصي'}
         >
           {userName ? userName[0] : 'أ'}

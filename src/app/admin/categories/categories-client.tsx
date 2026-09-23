@@ -129,8 +129,8 @@ export default function CategoriesClient({ initialCategories }: { initialCategor
         </div>
         <Button 
           onClick={() => openModal()} 
-          className="text-white shadow-[0_4px_16px_rgba(201,169,110,0.35)] hover:-translate-y-0.5 rounded-xl px-5 h-11 font-bold transition-all w-full sm:w-auto text-sm cursor-pointer"
-          style={{ background: 'linear-gradient(135deg, #C9A96E 0%, #A07850 100%)' }}
+          className="text-white shadow-[0_4px_16px_rgba(19, 33, 60,0.35)] hover:-translate-y-0.5 rounded-xl px-5 h-11 font-bold transition-all w-full sm:w-auto text-sm cursor-pointer"
+          style={{ background: 'linear-gradient(135deg, #22385e 0%, #13213c 100%)' }}
         >
           <Plus className="w-4 h-4 ms-2" />
           إضافة تصنيف جديد
@@ -142,13 +142,13 @@ export default function CategoriesClient({ initialCategories }: { initialCategor
         {/* Toolbar */}
         <div className="p-5 border-b border-[#E8E4DF]">
           <div className="relative w-full md:max-w-md group">
-            <Search className="absolute end-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#A8A29E] group-focus-within:text-[#C9A96E] transition-colors" />
+            <Search className="absolute end-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#A8A29E] group-focus-within:text-[#13213c] transition-colors" />
             <input
               type="text"
               placeholder="ابحث عن تصنيف بالاسم أو الرابط..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full h-11 ps-4 pe-10 bg-[#FAFAF8] border border-[#E8E4DF] hover:border-[#D5D0C9] focus:border-[#C9A96E]/50 focus:bg-white rounded-xl text-sm text-[#1C1917] placeholder:text-[#A8A29E] outline-none focus:ring-2 focus:ring-[#C9A96E]/15 transition-all"
+              className="w-full h-11 ps-4 pe-10 bg-[#FAFAF8] border border-[#E8E4DF] hover:border-[#D5D0C9] focus:border-[#13213c]/50 focus:bg-white rounded-xl text-sm text-[#1C1917] placeholder:text-[#A8A29E] outline-none focus:ring-2 focus:ring-[#13213c]/15 transition-all"
             />
           </div>
         </div>
@@ -178,7 +178,7 @@ export default function CategoriesClient({ initialCategories }: { initialCategor
                         )}
                       </div>
                       <div>
-                        <p className="font-bold text-[#1C1917] text-sm group-hover:text-[#A07850] transition-colors">
+                        <p className="font-bold text-[#1C1917] text-sm group-hover:text-[#13213c] transition-colors">
                           {category.name}
                         </p>
                         {category.description && (
@@ -215,7 +215,7 @@ export default function CategoriesClient({ initialCategories }: { initialCategor
                   <td className="px-6 py-4 text-center">
                     <div className="flex items-center justify-center gap-1.5">
                       <button 
-                        className="w-9 h-9 rounded-xl text-[#78716C] hover:text-[#C9A96E] hover:bg-[#F5F0EA] border border-transparent hover:border-[#C9A96E]/30 transition-all flex items-center justify-center cursor-pointer" 
+                        className="w-9 h-9 rounded-xl text-[#78716C] hover:text-[#13213c] hover:bg-[#F5F0EA] border border-transparent hover:border-[#13213c]/30 transition-all flex items-center justify-center cursor-pointer" 
                         onClick={() => openModal(category)}
                         title="تعديل التصنيف"
                       >
@@ -334,7 +334,7 @@ export default function CategoriesClient({ initialCategories }: { initialCategor
                 type="submit"
                 disabled={isSubmitting}
                 className="h-11 px-6 rounded-xl text-white font-bold text-xs shadow-sm cursor-pointer"
-                style={{ background: 'linear-gradient(135deg, #C9A96E 0%, #A07850 100%)' }}
+                style={{ background: 'linear-gradient(135deg, #22385e 0%, #13213c 100%)' }}
               >
                 {isSubmitting ? (
                   <>

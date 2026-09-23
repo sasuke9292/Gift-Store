@@ -408,9 +408,9 @@ export default function SettingsClient({ initialSettings }: { initialSettings: S
       const el = document.getElementById(`setting-${item.id}`)
       if (el) {
         el.scrollIntoView({ behavior: 'smooth', block: 'center' })
-        el.classList.add('ring-2', 'ring-[#C9A96E]', 'bg-[#FBF6EE]/60')
+        el.classList.add('ring-2', 'ring-[#13213c]', 'bg-[#F0F4F9]/60')
         setTimeout(() => {
-          el.classList.remove('ring-2', 'ring-[#C9A96E]', 'bg-[#FBF6EE]/60')
+          el.classList.remove('ring-2', 'ring-[#13213c]', 'bg-[#F0F4F9]/60')
         }, 3000)
       }
     }, 150)
@@ -424,7 +424,7 @@ export default function SettingsClient({ initialSettings }: { initialSettings: S
         <div className="flex items-center gap-3.5">
           <div 
             className="w-12 h-12 rounded-2xl flex items-center justify-center text-white shadow-sm shrink-0"
-            style={{ background: 'linear-gradient(135deg, #C9A96E 0%, #A07850 100%)' }}
+            style={{ background: 'linear-gradient(135deg, #22385e 0%, #13213c 100%)' }}
           >
             <Sliders className="w-6 h-6" />
           </div>
@@ -445,7 +445,7 @@ export default function SettingsClient({ initialSettings }: { initialSettings: S
             onClick={handleSave} 
             disabled={isSaving} 
             className="text-white rounded-xl h-11 px-7 font-extrabold shadow-md hover:-translate-y-0.5 transition-all text-sm cursor-pointer w-full sm:w-auto"
-            style={{ background: 'linear-gradient(135deg, #C9A96E 0%, #A07850 100%)' }}
+            style={{ background: 'linear-gradient(135deg, #22385e 0%, #13213c 100%)' }}
           >
             {isSaving ? (
               <>
@@ -471,7 +471,7 @@ export default function SettingsClient({ initialSettings }: { initialSettings: S
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="ابحث في كافة إعدادات المتجر (مثال: واتساب، شحن، دفع، شعار، سيو، تواصل، فوتر، صيانة...)"
-            className="w-full h-12 ps-11 pe-10 bg-[#FAFAF8] border border-[#E8E4DF] focus:border-[#C9A96E]/60 focus:bg-white rounded-2xl text-sm text-[#1C1917] placeholder:text-[#A8A29E] outline-none transition-all focus:ring-2 focus:ring-[#C9A96E]/15"
+            className="w-full h-12 ps-11 pe-10 bg-[#FAFAF8] border border-[#E8E4DF] focus:border-[#13213c]/60 focus:bg-white rounded-2xl text-sm text-[#1C1917] placeholder:text-[#A8A29E] outline-none transition-all focus:ring-2 focus:ring-[#13213c]/15"
           />
           {searchQuery && (
             <button
@@ -489,9 +489,9 @@ export default function SettingsClient({ initialSettings }: { initialSettings: S
           <div className="pt-3 border-t border-[#E8E4DF]/60 animate-in fade-in-0 duration-200">
             <div className="flex items-center justify-between mb-3 text-xs">
               <span className="font-bold text-[#1C1917]">
-                نتائج البحث عن: <span className="text-[#A07850] font-black">&quot;{searchQuery}&quot;</span>
+                نتائج البحث عن: <span className="text-[#13213c] font-black">&quot;{searchQuery}&quot;</span>
               </span>
-              <span className="bg-[#FBF6EE] border border-[#C9A96E]/30 text-[#A07850] px-2.5 py-1 rounded-full font-bold text-[11px]">
+              <span className="bg-[#F0F4F9] border border-[#13213c]/30 text-[#13213c] px-2.5 py-1 rounded-full font-bold text-[11px]">
                 {matchingSettings.length} خيار مطابق
               </span>
             </div>
@@ -507,23 +507,23 @@ export default function SettingsClient({ initialSettings }: { initialSettings: S
                   <div
                     key={item.id}
                     onClick={() => handleJumpToSetting(item)}
-                    className="p-3.5 rounded-2xl bg-[#FAFAF8] hover:bg-[#FBF6EE] border border-[#E8E4DF] hover:border-[#C9A96E]/40 transition-all cursor-pointer group flex flex-col justify-between text-start"
+                    className="p-3.5 rounded-2xl bg-[#FAFAF8] hover:bg-[#F0F4F9] border border-[#E8E4DF] hover:border-[#13213c]/40 transition-all cursor-pointer group flex flex-col justify-between text-start"
                   >
                     <div>
                       <div className="flex items-center justify-between gap-2 mb-1.5">
-                        <span className="text-[10px] font-black px-2 py-0.5 rounded-md bg-white border border-[#E8E4DF] text-[#78716C] group-hover:text-[#A07850] group-hover:border-[#C9A96E]/30">
+                        <span className="text-[10px] font-black px-2 py-0.5 rounded-md bg-white border border-[#E8E4DF] text-[#78716C] group-hover:text-[#13213c] group-hover:border-[#13213c]/30">
                           {item.tabLabel}
                         </span>
-                        <ChevronLeft className="w-3.5 h-3.5 text-[#A8A29E] group-hover:text-[#A07850] group-hover:-translate-x-0.5 transition-transform" />
+                        <ChevronLeft className="w-3.5 h-3.5 text-[#A8A29E] group-hover:text-[#13213c] group-hover:-translate-x-0.5 transition-transform" />
                       </div>
-                      <p className="text-xs font-black text-[#1C1917] group-hover:text-[#A07850] transition-colors">
+                      <p className="text-xs font-black text-[#1C1917] group-hover:text-[#13213c] transition-colors">
                         {item.title}
                       </p>
                       <p className="text-[11px] text-[#78716C] mt-1 line-clamp-2 leading-relaxed">
                         {item.desc}
                       </p>
                     </div>
-                    <div className="mt-3 pt-2 border-t border-[#E8E4DF]/60 flex items-center justify-between text-[10px] font-bold text-[#A07850]">
+                    <div className="mt-3 pt-2 border-t border-[#E8E4DF]/60 flex items-center justify-between text-[10px] font-bold text-[#13213c]">
                       <span>انتقال إلى الإعداد</span>
                       <ArrowLeft className="w-3 h-3" />
                     </div>
@@ -562,12 +562,12 @@ export default function SettingsClient({ initialSettings }: { initialSettings: S
                   isSearching && !hasMatches && "opacity-40 hover:opacity-100"
                 )}
               >
-                <Icon className={cn("w-4 h-4 shrink-0", isActive ? "text-[#C9A96E]" : "text-[#A8A29E]")} />
+                <Icon className={cn("w-4 h-4 shrink-0", isActive ? "text-[#13213c]" : "text-[#A8A29E]")} />
                 <span>{tab.label}</span>
                 {hasMatches && (
                   <span className={cn(
                     "text-[10px] px-1.5 py-0.5 rounded-full font-bold ms-0.5",
-                    isActive ? "bg-[#C9A96E] text-white" : "bg-[#C9A96E]/20 text-[#A07850]"
+                    isActive ? "bg-[#13213c] text-white" : "bg-[#13213c]/20 text-[#13213c]"
                   )}>
                     {tabMatches[tab.id]}
                   </span>
@@ -588,7 +588,7 @@ export default function SettingsClient({ initialSettings }: { initialSettings: S
               <h2 className="text-base font-black text-[#1C1917]">الهوية والبيانات الأساسية</h2>
               <p className="text-xs text-[#78716C] mt-1 font-medium">اسم المتجر، الشعار اللفظي، والبيانات التعريفية المعروضة للزبائن.</p>
             </div>
-            <Store className="w-5 h-5 text-[#C9A96E]" />
+            <Store className="w-5 h-5 text-[#13213c]" />
           </div>
 
           <div className="p-6 sm:p-8 space-y-6">
@@ -598,7 +598,7 @@ export default function SettingsClient({ initialSettings }: { initialSettings: S
                 <Input 
                   value={settings.storeName} 
                   onChange={e => updateField('storeName', e.target.value)}
-                  className="h-11 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-sm focus:border-[#C9A96E]/50 focus:bg-white"
+                  className="h-11 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-sm focus:border-[#13213c]/50 focus:bg-white"
                   placeholder="مثال: گفتي بلس | Gifty Plus"
                 />
                 <span className="text-[11px] text-[#A8A29E] mt-1 block">يظهر في ترويسة الموقع، التذييل، والفواتير والرسائل</span>
@@ -609,7 +609,7 @@ export default function SettingsClient({ initialSettings }: { initialSettings: S
                 <Input 
                   value={settings.currency} 
                   onChange={e => updateField('currency', e.target.value)}
-                  className="h-11 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-sm focus:border-[#C9A96E]/50 focus:bg-white"
+                  className="h-11 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-sm focus:border-[#13213c]/50 focus:bg-white"
                   placeholder="مثال: د.ع أو $"
                 />
                 <span className="text-[11px] text-[#A8A29E] mt-1 block">رمز العملة الافتراضي للأسعار في المتجر</span>
@@ -621,7 +621,7 @@ export default function SettingsClient({ initialSettings }: { initialSettings: S
               <Input 
                 value={settings.storeSlogan} 
                 onChange={e => updateField('storeSlogan', e.target.value)}
-                className="h-11 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-sm focus:border-[#C9A96E]/50 focus:bg-white"
+                className="h-11 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-sm focus:border-[#13213c]/50 focus:bg-white"
                 placeholder="مثال: خلّي هديتك تحچي عنك ✨"
               />
               <span className="text-[11px] text-[#A8A29E] mt-1 block">عبارة ترويجية مميزة تظهر أسفل الشعار في الفوتر ومحركات البحث</span>
@@ -633,7 +633,7 @@ export default function SettingsClient({ initialSettings }: { initialSettings: S
                 rows={3}
                 value={settings.storeDescription} 
                 onChange={e => updateField('storeDescription', e.target.value)}
-                className="rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-sm focus:border-[#C9A96E]/50 focus:bg-white resize-none"
+                className="rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-sm focus:border-[#13213c]/50 focus:bg-white resize-none"
                 placeholder="الوجهة الأولى لاختيار وتنسيق الهدايا الفاخرة..."
               />
               <span className="text-[11px] text-[#A8A29E] mt-1 block">النص التعريفي المعتمد في تذييل الموقع وفي صفحة من نحن</span>
@@ -660,12 +660,12 @@ export default function SettingsClient({ initialSettings }: { initialSettings: S
                     size="sm"
                     onClick={() => document.getElementById('general-logo-file')?.click()}
                     disabled={isUploadingLogo}
-                    className="h-7 px-2.5 text-[11px] rounded-lg border-[#C9A96E]/40 text-[#A07850] hover:bg-[#FBF6EE] font-bold cursor-pointer flex items-center gap-1.5"
+                    className="h-7 px-2.5 text-[11px] rounded-lg border-[#13213c]/40 text-[#13213c] hover:bg-[#F0F4F9] font-bold cursor-pointer flex items-center gap-1.5"
                   >
                     {isUploadingLogo ? (
-                      <Loader2 className="w-3 h-3 animate-spin text-[#C9A96E]" />
+                      <Loader2 className="w-3 h-3 animate-spin text-[#13213c]" />
                     ) : (
-                      <Upload className="w-3 h-3 text-[#C9A96E]" />
+                      <Upload className="w-3 h-3 text-[#13213c]" />
                     )}
                     <span>رفع شعار من جهازك</span>
                   </Button>
@@ -708,12 +708,12 @@ export default function SettingsClient({ initialSettings }: { initialSettings: S
                     size="sm"
                     onClick={() => document.getElementById('general-favicon-file')?.click()}
                     disabled={isUploadingFavicon}
-                    className="h-7 px-2.5 text-[11px] rounded-lg border-[#C9A96E]/40 text-[#A07850] hover:bg-[#FBF6EE] font-bold cursor-pointer flex items-center gap-1.5"
+                    className="h-7 px-2.5 text-[11px] rounded-lg border-[#13213c]/40 text-[#13213c] hover:bg-[#F0F4F9] font-bold cursor-pointer flex items-center gap-1.5"
                   >
                     {isUploadingFavicon ? (
-                      <Loader2 className="w-3 h-3 animate-spin text-[#C9A96E]" />
+                      <Loader2 className="w-3 h-3 animate-spin text-[#13213c]" />
                     ) : (
-                      <Upload className="w-3 h-3 text-[#C9A96E]" />
+                      <Upload className="w-3 h-3 text-[#13213c]" />
                     )}
                     <span>رفع أيقونة من جهازك</span>
                   </Button>
@@ -778,19 +778,19 @@ export default function SettingsClient({ initialSettings }: { initialSettings: S
               <h2 className="text-base font-black text-[#1C1917]">الواجهة وقسم البانر الرئيسي (Hero Showcase)</h2>
               <p className="text-xs text-[#78716C] mt-1 font-medium">التحكم في العنوان الرئيسي، الشارة الترويجية، الأزرار، وإحصائيات الثقة.</p>
             </div>
-            <Sparkles className="w-5 h-5 text-[#C9A96E]" />
+            <Sparkles className="w-5 h-5 text-[#13213c]" />
           </div>
 
           <div className="p-6 sm:p-8 space-y-6">
             
             {/* Live Preview Box */}
-            <div className="p-6 rounded-2xl bg-[#1C1917] text-white border border-[#C9A96E]/30 relative overflow-hidden shadow-sm">
-              <div className="absolute top-3 start-4 text-[10px] font-bold text-[#C9A96E] bg-white/10 px-2.5 py-0.5 rounded-full flex items-center gap-1">
+            <div className="p-6 rounded-2xl bg-[#0c1424] text-white border border-[#22385e]/40 relative overflow-hidden shadow-sm">
+              <div className="absolute top-3 start-4 text-[10px] font-bold text-[#7ea6e6] bg-white/10 px-2.5 py-0.5 rounded-full flex items-center gap-1">
                 <Eye className="w-3 h-3" />
                 معاينة حية ومباشرة لشكل البانر
               </div>
               <div className="mt-5 max-w-xl text-start">
-                <span className="inline-block px-3 py-1 rounded-full text-xs font-bold bg-[#C9A96E]/20 text-[#C9A96E] border border-[#C9A96E]/30 mb-3">
+                <span className="inline-block px-3 py-1 rounded-full text-xs font-bold bg-[#22385e]/30 text-[#7ea6e6] border border-[#3b5e94]/40 mb-3">
                   {settings.heroBadge || 'شارة البانر'}
                 </span>
                 <h3 className="text-2xl font-black tracking-tight leading-snug whitespace-pre-line text-white">
@@ -802,7 +802,7 @@ export default function SettingsClient({ initialSettings }: { initialSettings: S
                 <div className="flex items-center gap-3 mt-4">
                   <span 
                     className="px-4 py-2 rounded-xl text-xs font-bold text-white shadow-sm"
-                    style={{ background: 'linear-gradient(135deg, #C9A96E 0%, #A07850 100%)' }}
+                    style={{ background: 'linear-gradient(135deg, #22385e 0%, #13213c 100%)' }}
                   >
                     {settings.heroPrimaryBtnText || 'زر رئيسي'}
                   </span>
@@ -890,7 +890,7 @@ export default function SettingsClient({ initialSettings }: { initialSettings: S
 
             {/* Trust Statistics Settings */}
             <div className="pt-4 border-t border-[#F0ECE6]">
-              <h3 className="text-xs font-extrabold uppercase tracking-widest text-[#A07850] mb-3">
+              <h3 className="text-xs font-extrabold uppercase tracking-widest text-[#13213c] mb-3">
                 إحصائيات الثقة الثلاثة المعروضة أسفل البانر
               </h3>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -948,11 +948,11 @@ export default function SettingsClient({ initialSettings }: { initialSettings: S
             {/* HERO SHOWCASE SLIDER DEDICATED MANAGER CALLOUT          */}
             {/* ======================================================= */}
             <div id="setting-heroSlides" className="pt-6 border-t border-[#F0ECE6]">
-              <div className="p-6 rounded-3xl bg-gradient-to-l from-[#FBF6EE] via-white to-[#FBF6EE] border-2 border-[#C9A96E]/30 flex flex-col md:flex-row items-start md:items-center justify-between gap-5 shadow-xs">
+              <div className="p-6 rounded-3xl bg-gradient-to-l from-[#F0F4F9] via-white to-[#F0F4F9] border-2 border-[#13213c]/30 flex flex-col md:flex-row items-start md:items-center justify-between gap-5 shadow-xs">
                 <div className="flex items-start gap-4">
                   <div 
                     className="w-12 h-12 rounded-2xl flex items-center justify-center text-white shadow-sm shrink-0"
-                    style={{ background: 'linear-gradient(135deg, #C9A96E 0%, #A07850 100%)' }}
+                    style={{ background: 'linear-gradient(135deg, #22385e 0%, #13213c 100%)' }}
                   >
                     <Sparkles className="w-6 h-6" />
                   </div>
@@ -961,7 +961,7 @@ export default function SettingsClient({ initialSettings }: { initialSettings: S
                       <h3 className="text-sm sm:text-base font-black text-[#1C1917]">
                         إدارة شرائح السلايدر التفاعلي (Hero Showcase Slides)
                       </h3>
-                      <span className="text-[10px] font-black px-2 py-0.5 rounded-full bg-[#C9A96E]/20 text-[#A07850] border border-[#C9A96E]/30">
+                      <span className="text-[10px] font-black px-2 py-0.5 rounded-full bg-[#13213c]/20 text-[#13213c] border border-[#13213c]/30">
                         صفحة مستقلة ومخصصة بالكامل ✨
                       </span>
                     </div>
@@ -974,7 +974,7 @@ export default function SettingsClient({ initialSettings }: { initialSettings: S
                 <Link
                   href="/admin/hero-slides"
                   className="h-11 px-6 rounded-xl font-black text-white text-xs sm:text-sm cursor-pointer shadow-md hover:-translate-y-0.5 transition-all flex items-center gap-2 shrink-0 self-stretch sm:self-auto justify-center"
-                  style={{ background: 'linear-gradient(135deg, #C9A96E 0%, #A07850 100%)' }}
+                  style={{ background: 'linear-gradient(135deg, #22385e 0%, #13213c 100%)' }}
                 >
                   <span>فتح إدارة السلايدر الآن</span>
                   <ArrowLeft className="w-4 h-4" />
@@ -988,8 +988,8 @@ export default function SettingsClient({ initialSettings }: { initialSettings: S
             <div id="setting-heroBadges" className="pt-6 border-t border-[#F0ECE6] space-y-4">
               <div className="bg-[#FAFAF8] p-5 rounded-2xl border border-[#E8E4DF]">
                 <div className="flex items-center gap-2">
-                  <span className="w-8 h-8 rounded-lg bg-[#C9A96E]/20 text-[#A07850] flex items-center justify-center font-bold">
-                    <Award className="w-4 h-4 text-[#C9A96E]" />
+                  <span className="w-8 h-8 rounded-lg bg-[#13213c]/20 text-[#13213c] flex items-center justify-center font-bold">
+                    <Award className="w-4 h-4 text-[#13213c]" />
                   </span>
                   <h3 className="text-sm font-black text-[#1C1917]">
                     البادجات العائمة على سلايدر الواجهة (Floating Badges)
@@ -1005,7 +1005,7 @@ export default function SettingsClient({ initialSettings }: { initialSettings: S
                 {/* Top Badge: Quality & Guarantee */}
                 <div className="p-5 rounded-2xl bg-white border border-[#E8E4DF] space-y-3">
                   <div className="flex items-center gap-2 text-xs font-black text-[#1C1917] mb-1">
-                    <Award className="w-4 h-4 text-[#C9A96E]" />
+                    <Award className="w-4 h-4 text-[#13213c]" />
                     <span>البادج العائم العلوي (أعلى يمين السلايدر)</span>
                   </div>
                   <div>
@@ -1058,10 +1058,10 @@ export default function SettingsClient({ initialSettings }: { initialSettings: S
             </div>
 
             {/* Quick jump to Footer CTA Banner */}
-            <div className="p-4 rounded-2xl bg-[#FBF6EE] border border-[#C9A96E]/30 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div className="p-4 rounded-2xl bg-[#F0F4F9] border border-[#13213c]/30 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-[#C9A96E]/20 flex items-center justify-center text-[#A07850] shrink-0">
-                  <Gift className="w-5 h-5 text-[#C9A96E]" />
+                <div className="w-10 h-10 rounded-xl bg-[#13213c]/20 flex items-center justify-center text-[#13213c] shrink-0">
+                  <Gift className="w-5 h-5 text-[#13213c]" />
                 </div>
                 <div>
                   <p className="text-xs font-black text-[#1C1917]">هل تبحث عن تعديل بانر الفوتر الدعائي (أسفل الموقع)؟</p>
@@ -1073,7 +1073,7 @@ export default function SettingsClient({ initialSettings }: { initialSettings: S
                 variant="outline"
                 size="sm"
                 onClick={() => setActiveTab('footer')}
-                className="h-9 px-4 rounded-xl border-[#C9A96E]/40 text-[#A07850] hover:bg-[#C9A96E]/10 text-xs font-bold cursor-pointer shrink-0"
+                className="h-9 px-4 rounded-xl border-[#13213c]/40 text-[#13213c] hover:bg-[#13213c]/10 text-xs font-bold cursor-pointer shrink-0"
               >
                 <span>تعديل بانر الفوتر</span>
                 <ChevronLeft className="w-3.5 h-3.5 ms-1" />
@@ -1094,7 +1094,7 @@ export default function SettingsClient({ initialSettings }: { initialSettings: S
               <h2 className="text-base font-black text-[#1C1917]">الترويسة والشريط الإعلاني العلوي</h2>
               <p className="text-xs text-[#78716C] mt-1 font-medium">التحكم في الشريط الترويجي الأسود أعلى الموقع وعناصر الترويسة.</p>
             </div>
-            <Megaphone className="w-5 h-5 text-[#C9A96E]" />
+            <Megaphone className="w-5 h-5 text-[#13213c]" />
           </div>
 
           <div className="p-6 sm:p-8 space-y-6">
@@ -1186,7 +1186,7 @@ export default function SettingsClient({ initialSettings }: { initialSettings: S
               <h2 className="text-base font-black text-[#1C1917]">الشحن والتوصيل وخيارات الطلبات</h2>
               <p className="text-xs text-[#78716C] mt-1 font-medium">الحد الأدنى للشحن المجاني، تكاليف التوصيل، وسياسات التغليف والإهداء.</p>
             </div>
-            <Truck className="w-5 h-5 text-[#C9A96E]" />
+            <Truck className="w-5 h-5 text-[#13213c]" />
           </div>
 
           <div className="p-6 sm:p-8 space-y-6">
@@ -1286,7 +1286,7 @@ export default function SettingsClient({ initialSettings }: { initialSettings: S
               <h2 className="text-base font-black text-[#1C1917]">طرق الدفع والتحصيل المعتمدة</h2>
               <p className="text-xs text-[#78716C] mt-1 font-medium">التحكم في خيارات وبوابات الدفع المعروضة للزبائن في صفحة إتمام الطلب.</p>
             </div>
-            <CreditCard className="w-5 h-5 text-[#C9A96E]" />
+            <CreditCard className="w-5 h-5 text-[#13213c]" />
           </div>
 
           <div className="p-6 sm:p-8 space-y-5">
@@ -1441,7 +1441,7 @@ export default function SettingsClient({ initialSettings }: { initialSettings: S
                 <Input 
                   value={settings.whatsappNumber || ''} 
                   onChange={e => updateField('whatsappNumber', e.target.value)}
-                  className="h-11 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-sm text-end font-mono focus:border-[#C9A96E]/50 focus:bg-white"
+                  className="h-11 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-sm text-end font-mono focus:border-[#13213c]/50 focus:bg-white"
                   dir="ltr"
                   placeholder="9647XXXXXXXXX"
                 />
@@ -1476,7 +1476,7 @@ export default function SettingsClient({ initialSettings }: { initialSettings: S
                   rows={3}
                   value={settings.whatsappWelcomeMsg || ''} 
                   onChange={e => updateField('whatsappWelcomeMsg', e.target.value)}
-                  className="rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-xs focus:border-[#C9A96E]/50 focus:bg-white resize-none"
+                  className="rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-xs focus:border-[#13213c]/50 focus:bg-white resize-none"
                   placeholder="السلام عليكم 👋&#10;أرغب بتأكيد هذا الطلب:"
                 />
                 <span className="text-[11px] text-[#A8A29E] block">النص الذي يظهر في السطر الأول لرسالة واتساب</span>
@@ -1488,7 +1488,7 @@ export default function SettingsClient({ initialSettings }: { initialSettings: S
                   rows={3}
                   value={settings.whatsappFooterNote || ''} 
                   onChange={e => updateField('whatsappFooterNote', e.target.value)}
-                  className="rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-xs focus:border-[#C9A96E]/50 focus:bg-white resize-none"
+                  className="rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-xs focus:border-[#13213c]/50 focus:bg-white resize-none"
                   placeholder="أرجو تأكيد الطلب، شكراً ❤️"
                 />
                 <span className="text-[11px] text-[#A8A29E] block">النص الختامي ورسالة الشكر أسفل تفاصيل الطلب</span>
@@ -1498,7 +1498,7 @@ export default function SettingsClient({ initialSettings }: { initialSettings: S
             {/* Live Interactive WhatsApp Bubble Preview */}
             <div className="pt-4 border-t border-[#F0ECE6]">
               <Label className="text-xs font-bold text-[#1C1917] mb-2 flex items-center gap-2">
-                <Sparkles className="w-3.5 h-3.5 text-[#C9A96E]" />
+                <Sparkles className="w-3.5 h-3.5 text-[#13213c]" />
                 معاينة حية لشكل رسالة الطلب داخل WhatsApp:
               </Label>
               
@@ -1546,7 +1546,7 @@ export default function SettingsClient({ initialSettings }: { initialSettings: S
               <h2 className="text-base font-black text-[#1C1917]">بيانات التواصل وخدمة العملاء وأوقات العمل</h2>
               <p className="text-xs text-[#78716C] mt-1 font-medium">المعلومات المعتمدة في صفحة اتصل بنا، التذييل، والترويسة.</p>
             </div>
-            <PhoneCall className="w-5 h-5 text-[#C9A96E]" />
+            <PhoneCall className="w-5 h-5 text-[#13213c]" />
           </div>
 
           <div className="p-6 sm:p-8 space-y-6">
@@ -1596,9 +1596,9 @@ export default function SettingsClient({ initialSettings }: { initialSettings: S
               </div>
 
               {/* Online Store Notice (No physical office or shop) */}
-              <div className="p-4 rounded-2xl bg-[#FBF6EE] border border-[#C9A96E]/30 flex items-start gap-3.5">
-                <div className="w-10 h-10 rounded-xl bg-[#C9A96E]/20 flex items-center justify-center text-[#A07850] shrink-0 mt-0.5">
-                  <Truck className="w-5 h-5 text-[#C9A96E]" />
+              <div className="p-4 rounded-2xl bg-[#F0F4F9] border border-[#13213c]/30 flex items-start gap-3.5">
+                <div className="w-10 h-10 rounded-xl bg-[#13213c]/20 flex items-center justify-center text-[#13213c] shrink-0 mt-0.5">
+                  <Truck className="w-5 h-5 text-[#13213c]" />
                 </div>
                 <div>
                   <h4 className="text-sm font-black text-[#1C1917]">طبيعة المتجر: متجر إلكتروني 100% (أونلاين)</h4>
@@ -1622,7 +1622,7 @@ export default function SettingsClient({ initialSettings }: { initialSettings: S
               <h2 className="text-base font-black text-[#1C1917]">حسابات وروابط مواقع التواصل الاجتماعي</h2>
               <p className="text-xs text-[#78716C] mt-1 font-medium">الروابط التي تفتح عند ضغط الزوار على أيقونات التواصل في تذييل الموقع وصفحة الاتصال.</p>
             </div>
-            <Share2 className="w-5 h-5 text-[#C9A96E]" />
+            <Share2 className="w-5 h-5 text-[#13213c]" />
           </div>
 
           <div className="p-6 sm:p-8 space-y-5">
@@ -1687,7 +1687,7 @@ export default function SettingsClient({ initialSettings }: { initialSettings: S
                 <h2 className="text-base font-black text-[#1C1917]">مزايا المتجر الأربعة (Storefront Features)</h2>
                 <p className="text-xs text-[#78716C] mt-1 font-medium">البطاقات الأربعة الرئيسية المعروضة أسفل البانر في الصفحة الرئيسية.</p>
               </div>
-              <Layers className="w-5 h-5 text-[#C9A96E]" />
+              <Layers className="w-5 h-5 text-[#13213c]" />
             </div>
 
             <div className="p-6 sm:p-8 space-y-5">
@@ -1695,7 +1695,7 @@ export default function SettingsClient({ initialSettings }: { initialSettings: S
                 
                 {/* Feature 1 */}
                 <div className="p-4 rounded-2xl bg-[#FAFAF8] border border-[#E8E4DF] space-y-3">
-                  <span className="text-xs font-extrabold text-[#C9A96E]">الميزة الأولى (الشحن)</span>
+                  <span className="text-xs font-extrabold text-[#13213c]">الميزة الأولى (الشحن)</span>
                   <Input 
                     value={settings.feature1Title} 
                     onChange={e => updateField('feature1Title', e.target.value)}
@@ -1803,7 +1803,7 @@ export default function SettingsClient({ initialSettings }: { initialSettings: S
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
                   <Label className="text-xs font-bold text-[#78716C] flex items-center gap-1.5">
-                    <Eye className="w-3.5 h-3.5 text-[#C9A96E]" />
+                    <Eye className="w-3.5 h-3.5 text-[#13213c]" />
                     <span>معاينة مباشرة لشكل البانر في تذييل الموقع</span>
                   </Label>
                   {!settings.showFooterCta && (
@@ -1813,14 +1813,14 @@ export default function SettingsClient({ initialSettings }: { initialSettings: S
                   )}
                 </div>
 
-                <div className="relative rounded-2xl bg-[#1C1917] text-white p-6 sm:p-8 overflow-hidden border border-[#3D3835] shadow-md">
-                  {/* Subtle warm glow matching the storefront */}
-                  <div className="absolute top-0 start-1/4 w-72 h-72 bg-[#C9A96E]/12 rounded-full blur-[100px] pointer-events-none" />
-                  <div className="absolute bottom-0 end-1/4 w-60 h-60 bg-[#E85D75]/10 rounded-full blur-[90px] pointer-events-none" />
+                <div className="relative rounded-2xl bg-[#0c1424] text-white p-6 sm:p-8 overflow-hidden border border-[#22385e]/40 shadow-md">
+                  {/* Subtle royal navy glow matching the storefront */}
+                  <div className="absolute top-0 start-1/4 w-72 h-72 bg-[#22385e]/25 rounded-full blur-[100px] pointer-events-none" />
+                  <div className="absolute bottom-0 end-1/4 w-60 h-60 bg-[#13213c]/40 rounded-full blur-[90px] pointer-events-none" />
 
                   <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
                     <div className="text-start space-y-1.5 max-w-xl">
-                      <span className="inline-flex items-center gap-1.5 text-xs font-bold text-[#C9A96E] bg-[#C9A96E]/10 px-2.5 py-1 rounded-full border border-[#C9A96E]/20">
+                      <span className="inline-flex items-center gap-1.5 text-xs font-bold text-[#7ea6e6] bg-[#22385e]/30 px-2.5 py-1 rounded-full border border-[#3b5e94]/40">
                         <Gift className="w-3.5 h-3.5" />
                         <span>{settings.footerCtaBadge || 'خدمة استثنائية لكافة المناسبات'}</span>
                       </span>
@@ -1832,8 +1832,8 @@ export default function SettingsClient({ initialSettings }: { initialSettings: S
                       </p>
                     </div>
 
-                    <div className="flex items-center gap-2 h-11 px-6 rounded-xl font-black text-[#1C1917] text-xs sm:text-sm shadow-md shrink-0 pointer-events-none select-none"
-                      style={{ background: 'linear-gradient(135deg, #C9A96E 0%, #A07850 100%)' }}
+                    <div className="flex items-center gap-2 h-11 px-6 rounded-xl font-black text-white text-xs sm:text-sm shadow-md shrink-0 pointer-events-none select-none border border-[#3b5e94]/40"
+                      style={{ background: 'linear-gradient(135deg, #22385e 0%, #13213c 100%)' }}
                     >
                       <span>{settings.footerCtaBtnText || 'جرّب مكتشف الهدايا'}</span>
                       <ArrowLeft className="w-4 h-4" />
@@ -1928,7 +1928,7 @@ export default function SettingsClient({ initialSettings }: { initialSettings: S
               <h2 className="text-base font-black text-[#1C1917]">تحسين محركات البحث (SEO) والتنبيهات</h2>
               <p className="text-xs text-[#78716C] mt-1 font-medium">البيانات التعريفية للظهور في محركات بحث Google وإعدادات إشعارات المتجر.</p>
             </div>
-            <ShieldCheck className="w-5 h-5 text-[#C9A96E]" />
+            <ShieldCheck className="w-5 h-5 text-[#13213c]" />
           </div>
 
           <div className="p-6 sm:p-8 space-y-5">

@@ -53,14 +53,14 @@ export default function AdminDashboardHome({ stats, recentOrders, userName }: { 
         animate={{ opacity: 1, y: 0 }}
         className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white border border-[#E8E4DF] rounded-3xl p-6 sm:p-7 relative overflow-hidden shadow-[0_2px_12px_rgba(0,0,0,0.03)]"
       >
-        <div className="absolute top-0 end-0 w-80 h-80 bg-[#C9A96E]/8 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute bottom-0 start-0 w-60 h-60 bg-[#A07850]/5 rounded-full blur-2xl pointer-events-none" />
+        <div className="absolute top-0 end-0 w-80 h-80 bg-[#13213c]/8 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute bottom-0 start-0 w-60 h-60 bg-[#13213c]/5 rounded-full blur-2xl pointer-events-none" />
         
         <div className="relative z-10">
           <div className="flex items-center gap-2.5 mb-1.5">
             <div 
               className="w-8 h-8 rounded-xl flex items-center justify-center text-white shadow-sm"
-              style={{ background: 'linear-gradient(135deg, #C9A96E 0%, #A07850 100%)' }}
+              style={{ background: 'linear-gradient(135deg, #22385e 0%, #13213c 100%)' }}
             >
               <Sparkles className="w-4 h-4 text-white" />
             </div>
@@ -76,15 +76,15 @@ export default function AdminDashboardHome({ stats, recentOrders, userName }: { 
         <div className="relative z-10 flex flex-wrap gap-2.5">
           <Link 
             href="/admin/orders"
-            className="flex items-center gap-2 h-11 px-5 rounded-xl bg-white border border-[#E8E4DF] text-[#1C1917] hover:bg-[#FAFAF8] font-bold text-sm transition-all hover:border-[#C9A96E]/40 shadow-sm"
+            className="flex items-center gap-2 h-11 px-5 rounded-xl bg-white border border-[#E8E4DF] text-[#1C1917] hover:bg-[#FAFAF8] font-bold text-sm transition-all hover:border-[#13213c]/40 shadow-sm"
           >
-            <ShoppingBag className="w-4 h-4 text-[#C9A96E]" />
+            <ShoppingBag className="w-4 h-4 text-[#13213c]" />
             إدارة الطلبات
           </Link>
           <Link
             href="/admin/products/new"
-            className="flex items-center gap-2 h-11 px-5 rounded-xl text-white font-bold text-sm transition-all hover:-translate-y-0.5 shadow-[0_4px_16px_rgba(201,169,110,0.35)]"
-            style={{ background: 'linear-gradient(135deg, #C9A96E 0%, #A07850 100%)' }}
+            className="flex items-center gap-2 h-11 px-5 rounded-xl text-white font-bold text-sm transition-all hover:-translate-y-0.5 shadow-[0_4px_16px_rgba(19, 33, 60,0.35)]"
+            style={{ background: 'linear-gradient(135deg, #22385e 0%, #13213c 100%)' }}
           >
             <Plus className="w-4 h-4 text-white" />
             إضافة منتج جديد
@@ -100,13 +100,13 @@ export default function AdminDashboardHome({ stats, recentOrders, userName }: { 
         className="grid grid-cols-1 sm:grid-cols-3 gap-5"
       >
         {/* Total Sales */}
-        <motion.div variants={itemVariants} className="bg-white border border-[#E8E4DF] rounded-3xl p-6 relative overflow-hidden shadow-[0_2px_10px_rgba(0,0,0,0.03)] hover:shadow-md hover:border-[#C9A96E]/50 transition-all duration-300 group">
-          <div className="absolute top-0 end-0 w-32 h-32 bg-[#C9A96E]/10 rounded-full blur-2xl group-hover:scale-125 transition-transform" />
+        <motion.div variants={itemVariants} className="bg-white border border-[#E8E4DF] rounded-3xl p-6 relative overflow-hidden shadow-[0_2px_10px_rgba(0,0,0,0.03)] hover:shadow-md hover:border-[#13213c]/50 transition-all duration-300 group">
+          <div className="absolute top-0 end-0 w-32 h-32 bg-[#13213c]/10 rounded-full blur-2xl group-hover:scale-125 transition-transform" />
           <div className="relative z-10">
             <div className="flex items-start justify-between mb-4">
               <div 
-                className="w-12 h-12 rounded-2xl flex items-center justify-center text-[#A07850] shadow-sm"
-                style={{ background: 'linear-gradient(135deg, #FBF6EE 0%, #F5EDE0 100%)', border: '1px solid rgba(201,169,110,0.25)' }}
+                className="w-12 h-12 rounded-2xl flex items-center justify-center text-[#13213c] shadow-sm"
+                style={{ background: 'linear-gradient(135deg, #F0F4F9 0%, #E2EAF4 100%)', border: '1px solid rgba(19, 33, 60,0.25)' }}
               >
                 <DollarSign className="w-6 h-6" />
               </div>
@@ -117,7 +117,7 @@ export default function AdminDashboardHome({ stats, recentOrders, userName }: { 
             <p className="text-xs font-bold text-[#A8A29E] uppercase tracking-wider mb-1">إجمالي المبيعات المحققة</p>
             <p className="text-3xl font-black text-[#1C1917] tracking-tight">
               {stats.totalSales.toLocaleString('en-US')}{' '}
-              <span className="text-lg font-bold text-[#C9A96E]">د.ع</span>
+              <span className="text-lg font-bold text-[#13213c]">د.ع</span>
             </p>
           </div>
         </motion.div>

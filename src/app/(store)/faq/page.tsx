@@ -45,11 +45,11 @@ const faqs = [
 export default function FAQPage() {
   return (
     <div className="min-h-screen bg-[#FAFAF8] pb-20">
-      <section className="relative bg-[#1C1917] text-white py-24 px-4 overflow-hidden">
-        <div className="absolute top-0 end-0 w-96 h-96 bg-[#C9A96E]/10 rounded-full blur-[100px]" />
+      <section className="relative bg-[#0c1424] text-white py-24 px-4 overflow-hidden">
+        <div className="absolute top-0 end-0 w-96 h-96 bg-[#22385e]/25 rounded-full blur-[100px]" />
         <div className="max-w-4xl mx-auto text-center relative z-10">
-          <div className="w-16 h-16 rounded-2xl bg-[#C9A96E]/15 border border-[#C9A96E]/25 flex items-center justify-center mx-auto mb-6">
-            <HelpCircle className="w-8 h-8 text-[#C9A96E]" />
+          <div className="w-16 h-16 rounded-2xl bg-[#22385e]/40 border border-[#3b5e94]/40 flex items-center justify-center mx-auto mb-6">
+            <HelpCircle className="w-8 h-8 text-[#7ea6e6]" />
           </div>
           <h1 className="text-4xl sm:text-5xl font-black mb-4">الأسئلة الشائعة</h1>
           <p className="text-white/60 text-lg">إجابات سريعة على أسئلتك الأكثر شيوعاً</p>
@@ -74,13 +74,13 @@ export default function FAQPage() {
           ))}
         </div>
 
-        <div className="bg-[#FBF6EE] border border-[#C9A96E]/20 rounded-2xl p-8 text-center">
+        <div className="bg-[#F0F4F9] border border-[#13213c]/20 rounded-2xl p-8 text-center">
           <h3 className="font-black text-[#1C1917] text-xl mb-2">لم تجد إجابة لسؤالك؟</h3>
           <p className="text-[#78716C] mb-5">فريق دعمنا مستعد للمساعدة على مدار الساعة</p>
           <Link
             href="/contact"
             className="inline-flex items-center gap-2 h-11 px-7 rounded-xl font-bold text-white transition-all hover:-translate-y-0.5"
-            style={{ background: 'linear-gradient(135deg, #C9A96E 0%, #A07850 100%)' }}
+            style={{ background: 'linear-gradient(135deg, #22385e 0%, #13213c 100%)' }}
           >
             اتصل بنا
             <ArrowLeft className="w-4 h-4" />

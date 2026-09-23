@@ -50,9 +50,9 @@ export default function ProductClient({ product }: { product: any }) {
 
         {/* Breadcrumb */}
         <nav className="flex items-center gap-2 text-sm text-[#A8A29E] py-6">
-          <Link href="/" className="hover:text-[#C9A96E] transition-colors">الرئيسية</Link>
+          <Link href="/" className="hover:text-[#13213c] transition-colors">الرئيسية</Link>
           <span>/</span>
-          <Link href="/shop" className="hover:text-[#C9A96E] transition-colors">المتجر</Link>
+          <Link href="/shop" className="hover:text-[#13213c] transition-colors">المتجر</Link>
           {product.category && (
             <>
               <span>/</span>
@@ -85,7 +85,7 @@ export default function ProductClient({ product }: { product: any }) {
               )}
               {hasDiscount && (
                 <div className={cn("absolute z-10", product.isBestSeller ? "top-12 start-4" : "top-4 start-4")}>
-                  <span className="bg-[#C9A96E] text-white text-xs font-black px-3 py-1.5 rounded-full">
+                  <span className="bg-[#13213c] text-white text-xs font-black px-3 py-1.5 rounded-full">
                     -{discountPercent}%
                   </span>
                 </div>
@@ -100,7 +100,7 @@ export default function ProductClient({ product }: { product: any }) {
                   priority
                 />
               ) : (
-                <div className="w-full h-full flex items-center justify-center text-[#C9A96E]/30">
+                <div className="w-full h-full flex items-center justify-center text-[#13213c]/30">
                   <ShoppingCart className="w-16 h-16" />
                 </div>
               )}
@@ -116,8 +116,8 @@ export default function ProductClient({ product }: { product: any }) {
                     className={cn(
                       "relative aspect-square rounded-xl overflow-hidden border-2 transition-all duration-200",
                       activeImage === img
-                        ? "border-[#C9A96E] shadow-[0_0_0_2px_rgba(201,169,110,0.2)]"
-                        : "border-[#E8E4DF] hover:border-[#C9A96E]/50 opacity-70 hover:opacity-100"
+                        ? "border-[#13213c] shadow-[0_0_0_2px_rgba(19, 33, 60,0.2)]"
+                        : "border-[#E8E4DF] hover:border-[#13213c]/50 opacity-70 hover:opacity-100"
                     )}
                   >
                     <Image src={img} alt={`صورة ${i + 1}`} fill className="object-cover" sizes="100px" />
@@ -136,7 +136,7 @@ export default function ProductClient({ product }: { product: any }) {
           >
             {/* Category Badge */}
             {product.category && (
-              <p className="text-sm font-bold text-[#C9A96E] uppercase tracking-widest mb-3">
+              <p className="text-sm font-bold text-[#13213c] uppercase tracking-widest mb-3">
                 {typeof product.category === 'string' ? product.category : product.category?.name}
               </p>
             )}
@@ -152,7 +152,7 @@ export default function ProductClient({ product }: { product: any }) {
                 {[1, 2, 3, 4, 5].map(i => (
                   <Star
                     key={i}
-                    className={cn("w-4 h-4", i <= 4 ? "fill-[#C9A96E] text-[#C9A96E]" : "fill-[#E8E4DF] text-[#E8E4DF]")}
+                    className={cn("w-4 h-4", i <= 4 ? "fill-[#13213c] text-[#13213c]" : "fill-[#E8E4DF] text-[#E8E4DF]")}
                   />
                 ))}
               </div>
@@ -215,9 +215,9 @@ export default function ProductClient({ product }: { product: any }) {
                     "flex-1 h-13 py-3 rounded-xl font-bold text-white text-base flex items-center justify-center gap-2 transition-all",
                     addedToCart
                       ? "bg-[#10B981]"
-                      : "hover:-translate-y-0.5 hover:shadow-[0_6px_20px_rgba(184,137,58,0.35)]"
+                      : "hover:-translate-y-0.5 hover:shadow-[0_6px_20px_rgba(19, 33, 60,0.35)]"
                   )}
-                  style={!addedToCart ? { background: 'linear-gradient(135deg, #C9A96E 0%, #A07850 100%)' } : {}}
+                  style={!addedToCart ? { background: 'linear-gradient(135deg, #22385e 0%, #13213c 100%)' } : {}}
                 >
                   {addedToCart ? (
                     <>
@@ -306,12 +306,12 @@ export default function ProductClient({ product }: { product: any }) {
             <div className="grid grid-cols-3 gap-3">
               {[
                 { icon: ShieldCheck, label: 'جودة مضمونة', color: '#10B981', bg: '#F0FDF9' },
-                { icon: Truck, label: 'شحن سريع', color: '#C9A96E', bg: '#FBF6EE' },
+                { icon: Truck, label: 'شحن سريع', color: '#13213c', bg: '#F0F4F9' },
                 { icon: RotateCcw, label: 'استرجاع مجاني', color: '#6366F1', bg: '#F5F3FF' },
               ].map(({ icon: Icon, label, color, bg }) => (
                 <div
                   key={label}
-                  className="flex flex-col items-center gap-2 p-3 rounded-xl border border-[#E8E4DF] bg-white text-center hover:border-[#C9A96E]/30 transition-colors"
+                  className="flex flex-col items-center gap-2 p-3 rounded-xl border border-[#E8E4DF] bg-white text-center hover:border-[#13213c]/30 transition-colors"
                 >
                   <div className="w-9 h-9 rounded-lg flex items-center justify-center" style={{ background: bg }}>
                     <Icon className="w-4 h-4" style={{ color }} />
@@ -334,13 +334,13 @@ export default function ProductClient({ product }: { product: any }) {
             <TabsList className="w-full justify-start h-auto bg-transparent border-b border-[#E8E4DF] rounded-none p-0 mb-8 gap-8">
               <TabsTrigger
                 value="details"
-                className="text-base pb-3 rounded-none border-b-2 border-transparent data-[state=active]:border-[#C9A96E] data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:text-[#1C1917] text-[#A8A29E] font-bold px-0 transition-colors"
+                className="text-base pb-3 rounded-none border-b-2 border-transparent data-[state=active]:border-[#13213c] data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:text-[#1C1917] text-[#A8A29E] font-bold px-0 transition-colors"
               >
                 التفاصيل والمميزات
               </TabsTrigger>
               <TabsTrigger
                 value="reviews"
-                className="text-base pb-3 rounded-none border-b-2 border-transparent data-[state=active]:border-[#C9A96E] data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:text-[#1C1917] text-[#A8A29E] font-bold px-0 transition-colors"
+                className="text-base pb-3 rounded-none border-b-2 border-transparent data-[state=active]:border-[#13213c] data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:text-[#1C1917] text-[#A8A29E] font-bold px-0 transition-colors"
               >
                 التقييمات
               </TabsTrigger>
@@ -351,15 +351,15 @@ export default function ProductClient({ product }: { product: any }) {
                 <h3 className="text-xl font-black text-[#1C1917] mb-5">مميزات المنتج</h3>
                 <ul className="space-y-3">
                   <li className="flex items-center gap-3 text-[#78716C]">
-                    <div className="w-5 h-5 rounded-full bg-[#FBF6EE] border border-[#C9A96E]/30 flex items-center justify-center shrink-0">
-                      <Check className="w-3 h-3 text-[#C9A96E]" />
+                    <div className="w-5 h-5 rounded-full bg-[#F0F4F9] border border-[#13213c]/30 flex items-center justify-center shrink-0">
+                      <Check className="w-3 h-3 text-[#13213c]" />
                     </div>
                     المنتج أصلي ومضمون 100%
                   </li>
                   {product.category && (
                     <li className="flex items-center gap-3 text-[#78716C]">
-                      <div className="w-5 h-5 rounded-full bg-[#FBF6EE] border border-[#C9A96E]/30 flex items-center justify-center shrink-0">
-                        <Check className="w-3 h-3 text-[#C9A96E]" />
+                      <div className="w-5 h-5 rounded-full bg-[#F0F4F9] border border-[#13213c]/30 flex items-center justify-center shrink-0">
+                        <Check className="w-3 h-3 text-[#13213c]" />
                       </div>
                       التصنيف: <span className="font-bold text-[#1C1917] ms-1">
                         {typeof product.category === 'string' ? product.category : product.category?.name}
@@ -367,14 +367,14 @@ export default function ProductClient({ product }: { product: any }) {
                     </li>
                   )}
                   <li className="flex items-center gap-3 text-[#78716C]">
-                    <div className="w-5 h-5 rounded-full bg-[#FBF6EE] border border-[#C9A96E]/30 flex items-center justify-center shrink-0">
-                      <Check className="w-3 h-3 text-[#C9A96E]" />
+                    <div className="w-5 h-5 rounded-full bg-[#F0F4F9] border border-[#13213c]/30 flex items-center justify-center shrink-0">
+                      <Check className="w-3 h-3 text-[#13213c]" />
                     </div>
                     تغليف هدايا فاخر متاح عند الطلب
                   </li>
                   <li className="flex items-center gap-3 text-[#78716C]">
-                    <div className="w-5 h-5 rounded-full bg-[#FBF6EE] border border-[#C9A96E]/30 flex items-center justify-center shrink-0">
-                      <Check className="w-3 h-3 text-[#C9A96E]" />
+                    <div className="w-5 h-5 rounded-full bg-[#F0F4F9] border border-[#13213c]/30 flex items-center justify-center shrink-0">
+                      <Check className="w-3 h-3 text-[#13213c]" />
                     </div>
                     ضمان الاسترجاع خلال 7 أيام
                   </li>
@@ -393,13 +393,13 @@ export default function ProductClient({ product }: { product: any }) {
               <div className="bg-white rounded-2xl border border-[#E8E4DF] p-8">
                 <div className="flex flex-col items-center justify-center py-12 text-center">
                   <div className="w-16 h-16 rounded-full bg-[#F5F0EA] flex items-center justify-center mb-4">
-                    <Star className="w-8 h-8 text-[#C9A96E]/40" />
+                    <Star className="w-8 h-8 text-[#13213c]/40" />
                   </div>
                   <h4 className="text-lg font-black text-[#1C1917] mb-2">لا توجد تقييمات بعد</h4>
                   <p className="text-[#A8A29E] max-w-sm mb-6">كن أول من يقيّم هذا المنتج وشارك رأيك مع الآخرين!</p>
                   <button
                     className="h-11 px-6 rounded-xl font-bold text-white transition-all hover:-translate-y-0.5"
-                    style={{ background: 'linear-gradient(135deg, #C9A96E 0%, #A07850 100%)' }}
+                    style={{ background: 'linear-gradient(135deg, #22385e 0%, #13213c 100%)' }}
                     onClick={() => toast.info('ميزة التقييم قادمة قريباً!')}
                   >
                     إضافة تقييم

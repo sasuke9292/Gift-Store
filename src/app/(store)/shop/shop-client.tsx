@@ -83,7 +83,7 @@ export default function ShopClient({ initialProducts, categories, initialActiveC
 
         {/* Page Header */}
         <div className="py-10">
-          <p className="text-sm font-bold text-[#C9A96E] uppercase tracking-widest mb-2">استكشف</p>
+          <p className="text-sm font-bold text-[#13213c] uppercase tracking-widest mb-2">استكشف</p>
           <h1 className="text-4xl sm:text-5xl font-black text-[#1C1917] tracking-tight mb-3">المتجر</h1>
           <p className="text-[#78716C] text-lg">تصفح تشكيلة واسعة من الهدايا المميزة لكل المناسبات</p>
         </div>
@@ -95,7 +95,7 @@ export default function ShopClient({ initialProducts, categories, initialActiveC
             <Search className="absolute start-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#A8A29E]" />
             <Input
               placeholder="ابحث عن منتج..."
-              className="ps-10 h-11 rounded-xl bg-white border-[#E8E4DF] text-[#1C1917] placeholder:text-[#A8A29E] focus-visible:ring-[#C9A96E]/30 focus-visible:border-[#C9A96E]/40 shadow-[0_1px_3px_rgba(0,0,0,0.05)]"
+              className="ps-10 h-11 rounded-xl bg-white border-[#E8E4DF] text-[#1C1917] placeholder:text-[#A8A29E] focus-visible:ring-[#13213c]/30 focus-visible:border-[#13213c]/40 shadow-[0_1px_3px_rgba(0,0,0,0.05)]"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
@@ -151,7 +151,7 @@ export default function ShopClient({ initialProducts, categories, initialActiveC
           <p className="text-sm text-[#A8A29E]">
             <span className="font-bold text-[#1C1917]">{filteredAndSorted.length}</span> منتج
             {activeCategory !== 'الكل' && (
-              <span> في <span className="font-bold text-[#C9A96E]">{activeCategory}</span></span>
+              <span> في <span className="font-bold text-[#13213c]">{activeCategory}</span></span>
             )}
           </p>
         </div>
@@ -162,7 +162,7 @@ export default function ShopClient({ initialProducts, categories, initialActiveC
           <aside className="hidden lg:block w-56 shrink-0">
             <div className="bg-white rounded-2xl border border-[#E8E4DF] p-5 sticky top-28 shadow-[0_1px_3px_rgba(0,0,0,0.05)]">
               <h3 className="font-black text-[#1C1917] text-sm uppercase tracking-widest mb-4 flex items-center gap-2">
-                <Filter className="w-4 h-4 text-[#C9A96E]" />
+                <Filter className="w-4 h-4 text-[#13213c]" />
                 التصنيفات
               </h3>
               <ul className="space-y-1">
@@ -271,14 +271,14 @@ export default function ShopClient({ initialProducts, categories, initialActiveC
                   className="text-center py-20"
                 >
                   <div className="w-20 h-20 rounded-full bg-[#F5F0EA] flex items-center justify-center mx-auto mb-5">
-                    <Search className="w-8 h-8 text-[#C9A96E]/60" />
+                    <Search className="w-8 h-8 text-[#13213c]/60" />
                   </div>
                   <h3 className="text-xl font-black text-[#1C1917] mb-2">لا توجد منتجات</h3>
                   <p className="text-[#A8A29E] mb-6">لم نتمكن من العثور على منتجات تطابق بحثك</p>
                   <Button
                     onClick={() => { setSearchQuery(''); setActiveCategory('الكل') }}
                     className="rounded-xl font-bold text-white"
-                    style={{ background: 'linear-gradient(135deg, #C9A96E 0%, #A07850 100%)' }}
+                    style={{ background: 'linear-gradient(135deg, #22385e 0%, #13213c 100%)' }}
                   >
                     إعادة ضبط البحث
                   </Button>

@@ -9,11 +9,11 @@ export const metadata: Metadata = {
 export default function PrivacyPage() {
   return (
     <div className="min-h-screen bg-[#FAFAF8] pb-20">
-      <section className="relative bg-[#1C1917] text-white py-24 px-4 overflow-hidden">
-        <div className="absolute top-0 end-0 w-96 h-96 bg-[#C9A96E]/10 rounded-full blur-[100px]" />
+      <section className="relative bg-[#0c1424] text-white py-24 px-4 overflow-hidden">
+        <div className="absolute top-0 end-0 w-96 h-96 bg-[#22385e]/25 rounded-full blur-[100px]" />
         <div className="max-w-4xl mx-auto text-center relative z-10">
-          <div className="w-16 h-16 rounded-2xl bg-[#C9A96E]/15 border border-[#C9A96E]/25 flex items-center justify-center mx-auto mb-6">
-            <Shield className="w-8 h-8 text-[#C9A96E]" />
+          <div className="w-16 h-16 rounded-2xl bg-[#22385e]/40 border border-[#3b5e94]/40 flex items-center justify-center mx-auto mb-6">
+            <Shield className="w-8 h-8 text-[#7ea6e6]" />
           </div>
           <h1 className="text-4xl sm:text-5xl font-black mb-4">سياسة الخصوصية</h1>
           <p className="text-white/60">آخر تحديث: سبتمبر 2026</p>
@@ -54,7 +54,7 @@ export default function PrivacyPage() {
           ].map((section) => (
             <div key={section.title}>
               <h2 className="text-lg font-black text-[#1C1917] mb-3 flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-[#C9A96E] inline-block" />
+                <span className="w-2 h-2 rounded-full bg-[#13213c] inline-block" />
                 {section.title}
               </h2>
               <p className="text-[#78716C] leading-loose">{section.content}</p>

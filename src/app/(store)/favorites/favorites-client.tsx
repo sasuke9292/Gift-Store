@@ -54,7 +54,7 @@ export function FavoritesClient() {
             <Link
               href="/shop"
               className="inline-flex items-center gap-2 h-12 px-8 rounded-xl font-bold text-white transition-all hover:-translate-y-0.5"
-              style={{ background: 'linear-gradient(135deg, #C9A96E 0%, #A07850 100%)' }}
+              style={{ background: 'linear-gradient(135deg, #22385e 0%, #13213c 100%)' }}
             >
               استكشف المنتجات
               <ArrowLeft className="w-4 h-4" />

@@ -60,8 +60,8 @@ export default function CartPage() {
         {/* Page Header */}
         <div className="py-10">
           <div className="flex items-center gap-3 mb-2">
-            <div className="w-10 h-10 rounded-xl bg-[#FBF6EE] flex items-center justify-center">
-              <ShoppingBag className="w-5 h-5 text-[#C9A96E]" />
+            <div className="w-10 h-10 rounded-xl bg-[#F0F4F9] flex items-center justify-center">
+              <ShoppingBag className="w-5 h-5 text-[#13213c]" />
             </div>
             <h1 className="text-3xl font-black text-[#1C1917]">سلة المشتريات</h1>
             {cartItems.length > 0 && (
@@ -81,14 +81,14 @@ export default function CartPage() {
             className="text-center py-24"
           >
             <div className="w-24 h-24 rounded-full bg-[#F5F0EA] flex items-center justify-center mx-auto mb-6">
-              <ShoppingBag className="w-10 h-10 text-[#C9A96E]/60" />
+              <ShoppingBag className="w-10 h-10 text-[#13213c]/60" />
             </div>
             <h2 className="text-2xl font-black text-[#1C1917] mb-3">السلة فارغة</h2>
             <p className="text-[#78716C] mb-8 max-w-sm mx-auto">لم تقم بإضافة أي منتجات إلى سلتك بعد. ابدأ التسوق لاكتشاف هدايا رائعة.</p>
             <Link
               href="/shop"
               className="inline-flex items-center gap-2 h-12 px-8 rounded-xl font-bold text-white transition-all hover:-translate-y-0.5"
-              style={{ background: 'linear-gradient(135deg, #C9A96E 0%, #A07850 100%)' }}
+              style={{ background: 'linear-gradient(135deg, #22385e 0%, #13213c 100%)' }}
             >
               مواصلة التسوق
               <ArrowLeft className="w-4 h-4" />
@@ -105,12 +105,12 @@ export default function CartPage() {
                 <motion.div
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="bg-[#FBF6EE] border border-[#C9A96E]/20 rounded-2xl p-4"
+                  className="bg-[#F0F4F9] border border-[#13213c]/20 rounded-2xl p-4"
                 >
                   <div className="flex items-center gap-2 mb-2">
-                    <Truck className="w-4 h-4 text-[#C9A96E]" />
+                    <Truck className="w-4 h-4 text-[#13213c]" />
                     <p className="text-sm font-bold text-[#1C1917]">
-                      أضف <span className="text-[#C9A96E]">{remainingForFreeShipping.toLocaleString('en-US')} د.ع</span> للحصول على شحن مجاني!
+                      أضف <span className="text-[#13213c]">{remainingForFreeShipping.toLocaleString('en-US')} د.ع</span> للحصول على شحن مجاني!
                     </p>
                   </div>
                   <div className="w-full h-2 bg-[#E8DFD3] rounded-full overflow-hidden">
@@ -119,7 +119,7 @@ export default function CartPage() {
                       animate={{ width: `${progressToFreeShipping}%` }}
                       transition={{ duration: 0.8, ease: 'easeOut' }}
                       className="h-full rounded-full"
-                      style={{ background: 'linear-gradient(90deg, #C9A96E, #A07850)' }}
+                      style={{ background: 'linear-gradient(90deg, #22385e, #13213c)' }}
                     />
                   </div>
                 </motion.div>
@@ -146,7 +146,7 @@ export default function CartPage() {
                           <Image src={item.image} alt={item.name} fill sizes="80px" className="object-cover" />
                         ) : (
                           <div className="w-full h-full flex items-center justify-center">
-                            <ShoppingBag className="w-6 h-6 text-[#C9A96E]/40" />
+                            <ShoppingBag className="w-6 h-6 text-[#13213c]/40" />
                           </div>
                         )}
                       </div>
@@ -154,7 +154,7 @@ export default function CartPage() {
                       {/* Product Info */}
                       <div className="flex-1 text-center sm:text-start min-w-0">
                         {item.category && (
-                          <p className="text-[11px] font-bold text-[#C9A96E] uppercase tracking-widest mb-1">{item.category}</p>
+                          <p className="text-[11px] font-bold text-[#13213c] uppercase tracking-widest mb-1">{item.category}</p>
                         )}
                         <h3 className="font-bold text-[#1C1917] mb-1 line-clamp-1">{item.name}</h3>
                         <p className="text-lg font-black text-gold">
@@ -208,7 +208,7 @@ export default function CartPage() {
               {/* Continue Shopping */}
               <Link
                 href="/shop"
-                className="flex items-center gap-2 text-sm font-semibold text-[#78716C] hover:text-[#C9A96E] transition-colors mt-2"
+                className="flex items-center gap-2 text-sm font-semibold text-[#78716C] hover:text-[#13213c] transition-colors mt-2"
               >
                 <ArrowRight className="w-4 h-4" />
                 مواصلة التسوق
@@ -256,7 +256,7 @@ export default function CartPage() {
                     placeholder="كود الخصم"
                     value={couponCode}
                     onChange={(e) => setCouponCode(e.target.value)}
-                    className="flex-1 h-10 rounded-xl text-sm border-[#E8E4DF] bg-[#FAFAF8] placeholder:text-[#A8A29E] focus-visible:ring-[#C9A96E]/30 focus-visible:border-[#C9A96E]/40"
+                    className="flex-1 h-10 rounded-xl text-sm border-[#E8E4DF] bg-[#FAFAF8] placeholder:text-[#A8A29E] focus-visible:ring-[#13213c]/30 focus-visible:border-[#13213c]/40"
                   />
                   <Button
                     variant="outline"

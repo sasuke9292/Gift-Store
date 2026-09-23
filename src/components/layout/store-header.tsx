@@ -152,11 +152,11 @@ export function StoreHeader({ user, topBarText, settings }: StoreHeaderProps) {
       )}>
         {/* Top Announcement Bar */}
         {(settings?.showTopBar ?? true) && (
-          <div className="bg-gradient-to-l from-[#1C1917] via-[#2A2624] to-[#1C1917] text-white/90 py-2 px-4 text-xs font-semibold">
+          <div className="bg-gradient-to-l from-[#0c1424] via-[#13213c] to-[#0c1424] text-white/90 py-2 px-4 text-xs font-semibold">
             <div className="max-w-7xl mx-auto flex items-center justify-between">
               <div className="flex items-center gap-2 mx-auto sm:mx-0">
-                <span className="w-2 h-2 rounded-full bg-[#C9A96E] animate-pulse" />
-                <span className="text-[#C9A96E] font-bold">✨ عرض استثنائي:</span>
+                <span className="w-2 h-2 rounded-full bg-[#5c8fd6] animate-pulse" />
+                <span className="text-[#7ea6e6] font-bold">✨ عرض استثنائي:</span>
                 {settings?.topBarLink ? (
                   <Link href={settings.topBarLink} className="hover:underline transition-all">
                     {effectiveTopBarText}
@@ -167,14 +167,14 @@ export function StoreHeader({ user, topBarText, settings }: StoreHeaderProps) {
               </div>
               <div className="hidden sm:flex items-center gap-4 text-white/60 text-xs">
                 {(settings?.showTrackOrder ?? true) && (
-                  <Link href="/track-order" className="hover:text-[#C9A96E] transition-colors flex items-center gap-1">
-                    <Clock className="w-3.5 h-3.5 text-[#C9A96E]" />
+                  <Link href="/track-order" className="hover:text-[#7ea6e6] transition-colors flex items-center gap-1">
+                    <Clock className="w-3.5 h-3.5 text-[#7ea6e6]" />
                     تتبع شحنتك
                   </Link>
                 )}
                 <span>•</span>
-                <a href={`tel:${effectiveHeaderPhone.replace(/\s+/g, '')}`} className="hover:text-[#C9A96E] transition-colors flex items-center gap-1" dir="ltr">
-                  <Phone className="w-3.5 h-3.5 text-[#C9A96E]" />
+                <a href={`tel:${effectiveHeaderPhone.replace(/\s+/g, '')}`} className="hover:text-[#7ea6e6] transition-colors flex items-center gap-1" dir="ltr">
+                  <Phone className="w-3.5 h-3.5 text-[#7ea6e6]" />
                   {effectiveHeaderPhone}
                 </a>
               </div>
@@ -191,7 +191,7 @@ export function StoreHeader({ user, topBarText, settings }: StoreHeaderProps) {
               <Button 
                 variant="ghost" 
                 size="icon" 
-                className="lg:hidden text-[#1C1917] hover:bg-[#F5F0EA] rounded-xl w-10 h-10"
+                className="lg:hidden text-[#1C1917] hover:bg-[#F0F4F9] rounded-xl w-10 h-10"
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                 aria-label="القائمة"
               >
@@ -200,13 +200,13 @@ export function StoreHeader({ user, topBarText, settings }: StoreHeaderProps) {
 
               <Link href="/" className="flex items-center gap-3 group">
                 {settings?.logoUrl ? (
-                  <div className="relative w-10 h-10 rounded-2xl overflow-hidden shadow-[0_4px_15px_rgba(201,169,110,0.35)]">
+                  <div className="relative w-10 h-10 rounded-2xl overflow-hidden shadow-[0_4px_15px_rgba(19,33,60,0.25)]">
                     <Image src={settings.logoUrl} alt={storeDisplayName} fill className="object-cover group-hover:scale-105 transition-transform" />
                   </div>
                 ) : (
                   <div 
-                    className="w-10 h-10 rounded-2xl flex items-center justify-center font-black transition-all group-hover:scale-105 shadow-[0_4px_15px_rgba(201,169,110,0.35)]"
-                    style={{ background: 'linear-gradient(135deg, #C9A96E 0%, #A07850 100%)' }}
+                    className="w-10 h-10 rounded-2xl flex items-center justify-center font-black transition-all group-hover:scale-105 shadow-[0_4px_15px_rgba(19,33,60,0.25)]"
+                    style={{ background: 'linear-gradient(135deg, #22385e 0%, #13213c 100%)' }}
                   >
                     <Gift className="w-5 h-5 text-white" />
                   </div>
@@ -215,7 +215,7 @@ export function StoreHeader({ user, topBarText, settings }: StoreHeaderProps) {
                   <span className="text-xl font-black tracking-tight text-[#1C1917] leading-none">
                     {storeDisplayName}
                   </span>
-                  <span className="text-[10px] font-bold text-[#A07850] tracking-wider mt-0.5">
+                  <span className="text-[10px] font-bold text-[#13213c] tracking-wider mt-0.5">
                     {storeDisplayTag}
                   </span>
                 </div>
@@ -231,7 +231,7 @@ export function StoreHeader({ user, topBarText, settings }: StoreHeaderProps) {
                   className={cn(
                     "w-full h-11 ps-11 pe-10 rounded-2xl border text-sm transition-all text-start",
                     "bg-[#F8F5F0] border-[#E8E4DF] text-[#1C1917] placeholder:text-[#A8A29E]",
-                    "focus:bg-white focus:border-[#C9A96E] focus:ring-4 focus:ring-[#C9A96E]/15 focus:outline-none shadow-xs"
+                    "focus:bg-white focus:border-[#13213c] focus:ring-4 focus:ring-[#13213c]/15 focus:outline-none shadow-xs"
                   )}
                   value={searchQuery}
                   onChange={(e) => {
@@ -244,7 +244,7 @@ export function StoreHeader({ user, topBarText, settings }: StoreHeaderProps) {
                   }}
                   onFocus={() => setIsSearchOpen(true)}
                 />
-                <div className="absolute start-3.5 top-1/2 -translate-y-1/2 pointer-events-none text-[#A07850]">
+                <div className="absolute start-3.5 top-1/2 -translate-y-1/2 pointer-events-none text-[#13213c]">
                   <Search className="w-4 h-4" />
                 </div>
                 {searchQuery && (
@@ -275,7 +275,7 @@ export function StoreHeader({ user, topBarText, settings }: StoreHeaderProps) {
                     {/* Quick suggestions when query is short */}
                     {searchQuery.trim().length < 2 && (
                       <div>
-                        <div className="flex items-center gap-1.5 text-xs font-bold text-[#A07850] mb-2.5">
+                        <div className="flex items-center gap-1.5 text-xs font-bold text-[#13213c] mb-2.5">
                           <Flame className="w-3.5 h-3.5 text-[#E85D75]" />
                           الأكثر بحثاً الآن
                         </div>
@@ -301,7 +301,7 @@ export function StoreHeader({ user, topBarText, settings }: StoreHeaderProps) {
                     {/* Loading State */}
                     {isSearching && (
                       <div className="py-6 text-center text-sm text-[#A8A29E]">
-                        <span className="inline-block w-4 h-4 border-2 border-[#C9A96E] border-t-transparent rounded-full animate-spin me-2 align-middle" />
+                        <span className="inline-block w-4 h-4 border-2 border-[#13213c] border-t-transparent rounded-full animate-spin me-2 align-middle" />
                         جاري البحث عن أفخم الهدايا...
                       </div>
                     )}
@@ -326,17 +326,17 @@ export function StoreHeader({ user, topBarText, settings }: StoreHeaderProps) {
                                     {prod.images && prod.images[0] ? (
                                       <Image src={prod.images[0]} alt={prod.name} fill className="object-cover group-hover:scale-105 transition-transform" />
                                     ) : (
-                                      <Gift className="w-5 h-5 text-[#C9A96E] m-auto" />
+                                      <Gift className="w-5 h-5 text-[#13213c] m-auto" />
                                     )}
                                   </div>
                                   <div className="flex-1 min-w-0 text-start">
-                                    <p className="text-xs text-[#A07850] font-semibold">{prod.category?.name || 'هدية فاخرة'}</p>
-                                    <p className="text-sm font-bold text-[#1C1917] truncate group-hover:text-[#A07850] transition-colors">
+                                    <p className="text-xs text-[#13213c] font-semibold">{prod.category?.name || 'هدية فاخرة'}</p>
+                                    <p className="text-sm font-bold text-[#1C1917] truncate group-hover:text-[#13213c] transition-colors">
                                       {prod.name}
                                     </p>
                                   </div>
                                   <div className="text-end shrink-0">
-                                    <p className="text-sm font-black text-[#A07850]">
+                                    <p className="text-sm font-black text-[#13213c]">
                                       {(prod.salePrice ?? prod.price).toLocaleString('en-US')}
                                       <span className="text-xs font-bold text-[#A8A29E] ms-1">د.ع</span>
                                     </p>
@@ -348,7 +348,7 @@ export function StoreHeader({ user, topBarText, settings }: StoreHeaderProps) {
                               <Link
                                 href={`/shop?q=${encodeURIComponent(searchQuery)}`}
                                 onClick={() => setIsSearchOpen(false)}
-                                className="inline-flex items-center gap-1.5 text-xs font-bold text-[#A07850] hover:text-[#8C6838] transition-colors"
+                                className="inline-flex items-center gap-1.5 text-xs font-bold text-[#13213c] hover:text-[#0c1527] transition-colors"
                               >
                                 عرض جميع النتائج في المتجر
                                 <ArrowLeft className="w-3.5 h-3.5" />
@@ -389,13 +389,13 @@ export function StoreHeader({ user, topBarText, settings }: StoreHeaderProps) {
               {/* Cart Icon */}
               <Link
                 href="/cart"
-                className="relative flex items-center justify-center w-10 h-10 rounded-2xl text-[#78716C] hover:text-[#A07850] hover:bg-[#FBF6EE] transition-all border border-transparent hover:border-[#C9A96E]/20"
+                className="relative flex items-center justify-center w-10 h-10 rounded-2xl text-[#78716C] hover:text-[#13213c] hover:bg-[#F0F4F9] transition-all border border-transparent hover:border-[#13213c]/20"
                 aria-label="سلة المشتريات"
                 title="السلة"
               >
                 <ShoppingCart className="w-5 h-5" />
                 {mounted && cartCount > 0 && (
-                  <span className="absolute -top-1 -start-1 min-w-4 h-4 px-1 flex items-center justify-center text-[10px] font-black rounded-full bg-[#C9A96E] text-white shadow-sm">
+                  <span className="absolute -top-1 -start-1 min-w-4 h-4 px-1 flex items-center justify-center text-[10px] font-black rounded-full bg-[#13213c] text-white shadow-sm">
                     {cartCount}
                   </span>
                 )}
@@ -408,8 +408,8 @@ export function StoreHeader({ user, topBarText, settings }: StoreHeaderProps) {
                   className="flex items-center gap-1.5 h-10 px-3 rounded-2xl text-xs font-bold text-[#1C1917] bg-[#F8F5F0] hover:bg-[#F0EBE1] border border-[#E8E4DF] transition-all"
                   title="لوحة تحكم الإدارة"
                 >
-                  <User className="w-4 h-4 text-[#A07850]" />
-                  <span className="text-[10px] bg-[#C9A96E] text-white px-2 py-0.5 rounded-full font-black">
+                  <User className="w-4 h-4 text-[#13213c]" />
+                  <span className="text-[10px] bg-[#13213c] text-white px-2 py-0.5 rounded-full font-black">
                     لوحة الإدارة
                   </span>
                 </Link>
@@ -419,8 +419,8 @@ export function StoreHeader({ user, topBarText, settings }: StoreHeaderProps) {
               {(settings?.showGiftFinder ?? true) && (
                 <Link
                   href="/gift-finder"
-                  className="hidden sm:inline-flex items-center gap-2 h-10 px-4 rounded-2xl text-xs font-extrabold text-white transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_4px_16px_rgba(201,169,110,0.45)] shrink-0"
-                  style={{ background: 'linear-gradient(135deg, #C9A96E 0%, #A07850 100%)' }}
+                  className="hidden sm:inline-flex items-center gap-2 h-10 px-4 rounded-2xl text-xs font-extrabold text-white transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_4px_16px_rgba(19,33,60,0.35)] shrink-0"
+                  style={{ background: 'linear-gradient(135deg, #22385e 0%, #13213c 100%)' }}
                 >
                   <Sparkles className="w-3.5 h-3.5 animate-pulse" />
                   <span>مكتشف الهدايا</span>
@@ -452,7 +452,7 @@ export function StoreHeader({ user, topBarText, settings }: StoreHeaderProps) {
             <div className="flex items-center gap-3 text-xs font-semibold text-[#78716C]">
               <Link 
                 href="/gift-finder"
-                className="flex items-center gap-1 text-[#A07850] hover:underline"
+                className="flex items-center gap-1 text-[#13213c] hover:underline"
               >
                 <Compass className="w-3.5 h-3.5" />
                 <span>مستشار الهدايا الذكي</span>
@@ -486,7 +486,7 @@ export function StoreHeader({ user, topBarText, settings }: StoreHeaderProps) {
                 <div className="flex items-center gap-2.5">
                   <div 
                     className="w-8 h-8 rounded-xl flex items-center justify-center font-black"
-                    style={{ background: 'linear-gradient(135deg, #C9A96E 0%, #A07850 100%)' }}
+                    style={{ background: 'linear-gradient(135deg, #22385e 0%, #13213c 100%)' }}
                   >
                     <Gift className="w-4 h-4 text-white" />
                   </div>
@@ -513,7 +513,7 @@ export function StoreHeader({ user, topBarText, settings }: StoreHeaderProps) {
                   <input
                     type="text"
                     placeholder="ابحث عن هدية راقية..."
-                    className="w-full h-10 ps-10 pe-4 rounded-xl bg-[#F8F5F0] border border-[#E8E4DF] text-xs focus:outline-none focus:border-[#C9A96E]"
+                    className="w-full h-10 ps-10 pe-4 rounded-xl bg-[#F8F5F0] border border-[#E8E4DF] text-xs focus:outline-none focus:border-[#13213c]"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                   />
@@ -546,7 +546,7 @@ export function StoreHeader({ user, topBarText, settings }: StoreHeaderProps) {
                   <Link
                     href="/gift-finder"
                     onClick={() => setIsMobileMenuOpen(false)}
-                    className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-sm font-bold text-[#A07850] bg-[#FBF6EE]"
+                    className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-sm font-bold text-[#13213c] bg-[#F0F4F9]"
                   >
                     <Sparkles className="w-4 h-4" />
                     <span>مكتشف الهدايا الذكي</span>
@@ -571,14 +571,14 @@ export function StoreHeader({ user, topBarText, settings }: StoreHeaderProps) {
                     className="flex items-center justify-between p-2.5 rounded-xl bg-white border border-[#E8E4DF]"
                   >
                     <div className="flex items-center gap-2">
-                      <User className="w-4 h-4 text-[#A07850]" />
+                      <User className="w-4 h-4 text-[#13213c]" />
                       <span className="text-xs font-bold text-[#1C1917]">{user.name || 'المشرف'}</span>
                     </div>
-                    <span className="text-[10px] bg-[#C9A96E] text-white px-2 py-0.5 rounded-full font-bold">لوحة الإدارة</span>
+                    <span className="text-[10px] bg-[#13213c] text-white px-2 py-0.5 rounded-full font-bold">لوحة الإدارة</span>
                   </Link>
                 ) : (
                   <div className="text-center py-1">
-                    <p className="text-[11px] font-bold text-[#A07850]">✨ متجر الهدايا الفاخرة • طلب فوري عبر WhatsApp</p>
+                    <p className="text-[11px] font-bold text-[#13213c]">✨ متجر الهدايا الفاخرة • طلب فوري عبر WhatsApp</p>
                   </div>
                 )}
               </div>

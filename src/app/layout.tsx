@@ -20,7 +20,7 @@ const readex = Readex_Pro({
 });
 
 export const viewport: Viewport = {
-  themeColor: "#C9A96E",
+  themeColor: "#13213c",
   width: "device-width",
   initialScale: 1,
   maximumScale: 5,
@@ -128,7 +128,7 @@ export default async function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body className="min-h-full flex flex-col antialiased text-stone-900 bg-[#FAFAF8] selection:bg-[#C9A96E]/20 selection:text-[#8C6838]">
+      <body className="min-h-full flex flex-col antialiased text-stone-900 bg-[#FAFAF8] selection:bg-[#13213c]/20 selection:text-[#13213c]">
         {children}
         <Toaster position="top-center" richColors dir="rtl" />
       </body>

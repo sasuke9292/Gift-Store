@@ -152,7 +152,7 @@ export function OrderDetailsModal({ isOpen, onClose, orderId, onOrderUpdated }: 
       <DialogContent showCloseButton={false} className="max-w-4xl p-0 overflow-hidden rounded-3xl bg-white border border-[#E8E4DF] shadow-2xl" dir="rtl">
         {isLoading ? (
           <div className="p-16 flex flex-col items-center justify-center gap-3">
-            <Loader2 className="w-8 h-8 text-[#C9A96E] animate-spin" />
+            <Loader2 className="w-8 h-8 text-[#13213c] animate-spin" />
             <p className="text-sm font-bold text-[#78716C]">جاري تحميل تفاصيل الطلب...</p>
           </div>
         ) : order ? (
@@ -207,7 +207,7 @@ export function OrderDetailsModal({ isOpen, onClose, orderId, onOrderUpdated }: 
                   <Card className="rounded-2xl border-[#E8E4DF] shadow-sm overflow-hidden bg-white">
                     <div className="p-4 border-b border-[#E8E4DF] bg-[#FAFAF8]">
                       <h2 className="text-sm font-bold text-[#1C1917] flex items-center gap-2">
-                        <Truck className="w-4 h-4 text-[#C9A96E]" />
+                        <Truck className="w-4 h-4 text-[#13213c]" />
                         معالجة الطلب
                       </h2>
                     </div>
@@ -215,7 +215,7 @@ export function OrderDetailsModal({ isOpen, onClose, orderId, onOrderUpdated }: 
                       <div className="space-y-1.5">
                         <label className="text-xs font-bold text-[#78716C]">حالة الطلب</label>
                         <Select disabled={isUpdating} value={order.status} onValueChange={handleStatusChange}>
-                          <SelectTrigger className="w-full bg-[#FAFAF8] h-10 rounded-xl border-[#E8E4DF] text-[#1C1917] text-start focus:ring-[#C9A96E]/20">
+                          <SelectTrigger className="w-full bg-[#FAFAF8] h-10 rounded-xl border-[#E8E4DF] text-[#1C1917] text-start focus:ring-[#13213c]/20">
                             <SelectValue placeholder="اختر الحالة">{statusConfig[order.status]?.label}</SelectValue>
                           </SelectTrigger>
                           <SelectContent dir="rtl" className="rounded-xl bg-white border-[#E8E4DF]">
@@ -258,7 +258,7 @@ export function OrderDetailsModal({ isOpen, onClose, orderId, onOrderUpdated }: 
                       <div className="space-y-1.5">
                         <label className="text-xs font-bold text-[#78716C]">حالة الدفع</label>
                         <Select disabled={isUpdating} value={order.paymentStatus} onValueChange={handlePaymentStatusChange}>
-                          <SelectTrigger className="w-full bg-[#FAFAF8] h-10 rounded-xl border-[#E8E4DF] text-[#1C1917] text-start focus:ring-[#C9A96E]/20">
+                          <SelectTrigger className="w-full bg-[#FAFAF8] h-10 rounded-xl border-[#E8E4DF] text-[#1C1917] text-start focus:ring-[#13213c]/20">
                             <SelectValue placeholder="اختر الحالة">{paymentStatusMap[order.paymentStatus]}</SelectValue>
                           </SelectTrigger>
                           <SelectContent dir="rtl" className="rounded-xl bg-white border-[#E8E4DF]">
@@ -274,7 +274,7 @@ export function OrderDetailsModal({ isOpen, onClose, orderId, onOrderUpdated }: 
                         <label className="text-xs font-bold text-[#78716C]">ملاحظات داخلية ورقم التتبع</label>
                         <Textarea 
                           placeholder="رقم تتبع الشحنة، اسم المندوب..."
-                          className="min-h-[80px] resize-none rounded-xl bg-[#FAFAF8] border-[#E8E4DF] focus:border-[#C9A96E] text-xs text-[#1C1917] placeholder:text-[#A8A29E]"
+                          className="min-h-[80px] resize-none rounded-xl bg-[#FAFAF8] border-[#E8E4DF] focus:border-[#13213c] text-xs text-[#1C1917] placeholder:text-[#A8A29E]"
                           value={notes}
                           onChange={(e) => setNotes(e.target.value)}
                         />
@@ -282,7 +282,7 @@ export function OrderDetailsModal({ isOpen, onClose, orderId, onOrderUpdated }: 
                           onClick={handleSaveNotes} 
                           disabled={isUpdating || notes === (order.internalNotes || '')}
                           className="w-full h-9 rounded-xl font-bold text-white text-xs shadow-sm cursor-pointer"
-                          style={{ background: 'linear-gradient(135deg, #C9A96E 0%, #A07850 100%)' }}
+                          style={{ background: 'linear-gradient(135deg, #22385e 0%, #13213c 100%)' }}
                         >
                           <Save className="w-3.5 h-3.5 ms-1.5" />
                           حفظ الملاحظات
@@ -295,7 +295,7 @@ export function OrderDetailsModal({ isOpen, onClose, orderId, onOrderUpdated }: 
                   <Card className="rounded-2xl border-[#E8E4DF] shadow-sm overflow-hidden bg-white">
                     <div className="p-4 border-b border-[#E8E4DF] bg-[#FAFAF8]">
                       <h2 className="text-sm font-bold text-[#1C1917] flex items-center gap-2">
-                        <Receipt className="w-4 h-4 text-[#C9A96E]" />
+                        <Receipt className="w-4 h-4 text-[#13213c]" />
                         الملخص المالي
                       </h2>
                     </div>
@@ -316,7 +316,7 @@ export function OrderDetailsModal({ isOpen, onClose, orderId, onOrderUpdated }: 
                       )}
                       <div className="pt-2 border-t border-[#E8E4DF] flex justify-between items-center text-sm font-black text-[#1C1917]">
                         <span>الإجمالي النهائي:</span>
-                        <span className="text-[#A07850]">{order.total?.toLocaleString('en-US')} د.ع</span>
+                        <span className="text-[#13213c]">{order.total?.toLocaleString('en-US')} د.ع</span>
                       </div>
                       <div className="pt-2 text-xs text-[#78716C] flex items-center gap-1.5">
                         <CreditCard className="w-3.5 h-3.5 text-[#A8A29E]" />
@@ -333,7 +333,7 @@ export function OrderDetailsModal({ isOpen, onClose, orderId, onOrderUpdated }: 
                   <Card className="rounded-2xl border-[#E8E4DF] shadow-sm overflow-hidden bg-white">
                     <div className="p-4 border-b border-[#E8E4DF] bg-[#FAFAF8]">
                       <h2 className="text-sm font-bold text-[#1C1917] flex items-center gap-2">
-                        <User className="w-4 h-4 text-[#C9A96E]" />
+                        <User className="w-4 h-4 text-[#13213c]" />
                         معلومات العميل والشحن
                       </h2>
                     </div>
@@ -414,7 +414,7 @@ export function OrderDetailsModal({ isOpen, onClose, orderId, onOrderUpdated }: 
                   <Card className="rounded-2xl border-[#E8E4DF] shadow-sm overflow-hidden bg-white">
                     <div className="p-4 border-b border-[#E8E4DF] bg-[#FAFAF8]">
                       <h2 className="text-sm font-bold text-[#1C1917] flex items-center gap-2">
-                        <Package className="w-4 h-4 text-[#C9A96E]" />
+                        <Package className="w-4 h-4 text-[#13213c]" />
                         المنتجات المطلوبة ({order.items?.length || 0})
                       </h2>
                     </div>

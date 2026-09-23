@@ -160,14 +160,14 @@ export default function ProfileClient({ currentUser, initialStaffUsers }: Profil
             value="profile" 
             className="flex-1 rounded-xl data-[state=active]:bg-[#1C1917] data-[state=active]:text-white py-3 px-4 text-xs font-bold text-[#78716C] hover:text-[#1C1917] transition-all w-full sm:w-auto gap-2"
           >
-            <UserCircle className="w-4 h-4 text-[#C9A96E]" />
+            <UserCircle className="w-4 h-4 text-[#13213c]" />
             الملف الشخصي
           </TabsTrigger>
           <TabsTrigger 
             value="team" 
             className="flex-1 rounded-xl data-[state=active]:bg-[#1C1917] data-[state=active]:text-white py-3 px-4 text-xs font-bold text-[#78716C] hover:text-[#1C1917] transition-all w-full sm:w-auto gap-2"
           >
-            <Shield className="w-4 h-4 text-[#C9A96E]" />
+            <Shield className="w-4 h-4 text-[#13213c]" />
             فريق العمل والصلاحيات
           </TabsTrigger>
         </TabsList>
@@ -180,12 +180,12 @@ export default function ProfileClient({ currentUser, initialStaffUsers }: Profil
             <div className="lg:col-span-1 space-y-6">
               <div className="rounded-3xl border border-[#E8E4DF] overflow-hidden bg-white shadow-[0_2px_12px_rgba(0,0,0,0.03)]">
                 <div className="h-28 bg-[#FAFAF8] relative border-b border-[#E8E4DF] overflow-hidden">
-                  <div className="absolute inset-0 bg-[#C9A96E]/10 mix-blend-overlay" />
+                  <div className="absolute inset-0 bg-[#13213c]/10 mix-blend-overlay" />
                 </div>
                 <div className="px-6 pb-6 pt-0 text-center relative -mt-12 flex flex-col items-center">
                   <div 
                     className="w-24 h-24 rounded-2xl border-4 border-white shadow-lg flex items-center justify-center text-white font-black text-2xl"
-                    style={{ background: 'linear-gradient(135deg, #C9A96E 0%, #A07850 100%)' }}
+                    style={{ background: 'linear-gradient(135deg, #22385e 0%, #13213c 100%)' }}
                   >
                     {profileData.name ? profileData.name[0] : 'أ'}
                   </div>
@@ -193,7 +193,7 @@ export default function ProfileClient({ currentUser, initialStaffUsers }: Profil
                   <p className="text-[#78716C] font-mono text-xs mt-0.5" dir="ltr">{profileData.email}</p>
                   
                   <div className="mt-4 w-full pt-4 border-t border-[#E8E4DF]">
-                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-[#FBF6EE] text-[#A07850] border border-[#C9A96E]/30">
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-[#F0F4F9] text-[#13213c] border border-[#13213c]/30">
                       <Shield className="w-3.5 h-3.5" />
                       {roleMap[currentUser?.role || 'SUPER_ADMIN']?.label}
                     </span>
@@ -205,7 +205,7 @@ export default function ProfileClient({ currentUser, initialStaffUsers }: Profil
                       onClick={() => setIsPasswordModalOpen(true)}
                       className="w-full h-11 rounded-xl border-[#E8E4DF] hover:bg-[#FAFAF8] text-[#1C1917] font-bold text-xs flex items-center justify-center gap-2 cursor-pointer shadow-sm"
                     >
-                      <Key className="w-4 h-4 text-[#C9A96E]" />
+                      <Key className="w-4 h-4 text-[#13213c]" />
                       تغيير كلمة المرور
                     </Button>
                   </div>
@@ -246,7 +246,7 @@ export default function ProfileClient({ currentUser, initialStaffUsers }: Profil
                     type="submit" 
                     disabled={isSavingProfile}
                     className="h-11 px-6 rounded-xl text-white font-bold text-xs shadow-sm cursor-pointer"
-                    style={{ background: 'linear-gradient(135deg, #C9A96E 0%, #A07850 100%)' }}
+                    style={{ background: 'linear-gradient(135deg, #22385e 0%, #13213c 100%)' }}
                   >
                     {isSavingProfile ? 'جاري الحفظ...' : 'حفظ التعديلات'}
                   </Button>
@@ -267,7 +267,7 @@ export default function ProfileClient({ currentUser, initialStaffUsers }: Profil
               <Button 
                 onClick={() => setIsCreateModalOpen(true)}
                 className="h-11 px-5 rounded-xl text-white font-bold text-xs shadow-sm flex items-center gap-2 cursor-pointer"
-                style={{ background: 'linear-gradient(135deg, #C9A96E 0%, #A07850 100%)' }}
+                style={{ background: 'linear-gradient(135deg, #22385e 0%, #13213c 100%)' }}
               >
                 <UserPlus className="w-4 h-4" />
                 إضافة موظف جديد
@@ -293,7 +293,7 @@ export default function ProfileClient({ currentUser, initialStaffUsers }: Profil
                           <div className="flex items-center gap-3">
                             <div 
                               className="w-10 h-10 rounded-xl flex items-center justify-center font-black text-sm shrink-0"
-                              style={{ background: 'linear-gradient(135deg, #FBF6EE 0%, #F5EDE0 100%)', color: '#A07850', border: '1px solid rgba(201,169,110,0.2)' }}
+                              style={{ background: 'linear-gradient(135deg, #F0F4F9 0%, #E2EAF4 100%)', color: '#13213c', border: '1px solid rgba(19, 33, 60,0.2)' }}
                             >
                               {u.name ? u.name[0] : 'م'}
                             </div>
@@ -356,7 +356,7 @@ export default function ProfileClient({ currentUser, initialStaffUsers }: Profil
               <Button type="button" variant="outline" onClick={() => setIsPasswordModalOpen(false)} className="h-10 px-4 rounded-xl border-[#E8E4DF] text-xs font-bold">
                 إلغاء
               </Button>
-              <Button type="submit" disabled={isChangingPassword} className="h-10 px-5 rounded-xl text-white font-bold text-xs" style={{ background: 'linear-gradient(135deg, #C9A96E 0%, #A07850 100%)' }}>
+              <Button type="submit" disabled={isChangingPassword} className="h-10 px-5 rounded-xl text-white font-bold text-xs" style={{ background: 'linear-gradient(135deg, #22385e 0%, #13213c 100%)' }}>
                 {isChangingPassword ? 'جاري التغيير...' : 'تحديث كلمة المرور'}
               </Button>
             </DialogFooter>
@@ -413,7 +413,7 @@ export default function ProfileClient({ currentUser, initialStaffUsers }: Profil
                 <select
                   value={newUserData.role}
                   onChange={(e) => setNewUserData({ ...newUserData, role: e.target.value as Role })}
-                  className="w-full h-11 px-3 rounded-xl bg-[#FAFAF8] border border-[#E8E4DF] text-sm text-[#1C1917] focus:outline-none focus:border-[#C9A96E]/50 focus:bg-white"
+                  className="w-full h-11 px-3 rounded-xl bg-[#FAFAF8] border border-[#E8E4DF] text-sm text-[#1C1917] focus:outline-none focus:border-[#13213c]/50 focus:bg-white"
                 >
                   <option value="ADMIN">مسؤول (إدارة شاملة)</option>
                   <option value="MANAGER">مشرف (إدارة الطلبات والمنتجات)</option>
@@ -426,7 +426,7 @@ export default function ProfileClient({ currentUser, initialStaffUsers }: Profil
               <Button type="button" variant="outline" onClick={() => setIsCreateModalOpen(false)} className="h-10 px-4 rounded-xl border-[#E8E4DF] text-xs font-bold">
                 إلغاء
               </Button>
-              <Button type="submit" disabled={isCreatingUser} className="h-10 px-5 rounded-xl text-white font-bold text-xs" style={{ background: 'linear-gradient(135deg, #C9A96E 0%, #A07850 100%)' }}>
+              <Button type="submit" disabled={isCreatingUser} className="h-10 px-5 rounded-xl text-white font-bold text-xs" style={{ background: 'linear-gradient(135deg, #22385e 0%, #13213c 100%)' }}>
                 {isCreatingUser ? 'جاري الإضافة...' : 'إضافة الموظف'}
               </Button>
             </DialogFooter>

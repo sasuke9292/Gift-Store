@@ -19,7 +19,7 @@ export default async function AdminHeroSlidesPage() {
   return (
     <React.Suspense fallback={
       <div className="max-w-6xl mx-auto p-12 text-center text-[#78716C]">
-        <div className="w-8 h-8 border-2 border-[#C9A96E] border-t-transparent rounded-full animate-spin mx-auto mb-3" />
+        <div className="w-8 h-8 border-2 border-[#13213c] border-t-transparent rounded-full animate-spin mx-auto mb-3" />
         <p className="text-sm font-bold">جاري تحميل سلايدر الواجهة...</p>
       </div>
     }>

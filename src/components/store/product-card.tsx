@@ -83,7 +83,7 @@ export function ProductCard({ product }: ProductCardProps) {
       className={cn(
         "group relative bg-white rounded-3xl overflow-hidden flex flex-col h-full",
         "border border-[#E8E4DF] transition-all duration-300",
-        "hover:shadow-[0_12px_35px_rgba(201,169,110,0.14)] hover:-translate-y-1.5 hover:border-[#C9A96E]/40"
+        "hover:shadow-[0_12px_35px_rgba(19,33,60,0.12)] hover:-translate-y-1.5 hover:border-[#13213c]/30"
       )}
       dir="rtl"
     >
@@ -93,14 +93,14 @@ export function ProductCard({ product }: ProductCardProps) {
         {/* Floating Badges (Top Start / Right) */}
         <div className="absolute top-3 start-3 z-20 flex flex-col gap-1.5">
           {product.isNew && (
-            <span className="inline-flex items-center gap-1 bg-[#C9A96E] text-white text-[10px] font-extrabold px-2.5 py-0.5 rounded-full shadow-xs">
+            <span className="inline-flex items-center gap-1 bg-[#13213c] text-white text-[10px] font-extrabold px-2.5 py-0.5 rounded-full shadow-xs">
               <Sparkles className="w-2.5 h-2.5" />
               جديد
             </span>
           )}
           {product.isBestSeller && (
             <span className="inline-flex items-center gap-1 bg-[#1C1917] text-white text-[10px] font-extrabold px-2.5 py-0.5 rounded-full shadow-xs">
-              <Star className="w-2.5 h-2.5 fill-[#C9A96E] text-[#C9A96E]" />
+              <Star className="w-2.5 h-2.5 fill-[#13213c] text-[#13213c]" />
               الأكثر طلباً
             </span>
           )}
@@ -137,9 +137,9 @@ export function ProductCard({ product }: ProductCardProps) {
               onError={() => setImgError(true)}
             />
           ) : (
-            <div className="w-full h-full flex flex-col items-center justify-center text-[#C9A96E]/40 bg-gradient-to-br from-[#FBF6EE] to-[#F5EDD8]">
+            <div className="w-full h-full flex flex-col items-center justify-center text-[#13213c]/40 bg-gradient-to-br from-[#F0F4F9] to-[#E2EAF4]">
               <ShoppingBag className="w-10 h-10 mb-1" />
-              <span className="text-[11px] font-bold text-[#A07850]">گِفتي بلس</span>
+              <span className="text-[11px] font-bold text-[#13213c]">گِفتي بلس</span>
             </div>
           )}
           {/* Subtle Bottom Image Gradient */}
@@ -151,14 +151,14 @@ export function ProductCard({ product }: ProductCardProps) {
       <div className="p-3 sm:p-4.5 flex-1 flex flex-col text-start">
         {/* Category Pill */}
         {product.category?.name && (
-          <p className="text-[10px] sm:text-[11px] font-bold text-[#A07850] mb-1 flex items-center gap-1">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#C9A96E]" />
+          <p className="text-[10px] sm:text-[11px] font-bold text-[#13213c] mb-1 flex items-center gap-1">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#13213c]" />
             <span className="truncate">{product.category.name}</span>
           </p>
         )}
 
         {/* Title */}
-        <h3 className="font-bold text-[#1C1917] text-xs sm:text-sm md:text-base leading-snug line-clamp-2 mb-2 sm:mb-3 flex-1 group-hover:text-[#A07850] transition-colors">
+        <h3 className="font-bold text-[#1C1917] text-xs sm:text-sm md:text-base leading-snug line-clamp-2 mb-2 sm:mb-3 flex-1 group-hover:text-[#13213c] transition-colors">
           <Link href={`/product/${product.id}`}>
             {product.name}
           </Link>
@@ -174,7 +174,7 @@ export function ProductCard({ product }: ProductCardProps) {
               </span>
             )}
             <div className="flex items-baseline gap-0.5 sm:gap-1" dir="ltr">
-              <span className="text-sm sm:text-base lg:text-lg font-black text-[#8C6838]">
+              <span className="text-sm sm:text-base lg:text-lg font-black text-[#13213c]">
                 {displayPrice.toLocaleString('en-US')}
               </span>
               <span className="text-[10px] sm:text-xs font-bold text-[#A8A29E]">د.ع</span>
@@ -189,7 +189,7 @@ export function ProductCard({ product }: ProductCardProps) {
               "h-8 sm:h-9 px-2 sm:px-3.5 rounded-xl sm:rounded-2xl flex items-center gap-1 sm:gap-1.5 text-xs font-bold transition-all duration-300 shrink-0 cursor-pointer",
               isAdding
                 ? "bg-emerald-600 text-white"
-                : "bg-[#F8F5F0] hover:bg-[#C9A96E] text-[#1C1917] hover:text-white border border-[#E8E4DF] hover:border-[#C9A96E] hover:shadow-[0_4px_12px_rgba(201,169,110,0.35)]"
+                : "bg-[#F8F5F0] hover:bg-[#13213c] text-[#1C1917] hover:text-white border border-[#E8E4DF] hover:border-[#13213c] hover:shadow-[0_4px_12px_rgba(19,33,60,0.25)]"
             )}
             aria-label="أضف للسلة"
           >

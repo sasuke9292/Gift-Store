@@ -90,13 +90,13 @@ export function TrackOrderClient({ storePhone, storeName = 'گِفتي بلس', 
     <div className="min-h-screen bg-[#FAFAF8] pb-24 font-sans text-start" dir="rtl">
       
       {/* Top Hero Section */}
-      <section className="relative bg-[#1C1917] text-white py-20 px-4 overflow-hidden text-center">
-        <div className="absolute top-0 end-0 w-96 h-96 bg-[#C9A96E]/12 rounded-full blur-[100px] pointer-events-none" />
-        <div className="absolute bottom-0 start-0 w-80 h-80 bg-[#E85D75]/8 rounded-full blur-[100px] pointer-events-none" />
+      <section className="relative bg-[#0c1424] text-white py-20 px-4 overflow-hidden text-center">
+        <div className="absolute top-0 end-0 w-96 h-96 bg-[#22385e]/25 rounded-full blur-[100px] pointer-events-none" />
+        <div className="absolute bottom-0 start-0 w-80 h-80 bg-[#13213c]/30 rounded-full blur-[100px] pointer-events-none" />
 
         <div className="max-w-3xl mx-auto relative z-10">
-          <div className="w-16 h-16 rounded-2xl bg-[#C9A96E]/20 border border-[#C9A96E]/30 flex items-center justify-center mx-auto mb-5 shadow-lg">
-            <Package className="w-8 h-8 text-[#C9A96E]" />
+          <div className="w-16 h-16 rounded-2xl bg-[#22385e]/40 border border-[#3b5e94]/40 flex items-center justify-center mx-auto mb-5 shadow-lg">
+            <Package className="w-8 h-8 text-[#7ea6e6]" />
           </div>
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black mb-3 tracking-tight">تتبع حالة طلبك</h1>
           <p className="text-white/60 text-sm sm:text-base max-w-lg mx-auto">
@@ -107,20 +107,20 @@ export function TrackOrderClient({ storePhone, storeName = 'گِفتي بلس', 
           <div className="mt-8 max-w-xl mx-auto">
             <form onSubmit={handleSearch} className="relative flex flex-col sm:flex-row gap-2.5 p-2 bg-white/10 backdrop-blur-xl rounded-2xl border border-white/20 shadow-2xl">
               <div className="relative flex-1">
-                <Search className="w-5 h-5 text-[#C9A96E] absolute start-4 top-1/2 -translate-y-1/2" />
+                <Search className="w-5 h-5 text-[#13213c] absolute start-4 top-1/2 -translate-y-1/2" />
                 <input
                   type="text"
                   placeholder="رقم الطلب (مثال: ORD-2026...) أو رقم الهاتف"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full h-12 ps-12 pe-4 rounded-xl bg-white text-[#1C1917] placeholder:text-[#A8A29E] text-sm font-semibold outline-none focus:ring-2 focus:ring-[#C9A96E]"
+                  className="w-full h-12 ps-12 pe-4 rounded-xl bg-white text-[#1C1917] placeholder:text-[#A8A29E] text-sm font-semibold outline-none focus:ring-2 focus:ring-[#13213c]"
                 />
               </div>
               <button
                 type="submit"
                 disabled={isLoading || !searchQuery.trim()}
                 className="h-12 px-6 rounded-xl font-bold text-white text-sm transition-all hover:brightness-110 disabled:opacity-50 flex items-center justify-center gap-2 cursor-pointer shrink-0"
-                style={{ background: 'linear-gradient(135deg, #C9A96E 0%, #A07850 100%)' }}
+                style={{ background: 'linear-gradient(135deg, #22385e 0%, #13213c 100%)' }}
               >
                 {isLoading ? (
                   <>
@@ -172,7 +172,7 @@ export function TrackOrderClient({ storePhone, storeName = 'گِفتي بلس', 
 
                   <div className="sm:text-end bg-white sm:bg-transparent p-3 sm:p-0 rounded-xl border sm:border-0 border-[#E8E4DF]">
                     <span className="text-xs text-[#A8A29E] font-bold block">القيمة الإجمالية</span>
-                    <span className="text-2xl font-black text-[#8C6838]">
+                    <span className="text-2xl font-black text-[#13213c]">
                       {order.total.toLocaleString('en-US')}{' '}
                       <span className="text-xs font-normal text-[#78716C]">د.ع</span>
                     </span>
@@ -197,7 +197,7 @@ export function TrackOrderClient({ storePhone, storeName = 'گِفتي بلس', 
                       {/* Progress Line */}
                       <div className="absolute top-5 start-5 end-5 h-1 bg-[#E8E4DF] -z-0 hidden sm:block">
                         <div 
-                          className="h-full bg-[#C9A96E] transition-all duration-700 rounded-full"
+                          className="h-full bg-[#13213c] transition-all duration-700 rounded-full"
                           style={{ width: `${(currentStep / (ORDER_STEPS.length - 1)) * 100}%` }}
                         />
                       </div>
@@ -214,7 +214,7 @@ export function TrackOrderClient({ storePhone, storeName = 'گِفتي بلس', 
                                   isDone 
                                     ? 'bg-[#10B981] text-white shadow-sm'
                                     : isCurrent
-                                      ? 'bg-[#C9A96E] text-white ring-4 ring-[#C9A96E]/20 shadow-md scale-105'
+                                      ? 'bg-[#13213c] text-white ring-4 ring-[#13213c]/20 shadow-md scale-105'
                                       : 'bg-[#FAFAF8] text-[#A8A29E] border border-[#E8E4DF]'
                                 }`}
                               >
@@ -251,7 +251,7 @@ export function TrackOrderClient({ storePhone, storeName = 'گِفتي بلس', 
                     {order.items.map((item: any, i: number) => (
                       <div key={i} className="py-2.5 flex items-center justify-between text-xs">
                         <div className="flex items-center gap-2">
-                          <ShoppingBag className="w-4 h-4 text-[#C9A96E]" />
+                          <ShoppingBag className="w-4 h-4 text-[#13213c]" />
                           <span className="font-bold text-[#1C1917]">{item.name}</span>
                           <span className="text-[#A8A29E]">× {item.quantity}</span>
                         </div>
@@ -303,7 +303,7 @@ export function TrackOrderClient({ storePhone, storeName = 'گِفتي بلس', 
                   className="h-10 px-5 rounded-xl bg-[#FAFAF8] border border-[#E8E4DF] text-xs font-bold text-[#1C1917] hover:bg-[#F5F0EA] flex items-center gap-2"
                   dir="ltr"
                 >
-                  <Phone className="w-3.5 h-3.5 text-[#C9A96E]" />
+                  <Phone className="w-3.5 h-3.5 text-[#13213c]" />
                   <span>{effectivePhone}</span>
                 </a>
                 <a
@@ -323,13 +323,13 @@ export function TrackOrderClient({ storePhone, storeName = 'گِفتي بلس', 
         {/* How It Works Explainer Guide */}
         <div className="bg-white rounded-3xl border border-[#E8E4DF] p-6 sm:p-8 shadow-[0_2px_12px_rgba(0,0,0,0.03)]">
           <h3 className="text-base font-black text-[#1C1917] mb-4 flex items-center gap-2">
-            <Truck className="w-4 h-4 text-[#C9A96E]" />
+            <Truck className="w-4 h-4 text-[#13213c]" />
             كيف تتم معالجة وتوصيل هديتك؟
           </h3>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="p-4 rounded-2xl bg-[#FAFAF8] border border-[#E8E4DF]">
-              <div className="w-8 h-8 rounded-xl bg-[#FBF6EE] flex items-center justify-center text-[#A07850] font-black text-xs mb-3">
+              <div className="w-8 h-8 rounded-xl bg-[#F0F4F9] flex items-center justify-center text-[#13213c] font-black text-xs mb-3">
                 1
               </div>
               <h4 className="font-bold text-xs text-[#1C1917] mb-1">المراجعة والتأكيد</h4>
@@ -361,16 +361,16 @@ export function TrackOrderClient({ storePhone, storeName = 'گِفتي بلس', 
 
           <div className="mt-6 pt-6 border-t border-[#F0ECE6] flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-2">
-              <Phone className="w-4 h-4 text-[#C9A96E]" />
+              <Phone className="w-4 h-4 text-[#13213c]" />
               <span className="text-xs text-[#78716C]">خدمة العملاء متوفرة يومياً:</span>
-              <a href={`tel:${effectivePhone.replace(/\s+/g, '')}`} className="text-xs font-bold text-[#1C1917] hover:text-[#C9A96E]" dir="ltr">
+              <a href={`tel:${effectivePhone.replace(/\s+/g, '')}`} className="text-xs font-bold text-[#1C1917] hover:text-[#13213c]" dir="ltr">
                 {effectivePhone}
               </a>
             </div>
 
             <Link
               href="/shop"
-              className="text-xs font-bold text-[#A07850] hover:underline flex items-center gap-1"
+              className="text-xs font-bold text-[#13213c] hover:underline flex items-center gap-1"
             >
               <span>تصفح المزيد من الهدايا</span>
               <ArrowLeft className="w-3.5 h-3.5" />

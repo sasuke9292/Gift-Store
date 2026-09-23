@@ -46,11 +46,11 @@ export default function LoginClient() {
   return (
     <div className="min-h-screen bg-[#FAFAF8] flex flex-col justify-center py-12 sm:px-6 lg:px-8 relative overflow-hidden" dir="rtl">
       {/* Background decorations */}
-      <div className="absolute top-0 start-0 w-[500px] h-[500px] bg-[#C9A96E]/10 rounded-full blur-[120px] -translate-y-1/2" />
+      <div className="absolute top-0 start-0 w-[500px] h-[500px] bg-[#13213c]/10 rounded-full blur-[120px] -translate-y-1/2" />
       <div className="absolute bottom-0 end-0 w-[400px] h-[400px] bg-[#E85D75]/5 rounded-full blur-[100px] translate-y-1/2" />
       <div 
         className="absolute inset-0 opacity-[0.015]"
-        style={{ backgroundImage: 'radial-gradient(circle, #C9A96E 1px, transparent 1px)', backgroundSize: '32px 32px' }} 
+        style={{ backgroundImage: 'radial-gradient(circle, #13213c 1px, transparent 1px)', backgroundSize: '32px 32px' }} 
       />
 
       <motion.div
@@ -63,8 +63,8 @@ export default function LoginClient() {
         <div className="text-center mb-8">
           <Link href="/" className="inline-flex items-center gap-2.5 mb-6 group">
             <div 
-              className="w-12 h-12 rounded-2xl flex items-center justify-center font-black text-xl shadow-[0_4px_16px_rgba(201,169,110,0.35)] transition-transform group-hover:scale-105"
-              style={{ background: 'linear-gradient(135deg, #C9A96E 0%, #A07850 100%)' }}
+              className="w-12 h-12 rounded-2xl flex items-center justify-center font-black text-xl shadow-[0_4px_16px_rgba(19, 33, 60,0.35)] transition-transform group-hover:scale-105"
+              style={{ background: 'linear-gradient(135deg, #22385e 0%, #13213c 100%)' }}
             >
               <Gift className="w-6 h-6 text-white" />
             </div>
@@ -89,7 +89,7 @@ export default function LoginClient() {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="ps-10 h-12 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-[#1C1917] placeholder:text-[#C8C4BE] focus-visible:ring-[#C9A96E]/30 focus-visible:border-[#C9A96E]/50"
+                  className="ps-10 h-12 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-[#1C1917] placeholder:text-[#C8C4BE] focus-visible:ring-[#13213c]/30 focus-visible:border-[#13213c]/50"
                   placeholder="name@example.com"
                   dir="ltr"
                 />
@@ -102,7 +102,7 @@ export default function LoginClient() {
                 <label className="block text-sm font-bold text-[#1C1917]">
                   كلمة المرور
                 </label>
-                <a href="#" className="text-xs font-semibold text-[#C9A96E] hover:underline">
+                <a href="#" className="text-xs font-semibold text-[#13213c] hover:underline">
                   نسيت كلمة المرور؟
                 </a>
               </div>
@@ -113,7 +113,7 @@ export default function LoginClient() {
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="ps-10 h-12 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-[#1C1917] placeholder:text-[#C8C4BE] focus-visible:ring-[#C9A96E]/30 focus-visible:border-[#C9A96E]/50"
+                  className="ps-10 h-12 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-[#1C1917] placeholder:text-[#C8C4BE] focus-visible:ring-[#13213c]/30 focus-visible:border-[#13213c]/50"
                   placeholder="••••••••"
                 />
               </div>
@@ -123,8 +123,8 @@ export default function LoginClient() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full h-12 rounded-xl font-bold text-white transition-all hover:-translate-y-0.5 hover:shadow-[0_6px_20px_rgba(184,137,58,0.35)] disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2 cursor-pointer mt-2"
-              style={{ background: 'linear-gradient(135deg, #C9A96E 0%, #A07850 100%)' }}
+              className="w-full h-12 rounded-xl font-bold text-white transition-all hover:-translate-y-0.5 hover:shadow-[0_6px_20px_rgba(19, 33, 60,0.35)] disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2 cursor-pointer mt-2"
+              style={{ background: 'linear-gradient(135deg, #22385e 0%, #13213c 100%)' }}
             >
               {loading ? (
                 <>
@@ -141,7 +141,7 @@ export default function LoginClient() {
           <div className="mt-6 pt-5 border-t border-[#E8E4DF] flex items-center justify-between text-xs text-[#78716C]">
             <Link
               href="/auth/admin-login"
-              className="inline-flex items-center gap-1.5 font-bold text-[#C9A96E] hover:underline"
+              className="inline-flex items-center gap-1.5 font-bold text-[#13213c] hover:underline"
             >
               <Shield className="w-3.5 h-3.5" />
               دخول فريق الإدارة

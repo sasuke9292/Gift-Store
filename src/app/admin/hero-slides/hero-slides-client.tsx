@@ -262,7 +262,7 @@ export default function HeroSlidesClient({ initialSlides, settings }: HeroSlides
         <div className="flex items-start sm:items-center gap-4">
           <div 
             className="w-14 h-14 rounded-2xl flex items-center justify-center text-white shadow-md shrink-0"
-            style={{ background: 'linear-gradient(135deg, #C9A96E 0%, #A07850 100%)' }}
+            style={{ background: 'linear-gradient(135deg, #22385e 0%, #13213c 100%)' }}
           >
             <Sparkles className="w-7 h-7" />
           </div>
@@ -271,7 +271,7 @@ export default function HeroSlidesClient({ initialSlides, settings }: HeroSlides
               <h1 className="text-2xl sm:text-3xl font-black text-[#1C1917] tracking-tight">
                 إدارة سلايدر الواجهة التفاعلي
               </h1>
-              <span className="px-3 py-1 rounded-full text-xs font-black bg-[#C9A96E]/15 text-[#A07850] border border-[#C9A96E]/30">
+              <span className="px-3 py-1 rounded-full text-xs font-black bg-[#13213c]/15 text-[#13213c] border border-[#13213c]/30">
                 منظومة مخصصة مستقلة
               </span>
             </div>
@@ -295,7 +295,7 @@ export default function HeroSlidesClient({ initialSlides, settings }: HeroSlides
               </>
             ) : (
               <>
-                <Eye className="w-4 h-4 ms-2 text-[#C9A96E]" />
+                <Eye className="w-4 h-4 ms-2 text-[#13213c]" />
                 <span>إظهار المعاينة الحية</span>
               </>
             )}
@@ -305,7 +305,7 @@ export default function HeroSlidesClient({ initialSlides, settings }: HeroSlides
             type="button"
             onClick={handleOpenCreate}
             className="h-11 px-6 rounded-xl font-black text-white text-xs sm:text-sm cursor-pointer shadow-md hover:-translate-y-0.5 transition-all w-full sm:w-auto"
-            style={{ background: 'linear-gradient(135deg, #C9A96E 0%, #A07850 100%)' }}
+            style={{ background: 'linear-gradient(135deg, #22385e 0%, #13213c 100%)' }}
           >
             <Plus className="w-4 h-4 ms-2" />
             <span>إضافة شريحة جديدة</span>
@@ -339,14 +339,14 @@ export default function HeroSlidesClient({ initialSlides, settings }: HeroSlides
             <Link 
               href="/" 
               target="_blank" 
-              className="inline-flex items-center gap-1.5 text-xs font-black text-[#A07850] hover:text-[#8C6838] mt-2 underline"
+              className="inline-flex items-center gap-1.5 text-xs font-black text-[#13213c] hover:text-[#13213c] mt-2 underline"
             >
               <span>فتح المتجر المباشر</span>
               <ExternalLink className="w-3.5 h-3.5" />
             </Link>
           </div>
-          <div className="w-10 h-10 rounded-xl bg-[#FBF6EE] flex items-center justify-center text-[#A07850]">
-            <Layers className="w-5 h-5 text-[#C9A96E]" />
+          <div className="w-10 h-10 rounded-xl bg-[#F0F4F9] flex items-center justify-center text-[#13213c]">
+            <Layers className="w-5 h-5 text-[#13213c]" />
           </div>
         </div>
       </div>
@@ -361,12 +361,12 @@ export default function HeroSlidesClient({ initialSlides, settings }: HeroSlides
             transition={{ duration: 0.3 }}
             className="overflow-hidden"
           >
-            <div className="bg-[#1C1917] p-6 sm:p-8 rounded-3xl border border-[#C9A96E]/30 text-white relative shadow-lg">
+            <div className="bg-[#0c1424] p-6 sm:p-8 rounded-3xl border border-[#22385e]/40 text-white relative shadow-lg">
               
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6 pb-4 border-b border-white/10">
                 <div className="flex items-center gap-2.5">
                   <span className="w-3 h-3 rounded-full bg-emerald-500 animate-pulse" />
-                  <span className="text-xs font-black text-[#C9A96E]">
+                  <span className="text-xs font-black text-[#7ea6e6]">
                     محاكي العرض التفاعلي الحي (Real-time Storefront Simulator)
                   </span>
                 </div>
@@ -409,7 +409,7 @@ export default function HeroSlidesClient({ initialSlides, settings }: HeroSlides
                       sizes="500px"
                       className="object-cover"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#1C1917]/95 via-[#1C1917]/30 to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#0c1424]/95 via-[#0c1424]/30 to-transparent" />
                     
                     {/* Top Tag */}
                     {currentPreviewSlide.tag && (
@@ -431,7 +431,7 @@ export default function HeroSlidesClient({ initialSlides, settings }: HeroSlides
                           {currentPreviewSlide.subtitle}
                         </p>
                       )}
-                      <div className="inline-flex items-center gap-1.5 text-xs font-bold text-[#C9A96E]">
+                      <div className="inline-flex items-center gap-1.5 text-xs font-bold text-[#7ea6e6]">
                         <span>تصفح هذه المجموعة الآن</span>
                         <ChevronLeft className="w-3.5 h-3.5" />
                       </div>
@@ -441,7 +441,7 @@ export default function HeroSlidesClient({ initialSlides, settings }: HeroSlides
 
                 {/* Floating Mockup Badges */}
                 <div className="hidden sm:flex items-center gap-2.5 absolute -top-3 -start-3 bg-white/95 text-[#1C1917] rounded-xl p-2.5 shadow-lg border border-[#E8E4DF] z-20">
-                  <Award className="w-4 h-4 text-[#C9A96E]" />
+                  <Award className="w-4 h-4 text-[#13213c]" />
                   <div className="text-[10px] font-black text-start">
                     <p className="text-[#78716C]">{settings?.heroBadgeTopSmall || 'جودة أصلية ومضمونة'}</p>
                     <p>{settings?.heroBadgeTopBold || 'ضمان استبدال واسترجاع'}</p>
@@ -466,7 +466,7 @@ export default function HeroSlidesClient({ initialSlides, settings }: HeroSlides
                     onClick={() => setPreviewSlideIdx(idx)}
                     className={cn(
                       "h-2 rounded-full transition-all cursor-pointer",
-                      idx === safePreviewIdx ? "w-8 bg-[#C9A96E]" : "w-2 bg-white/30 hover:bg-white/60"
+                      idx === safePreviewIdx ? "w-8 bg-[#13213c]" : "w-2 bg-white/30 hover:bg-white/60"
                     )}
                   />
                 ))}
@@ -502,7 +502,7 @@ export default function HeroSlidesClient({ initialSlides, settings }: HeroSlides
               type="button"
               onClick={handleOpenCreate}
               className="h-10 px-5 rounded-xl font-black text-white text-xs cursor-pointer shadow-sm mt-2"
-              style={{ background: 'linear-gradient(135deg, #C9A96E 0%, #A07850 100%)' }}
+              style={{ background: 'linear-gradient(135deg, #22385e 0%, #13213c 100%)' }}
             >
               <Plus className="w-4 h-4 ms-1.5" />
               <span>إضافة أول شريحة</span>
@@ -516,7 +516,7 @@ export default function HeroSlidesClient({ initialSlides, settings }: HeroSlides
                 className={cn(
                   "p-5 sm:p-6 rounded-3xl bg-white border transition-all shadow-[0_2px_12px_rgba(0,0,0,0.02)] flex flex-col md:flex-row items-stretch md:items-center justify-between gap-5",
                   slide.isActive 
-                    ? "border-[#E8E4DF] hover:border-[#C9A96E]/50" 
+                    ? "border-[#E8E4DF] hover:border-[#13213c]/50" 
                     : "border-dashed border-stone-300 bg-stone-50/60 opacity-80"
                 )}
               >
@@ -535,7 +535,7 @@ export default function HeroSlidesClient({ initialSlides, settings }: HeroSlides
                     >
                       <ArrowUp className="w-4 h-4" />
                     </button>
-                    <span className="text-xs font-black text-[#A07850] px-2 py-0.5 rounded-md bg-[#FBF6EE]">
+                    <span className="text-xs font-black text-[#13213c] px-2 py-0.5 rounded-md bg-[#F0F4F9]">
                       #{index + 1}
                     </span>
                     <button
@@ -621,7 +621,7 @@ export default function HeroSlidesClient({ initialSlides, settings }: HeroSlides
                     onClick={() => handleOpenEdit(slide)}
                     className="h-10 px-3.5 rounded-xl border-[#E8E4DF] text-[#1C1917] hover:bg-[#FAFAF8] font-bold text-xs cursor-pointer flex items-center gap-1.5"
                   >
-                    <Edit3 className="w-3.5 h-3.5 text-[#C9A96E]" />
+                    <Edit3 className="w-3.5 h-3.5 text-[#13213c]" />
                     <span>تعديل</span>
                   </Button>
 
@@ -701,7 +701,7 @@ export default function HeroSlidesClient({ initialSlides, settings }: HeroSlides
                       )}
                       {isUploading && (
                         <div className="absolute inset-0 bg-black/50 backdrop-blur-xs flex flex-col items-center justify-center text-white">
-                          <Loader2 className="w-6 h-6 animate-spin text-[#C9A96E] mb-1" />
+                          <Loader2 className="w-6 h-6 animate-spin text-[#13213c] mb-1" />
                           <span className="text-xs font-bold">جاري الرفع...</span>
                         </div>
                       )}
@@ -726,9 +726,9 @@ export default function HeroSlidesClient({ initialSlides, settings }: HeroSlides
                           variant="outline"
                           onClick={() => document.getElementById('slide-modal-file-input')?.click()}
                           disabled={isUploading}
-                          className="w-full h-11 rounded-xl border-[#C9A96E]/40 text-[#A07850] hover:bg-[#FBF6EE] font-bold text-xs cursor-pointer flex items-center justify-center gap-2"
+                          className="w-full h-11 rounded-xl border-[#13213c]/40 text-[#13213c] hover:bg-[#F0F4F9] font-bold text-xs cursor-pointer flex items-center justify-center gap-2"
                         >
-                          <Upload className="w-4 h-4 text-[#C9A96E]" />
+                          <Upload className="w-4 h-4 text-[#13213c]" />
                           <span>رفع صورة جديدة من جهازك مباشرة</span>
                         </Button>
                       </div>
@@ -800,7 +800,7 @@ export default function HeroSlidesClient({ initialSlides, settings }: HeroSlides
                         className={cn(
                           "text-[10px] font-bold px-2 py-0.5 rounded-full border transition-all cursor-pointer",
                           formTag === tag
-                            ? "bg-[#C9A96E] text-white border-[#C9A96E]"
+                            ? "bg-[#13213c] text-white border-[#13213c]"
                             : "bg-[#FAFAF8] text-[#78716C] border-[#E8E4DF] hover:bg-[#F2EFE9]"
                         )}
                       >
@@ -868,7 +868,7 @@ export default function HeroSlidesClient({ initialSlides, settings }: HeroSlides
                     type="submit"
                     disabled={isPending || isUploading}
                     className="h-11 px-7 rounded-xl font-black text-white text-xs cursor-pointer shadow-md"
-                    style={{ background: 'linear-gradient(135deg, #C9A96E 0%, #A07850 100%)' }}
+                    style={{ background: 'linear-gradient(135deg, #22385e 0%, #13213c 100%)' }}
                   >
                     {isPending ? (
                       <>

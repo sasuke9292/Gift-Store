@@ -13,13 +13,13 @@ export default async function AboutPage() {
   return (
     <div className="min-h-screen bg-[#FAFAF8] pb-20" dir="rtl">
       {/* Hero */}
-      <section className="relative bg-[#1C1917] text-white py-24 px-4 overflow-hidden">
-        <div className="absolute inset-0 opacity-10"
-          style={{ backgroundImage: 'radial-gradient(circle, #C9A96E 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
-        <div className="absolute top-0 end-0 w-96 h-96 bg-[#C9A96E]/10 rounded-full blur-[100px]" />
+      <section className="relative bg-[#0c1424] text-white py-24 px-4 overflow-hidden">
+        <div className="absolute inset-0 opacity-15"
+          style={{ backgroundImage: 'radial-gradient(circle, #22385e 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
+        <div className="absolute top-0 end-0 w-96 h-96 bg-[#22385e]/25 rounded-full blur-[100px]" />
         <div className="max-w-4xl mx-auto text-center relative z-10">
-          <div className="w-16 h-16 rounded-2xl bg-[#C9A96E]/15 border border-[#C9A96E]/25 flex items-center justify-center mx-auto mb-6">
-            <Info className="w-8 h-8 text-[#C9A96E]" />
+          <div className="w-16 h-16 rounded-2xl bg-[#22385e]/40 border border-[#3b5e94]/40 flex items-center justify-center mx-auto mb-6">
+            <Info className="w-8 h-8 text-[#7ea6e6]" />
           </div>
           <h1 className="text-4xl sm:text-5xl font-black mb-4 tracking-tight">من نحن</h1>
           <p className="text-white/60 text-lg max-w-2xl mx-auto">
@@ -42,7 +42,7 @@ export default async function AboutPage() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8 text-start">
           {[
             { icon: Heart, title: 'بكل محبة', desc: 'نختار كل منتج بعناية لنضمن أنه يحمل قيمة حقيقية ويعبّر عن المشاعر بأجمل صورة.', color: '#E85D75', bg: '#FDF2F4' },
-            { icon: Award, title: 'جودة بلا تنازل', desc: 'كل منتج يمر بمعايير صارمة للجودة قبل وصوله إليك لضمان رضاك التام.', color: '#C9A96E', bg: '#FBF6EE' },
+            { icon: Award, title: 'جودة بلا تنازل', desc: 'كل منتج يمر بمعايير صارمة للجودة قبل وصوله إليك لضمان رضاك التام.', color: '#13213c', bg: '#F0F4F9' },
             { icon: Shield, title: 'ثقة وأمان', desc: 'نحرص على بناء علاقة ثقة مع كل عميل من خلال الشفافية والنزاهة في كل تعامل.', color: '#10B981', bg: '#F0FDF9' },
           ].map((item) => (
             <div key={item.title} className="bg-white rounded-2xl border border-[#E8E4DF] p-7 shadow-[0_1px_3px_rgba(0,0,0,0.04)]">
@@ -56,7 +56,7 @@ export default async function AboutPage() {
         </div>
 
         {/* Stats */}
-        <div className="bg-[#1C1917] rounded-3xl p-10 text-white text-center mb-8">
+        <div className="bg-[#0c1424] border border-[#22385e]/40 rounded-3xl p-10 text-white text-center mb-8">
           <div className="grid grid-cols-3 gap-8">
             {[
               { value: settings?.stat1Value || '+15K', label: settings?.stat1Label || 'عميل سعيد' },
@@ -64,7 +64,7 @@ export default async function AboutPage() {
               { value: settings?.stat3Value || '100%', label: settings?.stat3Label || 'تغليف ملكي مجاني' },
             ].map(stat => (
               <div key={stat.label}>
-                <p className="text-3xl font-black text-[#C9A96E]">{stat.value}</p>
+                <p className="text-3xl font-black text-[#7ea6e6]">{stat.value}</p>
                 <p className="text-white/60 text-sm mt-1">{stat.label}</p>
               </div>
             ))}
@@ -75,7 +75,7 @@ export default async function AboutPage() {
           <Link
             href="/shop"
             className="inline-flex items-center gap-2 h-12 px-8 rounded-xl font-bold text-white transition-all hover:-translate-y-0.5"
-            style={{ background: 'linear-gradient(135deg, #C9A96E 0%, #A07850 100%)' }}
+            style={{ background: 'linear-gradient(135deg, #22385e 0%, #13213c 100%)' }}
           >
             تسوق الآن
             <ArrowLeft className="w-4 h-4" />

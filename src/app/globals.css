@@ -60,36 +60,36 @@
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.17 0.01 60);
   
-  /* Primary — Champagne Gold */
-  --primary: oklch(0.72 0.11 72);            /* #C9A96E warm gold */
+  /* Primary — Royal Navy #13213c */
+  --primary: oklch(0.251 0.055 262.4);       /* #13213c royal midnight navy */
   --primary-foreground: oklch(1 0 0);         /* White on primary */
   
-  /* Secondary — Cream/Off-white */
-  --secondary: oklch(0.96 0.01 80);          /* #F5F0EA */
-  --secondary-foreground: oklch(0.3 0.01 60);
+  /* Secondary — Soft Ice / Cool Slate */
+  --secondary: oklch(0.96 0.01 260);          /* #EEF2F6 */
+  --secondary-foreground: oklch(0.25 0.04 260);
   
   /* Muted */
-  --muted: oklch(0.96 0.008 75);
-  --muted-foreground: oklch(0.55 0.02 60);   /* Warm gray */
+  --muted: oklch(0.96 0.008 260);
+  --muted-foreground: oklch(0.55 0.02 260);
   
   /* Accent */
-  --accent: oklch(0.95 0.015 80);
-  --accent-foreground: oklch(0.3 0.01 60);
+  --accent: oklch(0.95 0.015 260);
+  --accent-foreground: oklch(0.25 0.04 260);
   
   /* Destructive */
   --destructive: oklch(0.58 0.2 25);
   
   /* Borders & inputs */
-  --border: oklch(0.9 0.01 75);              /* #E8E4DF soft warm border */
-  --input: oklch(0.92 0.01 75);
-  --ring: oklch(0.72 0.11 72);              /* Gold ring */
+  --border: oklch(0.9 0.01 260);              /* #E2E8F0 soft cool border */
+  --input: oklch(0.92 0.01 260);
+  --ring: oklch(0.343 0.073 260.7);           /* Navy ring #22385e */
   
   /* Charts */
-  --chart-1: oklch(0.72 0.11 72);           /* Gold */
-  --chart-2: oklch(0.65 0.16 250);          /* Blue */
-  --chart-3: oklch(0.55 0.18 160);          /* Green */
-  --chart-4: oklch(0.6 0.18 25);            /* Rose */
-  --chart-5: oklch(0.75 0.12 300);          /* Purple */
+  --chart-1: oklch(0.251 0.055 262.4);       /* Navy */
+  --chart-2: oklch(0.45 0.12 250);           /* Slate Blue */
+  --chart-3: oklch(0.55 0.18 160);           /* Green */
+  --chart-4: oklch(0.6 0.18 25);             /* Rose */
+  --chart-5: oklch(0.75 0.12 300);           /* Purple */
   
   /* Border radius */
   --radius: 0.875rem;
@@ -97,12 +97,12 @@
   /* Sidebar — light admin style */
   --sidebar: oklch(0.985 0.004 80);
   --sidebar-foreground: oklch(0.17 0.01 60);
-  --sidebar-primary: oklch(0.72 0.11 72);
+  --sidebar-primary: oklch(0.251 0.055 262.4);
   --sidebar-primary-foreground: oklch(1 0 0);
-  --sidebar-accent: oklch(0.95 0.015 80);
-  --sidebar-accent-foreground: oklch(0.3 0.01 60);
-  --sidebar-border: oklch(0.9 0.01 75);
-  --sidebar-ring: oklch(0.72 0.11 72);
+  --sidebar-accent: oklch(0.95 0.015 260);
+  --sidebar-accent-foreground: oklch(0.25 0.04 260);
+  --sidebar-border: oklch(0.9 0.01 260);
+  --sidebar-ring: oklch(0.343 0.073 260.7);
 }
 
 /* ===== DARK THEME (Admin panel retains dark for professional look) ===== */
@@ -113,7 +113,7 @@
   --card-foreground: oklch(0.97 0.01 260);
   --popover: oklch(0.16 0.03 260);
   --popover-foreground: oklch(0.97 0.01 260);
-  --primary: oklch(0.82 0.13 78);            /* Warm gold */
+  --primary: oklch(0.645 0.12 256.9);         /* Luminous sapphire #5c8fd6 */
   --primary-foreground: oklch(0.13 0.025 260);
   --secondary: oklch(0.2 0.035 260);
   --secondary-foreground: oklch(0.97 0.01 260);
@@ -124,20 +124,20 @@
   --destructive: oklch(0.58 0.2 25);
   --border: oklch(0.24 0.04 260);
   --input: oklch(0.24 0.04 260);
-  --ring: oklch(0.82 0.13 78);
-  --chart-1: oklch(0.82 0.13 78);
+  --ring: oklch(0.645 0.12 256.9);
+  --chart-1: oklch(0.645 0.12 256.9);
   --chart-2: oklch(0.62 0.18 250);
   --chart-3: oklch(0.82 0.08 240);
   --chart-4: oklch(0.52 0.2 230);
   --chart-5: oklch(0.88 0.06 220);
   --sidebar: oklch(0.11 0.03 260);
   --sidebar-foreground: oklch(0.97 0.01 260);
-  --sidebar-primary: oklch(0.82 0.13 78);
+  --sidebar-primary: oklch(0.645 0.12 256.9);
   --sidebar-primary-foreground: oklch(0.11 0.03 260);
   --sidebar-accent: oklch(0.18 0.04 260);
   --sidebar-accent-foreground: oklch(0.97 0.01 260);
   --sidebar-border: oklch(0.22 0.04 260);
-  --sidebar-ring: oklch(0.82 0.13 78);
+  --sidebar-ring: oklch(0.645 0.12 256.9);
 }
 
 @layer base {
@@ -205,30 +205,30 @@
     @apply transition-all duration-300 hover:shadow-[0_8px_30px_rgba(0,0,0,0.1)] hover:-translate-y-1;
   }
 
-  /* Gold gradient text */
+  /* Royal Navy gradient text */
   .text-gold {
-    @apply text-transparent bg-clip-text bg-gradient-to-br from-[#B8893A] via-[#C9A96E] to-[#E8C97A];
+    @apply text-transparent bg-clip-text bg-gradient-to-br from-[#13213c] via-[#22385e] to-[#3b5e94];
   }
   
   /* Warm gradient background */
   .bg-warm {
-    background: linear-gradient(135deg, #FAFAF8 0%, #F8F4EF 50%, #FAF7F2 100%);
+    background: linear-gradient(135deg, #FAFAF8 0%, #F0F4F9 50%, #FAF7F2 100%);
   }
   
-  /* Premium gold button gradient */
+  /* Premium royal navy button gradient */
   .btn-gold {
-    background: linear-gradient(135deg, #C9A96E 0%, #B8893A 50%, #C9A96E 100%);
+    background: linear-gradient(135deg, #22385e 0%, #1a2c4e 50%, #13213c 100%);
     background-size: 200% auto;
-    @apply text-white font-bold transition-all duration-500 shadow-[0_4px_15px_rgba(184,137,58,0.3)];
+    @apply text-white font-bold transition-all duration-500 shadow-[0_4px_15px_rgba(19,33,60,0.3)];
   }
   .btn-gold:hover {
     background-position: right center;
-    @apply shadow-[0_6px_20px_rgba(184,137,58,0.45)] -translate-y-0.5;
+    @apply shadow-[0_6px_20px_rgba(19,33,60,0.45)] -translate-y-0.5;
   }
   
-  /* Subtle gold border */
+  /* Subtle navy border */
   .border-gold {
-    @apply border border-[#C9A96E]/30;
+    @apply border border-[#13213c]/25;
   }
 
   /* Section divider */
@@ -248,7 +248,7 @@
   
   /* Badge new */
   .badge-new {
-    @apply bg-[#C9A96E] text-white text-[11px] font-black px-2.5 py-1 rounded-full;
+    @apply bg-[#13213c] text-white text-[11px] font-black px-2.5 py-1 rounded-full;
   }
   
   /* ===== DARK ADMIN UTILITIES ===== */
@@ -264,7 +264,7 @@
   
   /* Focus ring */
   .focus-ring {
-    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C9A96E]/50 focus-visible:ring-offset-1;
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#13213c]/40 focus-visible:ring-offset-1;
   }
 }
 

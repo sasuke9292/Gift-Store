@@ -41,10 +41,10 @@ export default function AdminLoginClient() {
   return (
     <div className="min-h-screen bg-[#FAFAF8] flex flex-col justify-center py-12 sm:px-6 lg:px-8 relative overflow-hidden" dir="rtl">
       {/* Background decorations */}
-      <div className="absolute top-0 start-0 w-[500px] h-[500px] bg-[#C9A96E]/8 rounded-full blur-[120px] -translate-y-1/2" />
-      <div className="absolute bottom-0 end-0 w-[400px] h-[400px] bg-[#C9A96E]/5 rounded-full blur-[100px] translate-y-1/2" />
+      <div className="absolute top-0 start-0 w-[500px] h-[500px] bg-[#13213c]/8 rounded-full blur-[120px] -translate-y-1/2" />
+      <div className="absolute bottom-0 end-0 w-[400px] h-[400px] bg-[#13213c]/5 rounded-full blur-[100px] translate-y-1/2" />
       <div className="absolute inset-0 opacity-[0.015]"
-        style={{ backgroundImage: 'radial-gradient(circle, #C9A96E 1px, transparent 1px)', backgroundSize: '32px 32px' }} />
+        style={{ backgroundImage: 'radial-gradient(circle, #13213c 1px, transparent 1px)', backgroundSize: '32px 32px' }} />
 
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -54,8 +54,8 @@ export default function AdminLoginClient() {
       >
         {/* Header */}
         <div className="text-center mb-8">
-          <div className="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-5 shadow-[0_8px_24px_rgba(201,169,110,0.3)]"
-            style={{ background: 'linear-gradient(135deg, #C9A96E 0%, #A07850 100%)' }}>
+          <div className="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-5 shadow-[0_8px_24px_rgba(19, 33, 60,0.3)]"
+            style={{ background: 'linear-gradient(135deg, #22385e 0%, #13213c 100%)' }}>
             <Shield className="w-8 h-8 text-white" />
           </div>
           <h1 className="text-3xl font-black text-[#1C1917] tracking-tight">بوابة الإدارة</h1>
@@ -77,7 +77,7 @@ export default function AdminLoginClient() {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="ps-10 h-12 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-[#1C1917] placeholder:text-[#C8C4BE] focus-visible:ring-[#C9A96E]/30 focus-visible:border-[#C9A96E]/50"
+                  className="ps-10 h-12 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-[#1C1917] placeholder:text-[#C8C4BE] focus-visible:ring-[#13213c]/30 focus-visible:border-[#13213c]/50"
                   placeholder="name@example.com"
                   dir="ltr"
                 />
@@ -96,7 +96,7 @@ export default function AdminLoginClient() {
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="ps-10 h-12 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-[#1C1917] placeholder:text-[#C8C4BE] focus-visible:ring-[#C9A96E]/30 focus-visible:border-[#C9A96E]/50"
+                  className="ps-10 h-12 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-[#1C1917] placeholder:text-[#C8C4BE] focus-visible:ring-[#13213c]/30 focus-visible:border-[#13213c]/50"
                   placeholder="••••••••"
                 />
               </div>
@@ -107,11 +107,11 @@ export default function AdminLoginClient() {
               <label className="flex items-center gap-2 cursor-pointer">
                 <input
                   type="checkbox"
-                  className="w-4 h-4 rounded border-[#E8E4DF] accent-[#C9A96E]"
+                  className="w-4 h-4 rounded border-[#E8E4DF] accent-[#13213c]"
                 />
                 <span className="text-sm text-[#78716C]">تذكرني</span>
               </label>
-              <a href="#" className="text-sm font-semibold text-[#C9A96E] hover:text-[#A07850] transition-colors">
+              <a href="#" className="text-sm font-semibold text-[#13213c] hover:text-[#13213c] transition-colors">
                 نسيت كلمة المرور؟
               </a>
             </div>
@@ -120,8 +120,8 @@ export default function AdminLoginClient() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full h-12 rounded-xl font-bold text-white transition-all hover:-translate-y-0.5 hover:shadow-[0_6px_20px_rgba(184,137,58,0.35)] disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:translate-y-0 flex items-center justify-center gap-2"
-              style={{ background: 'linear-gradient(135deg, #C9A96E 0%, #A07850 100%)' }}
+              className="w-full h-12 rounded-xl font-bold text-white transition-all hover:-translate-y-0.5 hover:shadow-[0_6px_20px_rgba(19, 33, 60,0.35)] disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:translate-y-0 flex items-center justify-center gap-2"
+              style={{ background: 'linear-gradient(135deg, #22385e 0%, #13213c 100%)' }}
             >
               {loading ? (
                 <>
@@ -137,7 +137,7 @@ export default function AdminLoginClient() {
           <div className="mt-6 pt-6 border-t border-[#E8E4DF] text-center">
             <Link
               href="/"
-              className="inline-flex items-center gap-1.5 text-sm text-[#78716C] hover:text-[#C9A96E] transition-colors font-medium"
+              className="inline-flex items-center gap-1.5 text-sm text-[#78716C] hover:text-[#13213c] transition-colors font-medium"
             >
               <ArrowLeft className="w-4 h-4" />
               العودة إلى متجر العملاء

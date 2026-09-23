@@ -93,8 +93,8 @@ const features = [
     icon: Truck,
     title: 'شحن سريع وموثوق',
     desc: 'توصيل لكافة محافظات العراق خلال 24 - 48 ساعة مع تتبع فوري للشحنة',
-    color: '#C9A96E',
-    bg: '#FBF6EE',
+    color: '#13213c',
+    bg: '#F0F4F9',
   },
   {
     icon: Sparkles,
@@ -198,8 +198,8 @@ export default function StoreHomeClient({
       icon: Truck,
       title: settings?.feature1Title || 'شحن سريع وموثوق',
       desc: settings?.feature1Desc || 'توصيل لكافة محافظات العراق خلال 24 - 48 ساعة مع تتبع فوري للشحنة',
-      color: '#C9A96E',
-      bg: '#FBF6EE',
+      color: '#13213c',
+      bg: '#F0F4F9',
     },
     {
       icon: Sparkles,
@@ -244,7 +244,7 @@ export default function StoreHomeClient({
       {/* ========================================================================= */}
       <section className="relative overflow-hidden pt-6 pb-16 lg:py-20 flex flex-col justify-center">
         {/* Soft Luxury Glow Backgrounds */}
-        <div className="absolute top-0 start-1/4 w-[500px] h-[500px] bg-[#C9A96E]/10 rounded-full blur-[140px] pointer-events-none -z-10" />
+        <div className="absolute top-0 start-1/4 w-[500px] h-[500px] bg-[#13213c]/10 rounded-full blur-[140px] pointer-events-none -z-10" />
         <div className="absolute bottom-10 end-10 w-[450px] h-[450px] bg-[#E85D75]/6 rounded-full blur-[120px] pointer-events-none -z-10" />
         
         {/* Subtle geometric dot matrix */}
@@ -267,9 +267,9 @@ export default function StoreHomeClient({
                 initial={{ opacity: 0, y: 14 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4 }}
-                className="inline-flex items-center gap-2 bg-[#FBF6EE] border border-[#C9A96E]/30 rounded-full px-4 py-2 text-xs sm:text-sm font-bold text-[#8C6838] mb-6 shadow-2xs"
+                className="inline-flex items-center gap-2 bg-[#F0F4F9] border border-[#13213c]/30 rounded-full px-4 py-2 text-xs sm:text-sm font-bold text-[#13213c] mb-6 shadow-2xs"
               >
-                <Sparkles className="w-4 h-4 text-[#C9A96E] animate-pulse" />
+                <Sparkles className="w-4 h-4 text-[#13213c] animate-pulse" />
                 <span>{settings?.heroBadge || heroBadge || 'التشكيلة الجديدة لعام 2026 • تغليف ملكي مجاني'}</span>
               </motion.div>
 
@@ -286,7 +286,7 @@ export default function StoreHomeClient({
                   <>
                     <span>لحظاتك الثمينة</span>
                     <br />
-                    <span className="text-transparent bg-clip-text bg-gradient-to-l from-[#8C6838] via-[#C9A96E] to-[#A07850]">
+                    <span className="text-transparent bg-clip-text bg-gradient-to-l from-[#13213c] via-[#22385e] to-[#3b5e94]">
                       تستحق أفخم الهدايا.
                     </span>
                   </>
@@ -320,7 +320,7 @@ export default function StoreHomeClient({
                   <Link
                     key={chip.label}
                     href={chip.href}
-                    className="text-xs font-bold px-3 py-1.5 rounded-xl bg-white border border-[#E8E4DF] hover:border-[#C9A96E] hover:bg-[#FBF6EE] text-[#44403C] hover:text-[#8C6838] transition-all"
+                    className="text-xs font-bold px-3 py-1.5 rounded-xl bg-white border border-[#E8E4DF] hover:border-[#13213c] hover:bg-[#F0F4F9] text-[#44403C] hover:text-[#13213c] transition-all"
                   >
                     {chip.label}
                   </Link>
@@ -338,8 +338,8 @@ export default function StoreHomeClient({
                   href={settings?.heroPrimaryBtnLink || '/shop'}
                   className="group flex items-center justify-center gap-2.5 h-13 sm:h-14 px-8 sm:px-9 rounded-2xl text-white font-extrabold text-base transition-all hover:-translate-y-0.5"
                   style={{
-                    background: 'linear-gradient(135deg, #C9A96E 0%, #A07850 100%)',
-                    boxShadow: '0 6px 24px rgba(184,137,58,0.38)'
+                    background: 'linear-gradient(135deg, #22385e 0%, #13213c 100%)',
+                    boxShadow: '0 6px 24px rgba(19, 33, 60,0.38)'
                   }}
                 >
                   <span>{settings?.heroPrimaryBtnText || 'استكشف التشكيلة الفاخرة'}</span>
@@ -348,9 +348,9 @@ export default function StoreHomeClient({
 
                 <Link
                   href={settings?.heroSecondaryBtnLink || '/gift-finder'}
-                  className="flex items-center justify-center gap-2 h-13 sm:h-14 px-7 rounded-2xl font-extrabold text-[#1C1917] bg-white border border-[#E8E4DF] hover:border-[#C9A96E]/50 hover:bg-[#FBF6EE] transition-all hover:-translate-y-0.5 shadow-xs"
+                  className="flex items-center justify-center gap-2 h-13 sm:h-14 px-7 rounded-2xl font-extrabold text-[#1C1917] bg-white border border-[#E8E4DF] hover:border-[#13213c]/50 hover:bg-[#F0F4F9] transition-all hover:-translate-y-0.5 shadow-xs"
                 >
-                  <Sparkles className="w-4 h-4 text-[#C9A96E]" />
+                  <Sparkles className="w-4 h-4 text-[#13213c]" />
                   <span>{settings?.heroSecondaryBtnText || 'مكتشف الهدايا الذكي'}</span>
                 </Link>
               </motion.div>
@@ -368,13 +368,13 @@ export default function StoreHomeClient({
                 </div>
                 <div>
                   <div className="flex items-center gap-1 text-2xl sm:text-3xl font-black text-[#1C1917]">
-                    <span className="text-[#C9A96E] text-xl">★</span>
+                    <span className="text-[#13213c] text-xl">★</span>
                     <span dir="ltr">{settings?.stat2Value || '4.9'}</span>
                   </div>
                   <p className="text-xs text-[#78716C] font-semibold mt-0.5">{settings?.stat2Label || 'تقييم ممتاز موثق'}</p>
                 </div>
                 <div>
-                  <p className="text-2xl sm:text-3xl font-black text-[#8C6838]">{settings?.stat3Value || '100%'}</p>
+                  <p className="text-2xl sm:text-3xl font-black text-[#13213c]">{settings?.stat3Value || '100%'}</p>
                   <p className="text-xs text-[#78716C] font-semibold mt-0.5">{settings?.stat3Label || 'تغليف ملكي مجاني'}</p>
                 </div>
               </motion.div>
@@ -426,7 +426,7 @@ export default function StoreHomeClient({
                         </p>
                         <Link
                           href={currentSlide.link}
-                          className="inline-flex items-center gap-2 text-xs sm:text-sm font-bold text-[#C9A96E] hover:text-white transition-colors"
+                          className="inline-flex items-center gap-2 text-xs sm:text-sm font-bold text-[#7ea6e6] hover:text-white transition-colors"
                         >
                           <span>تصفح هذه المجموعة الآن</span>
                           <ArrowLeft className="w-4 h-4" />
@@ -460,8 +460,8 @@ export default function StoreHomeClient({
                   transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
                   className="hidden sm:flex items-center gap-3 absolute -top-5 -start-6 bg-white/95 backdrop-blur-xl rounded-2xl p-3.5 shadow-[0_12px_30px_rgba(0,0,0,0.12)] border border-[#E8E4DF] z-20"
                 >
-                  <div className="w-10 h-10 rounded-xl bg-[#FBF6EE] flex items-center justify-center shrink-0">
-                    <Award className="w-5 h-5 text-[#C9A96E]" />
+                  <div className="w-10 h-10 rounded-xl bg-[#F0F4F9] flex items-center justify-center shrink-0">
+                    <Award className="w-5 h-5 text-[#13213c]" />
                   </div>
                   <div className="text-start">
                     <p className="text-[11px] text-[#A8A29E] font-bold">{settings?.heroBadgeTopSmall || 'جودة أصلية ومضمونة'}</p>
@@ -493,7 +493,7 @@ export default function StoreHomeClient({
                       className={cn(
                         "h-2 rounded-full transition-all duration-300 cursor-pointer",
                         safeSlideIndex === idx 
-                          ? "w-8 bg-[#C9A96E]" 
+                          ? "w-8 bg-[#13213c]" 
                           : "w-2 bg-[#E8E4DF] hover:bg-[#A8A29E]"
                       )}
                       aria-label={`شريحة ${idx + 1}`}
@@ -516,7 +516,7 @@ export default function StoreHomeClient({
             {dynamicFeatures.map((feature, idx) => (
               <div
                 key={idx}
-                className="flex items-start gap-4 p-5 rounded-2xl bg-[#FAFAF8] border border-[#E8E4DF]/80 hover:border-[#C9A96E]/40 hover:bg-white hover:shadow-[0_8px_25px_rgba(201,169,110,0.1)] transition-all duration-300 text-start group"
+                className="flex items-start gap-4 p-5 rounded-2xl bg-[#FAFAF8] border border-[#E8E4DF]/80 hover:border-[#13213c]/40 hover:bg-white hover:shadow-[0_8px_25px_rgba(19, 33, 60,0.1)] transition-all duration-300 text-start group"
               >
                 <div
                   className="w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 transition-transform group-hover:scale-110 shadow-2xs"
@@ -544,8 +544,8 @@ export default function StoreHomeClient({
             {/* Header */}
             <div className="flex items-end justify-between mb-10 text-start">
               <div>
-                <p className="text-xs font-extrabold text-[#A07850] uppercase tracking-widest mb-1.5 flex items-center gap-1">
-                  <Sparkles className="w-3.5 h-3.5 text-[#C9A96E]" />
+                <p className="text-xs font-extrabold text-[#13213c] uppercase tracking-widest mb-1.5 flex items-center gap-1">
+                  <Sparkles className="w-3.5 h-3.5 text-[#13213c]" />
                   تشكيلات منتقاة بعناية
                 </p>
                 <h2 className="text-2xl sm:text-4xl font-black text-[#1C1917] tracking-tight">
@@ -554,7 +554,7 @@ export default function StoreHomeClient({
               </div>
               <Link
                 href="/shop"
-                className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold text-[#8C6838] hover:text-[#1C1917] transition-colors"
+                className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold text-[#13213c] hover:text-[#1C1917] transition-colors"
               >
                 <span>جميع الأقسام</span>
                 <ArrowLeft className="w-4 h-4" />
@@ -585,8 +585,8 @@ export default function StoreHomeClient({
 
                   {/* Text Label */}
                   <div className="relative z-10 text-start">
-                    <p className="text-[10px] text-[#C9A96E] font-bold uppercase tracking-wider mb-0.5">تصفح</p>
-                    <h3 className="text-white font-black text-sm sm:text-base leading-snug group-hover:text-[#C9A96E] transition-colors">
+                    <p className="text-[10px] text-[#7ea6e6] font-bold uppercase tracking-wider mb-0.5">تصفح</p>
+                    <h3 className="text-white font-black text-sm sm:text-base leading-snug group-hover:text-[#7ea6e6] transition-colors">
                       {cat.name}
                     </h3>
                   </div>
@@ -669,21 +669,21 @@ export default function StoreHomeClient({
       <section className="py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <div 
-            className="relative rounded-3xl p-8 sm:p-12 lg:p-14 overflow-hidden border border-[#C9A96E]/30 text-start"
+            className="relative rounded-3xl p-8 sm:p-12 lg:p-14 overflow-hidden border border-[#13213c]/30 text-start"
             style={{
-              background: 'linear-gradient(135deg, #1C1917 0%, #292524 60%, #1C1917 100%)',
+              background: 'linear-gradient(135deg, #0c1424 0%, #13213c 60%, #0c1424 100%)',
               boxShadow: '0 20px 50px rgba(0,0,0,0.25)'
             }}
           >
             {/* Background Glows */}
-            <div className="absolute top-0 end-0 w-80 h-80 bg-[#C9A96E]/12 rounded-full blur-[100px] pointer-events-none" />
+            <div className="absolute top-0 end-0 w-80 h-80 bg-[#13213c]/12 rounded-full blur-[100px] pointer-events-none" />
             <div className="absolute bottom-0 start-0 w-80 h-80 bg-[#E85D75]/10 rounded-full blur-[100px] pointer-events-none" />
 
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
               
               {/* Left Content */}
               <div className="lg:col-span-6 text-start">
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-black bg-[#C9A96E]/20 text-[#C9A96E] border border-[#C9A96E]/30 mb-4">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-black bg-[#13213c]/20 text-[#13213c] border border-[#13213c]/30 mb-4">
                   <Sparkles className="w-3.5 h-3.5" />
                   مستشار الإهداء الذكي
                 </span>
@@ -694,15 +694,15 @@ export default function StoreHomeClient({
                   دع ذكاء المتجر يختار لك الهدية المثالية بناءً على الشخص والمناسبة وميزانيتك بضغطة زر واحدة.
                 </p>
                 <div className="flex items-center gap-4 text-xs text-white/70">
-                  <span className="flex items-center gap-1"><CheckCircle2 className="w-4 h-4 text-[#C9A96E]" /> توصيات دقيقة</span>
-                  <span className="flex items-center gap-1"><CheckCircle2 className="w-4 h-4 text-[#C9A96E]" /> وفر وقتك وجهدك</span>
-                  <span className="flex items-center gap-1"><CheckCircle2 className="w-4 h-4 text-[#C9A96E]" /> تغليف ملائم للمناسبة</span>
+                  <span className="flex items-center gap-1"><CheckCircle2 className="w-4 h-4 text-[#7ea6e6]" /> توصيات دقيقة</span>
+                  <span className="flex items-center gap-1"><CheckCircle2 className="w-4 h-4 text-[#7ea6e6]" /> وفر وقتك وجهدك</span>
+                  <span className="flex items-center gap-1"><CheckCircle2 className="w-4 h-4 text-[#7ea6e6]" /> تغليف ملائم للمناسبة</span>
                 </div>
               </div>
 
               {/* Right Mini-Interactive Widget */}
               <div className="lg:col-span-6 bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/15">
-                <p className="text-xs font-black text-[#C9A96E] mb-3">الخطوة 1: لمن الهدية؟</p>
+                <p className="text-xs font-black text-[#7ea6e6] mb-3">الخطوة 1: لمن الهدية؟</p>
                 <div className="grid grid-cols-3 gap-2 mb-4">
                   {[
                     { id: 'him', label: 'له 👨', href: '/category/men' },
@@ -715,7 +715,7 @@ export default function StoreHomeClient({
                       className={cn(
                         "py-2.5 px-3 rounded-xl text-xs font-bold transition-all border",
                         quizRecipient === item.id
-                          ? "bg-[#C9A96E] text-[#1C1917] border-[#C9A96E] font-black"
+                          ? "bg-[#22385e] text-white border-[#5c8fd6] font-black shadow-sm"
                           : "bg-white/5 text-white border-white/10 hover:bg-white/15"
                       )}
                     >
@@ -724,7 +724,7 @@ export default function StoreHomeClient({
                   ))}
                 </div>
 
-                <p className="text-xs font-black text-[#C9A96E] mb-3">الخطوة 2: حدد الميزانية التقريبية</p>
+                <p className="text-xs font-black text-[#7ea6e6] mb-3">الخطوة 2: حدد الميزانية التقريبية</p>
                 <div className="grid grid-cols-3 gap-2 mb-6">
                   {[
                     { id: '50k', label: 'أقل من 50 ألف د.ع' },
@@ -737,7 +737,7 @@ export default function StoreHomeClient({
                       className={cn(
                         "py-2 px-2 rounded-xl text-[11px] font-bold transition-all border",
                         quizBudget === b.id
-                          ? "bg-[#C9A96E] text-[#1C1917] border-[#C9A96E] font-black"
+                          ? "bg-[#22385e] text-white border-[#5c8fd6] font-black shadow-sm"
                           : "bg-white/5 text-white border-white/10 hover:bg-white/15"
                       )}
                     >
@@ -749,7 +749,7 @@ export default function StoreHomeClient({
                 <Link
                   href={quizRecipient ? `/category/${quizRecipient}` : '/gift-finder'}
                   className="flex items-center justify-center gap-2 w-full h-12 rounded-xl font-black text-[#1C1917] text-sm transition-all hover:brightness-110 shadow-lg"
-                  style={{ background: 'linear-gradient(135deg, #C9A96E 0%, #A07850 100%)' }}
+                  style={{ background: 'linear-gradient(135deg, #22385e 0%, #13213c 100%)' }}
                 >
                   <Sparkles className="w-4 h-4" />
                   <span>اعثر على الهدية الآن</span>
@@ -769,7 +769,7 @@ export default function StoreHomeClient({
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-start">
           
           <div className="text-center max-w-2xl mx-auto mb-14">
-            <p className="text-xs font-black text-[#A07850] uppercase tracking-widest mb-1.5 flex items-center justify-center gap-1">
+            <p className="text-xs font-black text-[#13213c] uppercase tracking-widest mb-1.5 flex items-center justify-center gap-1">
               <Heart className="w-3.5 h-3.5 text-[#E85D75] fill-[#E85D75]" />
               آراء حقيقية من عملائنا
             </p>
@@ -782,12 +782,12 @@ export default function StoreHomeClient({
             {testimonials.map((t) => (
               <div
                 key={t.id}
-                className="p-6 rounded-3xl bg-[#FAFAF8] border border-[#E8E4DF] hover:border-[#C9A96E]/40 hover:shadow-[0_8px_30px_rgba(201,169,110,0.08)] transition-all text-start flex flex-col"
+                className="p-6 rounded-3xl bg-[#FAFAF8] border border-[#E8E4DF] hover:border-[#13213c]/40 hover:shadow-[0_8px_30px_rgba(19, 33, 60,0.08)] transition-all text-start flex flex-col"
               >
                 {/* Stars */}
-                <div className="flex items-center gap-1 text-[#C9A96E] mb-3">
+                <div className="flex items-center gap-1 text-[#13213c] mb-3">
                   {[...Array(t.rating)].map((_, i) => (
-                    <Star key={i} className="w-4 h-4 fill-[#C9A96E]" />
+                    <Star key={i} className="w-4 h-4 fill-[#13213c]" />
                   ))}
                 </div>
 
@@ -800,7 +800,7 @@ export default function StoreHomeClient({
                     <p className="text-xs font-black text-[#1C1917]">{t.name}</p>
                     <p className="text-[11px] text-[#A8A29E]">{t.city}</p>
                   </div>
-                  <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#FBF6EE] text-[#8C6838] border border-[#C9A96E]/20">
+                  <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#F0F4F9] text-[#13213c] border border-[#13213c]/20">
                     {t.gift}
                   </span>
                 </div>

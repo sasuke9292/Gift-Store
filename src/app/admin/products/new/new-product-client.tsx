@@ -116,7 +116,7 @@ export default function NewProductClient({ categories }: { categories: Category[
           <div className="lg:col-span-2 space-y-6">
             <Card className="rounded-3xl border-[#E8E4DF] shadow-[0_2px_12px_rgba(0,0,0,0.03)] bg-white overflow-hidden p-6 sm:p-7 space-y-5">
               <h2 className="text-base font-black text-[#1C1917] pb-3 border-b border-[#E8E4DF] flex items-center gap-2">
-                <Package className="w-4 h-4 text-[#C9A96E]" />
+                <Package className="w-4 h-4 text-[#13213c]" />
                 المعلومات الأساسية
               </h2>
 
@@ -127,7 +127,7 @@ export default function NewProductClient({ categories }: { categories: Category[
                   value={product.name}
                   onChange={handleNameChange}
                   placeholder="مثال: ساعة يد كلاسيكية رجالية فاخرة"
-                  className="h-11 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-sm focus:border-[#C9A96E]/50 focus:bg-white"
+                  className="h-11 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-sm focus:border-[#13213c]/50 focus:bg-white"
                 />
               </div>
 
@@ -157,7 +157,7 @@ export default function NewProductClient({ categories }: { categories: Category[
             {/* Images Card */}
             <Card className="rounded-3xl border-[#E8E4DF] shadow-[0_2px_12px_rgba(0,0,0,0.03)] bg-white overflow-hidden p-6 sm:p-7 space-y-4">
               <h2 className="text-base font-black text-[#1C1917] pb-3 border-b border-[#E8E4DF] flex items-center gap-2">
-                <ImageIcon className="w-4 h-4 text-[#C9A96E]" />
+                <ImageIcon className="w-4 h-4 text-[#13213c]" />
                 صور المنتج
               </h2>
 
@@ -216,7 +216,7 @@ export default function NewProductClient({ categories }: { categories: Category[
                   required
                   value={product.categoryId}
                   onChange={(e) => setProduct({ ...product, categoryId: e.target.value })}
-                  className="w-full h-11 px-3 rounded-xl bg-[#FAFAF8] border border-[#E8E4DF] text-sm text-[#1C1917] focus:outline-none focus:border-[#C9A96E]/50 focus:bg-white cursor-pointer"
+                  className="w-full h-11 px-3 rounded-xl bg-[#FAFAF8] border border-[#E8E4DF] text-sm text-[#1C1917] focus:outline-none focus:border-[#13213c]/50 focus:bg-white cursor-pointer"
                 >
                   <option value="">اختر التصنيف...</option>
                   {categories.map((c) => (
@@ -265,7 +265,7 @@ export default function NewProductClient({ categories }: { categories: Category[
                 type="submit"
                 disabled={isSubmitting}
                 className="w-full h-12 rounded-xl text-white font-bold text-sm shadow-md transition-all hover:-translate-y-0.5 cursor-pointer mt-4"
-                style={{ background: 'linear-gradient(135deg, #C9A96E 0%, #A07850 100%)' }}
+                style={{ background: 'linear-gradient(135deg, #22385e 0%, #13213c 100%)' }}
               >
                 {isSubmitting ? (
                   <>

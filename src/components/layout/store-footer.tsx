@@ -68,10 +68,10 @@ export function StoreFooter({ settings }: StoreFooterProps) {
   const showCta = settings?.showFooterCta ?? true
 
   return (
-    <footer className="bg-[#1C1917] text-white/80 relative overflow-hidden text-start" dir="rtl">
-      {/* Subtle warm glow background effects */}
-      <div className="absolute top-0 start-1/4 w-96 h-96 bg-[#C9A96E]/8 rounded-full blur-[140px] pointer-events-none" />
-      <div className="absolute bottom-0 end-1/4 w-80 h-80 bg-[#E85D75]/6 rounded-full blur-[120px] pointer-events-none" />
+    <footer className="bg-[#0c1424] text-white/80 relative overflow-hidden text-start" dir="rtl">
+      {/* Subtle royal navy glow background effects */}
+      <div className="absolute top-0 start-1/4 w-96 h-96 bg-[#22385e]/25 rounded-full blur-[140px] pointer-events-none" />
+      <div className="absolute bottom-0 end-1/4 w-80 h-80 bg-[#13213c]/40 rounded-full blur-[120px] pointer-events-none" />
 
       {/* Optional Top CTA Banner */}
       {showCta && (
@@ -79,7 +79,7 @@ export function StoreFooter({ settings }: StoreFooterProps) {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-9">
             <div className="flex flex-col md:flex-row items-center justify-between gap-6">
               <div className="text-center md:text-start">
-                <span className="inline-flex items-center gap-1.5 text-xs font-bold text-[#C9A96E] mb-1.5">
+                <span className="inline-flex items-center gap-1.5 text-xs font-bold text-[#7ea6e6] mb-1.5">
                   <Gift className="w-3.5 h-3.5" />
                   {settings?.footerCtaBadge || 'خدمة استثنائية لكافة المناسبات'}
                 </span>
@@ -92,8 +92,8 @@ export function StoreFooter({ settings }: StoreFooterProps) {
               </div>
               <Link
                 href={settings?.footerCtaBtnLink || '/gift-finder'}
-                className="flex items-center gap-2 h-11 px-6 rounded-2xl font-black text-[#1C1917] transition-all hover:-translate-y-0.5 hover:shadow-[0_8px_25px_rgba(201,169,110,0.4)] shrink-0 text-xs sm:text-sm"
-                style={{ background: 'linear-gradient(135deg, #C9A96E 0%, #A07850 100%)' }}
+                className="flex items-center gap-2 h-11 px-6 rounded-2xl font-black text-white border border-[#3b5e94]/40 transition-all hover:-translate-y-0.5 hover:shadow-[0_8px_25px_rgba(19,33,60,0.6)] shrink-0 text-xs sm:text-sm"
+                style={{ background: 'linear-gradient(135deg, #22385e 0%, #13213c 100%)' }}
               >
                 <span>{settings?.footerCtaBtnText || 'جرّب مكتشف الهدايا'}</span>
                 <ArrowLeft className="w-4 h-4" />
@@ -116,8 +116,8 @@ export function StoreFooter({ settings }: StoreFooterProps) {
                 </div>
               ) : (
                 <div 
-                  className="w-10 h-10 rounded-2xl flex items-center justify-center transition-transform group-hover:scale-105 shadow-md"
-                  style={{ background: 'linear-gradient(135deg, #C9A96E 0%, #A07850 100%)' }}
+                  className="w-10 h-10 rounded-2xl flex items-center justify-center transition-transform group-hover:scale-105 shadow-md border border-[#3b5e94]/30"
+                  style={{ background: 'linear-gradient(135deg, #22385e 0%, #13213c 100%)' }}
                 >
                   <Gift className="w-5 h-5 text-white" />
                 </div>
@@ -126,13 +126,13 @@ export function StoreFooter({ settings }: StoreFooterProps) {
                 <span className="text-xl font-black text-white tracking-tight">
                   {storeName.split('|')[0].trim()}
                 </span>
-                <span className="text-[10px] font-bold text-[#C9A96E] tracking-widest">
+                <span className="text-[10px] font-bold text-[#7ea6e6] tracking-widest">
                   {storeName.includes('|') ? storeName.split('|')[1].trim() : 'GIFTY PLUS'}
                 </span>
               </div>
             </Link>
             
-            <p className="text-[#C9A96E] font-bold text-xs">{storeSlogan}</p>
+            <p className="text-[#7ea6e6] font-bold text-xs">{storeSlogan}</p>
             
             <p className="text-white/50 leading-relaxed text-xs max-w-sm">
               {storeDesc}
@@ -145,7 +145,7 @@ export function StoreFooter({ settings }: StoreFooterProps) {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="واتساب"
-                className="w-8 h-8 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-white/60 hover:text-[#C9A96E] hover:bg-white/10 hover:border-[#C9A96E]/40 transition-all"
+                className="w-8 h-8 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-white/60 hover:text-[#7ea6e6] hover:bg-white/10 hover:border-[#5c8fd6]/40 transition-all"
                 title="واتساب"
               >
                 <MessageCircle className="w-4 h-4" />
@@ -157,7 +157,7 @@ export function StoreFooter({ settings }: StoreFooterProps) {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="إنستغرام"
-                  className="w-8 h-8 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-white/60 hover:text-[#C9A96E] hover:bg-white/10 hover:border-[#C9A96E]/40 transition-all"
+                  className="w-8 h-8 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-white/60 hover:text-[#7ea6e6] hover:bg-white/10 hover:border-[#5c8fd6]/40 transition-all"
                   title="إنستغرام"
                 >
                   <Share2 className="w-4 h-4" />
@@ -170,7 +170,7 @@ export function StoreFooter({ settings }: StoreFooterProps) {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="تيليغرام"
-                  className="w-8 h-8 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-white/60 hover:text-[#C9A96E] hover:bg-white/10 hover:border-[#C9A96E]/40 transition-all"
+                  className="w-8 h-8 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-white/60 hover:text-[#7ea6e6] hover:bg-white/10 hover:border-[#5c8fd6]/40 transition-all"
                   title="تيليغرام"
                 >
                   <Send className="w-4 h-4" />
@@ -180,7 +180,7 @@ export function StoreFooter({ settings }: StoreFooterProps) {
               <a
                 href={`mailto:${storeEmail}`}
                 aria-label="إيميل"
-                className="w-8 h-8 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-white/60 hover:text-[#C9A96E] hover:bg-white/10 hover:border-[#C9A96E]/40 transition-all"
+                className="w-8 h-8 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-white/60 hover:text-[#7ea6e6] hover:bg-white/10 hover:border-[#5c8fd6]/40 transition-all"
                 title="البريد الإلكتروني"
               >
                 <Mail className="w-4 h-4" />
@@ -191,7 +191,7 @@ export function StoreFooter({ settings }: StoreFooterProps) {
           {/* Col 2: Categories (2.5 Cols) */}
           <div className="lg:col-span-2 text-start">
             <h3 className="font-black text-white mb-3 text-xs tracking-wider flex items-center gap-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#C9A96E]" />
+              <span className="w-1.5 h-1.5 rounded-full bg-[#5c8fd6]" />
               أقسام الهدايا
             </h3>
             <ul className="space-y-2">
@@ -199,7 +199,7 @@ export function StoreFooter({ settings }: StoreFooterProps) {
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-xs text-white/50 hover:text-[#C9A96E] hover:-translate-x-0.5 transition-all inline-block"
+                    className="text-xs text-white/50 hover:text-[#7ea6e6] hover:-translate-x-0.5 transition-all inline-block"
                   >
                     {link.label}
                   </Link>
@@ -211,7 +211,7 @@ export function StoreFooter({ settings }: StoreFooterProps) {
           {/* Col 3: Quick Links (2.5 Cols) */}
           <div className="lg:col-span-2 text-start">
             <h3 className="font-black text-white mb-3 text-xs tracking-wider flex items-center gap-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#C9A96E]" />
+              <span className="w-1.5 h-1.5 rounded-full bg-[#5c8fd6]" />
               روابط سريعة
             </h3>
             <ul className="space-y-2">
@@ -219,7 +219,7 @@ export function StoreFooter({ settings }: StoreFooterProps) {
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-xs text-white/50 hover:text-[#C9A96E] hover:-translate-x-0.5 transition-all inline-block"
+                    className="text-xs text-white/50 hover:text-[#7ea6e6] hover:-translate-x-0.5 transition-all inline-block"
                   >
                     {link.label}
                   </Link>
@@ -231,7 +231,7 @@ export function StoreFooter({ settings }: StoreFooterProps) {
           {/* Col 4: Customer Care & Direct Contacts (3.5 Cols) */}
           <div className="lg:col-span-4 text-start space-y-4">
             <h3 className="font-black text-white text-xs tracking-wider flex items-center gap-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#C9A96E]" />
+              <span className="w-1.5 h-1.5 rounded-full bg-[#5c8fd6]" />
               خدمة العملاء
             </h3>
 
@@ -241,27 +241,27 @@ export function StoreFooter({ settings }: StoreFooterProps) {
                 href={whatsappHref} 
                 target="_blank" 
                 rel="noopener noreferrer" 
-                className="flex items-center gap-2.5 text-xs text-white/60 hover:text-[#C9A96E] transition-colors group"
+                className="flex items-center gap-2.5 text-xs text-white/60 hover:text-[#7ea6e6] transition-colors group"
               >
-                <div className="w-7 h-7 rounded-lg bg-white/5 group-hover:bg-[#C9A96E]/20 flex items-center justify-center text-[#C9A96E] shrink-0 transition-colors">
+                <div className="w-7 h-7 rounded-lg bg-white/5 group-hover:bg-[#22385e]/40 flex items-center justify-center text-[#7ea6e6] shrink-0 transition-colors">
                   <Phone className="w-3.5 h-3.5" />
                 </div>
                 <div>
                   <span className="text-[10px] text-white/40 block">الطلب عبر واتساب والهاتف</span>
-                  <span className="font-bold text-white/80 group-hover:text-[#C9A96E]" dir="ltr">{storePhone}</span>
+                  <span className="font-bold text-white/80 group-hover:text-[#7ea6e6]" dir="ltr">{storePhone}</span>
                 </div>
               </a>
 
               <a 
                 href={`mailto:${storeEmail}`} 
-                className="flex items-center gap-2.5 text-xs text-white/60 hover:text-[#C9A96E] transition-colors group"
+                className="flex items-center gap-2.5 text-xs text-white/60 hover:text-[#7ea6e6] transition-colors group"
               >
-                <div className="w-7 h-7 rounded-lg bg-white/5 group-hover:bg-[#C9A96E]/20 flex items-center justify-center text-[#C9A96E] shrink-0 transition-colors">
+                <div className="w-7 h-7 rounded-lg bg-white/5 group-hover:bg-[#22385e]/40 flex items-center justify-center text-[#7ea6e6] shrink-0 transition-colors">
                   <Mail className="w-3.5 h-3.5" />
                 </div>
                 <div>
                   <span className="text-[10px] text-white/40 block">البريد الإلكتروني للدعم</span>
-                  <span className="font-bold text-white/80 group-hover:text-[#C9A96E]">{storeEmail}</span>
+                  <span className="font-bold text-white/80 group-hover:text-[#7ea6e6]">{storeEmail}</span>
                 </div>
               </a>
             </div>
@@ -275,15 +275,15 @@ export function StoreFooter({ settings }: StoreFooterProps) {
             {settings?.copyrightText || '© 2026 گِفتي بلس | Gifty Plus. جميع الحقوق محفوظة.'}
           </p>
           <div className="flex items-center gap-5">
-            <Link href="/privacy" className="text-[11px] text-white/40 hover:text-[#C9A96E] transition-colors">
+            <Link href="/privacy" className="text-[11px] text-white/40 hover:text-[#7ea6e6] transition-colors">
               سياسة الخصوصية
             </Link>
-            <Link href="/terms" className="text-[11px] text-white/40 hover:text-[#C9A96E] transition-colors">
+            <Link href="/terms" className="text-[11px] text-white/40 hover:text-[#7ea6e6] transition-colors">
               الشروط والأحكام
             </Link>
             <Link 
               href="/admin" 
-              className="text-[11px] text-white/20 hover:text-[#C9A96E] transition-colors inline-flex items-center gap-1"
+              className="text-[11px] text-white/20 hover:text-[#7ea6e6] transition-colors inline-flex items-center gap-1"
               title="دخول لوحة الإدارة"
             >
               <Lock className="w-2.5 h-2.5" />

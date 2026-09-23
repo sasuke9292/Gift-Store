@@ -30,7 +30,7 @@ export function SalesChart() {
           <p className="text-xs text-[#78716C] font-medium">أداء المبيعات وإيرادات المتجر خلال آخر 7 أيام</p>
         </div>
         <div className="flex items-center gap-2 bg-[#FAFAF8] px-3 py-1.5 rounded-xl border border-[#E8E4DF]">
-          <div className="w-2.5 h-2.5 rounded-full bg-[#C9A96E]" />
+          <div className="w-2.5 h-2.5 rounded-full bg-[#13213c]" />
           <span className="text-xs text-[#78716C] font-bold">المبيعات الإجمالية</span>
         </div>
       </div>
@@ -42,8 +42,8 @@ export function SalesChart() {
           >
             <defs>
               <linearGradient id="salesGoldGradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#C9A96E" stopOpacity={0.35} />
-                <stop offset="95%" stopColor="#C9A96E" stopOpacity={0.02} />
+                <stop offset="5%" stopColor="#13213c" stopOpacity={0.35} />
+                <stop offset="95%" stopColor="#13213c" stopOpacity={0.02} />
               </linearGradient>
             </defs>
             <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#F0ECE7" />
@@ -77,19 +77,19 @@ export function SalesChart() {
                 direction: 'rtl',
                 padding: '12px 16px',
               }}
-              itemStyle={{ color: '#A07850', fontWeight: 900, fontSize: '0.95rem' }}
+              itemStyle={{ color: '#13213c', fontWeight: 900, fontSize: '0.95rem' }}
               labelStyle={{ color: '#1C1917', fontWeight: 800, marginBottom: '4px', fontSize: '0.8rem' }}
               formatter={(value: any) => [`${Number(value).toLocaleString('en-US')} د.ع`, 'المبيعات']}
-              cursor={{ stroke: '#C9A96E', strokeWidth: 1.5, strokeDasharray: '4 4' }}
+              cursor={{ stroke: '#13213c', strokeWidth: 1.5, strokeDasharray: '4 4' }}
             />
             <Area
               type="monotone"
               dataKey="total"
-              stroke="#C9A96E"
+              stroke="#13213c"
               strokeWidth={3}
               fillOpacity={1}
               fill="url(#salesGoldGradient)"
-              activeDot={{ r: 6, fill: '#A07850', stroke: '#ffffff', strokeWidth: 2 }}
+              activeDot={{ r: 6, fill: '#13213c', stroke: '#ffffff', strokeWidth: 2 }}
             />
           </AreaChart>
         </ResponsiveContainer>

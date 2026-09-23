@@ -181,7 +181,7 @@ export default function OrdersClient({ initialOrders }: { initialOrders: OrderDa
           variant="outline"
           className="h-11 px-4 rounded-xl border-[#E8E4DF] bg-white hover:bg-[#FAFAF8] text-[#1C1917] font-bold text-sm shadow-sm flex items-center gap-2 cursor-pointer"
         >
-          <Download className="w-4 h-4 text-[#C9A96E]" />
+          <Download className="w-4 h-4 text-[#13213c]" />
           تصدير ملف CSV
         </Button>
       </div>
@@ -191,10 +191,10 @@ export default function OrdersClient({ initialOrders }: { initialOrders: OrderDa
         {/* Toolbar */}
         <div className="p-5 border-b border-[#E8E4DF] flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
           <div className="relative w-full md:max-w-md group">
-            <Search className="absolute end-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#A8A29E] group-focus-within:text-[#C9A96E] transition-colors" />
+            <Search className="absolute end-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#A8A29E] group-focus-within:text-[#13213c] transition-colors" />
             <input
               placeholder="ابحث برقم الطلب، اسم العميل، أو رقم الهاتف..."
-              className="w-full h-11 ps-4 pe-10 bg-[#FAFAF8] border border-[#E8E4DF] hover:border-[#D5D0C9] focus:border-[#C9A96E]/50 focus:bg-white rounded-xl text-sm text-[#1C1917] placeholder:text-[#A8A29E] outline-none focus:ring-2 focus:ring-[#C9A96E]/15 transition-all"
+              className="w-full h-11 ps-4 pe-10 bg-[#FAFAF8] border border-[#E8E4DF] hover:border-[#D5D0C9] focus:border-[#13213c]/50 focus:bg-white rounded-xl text-sm text-[#1C1917] placeholder:text-[#A8A29E] outline-none focus:ring-2 focus:ring-[#13213c]/15 transition-all"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
@@ -289,7 +289,7 @@ export default function OrdersClient({ initialOrders }: { initialOrders: OrderDa
                     onClick={() => handleOpenModal(order.id)}
                     className="flex-1 h-9 rounded-xl border-[#E8E4DF] hover:bg-[#FAFAF8] text-[#1C1917] font-bold text-xs flex items-center justify-center gap-1 cursor-pointer"
                   >
-                    <Eye className="w-3.5 h-3.5 text-[#C9A96E]" />
+                    <Eye className="w-3.5 h-3.5 text-[#13213c]" />
                     <span>تفاصيل</span>
                   </Button>
 
@@ -352,7 +352,7 @@ export default function OrdersClient({ initialOrders }: { initialOrders: OrderDa
                 return (
                   <TableRow key={order.id} className="hover:bg-[#FAFAF8] transition-colors border-b border-[#E8E4DF]/60 last:border-0 group">
                     <TableCell className="px-6 py-4">
-                      <span className="font-bold text-[#1C1917] text-xs font-mono bg-[#FAFAF8] px-2.5 py-1.5 rounded-lg border border-[#E8E4DF] group-hover:border-[#C9A96E]/40 transition-colors">
+                      <span className="font-bold text-[#1C1917] text-xs font-mono bg-[#FAFAF8] px-2.5 py-1.5 rounded-lg border border-[#E8E4DF] group-hover:border-[#13213c]/40 transition-colors">
                         #{order.orderNumber}
                       </span>
                     </TableCell>
@@ -415,7 +415,7 @@ export default function OrdersClient({ initialOrders }: { initialOrders: OrderDa
                           variant="ghost"
                           size="sm"
                           onClick={() => handleOpenModal(order.id)}
-                          className="h-9 px-3 rounded-xl hover:bg-[#F5F0EA] text-[#78716C] hover:text-[#C9A96E] font-bold text-xs flex items-center gap-1.5 cursor-pointer"
+                          className="h-9 px-3 rounded-xl hover:bg-[#F5F0EA] text-[#78716C] hover:text-[#13213c] font-bold text-xs flex items-center gap-1.5 cursor-pointer"
                         >
                           <Eye className="w-4 h-4" />
                           عرض

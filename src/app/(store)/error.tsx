@@ -31,7 +31,7 @@ export default function StoreError({
           <button
             onClick={() => reset()}
             className="flex items-center justify-center gap-2 h-11 px-6 rounded-xl font-bold text-white text-xs transition-all hover:brightness-110 shadow-sm"
-            style={{ background: 'linear-gradient(135deg, #C9A96E 0%, #A07850 100%)' }}
+            style={{ background: 'linear-gradient(135deg, #22385e 0%, #13213c 100%)' }}
           >
             <RefreshCw className="w-4 h-4" />
             <span>إعادة المحاولة</span>
@@ -40,7 +40,7 @@ export default function StoreError({
             href="/"
             className="flex items-center justify-center gap-2 h-11 px-6 rounded-xl font-bold text-[#1C1917] text-xs bg-[#F8F5F0] hover:bg-[#F0EBE1] border border-[#E8E4DF] transition-all"
           >
-            <Home className="w-4 h-4 text-[#A07850]" />
+            <Home className="w-4 h-4 text-[#13213c]" />
             <span>الرئيسية</span>
           </Link>
         </div>
