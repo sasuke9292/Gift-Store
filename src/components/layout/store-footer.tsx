@@ -8,7 +8,6 @@ import {
   Share2, 
   Gift, 
   ArrowLeft, 
-  ShieldCheck, 
   Send, 
   Lock 
 } from 'lucide-react'
@@ -266,21 +265,6 @@ export function StoreFooter({ settings }: StoreFooterProps) {
                 </div>
               </a>
             </div>
-
-            {/* Sleek, Clean Payment Pills */}
-            <div className="pt-1">
-              <p className="text-[10px] font-bold text-white/40 mb-1.5 flex items-center gap-1">
-                <ShieldCheck className="w-3 h-3 text-[#C9A96E]" />
-                <span>طرق دفع آمنة ومعتمدة</span>
-              </p>
-              <div className="flex flex-wrap gap-1.5 text-[10px] font-bold text-white/60">
-                <span className="px-2 py-0.5 rounded-md bg-white/5 border border-white/10">الدفع عند الاستلام</span>
-                <span className="px-2 py-0.5 rounded-md bg-white/5 border border-white/10">زين كاش</span>
-                <span className="px-2 py-0.5 rounded-md bg-white/5 border border-white/10">FIB</span>
-                <span className="px-2 py-0.5 rounded-md bg-white/5 border border-white/10">MasterCard / Visa</span>
-              </div>
-            </div>
-
           </div>
 
         </div>
