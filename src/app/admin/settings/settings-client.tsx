@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useState, useMemo } from 'react'
+import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useSearchParams, useRouter } from 'next/navigation'
 import { Input } from '@/components/ui/input'
@@ -304,24 +305,8 @@ export default function SettingsClient({ initialSettings }: { initialSettings: S
   const [isSaving, setIsSaving] = useState(false)
   const [hasChanges, setHasChanges] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
-  const [uploadingSlideIndex, setUploadingSlideIndex] = useState<number | null>(null)
   const [isUploadingLogo, setIsUploadingLogo] = useState(false)
   const [isUploadingFavicon, setIsUploadingFavicon] = useState(false)
-
-  // Parse hero slides safely from initial settings or fallback to defaults
-  const [heroSlides, setHeroSlides] = useState<HeroSlide[]>(() => {
-    if (initialSettings.heroSlidesJson) {
-      try {
-        const parsed = JSON.parse(initialSettings.heroSlidesJson)
-        if (Array.isArray(parsed) && parsed.length > 0) {
-          return parsed
-        }
-      } catch (e) {
-        console.error('Failed to parse heroSlidesJson', e)
-      }
-    }
-    return DEFAULT_HERO_SLIDES
-  })
 
   // Listen to tab query param if accessed directly or via search/sidebar
   React.useEffect(() => {
@@ -334,81 +319,6 @@ export default function SettingsClient({ initialSettings }: { initialSettings: S
   const updateField = <K extends keyof SettingsData>(field: K, value: SettingsData[K]) => {
     setSettings(prev => ({ ...prev, [field]: value }))
     setHasChanges(true)
-  }
-
-  // Slide Management Helpers
-  const updateSlidesState = (newSlides: HeroSlide[]) => {
-    setHeroSlides(newSlides)
-    setSettings(prev => ({
-      ...prev,
-      heroSlidesJson: JSON.stringify(newSlides)
-    }))
-    setHasChanges(true)
-  }
-
-  const updateSlideField = (index: number, field: keyof HeroSlide, value: string) => {
-    const updated = [...heroSlides]
-    updated[index] = { ...updated[index], [field]: value }
-    updateSlidesState(updated)
-  }
-
-  const addSlide = () => {
-    const newSlide: HeroSlide = {
-      id: `slide-${Date.now()}`,
-      title: 'هدية جديدة واستثنائية',
-      subtitle: 'وصف تسويقي جذاب لمجموعة الهدايا',
-      image: 'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&q=80&w=1000',
-      link: '/shop',
-      tag: 'جديد'
-    }
-    updateSlidesState([...heroSlides, newSlide])
-    toast.success('تمت إضافة شريحة عرض جديدة بنجاح')
-  }
-
-  const removeSlide = (index: number) => {
-    if (heroSlides.length <= 1) {
-      toast.error('يجب الإبقاء على شريحة واحدة على الأقل في السلايدر')
-      return
-    }
-    const updated = heroSlides.filter((_, i) => i !== index)
-    updateSlidesState(updated)
-    toast.success('تم حذف الشريحة بنجاح')
-  }
-
-  const moveSlide = (index: number, direction: 'up' | 'down') => {
-    const targetIndex = direction === 'up' ? index - 1 : index + 1
-    if (targetIndex < 0 || targetIndex >= heroSlides.length) return
-    const updated = [...heroSlides]
-    const temp = updated[index]
-    updated[index] = updated[targetIndex]
-    updated[targetIndex] = temp
-    updateSlidesState(updated)
-  }
-
-  const handleUploadSlideImage = async (index: number, file: File) => {
-    if (!file) return
-    setUploadingSlideIndex(index)
-    const formData = new FormData()
-    formData.append('file', file)
-
-    try {
-      const res = await fetch('/api/upload', {
-        method: 'POST',
-        body: formData,
-      })
-      const data = await res.json()
-      if (data.success && data.url) {
-        updateSlideField(index, 'image', data.url)
-        toast.success('تم رفع الصورة بنجاح وتحديث الشريحة!')
-      } else {
-        toast.error(data.error || 'فشل رفع الصورة')
-      }
-    } catch (err) {
-      console.error(err)
-      toast.error('حدث خطأ أثناء الاتصال لرفع الصورة')
-    } finally {
-      setUploadingSlideIndex(null)
-    }
   }
 
   const handleUploadLogo = async (file: File) => {
@@ -1035,235 +945,40 @@ export default function SettingsClient({ initialSettings }: { initialSettings: S
             </div>
 
             {/* ======================================================= */}
-            {/* HERO SHOWCASE SLIDER MANAGEMENT (إدارة سلايدر الواجهة)  */}
+            {/* HERO SHOWCASE SLIDER DEDICATED MANAGER CALLOUT          */}
             {/* ======================================================= */}
-            <div id="setting-heroSlides" className="pt-6 border-t border-[#F0ECE6] space-y-5">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-[#FAFAF8] p-5 rounded-2xl border border-[#E8E4DF]">
-                <div>
-                  <div className="flex items-center gap-2">
-                    <span className="w-8 h-8 rounded-lg bg-[#C9A96E]/20 text-[#A07850] flex items-center justify-center font-bold">
-                      <ImageIcon className="w-4 h-4 text-[#C9A96E]" />
-                    </span>
-                    <h3 className="text-sm font-black text-[#1C1917]">
-                      سلايدر العرض التفاعلي وإضافة الصور (Hero Showcase Slides)
-                    </h3>
+            <div id="setting-heroSlides" className="pt-6 border-t border-[#F0ECE6]">
+              <div className="p-6 rounded-3xl bg-gradient-to-l from-[#FBF6EE] via-white to-[#FBF6EE] border-2 border-[#C9A96E]/30 flex flex-col md:flex-row items-start md:items-center justify-between gap-5 shadow-xs">
+                <div className="flex items-start gap-4">
+                  <div 
+                    className="w-12 h-12 rounded-2xl flex items-center justify-center text-white shadow-sm shrink-0"
+                    style={{ background: 'linear-gradient(135deg, #C9A96E 0%, #A07850 100%)' }}
+                  >
+                    <Sparkles className="w-6 h-6" />
                   </div>
-                  <p className="text-xs text-[#78716C] mt-1 leading-relaxed">
-                    تحكم بالشرائح المعروضة على يسار واجهة المتجر: إضافة وتعديل وحذف الصور، رفع الصور مباشرة من جهازك، وتخصيص النصوص والشارات.
-                  </p>
+                  <div>
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <h3 className="text-sm sm:text-base font-black text-[#1C1917]">
+                        إدارة شرائح السلايدر التفاعلي (Hero Showcase Slides)
+                      </h3>
+                      <span className="text-[10px] font-black px-2 py-0.5 rounded-full bg-[#C9A96E]/20 text-[#A07850] border border-[#C9A96E]/30">
+                        صفحة مستقلة ومخصصة بالكامل ✨
+                      </span>
+                    </div>
+                    <p className="text-xs text-[#78716C] mt-1 leading-relaxed max-w-xl">
+                      تم فصل إدارة السلايدر التفاعلي إلى صفحة تحكم مستقلة ومخصصة بالكامل تتيح لك رفع الصور من جهازك، تفعيل وتعطيل الشرائح، إعادة ترتيبها، ومشاهدة محاكي العرض التفاعلي الحي.
+                    </p>
+                  </div>
                 </div>
 
-                <Button
-                  type="button"
-                  onClick={addSlide}
-                  className="h-10 px-5 rounded-xl font-black text-white text-xs cursor-pointer shadow-sm hover:-translate-y-0.5 transition-all self-start sm:self-auto shrink-0"
+                <Link
+                  href="/admin/hero-slides"
+                  className="h-11 px-6 rounded-xl font-black text-white text-xs sm:text-sm cursor-pointer shadow-md hover:-translate-y-0.5 transition-all flex items-center gap-2 shrink-0 self-stretch sm:self-auto justify-center"
                   style={{ background: 'linear-gradient(135deg, #C9A96E 0%, #A07850 100%)' }}
                 >
-                  <Plus className="w-4 h-4 ms-1.5" />
-                  <span>إضافة شريحة جديدة</span>
-                </Button>
-              </div>
-
-              {/* Slides List */}
-              <div className="space-y-4">
-                {heroSlides.map((slide, index) => (
-                  <div 
-                    key={slide.id || index}
-                    className="p-5 sm:p-6 rounded-2xl bg-white border border-[#E8E4DF] shadow-[0_2px_10px_rgba(0,0,0,0.02)] transition-all hover:border-[#C9A96E]/40"
-                  >
-                    {/* Slide Card Header */}
-                    <div className="flex items-center justify-between pb-4 mb-4 border-b border-[#F0ECE6]">
-                      <div className="flex items-center gap-2.5">
-                        <span className="w-7 h-7 rounded-lg bg-[#1C1917] text-white flex items-center justify-center text-xs font-black">
-                          {index + 1}
-                        </span>
-                        <span className="text-xs font-black text-[#1C1917]">
-                          {slide.title || `الشريحة رقم ${index + 1}`}
-                        </span>
-                        {slide.tag && (
-                          <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#FDF2F4] text-[#E85D75] border border-[#E85D75]/20 flex items-center gap-1">
-                            <Flame className="w-2.5 h-2.5" />
-                            {slide.tag}
-                          </span>
-                        )}
-                      </div>
-
-                      <div className="flex items-center gap-1">
-                        {/* Move Up */}
-                        <Button
-                          type="button"
-                          variant="ghost"
-                          size="sm"
-                          disabled={index === 0}
-                          onClick={() => moveSlide(index, 'up')}
-                          className="w-8 h-8 p-0 rounded-lg text-[#78716C] hover:text-[#1C1917] hover:bg-[#FAFAF8] disabled:opacity-30 cursor-pointer"
-                          title="تحريك لأعلى"
-                        >
-                          <ArrowUp className="w-4 h-4" />
-                        </Button>
-                        {/* Move Down */}
-                        <Button
-                          type="button"
-                          variant="ghost"
-                          size="sm"
-                          disabled={index === heroSlides.length - 1}
-                          onClick={() => moveSlide(index, 'down')}
-                          className="w-8 h-8 p-0 rounded-lg text-[#78716C] hover:text-[#1C1917] hover:bg-[#FAFAF8] disabled:opacity-30 cursor-pointer"
-                          title="تحريك لأسفل"
-                        >
-                          <ArrowDown className="w-4 h-4" />
-                        </Button>
-                        {/* Delete Slide */}
-                        <Button
-                          type="button"
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => removeSlide(index)}
-                          className="w-8 h-8 p-0 rounded-lg text-rose-500 hover:text-rose-700 hover:bg-rose-50 cursor-pointer ms-1"
-                          title="حذف هذه الشريحة"
-                        >
-                          <Trash2 className="w-4 h-4" />
-                        </Button>
-                      </div>
-                    </div>
-
-                    {/* Slide Body: Image Upload & Details */}
-                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-                      
-                      {/* Left/Image Column: Preview & Upload Controls */}
-                      <div className="lg:col-span-4 space-y-3">
-                        <div className="relative aspect-[4/3] rounded-xl overflow-hidden bg-stone-100 border border-[#E8E4DF] group">
-                          {slide.image ? (
-                            <img 
-                              src={slide.image} 
-                              alt={slide.title}
-                              className="w-full h-full object-cover"
-                            />
-                          ) : (
-                            <div className="w-full h-full flex flex-col items-center justify-center text-[#A8A29E] bg-[#FAFAF8]">
-                              <ImageIcon className="w-8 h-8 mb-1 opacity-40" />
-                              <span className="text-[11px]">لا توجد صورة</span>
-                            </div>
-                          )}
-
-                          {/* Overlay Tag Preview */}
-                          {slide.tag && (
-                            <div className="absolute top-2.5 start-2.5">
-                              <span className="text-[10px] font-black px-2 py-0.5 rounded-full bg-white/90 backdrop-blur-xs text-[#1C1917] shadow-xs">
-                                {slide.tag}
-                              </span>
-                            </div>
-                          )}
-                          
-                          {/* Live Overlay Title Preview */}
-                          <div className="absolute bottom-0 inset-x-0 p-3 bg-gradient-to-t from-black/80 to-transparent text-white">
-                            <p className="text-xs font-bold truncate">{slide.title || 'عنوان الشريحة'}</p>
-                            <p className="text-[10px] text-white/75 truncate">{slide.subtitle || 'الوصف الفرعي'}</p>
-                          </div>
-                        </div>
-
-                        {/* Upload from Device Button */}
-                        <div>
-                          <input 
-                            type="file" 
-                            id={`slide-file-${index}`}
-                            accept="image/jpeg,image/png,image/webp,image/avif,image/gif"
-                            className="hidden"
-                            onChange={(e) => {
-                              const file = e.target.files?.[0]
-                              if (file) handleUploadSlideImage(index, file)
-                              e.target.value = ''
-                            }}
-                          />
-                          <Button
-                            type="button"
-                            variant="outline"
-                            onClick={() => document.getElementById(`slide-file-${index}`)?.click()}
-                            disabled={uploadingSlideIndex === index}
-                            className="w-full h-10 rounded-xl border-[#C9A96E]/40 text-[#A07850] hover:bg-[#FBF6EE] font-bold text-xs cursor-pointer flex items-center justify-center gap-2"
-                          >
-                            {uploadingSlideIndex === index ? (
-                              <>
-                                <Loader2 className="w-4 h-4 animate-spin text-[#C9A96E]" />
-                                <span>جاري رفع الصورة...</span>
-                              </>
-                            ) : (
-                              <>
-                                <Upload className="w-4 h-4 text-[#C9A96E]" />
-                                <span>رفع صورة من جهازك</span>
-                              </>
-                            )}
-                          </Button>
-                        </div>
-
-                        {/* Direct Image URL input */}
-                        <div>
-                          <Label className="text-[11px] font-bold text-[#78716C] mb-1 block">أو رابط صورة مباشر (URL)</Label>
-                          <Input 
-                            value={slide.image}
-                            onChange={(e) => updateSlideField(index, 'image', e.target.value)}
-                            className="h-9 text-xs rounded-xl bg-[#FAFAF8] border-[#E8E4DF]"
-                            dir="ltr"
-                            placeholder="https://images.unsplash.com/..."
-                          />
-                        </div>
-                      </div>
-
-                      {/* Right Column: Slide Text Fields */}
-                      <div className="lg:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div className="sm:col-span-2">
-                          <Label className="text-xs font-bold text-[#1C1917] mb-1.5 block">
-                            عنوان الشريحة الرئيسي *
-                          </Label>
-                          <Input 
-                            value={slide.title}
-                            onChange={(e) => updateSlideField(index, 'title', e.target.value)}
-                            className="h-10 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-xs font-bold"
-                            placeholder="مثال: أطقم وساعات رجالية فاخرة"
-                          />
-                        </div>
-
-                        <div className="sm:col-span-2">
-                          <Label className="text-xs font-bold text-[#1C1917] mb-1.5 block">
-                            الوصف الفرعي للشريحة
-                          </Label>
-                          <Input 
-                            value={slide.subtitle}
-                            onChange={(e) => updateSlideField(index, 'subtitle', e.target.value)}
-                            className="h-10 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-xs"
-                            placeholder="مثال: هدية تعبّر عن التقدير والرقي"
-                          />
-                        </div>
-
-                        <div>
-                          <Label className="text-xs font-bold text-[#1C1917] mb-1.5 block">
-                            شارة الشريحة (Badge/Tag)
-                          </Label>
-                          <Input 
-                            value={slide.tag}
-                            onChange={(e) => updateSlideField(index, 'tag', e.target.value)}
-                            className="h-10 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-xs"
-                            placeholder="مثال: الأكثر طلباً أو حصرية"
-                          />
-                        </div>
-
-                        <div>
-                          <Label className="text-xs font-bold text-[#1C1917] mb-1.5 block">
-                            رابط الشريحة عند النقر
-                          </Label>
-                          <Input 
-                            value={slide.link}
-                            onChange={(e) => updateSlideField(index, 'link', e.target.value)}
-                            className="h-10 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-xs"
-                            dir="ltr"
-                            placeholder="/category/men"
-                          />
-                        </div>
-                      </div>
-
-                    </div>
-                  </div>
-                ))}
+                  <span>فتح إدارة السلايدر الآن</span>
+                  <ArrowLeft className="w-4 h-4" />
+                </Link>
               </div>
             </div>
 

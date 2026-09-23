@@ -1,15 +1,19 @@
 import React from 'react'
 import { getCategories } from '@/app/actions/categories'
 import { getTopProducts } from '@/app/actions/products'
+import { getPublicHeroSlides } from '@/app/actions/admin/hero-slides'
 import { prisma } from '@/lib/prisma'
 import StoreHomeClient from './home-client'
 
 export const dynamic = 'force-dynamic'
 
 export default async function StoreHome() {
-  const categories = await getCategories()
-  const rawTopProducts = await getTopProducts(8)
-  const settings = await prisma.storeSettings.findUnique({ where: { id: 'default' } }).catch(() => null)
+  const [categories, rawTopProducts, heroSlides, settings] = await Promise.all([
+    getCategories(),
+    getTopProducts(8),
+    getPublicHeroSlides(),
+    prisma.storeSettings.findUnique({ where: { id: 'default' } }).catch(() => null)
+  ])
 
   const topProducts = rawTopProducts.map(p => ({
     id: p.id,
@@ -29,7 +33,9 @@ export default async function StoreHome() {
       heroBadge={settings?.heroBadge}
       heroHeadline={settings?.heroHeadline}
       heroSubheadline={settings?.heroSubheadline}
+      heroSlides={heroSlides}
       settings={settings}
     />
   )
 }
+

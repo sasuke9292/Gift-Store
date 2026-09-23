@@ -48,6 +48,7 @@ interface StoreHomeClientProps {
   heroBadge?: string
   heroHeadline?: string
   heroSubheadline?: string
+  heroSlides?: any[]
   settings?: any
 }
 
@@ -151,13 +152,24 @@ export default function StoreHomeClient({
   heroBadge,
   heroHeadline,
   heroSubheadline,
+  heroSlides,
   settings
 }: StoreHomeClientProps) {
   const [activeSlide, setActiveSlide] = useState(0)
   const [activeProductTab, setActiveProductTab] = useState<'all' | 'best' | 'new' | 'sale'>('all')
 
-  // Dynamic Showcase Slides from Settings or Fallback
+  // Dynamic Showcase Slides from Dedicated DB HeroSlides or Fallback
   const activeShowcaseSlides = useMemo(() => {
+    if (heroSlides && Array.isArray(heroSlides) && heroSlides.length > 0) {
+      return heroSlides.map((slide: any, idx: number) => ({
+        id: slide.id || `slide-${idx}`,
+        title: slide.title || 'هدية فاخرة ومميزة',
+        subtitle: slide.subtitle || 'تغليف ملكي وجودة استثنائية',
+        image: slide.image || showcaseSlides[0].image,
+        link: slide.link || '/shop',
+        tag: slide.tag || 'مميز'
+      }))
+    }
     if (settings?.heroSlidesJson) {
       try {
         const parsed = JSON.parse(settings.heroSlidesJson)
@@ -176,7 +188,7 @@ export default function StoreHomeClient({
       }
     }
     return showcaseSlides
-  }, [settings?.heroSlidesJson])
+  }, [heroSlides, settings?.heroSlidesJson])
 
   const safeSlideIndex = activeShowcaseSlides.length > 0 ? (activeSlide % activeShowcaseSlides.length) : 0
   const currentSlide = activeShowcaseSlides[safeSlideIndex] || showcaseSlides[0]

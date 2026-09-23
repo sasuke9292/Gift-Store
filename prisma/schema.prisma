@@ -332,3 +332,19 @@ model StoreSettings {
 
   updatedAt             DateTime @updatedAt
 }
+
+// 10. Hero Showcase Slider Model (إدارة شرائح السلايدر التفاعلي بالكامل)
+model HeroSlide {
+  id          String   @id @default(cuid())
+  title       String
+  subtitle    String?
+  image       String
+  link        String   @default("/shop")
+  tag         String?  @default("مميز")
+  order       Int      @default(0)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([isActive, order])
+}
