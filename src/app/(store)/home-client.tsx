@@ -355,27 +355,46 @@ export default function StoreHomeClient({
                 </Link>
               </motion.div>
 
-              {/* Trust Indicators Pill Row (Clean RTL) */}
+              {/* Trust Indicators (Refined & Symmetrical RTL) */}
               <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.4 }}
-                className="grid grid-cols-3 gap-4 sm:gap-8 pt-6 border-t border-[#E8E4DF]/70 w-full max-w-xl text-start"
+                className="pt-6 border-t border-[#E8E4DF]/80 w-full max-w-xl"
               >
-                <div>
-                  <p className="text-2xl sm:text-3xl font-black text-[#1C1917]" dir="ltr">{settings?.stat1Value || '15K+'}</p>
-                  <p className="text-xs text-[#78716C] font-semibold mt-0.5">{settings?.stat1Label || 'عميل سعيد بالعراق'}</p>
-                </div>
-                <div>
-                  <div className="flex items-center gap-1 text-2xl sm:text-3xl font-black text-[#1C1917]">
-                    <span className="text-[#13213c] text-xl">★</span>
-                    <span dir="ltr">{settings?.stat2Value || '4.9'}</span>
+                <div className="grid grid-cols-3 divide-x divide-x-reverse divide-[#E8E4DF]">
+                  {/* Stat 1 */}
+                  <div className="flex flex-col items-center justify-center text-center px-2 sm:px-4">
+                    <p className="text-2xl sm:text-3xl font-black text-[#13213c] tracking-tight" dir="ltr">
+                      {settings?.stat1Value || '+15K'}
+                    </p>
+                    <p className="text-xs text-[#78716C] font-bold mt-1 text-center">
+                      {settings?.stat1Label || 'عميل سعيد وموثوق'}
+                    </p>
                   </div>
-                  <p className="text-xs text-[#78716C] font-semibold mt-0.5">{settings?.stat2Label || 'تقييم ممتاز موثق'}</p>
-                </div>
-                <div>
-                  <p className="text-2xl sm:text-3xl font-black text-[#13213c]">{settings?.stat3Value || '100%'}</p>
-                  <p className="text-xs text-[#78716C] font-semibold mt-0.5">{settings?.stat3Label || 'تغليف ملكي مجاني'}</p>
+
+                  {/* Stat 2 */}
+                  <div className="flex flex-col items-center justify-center text-center px-2 sm:px-4">
+                    <div className="inline-flex items-center justify-center gap-1.5 text-2xl sm:text-3xl font-black text-[#13213c] tracking-tight">
+                      <span dir="ltr" className="tabular-nums">
+                        {(settings?.stat2Value || '4.9').replace(/[★⭐*]/g, '').trim() || '4.9'}
+                      </span>
+                      <Star className="w-4 h-4 sm:w-5 sm:h-5 fill-[#13213c] text-[#13213c] shrink-0" />
+                    </div>
+                    <p className="text-xs text-[#78716C] font-bold mt-1 text-center">
+                      {settings?.stat2Label || 'تقييم خدماتنا'}
+                    </p>
+                  </div>
+
+                  {/* Stat 3 */}
+                  <div className="flex flex-col items-center justify-center text-center px-2 sm:px-4">
+                    <p className="text-2xl sm:text-3xl font-black text-[#13213c] tracking-tight" dir="ltr">
+                      {settings?.stat3Value || '100%'}
+                    </p>
+                    <p className="text-xs text-[#78716C] font-bold mt-1 text-center">
+                      {settings?.stat3Label || 'تغليف يدوي فاخر'}
+                    </p>
+                  </div>
                 </div>
               </motion.div>
             </div>

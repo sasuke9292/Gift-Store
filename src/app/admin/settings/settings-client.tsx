@@ -913,7 +913,7 @@ export default function SettingsClient({ initialSettings }: { initialSettings: S
                 <div className="p-4 rounded-2xl bg-[#FAFAF8] border border-[#E8E4DF] space-y-3">
                   <p className="text-xs font-bold text-[#1C1917]">الإحصائية الثانية</p>
                   <Input 
-                    placeholder="القيمة مثل: 4.9★" 
+                    placeholder="القيمة مثل: 4.9" 
                     value={settings.stat2Value} 
                     onChange={e => updateField('stat2Value', e.target.value)} 
                     className="h-9 text-xs bg-white" 
