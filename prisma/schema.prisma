@@ -261,6 +261,13 @@ model StoreSettings {
   stat3Value            String   @default("100%")
   stat3Label            String   @default("تغليف يدوي ملكي")
 
+  // Hero Showcase Slider & Floating Badges
+  heroSlidesJson        String?  @db.Text
+  heroBadgeTopSmall     String?  @default("جودة أصلية ومضمونة")
+  heroBadgeTopBold      String?  @default("ضمان استبدال واسترجاع")
+  heroBadgeBottomSmall  String?  @default("خدمة استثنائية")
+  heroBadgeBottomBold   String?  @default("تغليف مجاني مع كل طلب")
+
   // 4. Shipping, Delivery & Orders
   freeShippingThreshold Float    @default(100000)
   shippingCostBaghdad   Float    @default(5000)

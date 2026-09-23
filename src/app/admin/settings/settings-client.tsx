@@ -27,14 +27,67 @@ import {
   Layers,
   Info,
   ChevronLeft,
+  ChevronRight,
   MessageCircle,
   ArrowLeft,
   Search,
-  X
+  X,
+  Upload,
+  Plus,
+  Trash2,
+  Image as ImageIcon,
+  Flame,
+  Award,
+  ArrowUp,
+  ArrowDown
 } from 'lucide-react'
 import { toast } from 'sonner'
 import { updateStoreSettings } from '@/app/actions/admin/settings'
 import { cn } from '@/lib/utils'
+
+export interface HeroSlide {
+  id: string
+  title: string
+  subtitle: string
+  image: string
+  link: string
+  tag: string
+}
+
+export const DEFAULT_HERO_SLIDES: HeroSlide[] = [
+  {
+    id: 'men-luxury',
+    title: 'أطقم وساعات رجالية فاخرة',
+    subtitle: 'هدية تعبّر عن التقدير والرقي',
+    image: 'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&q=80&w=1000',
+    link: '/category/men',
+    tag: 'الأكثر طلباً'
+  },
+  {
+    id: 'women-perfume',
+    title: 'عطور ومجوهرات نسائية راقية',
+    subtitle: 'أناقة لا مثيل لها لكل مناسبة سعيدة',
+    image: 'https://images.unsplash.com/photo-1547887537-6158d64c35b3?auto=format&fit=crop&q=80&w=1000',
+    link: '/category/women',
+    tag: 'تشكيلة حصرية'
+  },
+  {
+    id: 'custom-jewelry',
+    title: 'مجوهرات وهدايا مخصصة بالاسم',
+    subtitle: 'خلّد اسم من تحب بقطعة استثنائية',
+    image: 'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?auto=format&fit=crop&q=80&w=1000',
+    link: '/category/custom',
+    tag: 'صُنعت خصيصاً'
+  },
+  {
+    id: 'gift-boxes',
+    title: 'بوكسات هدايا وتغليف ملكي',
+    subtitle: 'أشرطة حريرية، ورود وشوكولاتة فاخرة',
+    image: 'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&q=80&w=1000',
+    link: '/category/occasions',
+    tag: 'تغليف مجاني'
+  }
+]
 
 export interface SettingsData {
   // 1. General & Identity
@@ -63,6 +116,11 @@ export interface SettingsData {
   heroPrimaryBtnLink: string
   heroSecondaryBtnText: string
   heroSecondaryBtnLink: string
+  heroSlidesJson?: string | null
+  heroBadgeTopSmall?: string | null
+  heroBadgeTopBold?: string | null
+  heroBadgeBottomSmall?: string | null
+  heroBadgeBottomBold?: string | null
 
   // Trust Stats
   stat1Value: string
@@ -186,6 +244,8 @@ const SETTINGS_INDEX: SearchableSetting[] = [
   { id: 'heroSubheadline', title: 'النص التوضيحي للبانر', desc: 'الفقرة التعريفية أسفل العنوان الرئيسي في الواجهة', tab: 'hero', tabLabel: 'الواجهة والبانر', keywords: ['نص', 'بانر', 'مقدمة', 'تعريف'] },
   { id: 'heroPrimaryBtn', title: 'أزرار البانر الرئيسي', desc: 'نصوص وروابط أزرار الشراء والاستكشاف في البانر', tab: 'hero', tabLabel: 'الواجهة والبانر', keywords: ['زر', 'تسوق', 'رابط', 'button', 'cta'] },
   { id: 'trustStats', title: 'إحصائيات الثقة والمصداقية', desc: 'أرقام عدد العملاء والتقييمات ونسبة رضا الزبائن والتغليف الملكي', tab: 'hero', tabLabel: 'الواجهة والبانر', keywords: ['إحصائيات', 'ثقة', 'أرقام', 'عملاء', 'تقييم'] },
+  { id: 'heroSlides', title: 'سلايدر العرض التفاعلي وإضافة الصور (Hero Slides)', desc: 'إضافة وتعديل وحذف الصور والعناوين والشارات وروابط السلايدر الفاخر في الواجهة', tab: 'hero', tabLabel: 'الواجهة والبانر', keywords: ['سلايدر', 'شريحة', 'صور', 'رفع صورة', 'بانر', 'عرض', 'صورة', 'hero', 'slider', 'slides', 'image'] },
+  { id: 'heroBadges', title: 'البادجات العائمة على سلايدر الواجهة (Floating Badges)', desc: 'تعديل نصوص الشارات العائمة على زوايا السلايدر (ضمان واسترجاع، تغليف مجاني)', tab: 'hero', tabLabel: 'الواجهة والبانر', keywords: ['بادج', 'بادجات', 'عائمة', 'ضمان', 'تغليف', 'شارات', 'badges'] },
   
   // Header & Announcement
   { id: 'showTopBar', title: 'الشريط الإعلاني العلوي (Announcement Bar)', desc: 'شريط التنبيهات الإعلانية أعلى الموقع وعروض التوصيل', tab: 'header', tabLabel: 'الترويسة والإعلانات', keywords: ['شريط', 'إعلان', 'توصيل مجاني', 'عروض', 'كود', 'خصم'] },
@@ -244,6 +304,24 @@ export default function SettingsClient({ initialSettings }: { initialSettings: S
   const [isSaving, setIsSaving] = useState(false)
   const [hasChanges, setHasChanges] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
+  const [uploadingSlideIndex, setUploadingSlideIndex] = useState<number | null>(null)
+  const [isUploadingLogo, setIsUploadingLogo] = useState(false)
+  const [isUploadingFavicon, setIsUploadingFavicon] = useState(false)
+
+  // Parse hero slides safely from initial settings or fallback to defaults
+  const [heroSlides, setHeroSlides] = useState<HeroSlide[]>(() => {
+    if (initialSettings.heroSlidesJson) {
+      try {
+        const parsed = JSON.parse(initialSettings.heroSlidesJson)
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          return parsed
+        }
+      } catch (e) {
+        console.error('Failed to parse heroSlidesJson', e)
+      }
+    }
+    return DEFAULT_HERO_SLIDES
+  })
 
   // Listen to tab query param if accessed directly or via search/sidebar
   React.useEffect(() => {
@@ -256,6 +334,123 @@ export default function SettingsClient({ initialSettings }: { initialSettings: S
   const updateField = <K extends keyof SettingsData>(field: K, value: SettingsData[K]) => {
     setSettings(prev => ({ ...prev, [field]: value }))
     setHasChanges(true)
+  }
+
+  // Slide Management Helpers
+  const updateSlidesState = (newSlides: HeroSlide[]) => {
+    setHeroSlides(newSlides)
+    setSettings(prev => ({
+      ...prev,
+      heroSlidesJson: JSON.stringify(newSlides)
+    }))
+    setHasChanges(true)
+  }
+
+  const updateSlideField = (index: number, field: keyof HeroSlide, value: string) => {
+    const updated = [...heroSlides]
+    updated[index] = { ...updated[index], [field]: value }
+    updateSlidesState(updated)
+  }
+
+  const addSlide = () => {
+    const newSlide: HeroSlide = {
+      id: `slide-${Date.now()}`,
+      title: 'هدية جديدة واستثنائية',
+      subtitle: 'وصف تسويقي جذاب لمجموعة الهدايا',
+      image: 'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&q=80&w=1000',
+      link: '/shop',
+      tag: 'جديد'
+    }
+    updateSlidesState([...heroSlides, newSlide])
+    toast.success('تمت إضافة شريحة عرض جديدة بنجاح')
+  }
+
+  const removeSlide = (index: number) => {
+    if (heroSlides.length <= 1) {
+      toast.error('يجب الإبقاء على شريحة واحدة على الأقل في السلايدر')
+      return
+    }
+    const updated = heroSlides.filter((_, i) => i !== index)
+    updateSlidesState(updated)
+    toast.success('تم حذف الشريحة بنجاح')
+  }
+
+  const moveSlide = (index: number, direction: 'up' | 'down') => {
+    const targetIndex = direction === 'up' ? index - 1 : index + 1
+    if (targetIndex < 0 || targetIndex >= heroSlides.length) return
+    const updated = [...heroSlides]
+    const temp = updated[index]
+    updated[index] = updated[targetIndex]
+    updated[targetIndex] = temp
+    updateSlidesState(updated)
+  }
+
+  const handleUploadSlideImage = async (index: number, file: File) => {
+    if (!file) return
+    setUploadingSlideIndex(index)
+    const formData = new FormData()
+    formData.append('file', file)
+
+    try {
+      const res = await fetch('/api/upload', {
+        method: 'POST',
+        body: formData,
+      })
+      const data = await res.json()
+      if (data.success && data.url) {
+        updateSlideField(index, 'image', data.url)
+        toast.success('تم رفع الصورة بنجاح وتحديث الشريحة!')
+      } else {
+        toast.error(data.error || 'فشل رفع الصورة')
+      }
+    } catch (err) {
+      console.error(err)
+      toast.error('حدث خطأ أثناء الاتصال لرفع الصورة')
+    } finally {
+      setUploadingSlideIndex(null)
+    }
+  }
+
+  const handleUploadLogo = async (file: File) => {
+    if (!file) return
+    setIsUploadingLogo(true)
+    const formData = new FormData()
+    formData.append('file', file)
+    try {
+      const res = await fetch('/api/upload', { method: 'POST', body: formData })
+      const data = await res.json()
+      if (data.success && data.url) {
+        updateField('logoUrl', data.url)
+        toast.success('تم رفع شعار المتجر بنجاح!')
+      } else {
+        toast.error(data.error || 'فشل رفع الشعار')
+      }
+    } catch {
+      toast.error('حدث خطأ أثناء رفع الشعار')
+    } finally {
+      setIsUploadingLogo(false)
+    }
+  }
+
+  const handleUploadFavicon = async (file: File) => {
+    if (!file) return
+    setIsUploadingFavicon(true)
+    const formData = new FormData()
+    formData.append('file', file)
+    try {
+      const res = await fetch('/api/upload', { method: 'POST', body: formData })
+      const data = await res.json()
+      if (data.success && data.url) {
+        updateField('faviconUrl', data.url)
+        toast.success('تم رفع أيقونة المتصفح بنجاح!')
+      } else {
+        toast.error(data.error || 'فشل رفع الأيقونة')
+      }
+    } catch {
+      toast.error('حدث خطأ أثناء رفع الأيقونة')
+    } finally {
+      setIsUploadingFavicon(false)
+    }
   }
 
   const handleSave = async () => {
@@ -535,28 +730,100 @@ export default function SettingsClient({ initialSettings }: { initialSettings: S
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-2 border-t border-[#F0ECE6]">
-              <div id="setting-logoUrl" className="transition-all rounded-2xl p-1">
-                <Label className="text-xs font-bold text-[#1C1917] mb-1.5 block">رابط الشعار الرئيسي (Logo URL)</Label>
-                <Input 
-                  value={settings.logoUrl || ''} 
-                  onChange={e => updateField('logoUrl', e.target.value)}
-                  className="h-11 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-sm"
-                  dir="ltr"
-                  placeholder="https://example.com/logo.png"
-                />
-                <span className="text-[11px] text-[#A8A29E] mt-1 block">اتركه فارغاً لاستخدام الشعار التفاعلي الفاخر المدمج</span>
+              <div id="setting-logoUrl" className="transition-all rounded-2xl p-1 space-y-2">
+                <div className="flex items-center justify-between">
+                  <Label className="text-xs font-bold text-[#1C1917]">شعار المتجر الرسمي (Logo)</Label>
+                  <input
+                    type="file"
+                    id="general-logo-file"
+                    accept="image/*"
+                    className="hidden"
+                    onChange={(e) => {
+                      const file = e.target.files?.[0]
+                      if (file) handleUploadLogo(file)
+                      e.target.value = ''
+                    }}
+                  />
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={() => document.getElementById('general-logo-file')?.click()}
+                    disabled={isUploadingLogo}
+                    className="h-7 px-2.5 text-[11px] rounded-lg border-[#C9A96E]/40 text-[#A07850] hover:bg-[#FBF6EE] font-bold cursor-pointer flex items-center gap-1.5"
+                  >
+                    {isUploadingLogo ? (
+                      <Loader2 className="w-3 h-3 animate-spin text-[#C9A96E]" />
+                    ) : (
+                      <Upload className="w-3 h-3 text-[#C9A96E]" />
+                    )}
+                    <span>رفع شعار من جهازك</span>
+                  </Button>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  {settings.logoUrl && (
+                    <div className="w-11 h-11 rounded-xl border border-[#E8E4DF] bg-stone-50 overflow-hidden shrink-0 flex items-center justify-center p-1">
+                      <img src={settings.logoUrl} alt="Logo preview" className="max-w-full max-h-full object-contain" />
+                    </div>
+                  )}
+                  <Input 
+                    value={settings.logoUrl || ''} 
+                    onChange={e => updateField('logoUrl', e.target.value)}
+                    className="h-11 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-xs"
+                    dir="ltr"
+                    placeholder="رابط الشعار أو ارفعه من جهازك مباشرة..."
+                  />
+                </div>
+                <span className="text-[11px] text-[#A8A29E] block">اتركه فارغاً لاستخدام الشعار التفاعلي الفاخر المدمج</span>
               </div>
 
-              <div id="setting-faviconUrl" className="transition-all rounded-2xl p-1">
-                <Label className="text-xs font-bold text-[#1C1917] mb-1.5 block">رابط أيقونة الموقع (Favicon URL)</Label>
-                <Input 
-                  value={settings.faviconUrl || ''} 
-                  onChange={e => updateField('faviconUrl', e.target.value)}
-                  className="h-11 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-sm"
-                  dir="ltr"
-                  placeholder="https://example.com/favicon.ico"
-                />
-                <span className="text-[11px] text-[#A8A29E] mt-1 block">أيقونة المتصفح تظهر بجوار عنوان الصفحة</span>
+              <div id="setting-faviconUrl" className="transition-all rounded-2xl p-1 space-y-2">
+                <div className="flex items-center justify-between">
+                  <Label className="text-xs font-bold text-[#1C1917]">أيقونة التبويب (Favicon)</Label>
+                  <input
+                    type="file"
+                    id="general-favicon-file"
+                    accept="image/*"
+                    className="hidden"
+                    onChange={(e) => {
+                      const file = e.target.files?.[0]
+                      if (file) handleUploadFavicon(file)
+                      e.target.value = ''
+                    }}
+                  />
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={() => document.getElementById('general-favicon-file')?.click()}
+                    disabled={isUploadingFavicon}
+                    className="h-7 px-2.5 text-[11px] rounded-lg border-[#C9A96E]/40 text-[#A07850] hover:bg-[#FBF6EE] font-bold cursor-pointer flex items-center gap-1.5"
+                  >
+                    {isUploadingFavicon ? (
+                      <Loader2 className="w-3 h-3 animate-spin text-[#C9A96E]" />
+                    ) : (
+                      <Upload className="w-3 h-3 text-[#C9A96E]" />
+                    )}
+                    <span>رفع أيقونة من جهازك</span>
+                  </Button>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  {settings.faviconUrl && (
+                    <div className="w-11 h-11 rounded-xl border border-[#E8E4DF] bg-stone-50 overflow-hidden shrink-0 flex items-center justify-center p-1.5">
+                      <img src={settings.faviconUrl} alt="Favicon preview" className="max-w-full max-h-full object-contain" />
+                    </div>
+                  )}
+                  <Input 
+                    value={settings.faviconUrl || ''} 
+                    onChange={e => updateField('faviconUrl', e.target.value)}
+                    className="h-11 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-xs"
+                    dir="ltr"
+                    placeholder="رابط الأيقونة أو ارفعها من جهازك مباشرة..."
+                  />
+                </div>
+                <span className="text-[11px] text-[#A8A29E] block">الأيقونة المصغرة تظهر بجوار عنوان الصفحة في المتصفح</span>
               </div>
             </div>
 
@@ -764,6 +1031,314 @@ export default function SettingsClient({ initialSettings }: { initialSettings: S
                     className="h-9 text-xs bg-white" 
                   />
                 </div>
+              </div>
+            </div>
+
+            {/* ======================================================= */}
+            {/* HERO SHOWCASE SLIDER MANAGEMENT (إدارة سلايدر الواجهة)  */}
+            {/* ======================================================= */}
+            <div id="setting-heroSlides" className="pt-6 border-t border-[#F0ECE6] space-y-5">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-[#FAFAF8] p-5 rounded-2xl border border-[#E8E4DF]">
+                <div>
+                  <div className="flex items-center gap-2">
+                    <span className="w-8 h-8 rounded-lg bg-[#C9A96E]/20 text-[#A07850] flex items-center justify-center font-bold">
+                      <ImageIcon className="w-4 h-4 text-[#C9A96E]" />
+                    </span>
+                    <h3 className="text-sm font-black text-[#1C1917]">
+                      سلايدر العرض التفاعلي وإضافة الصور (Hero Showcase Slides)
+                    </h3>
+                  </div>
+                  <p className="text-xs text-[#78716C] mt-1 leading-relaxed">
+                    تحكم بالشرائح المعروضة على يسار واجهة المتجر: إضافة وتعديل وحذف الصور، رفع الصور مباشرة من جهازك، وتخصيص النصوص والشارات.
+                  </p>
+                </div>
+
+                <Button
+                  type="button"
+                  onClick={addSlide}
+                  className="h-10 px-5 rounded-xl font-black text-white text-xs cursor-pointer shadow-sm hover:-translate-y-0.5 transition-all self-start sm:self-auto shrink-0"
+                  style={{ background: 'linear-gradient(135deg, #C9A96E 0%, #A07850 100%)' }}
+                >
+                  <Plus className="w-4 h-4 ms-1.5" />
+                  <span>إضافة شريحة جديدة</span>
+                </Button>
+              </div>
+
+              {/* Slides List */}
+              <div className="space-y-4">
+                {heroSlides.map((slide, index) => (
+                  <div 
+                    key={slide.id || index}
+                    className="p-5 sm:p-6 rounded-2xl bg-white border border-[#E8E4DF] shadow-[0_2px_10px_rgba(0,0,0,0.02)] transition-all hover:border-[#C9A96E]/40"
+                  >
+                    {/* Slide Card Header */}
+                    <div className="flex items-center justify-between pb-4 mb-4 border-b border-[#F0ECE6]">
+                      <div className="flex items-center gap-2.5">
+                        <span className="w-7 h-7 rounded-lg bg-[#1C1917] text-white flex items-center justify-center text-xs font-black">
+                          {index + 1}
+                        </span>
+                        <span className="text-xs font-black text-[#1C1917]">
+                          {slide.title || `الشريحة رقم ${index + 1}`}
+                        </span>
+                        {slide.tag && (
+                          <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#FDF2F4] text-[#E85D75] border border-[#E85D75]/20 flex items-center gap-1">
+                            <Flame className="w-2.5 h-2.5" />
+                            {slide.tag}
+                          </span>
+                        )}
+                      </div>
+
+                      <div className="flex items-center gap-1">
+                        {/* Move Up */}
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="sm"
+                          disabled={index === 0}
+                          onClick={() => moveSlide(index, 'up')}
+                          className="w-8 h-8 p-0 rounded-lg text-[#78716C] hover:text-[#1C1917] hover:bg-[#FAFAF8] disabled:opacity-30 cursor-pointer"
+                          title="تحريك لأعلى"
+                        >
+                          <ArrowUp className="w-4 h-4" />
+                        </Button>
+                        {/* Move Down */}
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="sm"
+                          disabled={index === heroSlides.length - 1}
+                          onClick={() => moveSlide(index, 'down')}
+                          className="w-8 h-8 p-0 rounded-lg text-[#78716C] hover:text-[#1C1917] hover:bg-[#FAFAF8] disabled:opacity-30 cursor-pointer"
+                          title="تحريك لأسفل"
+                        >
+                          <ArrowDown className="w-4 h-4" />
+                        </Button>
+                        {/* Delete Slide */}
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => removeSlide(index)}
+                          className="w-8 h-8 p-0 rounded-lg text-rose-500 hover:text-rose-700 hover:bg-rose-50 cursor-pointer ms-1"
+                          title="حذف هذه الشريحة"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </Button>
+                      </div>
+                    </div>
+
+                    {/* Slide Body: Image Upload & Details */}
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+                      
+                      {/* Left/Image Column: Preview & Upload Controls */}
+                      <div className="lg:col-span-4 space-y-3">
+                        <div className="relative aspect-[4/3] rounded-xl overflow-hidden bg-stone-100 border border-[#E8E4DF] group">
+                          {slide.image ? (
+                            <img 
+                              src={slide.image} 
+                              alt={slide.title}
+                              className="w-full h-full object-cover"
+                            />
+                          ) : (
+                            <div className="w-full h-full flex flex-col items-center justify-center text-[#A8A29E] bg-[#FAFAF8]">
+                              <ImageIcon className="w-8 h-8 mb-1 opacity-40" />
+                              <span className="text-[11px]">لا توجد صورة</span>
+                            </div>
+                          )}
+
+                          {/* Overlay Tag Preview */}
+                          {slide.tag && (
+                            <div className="absolute top-2.5 start-2.5">
+                              <span className="text-[10px] font-black px-2 py-0.5 rounded-full bg-white/90 backdrop-blur-xs text-[#1C1917] shadow-xs">
+                                {slide.tag}
+                              </span>
+                            </div>
+                          )}
+                          
+                          {/* Live Overlay Title Preview */}
+                          <div className="absolute bottom-0 inset-x-0 p-3 bg-gradient-to-t from-black/80 to-transparent text-white">
+                            <p className="text-xs font-bold truncate">{slide.title || 'عنوان الشريحة'}</p>
+                            <p className="text-[10px] text-white/75 truncate">{slide.subtitle || 'الوصف الفرعي'}</p>
+                          </div>
+                        </div>
+
+                        {/* Upload from Device Button */}
+                        <div>
+                          <input 
+                            type="file" 
+                            id={`slide-file-${index}`}
+                            accept="image/jpeg,image/png,image/webp,image/avif,image/gif"
+                            className="hidden"
+                            onChange={(e) => {
+                              const file = e.target.files?.[0]
+                              if (file) handleUploadSlideImage(index, file)
+                              e.target.value = ''
+                            }}
+                          />
+                          <Button
+                            type="button"
+                            variant="outline"
+                            onClick={() => document.getElementById(`slide-file-${index}`)?.click()}
+                            disabled={uploadingSlideIndex === index}
+                            className="w-full h-10 rounded-xl border-[#C9A96E]/40 text-[#A07850] hover:bg-[#FBF6EE] font-bold text-xs cursor-pointer flex items-center justify-center gap-2"
+                          >
+                            {uploadingSlideIndex === index ? (
+                              <>
+                                <Loader2 className="w-4 h-4 animate-spin text-[#C9A96E]" />
+                                <span>جاري رفع الصورة...</span>
+                              </>
+                            ) : (
+                              <>
+                                <Upload className="w-4 h-4 text-[#C9A96E]" />
+                                <span>رفع صورة من جهازك</span>
+                              </>
+                            )}
+                          </Button>
+                        </div>
+
+                        {/* Direct Image URL input */}
+                        <div>
+                          <Label className="text-[11px] font-bold text-[#78716C] mb-1 block">أو رابط صورة مباشر (URL)</Label>
+                          <Input 
+                            value={slide.image}
+                            onChange={(e) => updateSlideField(index, 'image', e.target.value)}
+                            className="h-9 text-xs rounded-xl bg-[#FAFAF8] border-[#E8E4DF]"
+                            dir="ltr"
+                            placeholder="https://images.unsplash.com/..."
+                          />
+                        </div>
+                      </div>
+
+                      {/* Right Column: Slide Text Fields */}
+                      <div className="lg:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div className="sm:col-span-2">
+                          <Label className="text-xs font-bold text-[#1C1917] mb-1.5 block">
+                            عنوان الشريحة الرئيسي *
+                          </Label>
+                          <Input 
+                            value={slide.title}
+                            onChange={(e) => updateSlideField(index, 'title', e.target.value)}
+                            className="h-10 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-xs font-bold"
+                            placeholder="مثال: أطقم وساعات رجالية فاخرة"
+                          />
+                        </div>
+
+                        <div className="sm:col-span-2">
+                          <Label className="text-xs font-bold text-[#1C1917] mb-1.5 block">
+                            الوصف الفرعي للشريحة
+                          </Label>
+                          <Input 
+                            value={slide.subtitle}
+                            onChange={(e) => updateSlideField(index, 'subtitle', e.target.value)}
+                            className="h-10 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-xs"
+                            placeholder="مثال: هدية تعبّر عن التقدير والرقي"
+                          />
+                        </div>
+
+                        <div>
+                          <Label className="text-xs font-bold text-[#1C1917] mb-1.5 block">
+                            شارة الشريحة (Badge/Tag)
+                          </Label>
+                          <Input 
+                            value={slide.tag}
+                            onChange={(e) => updateSlideField(index, 'tag', e.target.value)}
+                            className="h-10 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-xs"
+                            placeholder="مثال: الأكثر طلباً أو حصرية"
+                          />
+                        </div>
+
+                        <div>
+                          <Label className="text-xs font-bold text-[#1C1917] mb-1.5 block">
+                            رابط الشريحة عند النقر
+                          </Label>
+                          <Input 
+                            value={slide.link}
+                            onChange={(e) => updateSlideField(index, 'link', e.target.value)}
+                            className="h-10 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-xs"
+                            dir="ltr"
+                            placeholder="/category/men"
+                          />
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* ======================================================= */}
+            {/* FLOATING BADGES ON HERO SLIDER (البادجات العائمة)         */}
+            {/* ======================================================= */}
+            <div id="setting-heroBadges" className="pt-6 border-t border-[#F0ECE6] space-y-4">
+              <div className="bg-[#FAFAF8] p-5 rounded-2xl border border-[#E8E4DF]">
+                <div className="flex items-center gap-2">
+                  <span className="w-8 h-8 rounded-lg bg-[#C9A96E]/20 text-[#A07850] flex items-center justify-center font-bold">
+                    <Award className="w-4 h-4 text-[#C9A96E]" />
+                  </span>
+                  <h3 className="text-sm font-black text-[#1C1917]">
+                    البادجات العائمة على سلايدر الواجهة (Floating Badges)
+                  </h3>
+                </div>
+                <p className="text-xs text-[#78716C] mt-1 leading-relaxed">
+                  البطاقات الزجاجية العائمة على زوايا السلايدر لإبراز مصداقية المتجر وضمان الاستبدال والتغليف الملكي.
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                
+                {/* Top Badge: Quality & Guarantee */}
+                <div className="p-5 rounded-2xl bg-white border border-[#E8E4DF] space-y-3">
+                  <div className="flex items-center gap-2 text-xs font-black text-[#1C1917] mb-1">
+                    <Award className="w-4 h-4 text-[#C9A96E]" />
+                    <span>البادج العائم العلوي (أعلى يمين السلايدر)</span>
+                  </div>
+                  <div>
+                    <Label className="text-[11px] font-bold text-[#78716C] mb-1 block">النص الفرعي الصغير</Label>
+                    <Input 
+                      value={settings.heroBadgeTopSmall || ''}
+                      onChange={(e) => updateField('heroBadgeTopSmall', e.target.value)}
+                      placeholder="جودة أصلية ومضمونة"
+                      className="h-10 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-xs"
+                    />
+                  </div>
+                  <div>
+                    <Label className="text-[11px] font-bold text-[#78716C] mb-1 block">النص الرئيسي العريض *</Label>
+                    <Input 
+                      value={settings.heroBadgeTopBold || ''}
+                      onChange={(e) => updateField('heroBadgeTopBold', e.target.value)}
+                      placeholder="ضمان استبدال واسترجاع"
+                      className="h-10 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-xs font-bold"
+                    />
+                  </div>
+                </div>
+
+                {/* Bottom Badge: Gift & Packaging */}
+                <div className="p-5 rounded-2xl bg-white border border-[#E8E4DF] space-y-3">
+                  <div className="flex items-center gap-2 text-xs font-black text-[#1C1917] mb-1">
+                    <Gift className="w-4 h-4 text-[#E85D75]" />
+                    <span>البادج العائم السفلي (أسفل يسار السلايدر)</span>
+                  </div>
+                  <div>
+                    <Label className="text-[11px] font-bold text-[#78716C] mb-1 block">النص الفرعي الصغير</Label>
+                    <Input 
+                      value={settings.heroBadgeBottomSmall || ''}
+                      onChange={(e) => updateField('heroBadgeBottomSmall', e.target.value)}
+                      placeholder="خدمة استثنائية"
+                      className="h-10 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-xs"
+                    />
+                  </div>
+                  <div>
+                    <Label className="text-[11px] font-bold text-[#78716C] mb-1 block">النص الرئيسي العريض *</Label>
+                    <Input 
+                      value={settings.heroBadgeBottomBold || ''}
+                      onChange={(e) => updateField('heroBadgeBottomBold', e.target.value)}
+                      placeholder="تغليف مجاني مع كل طلب"
+                      className="h-10 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-xs font-bold"
+                    />
+                  </div>
+                </div>
+
               </div>
             </div>
 

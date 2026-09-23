@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useMemo } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { 
@@ -155,6 +155,31 @@ export default function StoreHomeClient({
 }: StoreHomeClientProps) {
   const [activeSlide, setActiveSlide] = useState(0)
   const [activeProductTab, setActiveProductTab] = useState<'all' | 'best' | 'new' | 'sale'>('all')
+
+  // Dynamic Showcase Slides from Settings or Fallback
+  const activeShowcaseSlides = useMemo(() => {
+    if (settings?.heroSlidesJson) {
+      try {
+        const parsed = JSON.parse(settings.heroSlidesJson)
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          return parsed.map((slide: any, idx: number) => ({
+            id: slide.id || `slide-${idx}`,
+            title: slide.title || 'هدية فاخرة ومميزة',
+            subtitle: slide.subtitle || 'تغليف ملكي وجودة استثنائية',
+            image: slide.image || showcaseSlides[0].image,
+            link: slide.link || '/shop',
+            tag: slide.tag || 'مميز'
+          }))
+        }
+      } catch (err) {
+        console.error('Error parsing heroSlidesJson:', err)
+      }
+    }
+    return showcaseSlides
+  }, [settings?.heroSlidesJson])
+
+  const safeSlideIndex = activeShowcaseSlides.length > 0 ? (activeSlide % activeShowcaseSlides.length) : 0
+  const currentSlide = activeShowcaseSlides[safeSlideIndex] || showcaseSlides[0]
 
   const dynamicFeatures = [
     {
@@ -353,7 +378,7 @@ export default function StoreHomeClient({
                 >
                   <AnimatePresence mode="wait">
                     <motion.div
-                      key={activeSlide}
+                      key={currentSlide.id || safeSlideIndex}
                       initial={{ opacity: 0, scale: 1.04 }}
                       animate={{ opacity: 1, scale: 1 }}
                       exit={{ opacity: 0, scale: 0.96 }}
@@ -361,8 +386,8 @@ export default function StoreHomeClient({
                       className="absolute inset-0"
                     >
                       <Image
-                        src={showcaseSlides[activeSlide].image}
-                        alt={showcaseSlides[activeSlide].title}
+                        src={currentSlide.image}
+                        alt={currentSlide.title}
                         fill
                         priority
                         sizes="(max-width: 768px) 100vw, 50vw"
@@ -375,20 +400,20 @@ export default function StoreHomeClient({
                       <div className="absolute top-4 start-4 z-10">
                         <span className="inline-flex items-center gap-1.5 bg-white/90 backdrop-blur-md px-3.5 py-1.5 rounded-full text-xs font-black text-[#1C1917] shadow-sm">
                           <Flame className="w-3.5 h-3.5 text-[#E85D75]" />
-                          {showcaseSlides[activeSlide].tag}
+                          {currentSlide.tag}
                         </span>
                       </div>
 
                       {/* Bottom Info */}
                       <div className="absolute bottom-0 inset-x-0 p-6 z-10 text-start">
                         <h3 className="text-xl sm:text-2xl font-black text-white mb-1.5">
-                          {showcaseSlides[activeSlide].title}
+                          {currentSlide.title}
                         </h3>
                         <p className="text-xs sm:text-sm text-white/75 mb-4">
-                          {showcaseSlides[activeSlide].subtitle}
+                          {currentSlide.subtitle}
                         </p>
                         <Link
-                          href={showcaseSlides[activeSlide].link}
+                          href={currentSlide.link}
                           className="inline-flex items-center gap-2 text-xs sm:text-sm font-bold text-[#C9A96E] hover:text-white transition-colors"
                         >
                           <span>تصفح هذه المجموعة الآن</span>
@@ -401,15 +426,15 @@ export default function StoreHomeClient({
                   {/* Navigation Arrows */}
                   <div className="absolute top-4 end-4 z-20 flex items-center gap-2">
                     <button
-                      onClick={() => setActiveSlide((prev) => (prev === 0 ? showcaseSlides.length - 1 : prev - 1))}
-                      className="w-8 h-8 rounded-full bg-white/80 backdrop-blur-md flex items-center justify-center text-[#1C1917] hover:bg-white transition-all shadow-xs"
+                      onClick={() => setActiveSlide((prev) => (prev === 0 ? activeShowcaseSlides.length - 1 : prev - 1))}
+                      className="w-8 h-8 rounded-full bg-white/80 backdrop-blur-md flex items-center justify-center text-[#1C1917] hover:bg-white transition-all shadow-xs cursor-pointer"
                       aria-label="السابق"
                     >
                       <ChevronRight className="w-4 h-4" />
                     </button>
                     <button
-                      onClick={() => setActiveSlide((prev) => (prev === showcaseSlides.length - 1 ? 0 : prev + 1))}
-                      className="w-8 h-8 rounded-full bg-white/80 backdrop-blur-md flex items-center justify-center text-[#1C1917] hover:bg-white transition-all shadow-xs"
+                      onClick={() => setActiveSlide((prev) => (prev === activeShowcaseSlides.length - 1 ? 0 : prev + 1))}
+                      className="w-8 h-8 rounded-full bg-white/80 backdrop-blur-md flex items-center justify-center text-[#1C1917] hover:bg-white transition-all shadow-xs cursor-pointer"
                       aria-label="التالي"
                     >
                       <ChevronLeft className="w-4 h-4" />
@@ -427,8 +452,8 @@ export default function StoreHomeClient({
                     <Award className="w-5 h-5 text-[#C9A96E]" />
                   </div>
                   <div className="text-start">
-                    <p className="text-[11px] text-[#A8A29E] font-bold">جودة أصلية ومضمونة</p>
-                    <p className="text-xs font-black text-[#1C1917]">ضمان استبدال واسترجاع</p>
+                    <p className="text-[11px] text-[#A8A29E] font-bold">{settings?.heroBadgeTopSmall || 'جودة أصلية ومضمونة'}</p>
+                    <p className="text-xs font-black text-[#1C1917]">{settings?.heroBadgeTopBold || 'ضمان استبدال واسترجاع'}</p>
                   </div>
                 </motion.div>
 
@@ -442,20 +467,20 @@ export default function StoreHomeClient({
                     <Gift className="w-5 h-5 text-[#E85D75]" />
                   </div>
                   <div className="text-start">
-                    <p className="text-[11px] text-[#A8A29E] font-bold">خدمة استثنائية</p>
-                    <p className="text-xs font-black text-[#1C1917]">تغليف مجاني مع كل طلب</p>
+                    <p className="text-[11px] text-[#A8A29E] font-bold">{settings?.heroBadgeBottomSmall || 'خدمة استثنائية'}</p>
+                    <p className="text-xs font-black text-[#1C1917]">{settings?.heroBadgeBottomBold || 'تغليف مجاني مع كل طلب'}</p>
                   </div>
                 </motion.div>
 
                 {/* Showcase Switcher Pills */}
                 <div className="flex items-center justify-center gap-2 mt-4">
-                  {showcaseSlides.map((slide, idx) => (
+                  {activeShowcaseSlides.map((slide, idx) => (
                     <button
                       key={slide.id}
                       onClick={() => setActiveSlide(idx)}
                       className={cn(
-                        "h-2 rounded-full transition-all duration-300",
-                        activeSlide === idx 
+                        "h-2 rounded-full transition-all duration-300 cursor-pointer",
+                        safeSlideIndex === idx 
                           ? "w-8 bg-[#C9A96E]" 
                           : "w-2 bg-[#E8E4DF] hover:bg-[#A8A29E]"
                       )}

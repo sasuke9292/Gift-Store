@@ -43,6 +43,46 @@ export default async function AdminSettingsPage() {
     stat3Value: settings?.stat3Value || '100%',
     stat3Label: settings?.stat3Label || 'تغليف يدوي ملكي',
 
+    // Hero Showcase Slider Slides & Badges
+    heroSlidesJson: settings?.heroSlidesJson || JSON.stringify([
+      {
+        id: 'men-luxury',
+        title: 'أطقم وساعات رجالية فاخرة',
+        subtitle: 'هدية تعبّر عن التقدير والرقي',
+        image: 'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&q=80&w=1000',
+        link: '/category/men',
+        tag: 'الأكثر طلباً'
+      },
+      {
+        id: 'women-perfume',
+        title: 'عطور ومجوهرات نسائية راقية',
+        subtitle: 'أناقة لا مثيل لها لكل مناسبة سعيدة',
+        image: 'https://images.unsplash.com/photo-1547887537-6158d64c35b3?auto=format&fit=crop&q=80&w=1000',
+        link: '/category/women',
+        tag: 'تشكيلة حصرية'
+      },
+      {
+        id: 'custom-jewelry',
+        title: 'مجوهرات وهدايا مخصصة بالاسم',
+        subtitle: 'خلّد اسم من تحب بقطعة استثنائية',
+        image: 'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?auto=format&fit=crop&q=80&w=1000',
+        link: '/category/custom',
+        tag: 'صُنعت خصيصاً'
+      },
+      {
+        id: 'gift-boxes',
+        title: 'بوكسات هدايا وتغليف ملكي',
+        subtitle: 'أشرطة حريرية، ورود وشوكولاتة فاخرة',
+        image: 'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&q=80&w=1000',
+        link: '/category/occasions',
+        tag: 'تغليف مجاني'
+      }
+    ]),
+    heroBadgeTopSmall: settings?.heroBadgeTopSmall || 'جودة أصلية ومضمونة',
+    heroBadgeTopBold: settings?.heroBadgeTopBold || 'ضمان استبدال واسترجاع',
+    heroBadgeBottomSmall: settings?.heroBadgeBottomSmall || 'خدمة استثنائية',
+    heroBadgeBottomBold: settings?.heroBadgeBottomBold || 'تغليف مجاني مع كل طلب',
+
     // 4. Shipping, Delivery & Orders
     freeShippingThreshold: settings?.freeShippingThreshold ?? 100000,
     shippingCostBaghdad: settings?.shippingCostBaghdad ?? 5000,
