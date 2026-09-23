@@ -16,19 +16,13 @@ import { Textarea } from '@/components/ui/textarea'
 import { 
   ShoppingBag, 
   MapPin, 
-  User, 
   Phone, 
   Truck, 
-  Store, 
   CheckCircle2, 
-  ArrowLeft, 
-  ArrowRight,
   ExternalLink,
   Loader2,
-  AlertCircle,
-  FileText,
   Sparkles,
-  ShieldCheck,
+  Gift,
   ChevronDown
 } from 'lucide-react'
 import Image from 'next/image'
@@ -82,16 +76,13 @@ export function WhatsAppOrderModal({
   const cartItems = useCartStore(state => state.items)
   const clearCart = useCartStore(state => state.clearCart)
 
-  const [step, setStep] = useState<'info' | 'summary' | 'success'>('info')
   const [isPending, startTransition] = useTransition()
+  const [isSubmitted, setIsSubmitted] = useState(false)
 
-  // Form State
-  const [customerName, setCustomerName] = useState('')
+  // Minimal Essential Form State (No Full Name, No Store Pickup)
   const [customerPhone, setCustomerPhone] = useState('')
   const [province, setProvince] = useState('بغداد')
-  const [area, setArea] = useState('')
   const [address, setAddress] = useState('')
-  const [deliveryType, setDeliveryType] = useState<'DELIVERY' | 'PICKUP'>('DELIVERY')
   const [notes, setNotes] = useState('')
 
   // Validation Errors
@@ -106,60 +97,54 @@ export function WhatsAppOrderModal({
     subtotal: number
   } | null>(null)
 
-  // Calculations
+  // Pricing Calculations
   const subtotal = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0)
   const isFreeShipping = subtotal >= shippingSettings.freeThreshold
   const baseShipping = province.includes('بغداد')
     ? shippingSettings.shippingCostBaghdad
     : shippingSettings.shippingCostProvinces
-  const calculatedShipping = deliveryType === 'PICKUP' ? 0 : (isFreeShipping ? 0 : baseShipping)
-  const grandTotal = subtotal + calculatedShipping
+  const shippingCost = isFreeShipping ? 0 : baseShipping
+  const grandTotal = subtotal + shippingCost
 
-  const validateStep1 = () => {
+  const validate = () => {
     const newErrors: Record<string, string> = {}
-    if (!customerName.trim() || customerName.trim().length < 2) {
-      newErrors.customerName = 'يرجى إدخال الاسم الكامل.'
-    }
     const cleanPhone = customerPhone.replace(/\D/g, '')
+
     if (!customerPhone.trim() || cleanPhone.length < 10) {
-      newErrors.customerPhone = 'يرجى إدخال رقم هاتف صحيح (مثال: 07701234567).'
+      newErrors.customerPhone = 'يرجى إدخال رقم هاتف واتساب صحيح (مثال: 07701234567)'
     }
     if (!province.trim()) {
-      newErrors.province = 'يرجى اختيار المحافظة.'
+      newErrors.province = 'يرجى اختيار المحافظة'
     }
-    if (!area.trim()) {
-      newErrors.area = 'يرجى إدخال اسم المنطقة أو القضاء.'
-    }
-    if (deliveryType === 'DELIVERY' && (!address.trim() || address.trim().length < 3)) {
-      newErrors.address = 'يرجى إدخال العنوان بالتفصيل (أقرب نقطة دالة، زقاق، دار).'
+    if (!address.trim() || address.trim().length < 3) {
+      newErrors.address = 'يرجى كتابة المنطقة وأقرب نقطة دالة للتوصيل'
     }
 
     setErrors(newErrors)
     return Object.keys(newErrors).length === 0
   }
 
-  const handleProceedToSummary = (e: React.FormEvent) => {
+  const handleSubmitOrder = (e: React.FormEvent) => {
     e.preventDefault()
-    if (validateStep1()) {
-      setStep('summary')
-    }
-  }
 
-  const handleConfirmOrder = () => {
     if (cartItems.length === 0) {
-      toast.error('سلة المشتريات فارغة.')
+      toast.error('سلة المشتريات فارغة')
+      return
+    }
+
+    if (!validate()) {
       return
     }
 
     startTransition(async () => {
       try {
         const res = await createWhatsAppOrderAction({
-          customerName,
+          customerName: 'زبون المتجر',
           customerPhone,
           province,
-          area,
+          area: address,
           address,
-          deliveryType,
+          deliveryType: 'DELIVERY',
           notes,
           items: cartItems.map(item => ({
             id: item.productId || item.id,
@@ -181,17 +166,13 @@ export function WhatsAppOrderModal({
             subtotal: res.subtotal!
           })
 
-          // Clear local cart storage
           clearCart()
+          setIsSubmitted(true)
 
-          // Transition to success screen
-          setStep('success')
-
-          // Automatically open WhatsApp in a new tab/window
+          // Open WhatsApp immediately
           const newWindow = window.open(res.whatsappUrl, '_blank')
           if (!newWindow || newWindow.closed || typeof newWindow.closed === 'undefined') {
-            // Popup blocked fallback notice
-            toast.info('تم تجهيز طلبك! يرجى النقر على زر فتح واتساب لإرسال الرسالة.')
+            toast.info('تم تجهيز طلبك! اضغط على زر فتح واتساب لإرسال الرسالة مباشرة.')
           }
         }
       } catch (err) {
@@ -202,7 +183,7 @@ export function WhatsAppOrderModal({
   }
 
   const handleResetAndClose = () => {
-    setStep('info')
+    setIsSubmitted(false)
     setCompletedOrder(null)
     setErrors({})
     onClose()
@@ -211,419 +192,254 @@ export function WhatsAppOrderModal({
   return (
     <Dialog open={isOpen} onOpenChange={open => { if (!open) handleResetAndClose() }}>
       <DialogContent 
-        className="max-w-xl w-full p-0 overflow-hidden rounded-3xl bg-white border border-[#E8E4DF] shadow-[0_20px_60px_rgba(0,0,0,0.15)] max-h-[92vh] flex flex-col font-sans"
+        className="max-w-lg w-full p-0 overflow-hidden rounded-3xl bg-white border border-[#E8E4DF] shadow-[0_20px_60px_rgba(0,0,0,0.15)] max-h-[94vh] flex flex-col font-sans"
         dir="rtl"
       >
         {/* Modal Header */}
-        <div className="bg-gradient-to-l from-[#1C1917] to-[#2B2724] text-white p-5 sm:p-6 shrink-0 relative overflow-hidden">
-          {/* Subtle gold decoration aura */}
-          <div className="absolute -top-10 -start-10 w-32 h-32 bg-[#C9A96E]/20 rounded-full blur-2xl pointer-events-none" />
+        <div className="bg-gradient-to-l from-[#1C1917] via-[#2A2624] to-[#1C1917] text-white p-5 shrink-0 relative overflow-hidden">
+          <div className="absolute -top-10 -start-10 w-32 h-32 bg-[#25D366]/15 rounded-full blur-2xl pointer-events-none" />
 
           <div className="flex items-center justify-between relative z-10">
             <div className="flex items-center gap-3">
-              <div className="w-11 h-11 rounded-2xl bg-[#25D366]/20 border border-[#25D366]/40 flex items-center justify-center shrink-0">
-                {/* Official WhatsApp SVG Icon */}
+              <div className="w-11 h-11 rounded-2xl bg-[#25D366]/20 border border-[#25D366]/40 flex items-center justify-center shrink-0 shadow-xs">
                 <svg className="w-6 h-6 fill-[#25D366]" viewBox="0 0 24 24">
                   <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86.173.086.274.072.376-.043s.433-.506.549-.68c.116-.173.231-.145.39-.086s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.099.824zm-3.394-10.416c-5.523 0-10 4.477-10 10 0 1.77.46 3.432 1.264 4.881l-1.344 4.912 5.044-1.323c1.402.766 3.003 1.2 4.707 1.2 5.522 0 10-4.477 10-10s-4.478-10-9.671-10z" />
                 </svg>
               </div>
               <div>
                 <DialogTitle className="text-lg font-black text-white flex items-center gap-2">
-                  إتمام الطلب عبر WhatsApp
+                  إتمام الطلب السريع عبر WhatsApp
                 </DialogTitle>
-                <DialogDescription className="text-xs text-stone-300 mt-0.5">
-                  طلب مباشر كضيف • بدون حساب أو كلمة مرور
+                <DialogDescription className="text-xs text-[#C9A96E] font-medium mt-0.5">
+                  توصيل مباشر لباب بيتك • بدون حساب أو كلمة مرور
                 </DialogDescription>
               </div>
             </div>
-
-            {/* Stepper indicator */}
-            {step !== 'success' && (
-              <div className="flex items-center gap-1.5 text-xs font-bold text-stone-400">
-                <span className={`w-6 h-6 rounded-full flex items-center justify-center text-xs ${step === 'info' ? 'bg-[#C9A96E] text-[#1C1917]' : 'bg-stone-700 text-white'}`}>
-                  1
-                </span>
-                <span className="text-stone-500">─</span>
-                <span className={`w-6 h-6 rounded-full flex items-center justify-center text-xs ${step === 'summary' ? 'bg-[#C9A96E] text-[#1C1917]' : 'bg-stone-700 text-stone-400'}`}>
-                  2
-                </span>
-              </div>
-            )}
           </div>
         </div>
 
-        {/* Modal Body with Scrollable Area */}
+        {/* Modal Body */}
         <div className="p-5 sm:p-6 overflow-y-auto flex-1">
           <AnimatePresence mode="wait">
-
-            {/* STEP 1: Customer & Delivery Info Form */}
-            {step === 'info' && (
-              <motion.form
-                key="step-info"
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -20 }}
-                onSubmit={handleProceedToSummary}
-                className="space-y-4"
+            {!isSubmitted ? (
+              /* ONE-STEP SIMPLE ORDER FORM */
+              <motion.form 
+                key="order-form"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                onSubmit={handleSubmitOrder} 
+                className="space-y-5"
               >
-                {/* Notice banner */}
-                <div className="bg-[#FBF6EE] border border-[#C9A96E]/30 rounded-2xl p-3.5 flex items-start gap-3">
-                  <Sparkles className="w-5 h-5 text-[#C9A96E] shrink-0 mt-0.5" />
-                  <p className="text-xs text-[#57534E] leading-relaxed">
-                    أدخل معلوماتك الأساسية لتجهيز الفاتورة وفتح محادثة WhatsApp مباشرة مع فريق المتجر لتأكيد الطلب.
-                  </p>
-                </div>
-
-                {/* Name & Phone */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div className="space-y-1.5">
-                    <Label className="text-xs font-bold text-[#1C1917] flex items-center gap-1.5">
-                      <User className="w-3.5 h-3.5 text-[#C9A96E]" />
-                      الاسم الكامل <span className="text-rose-500">*</span>
-                    </Label>
-                    <Input
-                      placeholder="مثال: محمد أحمد العراقي"
-                      value={customerName}
-                      onChange={e => {
-                        setCustomerName(e.target.value)
-                        if (errors.customerName) setErrors({ ...errors, customerName: '' })
-                      }}
-                      className={`h-11 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-sm focus-visible:border-[#C9A96E] focus-visible:ring-[#C9A96E]/20 ${errors.customerName ? 'border-rose-400' : ''}`}
-                    />
-                    {errors.customerName && (
-                      <p className="text-[11px] font-bold text-rose-600">{errors.customerName}</p>
-                    )}
+                {/* 1. Compact Order Preview Card */}
+                <div className="bg-[#FAF8F5] border border-[#E8E4DF] rounded-2xl p-3.5">
+                  <div className="flex items-center justify-between text-xs text-[#78716C] mb-2 pb-2 border-b border-[#E8E4DF]/60">
+                    <span className="font-bold flex items-center gap-1 text-[#1C1917]">
+                      <ShoppingBag className="w-3.5 h-3.5 text-[#C9A96E]" />
+                      المنتجات ({cartItems.reduce((acc, i) => acc + i.quantity, 0)})
+                    </span>
+                    <span>
+                      التوصيل: {shippingCost === 0 ? <strong className="text-emerald-600 font-black">مجاني 🎁</strong> : `${shippingCost.toLocaleString('en-US')} ${shippingSettings.currency}`}
+                    </span>
                   </div>
 
-                  <div className="space-y-1.5">
-                    <Label className="text-xs font-bold text-[#1C1917] flex items-center gap-1.5">
-                      <Phone className="w-3.5 h-3.5 text-[#C9A96E]" />
-                      رقم الهاتف (واتساب) <span className="text-rose-500">*</span>
-                    </Label>
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-bold text-[#78716C]">المجموع الكلي المطلوب:</span>
+                    <span className="text-lg font-black text-[#1C1917]">
+                      {grandTotal.toLocaleString('en-US')}{' '}
+                      <span className="text-xs font-bold text-[#A07850]">{shippingSettings.currency}</span>
+                    </span>
+                  </div>
+                </div>
+
+                {/* 2. Phone Number (WhatsApp) */}
+                <div>
+                  <Label className="block text-xs font-bold text-[#1C1917] mb-1.5 flex items-center justify-between">
+                    <span className="flex items-center gap-1.5">
+                      <Phone className="w-3.5 h-3.5 text-[#25D366]" />
+                      <span>رقم الهاتف (واتساب) للتوصيل</span>
+                      <span className="text-red-500">*</span>
+                    </span>
+                    <span className="text-[10px] text-[#78716C] font-normal">للتواصل وتأكيد موعد الاستلام</span>
+                  </Label>
+                  <div className="relative">
                     <Input
+                      type="tel"
                       dir="ltr"
                       placeholder="07XXXXXXXXX"
                       value={customerPhone}
                       onChange={e => {
                         setCustomerPhone(e.target.value)
-                        if (errors.customerPhone) setErrors({ ...errors, customerPhone: '' })
+                        if (errors.customerPhone) setErrors(prev => ({ ...prev, customerPhone: '' }))
                       }}
-                      className={`h-11 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-sm text-end focus-visible:border-[#C9A96E] focus-visible:ring-[#C9A96E]/20 ${errors.customerPhone ? 'border-rose-400' : ''}`}
+                      className={`h-11 rounded-xl text-start font-mono bg-[#FAFAF8] border-[#E8E4DF] text-sm text-[#1C1917] placeholder:text-[#A8A29E] focus-visible:ring-[#25D366]/30 focus-visible:border-[#25D366] ${errors.customerPhone ? 'border-red-500 ring-2 ring-red-500/10' : ''}`}
                     />
-                    {errors.customerPhone && (
-                      <p className="text-[11px] font-bold text-rose-600">{errors.customerPhone}</p>
-                    )}
                   </div>
-                </div>
-
-                {/* Delivery Method Selection */}
-                <div className="space-y-1.5">
-                  <Label className="text-xs font-bold text-[#1C1917]">طريقة الاستلام</Label>
-                  <div className="grid grid-cols-2 gap-3">
-                    <button
-                      type="button"
-                      onClick={() => setDeliveryType('DELIVERY')}
-                      className={`p-3 rounded-2xl border text-start transition-all flex items-center gap-3 cursor-pointer ${
-                        deliveryType === 'DELIVERY'
-                          ? 'border-[#C9A96E] bg-[#FBF6EE] text-[#1C1917] shadow-sm ring-1 ring-[#C9A96E]'
-                          : 'border-[#E8E4DF] bg-white text-[#78716C] hover:bg-[#FAFAF8]'
-                      }`}
-                    >
-                      <div className={`w-8 h-8 rounded-xl flex items-center justify-center shrink-0 ${deliveryType === 'DELIVERY' ? 'bg-[#C9A96E] text-white' : 'bg-[#FAFAF8] text-[#78716C]'}`}>
-                        <Truck className="w-4 h-4" />
-                      </div>
-                      <div>
-                        <p className="text-xs font-extrabold">توصيل للعنوان</p>
-                        <p className="text-[10px] text-[#A8A29E]">توصيل للمنزل أو العمل</p>
-                      </div>
-                    </button>
-
-                    <button
-                      type="button"
-                      onClick={() => setDeliveryType('PICKUP')}
-                      className={`p-3 rounded-2xl border text-start transition-all flex items-center gap-3 cursor-pointer ${
-                        deliveryType === 'PICKUP'
-                          ? 'border-[#C9A96E] bg-[#FBF6EE] text-[#1C1917] shadow-sm ring-1 ring-[#C9A96E]'
-                          : 'border-[#E8E4DF] bg-white text-[#78716C] hover:bg-[#FAFAF8]'
-                      }`}
-                    >
-                      <div className={`w-8 h-8 rounded-xl flex items-center justify-center shrink-0 ${deliveryType === 'PICKUP' ? 'bg-[#C9A96E] text-white' : 'bg-[#FAFAF8] text-[#78716C]'}`}>
-                        <Store className="w-4 h-4" />
-                      </div>
-                      <div>
-                        <p className="text-xs font-extrabold">استلام من المتجر</p>
-                        <p className="text-[10px] text-[#A8A29E]">مجان بدون أجور توصيل</p>
-                      </div>
-                    </button>
-                  </div>
-                </div>
-
-                {/* Province & Area */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div className="space-y-1.5">
-                    <Label className="text-xs font-bold text-[#1C1917] flex items-center gap-1.5">
-                      <MapPin className="w-3.5 h-3.5 text-[#C9A96E]" />
-                      المحافظة <span className="text-rose-500">*</span>
-                    </Label>
-                    <div className="relative">
-                      <select
-                        value={province}
-                        onChange={e => setProvince(e.target.value)}
-                        className="w-full h-11 px-3 pe-8 rounded-xl bg-[#FAFAF8] border border-[#E8E4DF] text-sm text-[#1C1917] focus:outline-none focus:border-[#C9A96E] focus:ring-2 focus:ring-[#C9A96E]/20 appearance-none cursor-pointer"
-                      >
-                        {IRAQI_PROVINCES.map(prov => (
-                          <option key={prov} value={prov}>
-                            {prov}
-                          </option>
-                        ))}
-                      </select>
-                      <ChevronDown className="w-4 h-4 text-[#A8A29E] absolute end-3 top-1/2 -translate-y-1/2 pointer-events-none" />
-                    </div>
-                  </div>
-
-                  <div className="space-y-1.5">
-                    <Label className="text-xs font-bold text-[#1C1917]">
-                      المنطقة / القضاء <span className="text-rose-500">*</span>
-                    </Label>
-                    <Input
-                      placeholder="مثال: حي المنصور / حي الحسين"
-                      value={area}
-                      onChange={e => {
-                        setArea(e.target.value)
-                        if (errors.area) setErrors({ ...errors, area: '' })
-                      }}
-                      className={`h-11 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-sm focus-visible:border-[#C9A96E] focus-visible:ring-[#C9A96E]/20 ${errors.area ? 'border-rose-400' : ''}`}
-                    />
-                    {errors.area && (
-                      <p className="text-[11px] font-bold text-rose-600">{errors.area}</p>
-                    )}
-                  </div>
-                </div>
-
-                {/* Detailed Address (only for Delivery) */}
-                {deliveryType === 'DELIVERY' && (
-                  <div className="space-y-1.5">
-                    <Label className="text-xs font-bold text-[#1C1917]">
-                      العنوان بالتفصيل <span className="text-rose-500">*</span>
-                    </Label>
-                    <Input
-                      placeholder="أقرب نقطة دالة، اسم الشارع، رقم الزقاق والدار"
-                      value={address}
-                      onChange={e => {
-                        setAddress(e.target.value)
-                        if (errors.address) setErrors({ ...errors, address: '' })
-                      }}
-                      className={`h-11 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-sm focus-visible:border-[#C9A96E] focus-visible:ring-[#C9A96E]/20 ${errors.address ? 'border-rose-400' : ''}`}
-                    />
-                    {errors.address && (
-                      <p className="text-[11px] font-bold text-rose-600">{errors.address}</p>
-                    )}
-                  </div>
-                )}
-
-                {/* Notes & Special Instructions */}
-                <div className="space-y-1.5">
-                  <Label className="text-xs font-bold text-[#78716C] flex items-center gap-1.5">
-                    <FileText className="w-3.5 h-3.5 text-[#A8A29E]" />
-                    ملاحظات إضافية أو نص كارت الإهداء (اختياري)
-                  </Label>
-                  <Textarea
-                    placeholder="اكتب هنا أي تفاصيل تخص تغليف الهدية أو نص الكارت..."
-                    value={notes}
-                    onChange={e => setNotes(e.target.value)}
-                    className="min-h-[70px] rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-xs focus-visible:border-[#C9A96E] focus-visible:ring-[#C9A96E]/20 resize-none"
-                  />
-                </div>
-
-                {/* Step 1 Footer CTA */}
-                <div className="pt-2">
-                  <Button
-                    type="submit"
-                    className="w-full h-12 rounded-2xl font-black text-sm text-white flex items-center justify-center gap-2 cursor-pointer shadow-md hover:shadow-lg transition-all"
-                    style={{ background: 'linear-gradient(135deg, #1C1917 0%, #36312D 100%)' }}
-                  >
-                    مراجعة ملخص الطلب
-                    <ArrowLeft className="w-4 h-4" />
-                  </Button>
-                </div>
-              </motion.form>
-            )}
-
-            {/* STEP 2: Order Summary & Review */}
-            {step === 'summary' && (
-              <motion.div
-                key="step-summary"
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -20 }}
-                className="space-y-4"
-              >
-                {/* Customer Snapshot Box */}
-                <div className="bg-[#FAFAF8] rounded-2xl p-4 border border-[#E8E4DF] space-y-2 text-xs">
-                  <div className="flex items-center justify-between pb-2 border-b border-[#E8E4DF]">
-                    <span className="font-bold text-[#78716C]">العميل المستلم:</span>
-                    <span className="font-extrabold text-[#1C1917]">{customerName} ({customerPhone})</span>
-                  </div>
-                  <div className="flex items-center justify-between pb-2 border-b border-[#E8E4DF]">
-                    <span className="font-bold text-[#78716C]">طريقة الاستلام:</span>
-                    <span className="font-extrabold text-[#1C1917]">
-                      {deliveryType === 'PICKUP' ? 'استلام مباشر من المتجر' : 'توصيل للمنزل'}
-                    </span>
-                  </div>
-                  <div className="flex items-start justify-between">
-                    <span className="font-bold text-[#78716C] shrink-0">العنوان:</span>
-                    <span className="font-medium text-[#1C1917] text-end max-w-[280px]">
-                      {province}، {area}{deliveryType === 'DELIVERY' && address ? `، ${address}` : ''}
-                    </span>
-                  </div>
-                  {notes && (
-                    <div className="pt-2 border-t border-[#E8E4DF] text-[11px] text-[#A07850]">
-                      <strong>الملاحظات:</strong> {notes}
-                    </div>
+                  {errors.customerPhone && (
+                    <p className="text-[11px] text-red-500 font-semibold mt-1">
+                      {errors.customerPhone}
+                    </p>
                   )}
                 </div>
 
-                {/* Items List in Summary */}
-                <div className="border border-[#E8E4DF] rounded-2xl p-3 bg-white max-h-48 overflow-y-auto divide-y divide-[#F0ECE6]">
-                  {cartItems.map(item => (
-                    <div key={item.id} className="py-2.5 flex items-center justify-between gap-3 text-xs">
-                      <div className="flex items-center gap-2.5 min-w-0">
-                        <div className="w-10 h-10 rounded-lg bg-[#FAFAF8] border border-[#E8E4DF] relative shrink-0 overflow-hidden">
-                          {item.image ? (
-                            <Image src={item.image} alt={item.name} fill className="object-cover" />
-                          ) : (
-                            <ShoppingBag className="w-4 h-4 text-[#C9A96E] m-auto" />
-                          )}
-                        </div>
-                        <div className="min-w-0">
-                          <p className="font-bold text-[#1C1917] truncate">{item.name}</p>
-                          <p className="text-[11px] text-[#78716C]">
-                            الكمية: {item.quantity} × {item.price.toLocaleString('en-US')} د.ع
-                          </p>
-                        </div>
-                      </div>
-                      <span className="font-black text-[#1C1917] shrink-0">
-                        {(item.price * item.quantity).toLocaleString('en-US')} د.ع
-                      </span>
-                    </div>
-                  ))}
-                </div>
-
-                {/* Price Breakdown */}
-                <div className="bg-[#FBF6EE] rounded-2xl p-4 border border-[#C9A96E]/30 space-y-2 text-xs">
-                  <div className="flex justify-between text-[#78716C]">
-                    <span>المجموع الفرعي ({cartItems.length} عناصر):</span>
-                    <span className="font-bold text-[#1C1917]">{subtotal.toLocaleString('en-US')} د.ع</span>
-                  </div>
-                  <div className="flex justify-between text-[#78716C]">
-                    <span>أجور التوصيل:</span>
-                    <span className="font-bold">
-                      {calculatedShipping === 0 ? (
-                        <span className="text-[#10B981] font-extrabold">مجاني 🎉</span>
-                      ) : (
-                        `${calculatedShipping.toLocaleString('en-US')} د.ع`
-                      )}
+                {/* 3. Governorate / Province */}
+                <div>
+                  <Label className="block text-xs font-bold text-[#1C1917] mb-1.5 flex items-center justify-between">
+                    <span className="flex items-center gap-1.5">
+                      <MapPin className="w-3.5 h-3.5 text-[#C9A96E]" />
+                      <span>المحافظة</span>
+                      <span className="text-red-500">*</span>
                     </span>
-                  </div>
-                  <div className="pt-2 border-t border-[#C9A96E]/20 flex justify-between items-center text-sm font-black text-[#1C1917]">
-                    <span>الإجمالي الكلي:</span>
-                    <span className="text-base text-[#10B981] font-black">
-                      {grandTotal.toLocaleString('en-US')} د.ع
+                    <span className="text-[10px] text-[#A07850] font-bold">
+                      {province.includes('بغداد') 
+                        ? `أجور توصيل بغداد: ${shippingSettings.shippingCostBaghdad.toLocaleString('en-US')} ${shippingSettings.currency}`
+                        : `أجور توصيل المحافظات: ${shippingSettings.shippingCostProvinces.toLocaleString('en-US')} ${shippingSettings.currency}`}
                     </span>
+                  </Label>
+                  <div className="relative">
+                    <select
+                      value={province}
+                      onChange={e => setProvince(e.target.value)}
+                      className="w-full h-11 px-3.5 pe-9 rounded-xl text-xs font-bold bg-[#FAFAF8] border border-[#E8E4DF] text-[#1C1917] focus:outline-none focus:border-[#C9A96E] focus:ring-2 focus:ring-[#C9A96E]/20 transition-all appearance-none cursor-pointer"
+                    >
+                      {IRAQI_PROVINCES.map(prov => (
+                        <option key={prov} value={prov}>
+                          {prov}
+                        </option>
+                      ))}
+                    </select>
+                    <ChevronDown className="w-4 h-4 text-[#78716C] absolute end-3 top-1/2 -translate-y-1/2 pointer-events-none" />
                   </div>
                 </div>
 
-                {/* Action Buttons */}
-                <div className="flex gap-3 pt-2">
-                  <Button
-                    type="button"
-                    variant="outline"
-                    onClick={() => setStep('info')}
-                    disabled={isPending}
-                    className="w-1/3 h-12 rounded-2xl border-[#E8E4DF] text-xs font-bold text-[#78716C] hover:bg-[#FAFAF8] cursor-pointer"
-                  >
-                    <ArrowRight className="w-4 h-4 me-1.5" />
-                    تعديل البيانات
-                  </Button>
+                {/* 4. Area & Detailed Address */}
+                <div>
+                  <Label className="block text-xs font-bold text-[#1C1917] mb-1.5 flex items-center gap-1.5">
+                    <Truck className="w-3.5 h-3.5 text-[#C9A96E]" />
+                    <span>المنطقة وأقرب نقطة دالة</span>
+                    <span className="text-red-500">*</span>
+                  </Label>
+                  <Input
+                    type="text"
+                    placeholder="مثال: المنصور، شارع 14 رمضان، قرب المول"
+                    value={address}
+                    onChange={e => {
+                      setAddress(e.target.value)
+                      if (errors.address) setErrors(prev => ({ ...prev, address: '' }))
+                    }}
+                    className={`h-11 rounded-xl text-start bg-[#FAFAF8] border-[#E8E4DF] text-xs text-[#1C1917] placeholder:text-[#A8A29E] focus-visible:ring-[#C9A96E]/30 focus-visible:border-[#C9A96E] ${errors.address ? 'border-red-500 ring-2 ring-red-500/10' : ''}`}
+                  />
+                  {errors.address && (
+                    <p className="text-[11px] text-red-500 font-semibold mt-1">
+                      {errors.address}
+                    </p>
+                  )}
+                </div>
 
-                  <Button
-                    type="button"
-                    onClick={handleConfirmOrder}
+                {/* 5. Gift Card Note / Special Instructions */}
+                <div>
+                  <Label className="block text-xs font-bold text-[#1C1917] mb-1.5 flex items-center gap-1.5">
+                    <Gift className="w-3.5 h-3.5 text-[#E85D75]" />
+                    <span>نص كارت الإهداء أو ملاحظات (اختياري)</span>
+                  </Label>
+                  <Textarea
+                    rows={2}
+                    placeholder="اكتب هنا ما ترغب بطباعته على كارت الهدية الملكي المجاني..."
+                    value={notes}
+                    onChange={e => setNotes(e.target.value)}
+                    className="rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-xs resize-none placeholder:text-[#A8A29E] focus-visible:ring-[#C9A96E]/30 focus-visible:border-[#C9A96E]"
+                  />
+                </div>
+
+                {/* Submit Action Button */}
+                <div className="pt-2">
+                  <button
+                    type="submit"
                     disabled={isPending}
-                    className="flex-1 h-12 rounded-2xl font-black text-sm text-white flex items-center justify-center gap-2 cursor-pointer shadow-lg hover:shadow-xl transition-all"
+                    className="w-full h-13 py-3 rounded-2xl font-black text-white text-sm transition-all duration-200 hover:-translate-y-0.5 shadow-[0_6px_20px_rgba(37,211,102,0.35)] hover:shadow-[0_8px_25px_rgba(37,211,102,0.45)] disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2 cursor-pointer"
                     style={{ background: 'linear-gradient(135deg, #25D366 0%, #128C7E 100%)' }}
                   >
                     {isPending ? (
                       <>
-                        <Loader2 className="w-4 h-4 animate-spin" />
+                        <Loader2 className="w-5 h-5 animate-spin" />
                         <span>جاري تجهيز الطلب...</span>
                       </>
                     ) : (
                       <>
-                        <svg className="w-5 h-5 fill-white" viewBox="0 0 24 24">
+                        <svg className="w-5 h-5 fill-white shrink-0" viewBox="0 0 24 24">
                           <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86.173.086.274.072.376-.043s.433-.506.549-.68c.116-.173.231-.145.39-.086s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.099.824zm-3.394-10.416c-5.523 0-10 4.477-10 10 0 1.77.46 3.432 1.264 4.881l-1.344 4.912 5.044-1.323c1.402.766 3.003 1.2 4.707 1.2 5.522 0 10-4.477 10-10s-4.478-10-9.671-10z" />
                         </svg>
-                        <span>تأكيد والتحويل إلى WhatsApp</span>
+                        <span>تأكيد وإرسال الطلب عبر WhatsApp</span>
+                        <span className="bg-white/20 text-white text-xs px-2 py-0.5 rounded-lg ms-1 font-mono">
+                          {grandTotal.toLocaleString('en-US')} {shippingSettings.currency}
+                        </span>
                       </>
                     )}
-                  </Button>
+                  </button>
                 </div>
-              </motion.div>
-            )}
-
-            {/* STEP 3: Success Confirmation Screen */}
-            {step === 'success' && completedOrder && (
+              </motion.form>
+            ) : (
+              /* SUCCESS STATE */
               <motion.div
-                key="step-success"
+                key="order-success"
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
-                className="text-center py-4 space-y-5"
+                className="text-center py-6 space-y-5"
               >
-                <div className="w-16 h-16 rounded-full bg-emerald-50 border-2 border-emerald-200 flex items-center justify-center mx-auto text-emerald-600">
+                <div className="w-16 h-16 rounded-full bg-emerald-50 border border-emerald-200 flex items-center justify-center mx-auto text-emerald-600 shadow-sm">
                   <CheckCircle2 className="w-8 h-8" />
                 </div>
 
                 <div>
                   <h3 className="text-xl font-black text-[#1C1917] mb-1">
-                    تم تجهيز طلبك بنجاح! 🎉
+                    تم تجهيز طلبك بنجاح!
                   </h3>
-                  <p className="text-xs text-[#78716C] max-w-sm mx-auto">
-                    تم حفظ الطلب في النظام وتجهيز رسالة WhatsApp المنسقة لإرسالها لفريق المتجر.
+                  <p className="text-xs text-[#78716C]">
+                    رقم الطلب الخاص بك: <span className="font-mono font-bold text-[#1C1917] select-all">{completedOrder?.orderNumber}</span>
                   </p>
                 </div>
 
-                {/* Order ID Badge */}
-                <div className="inline-block bg-[#F8F5F0] border border-[#E8E4DF] rounded-2xl px-5 py-2.5">
-                  <p className="text-[11px] text-[#A8A29E] font-bold">رقم الطلب الخاص بك</p>
-                  <p className="text-base font-black text-[#1C1917] tracking-wider font-mono">
-                    {completedOrder.orderNumber}
-                  </p>
-                </div>
+                {completedOrder && (
+                  <div className="bg-[#FAF8F5] border border-[#E8E4DF] rounded-2xl p-4 text-xs space-y-2 max-w-sm mx-auto">
+                    <div className="flex justify-between text-[#78716C]">
+                      <span>المجموع الفرعي:</span>
+                      <span>{completedOrder.subtotal.toLocaleString('en-US')} {shippingSettings.currency}</span>
+                    </div>
+                    <div className="flex justify-between text-[#78716C]">
+                      <span>أجور التوصيل:</span>
+                      <span>{completedOrder.shippingCost === 0 ? 'مجاني 🎁' : `${completedOrder.shippingCost.toLocaleString('en-US')} ${shippingSettings.currency}`}</span>
+                    </div>
+                    <div className="flex justify-between font-black text-sm text-[#1C1917] pt-2 border-t border-[#E8E4DF]">
+                      <span>المجموع الكلي:</span>
+                      <span className="text-gold">{completedOrder.totalAmount.toLocaleString('en-US')} {shippingSettings.currency}</span>
+                    </div>
+                  </div>
+                )}
 
-                {/* Re-open WhatsApp CTA if blocked */}
-                <div className="space-y-2 max-w-xs mx-auto pt-2">
-                  <Button
-                    type="button"
-                    onClick={() => window.open(completedOrder.whatsappUrl, '_blank')}
-                    className="w-full h-12 rounded-2xl font-black text-sm text-white flex items-center justify-center gap-2 cursor-pointer shadow-md hover:shadow-lg transition-all"
-                    style={{ background: 'linear-gradient(135deg, #25D366 0%, #128C7E 100%)' }}
-                  >
-                    <ExternalLink className="w-4 h-4" />
-                    فتح محادثة WhatsApp الآن
-                  </Button>
+                <div className="pt-2 space-y-2.5 max-w-sm mx-auto">
+                  {completedOrder?.whatsappUrl && (
+                    <a
+                      href={completedOrder.whatsappUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-full h-12 rounded-xl font-black text-white text-sm flex items-center justify-center gap-2 shadow-md transition-all hover:brightness-110 cursor-pointer"
+                      style={{ background: 'linear-gradient(135deg, #25D366 0%, #128C7E 100%)' }}
+                    >
+                      <ExternalLink className="w-4 h-4" />
+                      <span>فتح محادثة WhatsApp وإرسال الطلب</span>
+                    </a>
+                  )}
 
                   <Button
-                    type="button"
-                    variant="ghost"
                     onClick={handleResetAndClose}
-                    className="w-full h-10 rounded-2xl text-xs font-bold text-[#78716C] hover:bg-[#FAFAF8] cursor-pointer"
+                    variant="outline"
+                    className="w-full h-11 rounded-xl border-[#E8E4DF] text-[#78716C] text-xs font-bold hover:bg-[#F5F0EA]"
                   >
-                    العودة إلى المتجر
+                    إغلاق والعودة للتسوق
                   </Button>
                 </div>
               </motion.div>
             )}
-
           </AnimatePresence>
         </div>
       </DialogContent>

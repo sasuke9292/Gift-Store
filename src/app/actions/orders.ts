@@ -42,28 +42,22 @@ function generateOrderNumber(): string {
 export async function createWhatsAppOrderAction(data: WhatsAppOrderInput) {
   try {
     // 1. Validate customer inputs
-    const name = data.customerName?.trim()
+    const name = data.customerName?.trim() || 'زبون المتجر'
     const phone = data.customerPhone?.trim()
-    const province = data.province?.trim()
-    const area = data.area?.trim()
-    const address = data.address?.trim()
-    const deliveryType = data.deliveryType === 'PICKUP' ? 'PICKUP' : 'DELIVERY'
+    const province = data.province?.trim() || 'بغداد'
+    const area = data.area?.trim() || ''
+    const address = data.address?.trim() || area
+    const deliveryType = 'DELIVERY'
     const notes = data.notes?.trim() || ''
 
-    if (!name || name.length < 2) {
-      return { error: 'يرجى إدخال الاسم الكامل بشكل صحيح.' }
-    }
     if (!phone || phone.replace(/\D/g, '').length < 10) {
-      return { error: 'يرجى إدخال رقم هاتف صحيح (10 أرقام على الأقل).' }
+      return { error: 'يرجى إدخال رقم هاتف واتساب صحيح (10 أرقام على الأقل).' }
     }
     if (!province) {
       return { error: 'يرجى اختيار المحافظة.' }
     }
-    if (!area) {
-      return { error: 'يرجى إدخال المنطقة أو القضاء.' }
-    }
-    if (deliveryType === 'DELIVERY' && (!address || address.length < 3)) {
-      return { error: 'يرجى إدخال العنوان بالتفصيل (أقرب نقطة دالة، زقاق، دار).' }
+    if (!address && !area) {
+      return { error: 'يرجى كتابة العنوان والمنطقة وأقرب نقطة دالة للتوصيل.' }
     }
     if (!data.items || data.items.length === 0) {
       return { error: 'السلة فارغة. يرجى إضافة منتجات قبل إتمام الطلب.' }
@@ -130,11 +124,9 @@ export async function createWhatsAppOrderAction(data: WhatsAppOrderInput) {
       }
     })
 
-    // Calculate shipping fee
+    // Calculate shipping fee (Direct Delivery)
     let shippingCost = 0
-    if (deliveryType === 'PICKUP') {
-      shippingCost = 0
-    } else if (subtotal >= freeThreshold) {
+    if (subtotal >= freeThreshold) {
       shippingCost = 0
     } else {
       const isBaghdad = province.includes('بغداد') || province.toLowerCase().includes('baghdad')
@@ -152,8 +144,8 @@ export async function createWhatsAppOrderAction(data: WhatsAppOrderInput) {
         customerPhone: phone,
         source: 'WHATSAPP',
         province,
-        area,
-        deliveryType,
+        area: area || address,
+        deliveryType: 'DELIVERY',
         status: 'PENDING',
         paymentMethod: 'WHATSAPP',
         paymentStatus: 'UNPAID',
@@ -163,9 +155,9 @@ export async function createWhatsAppOrderAction(data: WhatsAppOrderInput) {
         total: totalAmount,
         shippingAddress: {
           province,
-          area,
-          address: deliveryType === 'PICKUP' ? 'استلام مباشر من الفرع' : address,
-          deliveryType
+          area: area || address,
+          address: address || area,
+          deliveryType: 'DELIVERY'
         },
         notes: notes || null,
         items: {
@@ -182,8 +174,7 @@ export async function createWhatsAppOrderAction(data: WhatsAppOrderInput) {
       }
     })
 
-    // 5. Construct Clean, Professional WhatsApp Message
-    const deliveryMethodArabic = deliveryType === 'PICKUP' ? 'استلام من المتجر 🏬' : 'توصيل للمنزل 🚚'
+    // 5. Construct Clean, Simple, Professional WhatsApp Message
     const shippingText = shippingCost === 0 ? 'مجاني 🎁' : `${shippingCost.toLocaleString('en-US')} ${currency}`
 
     const itemsText = verifiedItems
@@ -193,12 +184,8 @@ export async function createWhatsAppOrderAction(data: WhatsAppOrderInput) {
       )
       .join('\n\n')
 
-    const addressBlock =
-      deliveryType === 'PICKUP'
-        ? `📍 طريقة الاستلام: استلام من المتجر 🏬\n📍 المحافظة: ${province}`
-        : `📍 طريقة الاستلام: توصيل للمنزل 🚚\n📍 المحافظة: ${province}\n📍 المنطقة / القضاء: ${area}\n📍 العنوان التفصيلي: ${address}`
-
-    const notesBlock = notes ? `\n📝 ملاحظات إضافية:\n${notes}` : ''
+    const destinationText = area && address && area !== address ? `${province} - ${area} (${address})` : `${province} - ${address || area}`
+    const notesBlock = notes ? `\n📝 ملاحظات أو كارت إهداء:\n${notes}` : ''
 
     const fullWhatsAppText = `${welcomeMsg}
 
@@ -208,13 +195,11 @@ export async function createWhatsAppOrderAction(data: WhatsAppOrderInput) {
 ━━━━━━━━━━━━━━
 ${itemsText}
 ━━━━━━━━━━━━━━
-📦 التوصيل: ${shippingText}
-💰 المجموع الكلي: ${totalAmount.toLocaleString('en-US')} ${currency}
+🚚 التوصيل: ${shippingText}
+💰 الإجمالي الكلي: ${totalAmount.toLocaleString('en-US')} ${currency}
 
-👤 معلومات العميل:
-الاسم: ${name}
-الهاتف: ${phone}
-${addressBlock}${notesBlock}
+📱 رقم المستلم: ${phone}
+📍 عنوان التوصيل: ${destinationText}${notesBlock}
 
 ${footerNote}`
 

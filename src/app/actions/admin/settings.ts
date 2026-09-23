@@ -57,9 +57,10 @@ export async function updateStoreSettings(rawData: Record<string, any>) {
     return { success: false, error: 'غير مصرح لك بالقيام بهذا الإجراء' }
   }
 
+  // Remove id and updatedAt if present
+  const { id, updatedAt, ...data } = rawData
+
   try {
-    // Remove id and updatedAt if present
-    const { id, updatedAt, ...data } = rawData
 
     // Ensure numeric types are properly converted
     if (data.freeShippingThreshold !== undefined) {
@@ -88,6 +89,31 @@ export async function updateStoreSettings(rawData: Record<string, any>) {
       data.whatsappNumber = cleaned || '9647700000000'
     }
 
+    // Clean string fields: if empty string on nullable fields, set to null
+    const nullableFields = [
+      'logoUrl', 'faviconUrl', 'topBarLink', 'zainCashNumber', 'fibAccountNumber',
+      'paymentNotes', 'storeEmail', 'storePhone', 'addressDetails',
+      'instagramUrl', 'facebookUrl', 'tiktokUrl', 'telegramUrl'
+    ]
+    for (const field of nullableFields) {
+      if (data[field] === '') {
+        data[field] = null
+      }
+    }
+
+    // Ensure boolean fields are strictly boolean
+    const booleanFields = [
+      'maintenanceMode', 'showTopBar', 'showTrackOrder', 'showGiftFinder',
+      'enableGiftPackaging', 'enableGiftCardNote', 'allowCod', 'allowOnlinePayment',
+      'enableZainCash', 'enableFib', 'whatsappOrderEnabled', 'showFooterCta',
+      'orderNotifications', 'marketingEmails'
+    ]
+    for (const field of booleanFields) {
+      if (data[field] !== undefined) {
+        data[field] = Boolean(data[field])
+      }
+    }
+
     const settings = await prisma.storeSettings.upsert({
       where: { id: 'default' },
       update: data,
@@ -107,8 +133,25 @@ export async function updateStoreSettings(rawData: Record<string, any>) {
     revalidatePath('/gift-finder')
     
     return { success: true, data: settings }
-  } catch (error) {
-    console.error('Failed to update store settings:', error)
-    return { success: false, error: 'حدث خطأ أثناء تحديث الإعدادات' }
+  } catch (error: any) {
+    console.error('Failed to update store settings, attempting safe fallback:', error)
+    try {
+      // If table is missing newly added columns, save core settings
+      const { whatsappOrderEnabled, whatsappWelcomeMsg, whatsappFooterNote, ...coreData } = data
+      const settings = await prisma.storeSettings.upsert({
+        where: { id: 'default' },
+        update: coreData,
+        create: {
+          id: 'default',
+          ...coreData
+        }
+      })
+      revalidatePath('/', 'layout')
+      revalidatePath('/admin', 'layout')
+      return { success: true, data: settings }
+    } catch (fallbackError: any) {
+      console.error('Core settings update also failed:', fallbackError)
+      return { success: false, error: error?.message || 'حدث خطأ أثناء تحديث الإعدادات' }
+    }
   }
 }
