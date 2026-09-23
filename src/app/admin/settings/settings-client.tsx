@@ -26,7 +26,8 @@ import {
   Layers,
   Info,
   ChevronLeft,
-  MessageCircle
+  MessageCircle,
+  ArrowLeft
 } from 'lucide-react'
 import { toast } from 'sonner'
 import { updateStoreSettings } from '@/app/actions/admin/settings'
@@ -104,6 +105,7 @@ export interface SettingsData {
   telegramUrl?: string | null
 
   // 8. Footer & Features
+  footerCtaBadge: string
   footerCtaTitle: string
   footerCtaSubtitle: string
   footerCtaBtnText: string
@@ -141,7 +143,7 @@ const TABS: { id: TabType; label: string; icon: React.ElementType; desc: string 
   { id: 'whatsapp', label: 'إعدادات WhatsApp', icon: MessageCircle, desc: 'رقم واتساب المتجر، تفعيل الطلب، وتخصيص الرسائل' },
   { id: 'contact', label: 'التواصل والعمل', icon: PhoneCall, desc: 'أرقام الاتصال، الواتساب، وأوقات الدوام' },
   { id: 'social', label: 'التواصل الاجتماعي', icon: Share2, desc: 'روابط انستغرام، فيسبوك، وتيك توك' },
-  { id: 'footer', label: 'المزايا والفوتر', icon: Gift, desc: 'المزايا الأربعة، بانر الفوتر، وحقوق النشر' },
+  { id: 'footer', label: 'بانر الفوتر والمزايا', icon: Gift, desc: 'بانر الدعوة للطلب (CTA)، المزايا الأربعة، وحقوق النشر' },
   { id: 'seo', label: 'السيو والنظام', icon: ShieldCheck, desc: 'محركات البحث، الكلمات المفتاحية، والإشعارات' },
 ]
 
@@ -543,6 +545,29 @@ export default function SettingsClient({ initialSettings }: { initialSettings: S
                   />
                 </div>
               </div>
+            </div>
+
+            {/* Quick jump to Footer CTA Banner */}
+            <div className="p-4 rounded-2xl bg-[#FBF6EE] border border-[#C9A96E]/30 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-[#C9A96E]/20 flex items-center justify-center text-[#A07850] shrink-0">
+                  <Gift className="w-5 h-5 text-[#C9A96E]" />
+                </div>
+                <div>
+                  <p className="text-xs font-black text-[#1C1917]">هل تبحث عن تعديل بانر الفوتر الدعائي (أسفل الموقع)؟</p>
+                  <p className="text-[11px] text-[#78716C]">تخصيص عنوان البانر الترويجي الكبير، شارة الهدايا، وزر مكتشف الهدايا</p>
+                </div>
+              </div>
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={() => setActiveTab('footer')}
+                className="h-9 px-4 rounded-xl border-[#C9A96E]/40 text-[#A07850] hover:bg-[#C9A96E]/10 text-xs font-bold cursor-pointer shrink-0"
+              >
+                <span>تعديل بانر الفوتر</span>
+                <ChevronLeft className="w-3.5 h-3.5 ms-1" />
+              </Button>
             </div>
 
           </div>
@@ -1236,73 +1261,141 @@ export default function SettingsClient({ initialSettings }: { initialSettings: S
 
           {/* Footer CTA & Copyright */}
           <div className="border border-[#E8E4DF] rounded-3xl overflow-hidden bg-white shadow-xs">
-            <div className="p-6 border-b border-[#E8E4DF] bg-[#FAFAF8] flex items-center justify-between">
+            <div className="p-6 border-b border-[#E8E4DF] bg-[#FAFAF8] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div>
-                <h2 className="text-base font-black text-[#1C1917]">بانر الفوتر الترويجي وحقوق النشر</h2>
-                <p className="text-xs text-[#78716C] mt-1 font-medium">التحكم في البانر الدعائي أعلى تذييل الصفحة ونصوص حقوق الملكية.</p>
-              </div>
-              <Gift className="w-5 h-5 text-[#C9A96E]" />
-            </div>
-
-            <div className="p-6 sm:p-8 space-y-5">
-              <div className="flex items-center justify-between p-4 rounded-2xl bg-[#FAFAF8] border border-[#E8E4DF]">
-                <div>
-                  <p className="text-sm font-bold text-[#1C1917]">إظهار بانر الفوتر الدعائي (Footer CTA Banner)</p>
-                  <p className="text-xs text-[#78716C]">عرض البانر الترويجي الكبير أعلى تذييل الصفحة</p>
+                <div className="flex items-center gap-2.5">
+                  <h2 className="text-base font-black text-[#1C1917]">بانر الدعوة للطلب أسفل الموقع (Footer CTA Banner)</h2>
+                  <span className={cn(
+                    "px-2.5 py-0.5 rounded-full text-[11px] font-black border",
+                    settings.showFooterCta 
+                      ? "bg-emerald-50 text-emerald-700 border-emerald-200" 
+                      : "bg-stone-100 text-stone-500 border-stone-200"
+                  )}>
+                    {settings.showFooterCta ? 'معروض للزوار' : 'مخفي حالياً'}
+                  </span>
                 </div>
+                <p className="text-xs text-[#78716C] mt-1 font-medium">التحكم في البانر الترويجي الكبير أعلى تذييل الصفحة وتعديل كافة نصوصه وزر التوجيه.</p>
+              </div>
+              <div className="flex items-center gap-3 self-end sm:self-center">
+                <span className="text-xs font-bold text-[#1C1917]">
+                  {settings.showFooterCta ? 'تفعيل البانر' : 'تعطيل البانر'}
+                </span>
                 <Switch 
                   checked={settings.showFooterCta}
                   onCheckedChange={val => updateField('showFooterCta', val)}
                 />
               </div>
+            </div>
 
-              {settings.showFooterCta && (
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 p-5 rounded-2xl bg-[#F8F5F0] border border-[#E8E4DF]">
-                  <div>
-                    <Label className="text-xs font-bold text-[#1C1917] mb-1.5 block">عنوان بانر الفوتر</Label>
-                    <Input 
-                      value={settings.footerCtaTitle} 
-                      onChange={e => updateField('footerCtaTitle', e.target.value)}
-                      className="h-11 rounded-xl bg-white border-[#E8E4DF] text-sm font-bold"
-                      placeholder="هل تبحث عن هدية لا تُنسى؟"
-                    />
-                  </div>
+            <div className="p-6 sm:p-8 space-y-6">
 
-                  <div>
-                    <Label className="text-xs font-bold text-[#1C1917] mb-1.5 block">النص الفرعي لبانر الفوتر</Label>
-                    <Input 
-                      value={settings.footerCtaSubtitle} 
-                      onChange={e => updateField('footerCtaSubtitle', e.target.value)}
-                      className="h-11 rounded-xl bg-white border-[#E8E4DF] text-sm"
-                      placeholder="جرّب مكتشف الهدايا الذكي..."
-                    />
-                  </div>
+              {/* Real-time Interactive Preview of the Banner */}
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <Label className="text-xs font-bold text-[#78716C] flex items-center gap-1.5">
+                    <Eye className="w-3.5 h-3.5 text-[#C9A96E]" />
+                    <span>معاينة مباشرة لشكل البانر في تذييل الموقع</span>
+                  </Label>
+                  {!settings.showFooterCta && (
+                    <span className="text-[11px] font-bold text-amber-600 bg-amber-50 px-2.5 py-0.5 rounded-md border border-amber-200/60">
+                      ملاحظة: البانر معطل ومخفي ولن يظهر للعملاء حتى تفعيله
+                    </span>
+                  )}
+                </div>
 
-                  <div>
-                    <Label className="text-xs font-bold text-[#1C1917] mb-1.5 block">نص زر بانر الفوتر</Label>
-                    <Input 
-                      value={settings.footerCtaBtnText} 
-                      onChange={e => updateField('footerCtaBtnText', e.target.value)}
-                      className="h-11 rounded-xl bg-white border-[#E8E4DF] text-sm font-bold"
-                      placeholder="جرّب مكتشف الهدايا"
-                    />
-                  </div>
+                <div className="relative rounded-2xl bg-[#1C1917] text-white p-6 sm:p-8 overflow-hidden border border-[#3D3835] shadow-md">
+                  {/* Subtle warm glow matching the storefront */}
+                  <div className="absolute top-0 start-1/4 w-72 h-72 bg-[#C9A96E]/12 rounded-full blur-[100px] pointer-events-none" />
+                  <div className="absolute bottom-0 end-1/4 w-60 h-60 bg-[#E85D75]/10 rounded-full blur-[90px] pointer-events-none" />
 
-                  <div>
-                    <Label className="text-xs font-bold text-[#1C1917] mb-1.5 block">رابط زر بانر الفوتر</Label>
-                    <Input 
-                      value={settings.footerCtaBtnLink} 
-                      onChange={e => updateField('footerCtaBtnLink', e.target.value)}
-                      className="h-11 rounded-xl bg-white border-[#E8E4DF] text-sm"
-                      dir="ltr"
-                      placeholder="/gift-finder"
-                    />
+                  <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+                    <div className="text-start space-y-1.5 max-w-xl">
+                      <span className="inline-flex items-center gap-1.5 text-xs font-bold text-[#C9A96E] bg-[#C9A96E]/10 px-2.5 py-1 rounded-full border border-[#C9A96E]/20">
+                        <Gift className="w-3.5 h-3.5" />
+                        <span>{settings.footerCtaBadge || 'خدمة استثنائية لكافة المناسبات'}</span>
+                      </span>
+                      <h3 className="text-xl sm:text-2xl font-black text-white tracking-tight">
+                        {settings.footerCtaTitle || 'هل تبحث عن هدية لا تُنسى؟'}
+                      </h3>
+                      <p className="text-white/60 text-xs sm:text-sm leading-relaxed">
+                        {settings.footerCtaSubtitle || 'جرّب مكتشف الهدايا الذكي للحصول على اقتراحات تلائم ذوقك وميزانيتك بدقة'}
+                      </p>
+                    </div>
+
+                    <div className="flex items-center gap-2 h-11 px-6 rounded-xl font-black text-[#1C1917] text-xs sm:text-sm shadow-md shrink-0 pointer-events-none select-none"
+                      style={{ background: 'linear-gradient(135deg, #C9A96E 0%, #A07850 100%)' }}
+                    >
+                      <span>{settings.footerCtaBtnText || 'جرّب مكتشف الهدايا'}</span>
+                      <ArrowLeft className="w-4 h-4" />
+                    </div>
                   </div>
                 </div>
-              )}
+              </div>
 
-              <div className="pt-2">
-                <Label className="text-xs font-bold text-[#1C1917] mb-1.5 block">نص حقوق النشر والملكية (Copyright)</Label>
+              {/* Form Inputs */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 pt-2">
+                {/* 1. Badge Text */}
+                <div className="sm:col-span-2">
+                  <Label className="text-xs font-bold text-[#1C1917] mb-1.5 block">شارة البانر العلوية (Badge Text) *</Label>
+                  <Input 
+                    value={settings.footerCtaBadge} 
+                    onChange={e => updateField('footerCtaBadge', e.target.value)}
+                    className="h-11 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-sm font-bold"
+                    placeholder="خدمة استثنائية لكافة المناسبات"
+                  />
+                  <p className="text-[11px] text-[#78716C] mt-1">النص الصغير مع أيقونة الهدية أعلى عنوان البانر</p>
+                </div>
+
+                {/* 2. Main Title */}
+                <div>
+                  <Label className="text-xs font-bold text-[#1C1917] mb-1.5 block">عنوان البانر الرئيسي (Main Heading) *</Label>
+                  <Input 
+                    value={settings.footerCtaTitle} 
+                    onChange={e => updateField('footerCtaTitle', e.target.value)}
+                    className="h-11 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-sm font-bold"
+                    placeholder="هل تبحث عن هدية لا تُنسى؟"
+                  />
+                </div>
+
+                {/* 3. Subtitle Description */}
+                <div>
+                  <Label className="text-xs font-bold text-[#1C1917] mb-1.5 block">الوصف والنص التوضيحي (Subtitle) *</Label>
+                  <Input 
+                    value={settings.footerCtaSubtitle} 
+                    onChange={e => updateField('footerCtaSubtitle', e.target.value)}
+                    className="h-11 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-sm"
+                    placeholder="جرّب مكتشف الهدايا الذكي للحصول على اقتراحات تلائم ذوقك وميزانيتك بدقة"
+                  />
+                </div>
+
+                {/* 4. Button Text */}
+                <div>
+                  <Label className="text-xs font-bold text-[#1C1917] mb-1.5 block">نص زر الإجراء (Button CTA Text) *</Label>
+                  <Input 
+                    value={settings.footerCtaBtnText} 
+                    onChange={e => updateField('footerCtaBtnText', e.target.value)}
+                    className="h-11 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-sm font-bold"
+                    placeholder="جرّب مكتشف الهدايا"
+                  />
+                </div>
+
+                {/* 5. Button Link */}
+                <div>
+                  <Label className="text-xs font-bold text-[#1C1917] mb-1.5 block">رابط الزر (Target Link) *</Label>
+                  <Input 
+                    value={settings.footerCtaBtnLink} 
+                    onChange={e => updateField('footerCtaBtnLink', e.target.value)}
+                    className="h-11 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-sm"
+                    dir="ltr"
+                    placeholder="/gift-finder أو /shop"
+                  />
+                  <p className="text-[11px] text-[#78716C] mt-1">الصفحة التي تفتح عند ضغط الزائر على الزر (مثال: /gift-finder أو /shop)</p>
+                </div>
+              </div>
+
+              {/* Copyright */}
+              <div className="pt-4 border-t border-[#E8E4DF]">
+                <Label className="text-xs font-bold text-[#1C1917] mb-1.5 block">نص حقوق النشر والملكية أسفل الفوتر (Copyright)</Label>
                 <Input 
                   value={settings.copyrightText} 
                   onChange={e => updateField('copyrightText', e.target.value)}

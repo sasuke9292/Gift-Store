@@ -37,6 +37,7 @@ interface StoreFooterProps {
     tiktokUrl?: string | null
     telegramUrl?: string | null
     showFooterCta?: boolean
+    footerCtaBadge?: string
     footerCtaTitle?: string
     footerCtaSubtitle?: string
     footerCtaBtnText?: string
@@ -74,7 +75,7 @@ export function StoreFooter({ settings }: StoreFooterProps) {
               <div className="text-center md:text-start">
                 <span className="inline-flex items-center gap-1.5 text-xs font-bold text-[#C9A96E] mb-2">
                   <Gift className="w-3.5 h-3.5" />
-                  خدمة استثنائية لكافة المناسبات
+                  {settings?.footerCtaBadge || 'خدمة استثنائية لكافة المناسبات'}
                 </span>
                 <h3 className="text-xl sm:text-2xl font-black text-white">
                   {settings?.footerCtaTitle || 'هل تبحث عن هدية لا تُنسى؟'}

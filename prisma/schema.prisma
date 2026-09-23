@@ -297,6 +297,7 @@ model StoreSettings {
   telegramUrl           String?  @default("https://t.me")
 
   // 8. Footer & Features
+  footerCtaBadge        String   @default("خدمة استثنائية لكافة المناسبات")
   footerCtaTitle        String   @default("هل تبحث عن هدية لا تُنسى؟")
   footerCtaSubtitle     String   @default("جرّب مكتشف الهدايا الذكي للحصول على اقتراحات تلائم ذوقك وميزانيتك بدقة")
   footerCtaBtnText      String   @default("جرّب مكتشف الهدايا")

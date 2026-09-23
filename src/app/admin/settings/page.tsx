@@ -79,6 +79,7 @@ export default async function AdminSettingsPage() {
     telegramUrl: settings?.telegramUrl || 'https://t.me',
 
     // 8. Footer & Features
+    footerCtaBadge: settings?.footerCtaBadge || 'خدمة استثنائية لكافة المناسبات',
     footerCtaTitle: settings?.footerCtaTitle || 'هل تبحث عن هدية لا تُنسى؟',
     footerCtaSubtitle: settings?.footerCtaSubtitle || 'جرّب مكتشف الهدايا الذكي للحصول على اقتراحات تلائم ذوقك وميزانيتك بدقة',
     footerCtaBtnText: settings?.footerCtaBtnText || 'جرّب مكتشف الهدايا',
