@@ -23,7 +23,8 @@ import {
   Loader2,
   Sparkles,
   Gift,
-  ChevronDown
+  ChevronDown,
+  X
 } from 'lucide-react'
 import Image from 'next/image'
 import { useCartStore } from '@/lib/store'
@@ -192,6 +193,7 @@ export function WhatsAppOrderModal({
   return (
     <Dialog open={isOpen} onOpenChange={open => { if (!open) handleResetAndClose() }}>
       <DialogContent 
+        showCloseButton={false}
         className="max-w-lg w-full p-0 overflow-hidden rounded-3xl bg-white border border-[#E8E4DF] shadow-[0_20px_60px_rgba(0,0,0,0.15)] max-h-[94vh] flex flex-col font-sans"
         dir="rtl"
       >
@@ -215,6 +217,17 @@ export function WhatsAppOrderModal({
                 </DialogDescription>
               </div>
             </div>
+
+            {/* Cancel / Close Button */}
+            <button
+              type="button"
+              onClick={handleResetAndClose}
+              className="w-9 h-9 rounded-full bg-white/10 hover:bg-red-500/25 active:scale-90 text-white/80 hover:text-white flex items-center justify-center transition-all border border-white/15 hover:border-red-400/40 cursor-pointer shrink-0 shadow-xs"
+              title="إلغاء وإغلاق"
+              aria-label="إلغاء وإغلاق"
+            >
+              <X className="w-5 h-5 text-white" />
+            </button>
           </div>
         </div>
 
