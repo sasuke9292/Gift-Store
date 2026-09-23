@@ -1,7 +1,8 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { useSearchParams, useRouter } from 'next/navigation'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
@@ -27,7 +28,9 @@ import {
   Info,
   ChevronLeft,
   MessageCircle,
-  ArrowLeft
+  ArrowLeft,
+  Search,
+  X
 } from 'lucide-react'
 import { toast } from 'sonner'
 import { updateStoreSettings } from '@/app/actions/admin/settings'
@@ -147,22 +150,108 @@ const TABS: { id: TabType; label: string; icon: React.ElementType; desc: string 
   { id: 'seo', label: 'السيو والنظام', icon: ShieldCheck, desc: 'محركات البحث، الكلمات المفتاحية، والإشعارات' },
 ]
 
+interface SearchableSetting {
+  id: string
+  title: string
+  desc: string
+  tab: TabType
+  tabLabel: string
+  keywords: string[]
+}
+
+function normalizeArabicText(text: string): string {
+  if (!text) return ''
+  return text
+    .toLowerCase()
+    .replace(/[أإآ]/g, 'ا')
+    .replace(/ة/g, 'ه')
+    .replace(/ى/g, 'ي')
+    .replace(/[\u064B-\u065F\u0670]/g, '')
+    .trim()
+}
+
+const SETTINGS_INDEX: SearchableSetting[] = [
+  // General & Identity
+  { id: 'storeName', title: 'اسم المتجر الرسمي', desc: 'الاسم الأساسي المعروض في الترويسة والفوتر والفواتير والرسائل', tab: 'general', tabLabel: 'الهوية والبيانات', keywords: ['اسم', 'متجر', 'هوية', 'title', 'brand'] },
+  { id: 'storeSlogan', title: 'الشعار اللفظي (Slogan)', desc: 'عبارة تسويقية وترويجية للمتجر تظهر في الترويسة والفوتر ومحركات البحث', tab: 'general', tabLabel: 'الهوية والبيانات', keywords: ['شعار', 'سلوجان', 'عبارة', 'نص', 'slogan'] },
+  { id: 'storeDescription', title: 'نبذة ووصف المتجر', desc: 'الوصف الكامل عن المتجر وفلسفته والخدمات المقدمة وتوصيل المحافظات', tab: 'general', tabLabel: 'الهوية والبيانات', keywords: ['وصف', 'نبذة', 'عن', 'من نحن', 'description'] },
+  { id: 'currency', title: 'العملة الرسمية', desc: 'رمز واسم العملة المعروضة بجانب الأسعار في كامل الموقع (د.ع)', tab: 'general', tabLabel: 'الهوية والبيانات', keywords: ['عملة', 'دينار', 'د.ع', 'دولار', 'currency'] },
+  { id: 'logoUrl', title: 'شعار المتجر (اللوجو)', desc: 'صورة الشعار الرسمية للمتجر وأيقونة العرض', tab: 'general', tabLabel: 'الهوية والبيانات', keywords: ['لوجو', 'شعار', 'صورة', 'logo'] },
+  { id: 'faviconUrl', title: 'أيقونة التبويب (Favicon)', desc: 'الأيقونة المصغرة التي تظهر في شريط تبويب المتصفح', tab: 'general', tabLabel: 'الهوية والبيانات', keywords: ['أيقونة', 'فافيكون', 'متصفح', 'favicon'] },
+  { id: 'maintenanceMode', title: 'وضع الصيانة وإغلاق المتجر المؤقت', desc: 'إيقاف المتجر مؤقتاً للزوار مع عرض رسالة صيانة لطيفة', tab: 'general', tabLabel: 'الهوية والبيانات', keywords: ['صيانة', 'إغلاق', 'قفل', 'تعليق', 'maintenance'] },
+  
+  // Hero & Showcase
+  { id: 'heroBadge', title: 'شارة البانر الترويجية (Hero Badge)', desc: 'الشارة الصغيرة المضيئة في أعلى واجهة المتجر', tab: 'hero', tabLabel: 'الواجهة والبانر', keywords: ['شارة', 'بادج', 'جديد', 'عرض', 'badge'] },
+  { id: 'heroHeadline', title: 'العنوان الرئيسي للبانر (Hero Headline)', desc: 'العنوان الضخم المميز في واجهة المتجر الرئيسية', tab: 'hero', tabLabel: 'الواجهة والبانر', keywords: ['عنوان', 'بانر', 'هيرو', 'واجهة', 'headline'] },
+  { id: 'heroSubheadline', title: 'النص التوضيحي للبانر', desc: 'الفقرة التعريفية أسفل العنوان الرئيسي في الواجهة', tab: 'hero', tabLabel: 'الواجهة والبانر', keywords: ['نص', 'بانر', 'مقدمة', 'تعريف'] },
+  { id: 'heroPrimaryBtn', title: 'أزرار البانر الرئيسي', desc: 'نصوص وروابط أزرار الشراء والاستكشاف في البانر', tab: 'hero', tabLabel: 'الواجهة والبانر', keywords: ['زر', 'تسوق', 'رابط', 'button', 'cta'] },
+  { id: 'trustStats', title: 'إحصائيات الثقة والمصداقية', desc: 'أرقام عدد العملاء والتقييمات ونسبة رضا الزبائن والتغليف الملكي', tab: 'hero', tabLabel: 'الواجهة والبانر', keywords: ['إحصائيات', 'ثقة', 'أرقام', 'عملاء', 'تقييم'] },
+  
+  // Header & Announcement
+  { id: 'showTopBar', title: 'الشريط الإعلاني العلوي (Announcement Bar)', desc: 'شريط التنبيهات الإعلانية أعلى الموقع وعروض التوصيل', tab: 'header', tabLabel: 'الترويسة والإعلانات', keywords: ['شريط', 'إعلان', 'توصيل مجاني', 'عروض', 'كود', 'خصم'] },
+  { id: 'headerPhone', title: 'رقم هاتف الترويسة السريع', desc: 'الرقم المخصص للاتصال السريع أعلى الترويسة', tab: 'header', tabLabel: 'الترويسة والإعلانات', keywords: ['هاتف', 'اتصال', 'رقم', 'ترويسة'] },
+  { id: 'headerButtons', title: 'أزرار تتبع الطلب ومكتشف الهدايا بالترويسة', desc: 'التحكم بإظهار أو إخفاء أزرار التتبع ومكتشف الهدايا', tab: 'header', tabLabel: 'الترويسة والإعلانات', keywords: ['تتبع', 'مكتشف', 'أزرار', 'أيقونات'] },
+  
+  // Shipping & Orders
+  { id: 'freeShippingThreshold', title: 'حد الشحن والتوصيل المجاني', desc: 'المبلغ المطلوب لتقديم شحن مجاني تلقائياً في السلة', tab: 'shipping', tabLabel: 'الشحن والطلبات', keywords: ['شحن مجاني', 'توصيل مجاني', 'حد', 'مبلغ', 'free shipping'] },
+  { id: 'shippingCostBaghdad', title: 'أجور التوصيل داخل بغداد', desc: 'تكلفة شحن وتوصيل الطلبات لمناطق العاصمة بغداد', tab: 'shipping', tabLabel: 'الشحن والطلبات', keywords: ['بغداد', 'أجور توصيل', 'شحن', 'سعر التوصيل'] },
+  { id: 'shippingCostProvinces', title: 'أجور التوصيل للمحافظات العراقية', desc: 'تكلفة شحن وتوصيل الطلبات لكافة المحافظات الأخرى', tab: 'shipping', tabLabel: 'الشحن والطلبات', keywords: ['محافظات', 'أجور شحن', 'توصيل', 'العراق'] },
+  { id: 'deliveryTimeEstimate', title: 'مدة التوصيل التقديرية', desc: 'المدة الزمنية المتوقعة لوصول الهدية (مثال: 24 - 48 ساعة)', tab: 'shipping', tabLabel: 'الشحن والطلبات', keywords: ['مدة', 'وقت', 'توصيل', 'ساعات', 'أيام'] },
+  { id: 'giftPackaging', title: 'التغليف الملكي وبطاقة الإهداء', desc: 'تفعيل خيارات علب الهدايا وكتابة العبارات في السلة', tab: 'shipping', tabLabel: 'الشحن والطلبات', keywords: ['تغليف', 'بوكس', 'علبة', 'كارت', 'إهداء', 'رسالة'] },
+
+  // Payment Methods
+  { id: 'allowCod', title: 'الدفع عند الاستلام كاش (Cash on Delivery)', desc: 'تمكين الزبون من دفع المبلغ نقداً للمندوب عند استلام الشحنة', tab: 'payment', tabLabel: 'طرق الدفع', keywords: ['دفع', 'استلام', 'كاش', 'نقدي', 'cod'] },
+  { id: 'enableZainCash', title: 'الدفع عبر زين كاش (Zain Cash)', desc: 'تفعيل خيار الدفع الإلكتروني عبر محفظة زين كاش ورقم الاستلام', tab: 'payment', tabLabel: 'طرق الدفع', keywords: ['زين كاش', 'محفظة', 'zain cash', 'رقم زين'] },
+  { id: 'zainCashNumber', title: 'رقم محفظة زين كاش', desc: 'رقم هاتف المحفظة التي يستلم عليها المتجر تحويلات الزبائن', tab: 'payment', tabLabel: 'طرق الدفع', keywords: ['رقم', 'زين كاش', 'محفظة', 'تحويل'] },
+  { id: 'enableFib', title: 'مصرف العراق الأول (FIB)', desc: 'تفعيل الدفع المباشر عبر حساب مصرف العراق الأول', tab: 'payment', tabLabel: 'طرق الدفع', keywords: ['FIB', 'مصرف العراق الأول', 'بنك', 'حساب'] },
+  { id: 'enableQicard', title: 'الدفع بالبطاقات المصرفية (MasterCard / Visa)', desc: 'تفعيل خيار البطاقات الائتمانية والكي كارد', tab: 'payment', tabLabel: 'طرق الدفع', keywords: ['فيزا', 'ماستركارد', 'كي كارد', 'بطاقة', 'visa', 'mastercard'] },
+
+  // WhatsApp & Quick Checkout
+  { id: 'whatsappNumber', title: 'رقم الواتساب الرسمي للمتجر', desc: 'رقم الهاتف المعتمد لاستقبال الطلبات ومراسلات العملاء', tab: 'whatsapp', tabLabel: 'إعدادات WhatsApp', keywords: ['واتساب', 'رقم', 'واتس', 'whatsapp', 'تلفون'] },
+  { id: 'enableWhatsappOrder', title: 'تفعيل الطلب المباشر عبر WhatsApp', desc: 'إتاحة زر إتمام الشراء الفوري وإرسال تفاصيل السلة للمحادثة', tab: 'whatsapp', tabLabel: 'إعدادات WhatsApp', keywords: ['طلب سريع', 'شراء مباشر', 'واتساب', 'سلة'] },
+  { id: 'whatsappWelcomeMessage', title: 'رسالة الترحيب في واتساب', desc: 'النص الافتراضي للبدء بمحادثة الدعم والاستفسار', tab: 'whatsapp', tabLabel: 'إعدادات WhatsApp', keywords: ['رسالة', 'ترحيب', 'شات', 'محادثة'] },
+  { id: 'whatsappOrderTemplate', title: 'قالب رسالة الطلب المرسلة للواتساب', desc: 'تنسيق رسالة تأكيد الطلب وقائمة الهدايا والعنوان', tab: 'whatsapp', tabLabel: 'إعدادات WhatsApp', keywords: ['قالب', 'رسالة طلب', 'تفاصيل', 'كليشة'] },
+
+  // Contact & Working Hours
+  { id: 'storePhone', title: 'رقم الهاتف المباشر وخدمة العملاء', desc: 'رقم الهاتف المخصص للاتصال الهاتفي واستفسارات العملاء', tab: 'contact', tabLabel: 'التواصل والعمل', keywords: ['هاتف', 'اتصال', 'تلفون', 'خدمة عملاء', 'phone'] },
+  { id: 'storeEmail', title: 'البريد الإلكتروني الرسمي', desc: 'إيميل المتجر الرسمي للرسائل والدعم', tab: 'contact', tabLabel: 'التواصل والعمل', keywords: ['بريد', 'إيميل', 'ايميل', 'email', 'رسائل'] },
+  { id: 'workingHours', title: 'أوقات وساعات العمل والدوام', desc: 'ساعات العمل اليومية وتواجد فريق خدمة العملاء', tab: 'contact', tabLabel: 'التواصل والعمل', keywords: ['دوام', 'ساعات', 'وقت', 'أوقات', 'عمل'] },
+
+  // Social Media
+  { id: 'instagramUrl', title: 'حساب إنستغرام (Instagram)', desc: 'رابط صفحة المتجر الرسمية على منصة إنستغرام', tab: 'social', tabLabel: 'التواصل الاجتماعي', keywords: ['انستغرام', 'انستقرام', 'انستا', 'instagram', 'صور'] },
+  { id: 'facebookUrl', title: 'صفحة فيسبوك (Facebook)', desc: 'رابط صفحة المتجر الرسمية على فيسبوك', tab: 'social', tabLabel: 'التواصل الاجتماعي', keywords: ['فيسبوك', 'فيس', 'facebook'] },
+  { id: 'tiktokUrl', title: 'حساب تيك توك (TikTok)', desc: 'رابط حساب المتجر على تيك توك ومقاطع الفيديو', tab: 'social', tabLabel: 'التواصل الاجتماعي', keywords: ['تيك توك', 'تيكتوك', 'tiktok', 'فيديو'] },
+  { id: 'telegramUrl', title: 'قناة تيليغرام (Telegram)', desc: 'رابط قناة أو حساب الدعم على تيليغرام', tab: 'social', tabLabel: 'التواصل الاجتماعي', keywords: ['تيليغرام', 'تليغرام', 'telegram'] },
+
+  // Footer & Features
+  { id: 'showFooterCta', title: 'بانر الفوتر الدعائي (Footer CTA)', desc: 'تفعيل أو إخفاء البانر الإعلاني الكبير أعلى الفوتر', tab: 'footer', tabLabel: 'بانر الفوتر والمزايا', keywords: ['فوتر', 'بانر', 'cta', 'دعائي', 'مكتشف'] },
+  { id: 'footerFeatures', title: 'مزايا المتجر الأربعة (Features Icons)', desc: 'تعديل نصوص وأيقونات بطاقات المزايا الأربعة المعروضة للزبائن', tab: 'footer', tabLabel: 'بانر الفوتر والمزايا', keywords: ['مزايا', 'ميزات', 'شحن', 'أصلي', 'تغليف', 'خدمة'] },
+  { id: 'copyrightText', title: 'نص حقوق الملكية والنشر', desc: 'النص الرسمي في أسفل الموقع لحفظ الحقوق وسنة النشر', tab: 'footer', tabLabel: 'بانر الفوتر والمزايا', keywords: ['حقوق', 'نشر', 'ملكية', 'copyright'] },
+
+  // SEO & System
+  { id: 'metaTitle', title: 'عنوان المتجر في محركات البحث (SEO Meta Title)', desc: 'العنوان الذي يظهر في نتائج بحث جوجل وشريط المتصفح', tab: 'seo', tabLabel: 'السيو والنظام', keywords: ['سيو', 'عنوان', 'جوجل', 'قوقل', 'seo', 'title'] },
+  { id: 'metaDescription', title: 'وصف المتجر لمحركات البحث (SEO Description)', desc: 'الملخص الذي يظهر أسفل العنوان في نتائج جوجل', tab: 'seo', tabLabel: 'السيو والنظام', keywords: ['وصف', 'سيو', 'جوجل', 'description', 'seo'] },
+  { id: 'metaKeywords', title: 'الكلمات المفتاحية (Meta Keywords)', desc: 'الكلمات الدلالية التي تساعد في فهرسة أقسام ومنتجات المتجر', tab: 'seo', tabLabel: 'السيو والنظام', keywords: ['كلمات مفتاحية', 'تاغات', 'سيو', 'keywords'] },
+  { id: 'orderNotifications', title: 'إشعارات الطلبات الجديدة للإدارة', desc: 'إرسال تنبيهات فورية للمديرين عند وصول أي طلب جديد', tab: 'seo', tabLabel: 'السيو والنظام', keywords: ['إشعارات', 'تنبيهات', 'طلب جديد', 'notifications'] },
+  { id: 'lowStockThreshold', title: 'حد انخفاض المخزون للتنبيه', desc: 'العدد المتبقي للمنتج الذي يطلق تنبيه اقتراب نفاد الكمية', tab: 'seo', tabLabel: 'السيو والنظام', keywords: ['مخزون', 'نفاد', 'كمية', 'تنبيه', 'stock'] },
+]
+
 export default function SettingsClient({ initialSettings }: { initialSettings: SettingsData }) {
+  const router = useRouter()
+  const searchParams = useSearchParams()
   const [settings, setSettings] = useState<SettingsData>(initialSettings)
   const [activeTab, setActiveTab] = useState<TabType>('general')
   const [isSaving, setIsSaving] = useState(false)
   const [hasChanges, setHasChanges] = useState(false)
+  const [searchQuery, setSearchQuery] = useState('')
 
-  // Listen to tab query param if accessed directly from sidebar
+  // Listen to tab query param if accessed directly or via search/sidebar
   React.useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const params = new URLSearchParams(window.location.search)
-      const tabParam = params.get('tab') as TabType
-      if (tabParam && TABS.some(t => t.id === tabParam)) {
-        setActiveTab(tabParam)
-      }
+    const tabParam = searchParams.get('tab') as TabType
+    if (tabParam && TABS.some(t => t.id === tabParam)) {
+      setActiveTab(tabParam)
     }
-  }, [])
+  }, [searchParams])
 
   const updateField = <K extends keyof SettingsData>(field: K, value: SettingsData[K]) => {
     setSettings(prev => ({ ...prev, [field]: value }))
@@ -179,6 +268,47 @@ export default function SettingsClient({ initialSettings }: { initialSettings: S
     } else {
       toast.error(res.error || 'حدث خطأ أثناء حفظ الإعدادات')
     }
+  }
+
+  // Filter matching settings for in-page search
+  const matchingSettings = useMemo(() => {
+    const q = normalizeArabicText(searchQuery)
+    if (!q) return []
+    return SETTINGS_INDEX.filter(item => {
+      const matchTitle = normalizeArabicText(item.title).includes(q)
+      const matchDesc = normalizeArabicText(item.desc).includes(q)
+      const matchTab = normalizeArabicText(item.tabLabel).includes(q)
+      const matchKeywords = item.keywords.some(k => normalizeArabicText(k).includes(q))
+      return matchTitle || matchDesc || matchTab || matchKeywords
+    })
+  }, [searchQuery])
+
+  // Count matches per tab
+  const tabMatches = useMemo(() => {
+    const map: Record<string, number> = {}
+    matchingSettings.forEach(item => {
+      map[item.tab] = (map[item.tab] || 0) + 1
+    })
+    return map
+  }, [matchingSettings])
+
+  // Jump to specific setting
+  const handleJumpToSetting = (item: SearchableSetting) => {
+    setActiveTab(item.tab)
+    const params = new URLSearchParams(window.location.search)
+    params.set('tab', item.tab)
+    router.replace(`/admin/settings?${params.toString()}`, { scroll: false })
+
+    setTimeout(() => {
+      const el = document.getElementById(`setting-${item.id}`)
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'center' })
+        el.classList.add('ring-2', 'ring-[#C9A96E]', 'bg-[#FBF6EE]/60')
+        setTimeout(() => {
+          el.classList.remove('ring-2', 'ring-[#C9A96E]', 'bg-[#FBF6EE]/60')
+        }, 3000)
+      }
+    }, 150)
   }
 
   return (
@@ -227,26 +357,116 @@ export default function SettingsClient({ initialSettings }: { initialSettings: S
         </div>
       </div>
 
+      {/* Interactive Dedicated Search Bar in Settings */}
+      <div className="bg-white p-4 sm:p-5 rounded-3xl border border-[#E8E4DF] shadow-[0_2px_12px_rgba(0,0,0,0.02)] space-y-4">
+        <div className="relative">
+          <Search className="absolute start-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#A8A29E]" />
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="ابحث في كافة إعدادات المتجر (مثال: واتساب، شحن، دفع، شعار، سيو، تواصل، فوتر، صيانة...)"
+            className="w-full h-12 ps-11 pe-10 bg-[#FAFAF8] border border-[#E8E4DF] focus:border-[#C9A96E]/60 focus:bg-white rounded-2xl text-sm text-[#1C1917] placeholder:text-[#A8A29E] outline-none transition-all focus:ring-2 focus:ring-[#C9A96E]/15"
+          />
+          {searchQuery && (
+            <button
+              type="button"
+              onClick={() => setSearchQuery('')}
+              className="absolute end-3.5 top-1/2 -translate-y-1/2 text-[#A8A29E] hover:text-[#1C1917] p-1"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          )}
+        </div>
+
+        {/* Live Search Results Drawer / Box */}
+        {searchQuery.trim() && (
+          <div className="pt-3 border-t border-[#E8E4DF]/60 animate-in fade-in-0 duration-200">
+            <div className="flex items-center justify-between mb-3 text-xs">
+              <span className="font-bold text-[#1C1917]">
+                نتائج البحث عن: <span className="text-[#A07850] font-black">&quot;{searchQuery}&quot;</span>
+              </span>
+              <span className="bg-[#FBF6EE] border border-[#C9A96E]/30 text-[#A07850] px-2.5 py-1 rounded-full font-bold text-[11px]">
+                {matchingSettings.length} خيار مطابق
+              </span>
+            </div>
+
+            {matchingSettings.length === 0 ? (
+              <div className="p-6 text-center bg-[#FAFAF8] rounded-2xl border border-[#E8E4DF]">
+                <p className="text-xs font-bold text-[#78716C]">لم يتم العثور على أي إعداد يطابق هذا البحث</p>
+                <p className="text-[11px] text-[#A8A29E] mt-1">جرّب البحث بكلمات عامة مثل: شحن، دفع، واتساب، هاتف، شعار، سيو</p>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 max-h-80 overflow-y-auto p-1">
+                {matchingSettings.map((item) => (
+                  <div
+                    key={item.id}
+                    onClick={() => handleJumpToSetting(item)}
+                    className="p-3.5 rounded-2xl bg-[#FAFAF8] hover:bg-[#FBF6EE] border border-[#E8E4DF] hover:border-[#C9A96E]/40 transition-all cursor-pointer group flex flex-col justify-between text-start"
+                  >
+                    <div>
+                      <div className="flex items-center justify-between gap-2 mb-1.5">
+                        <span className="text-[10px] font-black px-2 py-0.5 rounded-md bg-white border border-[#E8E4DF] text-[#78716C] group-hover:text-[#A07850] group-hover:border-[#C9A96E]/30">
+                          {item.tabLabel}
+                        </span>
+                        <ChevronLeft className="w-3.5 h-3.5 text-[#A8A29E] group-hover:text-[#A07850] group-hover:-translate-x-0.5 transition-transform" />
+                      </div>
+                      <p className="text-xs font-black text-[#1C1917] group-hover:text-[#A07850] transition-colors">
+                        {item.title}
+                      </p>
+                      <p className="text-[11px] text-[#78716C] mt-1 line-clamp-2 leading-relaxed">
+                        {item.desc}
+                      </p>
+                    </div>
+                    <div className="mt-3 pt-2 border-t border-[#E8E4DF]/60 flex items-center justify-between text-[10px] font-bold text-[#A07850]">
+                      <span>انتقال إلى الإعداد</span>
+                      <ArrowLeft className="w-3 h-3" />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+
       {/* Prominent Navigation Tabs Grid / Bar */}
       <div className="bg-white p-2.5 border border-[#E8E4DF] rounded-3xl shadow-sm">
         <div className="flex flex-wrap gap-1.5 sm:gap-2">
           {TABS.map((tab) => {
             const Icon = tab.icon
             const isActive = activeTab === tab.id
+            const hasMatches = (tabMatches[tab.id] || 0) > 0
+            const isSearching = searchQuery.trim().length > 0
+
             return (
               <button
                 key={tab.id}
                 type="button"
-                onClick={() => setActiveTab(tab.id)}
+                onClick={() => {
+                  setActiveTab(tab.id)
+                  const params = new URLSearchParams(window.location.search)
+                  params.set('tab', tab.id)
+                  router.replace(`/admin/settings?${params.toString()}`, { scroll: false })
+                }}
                 className={cn(
                   "flex items-center gap-2 py-2.5 px-3.5 sm:px-4 rounded-2xl text-xs font-black transition-all cursor-pointer select-none",
                   isActive
                     ? "bg-[#1C1917] text-white shadow-md scale-[1.02]"
-                    : "bg-[#FAFAF8] text-[#57534E] hover:bg-[#F2EFE9] hover:text-[#1C1917] border border-[#E8E4DF]/70"
+                    : "bg-[#FAFAF8] text-[#57534E] hover:bg-[#F2EFE9] hover:text-[#1C1917] border border-[#E8E4DF]/70",
+                  isSearching && !hasMatches && "opacity-40 hover:opacity-100"
                 )}
               >
                 <Icon className={cn("w-4 h-4 shrink-0", isActive ? "text-[#C9A96E]" : "text-[#A8A29E]")} />
                 <span>{tab.label}</span>
+                {hasMatches && (
+                  <span className={cn(
+                    "text-[10px] px-1.5 py-0.5 rounded-full font-bold ms-0.5",
+                    isActive ? "bg-[#C9A96E] text-white" : "bg-[#C9A96E]/20 text-[#A07850]"
+                  )}>
+                    {tabMatches[tab.id]}
+                  </span>
+                )}
               </button>
             )
           })}
@@ -268,7 +488,7 @@ export default function SettingsClient({ initialSettings }: { initialSettings: S
 
           <div className="p-6 sm:p-8 space-y-6">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              <div>
+              <div id="setting-storeName" className="transition-all rounded-2xl p-1">
                 <Label className="text-xs font-bold text-[#1C1917] mb-1.5 block">اسم المتجر الرسمي *</Label>
                 <Input 
                   value={settings.storeName} 
@@ -279,7 +499,7 @@ export default function SettingsClient({ initialSettings }: { initialSettings: S
                 <span className="text-[11px] text-[#A8A29E] mt-1 block">يظهر في ترويسة الموقع، التذييل، والفواتير والرسائل</span>
               </div>
 
-              <div>
+              <div id="setting-currency" className="transition-all rounded-2xl p-1">
                 <Label className="text-xs font-bold text-[#1C1917] mb-1.5 block">رمز العملة المعتمدة *</Label>
                 <Input 
                   value={settings.currency} 
@@ -291,7 +511,7 @@ export default function SettingsClient({ initialSettings }: { initialSettings: S
               </div>
             </div>
 
-            <div>
+            <div id="setting-storeSlogan" className="transition-all rounded-2xl p-1">
               <Label className="text-xs font-bold text-[#1C1917] mb-1.5 block">الشعار اللفظي / السلوغان (Tagline)</Label>
               <Input 
                 value={settings.storeSlogan} 
@@ -302,7 +522,7 @@ export default function SettingsClient({ initialSettings }: { initialSettings: S
               <span className="text-[11px] text-[#A8A29E] mt-1 block">عبارة ترويجية مميزة تظهر أسفل الشعار في الفوتر ومحركات البحث</span>
             </div>
 
-            <div>
+            <div id="setting-storeDescription" className="transition-all rounded-2xl p-1">
               <Label className="text-xs font-bold text-[#1C1917] mb-1.5 block">النبذة التعريفية للمتجر (About Summary)</Label>
               <Textarea 
                 rows={3}
@@ -315,7 +535,7 @@ export default function SettingsClient({ initialSettings }: { initialSettings: S
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-2 border-t border-[#F0ECE6]">
-              <div>
+              <div id="setting-logoUrl" className="transition-all rounded-2xl p-1">
                 <Label className="text-xs font-bold text-[#1C1917] mb-1.5 block">رابط الشعار الرئيسي (Logo URL)</Label>
                 <Input 
                   value={settings.logoUrl || ''} 
@@ -327,7 +547,7 @@ export default function SettingsClient({ initialSettings }: { initialSettings: S
                 <span className="text-[11px] text-[#A8A29E] mt-1 block">اتركه فارغاً لاستخدام الشعار التفاعلي الفاخر المدمج</span>
               </div>
 
-              <div>
+              <div id="setting-faviconUrl" className="transition-all rounded-2xl p-1">
                 <Label className="text-xs font-bold text-[#1C1917] mb-1.5 block">رابط أيقونة الموقع (Favicon URL)</Label>
                 <Input 
                   value={settings.faviconUrl || ''} 
@@ -898,7 +1118,7 @@ export default function SettingsClient({ initialSettings }: { initialSettings: S
           <div className="p-6 sm:p-8 space-y-6">
             
             {/* Toggle Status */}
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 rounded-2xl bg-[#FAFAF8] border border-[#E8E4DF]">
+            <div id="setting-enableWhatsappOrder" className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 rounded-2xl bg-[#FAFAF8] border border-[#E8E4DF] transition-all">
               <div>
                 <div className="flex items-center gap-2">
                   <p className="text-sm font-bold text-[#1C1917]">تفعيل استقبال الطلبات عبر WhatsApp</p>
@@ -922,7 +1142,7 @@ export default function SettingsClient({ initialSettings }: { initialSettings: S
             </div>
 
             {/* Store WhatsApp Number */}
-            <div className="space-y-1.5">
+            <div id="setting-whatsappNumber" className="space-y-1.5 transition-all rounded-2xl p-2">
               <Label className="text-xs font-bold text-[#1C1917] flex items-center justify-between">
                 <span>رقم WhatsApp الخاص بالمتجر *</span>
                 <span className="text-[11px] text-[#A8A29E] font-normal">صيغة دولية بدون + أو مسافات</span>

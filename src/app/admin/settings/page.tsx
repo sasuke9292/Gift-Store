@@ -106,5 +106,15 @@ export default async function AdminSettingsPage() {
     lowStockThreshold: settings?.lowStockThreshold ?? 5,
   }
 
-  return <SettingsClient initialSettings={initialSettings} />
+  return (
+    <React.Suspense fallback={
+      <div className="max-w-6xl mx-auto p-12 text-center text-[#78716C]">
+        <div className="w-8 h-8 border-2 border-[#C9A96E] border-t-transparent rounded-full animate-spin mx-auto mb-3" />
+        <p className="text-sm font-bold">جاري تحميل إعدادات المتجر...</p>
+      </div>
+    }>
+      <SettingsClient initialSettings={initialSettings} />
+    </React.Suspense>
+  )
 }
+

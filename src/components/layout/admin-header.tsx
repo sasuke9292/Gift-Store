@@ -1,9 +1,32 @@
 'use client'
 
-import React, { useState } from 'react'
-import { Bell, Search, Menu, ChevronLeft, Store, ExternalLink } from 'lucide-react'
+import React, { useState, useRef, useEffect, useMemo } from 'react'
+import { 
+  Bell, 
+  Search, 
+  Menu, 
+  ChevronLeft, 
+  Store, 
+  ExternalLink,
+  X,
+  Sliders,
+  MessageCircle,
+  Truck,
+  CreditCard,
+  ShieldCheck,
+  Sparkles,
+  Megaphone,
+  PhoneCall,
+  Share2,
+  Gift,
+  Package,
+  ShoppingCart,
+  Users,
+  Layers,
+  UserCheck
+} from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import {
   Sheet,
   SheetContent,
@@ -15,10 +38,87 @@ import { sidebarGroups } from './admin-sidebar'
 import Link from 'next/link'
 import { cn } from '@/lib/utils'
 
+function normalizeArabicText(text: string): string {
+  if (!text) return ''
+  return text
+    .toLowerCase()
+    .replace(/[أإآ]/g, 'ا')
+    .replace(/ة/g, 'ه')
+    .replace(/ى/g, 'ي')
+    .replace(/[\u064B-\u065F\u0670]/g, '')
+    .trim()
+}
+
+interface AdminSearchDestination {
+  id: string
+  title: string
+  group: string
+  href: string
+  icon: React.ElementType
+  keywords: string[]
+}
+
+const ADMIN_SEARCH_INDEX: AdminSearchDestination[] = [
+  // Settings Sections
+  { id: 'set-general', title: 'إعدادات الهوية واللوجو', group: 'إعدادات المتجر', href: '/admin/settings?tab=general', icon: Store, keywords: ['هوية', 'شعار', 'لوجو', 'اسم المتجر', 'عملة', 'صيانة', 'general'] },
+  { id: 'set-whatsapp', title: 'إعدادات WhatsApp والطلب المباشر', group: 'إعدادات المتجر', href: '/admin/settings?tab=whatsapp', icon: MessageCircle, keywords: ['واتساب', 'واتس', 'شراء سريع', 'رقم الواتساب', 'طلب مباشر', 'whatsapp'] },
+  { id: 'set-shipping', title: 'إعدادات الشحن والتوصيل', group: 'إعدادات المتجر', href: '/admin/settings?tab=shipping', icon: Truck, keywords: ['شحن', 'توصيل', 'مجاني', 'بغداد', 'محافظات', 'أجور التوصيل', 'shipping'] },
+  { id: 'set-payment', title: 'إعدادات طرق الدفع (زين كاش، FIB)', group: 'إعدادات المتجر', href: '/admin/settings?tab=payment', icon: CreditCard, keywords: ['دفع', 'زين كاش', 'FIB', 'كاش', 'استلام', 'فيزا', 'ماستركارد', 'payment'] },
+  { id: 'set-seo', title: 'إعدادات السيو والتنبيهات', group: 'إعدادات المتجر', href: '/admin/settings?tab=seo', icon: ShieldCheck, keywords: ['سيو', 'محركات البحث', 'جوجل', 'كلمات مفتاحية', 'تنبيهات', 'seo'] },
+  { id: 'set-hero', title: 'إعدادات البانر والواجهة الرئيسية', group: 'إعدادات المتجر', href: '/admin/settings?tab=hero', icon: Sparkles, keywords: ['بانر', 'هيرو', 'واجهة', 'عناوين', 'أزرار', 'ثقة', 'hero'] },
+  { id: 'set-header', title: 'إعدادات الترويسة والشريط الإعلاني', group: 'إعدادات المتجر', href: '/admin/settings?tab=header', icon: Megaphone, keywords: ['شريط اعلاني', 'ترويسة', 'توصيل مجاني', 'header'] },
+  { id: 'set-contact', title: 'أرقام التواصل وأوقات العمل', group: 'إعدادات المتجر', href: '/admin/settings?tab=contact', icon: PhoneCall, keywords: ['تواصل', 'هاتف', 'ايميل', 'دوام', 'ساعات العمل', 'contact'] },
+  { id: 'set-social', title: 'روابط التواصل الاجتماعي', group: 'إعدادات المتجر', href: '/admin/settings?tab=social', icon: Share2, keywords: ['انستغرام', 'فيسبوك', 'تيك توك', 'تيليغرام', 'social'] },
+  { id: 'set-footer', title: 'بانر الفوتر ومزايا المتجر', group: 'إعدادات المتجر', href: '/admin/settings?tab=footer', icon: Gift, keywords: ['فوتر', 'مزايا', 'حقوق', 'cta', 'هدية', 'footer'] },
+
+  // Admin Pages
+  { id: 'page-products', title: 'إدارة المنتجات والمخزون', group: 'لوحة التحكم', href: '/admin/products', icon: Package, keywords: ['منتجات', 'سلع', 'هدايا', 'مخزون', 'سعر', 'products'] },
+  { id: 'page-product-new', title: 'إضافة منتج جديد', group: 'لوحة التحكم', href: '/admin/products/new', icon: Package, keywords: ['اضافة منتج', 'جديد', 'رفع هدية', 'new product'] },
+  { id: 'page-orders', title: 'إدارة طلبات الزبائن', group: 'لوحة التحكم', href: '/admin/orders', icon: ShoppingCart, keywords: ['طلبات', 'فواتير', 'مبيعات', 'زبائن', 'orders'] },
+  { id: 'page-categories', title: 'تصنيفات وأقسام الهدايا', group: 'لوحة التحكم', href: '/admin/categories', icon: Layers, keywords: ['تصنيفات', 'اقسام', 'فئات', 'categories'] },
+  { id: 'page-users', title: 'المستخدمين وصلاحيات الطاقم', group: 'لوحة التحكم', href: '/admin/users', icon: Users, keywords: ['مستخدمين', 'صلاحيات', 'مدراء', 'طاقم', 'ادمن', 'users'] },
+  { id: 'page-notifications', title: 'سجل التنبيهات والإشعارات', group: 'لوحة التحكم', href: '/admin/notifications', icon: Bell, keywords: ['اشعارات', 'تنبيهات', 'رسائل', 'notifications'] },
+  { id: 'page-profile', title: 'الملف الشخصي وكلمة المرور', group: 'لوحة التحكم', href: '/admin/profile', icon: UserCheck, keywords: ['حسابي', 'ملف شخصي', 'باسورد', 'profile'] },
+]
+
 export function AdminHeader({ userRole = 'CUSTOMER', userName }: { userRole?: string; userName?: string | null }) {
   const pathname = usePathname()
+  const router = useRouter()
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [searchQuery, setSearchQuery] = useState('')
+  const [isSearchOpen, setIsSearchOpen] = useState(false)
+  const searchContainerRef = useRef<HTMLDivElement>(null)
+
+  // Close search popover when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (searchContainerRef.current && !searchContainerRef.current.contains(event.target as Node)) {
+        setIsSearchOpen(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [])
+
+  const filteredAdminSearch = useMemo(() => {
+    const q = normalizeArabicText(searchQuery)
+    if (!q) {
+      return ADMIN_SEARCH_INDEX.slice(0, 7) // Show top recommended items on empty focus
+    }
+    return ADMIN_SEARCH_INDEX.filter(item => {
+      const matchTitle = normalizeArabicText(item.title).includes(q)
+      const matchGroup = normalizeArabicText(item.group).includes(q)
+      const matchKeywords = item.keywords.some(k => normalizeArabicText(k).includes(q))
+      return matchTitle || matchGroup || matchKeywords
+    })
+  }, [searchQuery])
+
+  const handleSelectSearchItem = (href: string) => {
+    setIsSearchOpen(false)
+    setSearchQuery('')
+    router.push(href)
+  }
 
   const translate = (path: string) => {
     const dict: Record<string, string> = {
@@ -132,13 +232,77 @@ export function AdminHeader({ userRole = 'CUSTOMER', userName }: { userRole?: st
 
       <div className="flex items-center gap-2.5 sm:gap-3">
         {/* Quick Search */}
-        <div className="relative hidden md:block w-60 group">
-          <Search className="absolute end-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#A8A29E] group-focus-within:text-[#C9A96E] transition-colors" />
-          <input
-            type="text"
-            placeholder="بحث سريع..."
-            className="w-full h-10 ps-3 pe-10 bg-[#FAFAF8] border border-[#E8E4DF] hover:border-[#D5D0C9] focus:border-[#C9A96E]/50 focus:bg-white rounded-xl transition-all text-sm text-[#1C1917] placeholder:text-[#A8A29E] outline-none focus:ring-2 focus:ring-[#C9A96E]/15"
-          />
+        <div ref={searchContainerRef} className="relative hidden md:block w-72">
+          <div className="relative">
+            <Search className="absolute end-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#A8A29E] pointer-events-none" />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => {
+                setSearchQuery(e.target.value)
+                setIsSearchOpen(true)
+              }}
+              onFocus={() => setIsSearchOpen(true)}
+              placeholder="بحث سريع في الإدارة والإعدادات..."
+              className="w-full h-10 ps-8 pe-10 bg-[#FAFAF8] border border-[#E8E4DF] hover:border-[#D5D0C9] focus:border-[#C9A96E]/50 focus:bg-white rounded-xl transition-all text-xs text-[#1C1917] placeholder:text-[#A8A29E] outline-none focus:ring-2 focus:ring-[#C9A96E]/15"
+            />
+            {searchQuery && (
+              <button
+                type="button"
+                onClick={() => {
+                  setSearchQuery('')
+                  setIsSearchOpen(false)
+                }}
+                className="absolute start-2.5 top-1/2 -translate-y-1/2 text-[#A8A29E] hover:text-[#1C1917] p-0.5"
+              >
+                <X className="w-3.5 h-3.5" />
+              </button>
+            )}
+          </div>
+
+          {/* Quick Search Dropdown Popover */}
+          {isSearchOpen && (
+            <div className="absolute top-full end-0 mt-2 w-80 bg-white border border-[#E8E4DF] rounded-2xl shadow-xl z-50 overflow-hidden divide-y divide-[#E8E4DF]/50 max-h-96 flex flex-col animate-in fade-in-0 zoom-in-95 duration-150">
+              <div className="p-2.5 bg-[#FAFAF8] text-[11px] font-bold text-[#78716C] flex items-center justify-between">
+                <span>نتائج البحث السريع</span>
+                <span className="text-[10px] text-[#A8A29E]">اضغط للتنقل المباشر</span>
+              </div>
+
+              <div className="overflow-y-auto p-1.5 space-y-1">
+                {filteredAdminSearch.length === 0 ? (
+                  <div className="py-6 px-4 text-center">
+                    <p className="text-xs font-bold text-[#78716C]">لا توجد نتائج مطابقة لـ &quot;{searchQuery}&quot;</p>
+                    <p className="text-[11px] text-[#A8A29E] mt-1">جرّب كلمات مثل: واتساب، شحن، دفع، منتج، سيو</p>
+                  </div>
+                ) : (
+                  filteredAdminSearch.map((item) => {
+                    const ItemIcon = item.icon
+                    return (
+                      <button
+                        key={item.id}
+                        type="button"
+                        onClick={() => handleSelectSearchItem(item.href)}
+                        className="w-full flex items-center gap-2.5 p-2 rounded-xl text-start hover:bg-[#FBF6EE] group transition-colors cursor-pointer"
+                      >
+                        <div className="w-8 h-8 rounded-lg bg-[#FAFAF8] border border-[#E8E4DF] group-hover:border-[#C9A96E]/40 group-hover:bg-white flex items-center justify-center shrink-0 transition-colors">
+                          <ItemIcon className="w-4 h-4 text-[#78716C] group-hover:text-[#A07850]" />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-xs font-bold text-[#1C1917] group-hover:text-[#A07850] truncate transition-colors">
+                            {item.title}
+                          </p>
+                          <p className="text-[10px] text-[#A8A29E] truncate">
+                            {item.group}
+                          </p>
+                        </div>
+                        <ChevronLeft className="w-3.5 h-3.5 text-[#A8A29E] group-hover:text-[#A07850] shrink-0" />
+                      </button>
+                    )
+                  })
+                )}
+              </div>
+            </div>
+          )}
         </div>
 
         {/* View Store Direct Button */}
