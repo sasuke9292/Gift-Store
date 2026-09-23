@@ -211,11 +211,11 @@ export function StoreHeader({ user, topBarText, settings }: StoreHeaderProps) {
                     <Gift className="w-5 h-5 text-white" />
                   </div>
                 )}
-                <div className="flex flex-col text-start">
-                  <span className="text-xl font-black tracking-tight text-[#1C1917] leading-none">
+                <div className="flex flex-col text-start justify-center">
+                  <span className="text-xl font-black tracking-tight text-[#1C1917] leading-snug">
                     {storeDisplayName}
                   </span>
-                  <span className="text-[10px] font-bold text-[#13213c] tracking-wider mt-0.5">
+                  <span className="text-[10px] font-bold text-[#13213c] tracking-wider mt-1 block">
                     {storeDisplayTag}
                   </span>
                 </div>
@@ -401,19 +401,6 @@ export function StoreHeader({ user, topBarText, settings }: StoreHeaderProps) {
                 )}
               </Link>
 
-              {/* Staff / Admin Dashboard shortcut if staff is logged in */}
-              {user && user.role && user.role !== 'CUSTOMER' && (
-                <Link
-                  href="/admin"
-                  className="flex items-center gap-1.5 h-10 px-3 rounded-2xl text-xs font-bold text-[#1C1917] bg-[#F8F5F0] hover:bg-[#F0EBE1] border border-[#E8E4DF] transition-all"
-                  title="لوحة تحكم الإدارة"
-                >
-                  <User className="w-4 h-4 text-[#13213c]" />
-                  <span className="text-[10px] bg-[#13213c] text-white px-2 py-0.5 rounded-full font-black">
-                    لوحة الإدارة
-                  </span>
-                </Link>
-              )}
 
               {/* Gift Finder High-Tech CTA Button */}
               {(settings?.showGiftFinder ?? true) && (
