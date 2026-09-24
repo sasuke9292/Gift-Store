@@ -45,7 +45,11 @@ import {
   ExternalLink,
   Package,
   RotateCcw,
-  Link2
+  Link2,
+  Globe,
+  Bell,
+  Tag,
+  Check
 } from 'lucide-react'
 import { toast } from 'sonner'
 import { updateStoreSettings } from '@/app/actions/admin/settings'
@@ -279,6 +283,45 @@ const TABS: { id: TabType; label: string; icon: React.ElementType; desc: string 
   { id: 'social', label: 'التواصل الاجتماعي', icon: Share2, desc: 'روابط انستغرام، فيسبوك، وتيك توك' },
   { id: 'footer', label: 'بانر الفوتر والمزايا', icon: Gift, desc: 'بانر الدعوة للطلب (CTA)، المزايا الأربعة، وحقوق النشر' },
   { id: 'seo', label: 'السيو والنظام', icon: ShieldCheck, desc: 'محركات البحث، الكلمات المفتاحية، والإشعارات' },
+]
+
+export interface SettingsGroup {
+  id: string
+  title: string
+  desc: string
+  icon: React.ElementType
+  tabs: TabType[]
+}
+
+export const SETTINGS_GROUPS: SettingsGroup[] = [
+  {
+    id: 'storefront',
+    title: 'واجهة المتجر والمظهر',
+    desc: 'الهوية، السلايدر، الإهداء، البانر، الترويسة، القوائم، والفوتر',
+    icon: Sparkles,
+    tabs: ['general', 'slides', 'personas', 'hero', 'header', 'navtabs', 'footer'],
+  },
+  {
+    id: 'commerce',
+    title: 'المبيعات والشحن',
+    desc: 'خيارات الشحن والتوصيل، وطرق وبوابات الدفع',
+    icon: Truck,
+    tabs: ['shipping', 'payment'],
+  },
+  {
+    id: 'communication',
+    title: 'التواصل وقنوات البيع',
+    desc: 'واتساب والطلب المباشر، بيانات الاتصال، وأوقات العمل، والشبكات الاجتماعية',
+    icon: MessageCircle,
+    tabs: ['whatsapp', 'contact', 'social'],
+  },
+  {
+    id: 'system',
+    title: 'محركات البحث والنظام',
+    desc: 'تهيئة السيو (SEO)، تنبيهات المخزون، وإشعارات الطلبات',
+    icon: ShieldCheck,
+    tabs: ['seo'],
+  },
 ]
 
 interface SearchableSetting {
@@ -574,6 +617,11 @@ export default function SettingsClient({
     return map
   }, [matchingSettings])
 
+  // Get active settings group for the current active tab
+  const currentGroup = useMemo(() => {
+    return SETTINGS_GROUPS.find(g => g.tabs.includes(activeTab)) || SETTINGS_GROUPS[0]
+  }, [activeTab])
+
   // Jump to specific setting
   const handleJumpToSetting = (item: SearchableSetting) => {
     setActiveTab(item.tab)
@@ -712,48 +760,177 @@ export default function SettingsClient({
         )}
       </div>
 
-      {/* Prominent Navigation Tabs Grid / Bar */}
-      <div className="bg-white p-2.5 border border-[#E8E4DF] rounded-3xl shadow-sm">
-        <div className="flex flex-wrap gap-1.5 sm:gap-2">
-          {TABS.map((tab) => {
-            const Icon = tab.icon
-            const isActive = activeTab === tab.id
-            const hasMatches = (tabMatches[tab.id] || 0) > 0
-            const isSearching = searchQuery.trim().length > 0
+      {/* Main 2-Column Responsive Layout */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
+        
+        {/* Right Column (in RTL): Categorized Navigation Sidebar (Desktop) + Segmented Mobile Switcher */}
+        <div className="lg:col-span-4 xl:col-span-3 space-y-4">
+          
+          {/* Mobile Category & Tab Switcher (Visible on Mobile/Tablet only: lg:hidden) */}
+          <div className="lg:hidden bg-white p-3.5 rounded-3xl border border-[#E8E4DF] shadow-xs space-y-3">
+            {/* Category Segmented Controls */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5 p-1 bg-[#FAFAF8] rounded-2xl border border-[#E8E4DF]">
+              {SETTINGS_GROUPS.map((group) => {
+                const GroupIcon = group.icon
+                const isGroupActive = group.tabs.includes(activeTab)
+                const groupMatches = group.tabs.reduce((acc, tid) => acc + (tabMatches[tid] || 0), 0)
 
-            return (
-              <button
-                key={tab.id}
-                type="button"
-                onClick={() => {
-                  setActiveTab(tab.id)
-                  const params = new URLSearchParams(window.location.search)
-                  params.set('tab', tab.id)
-                  router.replace(`/admin/settings?${params.toString()}`, { scroll: false })
-                }}
-                className={cn(
-                  "flex items-center gap-2 py-2.5 px-3.5 sm:px-4 rounded-2xl text-xs font-black transition-all cursor-pointer select-none",
-                  isActive
-                    ? "bg-[#1C1917] text-white shadow-md scale-[1.02]"
-                    : "bg-[#FAFAF8] text-[#57534E] hover:bg-[#F2EFE9] hover:text-[#1C1917] border border-[#E8E4DF]/70",
-                  isSearching && !hasMatches && "opacity-40 hover:opacity-100"
-                )}
-              >
-                <Icon className={cn("w-4 h-4 shrink-0", isActive ? "text-[#13213c]" : "text-[#A8A29E]")} />
-                <span>{tab.label}</span>
-                {hasMatches && (
-                  <span className={cn(
-                    "text-[10px] px-1.5 py-0.5 rounded-full font-bold ms-0.5",
-                    isActive ? "bg-[#13213c] text-white" : "bg-[#13213c]/20 text-[#13213c]"
-                  )}>
-                    {tabMatches[tab.id]}
-                  </span>
-                )}
-              </button>
-            )
-          })}
+                return (
+                  <button
+                    key={group.id}
+                    type="button"
+                    onClick={() => {
+                      if (!group.tabs.includes(activeTab)) {
+                        setActiveTab(group.tabs[0])
+                        const params = new URLSearchParams(window.location.search)
+                        params.set('tab', group.tabs[0])
+                        router.replace(`/admin/settings?${params.toString()}`, { scroll: false })
+                      }
+                    }}
+                    className={cn(
+                      "flex items-center justify-center gap-1.5 py-2 px-2 rounded-xl text-xs font-bold transition-all text-center",
+                      isGroupActive
+                        ? "bg-[#13213c] text-white shadow-xs font-black"
+                        : "text-[#57534E] hover:bg-white hover:text-[#1C1917]"
+                    )}
+                  >
+                    <GroupIcon className={cn("w-3.5 h-3.5 shrink-0", isGroupActive ? "text-amber-400" : "text-[#78716C]")} />
+                    <span className="truncate">{group.title.split(' ')[0]}</span>
+                    {groupMatches > 0 && (
+                      <span className="w-2 h-2 rounded-full bg-red-500 shrink-0" />
+                    )}
+                  </button>
+                )
+              })}
+            </div>
+
+            {/* Sub-tabs under the active group in a single clean horizontal scroll row */}
+            <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-1">
+              {currentGroup.tabs.map((tabId) => {
+                const tab = TABS.find(t => t.id === tabId)
+                if (!tab) return null
+                const TabIcon = tab.icon
+                const isActive = activeTab === tab.id
+                const hasMatches = (tabMatches[tab.id] || 0) > 0
+
+                return (
+                  <button
+                    key={tab.id}
+                    type="button"
+                    onClick={() => {
+                      setActiveTab(tab.id)
+                      const params = new URLSearchParams(window.location.search)
+                      params.set('tab', tab.id)
+                      router.replace(`/admin/settings?${params.toString()}`, { scroll: false })
+                    }}
+                    className={cn(
+                      "flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold shrink-0 transition-all cursor-pointer whitespace-nowrap",
+                      isActive
+                        ? "bg-[#13213c] text-white shadow-sm font-black"
+                        : "bg-[#FAFAF8] text-[#57534E] hover:bg-[#F2EFE9] border border-[#E8E4DF]"
+                    )}
+                  >
+                    <TabIcon className={cn("w-3.5 h-3.5", isActive ? "text-amber-400" : "text-[#A8A29E]")} />
+                    <span>{tab.label}</span>
+                    {hasMatches && (
+                      <span className={cn(
+                        "text-[10px] px-1.5 py-0.2 rounded-full font-bold",
+                        isActive ? "bg-amber-400 text-[#13213c]" : "bg-[#13213c]/15 text-[#13213c]"
+                      )}>
+                        {tabMatches[tab.id]}
+                      </span>
+                    )}
+                  </button>
+                )
+              })}
+            </div>
+          </div>
+
+          {/* Desktop Categorized Vertical Sidebar (Hidden on Mobile: hidden lg:block) */}
+          <div className="hidden lg:block lg:sticky lg:top-24 bg-white rounded-3xl border border-[#E8E4DF] shadow-[0_2px_12px_rgba(0,0,0,0.02)] p-3.5 space-y-4">
+            <div className="px-3 py-2 border-b border-[#F0ECE6] flex items-center justify-between">
+              <h3 className="text-xs font-black text-[#1C1917] tracking-tight">أقسام إعدادات المتجر</h3>
+              <span className="text-[10px] font-bold text-[#78716C] bg-[#FAFAF8] px-2 py-0.5 rounded-full border border-[#E8E4DF]">
+                {TABS.length} تبويباً
+              </span>
+            </div>
+
+            {SETTINGS_GROUPS.map((group) => {
+              const GroupIcon = group.icon
+              const isGroupActive = group.tabs.includes(activeTab)
+              const groupMatches = group.tabs.reduce((acc, tid) => acc + (tabMatches[tid] || 0), 0)
+
+              return (
+                <div key={group.id} className="space-y-1">
+                  {/* Category Header */}
+                  <div className="flex items-center justify-between px-3 pt-2.5 pb-1 text-[11px] font-black text-[#78716C] uppercase tracking-wider">
+                    <div className="flex items-center gap-1.5">
+                      <GroupIcon className={cn("w-3.5 h-3.5", isGroupActive ? "text-[#13213c]" : "text-[#A8A29E]")} />
+                      <span>{group.title}</span>
+                    </div>
+                    {groupMatches > 0 && (
+                      <span className="text-[10px] bg-red-100 text-red-700 px-1.5 py-0.2 rounded-full font-bold">
+                        {groupMatches} نتائج
+                      </span>
+                    )}
+                  </div>
+
+                  {/* Tabs in this Category */}
+                  <div className="space-y-0.5">
+                    {group.tabs.map((tabId) => {
+                      const tab = TABS.find(t => t.id === tabId)
+                      if (!tab) return null
+                      const TabIcon = tab.icon
+                      const isActive = activeTab === tab.id
+                      const hasMatches = (tabMatches[tab.id] || 0) > 0
+                      const isSearching = searchQuery.trim().length > 0
+
+                      return (
+                        <button
+                          key={tab.id}
+                          type="button"
+                          onClick={() => {
+                            setActiveTab(tab.id)
+                            const params = new URLSearchParams(window.location.search)
+                            params.set('tab', tab.id)
+                            router.replace(`/admin/settings?${params.toString()}`, { scroll: false })
+                          }}
+                          className={cn(
+                            "w-full flex items-center justify-between px-3 py-2.5 rounded-2xl text-xs font-bold transition-all cursor-pointer text-start",
+                            isActive
+                              ? "bg-[#13213c] text-white shadow-sm font-black"
+                              : "text-[#57534E] hover:bg-[#FAFAF8] hover:text-[#1C1917]",
+                            isSearching && !hasMatches && "opacity-35 hover:opacity-100"
+                          )}
+                        >
+                          <div className="flex items-center gap-2.5 min-w-0">
+                            <TabIcon className={cn("w-4 h-4 shrink-0", isActive ? "text-amber-400" : "text-[#A8A29E]")} />
+                            <span className="truncate">{tab.label}</span>
+                          </div>
+
+                          <div className="flex items-center gap-1.5 shrink-0">
+                            {hasMatches && (
+                              <span className={cn(
+                                "text-[10px] px-1.5 py-0.2 rounded-full font-black",
+                                isActive ? "bg-amber-400 text-[#13213c]" : "bg-[#13213c]/10 text-[#13213c]"
+                              )}>
+                                {tabMatches[tab.id]}
+                              </span>
+                            )}
+                            <ChevronLeft className={cn("w-3.5 h-3.5 transition-transform", isActive ? "text-amber-400 -translate-x-0.5" : "text-[#D6D3D1]")} />
+                          </div>
+                        </button>
+                      )
+                    })}
+                  </div>
+                </div>
+              )
+            })}
+          </div>
         </div>
-      </div>
+
+        {/* Left Column (in RTL): Active Tab Content */}
+        <div className="lg:col-span-8 xl:col-span-9 space-y-6 min-w-0">
 
       {/* ========================================================= */}
       {/* 1. General & Store Identity                               */}
@@ -3050,87 +3227,250 @@ export default function SettingsClient({
       )}
 
       {/* ========================================================= */}
-      {/* 9. SEO & System Notifications                             */}
+      {/* 13. SEO & System Notifications                            */}
       {/* ========================================================= */}
       {activeTab === 'seo' && (
-        <div className="border border-[#E8E4DF] rounded-3xl overflow-hidden bg-white shadow-xs">
-          <div className="p-6 border-b border-[#E8E4DF] bg-[#FAFAF8] flex items-center justify-between">
-            <div>
-              <h2 className="text-base font-black text-[#1C1917]">تحسين محركات البحث (SEO) والتنبيهات</h2>
-              <p className="text-xs text-[#78716C] mt-1 font-medium">البيانات التعريفية للظهور في محركات بحث Google وإعدادات إشعارات المتجر.</p>
+        <div className="space-y-6">
+          {/* Card 1: Google SERP Preview Card */}
+          <div className="border border-[#E8E4DF] rounded-3xl overflow-hidden bg-white shadow-xs">
+            <div className="p-5 sm:p-6 border-b border-[#E8E4DF] bg-[#FAFAF8] flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-2xl bg-blue-50 border border-blue-200 flex items-center justify-center text-blue-600">
+                  <Globe className="w-5 h-5" />
+                </div>
+                <div>
+                  <h2 className="text-base font-black text-[#1C1917]">معاينة الظهور في محركات البحث (Google SERP Preview)</h2>
+                  <p className="text-xs text-[#78716C] mt-0.5">كيف سيظهر متجرك للعملاء عند البحث في محرك بحث Google</p>
+                </div>
+              </div>
+              <span className="hidden sm:inline-flex items-center gap-1 text-[11px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2.5 py-1 rounded-full">
+                <CheckCircle2 className="w-3.5 h-3.5" />
+                معاينة حية ومباشرة
+              </span>
             </div>
-            <ShieldCheck className="w-5 h-5 text-[#13213c]" />
+
+            <div className="p-6">
+              {/* Google Result Box */}
+              <div className="p-5 rounded-2xl bg-white border border-[#E2E8F0] shadow-sm max-w-2xl font-sans" dir="rtl">
+                {/* URL Breadcrumb */}
+                <div className="flex items-center gap-2 mb-1.5 text-xs text-[#202124]">
+                  <div className="w-5 h-5 rounded-full bg-slate-100 flex items-center justify-center text-[10px] font-bold text-slate-600">
+                    🎁
+                  </div>
+                  <div className="flex items-center gap-1 text-[12px] text-[#4d5156] dir-ltr">
+                    <span className="text-[#202124] font-medium">gift-store-rl7i-three.vercel.app</span>
+                    <span className="text-[#5f6368]">› store › iraq</span>
+                  </div>
+                </div>
+
+                {/* Blue Title */}
+                <h3 className="text-lg font-medium text-[#1a0dab] hover:underline cursor-pointer leading-tight mb-1.5">
+                  {settings.metaTitle || 'گِفتي بلس | متجر الهدايا الفاخرة الأول في العراق'}
+                </h3>
+
+                {/* Description Snippet */}
+                <p className="text-xs sm:text-sm text-[#4d5156] leading-relaxed">
+                  {settings.metaDescription || 'الوجهة الأولى لاختيار وتنسيق الهدايا الفاخرة في العراق. تشكيلة منتقاة بعناية لجميع المناسبات مع تغليف يدوي راقٍ وتوصيل سريع لكافة المحافظات.'}
+                </p>
+              </div>
+
+              {/* Status Chips */}
+              <div className="flex flex-wrap items-center gap-3 mt-4 pt-4 border-t border-[#F0ECE6] text-xs">
+                <div className="flex items-center gap-1.5 text-[#57534E]">
+                  <span className="font-bold">طول العنوان:</span>
+                  <span className={cn(
+                    "px-2 py-0.5 rounded-md font-bold text-[11px]",
+                    (settings.metaTitle?.length || 0) >= 30 && (settings.metaTitle?.length || 0) <= 65
+                      ? "bg-emerald-50 text-emerald-700 border border-emerald-200"
+                      : "bg-amber-50 text-amber-700 border border-amber-200"
+                  )}>
+                    {settings.metaTitle?.length || 0} / 60 حرف
+                  </span>
+                </div>
+
+                <div className="flex items-center gap-1.5 text-[#57534E]">
+                  <span className="font-bold">طول الوصف:</span>
+                  <span className={cn(
+                    "px-2 py-0.5 rounded-md font-bold text-[11px]",
+                    (settings.metaDescription?.length || 0) >= 60 && (settings.metaDescription?.length || 0) <= 160
+                      ? "bg-emerald-50 text-emerald-700 border border-emerald-200"
+                      : "bg-amber-50 text-amber-700 border border-amber-200"
+                  )}>
+                    {settings.metaDescription?.length || 0} / 160 حرف
+                  </span>
+                </div>
+              </div>
+            </div>
           </div>
 
-          <div className="p-6 sm:p-8 space-y-5">
-            <div>
-              <Label className="text-xs font-bold text-[#1C1917] mb-1.5 block">عنوان الموقع في محركات البحث (SEO Meta Title)</Label>
-              <Input 
-                value={settings.metaTitle} 
-                onChange={e => updateField('metaTitle', e.target.value)}
-                className="h-11 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-sm font-bold"
-                placeholder="گِفتي بلس | متجر الهدايا الفاخرة الأول في العراق"
-              />
+          {/* Card 2: SEO Meta Tags Settings */}
+          <div className="border border-[#E8E4DF] rounded-3xl overflow-hidden bg-white shadow-xs">
+            <div className="p-5 sm:p-6 border-b border-[#E8E4DF] bg-[#FAFAF8] flex items-center justify-between">
+              <div>
+                <h3 className="text-base font-black text-[#1C1917]">البيانات التعريفية والكلمات المفتاحية (SEO Tags)</h3>
+                <p className="text-xs text-[#78716C] mt-0.5">ضبط الكلمات والعناوين التي تفهرسها عناكب محركات البحث</p>
+              </div>
+              <ShieldCheck className="w-5 h-5 text-[#13213c]" />
             </div>
 
-            <div>
-              <Label className="text-xs font-bold text-[#1C1917] mb-1.5 block">وصف الموقع لمحركات البحث (SEO Meta Description)</Label>
-              <Textarea 
-                rows={3}
-                value={settings.metaDescription} 
-                onChange={e => updateField('metaDescription', e.target.value)}
-                className="rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-sm resize-none"
-                placeholder="الوجهة الأولى لاختيار وتنسيق الهدايا الفاخرة في العراق..."
-              />
-            </div>
-
-            <div>
-              <Label className="text-xs font-bold text-[#1C1917] mb-1.5 block">الكلمات الدلالية المفتاحية (Meta Keywords)</Label>
-              <Input 
-                value={settings.metaKeywords} 
-                onChange={e => updateField('metaKeywords', e.target.value)}
-                className="h-11 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-sm"
-                placeholder="هدايا, عطور, ساعات, تغليف هدايا, العراق, بغداد"
-              />
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4 border-t border-[#F0ECE6]">
-              <div className="flex items-center justify-between p-4 rounded-2xl bg-[#FAFAF8] border border-[#E8E4DF]">
-                <div>
-                  <p className="text-sm font-bold text-[#1C1917]">إشعارات الطلبات الجديدة</p>
-                  <p className="text-xs text-[#78716C]">تنبيه الإدارة فور ورود أي طلب جديد عبر لوحة التحكم</p>
+            <div className="p-6 sm:p-8 space-y-5">
+              <div id="setting-metaTitle">
+                <div className="flex items-center justify-between mb-1.5">
+                  <Label className="text-xs font-bold text-[#1C1917]">عنوان الموقع في محركات البحث (SEO Meta Title)</Label>
+                  <span className="text-[11px] text-[#A8A29E] font-medium">{settings.metaTitle?.length || 0} / 60</span>
                 </div>
-                <Switch 
-                  checked={settings.orderNotifications}
-                  onCheckedChange={val => updateField('orderNotifications', val)}
+                <Input 
+                  value={settings.metaTitle} 
+                  onChange={e => updateField('metaTitle', e.target.value)}
+                  className="h-11 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-sm font-bold focus:bg-white"
+                  placeholder="گِفتي بلس | متجر الهدايا الفاخرة الأول في العراق"
                 />
+                <p className="text-[11px] text-[#A8A29E] mt-1">يُفضل ألا يتجاوز 60 حرفاً لضمان عدم اقتطاعه في صفحة النتائج.</p>
               </div>
 
-              <div className="flex items-center justify-between p-4 rounded-2xl bg-[#FAFAF8] border border-[#E8E4DF]">
-                <div>
-                  <p className="text-sm font-bold text-[#1C1917]">رسائل التحديثات التسويقية</p>
-                  <p className="text-xs text-[#78716C]">إرسال عروض ترويجية للزبائن في القائمة البريدية</p>
+              <div id="setting-metaDescription">
+                <div className="flex items-center justify-between mb-1.5">
+                  <Label className="text-xs font-bold text-[#1C1917]">وصف الموقع لمحركات البحث (SEO Meta Description)</Label>
+                  <span className="text-[11px] text-[#A8A29E] font-medium">{settings.metaDescription?.length || 0} / 160</span>
                 </div>
-                <Switch 
-                  checked={settings.marketingEmails}
-                  onCheckedChange={val => updateField('marketingEmails', val)}
+                <Textarea 
+                  rows={3}
+                  value={settings.metaDescription} 
+                  onChange={e => updateField('metaDescription', e.target.value)}
+                  className="rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-sm resize-none focus:bg-white"
+                  placeholder="الوجهة الأولى لاختيار وتنسيق الهدايا الفاخرة في العراق..."
                 />
+                <p className="text-[11px] text-[#A8A29E] mt-1">وصف موجز وجذاب يشرح محتوى المتجر وميزاته للباحثين (بين 70 و 160 حرفاً).</p>
+              </div>
+
+              <div id="setting-metaKeywords">
+                <Label className="text-xs font-bold text-[#1C1917] mb-1.5 block">الكلمات الدلالية المفتاحية (Meta Keywords)</Label>
+                <Input 
+                  value={settings.metaKeywords} 
+                  onChange={e => updateField('metaKeywords', e.target.value)}
+                  className="h-11 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-sm focus:bg-white"
+                  placeholder="هدايا, عطور, ساعات, تغليف هدايا, العراق, بغداد"
+                />
+                <p className="text-[11px] text-[#A8A29E] mt-1">افصل بين كل كلمة وأخرى بفاصلة (، أو ,)</p>
+
+                {/* Keywords Chips Preview */}
+                {settings.metaKeywords && (
+                  <div className="flex flex-wrap items-center gap-1.5 mt-3 pt-3 border-t border-[#F0ECE6]">
+                    {settings.metaKeywords.split(/[,،]/).filter(k => k.trim().length > 0).map((keyword, idx) => (
+                      <span 
+                        key={idx} 
+                        className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-bold bg-[#FAFAF8] text-[#13213c] border border-[#E8E4DF]"
+                      >
+                        <Tag className="w-3 h-3 text-[#A8A29E]" />
+                        {keyword.trim()}
+                      </span>
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
+          </div>
 
-            <div className="pt-2">
-              <Label className="text-xs font-bold text-[#1C1917] mb-1.5 block">حد التنبيه لنقص المخزون (قطع)</Label>
-              <Input 
-                type="number"
-                value={settings.lowStockThreshold} 
-                onChange={e => updateField('lowStockThreshold', Number(e.target.value))}
-                className="h-11 max-w-xs rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-sm"
-              />
-              <span className="text-[11px] text-[#A8A29E] mt-1 block">يظهر تنبيه في لوحة الإدارة عند وصول كمية أي منتج إلى هذا الحد أو أقل</span>
+          {/* Card 3: System Notifications & Stock Alerts */}
+          <div className="border border-[#E8E4DF] rounded-3xl overflow-hidden bg-white shadow-xs">
+            <div className="p-5 sm:p-6 border-b border-[#E8E4DF] bg-[#FAFAF8] flex items-center justify-between">
+              <div>
+                <h3 className="text-base font-black text-[#1C1917]">إشعارات النظام وتنبيهات المخزون</h3>
+                <p className="text-xs text-[#78716C] mt-0.5">تنبيهات الإدارة بالطلبات والبريد ونواقص المنتجات</p>
+              </div>
+              <Bell className="w-5 h-5 text-[#13213c]" />
+            </div>
+
+            <div className="p-6 sm:p-8 space-y-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div id="setting-orderNotifications" className="flex items-center justify-between p-4 rounded-2xl bg-[#FAFAF8] border border-[#E8E4DF] hover:border-[#13213c]/30 transition-all">
+                  <div className="space-y-0.5">
+                    <div className="flex items-center gap-2">
+                      <p className="text-sm font-bold text-[#1C1917]">إشعارات الطلبات الجديدة</p>
+                      <span className={cn(
+                        "text-[10px] px-2 py-0.2 rounded-full font-bold",
+                        settings.orderNotifications ? "bg-emerald-100 text-emerald-800" : "bg-stone-200 text-stone-600"
+                      )}>
+                        {settings.orderNotifications ? 'مفعل' : 'معطل'}
+                      </span>
+                    </div>
+                    <p className="text-xs text-[#78716C]">تنبيه الإدارة فور ورود أي طلب جديد عبر لوحة التحكم</p>
+                  </div>
+                  <Switch 
+                    checked={settings.orderNotifications}
+                    onCheckedChange={val => updateField('orderNotifications', val)}
+                  />
+                </div>
+
+                <div id="setting-marketingEmails" className="flex items-center justify-between p-4 rounded-2xl bg-[#FAFAF8] border border-[#E8E4DF] hover:border-[#13213c]/30 transition-all">
+                  <div className="space-y-0.5">
+                    <div className="flex items-center gap-2">
+                      <p className="text-sm font-bold text-[#1C1917]">رسائل التحديثات التسويقية</p>
+                      <span className={cn(
+                        "text-[10px] px-2 py-0.2 rounded-full font-bold",
+                        settings.marketingEmails ? "bg-emerald-100 text-emerald-800" : "bg-stone-200 text-stone-600"
+                      )}>
+                        {settings.marketingEmails ? 'مفعل' : 'معطل'}
+                      </span>
+                    </div>
+                    <p className="text-xs text-[#78716C]">إرسال عروض ترويجية للزبائن في القائمة البريدية</p>
+                  </div>
+                  <Switch 
+                    checked={settings.marketingEmails}
+                    onCheckedChange={val => updateField('marketingEmails', val)}
+                  />
+                </div>
+              </div>
+
+              {/* Low Stock Alert Setting */}
+              <div id="setting-lowStockThreshold" className="p-5 rounded-2xl bg-[#FAFAF8] border border-[#E8E4DF] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div className="space-y-1">
+                  <div className="flex items-center gap-2">
+                    <Package className="w-4 h-4 text-amber-600" />
+                    <Label className="text-sm font-bold text-[#1C1917]">حد التنبيه لنقص المخزون (Low Stock Alert)</Label>
+                  </div>
+                  <p className="text-xs text-[#78716C]">
+                    يظهر تنبيه تحذيري في لوحة الإدارة وقائمة المنتجات عند وصول كمية أي منتج إلى هذا الحد أو أقل.
+                  </p>
+                </div>
+
+                <div className="flex items-center gap-3 shrink-0">
+                  <div className="flex items-center gap-1.5">
+                    {[3, 5, 10].map((preset) => (
+                      <button
+                        key={preset}
+                        type="button"
+                        onClick={() => updateField('lowStockThreshold', preset)}
+                        className={cn(
+                          "px-2.5 py-1 rounded-lg text-xs font-bold border transition-all cursor-pointer",
+                          settings.lowStockThreshold === preset
+                            ? "bg-[#13213c] text-white border-[#13213c]"
+                            : "bg-white text-[#57534E] border-[#E8E4DF] hover:bg-[#F2EFE9]"
+                        )}
+                      >
+                        {preset} قطع
+                      </button>
+                    ))}
+                  </div>
+                  <div className="relative w-24">
+                    <Input 
+                      type="number"
+                      min={1}
+                      max={999}
+                      value={settings.lowStockThreshold} 
+                      onChange={e => updateField('lowStockThreshold', Number(e.target.value))}
+                      className="h-10 text-center font-black rounded-xl bg-white border-[#E8E4DF] text-sm"
+                    />
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       )}
+
+        </div>
+      </div>
 
     </div>
   )
