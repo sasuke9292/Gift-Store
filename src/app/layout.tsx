@@ -56,6 +56,7 @@ export async function generateMetadata(): Promise<Metadata> {
     },
     description,
     keywords,
+    manifest: '/manifest.json',
     icons: settings?.faviconUrl ? [{ rel: 'icon', url: settings.faviconUrl }] : undefined,
     authors: [{ name: "Gifty Plus Team" }],
     creator: storeName,

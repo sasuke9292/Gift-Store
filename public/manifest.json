@@ -1,0 +1,37 @@
+{
+  "name": "گِفتي بلس | متجر الهدايا الفاخرة",
+  "short_name": "گِفتي بلس",
+  "description": "الوجهة الأولى لاختيار وتنسيق الهدايا الفاخرة في العراق مع تغليف يدوي ملكي وتوصيل سريع لكافة المحافظات",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#13213c",
+  "theme_color": "#13213c",
+  "orientation": "portrait",
+  "dir": "rtl",
+  "lang": "ar",
+  "categories": ["shopping", "lifestyle"],
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "التسوق المباشر",
+      "url": "/shop",
+      "description": "تصفح أحدث تشكيلة من الهدايا الراقية"
+    },
+    {
+      "name": "مكتشف الهدايا",
+      "url": "/gift-finder",
+      "description": "مساعد إلكتروني ذكي لاختيار الهدية المثالية"
+    },
+    {
+      "name": "تتبع الطلب",
+      "url": "/track-order",
+      "description": "استعلم عن مسار وحالة شحنتك فورياً"
+    }
+  ]
+}

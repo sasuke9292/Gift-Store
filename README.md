@@ -10,9 +10,10 @@
 [![Prisma](https://img.shields.io/badge/Prisma-5.22-2D3748?style=for-the-badge&logo=prisma)](https://www.prisma.io/)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-336791?style=for-the-badge&logo=postgresql)](https://www.postgresql.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-v4-38B2AC?style=for-the-badge&logo=tailwind-css)](https://tailwindcss.com/)
+[![Android](https://img.shields.io/badge/Android-Native%20APK-3DDC84?style=for-the-badge&logo=android)](./android)
 [![Deployment](https://img.shields.io/badge/Vercel-Deployed-000000?style=for-the-badge&logo=vercel)](https://gift-store-rl7i-three.vercel.app)
 
-[🌐 معاينة المتجر المباشرة (Live Demo)](https://gift-store-rl7i-three.vercel.app) • [🔐 لوحة تحكم الإدارة (Admin Panel)](https://gift-store-rl7i-three.vercel.app/admin) • [📖 التوثيق الشامل (Docs)](./docs)
+[🌐 معاينة المتجر المباشرة (Live Demo)](https://gift-store-rl7i-three.vercel.app) • [📱 تطبيق الأندرويد (Android App)](./docs/ANDROID_APP_GUIDE.md) • [🔐 لوحة تحكم الإدارة (Admin Panel)](https://gift-store-rl7i-three.vercel.app/admin) • [📖 التوثيق الشامل (Docs)](./docs)
 
 ---
 
@@ -170,6 +171,8 @@ npm run dev
 
 للاطلاع على أدق التفاصيل الهندسية والتشغيلية، يرجى مراجعة ملفات التوثيق داخل مجلد `docs/`:
 
+- 📱 **[دليل تطبيق الأندرويد الأصلي (ANDROID_APP_GUIDE.md)](./docs/ANDROID_APP_GUIDE.md):**
+  شرح بنية تطبيق الأندرويد (`android/`)، بناء ملف الـ APK، التثبيت على الهاتف، وفتح المشروع في Android Studio.
 - 📐 **[دليل المعمارية البرمجية (ARCHITECTURE.md)](./docs/ARCHITECTURE.md):**
   تفصيل بنية التطبيق، دورة حياة البيانات، ومخطط الكيانات العلائقي (ERD) بالتفصيل.
 - 💼 **[دليل إدارة المتجر والعمليات (ADMIN_GUIDE.md)](./docs/ADMIN_GUIDE.md):**
