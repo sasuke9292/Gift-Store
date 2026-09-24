@@ -13,6 +13,7 @@ import { useCartStore, useFavoritesStore } from '@/lib/store'
 import { toast } from 'sonner'
 import { useMounted } from '@/lib/use-mounted'
 import { cn } from '@/lib/utils'
+import { cleanIraqiWhatsAppNumber } from '@/lib/whatsapp'
 
 function getProductFallback(name: string, categoryName?: string): string {
   const text = `${name} ${categoryName || ''}`.toLowerCase()
@@ -40,7 +41,18 @@ function getProductFallback(name: string, categoryName?: string): string {
   return 'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&q=80&w=800'
 }
 
-export default function ProductClient({ product }: { product: any }) {
+interface ProductClientProps {
+  product: any
+  settings?: {
+    storeName?: string | null
+    whatsappNumber?: string | null
+    whatsappOrderEnabled?: boolean
+    storePhone?: string | null
+    currency?: string | null
+  } | null
+}
+
+export default function ProductClient({ product, settings }: ProductClientProps) {
   const router = useRouter()
   const fallbackImg = getProductFallback(product.name, typeof product.category === 'string' ? product.category : product.category?.name)
   const initialImg = (product.images?.[0] && !product.images[0].includes('placeholder') && !product.images[0].includes('broken')) ? product.images[0] : fallbackImg
@@ -52,6 +64,25 @@ export default function ProductClient({ product }: { product: any }) {
   const mounted = useMounted()
 
   const isFavorite = mounted && hasFavorite(product.id)
+
+  const unitPrice = product.salePrice ?? product.price
+  const totalPrice = unitPrice * quantity
+  const currencySymbol = settings?.currency || 'د.ع'
+  const isWhatsAppEnabled = settings?.whatsappOrderEnabled ?? true
+  const rawWa = settings?.whatsappNumber || settings?.storePhone || '9647701234567'
+  const cleanWa = cleanIraqiWhatsAppNumber(rawWa) || '9647701234567'
+
+  const whatsappMessage = `مرحباً ${settings?.storeName || 'گِفتي بلس'} 👋
+أود تأكيد طلب مباشر للمنتج التالي:
+
+🎁 المنتج: ${product.name}
+🔢 الكمية: ${quantity}
+💰 السعر الإجمالي: ${totalPrice.toLocaleString('en-US')} ${currencySymbol}
+${typeof window !== 'undefined' ? `🔗 رابط المنتج: ${window.location.href}` : ''}
+
+يرجى تزويدي بتفاصيل التوصيل والتأكيد، شكراً لكم ✨`
+
+  const whatsappHref = `https://wa.me/${cleanWa}?text=${encodeURIComponent(whatsappMessage)}`
 
   const handleAddToCart = () => {
     addItem({
@@ -215,58 +246,76 @@ export default function ProductClient({ product }: { product: any }) {
               </p>
             )}
 
-            {/* Quantity & Add to Cart */}
-            <div className="bg-[#FAFAF8] rounded-2xl border border-[#E8E4DF] p-5 mb-5">
-              <div className="flex items-center gap-4 mb-4">
-                <span className="text-sm font-bold text-[#78716C]">الكمية:</span>
-                <div className="flex items-center border border-[#E8E4DF] rounded-xl overflow-hidden bg-white">
-                  <button
-                    className="w-10 h-10 flex items-center justify-center text-[#78716C] hover:bg-[#F5F0EA] transition-colors"
-                    onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                  >
-                    <Minus className="w-3.5 h-3.5" />
-                  </button>
-                  <span className="w-12 text-center font-bold text-[#1C1917]">{quantity}</span>
-                  <button
-                    className="w-10 h-10 flex items-center justify-center text-[#78716C] hover:bg-[#F5F0EA] transition-colors"
-                    onClick={() => setQuantity(quantity + 1)}
-                  >
-                    <Plus className="w-3.5 h-3.5" />
-                  </button>
+            {/* Quantity, Cart & WhatsApp Direct Order Box */}
+            <div className="bg-[#FAFAF8] rounded-2xl border border-[#E8E4DF] p-5 mb-6 shadow-xs space-y-4">
+              {/* Row 1: Quantity selector & Total for selected quantity */}
+              <div className="flex items-center justify-between pb-3.5 border-b border-[#E8E4DF]/70">
+                <div className="flex items-center gap-3">
+                  <span className="text-xs sm:text-sm font-bold text-[#78716C]">الكمية:</span>
+                  <div className="flex items-center border border-[#E8E4DF] rounded-xl overflow-hidden bg-white shadow-xs">
+                    <button
+                      type="button"
+                      className="w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center text-[#78716C] hover:bg-[#F5F0EA] active:bg-[#E8E4DF] transition-colors cursor-pointer"
+                      onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                      aria-label="تقليل الكمية"
+                    >
+                      <Minus className="w-3.5 h-3.5" />
+                    </button>
+                    <span className="w-10 sm:w-12 text-center font-bold text-[#1C1917] select-none text-sm sm:text-base">
+                      {quantity}
+                    </span>
+                    <button
+                      type="button"
+                      className="w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center text-[#78716C] hover:bg-[#F5F0EA] active:bg-[#E8E4DF] transition-colors cursor-pointer"
+                      onClick={() => setQuantity(quantity + 1)}
+                      aria-label="زيادة الكمية"
+                    >
+                      <Plus className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+                </div>
+
+                <div className="text-end">
+                  <span className="text-[11px] text-[#A8A29E] font-medium block">المجموع:</span>
+                  <span className="text-sm sm:text-base font-black text-[#13213c]">
+                    {totalPrice.toLocaleString('en-US')} <span className="text-xs font-bold text-[#A8A29E]">{currencySymbol}</span>
+                  </span>
                 </div>
               </div>
 
-              <div className="flex gap-3">
-                {/* Add to Cart */}
+              {/* Row 2: Add to Cart (Primary) + Favorite + Share */}
+              <div className="flex gap-2.5">
                 <button
+                  type="button"
                   onClick={handleAddToCart}
                   className={cn(
-                    "flex-1 h-13 py-3 rounded-xl font-bold text-white text-base flex items-center justify-center gap-2 transition-all",
+                    "flex-1 h-12 py-3 rounded-xl font-bold text-white text-xs sm:text-sm flex items-center justify-center gap-2 transition-all shadow-sm cursor-pointer",
                     addedToCart
-                      ? "bg-[#10B981]"
-                      : "hover:-translate-y-0.5 hover:shadow-[0_6px_20px_rgba(19, 33, 60,0.35)]"
+                      ? "bg-[#10B981] hover:bg-[#059669]"
+                      : "hover:-translate-y-0.5 hover:shadow-[0_6px_20px_rgba(19,33,60,0.3)] active:translate-y-0"
                   )}
                   style={!addedToCart ? { background: 'linear-gradient(135deg, #22385e 0%, #13213c 100%)' } : {}}
                 >
                   {addedToCart ? (
                     <>
-                      <Check className="w-5 h-5" />
-                      تمت الإضافة!
+                      <Check className="w-4 h-4 text-white" />
+                      <span>تمت الإضافة للسلة!</span>
                     </>
                   ) : (
                     <>
-                      <ShoppingCart className="w-5 h-5" />
-                      أضف إلى السلة
+                      <ShoppingCart className="w-4 h-4 text-white" />
+                      <span>أضف إلى السلة</span>
                     </>
                   )}
                 </button>
 
                 {/* Favorite */}
                 <button
+                  type="button"
                   className={cn(
-                    "w-13 h-13 p-3 rounded-xl border transition-all flex items-center justify-center shrink-0 cursor-pointer",
+                    "w-12 h-12 rounded-xl border transition-all flex items-center justify-center shrink-0 cursor-pointer shadow-xs hover:scale-105 active:scale-95",
                     isFavorite
-                      ? "bg-[#FDF2F4] border-[#E85D75]/30 text-[#E85D75]"
+                      ? "bg-[#FDF2F4] border-[#E85D75]/40 text-[#E85D75]"
                       : "bg-white border-[#E8E4DF] text-[#A8A29E] hover:text-[#E85D75] hover:border-[#E85D75]/30 hover:bg-[#FDF2F4]"
                   )}
                   onClick={() => {
@@ -287,64 +336,52 @@ export default function ProductClient({ product }: { product: any }) {
                       toast.success('تمت الإضافة للمفضلة ❤️')
                     }
                   }}
+                  title={isFavorite ? 'إزالة من المفضلة' : 'إضافة للمفضلة'}
                   aria-label={isFavorite ? 'إزالة من المفضلة' : 'إضافة للمفضلة'}
                 >
-                  <Heart className={cn("w-5 h-5", isFavorite && "fill-[#E85D75] text-[#E85D75]")} />
+                  <Heart className={cn("w-5 h-5 transition-transform", isFavorite && "fill-[#E85D75] text-[#E85D75] scale-110")} />
                 </button>
-              </div>
 
-              {/* Instant WhatsApp Direct Order Button (Frictionless Buying) */}
-              <a
-                href={`https://wa.me/9647700000000?text=${encodeURIComponent(`مرحباً گِفتي بلس 👋\nأود تأكيد طلب هذا المنتج عبر واتساب:\n🎁 ${product.name}\nالكمية: ${quantity}\nالسعر: ${(product.salePrice ?? product.price).toLocaleString('en-US')} د.ع`)}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full mt-3 h-12 rounded-xl text-white font-black text-xs sm:text-sm flex items-center justify-center gap-2 shadow-sm hover:brightness-105 hover:-translate-y-0.5 transition-all cursor-pointer"
-                style={{ background: 'linear-gradient(135deg, #25D366 0%, #128C7E 100%)' }}
-              >
-                <MessageCircle className="w-4 h-4 text-white" />
-                <span>طلب سريع ومباشر عبر واتساب</span>
-              </a>
-
-              <div className="flex gap-3 mt-3">
                 {/* Share */}
                 <button
-                  className="w-13 h-13 p-3 rounded-xl border border-[#E8E4DF] bg-white text-[#A8A29E] hover:text-[#78716C] hover:bg-[#F5F0EA] transition-all flex items-center justify-center"
+                  type="button"
+                  title="مشاركة المنتج"
+                  aria-label="مشاركة المنتج"
+                  className="w-12 h-12 rounded-xl border border-[#E8E4DF] bg-white text-[#78716C] hover:text-[#13213c] hover:border-[#13213c]/30 hover:bg-[#F5F0EA] transition-all flex items-center justify-center shrink-0 cursor-pointer shadow-xs hover:scale-105 active:scale-95"
                   onClick={() => {
-                    if (navigator.share) {
+                    if (typeof window !== 'undefined' && navigator.share) {
                       navigator.share({ title: product.name, url: window.location.href }).catch(() => {})
-                    } else {
+                    } else if (typeof window !== 'undefined') {
                       navigator.clipboard.writeText(window.location.href)
-                      toast.success('تم نسخ الرابط!')
+                      toast.success('تم نسخ رابط المنتج بنجاح!')
                     }
                   }}
                 >
                   <Share2 className="w-5 h-5" />
                 </button>
               </div>
-            </div>
 
-            {/* Buy Now via Cart & WhatsApp */}
-            <button
-              type="button"
-              onClick={() => {
-                addItem({
-                  id: product.id,
-                  productId: product.id,
-                  name: product.name,
-                  price: product.salePrice ?? product.price,
-                  image: product.images?.[0] || '',
-                  quantity: quantity
-                })
-                router.push('/cart')
-              }}
-              className="flex items-center justify-center gap-2 w-full h-12 rounded-xl font-bold text-white transition-all duration-200 mb-6 text-sm cursor-pointer shadow-md hover:shadow-lg"
-              style={{ background: 'linear-gradient(135deg, #25D366 0%, #128C7E 100%)' }}
-            >
-              <svg className="w-5 h-5 fill-white shrink-0" viewBox="0 0 24 24">
-                <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86.173.086.274.072.376-.043s.433-.506.549-.68c.116-.173.231-.145.39-.086s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.099.824zm-3.394-10.416c-5.523 0-10 4.477-10 10 0 1.77.46 3.432 1.264 4.881l-1.344 4.912 5.044-1.323c1.402.766 3.003 1.2 4.707 1.2 5.522 0 10-4.477 10-10s-4.478-10-9.671-10z" />
-              </svg>
-              <span>طلب مباشر عبر WhatsApp</span>
-            </button>
+              {/* Row 3: Single Direct WhatsApp Order Button */}
+              {isWhatsAppEnabled && (
+                <div className="pt-3 border-t border-[#E8E4DF]/70">
+                  <a
+                    href={whatsappHref}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full h-12 rounded-xl font-bold text-white text-xs sm:text-sm flex items-center justify-center gap-2.5 shadow-[0_4px_14px_rgba(37,211,102,0.25)] hover:shadow-[0_6px_20px_rgba(37,211,102,0.35)] hover:-translate-y-0.5 active:translate-y-0 transition-all cursor-pointer"
+                    style={{ background: 'linear-gradient(135deg, #25D366 0%, #128C7E 100%)' }}
+                  >
+                    <svg className="w-5 h-5 fill-white shrink-0" viewBox="0 0 24 24">
+                      <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86.173.086.274.072.376-.043s.433-.506.549-.68c.116-.173.231-.145.39-.086s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.099.824zm-3.394-10.416c-5.523 0-10 4.477-10 10 0 1.77.46 3.432 1.264 4.881l-1.344 4.912 5.044-1.323c1.402.766 3.003 1.2 4.707 1.2 5.522 0 10-4.477 10-10s-4.478-10-9.671-10z" />
+                    </svg>
+                    <span>طلب سريع ومباشر عبر واتساب</span>
+                  </a>
+                  <p className="text-[11px] text-[#78716C] text-center mt-2 flex items-center justify-center gap-1 font-medium">
+                    <span>⚡ تأكيد فوري ومباشر مع خدمة العملاء دون انتظار</span>
+                  </p>
+                </div>
+              )}
+            </div>
 
             {/* Trust Guarantees */}
             <div className="grid grid-cols-3 gap-3">
