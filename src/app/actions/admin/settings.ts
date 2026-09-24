@@ -93,7 +93,7 @@ export async function updateStoreSettings(rawData: Record<string, any>) {
     const nullableFields = [
       'logoUrl', 'faviconUrl', 'topBarLink', 'zainCashNumber', 'fibAccountNumber',
       'paymentNotes', 'storeEmail', 'storePhone', 'storeAddress', 'addressDetails',
-      'instagramUrl', 'facebookUrl', 'tiktokUrl', 'telegramUrl'
+      'instagramUrl', 'facebookUrl', 'tiktokUrl', 'telegramUrl', 'navTabsJson'
     ]
     for (const field of nullableFields) {
       if (data[field] === '') {
@@ -106,7 +106,8 @@ export async function updateStoreSettings(rawData: Record<string, any>) {
       'maintenanceMode', 'showTopBar', 'showTrackOrder', 'showGiftFinder',
       'enableGiftPackaging', 'enableGiftCardNote', 'allowCod', 'allowOnlinePayment',
       'enableZainCash', 'enableFib', 'whatsappOrderEnabled', 'showFooterCta',
-      'orderNotifications', 'marketingEmails', 'enablePersonasSection', 'showConcierge'
+      'orderNotifications', 'marketingEmails', 'enablePersonasSection', 'showConcierge',
+      'showNavTabs'
     ]
     for (const field of booleanFields) {
       if (data[field] !== undefined) {

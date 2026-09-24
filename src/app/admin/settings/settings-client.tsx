@@ -43,7 +43,9 @@ import {
   ArrowUp,
   ArrowDown,
   ExternalLink,
-  Package
+  Package,
+  RotateCcw,
+  Link2
 } from 'lucide-react'
 import { toast } from 'sonner'
 import { updateStoreSettings } from '@/app/actions/admin/settings'
@@ -113,6 +115,8 @@ export interface SettingsData {
   headerPhone: string
   showTrackOrder: boolean
   showGiftFinder: boolean
+  showNavTabs?: boolean
+  navTabsJson?: string | null
 
   // 3. Hero & Storefront Showcase
   heroBadge: string
@@ -241,7 +245,25 @@ export interface SettingsData {
   lowStockThreshold: number
 }
 
-type TabType = 'general' | 'slides' | 'personas' | 'hero' | 'header' | 'shipping' | 'payment' | 'whatsapp' | 'contact' | 'social' | 'footer' | 'seo'
+export interface NavTabItem {
+  id: string
+  label: string
+  href: string
+  highlight?: boolean
+  enabled?: boolean
+}
+
+export const DEFAULT_NAV_TABS: NavTabItem[] = [
+  { id: 'home', label: 'الرئيسية', href: '/', enabled: true, highlight: false },
+  { id: 'shop', label: 'كل المنتجات', href: '/shop', enabled: true, highlight: false },
+  { id: 'men', label: 'هدايا رجالية', href: '/category/men', enabled: true, highlight: false },
+  { id: 'women', label: 'هدايا نسائية', href: '/category/women', enabled: true, highlight: false },
+  { id: 'occasions', label: 'مناسبات خاصة', href: '/category/occasions', enabled: true, highlight: false },
+  { id: 'custom', label: 'هدايا مخصصة', href: '/category/custom', enabled: true, highlight: false },
+  { id: 'offers', label: 'عروض وتخفيضات', href: '/category/offers', enabled: true, highlight: true },
+]
+
+type TabType = 'general' | 'slides' | 'personas' | 'hero' | 'header' | 'navtabs' | 'shipping' | 'payment' | 'whatsapp' | 'contact' | 'social' | 'footer' | 'seo'
 
 const TABS: { id: TabType; label: string; icon: React.ElementType; desc: string }[] = [
   { id: 'general', label: 'الهوية والبيانات', icon: Store, desc: 'اسم المتجر، الشعار، العملة، ووضع الصيانة' },
@@ -249,6 +271,7 @@ const TABS: { id: TabType; label: string; icon: React.ElementType; desc: string 
   { id: 'personas', label: 'دليل الإهداء والمهدى له', icon: Heart, desc: 'تخصيص بطاقات هدايا لها، هدايا له، المناسبات، والهدايا المخصصة بالاسم' },
   { id: 'hero', label: 'الواجهة والبانر', icon: Sparkles, desc: 'العناوين الرئيسية، الأزرار، وإحصائيات الثقة' },
   { id: 'header', label: 'الترويسة والإعلانات', icon: Megaphone, desc: 'الشريط الإعلاني العلوي وروابط الترويسة' },
+  { id: 'navtabs', label: 'تبويبات القائمة والتنقل', icon: Sliders, desc: 'إدارة وتخصيص روابط وتبويبات شريط التصفح والواجهة وترتيبها' },
   { id: 'shipping', label: 'الشحن والطلبات', icon: Truck, desc: 'حد الشحن المجاني وتكاليف التوصيل' },
   { id: 'payment', label: 'طرق الدفع', icon: CreditCard, desc: 'الدفع عند الاستلام، زين كاش، و FIB' },
   { id: 'whatsapp', label: 'إعدادات WhatsApp', icon: MessageCircle, desc: 'رقم واتساب المتجر، تفعيل الطلب، وتخصيص الرسائل' },
@@ -301,6 +324,10 @@ const SETTINGS_INDEX: SearchableSetting[] = [
   { id: 'showTopBar', title: 'الشريط الإعلاني العلوي (Announcement Bar)', desc: 'شريط التنبيهات الإعلانية أعلى الموقع وعروض التوصيل', tab: 'header', tabLabel: 'الترويسة والإعلانات', keywords: ['شريط', 'إعلان', 'توصيل مجاني', 'عروض', 'كود', 'خصم'] },
   { id: 'headerPhone', title: 'رقم هاتف الترويسة السريع', desc: 'الرقم المخصص للاتصال السريع أعلى الترويسة', tab: 'header', tabLabel: 'الترويسة والإعلانات', keywords: ['هاتف', 'اتصال', 'رقم', 'ترويسة'] },
   { id: 'headerButtons', title: 'أزرار تتبع الطلب ومكتشف الهدايا بالترويسة', desc: 'التحكم بإظهار أو إخفاء أزرار التتبع ومكتشف الهدايا', tab: 'header', tabLabel: 'الترويسة والإعلانات', keywords: ['تتبع', 'مكتشف', 'أزرار', 'أيقونات'] },
+
+  // Navigation Tabs (تبويبات القائمة والتنقل)
+  { id: 'navTabsList', title: 'إدارة وتخصيص تبويبات القائمة والتنقل', desc: 'إضافة وترتيب وتعديل روابط شريط التصفح العلوي وتمييز العروض', tab: 'navtabs', tabLabel: 'تبويبات القائمة والتنقل', keywords: ['تبويبات', 'قائمة', 'روابط', 'أقسام', 'تنقل', 'نافبار', 'tabs', 'navbar', 'menu', 'nav'] },
+  { id: 'showNavTabs', title: 'إظهار / إخفاء شريط التبويبات', desc: 'التحكم بظهور شريط التبويبات أسفل الترويسة في الصفحة الرئيسية', tab: 'navtabs', tabLabel: 'تبويبات القائمة والتنقل', keywords: ['تبويبات', 'شريط', 'إخفاء', 'إظهار', 'تفعيل'] },
   
   // Shipping & Orders
   { id: 'freeShippingThreshold', title: 'حد الشحن والتوصيل المجاني', desc: 'المبلغ المطلوب لتقديم شحن مجاني تلقائياً في السلة', tab: 'shipping', tabLabel: 'الشحن والطلبات', keywords: ['شحن مجاني', 'توصيل مجاني', 'حد', 'مبلغ', 'free shipping'] },
@@ -452,6 +479,65 @@ export default function SettingsClient({
     } finally {
       setUploadingField(null)
     }
+  }
+
+  // Navigation Tabs State & Handlers
+  const currentNavTabs: NavTabItem[] = useMemo(() => {
+    if (settings.navTabsJson) {
+      try {
+        const parsed = JSON.parse(settings.navTabsJson)
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          return parsed
+        }
+      } catch (err) {
+        console.error('Error parsing navTabsJson:', err)
+      }
+    }
+    return DEFAULT_NAV_TABS
+  }, [settings.navTabsJson])
+
+  const updateNavTabs = (newTabs: NavTabItem[]) => {
+    updateField('navTabsJson', JSON.stringify(newTabs))
+  }
+
+  const handleAddNavTab = (preset?: { label: string; href: string; highlight?: boolean }) => {
+    const newTab: NavTabItem = {
+      id: 'tab-' + Date.now(),
+      label: preset?.label || 'تبويب جديد',
+      href: preset?.href || '/shop',
+      enabled: true,
+      highlight: preset?.highlight ?? false
+    }
+    updateNavTabs([...currentNavTabs, newTab])
+    toast.success('تمت إضافة التبويب الجديد بنجاح')
+  }
+
+  const handleUpdateNavTab = (index: number, updates: Partial<NavTabItem>) => {
+    const updated = [...currentNavTabs]
+    updated[index] = { ...updated[index], ...updates }
+    updateNavTabs(updated)
+  }
+
+  const handleDeleteNavTab = (index: number) => {
+    const tabName = currentNavTabs[index]?.label || 'التبويب'
+    const updated = currentNavTabs.filter((_, i) => i !== index)
+    updateNavTabs(updated)
+    toast.info(`تم حذف ${tabName}`)
+  }
+
+  const handleMoveNavTab = (index: number, direction: 'up' | 'down') => {
+    const newIdx = direction === 'up' ? index - 1 : index + 1
+    if (newIdx < 0 || newIdx >= currentNavTabs.length) return
+    const updated = [...currentNavTabs]
+    const temp = updated[index]
+    updated[index] = updated[newIdx]
+    updated[newIdx] = temp
+    updateNavTabs(updated)
+  }
+
+  const handleResetNavTabs = () => {
+    updateNavTabs(DEFAULT_NAV_TABS)
+    toast.success('تمت استعادة التبويبات الافتراضية للمتجر')
   }
 
   const handleSave = async () => {
@@ -1870,6 +1956,264 @@ export default function SettingsClient({
                   checked={settings.showGiftFinder}
                   onCheckedChange={val => updateField('showGiftFinder', val)}
                 />
+              </div>
+            </div>
+
+            {/* Quick jump to Navbar Tabs */}
+            <div className="p-4 rounded-2xl bg-[#F0F4F9] border border-[#13213c]/30 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-[#13213c]/20 flex items-center justify-center text-[#13213c] shrink-0">
+                  <Sliders className="w-5 h-5 text-[#13213c]" />
+                </div>
+                <div>
+                  <p className="text-xs font-black text-[#1C1917]">هل تبحث عن إدارة وتخصيص روابط وتبويبات الأقسام (Navbar Tabs)؟</p>
+                  <p className="text-[11px] text-[#78716C]">إضافة أقسام جديدة، إعادة ترتيب التبويبات، وتمييز عروض التخفيضات</p>
+                </div>
+              </div>
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={() => setActiveTab('navtabs')}
+                className="h-9 px-4 rounded-xl border-[#13213c]/40 text-[#13213c] hover:bg-[#13213c]/10 text-xs font-bold cursor-pointer shrink-0"
+              >
+                <span>الانتقال لتبويبات القائمة</span>
+                <ChevronLeft className="w-3.5 h-3.5 ms-1" />
+              </Button>
+            </div>
+
+          </div>
+        </div>
+      )}
+
+      {/* ========================================================= */}
+      {/* 3.1 Navigation Tabs Management (تبويبات القائمة والتنقل)   */}
+      {/* ========================================================= */}
+      {activeTab === 'navtabs' && (
+        <div className="border border-[#E8E4DF] rounded-3xl overflow-hidden bg-white shadow-xs">
+          <div className="p-6 border-b border-[#E8E4DF] bg-[#FAFAF8] flex items-center justify-between">
+            <div>
+              <h2 className="text-base font-black text-[#1C1917]">إدارة وتخصيص تبويبات القائمة والتنقل (Navbar Tabs)</h2>
+              <p className="text-xs text-[#78716C] mt-1 font-medium">التحكم الكامل بروابط وأقسام شريط التصفح العلوي بالمتجر، إعادة ترتيبها، إضافة أقسام جديدة، وتمييز العروض.</p>
+            </div>
+            <Sliders className="w-5 h-5 text-[#13213c]" />
+          </div>
+
+          <div className="p-6 sm:p-8 space-y-6">
+
+            {/* Global Switch & Quick Actions Bar */}
+            <div id="setting-showNavTabs" className="p-5 rounded-2xl bg-[#FAFAF8] border border-[#E8E4DF] flex flex-col md:flex-row md:items-center justify-between gap-4">
+              <div>
+                <p className="text-sm font-bold text-[#1C1917]">تفعيل شريط التبويبات العلوي في المتجر</p>
+                <p className="text-xs text-[#78716C] mt-0.5">إظهار شريط روابط الأقسام والتنقل أسفل الترويسة الرئيسية في واجهة المتجر</p>
+              </div>
+              <div className="flex items-center gap-3">
+                <Switch 
+                  checked={settings.showNavTabs ?? true}
+                  onCheckedChange={val => updateField('showNavTabs', val)}
+                />
+                <Button
+                  type="button"
+                  onClick={() => handleAddNavTab()}
+                  size="sm"
+                  className="h-10 px-4 rounded-xl text-white font-bold text-xs gap-1.5 cursor-pointer shadow-xs"
+                  style={{ background: 'linear-gradient(135deg, #22385e 0%, #13213c 100%)' }}
+                >
+                  <Plus className="w-4 h-4" />
+                  <span>إضافة تبويب جديد</span>
+                </Button>
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={handleResetNavTabs}
+                  className="h-10 px-3 rounded-xl border-[#E8E4DF] text-xs font-bold text-[#78716C] hover:text-[#1C1917] hover:bg-white cursor-pointer"
+                  title="استعادة التبويبات الافتراضية"
+                >
+                  <RotateCcw className="w-3.5 h-3.5 ms-1" />
+                  <span>الافتراضية</span>
+                </Button>
+              </div>
+            </div>
+
+            {/* Live Storefront Preview */}
+            <div className="p-5 rounded-2xl bg-white border border-[#E8E4DF] space-y-3">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <Eye className="w-4 h-4 text-[#13213c]" />
+                  <span className="text-xs font-black text-[#1C1917]">معاينة حية وفورية لشريط التبويبات (كما يظهر للزبائن في المتجر)</span>
+                </div>
+                <span className="text-[11px] text-[#A8A29E] font-bold">تم حذف المؤشر من الشريط ✓</span>
+              </div>
+
+              <div className="p-4 rounded-2xl bg-[#FAFAF8] border border-[#E8E4DF]/80 overflow-x-auto">
+                <div className="flex items-center justify-start gap-1.5 min-w-max">
+                  {currentNavTabs.filter(t => t.enabled !== false).map((tab) => (
+                    <div
+                      key={tab.id}
+                      className={cn(
+                        "px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5",
+                        tab.highlight
+                          ? "text-[#E85D75] bg-[#FDF2F4] border border-[#FCE7EB] font-black"
+                          : "text-[#57534E] bg-white border border-[#E8E4DF]/80 shadow-2xs"
+                      )}
+                    >
+                      <span>{tab.label}</span>
+                      {tab.highlight && <span className="w-1.5 h-1.5 rounded-full bg-[#E85D75] animate-ping" />}
+                    </div>
+                  ))}
+                  {currentNavTabs.filter(t => t.enabled !== false).length === 0 && (
+                    <p className="text-xs text-[#A8A29E] py-2">لا توجد تبويبات مفعلة حالياً</p>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            {/* Tabs List */}
+            <div id="setting-navTabsList" className="space-y-3">
+              <div className="flex items-center justify-between">
+                <p className="text-xs font-black text-[#1C1917]">قائمة التبويبات الحالية ({currentNavTabs.length} تبويبات)</p>
+                <p className="text-[11px] text-[#78716C]">يمكنك إعادة الترتيب بواسطة أزرار الأسهم، وتعديل النصوص والروابط مباشرة</p>
+              </div>
+
+              <div className="space-y-2.5">
+                {currentNavTabs.map((tab, idx) => (
+                  <div
+                    key={tab.id}
+                    className={cn(
+                      "p-4 rounded-2xl border transition-all flex flex-col lg:flex-row lg:items-center justify-between gap-4",
+                      tab.enabled !== false ? "bg-white border-[#E8E4DF]" : "bg-stone-50/80 border-dashed border-[#D6D3D1] opacity-70"
+                    )}
+                  >
+                    {/* Index & Inputs */}
+                    <div className="flex-1 grid grid-cols-1 sm:grid-cols-12 gap-3 items-center">
+                      <div className="sm:col-span-1 flex items-center gap-2">
+                        <span className="w-7 h-7 rounded-lg bg-[#FAFAF8] border border-[#E8E4DF] flex items-center justify-center text-xs font-black text-[#13213c]">
+                          {idx + 1}
+                        </span>
+                      </div>
+
+                      <div className="sm:col-span-5">
+                        <Label className="text-[10px] font-bold text-[#78716C] mb-1 block">اسم التبويب (Label)</Label>
+                        <Input 
+                          value={tab.label}
+                          onChange={e => handleUpdateNavTab(idx, { label: e.target.value })}
+                          placeholder="مثال: هدايا رجالية"
+                          className="h-10 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-xs font-bold"
+                        />
+                      </div>
+
+                      <div className="sm:col-span-6">
+                        <Label className="text-[10px] font-bold text-[#78716C] mb-1 block">رابط التوجيه (Link / Href)</Label>
+                        <div className="relative">
+                          <Input 
+                            value={tab.href}
+                            onChange={e => handleUpdateNavTab(idx, { href: e.target.value })}
+                            placeholder="/category/men"
+                            dir="ltr"
+                            className="h-10 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-xs font-mono ps-8"
+                          />
+                          <Link2 className="w-3.5 h-3.5 text-[#A8A29E] absolute start-2.5 top-1/2 -translate-y-1/2" />
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Options & Action Controls */}
+                    <div className="flex flex-wrap items-center justify-between lg:justify-end gap-3 pt-3 lg:pt-0 border-t lg:border-t-0 border-[#F0ECE6]">
+                      {/* Highlight Switch */}
+                      <label className="flex items-center gap-1.5 cursor-pointer bg-[#FDF2F4] px-2.5 py-1.5 rounded-xl border border-[#FCE7EB]">
+                        <input
+                          type="checkbox"
+                          checked={Boolean(tab.highlight)}
+                          onChange={e => handleUpdateNavTab(idx, { highlight: e.target.checked })}
+                          className="rounded text-[#E85D75] focus:ring-[#E85D75]"
+                        />
+                        <span className="text-[11px] font-bold text-[#E85D75]">تمييز كعرض</span>
+                      </label>
+
+                      {/* Enabled Switch */}
+                      <div className="flex items-center gap-1.5">
+                        <span className="text-[11px] font-bold text-[#78716C]">{tab.enabled !== false ? 'مفعّل' : 'مخفي'}</span>
+                        <Switch 
+                          checked={tab.enabled !== false}
+                          onCheckedChange={val => handleUpdateNavTab(idx, { enabled: val })}
+                        />
+                      </div>
+
+                      {/* Move Up/Down Controls */}
+                      <div className="flex items-center gap-1 bg-[#FAFAF8] p-1 rounded-xl border border-[#E8E4DF]">
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="icon"
+                          disabled={idx === 0}
+                          onClick={() => handleMoveNavTab(idx, 'up')}
+                          className="w-7 h-7 rounded-lg text-[#78716C] hover:text-[#1C1917] hover:bg-white disabled:opacity-30 cursor-pointer"
+                          title="تحريك لأعلى"
+                        >
+                          <ArrowUp className="w-3.5 h-3.5" />
+                        </Button>
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="icon"
+                          disabled={idx === currentNavTabs.length - 1}
+                          onClick={() => handleMoveNavTab(idx, 'down')}
+                          className="w-7 h-7 rounded-lg text-[#78716C] hover:text-[#1C1917] hover:bg-white disabled:opacity-30 cursor-pointer"
+                          title="تحريك لأسفل"
+                        >
+                          <ArrowDown className="w-3.5 h-3.5" />
+                        </Button>
+                      </div>
+
+                      {/* Delete Tab */}
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => handleDeleteNavTab(idx)}
+                        className="w-8 h-8 rounded-xl text-red-500 hover:text-red-700 hover:bg-red-50 cursor-pointer"
+                        title="حذف هذا التبويب"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </Button>
+                    </div>
+
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Suggested Quick Links / Presets */}
+            <div className="p-5 rounded-2xl bg-[#F0F4F9] border border-[#13213c]/30 space-y-3">
+              <div className="flex items-center gap-2">
+                <Sparkles className="w-4 h-4 text-[#13213c]" />
+                <p className="text-xs font-black text-[#1C1917]">أقسام مقترحة للإضافة السريعة بنقرة واحدة (Quick Presets)</p>
+              </div>
+              <p className="text-[11px] text-[#78716C]">اضغط على أي زر أدناه لإضافته فوراً إلى قائمة التبويبات بالأعلى:</p>
+              
+              <div className="flex flex-wrap gap-2 pt-1">
+                {[
+                  { label: '🔥 أحدث العروض', href: '/category/offers', highlight: true },
+                  { label: '🎁 بوكسات هدايا', href: '/category/occasions', highlight: false },
+                  { label: '✨ مخصصة بالاسم', href: '/category/custom', highlight: false },
+                  { label: '👔 أطقم رجالية', href: '/category/men', highlight: false },
+                  { label: '👑 هدايا نسائية', href: '/category/women', highlight: false },
+                  { label: '⭐ كل المنتجات', href: '/shop', highlight: false },
+                  { label: '📦 تتبع شحنتك', href: '/track-order', highlight: false },
+                  { label: '💬 تواصل معنا', href: '/contact', highlight: false },
+                  { label: '❓ الأسئلة الشائعة', href: '/faq', highlight: false },
+                ].map((preset, i) => (
+                  <button
+                    key={i}
+                    type="button"
+                    onClick={() => handleAddNavTab(preset)}
+                    className="px-3 py-1.5 rounded-xl bg-white border border-[#E8E4DF] hover:border-[#13213c]/50 hover:bg-[#FAFAF8] text-xs font-bold text-[#1C1917] transition-all flex items-center gap-1.5 cursor-pointer shadow-2xs hover:-translate-y-0.5"
+                  >
+                    <Plus className="w-3 h-3 text-[#13213c]" />
+                    <span>{preset.label}</span>
+                  </button>
+                ))}
               </div>
             </div>
 

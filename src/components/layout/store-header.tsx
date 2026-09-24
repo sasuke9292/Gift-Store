@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useEffect, useState, useRef, useMemo } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
@@ -16,8 +16,7 @@ import {
   ArrowLeft,
   Phone,
   Flame,
-  Clock,
-  Compass
+  Clock
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useCartStore, useFavoritesStore } from '@/lib/store'
@@ -46,7 +45,13 @@ interface SearchItem {
   category: { name: string; slug: string } | null
 }
 
-const navLinks = [
+interface NavLinkItem {
+  href: string
+  label: string
+  highlight?: boolean
+}
+
+const navLinks: NavLinkItem[] = [
   { href: '/', label: 'الرئيسية' },
   { href: '/shop', label: 'كل المنتجات' },
   { href: '/category/men', label: 'هدايا رجالية' },
@@ -136,6 +141,24 @@ export function StoreHeader({ user, topBarText, settings }: StoreHeaderProps) {
 
   const cartCount = cartItems.reduce((acc, item) => acc + item.quantity, 0)
   const favCount = favorites.length
+
+  const activeNavLinks: NavLinkItem[] = useMemo(() => {
+    if (settings?.navTabsJson) {
+      try {
+        const parsed = JSON.parse(settings.navTabsJson)
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          return parsed.filter((t: any) => t.enabled !== false).map((t: any) => ({
+            href: (t.href as string) || '/',
+            label: (t.label as string) || '',
+            highlight: Boolean(t.highlight)
+          }))
+        }
+      } catch (e) {
+        console.error('Error parsing navTabsJson:', e)
+      }
+    }
+    return navLinks
+  }, [settings?.navTabsJson])
 
   const effectiveTopBarText = settings?.topBarText || topBarText || 'توصيل مجاني لكافة طلبات الهدايا الأكثر من 100 ألف د.ع • تغليف ملكي مجاني 🎁'
   const effectiveHeaderPhone = settings?.headerPhone || settings?.storePhone || '+964 770 000 0000'
@@ -416,36 +439,27 @@ export function StoreHeader({ user, topBarText, settings }: StoreHeaderProps) {
             </div>
           </div>
 
-          {/* Desktop Categories Navigation Row (Clean RTL Alignment) */}
-          <nav className="hidden lg:flex items-center justify-between h-12 border-t border-[#E8E4DF]/70 text-start">
-            <div className="flex items-center gap-1">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className={cn(
-                    "px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all duration-200",
-                    link.highlight
-                      ? "text-[#E85D75] bg-[#FDF2F4] hover:bg-[#FCE7EB]"
-                      : "text-[#57534E] hover:text-[#1C1917] hover:bg-[#F8F5F0]"
-                  )}
-                >
-                  {link.label}
-                </Link>
-              ))}
-            </div>
-
-            {/* Left Tag / Quick Assistance */}
-            <div className="flex items-center gap-3 text-xs font-semibold text-[#78716C]">
-              <Link 
-                href="/gift-finder"
-                className="flex items-center gap-1 text-[#13213c] hover:underline"
-              >
-                <Compass className="w-3.5 h-3.5" />
-                <span>مستشار الهدايا الذكي</span>
-              </Link>
-            </div>
-          </nav>
+          {/* Desktop Categories Navigation Row (Clean RTL Alignment without indicator) */}
+          {(settings?.showNavTabs !== false) && (
+            <nav className="hidden lg:flex items-center justify-start h-12 border-t border-[#E8E4DF]/70 text-start">
+              <div className="flex items-center gap-1">
+                {activeNavLinks.map((link) => (
+                  <Link
+                    key={link.href + link.label}
+                    href={link.href}
+                    className={cn(
+                      "px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all duration-200",
+                      link.highlight
+                        ? "text-[#E85D75] bg-[#FDF2F4] hover:bg-[#FCE7EB]"
+                        : "text-[#57534E] hover:text-[#1C1917] hover:bg-[#F8F5F0]"
+                    )}
+                  >
+                    {link.label}
+                  </Link>
+                ))}
+              </div>
+            </nav>
+          )}
         </div>
       </header>
 
@@ -511,9 +525,9 @@ export function StoreHeader({ user, topBarText, settings }: StoreHeaderProps) {
               {/* Mobile Navigation Links */}
               <div className="flex-1 overflow-y-auto p-4 space-y-1 text-start">
                 <p className="text-[11px] font-bold text-[#A8A29E] px-3 mb-2">أقسام المتجر</p>
-                {navLinks.map((link) => (
+                {activeNavLinks.map((link) => (
                   <Link
-                    key={link.href}
+                    key={link.href + link.label}
                     href={link.href}
                     onClick={() => setIsMobileMenuOpen(false)}
                     className={cn(

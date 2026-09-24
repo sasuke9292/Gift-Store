@@ -244,6 +244,10 @@ model StoreSettings {
   showTrackOrder        Boolean  @default(true)
   showGiftFinder        Boolean  @default(true)
 
+  // 2.1 Navigation Tabs (تبويبات التنقل والقائمة الرئيسية)
+  showNavTabs           Boolean  @default(true)
+  navTabsJson           String?  @db.Text
+
   // 3. Hero & Storefront Showcase
   heroBadge             String   @default("التشكيلة الجديدة كلياً لعام 2026 ✨")
   heroHeadline          String   @default("لحظاتك الثمينة تستحق الأفضل.")
