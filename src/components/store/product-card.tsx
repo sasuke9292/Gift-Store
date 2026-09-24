@@ -25,23 +25,26 @@ export interface ProductCardProps {
 
 function getProductFallbackImage(name: string, categoryName?: string): string {
   const text = `${name} ${categoryName || ''}`.toLowerCase()
-  if (text.includes('عطر') || text.includes('مسك') || text.includes('عود') || text.includes('توم فورد')) {
+  if (text.includes('عطر') || text.includes('مسك') || text.includes('عود') || text.includes('توم فورد') || text.includes('روائح')) {
     return 'https://images.unsplash.com/photo-1547887537-6158d64c35b3?auto=format&fit=crop&q=80&w=800'
   }
-  if (text.includes('ساعة') || text.includes('watch')) {
+  if (text.includes('ساعة') || text.includes('watch') || text.includes('رولكس') || text.includes('أطقم')) {
     return 'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&q=80&w=800'
   }
-  if (text.includes('قلادة') || text.includes('سلسلة') || text.includes('مجوهرات') || text.includes('ذهب') || text.includes('فضة')) {
+  if (text.includes('قلادة') || text.includes('سلسلة') || text.includes('مجوهرات') || text.includes('ذهب') || text.includes('فضة') || text.includes('سوار') || text.includes('خاتم')) {
     return 'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?auto=format&fit=crop&q=80&w=800'
   }
-  if (text.includes('ورد') || text.includes('باقة') || text.includes('زهور')) {
+  if (text.includes('ورد') || text.includes('باقة') || text.includes('زهور') || text.includes('جوري') || text.includes('طبيعي')) {
     return 'https://images.unsplash.com/photo-1563241598-a2886f4a8e63?auto=format&fit=crop&q=80&w=800'
   }
   if (text.includes('محفظة') || text.includes('حزام') || text.includes('جلد') || text.includes('حقيبة')) {
     return 'https://images.unsplash.com/photo-1627123424574-724758594e93?auto=format&fit=crop&q=80&w=800'
   }
-  if (text.includes('دب') || text.includes('أطفال') || text.includes('بيبي') || text.includes('قطيفة')) {
+  if (text.includes('دب') || text.includes('أطفال') || text.includes('بيبي') || text.includes('قطيفة') || text.includes('مكعب') || text.includes('لعبة') || text.includes('ألعاب') || text.includes('تعليمي')) {
     return 'https://images.unsplash.com/photo-1560859254-809fa84742f3?auto=format&fit=crop&q=80&w=800'
+  }
+  if (text.includes('شوكولات') || text.includes('حلويات') || text.includes('كيك') || text.includes('بلجيكي')) {
+    return 'https://images.unsplash.com/photo-1549007994-cb92caebd54b?auto=format&fit=crop&q=80&w=800'
   }
   if (text.includes('سماعات') || text.includes('إلكترونيات')) {
     return 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&q=80&w=800'
@@ -76,7 +79,13 @@ export function ProductCard({ product }: ProductCardProps) {
       image: product.images?.[0],
       category: product.category?.name,
     })
-    toast.success('تمت إضافة الهدية إلى سلتك بنجاح ✨', { id: `cart-${product.id}` })
+    toast.success('تمت إضافة الهدية إلى سلتك بنجاح ✨', {
+      id: `cart-${product.id}`,
+      action: {
+        label: 'عرض السلة 🛍️',
+        onClick: () => window.location.href = '/cart'
+      }
+    })
     setTimeout(() => setIsAdding(false), 800)
   }
 
@@ -153,7 +162,7 @@ export function ProductCard({ product }: ProductCardProps) {
 
         {/* Image / Fallback */}
         <Link href={`/product/${product.id}`} className="block w-full h-full relative cursor-pointer bg-stone-100">
-          {(!imgError && product.images && product.images[0]) ? (
+          {(!imgError && product.images && product.images[0] && !product.images[0].includes('placeholder') && !product.images[0].includes('broken') && product.images[0].trim() !== '') ? (
             <Image
               src={product.images[0]}
               alt={product.name}

@@ -99,6 +99,50 @@ const CATEGORY_FALLBACK_IMAGES: Record<string, string> = {
   electronics: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&q=80&w=800',
 }
 
+function getCategoryFallbackImage(name: string, slug: string): string {
+  const text = `${name} ${slug}`.toLowerCase()
+  if (text.includes('رجال') || text.includes('men')) return CATEGORY_FALLBACK_IMAGES['men']
+  if (text.includes('نسا') || text.includes('women')) return CATEGORY_FALLBACK_IMAGES['women']
+  if (text.includes('مناسب') || text.includes('occasion') || text.includes('ورد') || text.includes('بوكس')) return CATEGORY_FALLBACK_IMAGES['occasions']
+  if (text.includes('اسم') || text.includes('مخصص') || text.includes('custom')) return CATEGORY_FALLBACK_IMAGES['custom']
+  if (text.includes('طفل') || text.includes('أطفال') || text.includes('kids') || text.includes('ألعاب')) return CATEGORY_FALLBACK_IMAGES['kids']
+  if (text.includes('عرض') || text.includes('عروض') || text.includes('offer')) return CATEGORY_FALLBACK_IMAGES['offers']
+  if (text.includes('إلكترون') || text.includes('سماع')) return CATEGORY_FALLBACK_IMAGES['electronics']
+  return CATEGORY_FALLBACK_IMAGES['occasions']
+}
+
+function CategoryCardItem({ cat }: { cat: Category }) {
+  const fallback = getCategoryFallbackImage(cat.name, cat.slug)
+  const isBrokenOrPlaceholder = !cat.image || cat.image.includes('placeholder') || cat.image.includes('broken') || cat.image.trim() === ''
+  const [imgSrc, setImgSrc] = useState(isBrokenOrPlaceholder ? fallback : cat.image!)
+
+  return (
+    <Link
+      href={`/category/${cat.slug}`}
+      className="group relative rounded-2xl sm:rounded-3xl overflow-hidden aspect-[4/5] flex flex-col justify-end p-4 border border-[#E8E4DF] bg-stone-100 hover:shadow-[0_12px_30px_rgba(19,33,60,0.12)] hover:-translate-y-1 transition-all duration-300"
+    >
+      <Image
+        src={imgSrc}
+        alt={cat.name}
+        fill
+        sizes="(max-width: 768px) 50vw, 16vw"
+        className="object-cover transition-transform duration-700 group-hover:scale-110"
+        onError={() => setImgSrc(fallback)}
+      />
+      {/* Subtle Gradient */}
+      <div className="absolute inset-0 bg-gradient-to-t from-[#0c1424]/90 via-[#0c1424]/30 to-transparent" />
+
+      {/* Text Label */}
+      <div className="relative z-10 text-start">
+        <p className="text-[10px] text-[#7ea6e6] font-bold uppercase tracking-wider mb-0.5">تصفح</p>
+        <h3 className="text-white font-black text-sm sm:text-base leading-snug group-hover:text-[#7ea6e6] transition-colors">
+          {cat.name}
+        </h3>
+      </div>
+    </Link>
+  )
+}
+
 // Curated Gifting Personas / Occasions (High-Impact Luxury Feature)
 const recipientPersonas = [
   {
@@ -722,34 +766,9 @@ export default function StoreHomeClient({
 
             {/* Grid Cards (With 100% Guaranteed Image Fallbacks) */}
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
-              {categories.slice(0, 6).map((cat) => {
-                const categoryImg = cat.image || CATEGORY_FALLBACK_IMAGES[cat.slug] || CATEGORY_FALLBACK_IMAGES['occasions']
-                return (
-                  <Link
-                    key={cat.id}
-                    href={`/category/${cat.slug}`}
-                    className="group relative rounded-2xl sm:rounded-3xl overflow-hidden aspect-[4/5] flex flex-col justify-end p-4 border border-[#E8E4DF] bg-stone-100 hover:shadow-[0_12px_30px_rgba(19,33,60,0.12)] hover:-translate-y-1 transition-all duration-300"
-                  >
-                    <Image
-                      src={categoryImg}
-                      alt={cat.name}
-                      fill
-                      sizes="(max-width: 768px) 50vw, 16vw"
-                      className="object-cover transition-transform duration-700 group-hover:scale-110"
-                    />
-                    {/* Subtle Gradient */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#0c1424]/90 via-[#0c1424]/30 to-transparent" />
-
-                    {/* Text Label */}
-                    <div className="relative z-10 text-start">
-                      <p className="text-[10px] text-[#7ea6e6] font-bold uppercase tracking-wider mb-0.5">تصفح</p>
-                      <h3 className="text-white font-black text-sm sm:text-base leading-snug group-hover:text-[#7ea6e6] transition-colors">
-                        {cat.name}
-                      </h3>
-                    </div>
-                  </Link>
-                )
-              })}
+              {categories.slice(0, 6).map((cat) => (
+                <CategoryCardItem key={cat.id} cat={cat} />
+              ))}
             </div>
           </div>
         </section>

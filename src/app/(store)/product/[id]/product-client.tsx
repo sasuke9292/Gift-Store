@@ -5,7 +5,7 @@ import { motion } from 'framer-motion'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { Star, Minus, Plus, ShoppingCart, Heart, Share2, ShieldCheck, Truck, RotateCcw, ArrowLeft, Check } from 'lucide-react'
+import { Star, Minus, Plus, ShoppingCart, Heart, Share2, ShieldCheck, Truck, RotateCcw, ArrowLeft, Check, MessageCircle } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -14,10 +14,38 @@ import { toast } from 'sonner'
 import { useMounted } from '@/lib/use-mounted'
 import { cn } from '@/lib/utils'
 
+function getProductFallback(name: string, categoryName?: string): string {
+  const text = `${name} ${categoryName || ''}`.toLowerCase()
+  if (text.includes('عطر') || text.includes('مسك') || text.includes('عود') || text.includes('توم فورد') || text.includes('روائح')) {
+    return 'https://images.unsplash.com/photo-1547887537-6158d64c35b3?auto=format&fit=crop&q=80&w=800'
+  }
+  if (text.includes('ساعة') || text.includes('watch') || text.includes('رولكس') || text.includes('أطقم')) {
+    return 'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&q=80&w=800'
+  }
+  if (text.includes('قلادة') || text.includes('سلسلة') || text.includes('مجوهرات') || text.includes('ذهب') || text.includes('فضة') || text.includes('سوار') || text.includes('خاتم')) {
+    return 'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?auto=format&fit=crop&q=80&w=800'
+  }
+  if (text.includes('ورد') || text.includes('باقة') || text.includes('زهور') || text.includes('جوري') || text.includes('طبيعي')) {
+    return 'https://images.unsplash.com/photo-1563241598-a2886f4a8e63?auto=format&fit=crop&q=80&w=800'
+  }
+  if (text.includes('محفظة') || text.includes('حزام') || text.includes('جلد') || text.includes('حقيبة')) {
+    return 'https://images.unsplash.com/photo-1627123424574-724758594e93?auto=format&fit=crop&q=80&w=800'
+  }
+  if (text.includes('دب') || text.includes('أطفال') || text.includes('بيبي') || text.includes('قطيفة') || text.includes('مكعب') || text.includes('لعبة') || text.includes('ألعاب') || text.includes('تعليمي')) {
+    return 'https://images.unsplash.com/photo-1560859254-809fa84742f3?auto=format&fit=crop&q=80&w=800'
+  }
+  if (text.includes('شوكولات') || text.includes('حلويات') || text.includes('كيك') || text.includes('بلجيكي')) {
+    return 'https://images.unsplash.com/photo-1549007994-cb92caebd54b?auto=format&fit=crop&q=80&w=800'
+  }
+  return 'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&q=80&w=800'
+}
+
 export default function ProductClient({ product }: { product: any }) {
   const router = useRouter()
+  const fallbackImg = getProductFallback(product.name, typeof product.category === 'string' ? product.category : product.category?.name)
+  const initialImg = (product.images?.[0] && !product.images[0].includes('placeholder') && !product.images[0].includes('broken')) ? product.images[0] : fallbackImg
   const [quantity, setQuantity] = useState(1)
-  const [activeImage, setActiveImage] = useState(product.images?.[0] || '')
+  const [activeImage, setActiveImage] = useState(initialImg)
   const [addedToCart, setAddedToCart] = useState(false)
   const addItem = useCartStore((state) => state.addItem)
   const { addFavorite, removeFavorite, hasFavorite } = useFavoritesStore()
@@ -31,10 +59,16 @@ export default function ProductClient({ product }: { product: any }) {
       productId: product.id,
       name: product.name,
       price: product.salePrice ?? product.price,
-      image: product.images?.[0] || '',
+      image: activeImage || fallbackImg,
       quantity: quantity
     })
-    toast.success('تمت إضافة المنتج إلى السلة 🎁', { id: `cart-${product.id}` })
+    toast.success('تمت إضافة المنتج إلى السلة 🎁', {
+      id: `cart-${product.id}`,
+      action: {
+        label: 'عرض السلة 🛍️',
+        onClick: () => router.push('/cart')
+      }
+    })
     setAddedToCart(true)
     setTimeout(() => setAddedToCart(false), 2000)
   }
@@ -90,20 +124,15 @@ export default function ProductClient({ product }: { product: any }) {
                   </span>
                 </div>
               )}
-              {activeImage ? (
-                <Image
-                  src={activeImage}
-                  alt={product.name}
-                  fill
-                  className="object-cover transition-transform duration-500 group-hover:scale-105"
-                  sizes="(max-width: 768px) 100vw, 50vw"
-                  priority
-                />
-              ) : (
-                <div className="w-full h-full flex items-center justify-center text-[#13213c]/30">
-                  <ShoppingCart className="w-16 h-16" />
-                </div>
-              )}
+              <Image
+                src={activeImage || fallbackImg}
+                alt={product.name}
+                fill
+                className="object-cover transition-transform duration-500 group-hover:scale-105"
+                sizes="(max-width: 768px) 100vw, 50vw"
+                priority
+                onError={() => setActiveImage(fallbackImg)}
+              />
             </div>
 
             {/* Thumbnail Grid */}
@@ -235,7 +264,7 @@ export default function ProductClient({ product }: { product: any }) {
                 {/* Favorite */}
                 <button
                   className={cn(
-                    "w-13 h-13 p-3 rounded-xl border transition-all flex items-center justify-center",
+                    "w-13 h-13 p-3 rounded-xl border transition-all flex items-center justify-center shrink-0 cursor-pointer",
                     isFavorite
                       ? "bg-[#FDF2F4] border-[#E85D75]/30 text-[#E85D75]"
                       : "bg-white border-[#E8E4DF] text-[#A8A29E] hover:text-[#E85D75] hover:border-[#E85D75]/30 hover:bg-[#FDF2F4]"
@@ -250,7 +279,7 @@ export default function ProductClient({ product }: { product: any }) {
                         name: product.name,
                         price: product.price,
                         salePrice: product.salePrice,
-                        image: product.images?.[0],
+                        image: activeImage || fallbackImg,
                         category: typeof product.category === 'string' ? product.category : product.category?.name,
                         isNew: product.isNew,
                         isBestSeller: product.isBestSeller,
@@ -258,10 +287,25 @@ export default function ProductClient({ product }: { product: any }) {
                       toast.success('تمت الإضافة للمفضلة ❤️')
                     }
                   }}
+                  aria-label={isFavorite ? 'إزالة من المفضلة' : 'إضافة للمفضلة'}
                 >
-                  <Heart className={cn("w-5 h-5 transition-all", isFavorite && "fill-[#E85D75]")} />
+                  <Heart className={cn("w-5 h-5", isFavorite && "fill-[#E85D75] text-[#E85D75]")} />
                 </button>
+              </div>
 
+              {/* Instant WhatsApp Direct Order Button (Frictionless Buying) */}
+              <a
+                href={`https://wa.me/9647700000000?text=${encodeURIComponent(`مرحباً گِفتي بلس 👋\nأود تأكيد طلب هذا المنتج عبر واتساب:\n🎁 ${product.name}\nالكمية: ${quantity}\nالسعر: ${(product.salePrice ?? product.price).toLocaleString('en-US')} د.ع`)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full mt-3 h-12 rounded-xl text-white font-black text-xs sm:text-sm flex items-center justify-center gap-2 shadow-sm hover:brightness-105 hover:-translate-y-0.5 transition-all cursor-pointer"
+                style={{ background: 'linear-gradient(135deg, #25D366 0%, #128C7E 100%)' }}
+              >
+                <MessageCircle className="w-4 h-4 text-white" />
+                <span>طلب سريع ومباشر عبر واتساب</span>
+              </a>
+
+              <div className="flex gap-3 mt-3">
                 {/* Share */}
                 <button
                   className="w-13 h-13 p-3 rounded-xl border border-[#E8E4DF] bg-white text-[#A8A29E] hover:text-[#78716C] hover:bg-[#F5F0EA] transition-all flex items-center justify-center"
