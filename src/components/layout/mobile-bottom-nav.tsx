@@ -17,8 +17,8 @@ export function MobileBottomNav() {
   const cartCount = cartItems.reduce((acc, item) => acc + item.quantity, 0)
   const favCount = favorites.length
 
-  // Hide on admin routes and cart page (where dedicated sticky checkout action bar is active)
-  if (pathname.startsWith('/admin') || pathname === '/cart') {
+  // Hide on admin routes, cart page, and product pages (which have dedicated sticky action bars)
+  if (pathname.startsWith('/admin') || pathname === '/cart' || pathname.startsWith('/product/')) {
     return null
   }
 
@@ -59,7 +59,7 @@ export function MobileBottomNav() {
   ]
 
   return (
-    <div className="lg:hidden fixed bottom-0 inset-x-0 z-40 bg-white/95 backdrop-blur-xl border-t border-[#E8E4DF] shadow-[0_-4px_20px_rgba(0,0,0,0.06)] pb-safe" dir="rtl">
+    <div className="lg:hidden fixed bottom-0 inset-x-0 z-40 bg-white/95 backdrop-blur-xl border-t border-[#E8E4DF] shadow-[0_-4px_20px_rgba(0,0,0,0.06)] pb-[max(0.5rem,env(safe-area-inset-bottom,0px))]" dir="rtl">
       <nav className="flex items-center justify-around h-16 px-2 max-w-md mx-auto">
         {navItems.map((item) => {
           const Icon = item.icon

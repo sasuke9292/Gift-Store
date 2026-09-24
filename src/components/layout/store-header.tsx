@@ -76,6 +76,7 @@ export function StoreHeader({ user, topBarText, settings }: StoreHeaderProps) {
   const mounted = useMounted()
   
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
   const [isSearchOpen, setIsSearchOpen] = useState(false)
@@ -83,6 +84,15 @@ export function StoreHeader({ user, topBarText, settings }: StoreHeaderProps) {
   const [isSearching, setIsSearching] = useState(false)
   
   const searchContainerRef = useRef<HTMLDivElement>(null)
+  const mobileSearchInputRef = useRef<HTMLInputElement>(null)
+
+  useEffect(() => {
+    if (isMobileSearchOpen && mobileSearchInputRef.current) {
+      setTimeout(() => {
+        mobileSearchInputRef.current?.focus()
+      }, 150)
+    }
+  }, [isMobileSearchOpen])
 
   useEffect(() => {
     const handleScroll = () => {
@@ -391,9 +401,30 @@ export function StoreHeader({ user, topBarText, settings }: StoreHeaderProps) {
               </AnimatePresence>
             </div>
 
-            {/* Left: Actions (Favorites, Cart, Account, Gift Finder) */}
-            <div className="flex items-center gap-2 sm:gap-2.5">
+            {/* Left: Actions (Mobile Search, Favorites, Cart, Account, Gift Finder) */}
+            <div className="flex items-center gap-1.5 sm:gap-2.5">
               
+              {/* Mobile Quick Search Button */}
+              <button
+                type="button"
+                onClick={() => {
+                  setIsMobileSearchOpen(!isMobileSearchOpen)
+                  if (!isMobileSearchOpen) {
+                    setIsMobileMenuOpen(false)
+                  }
+                }}
+                className={cn(
+                  "lg:hidden flex items-center justify-center w-10 h-10 rounded-2xl transition-all border",
+                  isMobileSearchOpen
+                    ? "bg-[#13213c] text-white border-[#13213c] shadow-sm"
+                    : "text-[#78716C] hover:text-[#13213c] hover:bg-[#F0F4F9] border-transparent"
+                )}
+                aria-label="بحث سريع"
+                title="بحث سريع"
+              >
+                {isMobileSearchOpen ? <X className="w-5 h-5" /> : <Search className="w-5 h-5" />}
+              </button>
+
               {/* Favorites Icon */}
               <Link
                 href="/favorites"
@@ -461,6 +492,130 @@ export function StoreHeader({ user, topBarText, settings }: StoreHeaderProps) {
             </nav>
           )}
         </div>
+        {/* Animated Mobile Search Sheet */}
+        <AnimatePresence>
+          {isMobileSearchOpen && (
+            <motion.div
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: 'auto', opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="lg:hidden border-t border-[#E8E4DF] bg-white/98 backdrop-blur-xl px-4 py-3 shadow-[0_12px_30px_rgba(0,0,0,0.08)] overflow-hidden"
+            >
+              <form 
+                onSubmit={(e) => {
+                  handleSearchSubmit(e)
+                  setIsMobileSearchOpen(false)
+                }} 
+                className="relative"
+              >
+                <input
+                  ref={mobileSearchInputRef}
+                  type="text"
+                  placeholder="ابحث عن هدية راقية، عطر، ساعة..."
+                  className="w-full h-11 ps-10 pe-10 rounded-2xl bg-[#F8F5F0] border border-[#E8E4DF] text-xs font-medium text-[#1C1917] focus:outline-none focus:border-[#13213c] focus:bg-white focus:ring-2 focus:ring-[#13213c]/15 transition-all text-start"
+                  value={searchQuery}
+                  onChange={(e) => {
+                    const val = e.target.value
+                    setSearchQuery(val)
+                    if (!val.trim() || val.trim().length < 2) {
+                      setSearchResults([])
+                    }
+                  }}
+                />
+                <Search className="w-4 h-4 text-[#13213c] absolute start-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+                {searchQuery && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setSearchQuery('')
+                      setSearchResults([])
+                    }}
+                    className="absolute end-3 top-1/2 -translate-y-1/2 p-1 text-[#A8A29E] hover:text-[#1C1917]"
+                    aria-label="مسح"
+                  >
+                    <X className="w-3.5 h-3.5" />
+                  </button>
+                )}
+              </form>
+
+              {/* Quick Suggestion Chips */}
+              {searchQuery.trim().length < 2 && (
+                <div className="mt-2.5">
+                  <div className="flex items-center gap-1 text-[11px] font-bold text-[#78716C] mb-2">
+                    <Flame className="w-3.5 h-3.5 text-[#E85D75]" />
+                    <span>الأكثر بحثاً:</span>
+                  </div>
+                  <div className="flex flex-wrap gap-1.5">
+                    {popularKeywords.map(tag => (
+                      <button
+                        key={tag}
+                        type="button"
+                        onClick={() => {
+                          setSearchQuery(tag)
+                          setIsMobileSearchOpen(false)
+                          router.push(`/shop?q=${encodeURIComponent(tag)}`)
+                        }}
+                        className="text-[11px] px-2.5 py-1 rounded-xl bg-[#F8F5F0] text-[#57534E] hover:bg-[#13213c] hover:text-white transition-colors border border-[#E8E4DF]"
+                      >
+                        {tag}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Live search results in mobile dropdown */}
+              {isSearching && (
+                <div className="py-4 text-center text-xs text-[#78716C] flex items-center justify-center gap-2">
+                  <span className="w-3.5 h-3.5 border-2 border-[#13213c] border-t-transparent rounded-full animate-spin" />
+                  <span>جاري البحث...</span>
+                </div>
+              )}
+
+              {!isSearching && searchQuery.trim().length >= 2 && searchResults.length > 0 && (
+                <div className="mt-2.5 max-h-60 overflow-y-auto divide-y divide-[#F0ECE6]">
+                  {searchResults.map(prod => (
+                    <Link
+                      key={prod.id}
+                      href={`/product/${prod.id}`}
+                      onClick={() => setIsMobileSearchOpen(false)}
+                      className="flex items-center gap-2.5 py-2 hover:bg-[#FAF7F2] rounded-xl px-1.5 transition-colors"
+                    >
+                      <div className="relative w-10 h-10 rounded-lg bg-[#F5F0EA] overflow-hidden shrink-0 border border-[#E8E4DF]">
+                        {prod.images && prod.images[0] ? (
+                          <Image src={prod.images[0]} alt={prod.name} fill className="object-cover" />
+                        ) : (
+                          <Gift className="w-4 h-4 text-[#13213c] m-auto" />
+                        )}
+                      </div>
+                      <div className="flex-1 min-w-0 text-start">
+                        <p className="text-[10px] text-[#13213c] font-bold">{prod.category?.name || 'هدية فاخرة'}</p>
+                        <p className="text-xs font-bold text-[#1C1917] truncate">{prod.name}</p>
+                      </div>
+                      <div className="text-end shrink-0">
+                        <p className="text-xs font-black text-[#13213c]">
+                          {(prod.salePrice ?? prod.price).toLocaleString('en-US')}
+                          <span className="text-[10px] text-[#A8A29E] ms-0.5">د.ع</span>
+                        </p>
+                      </div>
+                    </Link>
+                  ))}
+                  <div className="pt-2 text-center">
+                    <Link
+                      href={`/shop?q=${encodeURIComponent(searchQuery)}`}
+                      onClick={() => setIsMobileSearchOpen(false)}
+                      className="inline-flex items-center gap-1 text-[11px] font-bold text-[#13213c]"
+                    >
+                      عرض جميع النتائج ({searchResults.length})
+                      <ArrowLeft className="w-3 h-3" />
+                    </Link>
+                  </div>
+                </div>
+              )}
+            </motion.div>
+          )}
+        </AnimatePresence>
       </header>
 
       {/* Mobile Menu Drawer */}

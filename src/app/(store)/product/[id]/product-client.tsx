@@ -110,7 +110,7 @@ ${typeof window !== 'undefined' ? `🔗 رابط المنتج: ${window.location
     : 0
 
   return (
-    <div className="min-h-screen bg-[#FAFAF8] pt-4 pb-20">
+    <div className="min-h-screen bg-[#FAFAF8] pt-4 pb-28 lg:pb-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Breadcrumb */}
@@ -491,6 +491,67 @@ ${typeof window !== 'undefined' ? `🔗 رابط المنتج: ${window.location
           </Tabs>
         </motion.div>
 
+      </div>
+
+      {/* ===== MOBILE STICKY PURCHASE BAR ===== */}
+      <div 
+        className="lg:hidden fixed bottom-0 inset-x-0 z-40 bg-white/95 backdrop-blur-xl border-t border-[#E8E4DF] shadow-[0_-8px_30px_rgba(0,0,0,0.08)] px-4 py-3 pb-[max(0.75rem,env(safe-area-inset-bottom,0px))]"
+        dir="rtl"
+      >
+        <div className="flex items-center gap-2.5 max-w-lg mx-auto">
+          {/* Price display */}
+          <div className="flex flex-col shrink-0 min-w-[70px]">
+            <span className="text-[10px] font-bold text-[#A8A29E]">السعر</span>
+            <div className="flex items-baseline gap-1">
+              <span className="text-base font-black text-[#13213c]">
+                {unitPrice.toLocaleString('en-US')}
+              </span>
+              <span className="text-[10px] font-bold text-[#78716C]">{currencySymbol}</span>
+            </div>
+          </div>
+
+          {/* Add to Cart button */}
+          <button
+            type="button"
+            onClick={handleAddToCart}
+            className={cn(
+              "flex-1 h-11 px-3 rounded-xl font-bold text-white text-xs flex items-center justify-center gap-1.5 transition-all shadow-sm active:scale-95 cursor-pointer",
+              addedToCart
+                ? "bg-[#10B981]"
+                : "hover:-translate-y-0.5 active:translate-y-0"
+            )}
+            style={!addedToCart ? { background: 'linear-gradient(135deg, #22385e 0%, #13213c 100%)' } : {}}
+          >
+            {addedToCart ? (
+              <>
+                <Check className="w-4 h-4 text-white" />
+                <span>تمت الإضافة!</span>
+              </>
+            ) : (
+              <>
+                <ShoppingCart className="w-4 h-4 text-white" />
+                <span>أضف للسلة</span>
+              </>
+            )}
+          </button>
+
+          {/* Direct WhatsApp Order button */}
+          {isWhatsAppEnabled && (
+            <a
+              href={whatsappHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="h-11 px-3.5 rounded-xl font-bold text-white text-xs flex items-center justify-center gap-1.5 shadow-[0_4px_14px_rgba(37,211,102,0.3)] active:scale-95 transition-all shrink-0 cursor-pointer"
+              style={{ background: 'linear-gradient(135deg, #25D366 0%, #128C7E 100%)' }}
+              title="طلب سريع عبر واتساب"
+            >
+              <svg className="w-4 h-4 fill-white shrink-0" viewBox="0 0 24 24">
+                <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86.173.086.274.072.376-.043s.433-.506.549-.68c.116-.173.231-.145.39-.086s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.099.824zm-3.394-10.416c-5.523 0-10 4.477-10 10 0 1.77.46 3.432 1.264 4.881l-1.344 4.912 5.044-1.323c1.402.766 3.003 1.2 4.707 1.2 5.522 0 10-4.477 10-10s-4.478-10-9.671-10z" />
+              </svg>
+              <span>واتساب</span>
+            </a>
+          )}
+        </div>
       </div>
     </div>
   )

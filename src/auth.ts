@@ -38,18 +38,40 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           return null
         }
 
-        const user = await prisma.user.findUnique({
-          where: { email: credentials.email as string },
+        const cleanEmail = (credentials.email as string).trim().toLowerCase()
+        const rawPassword = credentials.password as string
+
+        const user = await prisma.user.findFirst({
+          where: {
+            email: {
+              equals: cleanEmail,
+              mode: 'insensitive'
+            }
+          }
         })
 
         if (!user || !user.password) {
           return null
         }
 
-        const isPasswordValid = await bcrypt.compare(
-          credentials.password as string,
-          user.password
-        ).catch(() => false)
+        // Support both bcrypt hashes and initial plaintext seed passwords
+        let isPasswordValid = false
+        const isBcrypt = user.password.startsWith('$2a$') || user.password.startsWith('$2b$') || user.password.startsWith('$2y$')
+        
+        if (isBcrypt) {
+          isPasswordValid = await bcrypt.compare(rawPassword, user.password).catch(() => false)
+        } else {
+          isPasswordValid = (rawPassword === user.password)
+          // Silently upgrade to secure bcrypt hash for future logins
+          if (isPasswordValid) {
+            bcrypt.hash(rawPassword, 10).then(hashed => {
+              prisma.user.update({
+                where: { id: user.id },
+                data: { password: hashed }
+              }).catch(() => {})
+            }).catch(() => {})
+          }
+        }
 
         if (!isPasswordValid) {
           return null

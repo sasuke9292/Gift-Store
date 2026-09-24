@@ -22,9 +22,11 @@ export default function LoginClient() {
     e.preventDefault()
     setLoading(true)
 
+    const cleanEmail = email.trim().toLowerCase()
+
     try {
       const result = await signIn('credentials', {
-        email,
+        email: cleanEmail,
         password,
         redirect: false,
       })
@@ -34,8 +36,9 @@ export default function LoginClient() {
         setLoading(false)
       } else {
         toast.success('مرحباً بك! تم تسجيل الدخول بنجاح')
-        router.push(callbackUrl)
-        router.refresh()
+        setTimeout(() => {
+          window.location.href = callbackUrl
+        }, 200)
       }
     } catch (err) {
       toast.error('حدث خطأ أثناء تسجيل الدخول')
@@ -89,9 +92,12 @@ export default function LoginClient() {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="ps-10 h-12 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-[#1C1917] placeholder:text-[#C8C4BE] focus-visible:ring-[#13213c]/30 focus-visible:border-[#13213c]/50"
+                  className="ps-10 h-12 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-[#1C1917] placeholder:text-[#C8C4BE] focus-visible:ring-[#13213c]/30 focus-visible:border-[#13213c]/50 text-start"
                   placeholder="name@example.com"
                   dir="ltr"
+                  autoCapitalize="none"
+                  autoCorrect="off"
+                  spellCheck={false}
                 />
               </div>
             </div>

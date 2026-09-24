@@ -217,11 +217,11 @@ export function AdminHeader({ userRole = 'CUSTOMER', userName }: { userRole?: st
               <div className="pt-4 border-t border-[#E8E4DF]">
                 <Link
                   href="/"
-                  target="_blank"
+                  onClick={() => setIsMobileMenuOpen(false)}
                   className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl bg-[#FAFAF8] border border-[#E8E4DF] text-xs font-bold text-[#1C1917] hover:bg-[#F5F0EA] transition-colors"
                 >
                   <Store className="w-4 h-4 text-[#13213c]" />
-                  <span>معاينة المتجر</span>
+                  <span>معاينة واجهة المتجر</span>
                 </Link>
               </div>
             </div>
@@ -308,12 +308,11 @@ export function AdminHeader({ userRole = 'CUSTOMER', userName }: { userRole?: st
         {/* View Store Direct Button */}
         <Link
           href="/"
-          target="_blank"
-          className="hidden sm:flex items-center gap-1.5 h-10 px-3.5 rounded-xl bg-[#FAFAF8] hover:bg-[#F5F0EA] border border-[#E8E4DF] text-xs font-bold text-[#1C1917] transition-all hover:border-[#13213c]/40"
-          title="معاينة المتجر المباشر"
+          className="flex items-center gap-1.5 h-10 px-2.5 sm:px-3.5 rounded-xl bg-[#FAFAF8] hover:bg-[#F5F0EA] border border-[#E8E4DF] text-xs font-bold text-[#1C1917] transition-all hover:border-[#13213c]/40 active:scale-95"
+          title="معاينة واجهة المتجر"
         >
           <Store className="w-4 h-4 text-[#13213c]" />
-          <span>المتجر</span>
+          <span className="hidden sm:inline">المتجر</span>
         </Link>
 
         {/* Notifications */}
