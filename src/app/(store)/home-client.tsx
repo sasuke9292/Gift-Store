@@ -257,6 +257,48 @@ export default function StoreHomeClient({
     },
   ]
 
+  // Dynamic Recipient Personas
+  const activePersonas = useMemo(() => {
+    return [
+      {
+        id: 'her',
+        title: settings?.persona1Title || recipientPersonas[0].title,
+        subtitle: settings?.persona1Subtitle || recipientPersonas[0].subtitle,
+        tag: settings?.persona1Tag || recipientPersonas[0].tag,
+        image: settings?.persona1Image || recipientPersonas[0].image,
+        link: settings?.persona1Link || recipientPersonas[0].link,
+        btnText: settings?.persona1BtnText || recipientPersonas[0].btnText
+      },
+      {
+        id: 'him',
+        title: settings?.persona2Title || recipientPersonas[1].title,
+        subtitle: settings?.persona2Subtitle || recipientPersonas[1].subtitle,
+        tag: settings?.persona2Tag || recipientPersonas[1].tag,
+        image: settings?.persona2Image || recipientPersonas[1].image,
+        link: settings?.persona2Link || recipientPersonas[1].link,
+        btnText: settings?.persona2BtnText || recipientPersonas[1].btnText
+      },
+      {
+        id: 'occasions',
+        title: settings?.persona3Title || recipientPersonas[2].title,
+        subtitle: settings?.persona3Subtitle || recipientPersonas[2].subtitle,
+        tag: settings?.persona3Tag || recipientPersonas[2].tag,
+        image: settings?.persona3Image || recipientPersonas[2].image,
+        link: settings?.persona3Link || recipientPersonas[2].link,
+        btnText: settings?.persona3BtnText || recipientPersonas[2].btnText
+      },
+      {
+        id: 'custom',
+        title: settings?.persona4Title || recipientPersonas[3].title,
+        subtitle: settings?.persona4Subtitle || recipientPersonas[3].subtitle,
+        tag: settings?.persona4Tag || recipientPersonas[3].tag,
+        image: settings?.persona4Image || recipientPersonas[3].image,
+        link: settings?.persona4Link || recipientPersonas[3].link,
+        btnText: settings?.persona4BtnText || recipientPersonas[3].btnText
+      }
+    ]
+  }, [settings])
+
   // Interactive Gift Finder Mini Quiz State
   const [quizRecipient, setQuizRecipient] = useState<'men' | 'women' | 'occasions' | 'custom' | null>('women')
   const [quizBudget, setQuizBudget] = useState<string>('50k-100k')
@@ -587,67 +629,69 @@ export default function StoreHomeClient({
       {/* ========================================================================= */}
       {/* 3. NEW: SHOP BY RECIPIENT & OCCASION (هدايا مختارة بعناية لمن تحب) */}
       {/* ========================================================================= */}
-      <section className="py-14 sm:py-18 bg-[#FAFAF8]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10 text-start">
-            <div>
-              <p className="text-xs font-black text-[#13213c] uppercase tracking-widest mb-1.5 flex items-center gap-1.5">
-                <Sparkles className="w-3.5 h-3.5 text-[#13213c]" />
-                <span>دليل الإهداء الذكي</span>
+      {settings?.enablePersonasSection !== false && (
+        <section className="py-14 sm:py-18 bg-[#FAFAF8]">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10 text-start">
+              <div>
+                <p className="text-xs font-black text-[#13213c] uppercase tracking-widest mb-1.5 flex items-center gap-1.5">
+                  <Sparkles className="w-3.5 h-3.5 text-[#13213c]" />
+                  <span>{settings?.personaSectionBadge || 'دليل الإهداء الذكي'}</span>
+                </p>
+                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-[#1C1917] tracking-tight">
+                  {settings?.personaSectionTitle || 'هدايا مختارة بعناية لمن تحب'}
+                </h2>
+              </div>
+              <p className="text-xs sm:text-sm text-[#78716C] max-w-md">
+                {settings?.personaSectionDesc || 'اختر الشخص أو المناسبة لتشاهد مجموعات منتقاة يدوياً بعناية ومغلفة بأعلى درجات الفخامة.'}
               </p>
-              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-[#1C1917] tracking-tight">
-                هدايا مختارة بعناية لمن تحب
-              </h2>
             </div>
-            <p className="text-xs sm:text-sm text-[#78716C] max-w-md">
-              اختر الشخص أو المناسبة لتشاهد مجموعات منتقاة يدوياً بعناية ومغلفة بأعلى درجات الفخامة.
-            </p>
-          </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-            {recipientPersonas.map((persona) => (
-              <Link
-                key={persona.id}
-                href={persona.link}
-                className="group relative rounded-3xl overflow-hidden aspect-[4/5] flex flex-col justify-end p-6 border border-[#E8E4DF] bg-stone-100 shadow-xs hover:shadow-[0_16px_40px_rgba(19,33,60,0.14)] hover:-translate-y-1.5 transition-all duration-300"
-              >
-                <Image
-                  src={persona.image}
-                  alt={persona.title}
-                  fill
-                  sizes="(max-width: 768px) 100vw, 25vw"
-                  className="object-cover transition-transform duration-700 group-hover:scale-108"
-                />
-                {/* Royal Dark Gradient Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0c1424]/95 via-[#0c1424]/40 to-transparent" />
-                
-                {/* Floating Pill Tag */}
-                <div className="absolute top-4 start-4 z-10">
-                  <span className="inline-flex items-center gap-1 bg-white/95 backdrop-blur-md px-3 py-1 rounded-full text-[11px] font-black text-[#13213c] shadow-xs">
-                    {persona.tag}
-                  </span>
-                </div>
-
-                {/* Content */}
-                <div className="relative z-10 text-start">
-                  <h3 className="text-xl sm:text-2xl font-black text-white mb-1.5 group-hover:text-[#7ea6e6] transition-colors">
-                    {persona.title}
-                  </h3>
-                  <p className="text-xs text-white/80 leading-relaxed mb-4 line-clamp-2">
-                    {persona.subtitle}
-                  </p>
-                  <div className="inline-flex items-center gap-1.5 text-xs font-extrabold text-[#7ea6e6] group-hover:text-white transition-colors">
-                    <span>{persona.btnText}</span>
-                    <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+              {activePersonas.map((persona) => (
+                <Link
+                  key={persona.id}
+                  href={persona.link}
+                  className="group relative rounded-3xl overflow-hidden aspect-[4/5] flex flex-col justify-end p-6 border border-[#E8E4DF] bg-stone-100 shadow-xs hover:shadow-[0_16px_40px_rgba(19,33,60,0.14)] hover:-translate-y-1.5 transition-all duration-300"
+                >
+                  <Image
+                    src={persona.image}
+                    alt={persona.title}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 25vw"
+                    className="object-cover transition-transform duration-700 group-hover:scale-108"
+                  />
+                  {/* Royal Dark Gradient Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#0c1424]/95 via-[#0c1424]/40 to-transparent" />
+                  
+                  {/* Floating Pill Tag */}
+                  <div className="absolute top-4 start-4 z-10">
+                    <span className="inline-flex items-center gap-1 bg-white/95 backdrop-blur-md px-3 py-1 rounded-full text-[11px] font-black text-[#13213c] shadow-xs">
+                      {persona.tag}
+                    </span>
                   </div>
-                </div>
-              </Link>
-            ))}
-          </div>
 
-        </div>
-      </section>
+                  {/* Content */}
+                  <div className="relative z-10 text-start">
+                    <h3 className="text-xl sm:text-2xl font-black text-white mb-1.5 group-hover:text-[#7ea6e6] transition-colors">
+                      {persona.title}
+                    </h3>
+                    <p className="text-xs text-white/80 leading-relaxed mb-4 line-clamp-2">
+                      {persona.subtitle}
+                    </p>
+                    <div className="inline-flex items-center gap-1.5 text-xs font-extrabold text-[#7ea6e6] group-hover:text-white transition-colors">
+                      <span>{persona.btnText}</span>
+                      <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
+                    </div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+
+          </div>
+        </section>
+      )}
 
       {/* ========================================================================= */}
       {/* 4. CURATED CATEGORIES SHOWCASE GRID */}
@@ -661,10 +705,10 @@ export default function StoreHomeClient({
               <div>
                 <p className="text-xs font-black text-[#13213c] uppercase tracking-widest mb-1.5 flex items-center gap-1">
                   <Package className="w-3.5 h-3.5 text-[#13213c]" />
-                  <span>كتالوج التشكيلات الراقية</span>
+                  <span>{settings?.categoriesSectionBadge || 'كتالوج التشكيلات الراقية'}</span>
                 </p>
                 <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-[#1C1917] tracking-tight">
-                  تصفح الهدايا حسب الأقسام
+                  {settings?.categoriesSectionTitle || 'تصفح الهدايا حسب الأقسام'}
                 </h2>
               </div>
               <Link
@@ -723,10 +767,10 @@ export default function StoreHomeClient({
               <div>
                 <p className="text-xs font-black text-[#13213c] uppercase tracking-widest mb-1.5 flex items-center gap-1">
                   <Flame className="w-3.5 h-3.5 text-[#13213c]" />
-                  <span>مختارات استثنائية للإهداء</span>
+                  <span>{settings?.productsSectionBadge || 'مختارات استثنائية للإهداء'}</span>
                 </p>
                 <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-[#1C1917] tracking-tight">
-                  المنتجات الأكثر رواجاً وإهداءً
+                  {settings?.productsSectionTitle || 'المنتجات الأكثر رواجاً وإهداءً'}
                 </h2>
               </div>
 
@@ -928,39 +972,41 @@ export default function StoreHomeClient({
       {/* ========================================================================= */}
       {/* 8. VIP GIFT CONCIERGE & CUSTOM ASSISTANCE BANNER */}
       {/* ========================================================================= */}
-      <section className="py-12 bg-[#F0F4F9] border-t border-[#E8E4DF]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-white rounded-3xl p-6 sm:p-10 border border-[#E8E4DF] flex flex-col md:flex-row items-center justify-between gap-6 shadow-xs">
-            <div className="flex items-center gap-4 text-start">
-              <div 
-                className="w-14 h-14 rounded-2xl flex items-center justify-center text-white shrink-0 shadow-sm"
-                style={{ background: 'linear-gradient(135deg, #22385e 0%, #13213c 100%)' }}
-              >
-                <MessageCircle className="w-7 h-7 text-white" />
+      {settings?.showConcierge !== false && (
+        <section className="py-12 bg-[#F0F4F9] border-t border-[#E8E4DF]">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="bg-white rounded-3xl p-6 sm:p-10 border border-[#E8E4DF] flex flex-col md:flex-row items-center justify-between gap-6 shadow-xs">
+              <div className="flex items-center gap-4 text-start">
+                <div 
+                  className="w-14 h-14 rounded-2xl flex items-center justify-center text-white shrink-0 shadow-sm"
+                  style={{ background: 'linear-gradient(135deg, #22385e 0%, #13213c 100%)' }}
+                >
+                  <MessageCircle className="w-7 h-7 text-white" />
+                </div>
+                <div>
+                  <h3 className="text-lg sm:text-xl font-black text-[#1C1917]">
+                    {settings?.conciergeTitle || 'هل تبحث عن تنسيق هدية خاصة أو بوكس بمواصفات محددة؟'}
+                  </h3>
+                  <p className="text-xs sm:text-sm text-[#78716C] mt-1 leading-relaxed max-w-xl">
+                    {settings?.conciergeDesc || 'فريقنا المتخصص في تنسيق الهدايا جاهز لمساعدتك عبر واتساب في اختيار القطع، كتابة بطاقة الإهداء، واختيار ألوان التغليف المناسبة.'}
+                  </p>
+                </div>
               </div>
-              <div>
-                <h3 className="text-lg sm:text-xl font-black text-[#1C1917]">
-                  هل تبحث عن تنسيق هدية خاصة أو بوكس بمواصفات محددة؟
-                </h3>
-                <p className="text-xs sm:text-sm text-[#78716C] mt-1 leading-relaxed max-w-xl">
-                  فريقنا المتخصص في تنسيق الهدايا جاهز لمساعدتك عبر واتساب في اختيار القطع، كتابة بطاقة الإهداء، واختيار ألوان التغليف المناسبة.
-                </p>
-              </div>
-            </div>
 
-            <a
-              href={`https://wa.me/${whatsappPhone.replace(/[^0-9]/g, '')}?text=${encodeURIComponent('مرحباً، أود المساعدة في تنسيق هدية خاصة 🎁')}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="h-12 px-7 rounded-2xl text-white font-extrabold text-xs sm:text-sm flex items-center justify-center gap-2 shrink-0 shadow-md hover:-translate-y-0.5 transition-all self-stretch md:self-auto cursor-pointer"
-              style={{ background: 'linear-gradient(135deg, #25D366 0%, #128C7E 100%)' }}
-            >
-              <MessageCircle className="w-4 h-4 text-white" />
-              <span>تحدث مع منسق الهدايا عبر واتساب</span>
-            </a>
+              <a
+                href={`https://wa.me/${whatsappPhone.replace(/[^0-9]/g, '')}?text=${encodeURIComponent('مرحباً، أود المساعدة في تنسيق هدية خاصة 🎁')}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="h-12 px-7 rounded-2xl text-white font-extrabold text-xs sm:text-sm flex items-center justify-center gap-2 shrink-0 shadow-md hover:-translate-y-0.5 transition-all self-stretch md:self-auto cursor-pointer"
+                style={{ background: 'linear-gradient(135deg, #25D366 0%, #128C7E 100%)' }}
+              >
+                <MessageCircle className="w-4 h-4 text-white" />
+                <span>{settings?.conciergeBtnText || 'تحدث مع منسق الهدايا عبر واتساب'}</span>
+              </a>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
     </div>
   )

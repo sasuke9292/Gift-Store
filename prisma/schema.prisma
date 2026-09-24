@@ -322,6 +322,52 @@ model StoreSettings {
   feature4Title         String   @default("مستشار هدايا ذكي")
   feature4Desc          String   @default("خوارزمية ذكية وفريق متخصص يساعدك في اختيار الهدية المثالية لأي مناسبة")
 
+  // 8.1 Curated Gifting Personas (دليل الإهداء والمهدى له)
+  enablePersonasSection Boolean  @default(true)
+  personaSectionTitle   String   @default("هدايا مختارة بعناية لمن تحب")
+  personaSectionBadge   String   @default("دليل الإهداء الذكي")
+  personaSectionDesc    String   @default("اختر الشخص أو المناسبة لتشاهد مجموعات منتقاة يدوياً بعناية ومغلفة بأعلى درجات الفخامة.")
+  
+  persona1Title         String   @default("هدايا لها")
+  persona1Subtitle      String   @default("عطور راقية، مجوهرات وبوكسات دلال")
+  persona1Tag           String   @default("الأكثر رقة")
+  persona1Image         String   @default("https://images.unsplash.com/photo-1547887537-6158d64c35b3?auto=format&fit=crop&q=80&w=800")
+  persona1Link          String   @default("/category/women")
+  persona1BtnText       String   @default("اكتشف هداياها")
+
+  persona2Title         String   @default("هدايا له")
+  persona2Subtitle      String   @default("ساعات فاخرة، أطقم محافظ ومسابح ملكية")
+  persona2Tag           String   @default("فخامة وهيبة")
+  persona2Image         String   @default("https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&q=80&w=800")
+  persona2Link          String   @default("/category/men")
+  persona2BtnText       String   @default("اكتشف هداياه")
+
+  persona3Title         String   @default("مناسبات وأفراح")
+  persona3Subtitle      String   @default("تخرج، زواج، خطوبة وذكرى سنوية")
+  persona3Tag           String   @default("لحظات استثنائية")
+  persona3Image         String   @default("https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&q=80&w=800")
+  persona3Link          String   @default("/category/occasions")
+  persona3BtnText       String   @default("تصفح المناسبات")
+
+  persona4Title         String   @default("مخصصة بالاسم")
+  persona4Subtitle      String   @default("قطع محفورة وتنسيق خاص يخلد الذكرى")
+  persona4Tag           String   @default("لمسة شخصية")
+  persona4Image         String   @default("https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?auto=format&fit=crop&q=80&w=800")
+  persona4Link          String   @default("/category/custom")
+  persona4BtnText       String   @default("صمم هديتك")
+
+  // 8.2 VIP WhatsApp Concierge Banner
+  showConcierge         Boolean  @default(true)
+  conciergeTitle        String   @default("هل تبحث عن تنسيق هدية خاصة أو بوكس بمواصفات محددة؟")
+  conciergeDesc         String   @default("فريقنا المتخصص في تنسيق الهدايا جاهز لمساعدتك عبر واتساب في اختيار القطع، كتابة بطاقة الإهداء، واختيار ألوان التغليف المناسبة.")
+  conciergeBtnText      String   @default("تحدث مع منسق الهدايا عبر واتساب")
+
+  // 8.3 Storefront Section Titles
+  categoriesSectionTitle String  @default("تصفح الهدايا حسب الأقسام")
+  categoriesSectionBadge String  @default("كتالوج التشكيلات الراقية")
+  productsSectionTitle   String  @default("المنتجات الأكثر رواجاً وإهداءً")
+  productsSectionBadge   String  @default("مختارات استثنائية للإهداء")
+
   // 9. SEO & Notifications
   metaTitle             String   @default("گِفتي بلس | متجر الهدايا الفاخرة الأول في العراق")
   metaDescription       String   @default("الوجهة الأولى لاختيار وتنسيق الهدايا الفاخرة في العراق. تشكيلة منتقاة بعناية لجميع المناسبات مع تغليف يدوي راقٍ وتوصيل سريع.")

@@ -18,6 +18,7 @@ import {
   PhoneCall, 
   Share2, 
   Gift, 
+  Heart,
   ShieldCheck, 
   Save, 
   Loader2, 
@@ -41,7 +42,8 @@ import {
   Award,
   ArrowUp,
   ArrowDown,
-  ExternalLink
+  ExternalLink,
+  Package
 } from 'lucide-react'
 import { toast } from 'sonner'
 import { updateStoreSettings } from '@/app/actions/admin/settings'
@@ -188,6 +190,48 @@ export interface SettingsData {
   feature4Title: string
   feature4Desc: string
 
+  // 8.1 Gifting Personas Section (دليل الإهداء والمهدى له)
+  enablePersonasSection?: boolean
+  personaSectionTitle?: string
+  personaSectionBadge?: string
+  personaSectionDesc?: string
+  persona1Title?: string
+  persona1Subtitle?: string
+  persona1Tag?: string
+  persona1Image?: string
+  persona1Link?: string
+  persona1BtnText?: string
+  persona2Title?: string
+  persona2Subtitle?: string
+  persona2Tag?: string
+  persona2Image?: string
+  persona2Link?: string
+  persona2BtnText?: string
+  persona3Title?: string
+  persona3Subtitle?: string
+  persona3Tag?: string
+  persona3Image?: string
+  persona3Link?: string
+  persona3BtnText?: string
+  persona4Title?: string
+  persona4Subtitle?: string
+  persona4Tag?: string
+  persona4Image?: string
+  persona4Link?: string
+  persona4BtnText?: string
+
+  // 8.2 VIP WhatsApp Concierge Banner
+  showConcierge?: boolean
+  conciergeTitle?: string
+  conciergeDesc?: string
+  conciergeBtnText?: string
+
+  // 8.3 Storefront Section Titles
+  categoriesSectionTitle?: string
+  categoriesSectionBadge?: string
+  productsSectionTitle?: string
+  productsSectionBadge?: string
+
   // 9. SEO & Notifications
   metaTitle: string
   metaDescription: string
@@ -197,11 +241,12 @@ export interface SettingsData {
   lowStockThreshold: number
 }
 
-type TabType = 'general' | 'slides' | 'hero' | 'header' | 'shipping' | 'payment' | 'whatsapp' | 'contact' | 'social' | 'footer' | 'seo'
+type TabType = 'general' | 'slides' | 'personas' | 'hero' | 'header' | 'shipping' | 'payment' | 'whatsapp' | 'contact' | 'social' | 'footer' | 'seo'
 
 const TABS: { id: TabType; label: string; icon: React.ElementType; desc: string }[] = [
   { id: 'general', label: 'الهوية والبيانات', icon: Store, desc: 'اسم المتجر، الشعار، العملة، ووضع الصيانة' },
   { id: 'slides', label: 'شرائح السلايدر', icon: Layers, desc: 'إدارة وإضافة وترتيب صور وشرائح السلايدر التفاعلي بالواجهة' },
+  { id: 'personas', label: 'دليل الإهداء والمهدى له', icon: Heart, desc: 'تخصيص بطاقات هدايا لها، هدايا له، المناسبات، والهدايا المخصصة بالاسم' },
   { id: 'hero', label: 'الواجهة والبانر', icon: Sparkles, desc: 'العناوين الرئيسية، الأزرار، وإحصائيات الثقة' },
   { id: 'header', label: 'الترويسة والإعلانات', icon: Megaphone, desc: 'الشريط الإعلاني العلوي وروابط الترويسة' },
   { id: 'shipping', label: 'الشحن والطلبات', icon: Truck, desc: 'حد الشحن المجاني وتكاليف التوصيل' },
@@ -299,6 +344,19 @@ const SETTINGS_INDEX: SearchableSetting[] = [
   { id: 'metaKeywords', title: 'الكلمات المفتاحية (Meta Keywords)', desc: 'الكلمات الدلالية التي تساعد في فهرسة أقسام ومنتجات المتجر', tab: 'seo', tabLabel: 'السيو والنظام', keywords: ['كلمات مفتاحية', 'تاغات', 'سيو', 'keywords'] },
   { id: 'orderNotifications', title: 'إشعارات الطلبات الجديدة للإدارة', desc: 'إرسال تنبيهات فورية للمديرين عند وصول أي طلب جديد', tab: 'seo', tabLabel: 'السيو والنظام', keywords: ['إشعارات', 'تنبيهات', 'طلب جديد', 'notifications'] },
   { id: 'lowStockThreshold', title: 'حد انخفاض المخزون للتنبيه', desc: 'العدد المتبقي للمنتج الذي يطلق تنبيه اقتراب نفاد الكمية', tab: 'seo', tabLabel: 'السيو والنظام', keywords: ['مخزون', 'نفاد', 'كمية', 'تنبيه', 'stock'] },
+
+  // Gifting Personas & Recipient Guide
+  { id: 'personasGuide', title: 'دليل الإهداء والمهدى له (Shop by Recipient & Occasion)', desc: 'تخصيص بطاقات هدايا لها، هدايا له، المناسبات، والهدايا المخصصة بالاسم وتفعيل القسم', tab: 'personas', tabLabel: 'دليل الإهداء والمهدى له', keywords: ['دليل الإهداء', 'لها', 'له', 'مناسبات', 'بالاسم', 'شخص', 'مهدى له', 'personas', 'gifts'] },
+  { id: 'personaHer', title: 'بطاقة هدايا لها (For Her)', desc: 'تعديل العنوان والشرح والشارة والرابط وصورة بطاقة هدايا النساء', tab: 'personas', tabLabel: 'دليل الإهداء والمهدى له', keywords: ['هدايا لها', 'نسائية', 'عطور', 'مجوهرات', 'بنات'] },
+  { id: 'personaHim', title: 'بطاقة هدايا له (For Him)', desc: 'تعديل العنوان والشرح والشارة والرابط وصورة بطاقة هدايا الرجال', tab: 'personas', tabLabel: 'دليل الإهداء والمهدى له', keywords: ['هدايا له', 'رجالية', 'ساعات', 'محافظ', 'شباب'] },
+  { id: 'personaOccasions', title: 'بطاقة مناسبات وأفراح (Occasions)', desc: 'تعديل العنوان والشرح والشارة والرابط وصورة بطاقة هدايا المناسبات', tab: 'personas', tabLabel: 'دليل الإهداء والمهدى له', keywords: ['مناسبات', 'أفراح', 'تخرج', 'زواج', 'خطوبة'] },
+  { id: 'personaCustom', title: 'بطاقة هدايا مخصصة بالاسم (Personalized)', desc: 'تعديل العنوان والشرح والشارة والرابط وصورة بطاقة الهدايا المحفورة', tab: 'personas', tabLabel: 'دليل الإهداء والمهدى له', keywords: ['بالاسم', 'محفورة', 'مخصصة', 'صناديق'] },
+
+  // VIP Concierge
+  { id: 'vipConcierge', title: 'بانر المساعد الشخصي للتنسيق الخاص (VIP WhatsApp Concierge)', desc: 'تفعيل وتعديل بانر الاستشارة والمساعدة الشخصية عبر واتساب في أسفل الصفحة الرئيسية', tab: 'whatsapp', tabLabel: 'إعدادات WhatsApp', keywords: ['مساعد شخصي', 'تنسيق خاص', 'بانر واتساب', 'استشارة', 'concierge'] },
+
+  // Section titles
+  { id: 'sectionTitles', title: 'عناوين وشارات الأقسام الرئيسية (Section Titles)', desc: 'تخصيص عناوين وشارات أقسام التشكيلات والمنتجات الأكثر رواجاً', tab: 'hero', tabLabel: 'الواجهة والبانر', keywords: ['عناوين', 'أقسام', 'منتجات', 'شارات', 'قسم'] },
 ]
 
 export default function SettingsClient({ 
@@ -370,6 +428,29 @@ export default function SettingsClient({
       toast.error('حدث خطأ أثناء رفع الأيقونة')
     } finally {
       setIsUploadingFavicon(false)
+    }
+  }
+
+  const [uploadingField, setUploadingField] = useState<string | null>(null)
+
+  const handleUploadGenericImage = async (field: keyof SettingsData, file: File) => {
+    if (!file) return
+    setUploadingField(String(field))
+    const formData = new FormData()
+    formData.append('file', file)
+    try {
+      const res = await fetch('/api/upload', { method: 'POST', body: formData })
+      const data = await res.json()
+      if (data.success && data.url) {
+        updateField(field, data.url as any)
+        toast.success('تم رفع الصورة بنجاح!')
+      } else {
+        toast.error(data.error || 'فشل رفع الصورة')
+      }
+    } catch {
+      toast.error('حدث خطأ أثناء رفع الصورة')
+    } finally {
+      setUploadingField(null)
     }
   }
 
@@ -788,6 +869,526 @@ export default function SettingsClient({
       )}
 
       {/* ========================================================= */}
+      {/* 2.5 Gifting Personas & Recipient Guide (دليل الإهداء)     */}
+      {/* ========================================================= */}
+      {activeTab === 'personas' && (
+        <div id="setting-personasGuide" className="space-y-6">
+          <div className="border border-[#E8E4DF] rounded-3xl overflow-hidden bg-white shadow-xs">
+            <div className="p-6 border-b border-[#E8E4DF] bg-[#FAFAF8] flex items-center justify-between">
+              <div>
+                <h2 className="text-base font-black text-[#1C1917] flex items-center gap-2">
+                  <Heart className="w-5 h-5 text-[#13213c]" />
+                  <span>دليل الإهداء ومجموعات المهدى له (Shop by Recipient)</span>
+                  <span className="text-[10px] font-black px-2.5 py-0.5 rounded-full bg-[#13213c]/15 text-[#13213c] border border-[#13213c]/20">
+                    ميزة حصرية فاخرة ✨
+                  </span>
+                </h2>
+                <p className="text-xs text-[#78716C] mt-1 font-medium">
+                  التحكم في قسم بطاقات الإهداء السريع بالصفحة الرئيسية (هدايا لها، هدايا له، مناسبات وأفراح، وهدايا مخصصة بالاسم).
+                </p>
+              </div>
+            </div>
+
+            <div className="p-6 sm:p-8 space-y-6">
+              
+              {/* Section Toggle Switch */}
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 rounded-2xl bg-[#FAFAF8] border border-[#E8E4DF]">
+                <div>
+                  <div className="flex items-center gap-2">
+                    <p className="text-sm font-black text-[#1C1917]">تفعيل ظهور قسم دليل الإهداء بالصفحة الرئيسية</p>
+                    <span className={cn(
+                      "text-[10px] font-bold px-2 py-0.5 rounded-full border",
+                      settings.enablePersonasSection !== false
+                        ? "bg-emerald-50 text-emerald-700 border-emerald-200"
+                        : "bg-stone-100 text-stone-600 border-stone-200"
+                    )}>
+                      {settings.enablePersonasSection !== false ? 'ظاهر ومفعّل' : 'مخفي مؤقتاً'}
+                    </span>
+                  </div>
+                  <p className="text-xs text-[#78716C] mt-1">
+                    يعرض 4 بطاقات تفاعلية فاخرة تتيح للمشتري التوجه فوراً لهدايا النساء، هدايا الرجال، المناسبات، أو الهدايا بالاسم.
+                  </p>
+                </div>
+                <Switch 
+                  checked={settings.enablePersonasSection !== false}
+                  onCheckedChange={val => updateField('enablePersonasSection', val)}
+                />
+              </div>
+
+              {/* Section Titles & Meta */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2 border-t border-[#F0ECE6]">
+                <div>
+                  <Label className="text-xs font-bold text-[#1C1917] mb-1.5 block">شارة القسم العلوية (Badge)</Label>
+                  <Input 
+                    value={settings.personaSectionBadge || ''}
+                    onChange={e => updateField('personaSectionBadge', e.target.value)}
+                    placeholder="دليل الإهداء الذكي"
+                    className="h-10 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-xs font-bold"
+                  />
+                </div>
+                <div>
+                  <Label className="text-xs font-bold text-[#1C1917] mb-1.5 block">عنوان القسم الرئيسي (Headline)</Label>
+                  <Input 
+                    value={settings.personaSectionTitle || ''}
+                    onChange={e => updateField('personaSectionTitle', e.target.value)}
+                    placeholder="هدايا مختارة بعناية لمن تحب"
+                    className="h-10 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-xs font-bold"
+                  />
+                </div>
+                <div className="sm:col-span-2">
+                  <Label className="text-xs font-bold text-[#1C1917] mb-1.5 block">الوصف الإرشادي أسفل العنوان</Label>
+                  <Input 
+                    value={settings.personaSectionDesc || ''}
+                    onChange={e => updateField('personaSectionDesc', e.target.value)}
+                    placeholder="اختر الشخص أو المناسبة لتشاهد مجموعات منتقاة يدوياً بعناية ومغلفة بأعلى درجات الفخامة."
+                    className="h-10 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-xs"
+                  />
+                </div>
+              </div>
+
+              {/* Real-time Interactive Live Preview */}
+              <div className="pt-4 border-t border-[#F0ECE6]">
+                <Label className="text-xs font-bold text-[#1C1917] mb-3 flex items-center gap-2">
+                  <Eye className="w-3.5 h-3.5 text-[#13213c]" />
+                  <span>معاينة حية ومباشرة لشكل بطاقات دليل الإهداء على المتجر:</span>
+                </Label>
+                
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 bg-[#FAFAF8] p-4 rounded-2xl border border-[#E8E4DF]">
+                  {[
+                    {
+                      title: settings.persona1Title || 'هدايا لها',
+                      subtitle: settings.persona1Subtitle || 'عطور راقية، مجوهرات وبوكسات دلال',
+                      tag: settings.persona1Tag || 'الأكثر رقة',
+                      image: settings.persona1Image || 'https://images.unsplash.com/photo-1547887537-6158d64c35b3?auto=format&fit=crop&q=80&w=800',
+                      btnText: settings.persona1BtnText || 'اكتشف هداياها'
+                    },
+                    {
+                      title: settings.persona2Title || 'هدايا له',
+                      subtitle: settings.persona2Subtitle || 'ساعات فاخرة، أطقم محافظ ومسابح ملكية',
+                      tag: settings.persona2Tag || 'فخامة وهيبة',
+                      image: settings.persona2Image || 'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&q=80&w=800',
+                      btnText: settings.persona2BtnText || 'اكتشف هداياه'
+                    },
+                    {
+                      title: settings.persona3Title || 'مناسبات وأفراح',
+                      subtitle: settings.persona3Subtitle || 'تخرج، زواج، خطوبة وذكرى سنوية',
+                      tag: settings.persona3Tag || 'لحظات استثنائية',
+                      image: settings.persona3Image || 'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&q=80&w=800',
+                      btnText: settings.persona3BtnText || 'تصفح المناسبات'
+                    },
+                    {
+                      title: settings.persona4Title || 'مخصصة بالاسم',
+                      subtitle: settings.persona4Subtitle || 'قطع محفورة وتنسيق خاص يخلد الذكرى',
+                      tag: settings.persona4Tag || 'لمسة شخصية',
+                      image: settings.persona4Image || 'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?auto=format&fit=crop&q=80&w=800',
+                      btnText: settings.persona4BtnText || 'صمم هديتك'
+                    }
+                  ].map((card, i) => (
+                    <div key={i} className="relative rounded-2xl overflow-hidden aspect-[4/5] p-3 flex flex-col justify-end border border-[#E8E4DF] bg-stone-100 shadow-xs">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img src={card.image} alt={card.title} className="absolute inset-0 w-full h-full object-cover" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#0c1424]/95 via-[#0c1424]/40 to-transparent" />
+                      <div className="absolute top-2 start-2 z-10">
+                        <span className="text-[9px] font-black px-2 py-0.5 rounded-full bg-white/95 text-[#13213c] shadow-xs">
+                          {card.tag}
+                        </span>
+                      </div>
+                      <div className="relative z-10 text-start">
+                        <h4 className="text-xs font-black text-white truncate">{card.title}</h4>
+                        <p className="text-[10px] text-white/80 line-clamp-1 mt-0.5">{card.subtitle}</p>
+                        <span className="text-[9px] font-bold text-[#7ea6e6] mt-1 inline-flex items-center gap-1">
+                          {card.btnText} ←
+                        </span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          {/* Detailed 4 Cards Editor Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            
+            {/* Persona 1: For Her */}
+            <div id="setting-personaHer" className="border border-[#E8E4DF] rounded-3xl overflow-hidden bg-white shadow-xs p-6 space-y-4">
+              <div className="flex items-center justify-between pb-3 border-b border-[#F0ECE6]">
+                <div className="flex items-center gap-2">
+                  <div className="w-8 h-8 rounded-xl bg-[#F0F4F9] flex items-center justify-center text-[#13213c] font-black text-xs">
+                    01
+                  </div>
+                  <h3 className="text-sm font-black text-[#1C1917]">البطاقة الأولى: هدايا لها (For Her)</h3>
+                </div>
+                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#13213c]/10 text-[#13213c]">
+                  افتراضي: قسم النساء
+                </span>
+              </div>
+
+              <div className="space-y-3">
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <Label className="text-[11px] font-bold text-[#78716C] mb-1 block">عنوان البطاقة *</Label>
+                    <Input 
+                      value={settings.persona1Title || ''}
+                      onChange={e => updateField('persona1Title', e.target.value)}
+                      placeholder="هدايا لها"
+                      className="h-10 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-xs font-bold"
+                    />
+                  </div>
+                  <div>
+                    <Label className="text-[11px] font-bold text-[#78716C] mb-1 block">الشارة العائمة (Tag) *</Label>
+                    <Input 
+                      value={settings.persona1Tag || ''}
+                      onChange={e => updateField('persona1Tag', e.target.value)}
+                      placeholder="الأكثر رقة"
+                      className="h-10 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-xs font-bold"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <Label className="text-[11px] font-bold text-[#78716C] mb-1 block">النص التوضيحي للبطاقة</Label>
+                  <Input 
+                    value={settings.persona1Subtitle || ''}
+                    onChange={e => updateField('persona1Subtitle', e.target.value)}
+                    placeholder="عطور راقية، مجوهرات وبوكسات دلال"
+                    className="h-10 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-xs"
+                  />
+                </div>
+
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <Label className="text-[11px] font-bold text-[#78716C] mb-1 block">نص الزر التفاعلي</Label>
+                    <Input 
+                      value={settings.persona1BtnText || ''}
+                      onChange={e => updateField('persona1BtnText', e.target.value)}
+                      placeholder="اكتشف هداياها"
+                      className="h-10 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-xs"
+                    />
+                  </div>
+                  <div>
+                    <Label className="text-[11px] font-bold text-[#78716C] mb-1 block">رابط التوجيه (Link)</Label>
+                    <Input 
+                      value={settings.persona1Link || ''}
+                      onChange={e => updateField('persona1Link', e.target.value)}
+                      placeholder="/category/women"
+                      className="h-10 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-xs"
+                      dir="ltr"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <Label className="text-[11px] font-bold text-[#78716C] mb-1 block">رابط صورة البطاقة الفاخرة</Label>
+                  <div className="flex gap-2">
+                    <Input 
+                      value={settings.persona1Image || ''}
+                      onChange={e => updateField('persona1Image', e.target.value)}
+                      placeholder="https://..."
+                      className="h-10 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-xs"
+                      dir="ltr"
+                    />
+                    <label className="h-10 px-3.5 rounded-xl border border-[#E8E4DF] bg-white hover:bg-[#FAFAF8] text-xs font-bold text-[#1C1917] flex items-center gap-1.5 shrink-0 cursor-pointer transition-all">
+                      <Upload className="w-3.5 h-3.5 text-[#13213c]" />
+                      <span>{uploadingField === 'persona1Image' ? 'جاري...' : 'رفع'}</span>
+                      <input 
+                        type="file" 
+                        accept="image/*" 
+                        className="hidden" 
+                        onChange={e => e.target.files?.[0] && handleUploadGenericImage('persona1Image', e.target.files[0])}
+                      />
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Persona 2: For Him */}
+            <div id="setting-personaHim" className="border border-[#E8E4DF] rounded-3xl overflow-hidden bg-white shadow-xs p-6 space-y-4">
+              <div className="flex items-center justify-between pb-3 border-b border-[#F0ECE6]">
+                <div className="flex items-center gap-2">
+                  <div className="w-8 h-8 rounded-xl bg-[#F0F4F9] flex items-center justify-center text-[#13213c] font-black text-xs">
+                    02
+                  </div>
+                  <h3 className="text-sm font-black text-[#1C1917]">البطاقة الثانية: هدايا له (For Him)</h3>
+                </div>
+                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#13213c]/10 text-[#13213c]">
+                  افتراضي: قسم الرجال
+                </span>
+              </div>
+
+              <div className="space-y-3">
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <Label className="text-[11px] font-bold text-[#78716C] mb-1 block">عنوان البطاقة *</Label>
+                    <Input 
+                      value={settings.persona2Title || ''}
+                      onChange={e => updateField('persona2Title', e.target.value)}
+                      placeholder="هدايا له"
+                      className="h-10 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-xs font-bold"
+                    />
+                  </div>
+                  <div>
+                    <Label className="text-[11px] font-bold text-[#78716C] mb-1 block">الشارة العائمة (Tag) *</Label>
+                    <Input 
+                      value={settings.persona2Tag || ''}
+                      onChange={e => updateField('persona2Tag', e.target.value)}
+                      placeholder="فخامة وهيبة"
+                      className="h-10 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-xs font-bold"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <Label className="text-[11px] font-bold text-[#78716C] mb-1 block">النص التوضيحي للبطاقة</Label>
+                  <Input 
+                    value={settings.persona2Subtitle || ''}
+                    onChange={e => updateField('persona2Subtitle', e.target.value)}
+                    placeholder="ساعات فاخرة، أطقم محافظ ومسابح ملكية"
+                    className="h-10 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-xs"
+                  />
+                </div>
+
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <Label className="text-[11px] font-bold text-[#78716C] mb-1 block">نص الزر التفاعلي</Label>
+                    <Input 
+                      value={settings.persona2BtnText || ''}
+                      onChange={e => updateField('persona2BtnText', e.target.value)}
+                      placeholder="اكتشف هداياه"
+                      className="h-10 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-xs"
+                    />
+                  </div>
+                  <div>
+                    <Label className="text-[11px] font-bold text-[#78716C] mb-1 block">رابط التوجيه (Link)</Label>
+                    <Input 
+                      value={settings.persona2Link || ''}
+                      onChange={e => updateField('persona2Link', e.target.value)}
+                      placeholder="/category/men"
+                      className="h-10 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-xs"
+                      dir="ltr"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <Label className="text-[11px] font-bold text-[#78716C] mb-1 block">رابط صورة البطاقة الفاخرة</Label>
+                  <div className="flex gap-2">
+                    <Input 
+                      value={settings.persona2Image || ''}
+                      onChange={e => updateField('persona2Image', e.target.value)}
+                      placeholder="https://..."
+                      className="h-10 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-xs"
+                      dir="ltr"
+                    />
+                    <label className="h-10 px-3.5 rounded-xl border border-[#E8E4DF] bg-white hover:bg-[#FAFAF8] text-xs font-bold text-[#1C1917] flex items-center gap-1.5 shrink-0 cursor-pointer transition-all">
+                      <Upload className="w-3.5 h-3.5 text-[#13213c]" />
+                      <span>{uploadingField === 'persona2Image' ? 'جاري...' : 'رفع'}</span>
+                      <input 
+                        type="file" 
+                        accept="image/*" 
+                        className="hidden" 
+                        onChange={e => e.target.files?.[0] && handleUploadGenericImage('persona2Image', e.target.files[0])}
+                      />
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Persona 3: Occasions */}
+            <div id="setting-personaOccasions" className="border border-[#E8E4DF] rounded-3xl overflow-hidden bg-white shadow-xs p-6 space-y-4">
+              <div className="flex items-center justify-between pb-3 border-b border-[#F0ECE6]">
+                <div className="flex items-center gap-2">
+                  <div className="w-8 h-8 rounded-xl bg-[#F0F4F9] flex items-center justify-center text-[#13213c] font-black text-xs">
+                    03
+                  </div>
+                  <h3 className="text-sm font-black text-[#1C1917]">البطاقة الثالثة: مناسبات وأفراح (Occasions)</h3>
+                </div>
+                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#13213c]/10 text-[#13213c]">
+                  افتراضي: قسم المناسبات
+                </span>
+              </div>
+
+              <div className="space-y-3">
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <Label className="text-[11px] font-bold text-[#78716C] mb-1 block">عنوان البطاقة *</Label>
+                    <Input 
+                      value={settings.persona3Title || ''}
+                      onChange={e => updateField('persona3Title', e.target.value)}
+                      placeholder="مناسبات وأفراح"
+                      className="h-10 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-xs font-bold"
+                    />
+                  </div>
+                  <div>
+                    <Label className="text-[11px] font-bold text-[#78716C] mb-1 block">الشارة العائمة (Tag) *</Label>
+                    <Input 
+                      value={settings.persona3Tag || ''}
+                      onChange={e => updateField('persona3Tag', e.target.value)}
+                      placeholder="لحظات استثنائية"
+                      className="h-10 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-xs font-bold"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <Label className="text-[11px] font-bold text-[#78716C] mb-1 block">النص التوضيحي للبطاقة</Label>
+                  <Input 
+                    value={settings.persona3Subtitle || ''}
+                    onChange={e => updateField('persona3Subtitle', e.target.value)}
+                    placeholder="تخرج، زواج، خطوبة وذكرى سنوية"
+                    className="h-10 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-xs"
+                  />
+                </div>
+
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <Label className="text-[11px] font-bold text-[#78716C] mb-1 block">نص الزر التفاعلي</Label>
+                    <Input 
+                      value={settings.persona3BtnText || ''}
+                      onChange={e => updateField('persona3BtnText', e.target.value)}
+                      placeholder="تصفح المناسبات"
+                      className="h-10 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-xs"
+                    />
+                  </div>
+                  <div>
+                    <Label className="text-[11px] font-bold text-[#78716C] mb-1 block">رابط التوجيه (Link)</Label>
+                    <Input 
+                      value={settings.persona3Link || ''}
+                      onChange={e => updateField('persona3Link', e.target.value)}
+                      placeholder="/category/occasions"
+                      className="h-10 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-xs"
+                      dir="ltr"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <Label className="text-[11px] font-bold text-[#78716C] mb-1 block">رابط صورة البطاقة الفاخرة</Label>
+                  <div className="flex gap-2">
+                    <Input 
+                      value={settings.persona3Image || ''}
+                      onChange={e => updateField('persona3Image', e.target.value)}
+                      placeholder="https://..."
+                      className="h-10 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-xs"
+                      dir="ltr"
+                    />
+                    <label className="h-10 px-3.5 rounded-xl border border-[#E8E4DF] bg-white hover:bg-[#FAFAF8] text-xs font-bold text-[#1C1917] flex items-center gap-1.5 shrink-0 cursor-pointer transition-all">
+                      <Upload className="w-3.5 h-3.5 text-[#13213c]" />
+                      <span>{uploadingField === 'persona3Image' ? 'جاري...' : 'رفع'}</span>
+                      <input 
+                        type="file" 
+                        accept="image/*" 
+                        className="hidden" 
+                        onChange={e => e.target.files?.[0] && handleUploadGenericImage('persona3Image', e.target.files[0])}
+                      />
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Persona 4: Personalized Gifts */}
+            <div id="setting-personaCustom" className="border border-[#E8E4DF] rounded-3xl overflow-hidden bg-white shadow-xs p-6 space-y-4">
+              <div className="flex items-center justify-between pb-3 border-b border-[#F0ECE6]">
+                <div className="flex items-center gap-2">
+                  <div className="w-8 h-8 rounded-xl bg-[#F0F4F9] flex items-center justify-center text-[#13213c] font-black text-xs">
+                    04
+                  </div>
+                  <h3 className="text-sm font-black text-[#1C1917]">البطاقة الرابعة: مخصصة بالاسم (Personalized)</h3>
+                </div>
+                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#13213c]/10 text-[#13213c]">
+                  افتراضي: قسم التخصيص
+                </span>
+              </div>
+
+              <div className="space-y-3">
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <Label className="text-[11px] font-bold text-[#78716C] mb-1 block">عنوان البطاقة *</Label>
+                    <Input 
+                      value={settings.persona4Title || ''}
+                      onChange={e => updateField('persona4Title', e.target.value)}
+                      placeholder="مخصصة بالاسم"
+                      className="h-10 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-xs font-bold"
+                    />
+                  </div>
+                  <div>
+                    <Label className="text-[11px] font-bold text-[#78716C] mb-1 block">الشارة العائمة (Tag) *</Label>
+                    <Input 
+                      value={settings.persona4Tag || ''}
+                      onChange={e => updateField('persona4Tag', e.target.value)}
+                      placeholder="لمسة شخصية"
+                      className="h-10 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-xs font-bold"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <Label className="text-[11px] font-bold text-[#78716C] mb-1 block">النص التوضيحي للبطاقة</Label>
+                  <Input 
+                    value={settings.persona4Subtitle || ''}
+                    onChange={e => updateField('persona4Subtitle', e.target.value)}
+                    placeholder="قطع محفورة وتنسيق خاص يخلد الذكرى"
+                    className="h-10 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-xs"
+                  />
+                </div>
+
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <Label className="text-[11px] font-bold text-[#78716C] mb-1 block">نص الزر التفاعلي</Label>
+                    <Input 
+                      value={settings.persona4BtnText || ''}
+                      onChange={e => updateField('persona4BtnText', e.target.value)}
+                      placeholder="صمم هديتك"
+                      className="h-10 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-xs"
+                    />
+                  </div>
+                  <div>
+                    <Label className="text-[11px] font-bold text-[#78716C] mb-1 block">رابط التوجيه (Link)</Label>
+                    <Input 
+                      value={settings.persona4Link || ''}
+                      onChange={e => updateField('persona4Link', e.target.value)}
+                      placeholder="/category/custom"
+                      className="h-10 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-xs"
+                      dir="ltr"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <Label className="text-[11px] font-bold text-[#78716C] mb-1 block">رابط صورة البطاقة الفاخرة</Label>
+                  <div className="flex gap-2">
+                    <Input 
+                      value={settings.persona4Image || ''}
+                      onChange={e => updateField('persona4Image', e.target.value)}
+                      placeholder="https://..."
+                      className="h-10 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-xs"
+                      dir="ltr"
+                    />
+                    <label className="h-10 px-3.5 rounded-xl border border-[#E8E4DF] bg-white hover:bg-[#FAFAF8] text-xs font-bold text-[#1C1917] flex items-center gap-1.5 shrink-0 cursor-pointer transition-all">
+                      <Upload className="w-3.5 h-3.5 text-[#13213c]" />
+                      <span>{uploadingField === 'persona4Image' ? 'جاري...' : 'رفع'}</span>
+                      <input 
+                        type="file" 
+                        accept="image/*" 
+                        className="hidden" 
+                        onChange={e => e.target.files?.[0] && handleUploadGenericImage('persona4Image', e.target.files[0])}
+                      />
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      )}
+
+      {/* ========================================================= */}
       {/* 3. Hero & Storefront Showcase                             */}
       {/* ========================================================= */}
       {activeTab === 'hero' && (
@@ -1081,6 +1682,79 @@ export default function SettingsClient({
                   </div>
                 </div>
 
+              </div>
+            </div>
+
+            {/* ======================================================= */}
+            {/* MAIN STOREFRONT SECTIONS TITLES & BADGES                */}
+            {/* ======================================================= */}
+            <div id="setting-sectionTitles" className="pt-6 border-t border-[#F0ECE6] space-y-4">
+              <div className="bg-[#FAFAF8] p-5 rounded-2xl border border-[#E8E4DF]">
+                <div className="flex items-center gap-2">
+                  <span className="w-8 h-8 rounded-lg bg-[#13213c]/20 text-[#13213c] flex items-center justify-center font-bold">
+                    <Sparkles className="w-4 h-4 text-[#13213c]" />
+                  </span>
+                  <h3 className="text-sm font-black text-[#1C1917]">
+                    عناوين وشارات الأقسام الرئيسية في الصفحة الرئيسية (Section Titles)
+                  </h3>
+                </div>
+                <p className="text-xs text-[#78716C] mt-1 leading-relaxed">
+                  تخصيص العناوين الترويجية والشارات العلوية لقسم كتالوج الأقسام وقسم المنتجات الأكثر رواجاً.
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {/* Categories Section Titles */}
+                <div className="p-5 rounded-2xl bg-white border border-[#E8E4DF] space-y-3">
+                  <div className="flex items-center gap-2 text-xs font-black text-[#1C1917]">
+                    <Package className="w-4 h-4 text-[#13213c]" />
+                    <span>قسم كتالوج التشكيلات والأقسام</span>
+                  </div>
+                  <div>
+                    <Label className="text-[11px] font-bold text-[#78716C] mb-1 block">شارة القسم العلوية (Badge)</Label>
+                    <Input 
+                      value={settings.categoriesSectionBadge || ''}
+                      onChange={e => updateField('categoriesSectionBadge', e.target.value)}
+                      placeholder="كتالوج التشكيلات الراقية"
+                      className="h-10 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-xs font-bold"
+                    />
+                  </div>
+                  <div>
+                    <Label className="text-[11px] font-bold text-[#78716C] mb-1 block">العنوان الرئيسي للقسم (Headline) *</Label>
+                    <Input 
+                      value={settings.categoriesSectionTitle || ''}
+                      onChange={e => updateField('categoriesSectionTitle', e.target.value)}
+                      placeholder="تصفح الهدايا حسب الأقسام"
+                      className="h-10 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-xs font-bold"
+                    />
+                  </div>
+                </div>
+
+                {/* Products Section Titles */}
+                <div className="p-5 rounded-2xl bg-white border border-[#E8E4DF] space-y-3">
+                  <div className="flex items-center gap-2 text-xs font-black text-[#1C1917]">
+                    <Flame className="w-4 h-4 text-[#13213c]" />
+                    <span>قسم المنتجات الأكثر رواجاً وإهداءً</span>
+                  </div>
+                  <div>
+                    <Label className="text-[11px] font-bold text-[#78716C] mb-1 block">شارة القسم العلوية (Badge)</Label>
+                    <Input 
+                      value={settings.productsSectionBadge || ''}
+                      onChange={e => updateField('productsSectionBadge', e.target.value)}
+                      placeholder="مختارات استثنائية للإهداء"
+                      className="h-10 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-xs font-bold"
+                    />
+                  </div>
+                  <div>
+                    <Label className="text-[11px] font-bold text-[#78716C] mb-1 block">العنوان الرئيسي للقسم (Headline) *</Label>
+                    <Input 
+                      value={settings.productsSectionTitle || ''}
+                      onChange={e => updateField('productsSectionTitle', e.target.value)}
+                      placeholder="المنتجات الأكثر رواجاً وإهداءً"
+                      className="h-10 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-xs font-bold"
+                    />
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -1557,6 +2231,92 @@ export default function SettingsClient({
                   <div className="text-end text-[10px] text-stone-400">10:30 ص ✓✓</div>
                 </div>
               </div>
+            </div>
+
+            {/* VIP WhatsApp Concierge Banner Customization */}
+            <div id="setting-vipConcierge" className="pt-6 border-t border-[#F0ECE6] space-y-4">
+              <div className="bg-[#FAFAF8] p-5 rounded-2xl border border-[#E8E4DF] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div>
+                  <div className="flex items-center gap-2">
+                    <span className="w-8 h-8 rounded-lg bg-[#25D366]/20 text-[#128C7E] flex items-center justify-center font-bold">
+                      <MessageCircle className="w-4 h-4 text-[#128C7E]" />
+                    </span>
+                    <h3 className="text-sm font-black text-[#1C1917]">
+                      بانر المساعد الشخصي للتنسيق الخاص (VIP WhatsApp Concierge Banner)
+                    </h3>
+                    <span className={cn(
+                      "text-[10px] font-bold px-2 py-0.5 rounded-full border",
+                      settings.showConcierge !== false
+                        ? "bg-emerald-50 text-emerald-700 border-emerald-200"
+                        : "bg-stone-100 text-stone-600 border-stone-200"
+                    )}>
+                      {settings.showConcierge !== false ? 'مفعّل في الواجهة' : 'معطّل مؤقتاً'}
+                    </span>
+                  </div>
+                  <p className="text-xs text-[#78716C] mt-1">
+                    بانر فاخر في أسفل الصفحة الرئيسية يتيح للعملاء التواصل المباشر مع منسق الهدايا عبر واتساب لطلب تنسيق هدايا خاصة وبوكسات مخصصة.
+                  </p>
+                </div>
+                <Switch 
+                  checked={settings.showConcierge !== false}
+                  onCheckedChange={val => updateField('showConcierge', val)}
+                />
+              </div>
+
+              {settings.showConcierge !== false && (
+                <div className="p-5 rounded-2xl bg-white border border-[#E8E4DF] space-y-4">
+                  <div>
+                    <Label className="text-xs font-bold text-[#1C1917] mb-1.5 block">عنوان البانر الرئيسي *</Label>
+                    <Input 
+                      value={settings.conciergeTitle || ''}
+                      onChange={e => updateField('conciergeTitle', e.target.value)}
+                      placeholder="هل تبحث عن تنسيق هدية خاصة أو بوكس بمواصفات محددة؟"
+                      className="h-10 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-xs font-bold"
+                    />
+                  </div>
+
+                  <div>
+                    <Label className="text-xs font-bold text-[#1C1917] mb-1.5 block">نص الشرح والدعوة للتواصل</Label>
+                    <Textarea 
+                      rows={2}
+                      value={settings.conciergeDesc || ''}
+                      onChange={e => updateField('conciergeDesc', e.target.value)}
+                      placeholder="فريقنا المتخصص في تنسيق الهدايا جاهز لمساعدتك عبر واتساب في اختيار القطع، كتابة بطاقة الإهداء، واختيار ألوان التغليف المناسبة."
+                      className="rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-xs resize-none"
+                    />
+                  </div>
+
+                  <div>
+                    <Label className="text-xs font-bold text-[#1C1917] mb-1.5 block">نص زر المحادثة المباشر *</Label>
+                    <Input 
+                      value={settings.conciergeBtnText || ''}
+                      onChange={e => updateField('conciergeBtnText', e.target.value)}
+                      placeholder="تحدث مع منسق الهدايا عبر واتساب"
+                      className="h-10 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-xs font-bold"
+                    />
+                  </div>
+
+                  {/* Live preview */}
+                  <div className="pt-2">
+                    <Label className="text-[11px] font-bold text-[#78716C] mb-2 block">معاينة شكل البانر في الموقع:</Label>
+                    <div className="bg-[#F0F4F9] p-4 rounded-2xl border border-[#E8E4DF] flex items-center justify-between gap-4">
+                      <div className="flex items-center gap-3 min-w-0">
+                        <div className="w-10 h-10 rounded-xl bg-[#13213c] flex items-center justify-center text-white shrink-0">
+                          <MessageCircle className="w-5 h-5 text-white" />
+                        </div>
+                        <div className="min-w-0">
+                          <h4 className="text-xs font-black text-[#1C1917] truncate">{settings.conciergeTitle || 'تنسيق هدية خاصة؟'}</h4>
+                          <p className="text-[10px] text-[#78716C] line-clamp-1">{settings.conciergeDesc || 'فريقنا المتخصص جاهز لمساعدتك عبر واتساب...'}</p>
+                        </div>
+                      </div>
+                      <span className="h-8 px-3 rounded-xl bg-[#25D366] text-white font-bold text-[11px] shrink-0 flex items-center gap-1.5">
+                        <MessageCircle className="w-3.5 h-3.5" />
+                        <span>{settings.conciergeBtnText || 'تحدث مع المنسق'}</span>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
 
           </div>
