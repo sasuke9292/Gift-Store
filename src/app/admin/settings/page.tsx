@@ -1,11 +1,15 @@
 import React from 'react'
 import SettingsClient, { SettingsData } from './settings-client'
 import { getStoreSettings } from '@/app/actions/admin/settings'
+import { getHeroSlides } from '@/app/actions/admin/hero-slides'
 
 export const dynamic = 'force-dynamic'
 
 export default async function AdminSettingsPage() {
-  const settings = await getStoreSettings()
+  const [settings, heroSlides] = await Promise.all([
+    getStoreSettings(),
+    getHeroSlides()
+  ])
   
   const initialSettings: SettingsData = {
     // 1. General & Identity
@@ -120,7 +124,7 @@ export default async function AdminSettingsPage() {
         <p className="text-sm font-bold">جاري تحميل إعدادات المتجر...</p>
       </div>
     }>
-      <SettingsClient initialSettings={initialSettings} />
+      <SettingsClient initialSettings={initialSettings} initialSlides={heroSlides} />
     </React.Suspense>
   )
 }

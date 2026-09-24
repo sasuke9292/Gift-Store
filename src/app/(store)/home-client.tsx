@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useMemo } from 'react'
+import React, { useState, useMemo, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { 
@@ -52,16 +52,8 @@ interface StoreHomeClientProps {
   settings?: any
 }
 
-// Verified high-resolution luxury gift showcase slides
+// Verified high-resolution luxury gift showcase slides (Optimized Order)
 const showcaseSlides = [
-  {
-    id: 'men-luxury',
-    title: 'أطقم وساعات رجالية فاخرة',
-    subtitle: 'هدية تعبّر عن التقدير والرقي',
-    image: 'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&q=80&w=1000',
-    link: '/category/men',
-    tag: 'الأكثر طلباً'
-  },
   {
     id: 'women-perfume',
     title: 'عطور ومجوهرات نسائية راقية',
@@ -71,12 +63,12 @@ const showcaseSlides = [
     tag: 'تشكيلة حصرية'
   },
   {
-    id: 'custom-jewelry',
-    title: 'مجوهرات وهدايا مخصصة بالاسم',
-    subtitle: 'خلّد اسم من تحب بقطعة استثنائية',
-    image: 'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?auto=format&fit=crop&q=80&w=1000',
-    link: '/category/custom',
-    tag: 'صُنعت خصيصاً'
+    id: 'men-luxury',
+    title: 'أطقم وساعات رجالية فاخرة',
+    subtitle: 'هدية تعبّر عن التقدير والرقي',
+    image: 'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&q=80&w=1000',
+    link: '/category/men',
+    tag: 'الأكثر طلباً'
   },
   {
     id: 'gift-boxes',
@@ -85,6 +77,14 @@ const showcaseSlides = [
     image: 'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&q=80&w=1000',
     link: '/category/occasions',
     tag: 'تغليف مجاني'
+  },
+  {
+    id: 'custom-jewelry',
+    title: 'مجوهرات وهدايا مخصصة بالاسم',
+    subtitle: 'خلّد اسم من تحب بقطعة استثنائية',
+    image: 'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?auto=format&fit=crop&q=80&w=1000',
+    link: '/category/custom',
+    tag: 'صُنعت خصيصاً'
   }
 ]
 
@@ -157,6 +157,7 @@ export default function StoreHomeClient({
 }: StoreHomeClientProps) {
   const [activeSlide, setActiveSlide] = useState(0)
   const [activeProductTab, setActiveProductTab] = useState<'all' | 'best' | 'new' | 'sale'>('all')
+  const [isHovered, setIsHovered] = useState(false)
 
   // Dynamic Showcase Slides from Dedicated DB HeroSlides or Fallback
   const activeShowcaseSlides = useMemo(() => {
@@ -192,6 +193,17 @@ export default function StoreHomeClient({
 
   const safeSlideIndex = activeShowcaseSlides.length > 0 ? (activeSlide % activeShowcaseSlides.length) : 0
   const currentSlide = activeShowcaseSlides[safeSlideIndex] || showcaseSlides[0]
+
+  // Auto-play slideshow every 5.5s (pauses on hover)
+  useEffect(() => {
+    if (activeShowcaseSlides.length <= 1 || isHovered) return
+
+    const timer = setInterval(() => {
+      setActiveSlide((prev) => (prev + 1) % activeShowcaseSlides.length)
+    }, 5500)
+
+    return () => clearInterval(timer)
+  }, [activeShowcaseSlides.length, isHovered])
 
   const dynamicFeatures = [
     {
@@ -405,7 +417,9 @@ export default function StoreHomeClient({
 
                 {/* Main Showcase Card */}
                 <div 
-                  className="relative aspect-[4/5] sm:aspect-[1/1] lg:aspect-[4/5] rounded-3xl overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.14)] border border-[#E8E4DF] bg-stone-100 group"
+                  onMouseEnter={() => setIsHovered(true)}
+                  onMouseLeave={() => setIsHovered(false)}
+                  className="relative aspect-[4/5] sm:aspect-[1/1] lg:aspect-[4/5] rounded-3xl overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.14)] border border-[#E8E4DF] bg-stone-100 group select-none"
                 >
                   <AnimatePresence mode="wait">
                     <motion.div
@@ -422,51 +436,53 @@ export default function StoreHomeClient({
                         fill
                         priority
                         sizes="(max-width: 768px) 100vw, 50vw"
-                        className="object-cover"
+                        className="object-cover transition-transform duration-700 group-hover:scale-105"
                       />
                       {/* Gradient Overlays */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-[#1C1917]/90 via-[#1C1917]/25 to-transparent" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#0c1424]/95 via-[#0c1424]/30 to-transparent" />
                       
                       {/* Top Tag */}
                       <div className="absolute top-4 start-4 z-10">
-                        <span className="inline-flex items-center gap-1.5 bg-white/90 backdrop-blur-md px-3.5 py-1.5 rounded-full text-xs font-black text-[#1C1917] shadow-sm">
+                        <span className="inline-flex items-center gap-1.5 bg-white/95 backdrop-blur-md px-3.5 py-1.5 rounded-full text-xs font-black text-[#13213c] shadow-sm">
                           <Flame className="w-3.5 h-3.5 text-[#E85D75]" />
                           {currentSlide.tag}
                         </span>
                       </div>
 
                       {/* Bottom Info */}
-                      <div className="absolute bottom-0 inset-x-0 p-6 z-10 text-start">
-                        <h3 className="text-xl sm:text-2xl font-black text-white mb-1.5">
+                      <div className="absolute bottom-0 inset-x-0 p-6 sm:p-7 z-10 text-start">
+                        <h3 className="text-xl sm:text-2xl font-black text-white mb-2 leading-tight">
                           {currentSlide.title}
                         </h3>
-                        <p className="text-xs sm:text-sm text-white/75 mb-4">
+                        <p className="text-xs sm:text-sm text-white/80 mb-4 line-clamp-2 leading-relaxed">
                           {currentSlide.subtitle}
                         </p>
                         <Link
                           href={currentSlide.link}
-                          className="inline-flex items-center gap-2 text-xs sm:text-sm font-bold text-[#7ea6e6] hover:text-white transition-colors"
+                          className="inline-flex items-center gap-2 text-xs sm:text-sm font-bold text-[#7ea6e6] hover:text-white transition-all group/link"
                         >
                           <span>تصفح هذه المجموعة الآن</span>
-                          <ArrowLeft className="w-4 h-4" />
+                          <ArrowLeft className="w-4 h-4 transition-transform group-hover/link:-translate-x-1" />
                         </Link>
                       </div>
                     </motion.div>
                   </AnimatePresence>
 
                   {/* Navigation Arrows */}
-                  <div className="absolute top-4 end-4 z-20 flex items-center gap-2">
+                  <div className="absolute top-4 end-4 z-20 flex items-center gap-1.5">
                     <button
                       onClick={() => setActiveSlide((prev) => (prev === 0 ? activeShowcaseSlides.length - 1 : prev - 1))}
-                      className="w-8 h-8 rounded-full bg-white/80 backdrop-blur-md flex items-center justify-center text-[#1C1917] hover:bg-white transition-all shadow-xs cursor-pointer"
-                      aria-label="السابق"
+                      className="w-8 h-8 rounded-full bg-white/85 backdrop-blur-md flex items-center justify-center text-[#13213c] hover:bg-white hover:scale-105 transition-all shadow-xs cursor-pointer active:scale-95"
+                      aria-label="الشريحة السابقة"
+                      title="السابق"
                     >
                       <ChevronRight className="w-4 h-4" />
                     </button>
                     <button
                       onClick={() => setActiveSlide((prev) => (prev === activeShowcaseSlides.length - 1 ? 0 : prev + 1))}
-                      className="w-8 h-8 rounded-full bg-white/80 backdrop-blur-md flex items-center justify-center text-[#1C1917] hover:bg-white transition-all shadow-xs cursor-pointer"
-                      aria-label="التالي"
+                      className="w-8 h-8 rounded-full bg-white/85 backdrop-blur-md flex items-center justify-center text-[#13213c] hover:bg-white hover:scale-105 transition-all shadow-xs cursor-pointer active:scale-95"
+                      aria-label="الشريحة التالية"
+                      title="التالي"
                     >
                       <ChevronLeft className="w-4 h-4" />
                     </button>
@@ -477,7 +493,7 @@ export default function StoreHomeClient({
                 <motion.div
                   animate={{ y: [0, -6, 0] }}
                   transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-                  className="hidden sm:flex items-center gap-3 absolute -top-5 -start-6 bg-white/95 backdrop-blur-xl rounded-2xl p-3.5 shadow-[0_12px_30px_rgba(0,0,0,0.12)] border border-[#E8E4DF] z-20"
+                  className="hidden sm:flex items-center gap-3 absolute -top-5 start-2 sm:-start-5 bg-white/95 backdrop-blur-xl rounded-2xl p-3 sm:p-3.5 shadow-[0_12px_30px_rgba(0,0,0,0.12)] border border-[#E8E4DF] z-20 pointer-events-none"
                 >
                   <div className="w-10 h-10 rounded-xl bg-[#F0F4F9] flex items-center justify-center shrink-0">
                     <Award className="w-5 h-5 text-[#13213c]" />
@@ -492,7 +508,7 @@ export default function StoreHomeClient({
                 <motion.div
                   animate={{ y: [0, 6, 0] }}
                   transition={{ duration: 3.5, repeat: Infinity, ease: 'easeInOut', delay: 0.5 }}
-                  className="hidden sm:flex items-center gap-3 absolute -bottom-5 -end-6 bg-white/95 backdrop-blur-xl rounded-2xl p-3.5 shadow-[0_12px_30px_rgba(0,0,0,0.12)] border border-[#E8E4DF] z-20"
+                  className="hidden sm:flex items-center gap-3 absolute -bottom-5 end-2 sm:-end-5 bg-white/95 backdrop-blur-xl rounded-2xl p-3 sm:p-3.5 shadow-[0_12px_30px_rgba(0,0,0,0.12)] border border-[#E8E4DF] z-20 pointer-events-none"
                 >
                   <div className="w-10 h-10 rounded-xl bg-[#FDF2F4] flex items-center justify-center shrink-0">
                     <Gift className="w-5 h-5 text-[#E85D75]" />
@@ -503,21 +519,36 @@ export default function StoreHomeClient({
                   </div>
                 </motion.div>
 
-                {/* Showcase Switcher Pills */}
-                <div className="flex items-center justify-center gap-2 mt-4">
-                  {activeShowcaseSlides.map((slide, idx) => (
-                    <button
-                      key={slide.id}
-                      onClick={() => setActiveSlide(idx)}
-                      className={cn(
-                        "h-2 rounded-full transition-all duration-300 cursor-pointer",
-                        safeSlideIndex === idx 
-                          ? "w-8 bg-[#13213c]" 
-                          : "w-2 bg-[#E8E4DF] hover:bg-[#A8A29E]"
-                      )}
-                      aria-label={`شريحة ${idx + 1}`}
-                    />
-                  ))}
+                {/* Showcase Switcher Pills & Counter */}
+                <div className="flex items-center justify-between gap-3 mt-4 px-2">
+                  {/* Slide Numeric Counter */}
+                  <div className="flex items-center gap-1 text-xs font-black text-[#13213c] tabular-nums" dir="ltr">
+                    <span>{String(safeSlideIndex + 1).padStart(2, '0')}</span>
+                    <span className="text-[#A8A29E] font-normal">/</span>
+                    <span className="text-[#78716C] font-semibold">{String(activeShowcaseSlides.length).padStart(2, '0')}</span>
+                  </div>
+
+                  {/* Switcher Pills */}
+                  <div className="flex items-center justify-center gap-2 flex-1">
+                    {activeShowcaseSlides.map((slide, idx) => (
+                      <button
+                        key={slide.id}
+                        onClick={() => setActiveSlide(idx)}
+                        className={cn(
+                          "h-2 rounded-full transition-all duration-300 cursor-pointer",
+                          safeSlideIndex === idx 
+                            ? "w-8 bg-[#13213c] shadow-xs" 
+                            : "w-2.5 bg-[#E8E4DF] hover:bg-[#A8A29E]"
+                        )}
+                        aria-label={`انتقال إلى الشريحة ${idx + 1}`}
+                      />
+                    ))}
+                  </div>
+
+                  {/* Hint */}
+                  <span className="text-[10px] text-[#A8A29E] font-bold hidden sm:inline-block">
+                    {isHovered ? 'موقوف مؤقتاً' : 'تفاعلي تلقائي'}
+                  </span>
                 </div>
               </div>
             </div>

@@ -40,10 +40,13 @@ import {
   Flame,
   Award,
   ArrowUp,
-  ArrowDown
+  ArrowDown,
+  ExternalLink
 } from 'lucide-react'
 import { toast } from 'sonner'
 import { updateStoreSettings } from '@/app/actions/admin/settings'
+import { HeroSlideData } from '@/app/actions/admin/hero-slides'
+import HeroSlidesClient from '../hero-slides/hero-slides-client'
 import { cn } from '@/lib/utils'
 
 export interface HeroSlide {
@@ -194,10 +197,11 @@ export interface SettingsData {
   lowStockThreshold: number
 }
 
-type TabType = 'general' | 'hero' | 'header' | 'shipping' | 'payment' | 'whatsapp' | 'contact' | 'social' | 'footer' | 'seo'
+type TabType = 'general' | 'slides' | 'hero' | 'header' | 'shipping' | 'payment' | 'whatsapp' | 'contact' | 'social' | 'footer' | 'seo'
 
 const TABS: { id: TabType; label: string; icon: React.ElementType; desc: string }[] = [
   { id: 'general', label: 'الهوية والبيانات', icon: Store, desc: 'اسم المتجر، الشعار، العملة، ووضع الصيانة' },
+  { id: 'slides', label: 'شرائح السلايدر', icon: Layers, desc: 'إدارة وإضافة وترتيب صور وشرائح السلايدر التفاعلي بالواجهة' },
   { id: 'hero', label: 'الواجهة والبانر', icon: Sparkles, desc: 'العناوين الرئيسية، الأزرار، وإحصائيات الثقة' },
   { id: 'header', label: 'الترويسة والإعلانات', icon: Megaphone, desc: 'الشريط الإعلاني العلوي وروابط الترويسة' },
   { id: 'shipping', label: 'الشحن والطلبات', icon: Truck, desc: 'حد الشحن المجاني وتكاليف التوصيل' },
@@ -245,7 +249,7 @@ const SETTINGS_INDEX: SearchableSetting[] = [
   { id: 'heroSubheadline', title: 'النص التوضيحي للبانر', desc: 'الفقرة التعريفية أسفل العنوان الرئيسي في الواجهة', tab: 'hero', tabLabel: 'الواجهة والبانر', keywords: ['نص', 'بانر', 'مقدمة', 'تعريف'] },
   { id: 'heroPrimaryBtn', title: 'أزرار البانر الرئيسي', desc: 'نصوص وروابط أزرار الشراء والاستكشاف في البانر', tab: 'hero', tabLabel: 'الواجهة والبانر', keywords: ['زر', 'تسوق', 'رابط', 'button', 'cta'] },
   { id: 'trustStats', title: 'إحصائيات الثقة والمصداقية', desc: 'أرقام عدد العملاء والتقييمات ونسبة رضا الزبائن والتغليف الملكي', tab: 'hero', tabLabel: 'الواجهة والبانر', keywords: ['إحصائيات', 'ثقة', 'أرقام', 'عملاء', 'تقييم'] },
-  { id: 'heroSlides', title: 'سلايدر العرض التفاعلي وإضافة الصور (Hero Slides)', desc: 'إضافة وتعديل وحذف الصور والعناوين والشارات وروابط السلايدر الفاخر في الواجهة', tab: 'hero', tabLabel: 'الواجهة والبانر', keywords: ['سلايدر', 'شريحة', 'صور', 'رفع صورة', 'بانر', 'عرض', 'صورة', 'hero', 'slider', 'slides', 'image'] },
+  { id: 'heroSlides', title: 'سلايدر العرض التفاعلي وإضافة الصور (Hero Slides)', desc: 'إضافة وتعديل وحذف الصور والعناوين والشارات وروابط السلايدر الفاخر في الواجهة', tab: 'slides', tabLabel: 'شرائح السلايدر', keywords: ['سلايدر', 'شريحة', 'صور', 'رفع صورة', 'بانر', 'عرض', 'صورة', 'hero', 'slider', 'slides', 'image'] },
   { id: 'heroBadges', title: 'البادجات العائمة على سلايدر الواجهة (Floating Badges)', desc: 'تعديل نصوص الشارات العائمة على زوايا السلايدر (ضمان واسترجاع، تغليف مجاني)', tab: 'hero', tabLabel: 'الواجهة والبانر', keywords: ['بادج', 'بادجات', 'عائمة', 'ضمان', 'تغليف', 'شارات', 'badges'] },
   
   // Header & Announcement
@@ -297,7 +301,13 @@ const SETTINGS_INDEX: SearchableSetting[] = [
   { id: 'lowStockThreshold', title: 'حد انخفاض المخزون للتنبيه', desc: 'العدد المتبقي للمنتج الذي يطلق تنبيه اقتراب نفاد الكمية', tab: 'seo', tabLabel: 'السيو والنظام', keywords: ['مخزون', 'نفاد', 'كمية', 'تنبيه', 'stock'] },
 ]
 
-export default function SettingsClient({ initialSettings }: { initialSettings: SettingsData }) {
+export default function SettingsClient({ 
+  initialSettings,
+  initialSlides = []
+}: { 
+  initialSettings: SettingsData
+  initialSlides?: HeroSlideData[]
+}) {
   const router = useRouter()
   const searchParams = useSearchParams()
   const [settings, setSettings] = useState<SettingsData>(initialSettings)
@@ -769,7 +779,16 @@ export default function SettingsClient({ initialSettings }: { initialSettings: S
       )}
 
       {/* ========================================================= */}
-      {/* 2. Hero & Storefront Showcase                             */}
+      {/* 2. Hero Showcase Slides Manager (تبويب شرائح السلايدر)     */}
+      {/* ========================================================= */}
+      {activeTab === 'slides' && (
+        <div id="setting-heroSlides" className="space-y-6">
+          <HeroSlidesClient initialSlides={initialSlides} settings={settings} />
+        </div>
+      )}
+
+      {/* ========================================================= */}
+      {/* 3. Hero & Storefront Showcase                             */}
       {/* ========================================================= */}
       {activeTab === 'hero' && (
         <div className="border border-[#E8E4DF] rounded-3xl overflow-hidden bg-white shadow-xs">
@@ -945,7 +964,7 @@ export default function SettingsClient({ initialSettings }: { initialSettings: S
             </div>
 
             {/* ======================================================= */}
-            {/* HERO SHOWCASE SLIDER DEDICATED MANAGER CALLOUT          */}
+            {/* HERO SHOWCASE SLIDER CALLOUT & INTEGRATION              */}
             {/* ======================================================= */}
             <div id="setting-heroSlides" className="pt-6 border-t border-[#F0ECE6]">
               <div className="p-6 rounded-3xl bg-gradient-to-l from-[#F0F4F9] via-white to-[#F0F4F9] border-2 border-[#13213c]/30 flex flex-col md:flex-row items-start md:items-center justify-between gap-5 shadow-xs">
@@ -954,31 +973,48 @@ export default function SettingsClient({ initialSettings }: { initialSettings: S
                     className="w-12 h-12 rounded-2xl flex items-center justify-center text-white shadow-sm shrink-0"
                     style={{ background: 'linear-gradient(135deg, #22385e 0%, #13213c 100%)' }}
                   >
-                    <Sparkles className="w-6 h-6" />
+                    <Layers className="w-6 h-6" />
                   </div>
                   <div>
                     <div className="flex items-center gap-2 flex-wrap">
                       <h3 className="text-sm sm:text-base font-black text-[#1C1917]">
-                        إدارة شرائح السلايدر التفاعلي (Hero Showcase Slides)
+                        إدارة وترتيب شرائح السلايدر التفاعلي (Hero Showcase Slides)
                       </h3>
                       <span className="text-[10px] font-black px-2 py-0.5 rounded-full bg-[#13213c]/20 text-[#13213c] border border-[#13213c]/30">
-                        صفحة مستقلة ومخصصة بالكامل ✨
+                        مدمج بإعدادات المتجر ✨
                       </span>
                     </div>
                     <p className="text-xs text-[#78716C] mt-1 leading-relaxed max-w-xl">
-                      تم فصل إدارة السلايدر التفاعلي إلى صفحة تحكم مستقلة ومخصصة بالكامل تتيح لك رفع الصور من جهازك، تفعيل وتعطيل الشرائح، إعادة ترتيبها، ومشاهدة محاكي العرض التفاعلي الحي.
+                      يمكنك إدارة وإضافة وترتيب شرائح السلايدر التفاعلي، رفع صور الهدايا، وتغيير ترتيبها مباشرة من تبويب "شرائح السلايدر" هنا في الإعدادات أو عبر الصفحة المخصصة.
                     </p>
                   </div>
                 </div>
 
-                <Link
-                  href="/admin/hero-slides"
-                  className="h-11 px-6 rounded-xl font-black text-white text-xs sm:text-sm cursor-pointer shadow-md hover:-translate-y-0.5 transition-all flex items-center gap-2 shrink-0 self-stretch sm:self-auto justify-center"
-                  style={{ background: 'linear-gradient(135deg, #22385e 0%, #13213c 100%)' }}
-                >
-                  <span>فتح إدارة السلايدر الآن</span>
-                  <ArrowLeft className="w-4 h-4" />
-                </Link>
+                <div className="flex items-center gap-2.5 flex-wrap self-stretch sm:self-auto justify-end">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setActiveTab('slides')
+                      const params = new URLSearchParams(window.location.search)
+                      params.set('tab', 'slides')
+                      router.replace(`/admin/settings?${params.toString()}`, { scroll: false })
+                    }}
+                    className="h-11 px-6 rounded-xl font-black text-white text-xs sm:text-sm cursor-pointer shadow-md hover:-translate-y-0.5 transition-all flex items-center gap-2 shrink-0 justify-center"
+                    style={{ background: 'linear-gradient(135deg, #22385e 0%, #13213c 100%)' }}
+                  >
+                    <Layers className="w-4 h-4" />
+                    <span>تعديل وترتيب الشرائح الآن</span>
+                  </button>
+
+                  <Link
+                    href="/admin/hero-slides"
+                    className="h-11 px-4 rounded-xl font-bold text-[#1C1917] bg-white border border-[#E8E4DF] text-xs hover:bg-[#FAFAF8] transition-all flex items-center gap-1.5 shrink-0 justify-center"
+                    title="فتح في صفحة مستقلة"
+                  >
+                    <ExternalLink className="w-3.5 h-3.5 text-[#78716C]" />
+                    <span>صفحة مستقلة</span>
+                  </Link>
+                </div>
               </div>
             </div>
 

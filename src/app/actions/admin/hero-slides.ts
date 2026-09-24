@@ -37,30 +37,21 @@ export interface UpdateHeroSlideInput {
 
 const DEFAULT_SLIDES = [
   {
-    title: 'أطقم وساعات رجالية فاخرة',
-    subtitle: 'هدية تعبّر عن التقدير والرقي',
-    image: 'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&q=80&w=1000',
-    link: '/category/men',
-    tag: 'الأكثر طلباً',
-    order: 0,
-    isActive: true
-  },
-  {
     title: 'عطور ومجوهرات نسائية راقية',
     subtitle: 'أناقة لا مثيل لها لكل مناسبة سعيدة',
     image: 'https://images.unsplash.com/photo-1547887537-6158d64c35b3?auto=format&fit=crop&q=80&w=1000',
     link: '/category/women',
     tag: 'تشكيلة حصرية',
-    order: 1,
+    order: 0,
     isActive: true
   },
   {
-    title: 'مجوهرات وهدايا مخصصة بالاسم',
-    subtitle: 'خلّد اسم من تحب بقطعة استثنائية',
-    image: 'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?auto=format&fit=crop&q=80&w=1000',
-    link: '/category/custom',
-    tag: 'صُنعت خصيصاً',
-    order: 2,
+    title: 'أطقم وساعات رجالية فاخرة',
+    subtitle: 'هدية تعبّر عن التقدير والرقي',
+    image: 'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&q=80&w=1000',
+    link: '/category/men',
+    tag: 'الأكثر طلباً',
+    order: 1,
     isActive: true
   },
   {
@@ -69,6 +60,15 @@ const DEFAULT_SLIDES = [
     image: 'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&q=80&w=1000',
     link: '/category/occasions',
     tag: 'تغليف مجاني',
+    order: 2,
+    isActive: true
+  },
+  {
+    title: 'مجوهرات وهدايا مخصصة بالاسم',
+    subtitle: 'خلّد اسم من تحب بقطعة استثنائية',
+    image: 'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?auto=format&fit=crop&q=80&w=1000',
+    link: '/category/custom',
+    tag: 'صُنعت خصيصاً',
     order: 3,
     isActive: true
   }

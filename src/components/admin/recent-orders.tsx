@@ -25,7 +25,7 @@ export function RecentOrders({ orders = [] }: { orders?: Order[] }) {
           className="w-9 h-9 flex items-center justify-center rounded-xl bg-[#FAFAF8] text-[#78716C] hover:text-[#1C1917] hover:bg-[#F5F0EA] transition-all border border-[#E8E4DF]"
           title="عرض جميع الطلبات"
         >
-          <ArrowLeft className="w-4 h-4 rtl:rotate-180" />
+          <ArrowLeft className="w-4 h-4" />
         </Link>
       </div>
       
@@ -36,7 +36,7 @@ export function RecentOrders({ orders = [] }: { orders?: Order[] }) {
             <Link
               key={order.id}
               href="/admin/orders"
-              className="flex items-center justify-between p-3.5 rounded-2xl border border-[#E8E4DF] bg-white hover:bg-[#FAFAF8] hover:border-[#13213c]/40 hover:shadow-sm transition-all group block"
+              className="flex items-center justify-between p-3.5 rounded-2xl border border-[#E8E4DF] bg-white hover:bg-[#FAFAF8] hover:border-[#13213c]/40 hover:shadow-sm transition-all group"
             >
               <div className="flex items-center gap-3">
                 <div 

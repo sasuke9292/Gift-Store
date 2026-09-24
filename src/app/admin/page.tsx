@@ -1,7 +1,7 @@
 import { prisma } from '@/lib/prisma'
 import { auth } from '@/auth'
 import { redirect } from 'next/navigation'
-import AdminDashboardHome from './dashboard-client'
+import AdminDashboardHome, { DashboardStats } from './dashboard-client'
 
 export const dynamic = 'force-dynamic'
 
@@ -16,14 +16,16 @@ export default async function AdminDashboardPage() {
     redirect('/')
   }
 
-  let stats = {
+  let stats: DashboardStats = {
     totalSales: 0,
     totalOrders: 0,
     completedOrders: 0,
     pendingOrders: 0,
     cancelledOrders: 0,
     totalProducts: 0,
-    lowStockProducts: 0
+    lowStockProducts: 0,
+    heroSlidesCount: 0,
+    categoriesCount: 0
   }
   let recentOrders: any[] = []
 
@@ -36,7 +38,9 @@ export default async function AdminDashboardPage() {
       totalProducts,
       lowStockProducts,
       ordersData,
-      fetchedRecentOrders
+      fetchedRecentOrders,
+      heroSlidesCount,
+      categoriesCount
     ] = await Promise.all([
       prisma.order.count(),
       prisma.order.count({ where: { status: 'DELIVERED' } }),
@@ -51,7 +55,9 @@ export default async function AdminDashboardPage() {
       prisma.order.findMany({
         take: 5,
         orderBy: { createdAt: 'desc' }
-      })
+      }),
+      prisma.heroSlide.count({ where: { isActive: true } }).catch(() => 4),
+      prisma.category.count().catch(() => 0)
     ])
 
     stats = {
@@ -61,7 +67,9 @@ export default async function AdminDashboardPage() {
       pendingOrders,
       cancelledOrders,
       totalProducts,
-      lowStockProducts
+      lowStockProducts,
+      heroSlidesCount,
+      categoriesCount
     }
     recentOrders = fetchedRecentOrders
   } catch (error) {
