@@ -312,18 +312,6 @@ export default function ProductForm({
           </div>
 
           <div className="flex items-center gap-2 self-start sm:self-auto">
-            {onCancel && isInline && (
-              <Button
-                type="button"
-                variant="outline"
-                onClick={onCancel}
-                className="h-10 px-4 rounded-xl border-[#E8E4DF] text-[#78716C] hover:text-[#1C1917] font-bold text-xs cursor-pointer"
-              >
-                <ArrowRight className="w-4 h-4 ms-1.5" />
-                العودة للمنتجات
-              </Button>
-            )}
-
             <span className={cn(
               "px-3.5 py-1.5 rounded-full text-xs font-bold border flex items-center gap-2 shadow-2xs",
               formData.isActive 
@@ -333,6 +321,17 @@ export default function ProductForm({
               <span className={cn("w-2 h-2 rounded-full", formData.isActive ? "bg-emerald-500 animate-pulse" : "bg-stone-400")} />
               {formData.isActive ? 'معروض للعملاء في المتجر' : 'مسودة غير منشورة'}
             </span>
+
+            {onCancel && (
+              <button
+                type="button"
+                onClick={onCancel}
+                className="w-10 h-10 rounded-xl border border-[#E8E4DF] bg-white text-[#78716C] hover:text-rose-600 hover:border-rose-200 hover:bg-rose-50 transition-all flex items-center justify-center cursor-pointer shadow-2xs"
+                title="إغلاق"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            )}
           </div>
         </div>
 
