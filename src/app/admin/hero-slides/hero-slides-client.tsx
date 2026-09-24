@@ -272,7 +272,7 @@ export default function HeroSlidesClient({ initialSlides, settings }: HeroSlides
                 إدارة سلايدر الواجهة التفاعلي
               </h1>
               <span className="px-3 py-1 rounded-full text-xs font-black bg-[#13213c]/15 text-[#13213c] border border-[#13213c]/30">
-                منظومة مخصصة مستقلة
+                مدمج بإعدادات المتجر
               </span>
             </div>
             <p className="text-xs sm:text-sm text-[#78716C] mt-1.5 leading-relaxed">

@@ -985,7 +985,7 @@ export default function SettingsClient({
                       </span>
                     </div>
                     <p className="text-xs text-[#78716C] mt-1 leading-relaxed max-w-xl">
-                      يمكنك إدارة وإضافة وترتيب شرائح السلايدر التفاعلي، رفع صور الهدايا، وتغيير ترتيبها مباشرة من تبويب "شرائح السلايدر" هنا في الإعدادات أو عبر الصفحة المخصصة.
+                      يمكنك إدارة وإضافة وترتيب شرائح السلايدر التفاعلي، رفع صور الهدايا، وتغيير ترتيبها مباشرة من تبويب "شرائح السلايدر" هنا في إعدادات المتجر.
                     </p>
                   </div>
                 </div>
@@ -1005,15 +1005,6 @@ export default function SettingsClient({
                     <Layers className="w-4 h-4" />
                     <span>تعديل وترتيب الشرائح الآن</span>
                   </button>
-
-                  <Link
-                    href="/admin/hero-slides"
-                    className="h-11 px-4 rounded-xl font-bold text-[#1C1917] bg-white border border-[#E8E4DF] text-xs hover:bg-[#FAFAF8] transition-all flex items-center gap-1.5 shrink-0 justify-center"
-                    title="فتح في صفحة مستقلة"
-                  >
-                    <ExternalLink className="w-3.5 h-3.5 text-[#78716C]" />
-                    <span>صفحة مستقلة</span>
-                  </Link>
                 </div>
               </div>
             </div>
