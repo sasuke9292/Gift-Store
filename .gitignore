@@ -15,6 +15,7 @@
 
 # next.js
 /.next/
+website/.next/
 /out/
 
 # production
@@ -41,8 +42,10 @@ yarn-error.log*
 next-env.d.ts
 
 # android builds
-android/app/build/
-android/build/
-android/.gradle/
-android/local.properties
+**/android/app/build/
+**/android/build/
+**/android/.gradle/
+**/android/local.properties
 *.apk
+!GiftyPlus.apk
+!android-app/GiftyPlus.apk
