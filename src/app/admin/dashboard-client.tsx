@@ -133,7 +133,7 @@ export default function AdminDashboardHome({
           </Link>
 
           <Link
-            href="/admin/products/new"
+            href="/admin/products?tab=create"
             className="flex items-center gap-2 h-11 px-5 rounded-xl text-white font-extrabold text-xs sm:text-sm transition-all hover:-translate-y-0.5 shadow-[0_4px_16px_rgba(19,33,60,0.35)] cursor-pointer"
             style={{ background: 'linear-gradient(135deg, #22385e 0%, #13213c 100%)' }}
           >

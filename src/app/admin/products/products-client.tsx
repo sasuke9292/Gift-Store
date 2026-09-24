@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   Table,
@@ -17,13 +17,19 @@ import Image from 'next/image'
 import { deleteProduct, deleteProducts } from '@/app/actions/admin/products'
 import { toast } from 'sonner'
 import Link from 'next/link'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { Product, Category } from '@prisma/client'
 import ProductModal from './product-modal'
+import ProductForm from './product-form'
 import { ConfirmDialog } from '@/components/ui/confirm-dialog'
+import { cn } from '@/lib/utils'
 
 type ProductWithCategory = Product & { category?: Category | null }
 
 export default function ProductsClient({ initialProducts, categories }: { initialProducts: ProductWithCategory[], categories: Category[] }) {
+  const router = useRouter()
+  const searchParams = useSearchParams()
+  const [activeMainTab, setActiveMainTab] = useState<'list' | 'create'>('list')
   const [products, setProducts] = useState<ProductWithCategory[]>(initialProducts)
   const [search, setSearch] = useState('')
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set())
@@ -34,6 +40,16 @@ export default function ProductsClient({ initialProducts, categories }: { initia
   const [deleteId, setDeleteId] = useState<string | null>(null)
   const [isDeletingConfirm, setIsDeletingConfirm] = useState(false)
   const [bulkDeleteConfirm, setBulkDeleteConfirm] = useState(false)
+
+  useEffect(() => {
+    const tabParam = searchParams.get('tab')
+    const newParam = searchParams.get('new')
+    if (tabParam === 'create' || tabParam === 'new' || newParam === 'true') {
+      setActiveMainTab('create')
+    } else if (tabParam === 'list') {
+      setActiveMainTab('list')
+    }
+  }, [searchParams])
 
   const handleSelectAll = (checked: boolean) => {
     if (checked) {
@@ -93,7 +109,7 @@ export default function ProductsClient({ initialProducts, categories }: { initia
 
   return (
     <div className="space-y-6 pb-12" dir="rtl">
-      {/* Header Section */}
+      {/* Header Section & Tab Navigation */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h1 className="text-2xl font-black text-[#1C1917] tracking-tight">إدارة المنتجات</h1>
@@ -101,43 +117,86 @@ export default function ProductsClient({ initialProducts, categories }: { initia
             إضافة وتعديل وحذف منتجات المتجر ومتابعة الأسعار والتصنيفات ({products.length} منتج)
           </p>
         </div>
-        <Link href="/admin/products/new">
-          <Button 
-            className="text-white shadow-[0_4px_16px_rgba(19, 33, 60,0.35)] hover:-translate-y-0.5 rounded-xl px-5 h-11 font-bold transition-all w-full sm:w-auto text-sm cursor-pointer"
-            style={{ background: 'linear-gradient(135deg, #22385e 0%, #13213c 100%)' }}
+
+        {/* Tab Controls (في نفس الصفحة والتبويب) */}
+        <div className="bg-[#FAF7F2] p-1.5 rounded-2xl border border-[#E8E4DF] flex items-center gap-1.5 w-full sm:w-auto shadow-2xs">
+          <button
+            type="button"
+            onClick={() => setActiveMainTab('list')}
+            className={cn(
+              "flex-1 sm:flex-none flex items-center justify-center gap-2 py-2.5 px-4 sm:px-5 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer whitespace-nowrap",
+              activeMainTab === 'list'
+                ? "bg-[#13213c] text-white shadow-xs"
+                : "text-[#78716C] hover:text-[#1C1917] hover:bg-white"
+            )}
           >
-            <Plus className="w-4 h-4 ms-2" />
-            إضافة منتج جديد
-          </Button>
-        </Link>
+            <Package className="w-4 h-4" />
+            <span>قائمة المنتجات ({products.length})</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setActiveMainTab('create')}
+            className={cn(
+              "flex-1 sm:flex-none flex items-center justify-center gap-2 py-2.5 px-4 sm:px-5 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer whitespace-nowrap",
+              activeMainTab === 'create'
+                ? "bg-[#13213c] text-white shadow-xs"
+                : "text-[#78716C] hover:text-[#1C1917] hover:bg-white"
+            )}
+          >
+            <Plus className="w-4 h-4 text-emerald-500" />
+            <span>إضافة منتج جديد</span>
+          </button>
+        </div>
       </div>
 
-      {/* Bulk Delete Bar */}
-      <AnimatePresence>
-        {selectedIds.size > 0 && (
-          <motion.div 
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            className="bg-[#F0F4F9] border border-[#13213c]/30 rounded-2xl p-4 flex items-center justify-between shadow-sm"
-          >
-            <div className="flex items-center gap-2.5">
-              <CheckCircle2 className="w-5 h-5 text-[#13213c]" />
-              <p className="text-sm font-bold text-[#1C1917]">
-                تم تحديد <span className="text-[#13213c]">{selectedIds.size}</span> منتج
-              </p>
-            </div>
-            <Button 
-              variant="destructive" 
-              onClick={() => setBulkDeleteConfirm(true)} 
-              disabled={isDeletingBulk}
-              className="rounded-xl font-bold h-9 px-4 bg-rose-600 hover:bg-rose-700 text-xs transition-colors cursor-pointer"
-            >
-              حذف المحدد
-            </Button>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {activeMainTab === 'create' ? (
+        <ProductForm
+          product={null}
+          categories={categories}
+          onSuccess={(newProduct) => {
+            const matchedCategory = categories.find(c => c.id === newProduct.categoryId)
+            const fullProduct = {
+              ...newProduct,
+              category: matchedCategory || null,
+              images: Array.isArray(newProduct.images) ? newProduct.images : []
+            }
+            setProducts([fullProduct as any, ...products])
+            setActiveMainTab('list')
+            router.refresh()
+          }}
+          onCancel={() => setActiveMainTab('list')}
+          isInline={true}
+        />
+      ) : (
+        <>
+          {/* Bulk Delete Bar */}
+          <AnimatePresence>
+            {selectedIds.size > 0 && (
+              <motion.div 
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: 'auto' }}
+                exit={{ opacity: 0, height: 0 }}
+                className="bg-[#F0F4F9] border border-[#13213c]/30 rounded-2xl p-4 flex items-center justify-between shadow-sm"
+              >
+                <div className="flex items-center gap-2.5">
+                  <CheckCircle2 className="w-5 h-5 text-[#13213c]" />
+                  <p className="text-sm font-bold text-[#1C1917]">
+                    تم تحديد <span className="text-[#13213c]">{selectedIds.size}</span> منتج
+                  </p>
+                </div>
+                <Button 
+                  variant="destructive" 
+                  onClick={() => setBulkDeleteConfirm(true)} 
+                  disabled={isDeletingBulk}
+                  className="rounded-xl font-bold h-9 px-4 bg-rose-600 hover:bg-rose-700 text-xs transition-colors cursor-pointer"
+                >
+                  حذف المحدد
+                </Button>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
 
       {/* Main Table Card */}
       <div className="bg-white rounded-3xl border border-[#E8E4DF] shadow-[0_2px_12px_rgba(0,0,0,0.03)] overflow-hidden">
@@ -423,6 +482,8 @@ export default function ProductsClient({ initialProducts, categories }: { initia
           )}
         </div>
       </div>
+      </>
+      )}
 
       {/* Edit Product Modal */}
       <ProductModal

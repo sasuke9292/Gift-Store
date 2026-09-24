@@ -73,7 +73,7 @@ const ADMIN_SEARCH_INDEX: AdminSearchDestination[] = [
 
   // Admin Pages
   { id: 'page-products', title: 'إدارة المنتجات والمخزون', group: 'لوحة التحكم', href: '/admin/products', icon: Package, keywords: ['منتجات', 'سلع', 'هدايا', 'مخزون', 'سعر', 'products'] },
-  { id: 'page-product-new', title: 'إضافة منتج جديد', group: 'لوحة التحكم', href: '/admin/products/new', icon: Package, keywords: ['اضافة منتج', 'جديد', 'رفع هدية', 'new product'] },
+  { id: 'page-product-new', title: 'إضافة منتج جديد', group: 'لوحة التحكم', href: '/admin/products?tab=create', icon: Package, keywords: ['اضافة منتج', 'جديد', 'رفع هدية', 'new product'] },
   { id: 'page-orders', title: 'إدارة طلبات الزبائن', group: 'لوحة التحكم', href: '/admin/orders', icon: ShoppingCart, keywords: ['طلبات', 'فواتير', 'مبيعات', 'زبائن', 'orders'] },
   { id: 'page-categories', title: 'تصنيفات وأقسام الهدايا', group: 'لوحة التحكم', href: '/admin/categories', icon: Layers, keywords: ['تصنيفات', 'اقسام', 'فئات', 'categories'] },
   { id: 'page-users', title: 'المستخدمين وصلاحيات الطاقم', group: 'لوحة التحكم', href: '/admin/users', icon: Users, keywords: ['مستخدمين', 'صلاحيات', 'مدراء', 'طاقم', 'ادمن', 'users'] },
