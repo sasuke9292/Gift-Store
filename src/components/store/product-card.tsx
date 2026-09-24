@@ -23,6 +23,32 @@ export interface ProductCardProps {
   }
 }
 
+function getProductFallbackImage(name: string, categoryName?: string): string {
+  const text = `${name} ${categoryName || ''}`.toLowerCase()
+  if (text.includes('عطر') || text.includes('مسك') || text.includes('عود') || text.includes('توم فورد')) {
+    return 'https://images.unsplash.com/photo-1547887537-6158d64c35b3?auto=format&fit=crop&q=80&w=800'
+  }
+  if (text.includes('ساعة') || text.includes('watch')) {
+    return 'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&q=80&w=800'
+  }
+  if (text.includes('قلادة') || text.includes('سلسلة') || text.includes('مجوهرات') || text.includes('ذهب') || text.includes('فضة')) {
+    return 'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?auto=format&fit=crop&q=80&w=800'
+  }
+  if (text.includes('ورد') || text.includes('باقة') || text.includes('زهور')) {
+    return 'https://images.unsplash.com/photo-1563241598-a2886f4a8e63?auto=format&fit=crop&q=80&w=800'
+  }
+  if (text.includes('محفظة') || text.includes('حزام') || text.includes('جلد') || text.includes('حقيبة')) {
+    return 'https://images.unsplash.com/photo-1627123424574-724758594e93?auto=format&fit=crop&q=80&w=800'
+  }
+  if (text.includes('دب') || text.includes('أطفال') || text.includes('بيبي') || text.includes('قطيفة')) {
+    return 'https://images.unsplash.com/photo-1560859254-809fa84742f3?auto=format&fit=crop&q=80&w=800'
+  }
+  if (text.includes('سماعات') || text.includes('إلكترونيات')) {
+    return 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&q=80&w=800'
+  }
+  return 'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&q=80&w=800'
+}
+
 export function ProductCard({ product }: ProductCardProps) {
   const addToCart = useCartStore(state => state.addItem)
   const { addFavorite, removeFavorite, hasFavorite } = useFavoritesStore()
@@ -126,8 +152,8 @@ export function ProductCard({ product }: ProductCardProps) {
         </button>
 
         {/* Image / Fallback */}
-        <Link href={`/product/${product.id}`} className="block w-full h-full relative cursor-pointer">
-          {product.images && product.images[0] && !imgError ? (
+        <Link href={`/product/${product.id}`} className="block w-full h-full relative cursor-pointer bg-stone-100">
+          {(!imgError && product.images && product.images[0]) ? (
             <Image
               src={product.images[0]}
               alt={product.name}
@@ -137,10 +163,13 @@ export function ProductCard({ product }: ProductCardProps) {
               onError={() => setImgError(true)}
             />
           ) : (
-            <div className="w-full h-full flex flex-col items-center justify-center text-[#13213c]/40 bg-gradient-to-br from-[#F0F4F9] to-[#E2EAF4]">
-              <ShoppingBag className="w-10 h-10 mb-1" />
-              <span className="text-[11px] font-bold text-[#13213c]">گِفتي بلس</span>
-            </div>
+            <Image
+              src={getProductFallbackImage(product.name, product.category?.name)}
+              alt={product.name}
+              fill
+              sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
+              className="object-cover transition-transform duration-700 group-hover:scale-108"
+            />
           )}
           {/* Subtle Bottom Image Gradient */}
           <div className="absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
