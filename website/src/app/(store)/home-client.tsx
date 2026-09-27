@@ -371,7 +371,7 @@ export default function StoreHomeClient({
       {/* ========================================================================= */}
       {/* 1. ROYAL LUXURY HERO SECTION */}
       {/* ========================================================================= */}
-      <section className="relative overflow-hidden pt-4 sm:pt-8 pb-8 sm:pb-14 lg:pb-18 flex flex-col justify-center">
+      <section className="relative overflow-hidden pt-6 sm:pt-10 lg:pt-14 pb-10 sm:pb-16 lg:pb-20 flex flex-col justify-center">
         {/* Soft Royal Glow Accents */}
         <div className="absolute top-0 start-1/4 w-[550px] h-[550px] bg-[#13213c]/8 rounded-full blur-[140px] pointer-events-none -z-10" />
         <div className="absolute bottom-10 end-10 w-[450px] h-[450px] bg-[#22385e]/6 rounded-full blur-[120px] pointer-events-none -z-10" />
@@ -386,17 +386,17 @@ export default function StoreHomeClient({
         />
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-10 lg:gap-12 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
 
-            {/* RIGHT COLUMN: Master Brand Hook & Elevated CTAs */}
-            <div className="lg:col-span-6 xl:col-span-7 text-start relative z-10 flex flex-col items-start">
+            {/* RIGHT COLUMN: Master Brand Hook & Elevated CTAs (Centered on mobile, start-aligned on desktop) */}
+            <div className="lg:col-span-6 xl:col-span-7 flex flex-col items-center lg:items-start text-center lg:text-start relative z-10">
               
               {/* Shimmering Badge */}
               <motion.div
                 initial={{ opacity: 0, y: 14 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4 }}
-                className="inline-flex items-center gap-1.5 sm:gap-2 bg-[#F0F4F9] border border-[#13213c]/20 rounded-full px-3 py-1 sm:px-4 sm:py-2 text-[11px] sm:text-sm font-black text-[#13213c] mb-3 sm:mb-6 shadow-2xs"
+                className="inline-flex items-center gap-1.5 sm:gap-2 bg-[#F0F4F9] border border-[#13213c]/20 rounded-full px-3.5 py-1.5 sm:px-4 sm:py-2 text-[11px] sm:text-sm font-black text-[#13213c] mb-3.5 sm:mb-6 shadow-2xs"
               >
                 <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#13213c] shrink-0" />
                 <span className="line-clamp-1">{settings?.heroBadge || heroBadge || 'التشكيلة الملكية لعام 2026 • هدايا استثنائية وتغليف مجاني'}</span>
@@ -407,7 +407,7 @@ export default function StoreHomeClient({
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.1 }}
-                className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-[1.18] text-[#1C1917] mb-3 sm:mb-6"
+                className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-[1.2] text-[#1C1917] mb-3.5 sm:mb-6"
               >
                 {(settings?.heroHeadline || heroHeadline) ? (
                   <span dangerouslySetInnerHTML={{ __html: (settings?.heroHeadline || heroHeadline).replace(/\n/g, '<br/>') }} />
@@ -427,7 +427,7 @@ export default function StoreHomeClient({
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.2 }}
-                className="text-xs sm:text-lg text-[#57534E] max-w-xl mb-5 sm:mb-8 leading-relaxed font-normal"
+                className="text-xs sm:text-base lg:text-lg text-[#57534E] max-w-xl mb-6 sm:mb-8 leading-relaxed font-normal"
               >
                 {settings?.heroSubheadline || heroSubheadline || 'اكتشف تجربة إهداء استثنائية في العراق تجمع بين فخامة التصميم وأناقة التفاصيل، مع تغليف يدوي فاخر وبطاقة مخصصة تخلّد أجمل الذكريات.'}
               </motion.p>
@@ -437,11 +437,11 @@ export default function StoreHomeClient({
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.25 }}
-                className="flex flex-row items-center gap-2 sm:gap-4 w-full sm:w-auto mb-6 sm:mb-10"
+                className="flex flex-row items-center justify-center lg:justify-start gap-2.5 sm:gap-4 w-full sm:w-auto max-w-md lg:max-w-none mb-8 sm:mb-10"
               >
                 <Link
                   href={settings?.heroPrimaryBtnLink || '/shop'}
-                  className="flex-1 sm:flex-initial flex items-center justify-center gap-1.5 sm:gap-2.5 h-11 sm:h-14 px-4 sm:px-9 rounded-xl sm:rounded-2xl text-white font-extrabold text-xs sm:text-base transition-all hover:-translate-y-0.5 shadow-[0_6px_24px_rgba(19,33,60,0.35)] cursor-pointer"
+                  className="flex-1 sm:flex-initial flex items-center justify-center gap-2 h-12 sm:h-14 px-5 sm:px-9 rounded-xl sm:rounded-2xl text-white font-extrabold text-xs sm:text-base transition-all hover:-translate-y-0.5 shadow-[0_6px_24px_rgba(19,33,60,0.35)] cursor-pointer"
                   style={{
                     background: 'linear-gradient(135deg, #22385e 0%, #13213c 100%)'
                   }}
@@ -452,19 +452,19 @@ export default function StoreHomeClient({
 
                 <Link
                   href={settings?.heroSecondaryBtnLink || '#gift-finder-section'}
-                  className="flex-1 sm:flex-initial flex items-center justify-center gap-1.5 h-11 sm:h-14 px-3 sm:px-7 rounded-xl sm:rounded-2xl font-extrabold text-[#1C1917] bg-white border border-[#E8E4DF] hover:border-[#13213c]/50 hover:bg-[#F0F4F9] text-xs sm:text-base transition-all hover:-translate-y-0.5 shadow-xs whitespace-nowrap"
+                  className="flex-1 sm:flex-initial flex items-center justify-center gap-2 h-12 sm:h-14 px-4 sm:px-7 rounded-xl sm:rounded-2xl font-extrabold text-[#1C1917] bg-white border border-[#E8E4DF] hover:border-[#13213c]/50 hover:bg-[#F0F4F9] text-xs sm:text-base transition-all hover:-translate-y-0.5 shadow-xs whitespace-nowrap"
                 >
                   <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#13213c]" />
                   <span>{settings?.heroSecondaryBtnText || 'مستشار الهدايا'}</span>
                 </Link>
               </motion.div>
 
-              {/* Trust Indicators (Refined RTL Layout) */}
+              {/* Trust Indicators (Centered 3-column stats with comfortable padding) */}
               <motion.div
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.35 }}
-                className="pt-4 sm:pt-6 border-t border-[#E8E4DF] w-full max-w-xl"
+                className="pt-5 sm:pt-6 border-t border-[#E8E4DF] w-full max-w-lg lg:max-w-xl"
               >
                 <div className="grid grid-cols-3 divide-x divide-x-reverse divide-[#E8E4DF]">
                   {/* Stat 1 */}
@@ -472,7 +472,7 @@ export default function StoreHomeClient({
                     <p className="text-xl sm:text-3xl font-black text-[#13213c] tracking-tight" dir="ltr">
                       {settings?.stat1Value || '+15K'}
                     </p>
-                    <p className="text-[10px] sm:text-xs text-[#78716C] font-bold mt-0.5 sm:mt-1 text-center">
+                    <p className="text-[10px] sm:text-xs text-[#78716C] font-bold mt-1 text-center">
                       {settings?.stat1Label || 'عميل يثق بنا'}
                     </p>
                   </div>
@@ -485,7 +485,7 @@ export default function StoreHomeClient({
                       </span>
                       <Star className="w-3.5 h-3.5 sm:w-5 sm:h-5 fill-[#13213c] text-[#13213c] shrink-0" />
                     </div>
-                    <p className="text-[10px] sm:text-xs text-[#78716C] font-bold mt-0.5 sm:mt-1 text-center">
+                    <p className="text-[10px] sm:text-xs text-[#78716C] font-bold mt-1 text-center">
                       {settings?.stat2Label || 'تقييم العملاء'}
                     </p>
                   </div>
@@ -495,7 +495,7 @@ export default function StoreHomeClient({
                     <p className="text-xl sm:text-3xl font-black text-[#13213c] tracking-tight" dir="ltr">
                       {settings?.stat3Value || '100%'}
                     </p>
-                    <p className="text-[10px] sm:text-xs text-[#78716C] font-bold mt-0.5 sm:mt-1 text-center">
+                    <p className="text-[10px] sm:text-xs text-[#78716C] font-bold mt-1 text-center">
                       {settings?.stat3Label || 'تغليف ملكي مجاني'}
                     </p>
                   </div>
@@ -504,7 +504,7 @@ export default function StoreHomeClient({
             </div>
 
             {/* LEFT COLUMN: Modern Interactive Luxury Showcase Slider */}
-            <div className="lg:col-span-6 xl:col-span-5 relative">
+            <div className="lg:col-span-6 xl:col-span-5 relative mt-6 lg:mt-0 w-full">
               <div className="relative mx-auto max-w-md lg:max-w-none">
 
                 {/* Main Showcase Card */}
@@ -612,7 +612,7 @@ export default function StoreHomeClient({
                 </motion.div>
 
                 {/* Showcase Switcher Pills & Counter */}
-                <div className="flex items-center justify-between gap-3 mt-3 sm:mt-4 px-2">
+                <div className="flex items-center justify-between gap-3 mt-3.5 sm:mt-4 px-2">
                   {/* Slide Numeric Counter */}
                   <div className="flex items-center gap-1 text-[11px] sm:text-xs font-black text-[#13213c] tabular-nums" dir="ltr">
                     <span>{String(safeSlideIndex + 1).padStart(2, '0')}</span>
@@ -650,33 +650,33 @@ export default function StoreHomeClient({
       </section>
 
       {/* ========================================================================= */}
-      {/* 2. REFINED LUXURY TRUST & VALUE RIBBON (Compact 2x2 on Mobile) */}
+      {/* 2. REFINED LUXURY TRUST & VALUE RIBBON (Spacious & Centered on Mobile) */}
       {/* ========================================================================= */}
-      <section className="py-4 sm:py-8 bg-white border-y border-[#E8E4DF]">
+      <section className="py-6 sm:py-10 bg-white border-y border-[#E8E4DF]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-4 lg:gap-6">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
             {trustPillars.map((feature, idx) => {
               const hasDesc = Boolean(feature.desc && feature.desc.trim().length > 0)
               return (
                 <div
                   key={idx}
-                  className="flex items-center gap-2.5 sm:gap-4 p-2.5 sm:p-4 rounded-xl sm:rounded-2xl bg-[#FAFAF8] border border-[#E8E4DF] hover:border-[#13213c]/30 hover:bg-white hover:shadow-sm transition-all duration-200 text-start group h-full"
+                  className="flex flex-col items-center text-center lg:flex-row lg:items-center lg:text-start gap-2.5 sm:gap-3.5 lg:gap-4 p-3.5 sm:p-5 rounded-2xl bg-[#FAFAF8] border border-[#E8E4DF] hover:border-[#13213c]/30 hover:bg-white hover:shadow-sm transition-all duration-200 group h-full justify-center"
                 >
                   <div
-                    className="w-9 h-9 sm:w-12 sm:h-12 rounded-lg sm:rounded-xl flex items-center justify-center shrink-0 transition-transform group-hover:scale-105"
+                    className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center shrink-0 mb-1 lg:mb-0 transition-transform group-hover:scale-105 shadow-2xs"
                     style={{ background: feature.bg }}
                   >
-                    <feature.icon className="w-4 h-4 sm:w-5 sm:h-5" style={{ color: feature.color }} />
+                    <feature.icon className="w-5 h-5" style={{ color: feature.color }} />
                   </div>
-                  <div className="min-w-0 flex-1">
+                  <div className="min-w-0 flex-1 flex flex-col items-center lg:items-start">
                     <h3 className={cn(
-                      "font-extrabold text-[#1C1917] leading-snug",
-                      hasDesc ? "text-xs sm:text-sm mb-0.5 truncate" : "text-xs sm:text-base font-black"
+                      "font-black text-[#1C1917] leading-snug",
+                      hasDesc ? "text-xs sm:text-sm mb-1" : "text-xs sm:text-base font-black"
                     )}>
                       {feature.title}
                     </h3>
                     {hasDesc && (
-                      <p className="text-[11px] sm:text-xs text-[#78716C] leading-relaxed line-clamp-1 sm:line-clamp-2">
+                      <p className="text-[10px] sm:text-xs text-[#78716C] leading-relaxed line-clamp-2 max-w-[200px] lg:max-w-none">
                         {feature.desc}
                       </p>
                     )}
@@ -692,13 +692,13 @@ export default function StoreHomeClient({
       {/* 3. CURATED CATEGORIES SHOWCASE GRID (Moved up for seamless shopping flow) */}
       {/* ========================================================================= */}
       {categories.length > 0 && (
-        <section className="py-8 sm:py-16 bg-[#FAFAF8]">
+        <section className="py-10 sm:py-16 bg-[#FAFAF8]">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             
             {/* Header */}
-            <div className="flex items-end justify-between mb-5 sm:mb-8 text-start">
+            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 mb-6 sm:mb-8 text-center sm:text-start">
               <div>
-                <p className="text-[11px] sm:text-xs font-black text-[#13213c] uppercase tracking-widest mb-1 flex items-center gap-1">
+                <p className="text-[11px] sm:text-xs font-black text-[#13213c] uppercase tracking-widest mb-1.5 flex items-center justify-center sm:justify-start gap-1.5">
                   <Package className="w-3.5 h-3.5 text-[#13213c]" />
                   <span>{settings?.categoriesSectionBadge || 'كتالوج التشكيلات الراقية'}</span>
                 </p>
@@ -708,7 +708,7 @@ export default function StoreHomeClient({
               </div>
               <Link
                 href="/shop"
-                className="inline-flex items-center gap-1 text-xs sm:text-sm font-bold text-[#13213c] hover:text-[#1C1917] transition-colors"
+                className="inline-flex items-center justify-center sm:justify-start gap-1.5 text-xs sm:text-sm font-bold text-[#13213c] hover:text-[#1C1917] transition-colors self-center sm:self-auto"
               >
                 <span>جميع الأقسام</span>
                 <ArrowLeft className="w-3.5 h-3.5" />
@@ -716,7 +716,7 @@ export default function StoreHomeClient({
             </div>
 
             {/* Grid Cards (With 100% Guaranteed Image Fallbacks) */}
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2.5 sm:gap-4">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4 lg:gap-5">
               {categories.slice(0, 6).map((cat) => (
                 <CategoryCardItem key={cat.id} cat={cat} />
               ))}
@@ -729,12 +729,12 @@ export default function StoreHomeClient({
       {/* 4. SHOP BY RECIPIENT & OCCASION (هدايا مختارة بعناية لمن تحب) */}
       {/* ========================================================================= */}
       {settings?.enablePersonasSection !== false && (
-        <section className="py-8 sm:py-16 bg-white border-t border-[#E8E4DF]">
+        <section className="py-10 sm:py-16 bg-white border-t border-[#E8E4DF]">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             
-            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 sm:gap-4 mb-5 sm:mb-8 text-start">
+            <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-3 sm:gap-4 mb-6 sm:mb-8 text-center lg:text-start">
               <div>
-                <p className="text-[11px] sm:text-xs font-black text-[#13213c] uppercase tracking-widest mb-1 flex items-center gap-1.5">
+                <p className="text-[11px] sm:text-xs font-black text-[#13213c] uppercase tracking-widest mb-1.5 flex items-center justify-center lg:justify-start gap-1.5">
                   <Sparkles className="w-3.5 h-3.5 text-[#13213c]" />
                   <span>{settings?.personaSectionBadge || 'دليل الإهداء الذكي'}</span>
                 </p>
@@ -742,17 +742,17 @@ export default function StoreHomeClient({
                   {settings?.personaSectionTitle || 'هدايا مختارة بعناية لمن تحب'}
                 </h2>
               </div>
-              <p className="text-xs sm:text-sm text-[#78716C] max-w-md">
+              <p className="text-xs sm:text-sm text-[#78716C] max-w-md mx-auto lg:mx-0 leading-relaxed">
                 {settings?.personaSectionDesc || 'اختر الشخص أو المناسبة لتشاهد مجموعات منتقاة يدوياً بعناية ومغلفة بأعلى درجات الفخامة.'}
               </p>
             </div>
 
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-6">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-6">
               {activePersonas.map((persona) => (
                 <Link
                   key={persona.id}
                   href={persona.link}
-                  className="group relative rounded-2xl sm:rounded-3xl overflow-hidden aspect-[3/4] sm:aspect-[4/5] flex flex-col justify-end p-3 sm:p-6 border border-[#E8E4DF] bg-stone-100 shadow-2xs hover:shadow-[0_16px_40px_rgba(19,33,60,0.14)] hover:-translate-y-1.5 transition-all duration-300"
+                  className="group relative rounded-2xl sm:rounded-3xl overflow-hidden aspect-[3/4] sm:aspect-[4/5] flex flex-col justify-end p-3.5 sm:p-6 border border-[#E8E4DF] bg-stone-100 shadow-2xs hover:shadow-[0_16px_40px_rgba(19,33,60,0.14)] hover:-translate-y-1.5 transition-all duration-300"
                 >
                   <Image
                     src={persona.image}
@@ -766,7 +766,7 @@ export default function StoreHomeClient({
                   
                   {/* Floating Pill Tag */}
                   <div className="absolute top-2.5 sm:top-4 start-2.5 sm:start-4 z-10">
-                    <span className="inline-flex items-center gap-1 bg-white/95 backdrop-blur-md px-2 py-0.5 sm:px-3 sm:py-1 rounded-full text-[10px] sm:text-[11px] font-black text-[#13213c] shadow-2xs">
+                    <span className="inline-flex items-center gap-1 bg-white/95 backdrop-blur-md px-2.5 py-0.5 sm:px-3 sm:py-1 rounded-full text-[10px] sm:text-[11px] font-black text-[#13213c] shadow-2xs">
                       {persona.tag}
                     </span>
                   </div>
@@ -796,13 +796,13 @@ export default function StoreHomeClient({
       {/* 5. CURATED PRODUCTS SHOWCASE (FILTER TABS & ELEVATED GRID) */}
       {/* ========================================================================= */}
       {topProducts.length > 0 && (
-        <section className="py-8 sm:py-16 bg-[#FAFAF8] border-t border-[#E8E4DF]">
+        <section className="py-10 sm:py-16 bg-[#FAFAF8] border-t border-[#E8E4DF]">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             
             {/* Header & Filter Tabs */}
-            <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 sm:gap-6 mb-6 sm:mb-10 text-start">
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 sm:gap-6 mb-6 sm:mb-10 text-center md:text-start">
               <div>
-                <p className="text-[11px] sm:text-xs font-black text-[#13213c] uppercase tracking-widest mb-1 flex items-center gap-1">
+                <p className="text-[11px] sm:text-xs font-black text-[#13213c] uppercase tracking-widest mb-1.5 flex items-center justify-center md:justify-start gap-1.5">
                   <Flame className="w-3.5 h-3.5 text-[#13213c]" />
                   <span>{settings?.productsSectionBadge || 'مختارات استثنائية للإهداء'}</span>
                 </p>
@@ -811,8 +811,8 @@ export default function StoreHomeClient({
                 </h2>
               </div>
 
-              {/* Filter Tabs */}
-              <div className="flex items-center gap-1 sm:gap-1.5 bg-white p-1 sm:p-1.5 rounded-xl sm:rounded-2xl border border-[#E8E4DF] overflow-x-auto no-scrollbar self-start md:self-auto shadow-2xs max-w-full">
+              {/* Filter Tabs (Centered on mobile, start on desktop) */}
+              <div className="flex items-center justify-center gap-1 sm:gap-1.5 bg-white p-1 sm:p-1.5 rounded-xl sm:rounded-2xl border border-[#E8E4DF] overflow-x-auto no-scrollbar mx-auto md:mx-0 shadow-2xs max-w-full">
                 {[
                   { id: 'all', label: 'الكل' },
                   { id: 'best', label: '🔥 الأكثر طلباً' },
@@ -836,7 +836,7 @@ export default function StoreHomeClient({
             </div>
 
             {/* Products Grid */}
-            <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-6">
+            <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-6">
               {filteredProducts.slice(0, 8).map((product) => (
                 <div key={product.id} className="h-full">
                   <ProductCard product={product} />
@@ -861,10 +861,10 @@ export default function StoreHomeClient({
       {/* ========================================================================= */}
       {/* 6. INTERACTIVE GIFT FINDER BANNER */}
       {/* ========================================================================= */}
-      <section id="gift-finder-section" className="py-8 sm:py-12 px-4 sm:px-6 lg:px-8">
+      <section id="gift-finder-section" className="py-10 sm:py-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <div 
-            className="relative rounded-2xl sm:rounded-3xl p-5 sm:p-12 lg:p-14 overflow-hidden border border-[#13213c]/30 text-start shadow-[0_20px_50px_rgba(0,0,0,0.2)]"
+            className="relative rounded-2xl sm:rounded-3xl p-6 sm:p-12 lg:p-14 overflow-hidden border border-[#13213c]/30 shadow-[0_20px_50px_rgba(0,0,0,0.2)]"
             style={{
               background: 'linear-gradient(135deg, #0c1424 0%, #13213c 60%, #0c1424 100%)'
             }}
@@ -873,31 +873,31 @@ export default function StoreHomeClient({
             <div className="absolute top-0 end-0 w-80 h-80 bg-[#13213c]/20 rounded-full blur-[100px] pointer-events-none" />
             <div className="absolute bottom-0 start-0 w-80 h-80 bg-[#22385e]/15 rounded-full blur-[100px] pointer-events-none" />
 
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-center relative z-10">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-10 items-center relative z-10">
               
               {/* Left Content */}
-              <div className="lg:col-span-6 text-start">
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] sm:text-xs font-black bg-blue-500/20 text-[#93c5fd] border border-blue-400/30 mb-3 sm:mb-4">
+              <div className="lg:col-span-6 text-center lg:text-start flex flex-col items-center lg:items-start">
+                <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[11px] sm:text-xs font-black bg-blue-500/20 text-[#93c5fd] border border-blue-400/30 mb-3 sm:mb-4">
                   <Sparkles className="w-3.5 h-3.5 text-[#93c5fd]" />
                   مستشار الإهداء الذكي
                 </span>
-                <h2 className="text-2xl sm:text-4xl font-black text-white leading-tight mb-2 sm:mb-4">
+                <h2 className="text-2xl sm:text-4xl font-black text-white leading-tight mb-2.5 sm:mb-4">
                   محتار في اختيار الهدية المناسبة؟
                 </h2>
-                <p className="text-stone-300 text-xs sm:text-base leading-relaxed mb-4 sm:mb-6">
+                <p className="text-stone-300 text-xs sm:text-base leading-relaxed mb-5 sm:mb-6 max-w-lg">
                   دع ذكاء المتجر يختار لك الهدية المثالية بناءً على الشخص والمناسبة وميزانيتك بضغطة زر واحدة.
                 </p>
-                <div className="flex flex-wrap items-center gap-2.5 sm:gap-4 text-[11px] sm:text-xs text-white/80">
-                  <span className="flex items-center gap-1"><CheckCircle2 className="w-3.5 h-3.5 text-[#7ea6e6]" /> ترشيحات دقيقة</span>
-                  <span className="flex items-center gap-1"><CheckCircle2 className="w-3.5 h-3.5 text-[#7ea6e6]" /> وفر وقتك وجهدك</span>
-                  <span className="flex items-center gap-1"><CheckCircle2 className="w-3.5 h-3.5 text-[#7ea6e6]" /> تغليف ملائم</span>
+                <div className="flex flex-wrap items-center justify-center lg:justify-start gap-3 sm:gap-4 text-[11px] sm:text-xs text-white/80">
+                  <span className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-[#7ea6e6]" /> ترشيحات دقيقة</span>
+                  <span className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-[#7ea6e6]" /> وفر وقتك وجهدك</span>
+                  <span className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-[#7ea6e6]" /> تغليف ملائم</span>
                 </div>
               </div>
 
               {/* Right Mini-Interactive Widget */}
-              <div className="lg:col-span-6 bg-white/10 backdrop-blur-md rounded-2xl p-4 sm:p-6 border border-white/15">
-                <p className="text-xs font-black text-[#93c5fd] mb-2 sm:mb-3">الخطوة 1: لمن الهدية؟</p>
-                <div className="grid grid-cols-4 gap-1.5 sm:gap-2 mb-3 sm:mb-4">
+              <div className="lg:col-span-6 bg-white/10 backdrop-blur-md rounded-2xl p-4 sm:p-7 border border-white/15 w-full">
+                <p className="text-xs font-black text-[#93c5fd] mb-2.5 sm:mb-3 text-start">الخطوة 1: لمن الهدية؟</p>
+                <div className="grid grid-cols-4 gap-2 sm:gap-2.5 mb-4 sm:mb-5">
                   {[
                     { id: 'women', label: 'لها 👩' },
                     { id: 'men', label: 'له 👨' },
@@ -908,7 +908,7 @@ export default function StoreHomeClient({
                       key={item.id}
                       onClick={() => setQuizRecipient(item.id as any)}
                       className={cn(
-                        "py-2 sm:py-2.5 px-1 sm:px-2 rounded-xl text-[11px] sm:text-xs font-bold transition-all border cursor-pointer text-center",
+                        "py-2.5 sm:py-3 px-1 sm:px-2 rounded-xl text-[11px] sm:text-xs font-bold transition-all border cursor-pointer text-center",
                         quizRecipient === item.id
                           ? "bg-white text-[#13213c] border-white font-black shadow-md scale-[1.02]"
                           : "bg-white/10 text-white/90 border-white/15 hover:bg-white/20 hover:text-white"
@@ -919,8 +919,8 @@ export default function StoreHomeClient({
                   ))}
                 </div>
 
-                <p className="text-xs font-black text-[#93c5fd] mb-2 sm:mb-3">الخطوة 2: حدد الميزانية التقريبية</p>
-                <div className="grid grid-cols-3 gap-1.5 sm:gap-2 mb-4 sm:mb-6">
+                <p className="text-xs font-black text-[#93c5fd] mb-2.5 sm:mb-3 text-start">الخطوة 2: حدد الميزانية التقريبية</p>
+                <div className="grid grid-cols-3 gap-2 sm:gap-2.5 mb-5 sm:mb-6">
                   {[
                     { id: 'under-50k', label: 'أقل من 50 ألف' },
                     { id: '50k-100k', label: '50 - 100 ألف' },
@@ -930,7 +930,7 @@ export default function StoreHomeClient({
                       key={b.id}
                       onClick={() => setQuizBudget(b.id)}
                       className={cn(
-                        "py-2 sm:py-2.5 px-1 sm:px-2 rounded-xl text-[10px] sm:text-[11px] font-bold transition-all border cursor-pointer text-center",
+                        "py-2.5 sm:py-3 px-1 sm:px-2 rounded-xl text-[10px] sm:text-[11px] font-bold transition-all border cursor-pointer text-center",
                         quizBudget === b.id
                           ? "bg-white text-[#13213c] border-white font-black shadow-md scale-[1.02]"
                           : "bg-white/10 text-white/90 border-white/15 hover:bg-white/20 hover:text-white"
@@ -943,7 +943,7 @@ export default function StoreHomeClient({
 
                 <Link
                   href={quizRecipient ? `/category/${quizRecipient}` : '/shop'}
-                  className="flex items-center justify-center gap-2 w-full h-11 sm:h-12 rounded-xl font-black text-white text-xs sm:text-sm transition-all hover:brightness-110 hover:-translate-y-0.5 shadow-lg border border-white/20 cursor-pointer"
+                  className="flex items-center justify-center gap-2 w-full h-12 sm:h-13 rounded-xl font-black text-white text-xs sm:text-sm transition-all hover:brightness-110 hover:-translate-y-0.5 shadow-lg border border-white/20 cursor-pointer"
                   style={{ background: 'linear-gradient(135deg, #22385e 0%, #13213c 100%)' }}
                 >
                   <Sparkles className="w-4 h-4 text-blue-200" />
@@ -960,11 +960,11 @@ export default function StoreHomeClient({
       {/* ========================================================================= */}
       {/* 7. REAL SOCIAL PROOF / TESTIMONIALS */}
       {/* ========================================================================= */}
-      <section className="py-8 sm:py-16 bg-white border-t border-[#E8E4DF]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-start">
+      <section className="py-10 sm:py-16 bg-white border-t border-[#E8E4DF]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
-          <div className="text-center max-w-2xl mx-auto mb-6 sm:mb-12">
-            <p className="text-[11px] sm:text-xs font-black text-[#13213c] uppercase tracking-widest mb-1 flex items-center justify-center gap-1.5">
+          <div className="text-center max-w-2xl mx-auto mb-8 sm:mb-12">
+            <p className="text-[11px] sm:text-xs font-black text-[#13213c] uppercase tracking-widest mb-1.5 flex items-center justify-center gap-1.5">
               <Heart className="w-3.5 h-3.5 text-[#13213c] fill-[#13213c]" />
               <span>آراء وتجارب حقيقية</span>
             </p>
@@ -973,14 +973,14 @@ export default function StoreHomeClient({
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5 sm:gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
             {testimonials.map((t) => (
               <div
                 key={t.id}
-                className="p-4 sm:p-6 rounded-2xl sm:rounded-3xl bg-[#FAFAF8] border border-[#E8E4DF] hover:border-[#13213c]/30 hover:shadow-[0_8px_30px_rgba(19,33,60,0.06)] transition-all text-start flex flex-col"
+                className="p-5 sm:p-6 rounded-2xl sm:rounded-3xl bg-[#FAFAF8] border border-[#E8E4DF] hover:border-[#13213c]/30 hover:shadow-[0_8px_30px_rgba(19,33,60,0.06)] transition-all text-start flex flex-col"
               >
                 {/* Stars */}
-                <div className="flex items-center gap-1 text-[#13213c] mb-2 sm:mb-3">
+                <div className="flex items-center gap-1 text-[#13213c] mb-3">
                   {[...Array(t.rating)].map((_, i) => (
                     <Star key={i} className="w-3.5 h-3.5 sm:w-4 sm:h-4 fill-[#13213c]" />
                   ))}
@@ -990,12 +990,12 @@ export default function StoreHomeClient({
                   &ldquo;{t.text}&rdquo;
                 </p>
 
-                <div className="pt-3 sm:pt-4 border-t border-[#F0ECE6] flex items-center justify-between">
+                <div className="pt-3.5 sm:pt-4 border-t border-[#F0ECE6] flex items-center justify-between">
                   <div>
                     <p className="text-xs font-black text-[#1C1917]">{t.name}</p>
                     <p className="text-[10px] sm:text-[11px] text-[#A8A29E]">{t.city}</p>
                   </div>
-                  <span className="text-[10px] font-bold px-2.5 py-0.5 sm:py-1 rounded-full bg-[#F0F4F9] text-[#13213c] border border-[#13213c]/20">
+                  <span className="text-[10px] font-bold px-2.5 py-1 rounded-full bg-[#F0F4F9] text-[#13213c] border border-[#13213c]/20">
                     {t.gift}
                   </span>
                 </div>
@@ -1010,12 +1010,12 @@ export default function StoreHomeClient({
       {/* 8. VIP GIFT CONCIERGE & CUSTOM ASSISTANCE BANNER */}
       {/* ========================================================================= */}
       {settings?.showConcierge !== false && (
-        <section className="py-8 sm:py-12 bg-[#F0F4F9] border-t border-[#E8E4DF]">
+        <section className="py-10 sm:py-14 bg-[#F0F4F9] border-t border-[#E8E4DF]">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="bg-white rounded-2xl sm:rounded-3xl p-5 sm:p-10 border border-[#E8E4DF] flex flex-col md:flex-row items-center justify-between gap-4 sm:gap-6 shadow-xs">
-              <div className="flex items-center gap-3.5 sm:gap-4 text-start w-full md:w-auto">
+            <div className="bg-white rounded-2xl sm:rounded-3xl p-6 sm:p-10 border border-[#E8E4DF] flex flex-col md:flex-row items-center justify-between gap-5 sm:gap-6 shadow-xs text-center md:text-start">
+              <div className="flex flex-col md:flex-row items-center gap-4 text-center md:text-start w-full md:w-auto">
                 <div 
-                  className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl flex items-center justify-center text-white shrink-0 shadow-sm"
+                  className="w-13 h-13 sm:w-14 sm:h-14 rounded-2xl flex items-center justify-center text-white shrink-0 shadow-sm"
                   style={{ background: 'linear-gradient(135deg, #22385e 0%, #13213c 100%)' }}
                 >
                   <MessageCircle className="w-6 h-6 sm:w-7 sm:h-7 text-white" />
@@ -1024,7 +1024,7 @@ export default function StoreHomeClient({
                   <h3 className="text-base sm:text-xl font-black text-[#1C1917]">
                     {settings?.conciergeTitle || 'هل تبحث عن تنسيق هدية خاصة أو بوكس بمواصفات محددة؟'}
                   </h3>
-                  <p className="text-xs sm:text-sm text-[#78716C] mt-0.5 sm:mt-1 leading-relaxed max-w-xl">
+                  <p className="text-xs sm:text-sm text-[#78716C] mt-1 leading-relaxed max-w-xl mx-auto md:mx-0">
                     {settings?.conciergeDesc || 'فريقنا المتخصص في تنسيق الهدايا جاهز لمساعدتك عبر واتساب في اختيار القطع، كتابة بطاقة الإهداء، واختيار ألوان التغليف المناسبة.'}
                   </p>
                 </div>
@@ -1034,7 +1034,7 @@ export default function StoreHomeClient({
                 href={`https://wa.me/${whatsappPhone.replace(/[^0-9]/g, '')}?text=${encodeURIComponent('مرحباً، أود المساعدة في تنسيق هدية خاصة 🎁')}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full md:w-auto flex items-center justify-center gap-2 h-11 sm:h-12 px-6 rounded-xl sm:rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs sm:text-sm font-black transition-all shadow-sm shrink-0 cursor-pointer"
+                className="w-full md:w-auto flex items-center justify-center gap-2 h-12 px-7 rounded-xl sm:rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs sm:text-sm font-black transition-all shadow-sm shrink-0 cursor-pointer"
               >
                 <MessageCircle className="w-4 h-4 fill-white" />
                 <span>{settings?.conciergeBtnText || 'تواصل معنا عبر واتساب'}</span>
