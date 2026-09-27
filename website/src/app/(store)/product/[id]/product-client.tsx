@@ -86,7 +86,7 @@ ${typeof window !== 'undefined' ? `🔗 رابط المنتج: ${window.location
 
   const handleAddToCart = () => {
     addItem({
-      id: crypto.randomUUID(),
+      id: `${product.id}-${Date.now()}`,
       productId: product.id,
       name: product.name,
       price: product.salePrice ?? product.price,

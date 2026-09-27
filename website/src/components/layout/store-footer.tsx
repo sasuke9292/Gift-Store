@@ -274,7 +274,7 @@ export function StoreFooter({ settings }: StoreFooterProps) {
         {/* Clean, Elegant Bottom Bar (with safe-bottom padding for mobile navigation) */}
         <div className="border-t border-white/10 pt-5 pb-20 sm:pb-8 flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-start">
           <p className="text-[11px] text-white/50">
-            {settings?.copyrightText || '© 2026 گِفتي بلس | Gifty Plus. جميع الحقوق محفوظة.'}
+            {settings?.copyrightText || `© 2026 ${storeName}. جميع الحقوق محفوظة.`}
           </p>
           <div className="flex items-center justify-center gap-3 sm:gap-5 text-[11px] text-white/50">
             <Link href="/privacy" className="hover:text-[#7ea6e6] transition-colors">

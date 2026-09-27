@@ -1,25 +1,8 @@
 'use client'
 
 import React, { useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table'
-import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
-import { Search, Download, MoreVertical, Eye, Ban, CheckCircle2, Shield, Edit, UserCog, User, Users } from 'lucide-react'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-  DropdownMenuLabel,
-} from '@/components/ui/dropdown-menu'
+import { Search, Download, Eye, Ban, CheckCircle2, Shield, Edit, UserCog, User, Users } from 'lucide-react'
 import { toast } from 'sonner'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog'
 import { ConfirmDialog } from '@/components/ui/confirm-dialog'
@@ -34,7 +17,7 @@ interface UserData {
   status: string
 }
 
-const roleColors: Record<string, { bg: string, text: string, border: string, icon: any, label: string }> = {
+const roleColors: Record<string, { bg: string, text: string, border: string, icon: React.ComponentType<{ className?: string }>, label: string }> = {
   SUPER_ADMIN: { bg: 'bg-purple-50', text: 'text-purple-700', border: 'border-purple-200', icon: Shield, label: 'مدير النظام' },
   ADMIN: { bg: 'bg-indigo-50', text: 'text-indigo-700', border: 'border-indigo-200', icon: UserCog, label: 'مدير' },
   MANAGER: { bg: 'bg-blue-50', text: 'text-blue-700', border: 'border-blue-200', icon: UserCog, label: 'مشرف' },

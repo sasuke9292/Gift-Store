@@ -6,22 +6,17 @@ import { usePathname } from 'next/navigation'
 import { signOut } from 'next-auth/react'
 import {
   LayoutDashboard,
-  ShoppingCart,
   Package,
   Tags,
-  Users,
   Settings,
   LogOut,
-  Shield,
   Store,
   User,
   ChevronLeft,
   ChevronsLeft,
   UserCog,
   ExternalLink,
-  Gift,
   MessageCircle,
-  Sparkles,
 } from 'lucide-react'
 import Image from 'next/image'
 import { cn } from '@/lib/utils'
@@ -84,8 +79,6 @@ const roleLabels: Record<string, string> = {
 }
 
 export function AdminSidebar({ 
-  storeName = 'گِفتي بلس', 
-  logoUrl, 
   user,
   isCollapsed,
   setIsCollapsed

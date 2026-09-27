@@ -28,7 +28,7 @@ async function main() {
       name: 'هدايا أطفال', 
       slug: 'kids', 
       isActive: true,
-      image: 'https://images.unsplash.com/photo-1560859254-809fa84742f3?auto=format&fit=crop&q=80&w=800',
+      image: 'https://images.unsplash.com/photo-1587654780291-39c9404d746b?auto=format&fit=crop&q=80&w=1000',
     },
     { 
       name: 'مناسبات', 
@@ -46,7 +46,7 @@ async function main() {
       name: 'عروض حصرية', 
       slug: 'offers', 
       isActive: true,
-      image: 'https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?auto=format&fit=crop&q=80&w=800',
+      image: 'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&q=80&w=1000',
     },
     { 
       name: 'إلكترونيات تقنية', 

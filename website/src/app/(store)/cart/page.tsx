@@ -51,7 +51,29 @@ export default function CartPage() {
   const progressToFreeShipping = Math.min((subtotal / FREE_SHIPPING_THRESHOLD) * 100, 100)
   const remainingForFreeShipping = FREE_SHIPPING_THRESHOLD - subtotal
 
-  if (!mounted) return null
+  if (!mounted) {
+    return (
+      <div className="min-h-screen bg-[#F8FAFC] pt-4 pb-32 sm:pb-24" dir="rtl">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+          <div className="flex items-center gap-3 mb-2 animate-pulse">
+            <div className="w-10 h-10 rounded-xl bg-slate-200" />
+            <div className="h-8 w-44 bg-slate-200 rounded-lg" />
+          </div>
+          <div className="h-4 w-60 bg-slate-200 rounded-md ms-14 mb-8 animate-pulse" />
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <div className="lg:col-span-8 space-y-4">
+              {[1, 2].map((i) => (
+                <div key={i} className="h-28 bg-white rounded-3xl border border-slate-200/80 animate-pulse p-4" />
+              ))}
+            </div>
+            <div className="lg:col-span-4">
+              <div className="h-72 bg-white rounded-3xl border border-slate-200/80 animate-pulse p-6" />
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="min-h-screen bg-[#F8FAFC] pt-4 pb-32 sm:pb-24">

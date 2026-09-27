@@ -2,7 +2,6 @@
 
 import React, { useState } from 'react'
 import { User, Role } from '@prisma/client'
-import { Card, CardContent } from '@/components/ui/card'
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
@@ -14,9 +13,9 @@ import {
   DialogTitle,
   DialogFooter,
 } from '@/components/ui/dialog'
-import { Shield, UserCircle, Key, Mail, Edit, UserPlus, Lock, Trash2, Calendar, UserCog, Loader2 } from 'lucide-react'
+import { Shield, UserCircle, Key, UserPlus, Trash2 } from 'lucide-react'
 import { toast } from 'sonner'
-import { updateProfile, createStaffUser, changePassword, updateStaffUser, deleteStaffUser } from '@/app/actions/admin/users'
+import { updateProfile, createStaffUser, changePassword, deleteStaffUser } from '@/app/actions/admin/users'
 import { ConfirmDialog } from '@/components/ui/confirm-dialog'
 
 interface ProfileClientProps {
@@ -46,17 +45,6 @@ export default function ProfileClient({ currentUser, initialStaffUsers }: Profil
   })
   const [isSavingProfile, setIsSavingProfile] = useState(false)
 
-  // Edit User State
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false)
-  const [selectedUser, setSelectedUser] = useState<User | null>(null)
-  const [isSavingEdit, setIsSavingEdit] = useState(false)
-  const [editUserData, setEditUserData] = useState({
-    name: '',
-    email: '',
-    role: 'ADMIN' as Role,
-    password: ''
-  })
-  
   // Delete User State
   const [deleteUserId, setDeleteUserId] = useState<string | null>(null)
   const [isDeletingUser, setIsDeletingUser] = useState(false)

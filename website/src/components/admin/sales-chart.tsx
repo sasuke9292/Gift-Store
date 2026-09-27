@@ -79,7 +79,7 @@ export function SalesChart() {
               }}
               itemStyle={{ color: '#13213c', fontWeight: 900, fontSize: '0.95rem' }}
               labelStyle={{ color: '#1C1917', fontWeight: 800, marginBottom: '4px', fontSize: '0.8rem' }}
-              formatter={(value: any) => [`${Number(value).toLocaleString('en-US')} د.ع`, 'المبيعات']}
+              formatter={(value: unknown) => [`${Number(value).toLocaleString('en-US')} د.ع`, 'المبيعات']}
               cursor={{ stroke: '#13213c', strokeWidth: 1.5, strokeDasharray: '4 4' }}
             />
             <Area

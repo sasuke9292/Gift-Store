@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useRef } from 'react'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
@@ -20,8 +20,7 @@ import {
   Image as ImageIcon,
   DollarSign,
   TrendingDown,
-  Package,
-  ArrowRight
+  Package
 } from 'lucide-react'
 import { Switch } from '@/components/ui/switch'
 import { createProduct, updateProduct } from '@/app/actions/admin/products'
@@ -67,36 +66,38 @@ export default function ProductForm({
   })
 
   // Synchronize when product changes
-  useEffect(() => {
-    if (product) {
-      setFormData({
-        name: product.name,
-        slug: product.slug,
-        description: product.description || '',
-        price: product.price,
-        salePrice: product.salePrice || 0,
-        categoryId: product.categoryId || categories[0]?.id || '',
-        imagesList: Array.isArray(product.images) ? (product.images as string[]) : [],
-        isActive: product.isActive,
-        isBestSeller: product.isBestSeller ?? false,
-        isNew: product.isNew ?? true,
-      })
-    } else {
-      setFormData({
-        name: '',
-        slug: '',
-        description: '',
-        price: 0,
-        salePrice: 0,
-        categoryId: categories[0]?.id || '',
-        imagesList: [],
-        isActive: true,
-        isBestSeller: false,
-        isNew: true,
-      })
-    }
+  const [prevProductId, setPrevProductId] = useState(product?.id)
+  if (product && product.id !== prevProductId) {
+    setPrevProductId(product.id)
+    setFormData({
+      name: product.name,
+      slug: product.slug,
+      description: product.description || '',
+      price: product.price,
+      salePrice: product.salePrice || 0,
+      categoryId: product.categoryId || categories[0]?.id || '',
+      imagesList: Array.isArray(product.images) ? (product.images as string[]) : [],
+      isActive: product.isActive,
+      isBestSeller: product.isBestSeller ?? false,
+      isNew: product.isNew ?? true,
+    })
     setActiveTab('general')
-  }, [product, categories])
+  } else if (!product && prevProductId) {
+    setPrevProductId(undefined)
+    setFormData({
+      name: '',
+      slug: '',
+      description: '',
+      price: 0,
+      salePrice: 0,
+      categoryId: categories[0]?.id || '',
+      imagesList: [],
+      isActive: true,
+      isBestSeller: false,
+      isNew: true,
+    })
+    setActiveTab('general')
+  }
 
   // Live discount statistics
   const price = Number(formData.price) || 0
@@ -146,7 +147,7 @@ export default function ProductForm({
         } else {
           toast.error(data.error || 'فشل رفع إحدى الصور')
         }
-      } catch (err) {
+      } catch {
         toast.error('حدث خطأ أثناء الاتصال بالخادم لرفع الصورة')
       }
     }
@@ -273,7 +274,7 @@ export default function ProductForm({
           toast.error(res.error || 'حدث خطأ أثناء إضافة المنتج')
         }
       }
-    } catch (err) {
+    } catch {
       toast.error('حدث خطأ غير متوقع في حفظ البيانات.')
     } finally {
       setIsSubmitting(false)

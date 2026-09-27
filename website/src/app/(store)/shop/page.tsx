@@ -1,9 +1,14 @@
-import React from 'react'
+import type { Metadata } from 'next'
 import { getProducts } from '@/app/actions/products'
 import { getCategories } from '@/app/actions/categories'
 import ShopClient from './shop-client'
 
 export const dynamic = 'force-dynamic'
+
+export const metadata: Metadata = {
+  title: 'المتجر | گِفتي بلس',
+  description: 'تسوق تشكيلة متجر گِفتي بلس الحصرية من العطور، الساعات، الإكسسوارات، الشوكولاتة، وباقات الورد مع تغليف ملكي فاخر',
+}
 
 export default async function ShopPage() {
   const rawProducts = await getProducts()

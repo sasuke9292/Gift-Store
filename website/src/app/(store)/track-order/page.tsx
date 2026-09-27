@@ -5,8 +5,8 @@ import { TrackOrderClient } from './track-order-client'
 export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
-  title: 'تتبع الطلب مباشرة | گفتي بلس',
-  description: 'تتبع حالة طلبك من گفتي بلس في الوقت الفعلي برقم الطلب أو رقم الهاتف'
+  title: 'تتبع الطلب مباشرة | گِفتي بلس',
+  description: 'تتبع حالة طلبك من متجر گِفتي بلس في الوقت الفعلي برقم الطلب أو رقم الهاتف'
 }
 
 export default async function TrackOrderPage() {

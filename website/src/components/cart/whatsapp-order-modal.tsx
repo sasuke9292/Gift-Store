@@ -5,7 +5,6 @@ import { motion, AnimatePresence } from 'framer-motion'
 import {
   Dialog,
   DialogContent,
-  DialogHeader,
   DialogTitle,
   DialogDescription,
 } from '@/components/ui/dialog'
@@ -21,12 +20,10 @@ import {
   CheckCircle2, 
   ExternalLink,
   Loader2,
-  Sparkles,
   Gift,
   ChevronDown,
   X
 } from 'lucide-react'
-import Image from 'next/image'
 import { useCartStore } from '@/lib/store'
 import { createWhatsAppOrderAction } from '@/app/actions/orders'
 import { toast } from 'sonner'

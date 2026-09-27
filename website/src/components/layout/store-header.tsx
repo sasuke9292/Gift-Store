@@ -33,7 +33,21 @@ interface StoreHeaderProps {
     role?: string
   }
   topBarText?: string
-  settings?: any
+  settings?: {
+    storeName?: string | null
+    storeSlogan?: string | null
+    storePhone?: string | null
+    headerPhone?: string | null
+    topBarText?: string | null
+    topBarLink?: string | null
+    showTopBar?: boolean | null
+    showTrackOrder?: boolean | null
+    showGiftFinder?: boolean | null
+    showNavTabs?: boolean | null
+    navTabsJson?: string | null
+    logoUrl?: string | null
+    [key: string]: unknown
+  } | null
 }
 
 interface SearchItem {
@@ -152,14 +166,15 @@ export function StoreHeader({ user, topBarText, settings }: StoreHeaderProps) {
   const cartCount = cartItems.reduce((acc, item) => acc + item.quantity, 0)
   const favCount = favorites.length
 
+  const navTabsJson = settings?.navTabsJson
   const activeNavLinks: NavLinkItem[] = useMemo(() => {
-    if (settings?.navTabsJson) {
+    if (navTabsJson) {
       try {
-        const parsed = JSON.parse(settings.navTabsJson)
+        const parsed = JSON.parse(navTabsJson)
         if (Array.isArray(parsed) && parsed.length > 0) {
-          return parsed.filter((t: any) => t.enabled !== false).map((t: any) => ({
-            href: (t.href as string) || '/',
-            label: (t.label as string) || '',
+          return parsed.filter((t: { enabled?: boolean }) => t.enabled !== false).map((t: { href?: string; label?: string; highlight?: boolean }) => ({
+            href: t.href || '/',
+            label: t.label || '',
             highlight: Boolean(t.highlight)
           }))
         }
@@ -168,12 +183,10 @@ export function StoreHeader({ user, topBarText, settings }: StoreHeaderProps) {
       }
     }
     return navLinks
-  }, [settings?.navTabsJson])
+  }, [navTabsJson])
 
   const effectiveTopBarText = settings?.topBarText || topBarText || 'توصيل مجاني لكافة طلبات الهدايا الأكثر من 100 ألف د.ع • تغليف ملكي مجاني 🎁'
   const effectiveHeaderPhone = settings?.headerPhone || settings?.storePhone || '+964 770 000 0000'
-  const storeDisplayName = (settings?.storeName || 'گِفتي بلس | Gifty Plus').split('|')[0].trim()
-  const storeDisplayTag = settings?.storeName?.includes('|') ? settings.storeName.split('|')[1].trim() : (settings?.storeSlogan || 'GIFTY PLUS LUXURY')
 
   return (
     <>

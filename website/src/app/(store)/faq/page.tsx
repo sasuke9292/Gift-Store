@@ -3,8 +3,8 @@ import Link from 'next/link'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'الأسئلة الشائعة | گفتي بلس',
-  description: 'إجابات على أكثر الأسئلة شيوعاً حول متجر گفتي بلس'
+  title: 'الأسئلة الشائعة | گِفتي بلس',
+  description: 'إجابات على أكثر الأسئلة شيوعاً حول متجر گِفتي بلس وطرق الدفع والشحن'
 }
 
 const faqs = [

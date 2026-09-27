@@ -58,21 +58,19 @@ export default function OrdersClient({ initialOrders }: { initialOrders: OrderDa
   const [orders, setOrders] = useState(initialOrders)
   const [search, setSearch] = useState('')
   const [statusFilter, setStatusFilter] = useState('all')
-  const [sourceFilter, setSourceFilter] = useState<'all' | 'WHATSAPP'>('all')
+  const [sourceFilter, setSourceFilter] = useState<'all' | 'WHATSAPP'>(() => {
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search)
+      if (params.get('source') === 'WHATSAPP') {
+        return 'WHATSAPP'
+      }
+    }
+    return 'all'
+  })
   const [deleteId, setDeleteId] = useState<string | null>(null)
   const [isDeleting, setIsDeleting] = useState(false)
   const [selectedOrderId, setSelectedOrderId] = useState<string | null>(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
-
-  // Listen to source param if opened via sidebar
-  React.useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const params = new URLSearchParams(window.location.search)
-      if (params.get('source') === 'WHATSAPP') {
-        setSourceFilter('WHATSAPP')
-      }
-    }
-  }, [])
 
   const handleOpenModal = (id: string) => {
     setSelectedOrderId(id)

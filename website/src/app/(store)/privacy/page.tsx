@@ -2,8 +2,8 @@ import { Shield } from 'lucide-react'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'سياسة الخصوصية | گفتي بلس',
-  description: 'سياسة الخصوصية وحماية البيانات في متجر گفتي بلس'
+  title: 'سياسة الخصوصية | گِفتي بلس',
+  description: 'سياسة الخصوصية وحماية البيانات في متجر گِفتي بلس'
 }
 
 export default function PrivacyPage() {

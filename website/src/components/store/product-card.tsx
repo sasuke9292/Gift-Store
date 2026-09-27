@@ -3,6 +3,7 @@
 import React, { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 import { Heart, ShoppingBag, Star, Sparkles, Check } from 'lucide-react'
 import { useCartStore, useFavoritesStore } from '@/lib/store'
 import { toast } from 'sonner'
@@ -53,6 +54,7 @@ function getProductFallbackImage(name: string, categoryName?: string): string {
 }
 
 export function ProductCard({ product }: ProductCardProps) {
+  const router = useRouter()
   const addToCart = useCartStore(state => state.addItem)
   const { addFavorite, removeFavorite, hasFavorite } = useFavoritesStore()
   const mounted = useMounted()
@@ -83,7 +85,7 @@ export function ProductCard({ product }: ProductCardProps) {
       id: `cart-${product.id}`,
       action: {
         label: 'عرض السلة 🛍️',
-        onClick: () => window.location.href = '/cart'
+        onClick: () => router.push('/cart')
       }
     })
     setTimeout(() => setIsAdding(false), 800)

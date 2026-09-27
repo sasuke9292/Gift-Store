@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   Table,
@@ -13,7 +13,6 @@ import {
 import { Button } from '@/components/ui/button'
 import { Search, Plus, Trash, Image as ImageIcon, CheckCircle2, Edit, Package, ExternalLink } from 'lucide-react'
 import { Checkbox } from '@/components/ui/checkbox'
-import Image from 'next/image'
 import { deleteProduct, deleteProducts } from '@/app/actions/admin/products'
 import { toast } from 'sonner'
 import Link from 'next/link'
@@ -21,7 +20,6 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import { Product, Category } from '@prisma/client'
 import ProductModal from './product-modal'
 import { ConfirmDialog } from '@/components/ui/confirm-dialog'
-import { cn } from '@/lib/utils'
 
 type ProductWithCategory = Product & { category?: Category | null }
 
@@ -33,21 +31,17 @@ export default function ProductsClient({ initialProducts, categories }: { initia
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set())
   const [isDeletingBulk, setIsDeletingBulk] = useState(false)
   const [statusFilter, setStatusFilter] = useState<'all' | 'active' | 'draft'>('all')
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false)
+  const shouldOpenCreate = () => {
+    const tabParam = searchParams.get('tab')
+    const newParam = searchParams.get('new')
+    const actionParam = searchParams.get('action')
+    return tabParam === 'create' || tabParam === 'new' || newParam === 'true' || actionParam === 'new'
+  }
+  const [isEditModalOpen, setIsEditModalOpen] = useState(shouldOpenCreate)
   const [currentEditProduct, setCurrentEditProduct] = useState<ProductWithCategory | null>(null)
   const [deleteId, setDeleteId] = useState<string | null>(null)
   const [isDeletingConfirm, setIsDeletingConfirm] = useState(false)
   const [bulkDeleteConfirm, setBulkDeleteConfirm] = useState(false)
-
-  useEffect(() => {
-    const tabParam = searchParams.get('tab')
-    const newParam = searchParams.get('new')
-    const actionParam = searchParams.get('action')
-    if (tabParam === 'create' || tabParam === 'new' || newParam === 'true' || actionParam === 'new') {
-      setCurrentEditProduct(null)
-      setIsEditModalOpen(true)
-    }
-  }, [searchParams])
 
   const handleSelectAll = (checked: boolean) => {
     if (checked) {

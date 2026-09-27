@@ -1,8 +1,6 @@
 'use client'
 
 import React, { useState, useMemo } from 'react'
-import Link from 'next/link'
-import { motion, AnimatePresence } from 'framer-motion'
 import { useSearchParams, useRouter } from 'next/navigation'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
@@ -27,9 +25,7 @@ import {
   Eye, 
   Sliders,
   Layers,
-  Info,
   ChevronLeft,
-  ChevronRight,
   MessageCircle,
   ArrowLeft,
   Search,
@@ -37,19 +33,16 @@ import {
   Upload,
   Plus,
   Trash2,
-  Image as ImageIcon,
   Flame,
   Award,
   ArrowUp,
   ArrowDown,
-  ExternalLink,
   Package,
   RotateCcw,
   Link2,
   Globe,
   Bell,
-  Tag,
-  Check
+  Tag
 } from 'lucide-react'
 import { toast } from 'sonner'
 import { updateStoreSettings } from '@/app/actions/admin/settings'
@@ -439,20 +432,24 @@ export default function SettingsClient({
   const router = useRouter()
   const searchParams = useSearchParams()
   const [settings, setSettings] = useState<SettingsData>(initialSettings)
-  const [activeTab, setActiveTab] = useState<TabType>('general')
+  const [activeTab, setActiveTab] = useState<TabType>(() => {
+    const tabParam = searchParams.get('tab') as TabType
+    if (tabParam && TABS.some(t => t.id === tabParam)) {
+      return tabParam
+    }
+    return 'general'
+  })
+  const tabParam = searchParams.get('tab') as TabType
+  const [prevTabParam, setPrevTabParam] = useState(tabParam)
+  if (tabParam && tabParam !== prevTabParam && TABS.some(t => t.id === tabParam)) {
+    setPrevTabParam(tabParam)
+    setActiveTab(tabParam)
+  }
   const [isSaving, setIsSaving] = useState(false)
   const [hasChanges, setHasChanges] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
   const [isUploadingLogo, setIsUploadingLogo] = useState(false)
   const [isUploadingFavicon, setIsUploadingFavicon] = useState(false)
-
-  // Listen to tab query param if accessed directly or via search/sidebar
-  React.useEffect(() => {
-    const tabParam = searchParams.get('tab') as TabType
-    if (tabParam && TABS.some(t => t.id === tabParam)) {
-      setActiveTab(tabParam)
-    }
-  }, [searchParams])
 
   const updateField = <K extends keyof SettingsData>(field: K, value: SettingsData[K]) => {
     setSettings(prev => ({ ...prev, [field]: value }))
@@ -1849,7 +1846,7 @@ export default function SettingsClient({
                       </span>
                     </div>
                     <p className="text-xs text-[#78716C] mt-1 leading-relaxed max-w-xl">
-                      يمكنك إدارة وإضافة وترتيب شرائح السلايدر التفاعلي، رفع صور الهدايا، وتغيير ترتيبها مباشرة من تبويب "شرائح السلايدر" هنا في إعدادات المتجر.
+                      يمكنك إدارة وإضافة وترتيب شرائح السلايدر التفاعلي، رفع صور الهدايا، وتغيير ترتيبها مباشرة من تبويب &quot;شرائح السلايدر&quot; هنا في إعدادات المتجر.
                     </p>
                   </div>
                 </div>

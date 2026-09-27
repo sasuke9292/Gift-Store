@@ -4,9 +4,9 @@ import * as React from "react"
 import { Menu as MenuPrimitive } from "@base-ui/react/menu"
 
 import { cn } from "@/lib/utils"
-import { ChevronLeftIcon, CheckIcon, ChevronRightIcon, CircleIcon } from "lucide-react"
+import { ChevronLeftIcon, CheckIcon } from "lucide-react"
 
-function DropdownMenu({ dir, ...props }: MenuPrimitive.Root.Props & { dir?: "ltr" | "rtl" }) {
+function DropdownMenu(props: MenuPrimitive.Root.Props) {
   return <MenuPrimitive.Root data-slot="dropdown-menu" {...props} />
 }
 

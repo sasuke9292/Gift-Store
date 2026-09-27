@@ -1,8 +1,14 @@
 import Link from 'next/link'
 import { Info, Heart, ArrowLeft, Award, Shield } from 'lucide-react'
 import { prisma } from '@/lib/prisma'
+import type { Metadata } from 'next'
 
 export const dynamic = 'force-dynamic'
+
+export const metadata: Metadata = {
+  title: 'من نحن | گِفتي بلس',
+  description: 'تعرف على قصة متجر گِفتي بلس ورسالتنا في تقديم أرقى الهدايا والتغليف الملكي الفاخر في العراق',
+}
 
 export default async function AboutPage() {
   const settings = await prisma.storeSettings.findUnique({ where: { id: 'default' } }).catch(() => null)

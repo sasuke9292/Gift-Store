@@ -5,12 +5,21 @@ import UsersClient from './users-client'
 
 export const dynamic = 'force-dynamic'
 
+interface FormattedUser {
+  id: string
+  name: string
+  email: string
+  joinedAt: string
+  role: string
+  status: string
+}
+
 export default async function AdminUsersPage() {
   const session = await auth()
   if (!session?.user) redirect('/auth/admin-login')
   if (session.user.role === 'CUSTOMER') redirect('/')
 
-  let formattedUsers: any[] = []
+  let formattedUsers: FormattedUser[] = []
   try {
     const users = await prisma.user.findMany({
       orderBy: {

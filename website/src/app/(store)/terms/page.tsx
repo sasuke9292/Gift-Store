@@ -2,8 +2,8 @@ import { FileText } from 'lucide-react'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'الشروط والأحكام | گفتي بلس',
-  description: 'شروط وأحكام استخدام متجر گفتي بلس'
+  title: 'الشروط والأحكام | گِفتي بلس',
+  description: 'شروط وأحكام استخدام متجر گِفتي بلس'
 }
 
 export default function TermsPage() {

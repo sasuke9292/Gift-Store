@@ -224,6 +224,7 @@ export default function StoreHomeClient({
   const [isHovered, setIsHovered] = useState(false)
 
   // Dynamic Showcase Slides from Dedicated DB HeroSlides or Fallback
+  const heroSlidesJson = settings?.heroSlidesJson
   const activeShowcaseSlides = useMemo(() => {
     if (heroSlides && Array.isArray(heroSlides) && heroSlides.length > 0) {
       return heroSlides.map((slide: any, idx: number) => ({
@@ -235,9 +236,9 @@ export default function StoreHomeClient({
         tag: slide.tag || 'مميز'
       }))
     }
-    if (settings?.heroSlidesJson) {
+    if (heroSlidesJson) {
       try {
-        const parsed = JSON.parse(settings.heroSlidesJson)
+        const parsed = JSON.parse(heroSlidesJson)
         if (Array.isArray(parsed) && parsed.length > 0) {
           return parsed.map((slide: any, idx: number) => ({
             id: slide.id || `slide-${idx}`,
@@ -253,7 +254,7 @@ export default function StoreHomeClient({
       }
     }
     return showcaseSlides
-  }, [heroSlides, settings?.heroSlidesJson])
+  }, [heroSlides, heroSlidesJson])
 
   const safeSlideIndex = activeShowcaseSlides.length > 0 ? (activeSlide % activeShowcaseSlides.length) : 0
   const currentSlide = activeShowcaseSlides[safeSlideIndex] || showcaseSlides[0]

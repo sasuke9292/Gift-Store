@@ -1,5 +1,11 @@
 import { prisma } from '@/lib/prisma'
+import type { Metadata } from 'next'
 import GiftFinderClient from './gift-finder-client'
+
+export const metadata: Metadata = {
+  title: 'مكتشف الهدايا الذكي | گِفتي بلس',
+  description: 'المساعد الذكي لاختيار الهدية المثالية بناءً على المناسبة، الشخص المهدى إليه، والميزانية المناسبة في ثوانٍ معدودة',
+}
 
 export default async function GiftFinderPage() {
   let products: any[] = []

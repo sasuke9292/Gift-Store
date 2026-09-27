@@ -1,8 +1,14 @@
 import { Mail, Phone, Truck, Clock, MessageCircle } from 'lucide-react'
 import { ContactForm } from './contact-form'
 import { prisma } from '@/lib/prisma'
+import type { Metadata } from 'next'
 
 export const dynamic = 'force-dynamic'
+
+export const metadata: Metadata = {
+  title: 'اتصل بنا | گِفتي بلس',
+  description: 'تواصل مع فريق متجر گِفتي بلس للاستفسارات والطلبات الخاصة وخدمة العملاء في العراق عبر واتساب والهاتف والبريد',
+}
 
 export default async function ContactPage() {
   const settings = await prisma.storeSettings.findUnique({ where: { id: 'default' } }).catch(() => null)
