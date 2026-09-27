@@ -59,7 +59,7 @@ export function MobileBottomNav() {
   ]
 
   return (
-    <div className="lg:hidden fixed bottom-0 inset-x-0 z-40 bg-white/95 backdrop-blur-xl border-t border-[#E8E4DF] shadow-[0_-4px_20px_rgba(0,0,0,0.06)] pb-[max(0.5rem,env(safe-area-inset-bottom,0px))]" dir="rtl">
+    <div className="lg:hidden fixed bottom-0 inset-x-0 z-40 bg-white/95 backdrop-blur-xl border-t border-slate-200/80 shadow-[0_-4px_20px_rgba(0,0,0,0.06)] pb-[max(0.5rem,env(safe-area-inset-bottom,0px))]" dir="rtl">
       <nav className="flex items-center justify-around h-16 px-2 max-w-md mx-auto">
         {navItems.map((item) => {
           const Icon = item.icon
@@ -74,8 +74,8 @@ export function MobileBottomNav() {
               >
                 <div 
                   className={cn(
-                    "w-12 h-12 rounded-2xl flex items-center justify-center text-white shadow-[0_4px_16px_rgba(19, 33, 60,0.45)] transition-transform active:scale-95",
-                    item.isActive ? "ring-2 ring-[#1C1917]" : ""
+                    "w-12 h-12 rounded-2xl flex items-center justify-center text-white shadow-[0_4px_16px_rgba(19,33,60,0.45)] transition-transform active:scale-95",
+                    item.isActive ? "ring-2 ring-amber-400 ring-offset-2 ring-offset-white" : ""
                   )}
                   style={{ background: 'linear-gradient(135deg, #22385e 0%, #13213c 100%)' }}
                 >
@@ -96,21 +96,21 @@ export function MobileBottomNav() {
                 "relative flex flex-col items-center justify-center w-14 h-14 rounded-2xl transition-colors active:scale-95 focus:outline-none",
                 item.isActive 
                   ? "text-[#13213c]" 
-                  : "text-[#78716C] hover:text-[#1C1917]"
+                  : "text-slate-400 hover:text-slate-800"
               )}
               aria-label={item.label}
             >
               <div className="relative">
                 <Icon className={cn("w-5 h-5 transition-transform", item.isActive && "scale-110")} />
                 {item.badge !== null && item.badge !== undefined && (
-                  <span className="absolute -top-1.5 -start-2 min-w-4 h-4 px-1 rounded-full bg-[#E85D75] text-white text-[9px] font-black flex items-center justify-center shadow-xs">
+                  <span className="absolute -top-1.5 -start-2 min-w-4 h-4 px-1 rounded-full bg-gradient-to-r from-rose-600 to-rose-500 text-white text-[9px] font-black flex items-center justify-center shadow-xs">
                     {item.badge}
                   </span>
                 )}
               </div>
               <span className={cn(
                 "text-[10px] mt-1 tracking-tight transition-colors",
-                item.isActive ? "font-black text-[#13213c]" : "font-bold text-[#78716C]"
+                item.isActive ? "font-black text-[#13213c]" : "font-bold text-slate-500"
               )}>
                 {item.label}
               </span>

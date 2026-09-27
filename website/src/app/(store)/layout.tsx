@@ -56,7 +56,7 @@ export default async function StoreLayout({
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#FAFAF8] pb-16 lg:pb-0">
+    <div className="min-h-screen flex flex-col bg-[#F8FAFC] pb-16 lg:pb-0">
       {settings?.maintenanceMode && isStaff && (
         <div className="bg-amber-500 text-black py-1.5 px-4 text-center text-xs font-bold flex items-center justify-center gap-2">
           <AlertCircle className="w-4 h-4" />

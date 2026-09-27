@@ -44,7 +44,7 @@ const faqs = [
 
 export default function FAQPage() {
   return (
-    <div className="min-h-screen bg-[#FAFAF8] pb-20">
+    <div className="min-h-screen bg-[#F8FAFC] pb-20">
       <section className="relative bg-[#0c1424] text-white py-24 px-4 overflow-hidden">
         <div className="absolute top-0 end-0 w-96 h-96 bg-[#22385e]/25 rounded-full blur-[100px]" />
         <div className="max-w-4xl mx-auto text-center relative z-10">
@@ -61,26 +61,26 @@ export default function FAQPage() {
           {faqs.map((faq, idx) => (
             <details
               key={idx}
-              className="group bg-white rounded-2xl border border-[#E8E4DF] shadow-[0_1px_3px_rgba(0,0,0,0.04)] overflow-hidden"
+              className="group bg-white rounded-2xl border border-slate-200/80 shadow-[0_2px_8px_rgba(15,23,42,0.03)] overflow-hidden"
             >
-              <summary className="flex items-center justify-between p-6 cursor-pointer font-bold text-[#1C1917] list-none hover:bg-[#FAFAF8] transition-colors">
+              <summary className="flex items-center justify-between p-6 cursor-pointer font-bold text-slate-900 list-none hover:bg-slate-50 transition-colors">
                 <span>{faq.q}</span>
-                <ChevronDown className="w-5 h-5 text-[#A8A29E] transition-transform group-open:rotate-180 shrink-0 ms-4" />
+                <ChevronDown className="w-5 h-5 text-slate-400 transition-transform group-open:rotate-180 shrink-0 ms-4" />
               </summary>
-              <div className="px-6 pb-6 pt-1 text-[#78716C] leading-relaxed border-t border-[#E8E4DF]">
+              <div className="px-6 pb-6 pt-1 text-slate-500 leading-relaxed border-t border-slate-200/80">
                 {faq.a}
               </div>
             </details>
           ))}
         </div>
 
-        <div className="bg-[#F0F4F9] border border-[#13213c]/20 rounded-2xl p-8 text-center">
-          <h3 className="font-black text-[#1C1917] text-xl mb-2">لم تجد إجابة لسؤالك؟</h3>
-          <p className="text-[#78716C] mb-5">فريق دعمنا مستعد للمساعدة على مدار الساعة</p>
+        <div className="bg-blue-50/70 border border-blue-200/60 rounded-2xl p-8 text-center shadow-xs">
+          <h3 className="font-black text-slate-900 text-xl mb-2">لم تجد إجابة لسؤالك؟</h3>
+          <p className="text-slate-500 mb-5">فريق دعمنا مستعد للمساعدة على مدار الساعة</p>
           <Link
             href="/contact"
-            className="inline-flex items-center gap-2 h-11 px-7 rounded-xl font-bold text-white transition-all hover:-translate-y-0.5"
-            style={{ background: 'linear-gradient(135deg, #22385e 0%, #13213c 100%)' }}
+            className="inline-flex items-center gap-2 h-11 px-7 rounded-xl font-bold text-white transition-all hover:-translate-y-0.5 shadow-md shadow-[#13213c]/20 hover:shadow-lg hover:shadow-[#13213c]/30"
+            style={{ background: 'linear-gradient(135deg, #13213c 0%, #0c1424 100%)' }}
           >
             اتصل بنا
             <ArrowLeft className="w-4 h-4" />

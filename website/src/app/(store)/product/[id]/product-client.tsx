@@ -110,22 +110,22 @@ ${typeof window !== 'undefined' ? `🔗 رابط المنتج: ${window.location
     : 0
 
   return (
-    <div className="min-h-screen bg-[#FAFAF8] pt-4 pb-28 lg:pb-20">
+    <div className="min-h-screen bg-[#F8FAFC] pt-4 pb-28 lg:pb-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Breadcrumb */}
-        <nav className="flex items-center gap-2 text-sm text-[#A8A29E] py-6">
+        <nav className="flex items-center gap-2 text-sm text-slate-400 py-6">
           <Link href="/" className="hover:text-[#13213c] transition-colors">الرئيسية</Link>
           <span>/</span>
           <Link href="/shop" className="hover:text-[#13213c] transition-colors">المتجر</Link>
           {product.category && (
             <>
               <span>/</span>
-              <span className="text-[#78716C]">{typeof product.category === 'string' ? product.category : product.category?.name}</span>
+              <span className="text-slate-600">{typeof product.category === 'string' ? product.category : product.category?.name}</span>
             </>
           )}
           <span>/</span>
-          <span className="text-[#1C1917] font-medium line-clamp-1 max-w-[200px]">{product.name}</span>
+          <span className="text-slate-900 font-medium line-clamp-1 max-w-[200px]">{product.name}</span>
         </nav>
 
         {/* Main Grid */}
@@ -139,18 +139,18 @@ ${typeof window !== 'undefined' ? `🔗 رابط المنتج: ${window.location
             className="space-y-4"
           >
             {/* Main Image */}
-            <div className="relative aspect-square rounded-3xl overflow-hidden bg-[#F8F4EF] border border-[#E8E4DF] group">
+            <div className="relative aspect-square rounded-3xl overflow-hidden bg-slate-100/70 border border-slate-200/90 group">
               {product.isBestSeller && (
                 <div className="absolute top-4 start-4 z-10">
-                  <span className="inline-flex items-center gap-1.5 bg-[#E85D75] text-white text-xs font-black px-3 py-1.5 rounded-full shadow-[0_4px_12px_rgba(232,93,117,0.3)]">
-                    <Star className="w-3 h-3 fill-white" />
+                  <span className="inline-flex items-center gap-1.5 bg-gradient-to-r from-amber-500 to-amber-600 text-white text-xs font-black px-3.5 py-1.5 rounded-full shadow-xs">
+                    <Star className="w-3.5 h-3.5 fill-white text-white" />
                     الأكثر مبيعاً
                   </span>
                 </div>
               )}
               {hasDiscount && (
                 <div className={cn("absolute z-10", product.isBestSeller ? "top-12 start-4" : "top-4 start-4")}>
-                  <span className="bg-[#13213c] text-white text-xs font-black px-3 py-1.5 rounded-full">
+                  <span className="bg-gradient-to-r from-rose-600 to-rose-500 text-white text-xs font-black px-3.5 py-1.5 rounded-full shadow-xs">
                     -{discountPercent}%
                   </span>
                 </div>
@@ -174,10 +174,10 @@ ${typeof window !== 'undefined' ? `🔗 رابط المنتج: ${window.location
                     key={i}
                     onClick={() => setActiveImage(img)}
                     className={cn(
-                      "relative aspect-square rounded-xl overflow-hidden border-2 transition-all duration-200",
+                      "relative aspect-square rounded-xl overflow-hidden border-2 transition-all duration-200 cursor-pointer",
                       activeImage === img
-                        ? "border-[#13213c] shadow-[0_0_0_2px_rgba(19, 33, 60,0.2)]"
-                        : "border-[#E8E4DF] hover:border-[#13213c]/50 opacity-70 hover:opacity-100"
+                        ? "border-[#13213c] shadow-[0_0_0_2px_rgba(19,33,60,0.2)]"
+                        : "border-slate-200 hover:border-[#13213c]/50 opacity-70 hover:opacity-100"
                     )}
                   >
                     <Image src={img} alt={`صورة ${i + 1}`} fill className="object-cover" sizes="100px" />
@@ -202,7 +202,7 @@ ${typeof window !== 'undefined' ? `🔗 رابط المنتج: ${window.location
             )}
 
             {/* Product Name */}
-            <h1 className="text-3xl lg:text-4xl font-black text-[#1C1917] leading-tight mb-4 tracking-tight">
+            <h1 className="text-3xl lg:text-4xl font-black text-slate-900 leading-tight mb-4 tracking-tight">
               {product.name}
             </h1>
 
@@ -212,26 +212,26 @@ ${typeof window !== 'undefined' ? `🔗 رابط المنتج: ${window.location
                 {[1, 2, 3, 4, 5].map(i => (
                   <Star
                     key={i}
-                    className={cn("w-4 h-4", i <= 4 ? "fill-[#13213c] text-[#13213c]" : "fill-[#E8E4DF] text-[#E8E4DF]")}
+                    className={cn("w-4 h-4", i <= 4 ? "fill-amber-400 text-amber-400" : "fill-slate-200 text-slate-200")}
                   />
                 ))}
               </div>
-              <span className="text-sm text-[#78716C] font-medium">(4.8) — 124 تقييم</span>
+              <span className="text-sm text-slate-500 font-medium">(4.8) — 124 تقييم</span>
             </div>
 
             {/* Price */}
-            <div className="flex items-end gap-4 mb-6 pb-6 border-b border-[#E8E4DF]">
+            <div className="flex items-end gap-4 mb-6 pb-6 border-b border-slate-200/80">
               <div>
                 <span className="text-4xl font-black text-gold">
                   {(product.salePrice ?? product.price).toLocaleString('en-US')}
-                  <span className="text-lg font-bold text-[#A8A29E] ms-1">د.ع</span>
+                  <span className="text-lg font-bold text-slate-400 ms-1">د.ع</span>
                 </span>
                 {hasDiscount && (
                   <div className="flex items-center gap-2 mt-1">
-                    <span className="text-base text-[#A8A29E] line-through">
+                    <span className="text-base text-slate-400 line-through">
                       {product.price.toLocaleString('en-US')} د.ع
                     </span>
-                    <span className="text-sm font-black text-[#E85D75] bg-[#FDF2F4] px-2 py-0.5 rounded-lg">
+                    <span className="text-sm font-black text-rose-600 bg-rose-50 border border-rose-200/60 px-2 py-0.5 rounded-lg">
                       وفّرت {(product.price - product.salePrice).toLocaleString('en-US')} د.ع
                     </span>
                   </div>
@@ -241,32 +241,32 @@ ${typeof window !== 'undefined' ? `🔗 رابط المنتج: ${window.location
 
             {/* Description */}
             {product.description && (
-              <p className="text-[#78716C] leading-relaxed text-base mb-6">
+              <p className="text-slate-600 leading-relaxed text-base mb-6">
                 {product.description}
               </p>
             )}
 
             {/* Quantity, Cart & WhatsApp Direct Order Box */}
-            <div className="bg-[#FAFAF8] rounded-2xl border border-[#E8E4DF] p-5 mb-6 shadow-xs space-y-4">
+            <div className="bg-white rounded-2xl border border-slate-200/90 p-5 mb-6 shadow-xs space-y-4">
               {/* Row 1: Quantity selector & Total for selected quantity */}
-              <div className="flex items-center justify-between pb-3.5 border-b border-[#E8E4DF]/70">
+              <div className="flex items-center justify-between pb-3.5 border-b border-slate-100">
                 <div className="flex items-center gap-3">
-                  <span className="text-xs sm:text-sm font-bold text-[#78716C]">الكمية:</span>
-                  <div className="flex items-center border border-[#E8E4DF] rounded-xl overflow-hidden bg-white shadow-xs">
+                  <span className="text-xs sm:text-sm font-bold text-slate-600">الكمية:</span>
+                  <div className="flex items-center border border-slate-200 rounded-xl overflow-hidden bg-white shadow-xs">
                     <button
                       type="button"
-                      className="w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center text-[#78716C] hover:bg-[#F5F0EA] active:bg-[#E8E4DF] transition-colors cursor-pointer"
+                      className="w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center text-slate-600 hover:bg-slate-100 active:bg-slate-200 transition-colors cursor-pointer"
                       onClick={() => setQuantity(Math.max(1, quantity - 1))}
                       aria-label="تقليل الكمية"
                     >
                       <Minus className="w-3.5 h-3.5" />
                     </button>
-                    <span className="w-10 sm:w-12 text-center font-bold text-[#1C1917] select-none text-sm sm:text-base">
+                    <span className="w-10 sm:w-12 text-center font-bold text-slate-900 select-none text-sm sm:text-base">
                       {quantity}
                     </span>
                     <button
                       type="button"
-                      className="w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center text-[#78716C] hover:bg-[#F5F0EA] active:bg-[#E8E4DF] transition-colors cursor-pointer"
+                      className="w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center text-slate-600 hover:bg-slate-100 active:bg-slate-200 transition-colors cursor-pointer"
                       onClick={() => setQuantity(quantity + 1)}
                       aria-label="زيادة الكمية"
                     >
@@ -276,9 +276,9 @@ ${typeof window !== 'undefined' ? `🔗 رابط المنتج: ${window.location
                 </div>
 
                 <div className="text-end">
-                  <span className="text-[11px] text-[#A8A29E] font-medium block">المجموع:</span>
+                  <span className="text-[11px] text-slate-400 font-medium block">المجموع:</span>
                   <span className="text-sm sm:text-base font-black text-[#13213c]">
-                    {totalPrice.toLocaleString('en-US')} <span className="text-xs font-bold text-[#A8A29E]">{currencySymbol}</span>
+                    {totalPrice.toLocaleString('en-US')} <span className="text-xs font-bold text-slate-400">{currencySymbol}</span>
                   </span>
                 </div>
               </div>
@@ -315,8 +315,8 @@ ${typeof window !== 'undefined' ? `🔗 رابط المنتج: ${window.location
                   className={cn(
                     "w-12 h-12 rounded-xl border transition-all flex items-center justify-center shrink-0 cursor-pointer shadow-xs hover:scale-105 active:scale-95",
                     isFavorite
-                      ? "bg-[#FDF2F4] border-[#E85D75]/40 text-[#E85D75]"
-                      : "bg-white border-[#E8E4DF] text-[#A8A29E] hover:text-[#E85D75] hover:border-[#E85D75]/30 hover:bg-[#FDF2F4]"
+                      ? "bg-rose-50 border-rose-200 text-rose-600"
+                      : "bg-white border-slate-200 text-slate-400 hover:text-rose-600 hover:border-rose-200 hover:bg-rose-50"
                   )}
                   onClick={() => {
                     if (isFavorite) {
@@ -339,7 +339,7 @@ ${typeof window !== 'undefined' ? `🔗 رابط المنتج: ${window.location
                   title={isFavorite ? 'إزالة من المفضلة' : 'إضافة للمفضلة'}
                   aria-label={isFavorite ? 'إزالة من المفضلة' : 'إضافة للمفضلة'}
                 >
-                  <Heart className={cn("w-5 h-5 transition-transform", isFavorite && "fill-[#E85D75] text-[#E85D75] scale-110")} />
+                  <Heart className={cn("w-5 h-5 transition-transform", isFavorite && "fill-rose-600 text-rose-600 scale-110")} />
                 </button>
 
                 {/* Share */}
@@ -347,7 +347,7 @@ ${typeof window !== 'undefined' ? `🔗 رابط المنتج: ${window.location
                   type="button"
                   title="مشاركة المنتج"
                   aria-label="مشاركة المنتج"
-                  className="w-12 h-12 rounded-xl border border-[#E8E4DF] bg-white text-[#78716C] hover:text-[#13213c] hover:border-[#13213c]/30 hover:bg-[#F5F0EA] transition-all flex items-center justify-center shrink-0 cursor-pointer shadow-xs hover:scale-105 active:scale-95"
+                  className="w-12 h-12 rounded-xl border border-slate-200 bg-white text-slate-600 hover:text-[#13213c] hover:border-[#13213c]/30 hover:bg-slate-50 transition-all flex items-center justify-center shrink-0 cursor-pointer shadow-xs hover:scale-105 active:scale-95"
                   onClick={() => {
                     if (typeof window !== 'undefined' && navigator.share) {
                       navigator.share({ title: product.name, url: window.location.href }).catch(() => {})
@@ -363,7 +363,7 @@ ${typeof window !== 'undefined' ? `🔗 رابط المنتج: ${window.location
 
               {/* Row 3: Single Direct WhatsApp Order Button */}
               {isWhatsAppEnabled && (
-                <div className="pt-3 border-t border-[#E8E4DF]/70">
+                <div className="pt-3 border-t border-slate-100">
                   <a
                     href={whatsappHref}
                     target="_blank"
@@ -376,7 +376,7 @@ ${typeof window !== 'undefined' ? `🔗 رابط المنتج: ${window.location
                     </svg>
                     <span>طلب سريع ومباشر عبر واتساب</span>
                   </a>
-                  <p className="text-[11px] text-[#78716C] text-center mt-2 flex items-center justify-center gap-1 font-medium">
+                  <p className="text-[11px] text-slate-500 text-center mt-2 flex items-center justify-center gap-1 font-medium">
                     <span>⚡ تأكيد فوري ومباشر مع خدمة العملاء دون انتظار</span>
                   </p>
                 </div>
@@ -392,12 +392,12 @@ ${typeof window !== 'undefined' ? `🔗 رابط المنتج: ${window.location
               ].map(({ icon: Icon, label, color, bg }) => (
                 <div
                   key={label}
-                  className="flex flex-col items-center gap-2 p-3 rounded-xl border border-[#E8E4DF] bg-white text-center hover:border-[#13213c]/30 transition-colors"
+                  className="flex flex-col items-center gap-2 p-3 rounded-xl border border-slate-200/80 bg-white text-center hover:border-[#13213c]/30 transition-colors"
                 >
                   <div className="w-9 h-9 rounded-lg flex items-center justify-center" style={{ background: bg }}>
                     <Icon className="w-4 h-4" style={{ color }} />
                   </div>
-                  <span className="text-xs font-bold text-[#78716C]">{label}</span>
+                  <span className="text-xs font-bold text-slate-600">{label}</span>
                 </div>
               ))}
             </div>
@@ -412,48 +412,48 @@ ${typeof window !== 'undefined' ? `🔗 رابط المنتج: ${window.location
           className="mt-16"
         >
           <Tabs defaultValue="details" className="w-full">
-            <TabsList className="w-full justify-start h-auto bg-transparent border-b border-[#E8E4DF] rounded-none p-0 mb-8 gap-8">
+            <TabsList className="w-full justify-start h-auto bg-transparent border-b border-slate-200/80 rounded-none p-0 mb-8 gap-8">
               <TabsTrigger
                 value="details"
-                className="text-base pb-3 rounded-none border-b-2 border-transparent data-[state=active]:border-[#13213c] data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:text-[#1C1917] text-[#A8A29E] font-bold px-0 transition-colors"
+                className="text-base pb-3 rounded-none border-b-2 border-transparent data-[state=active]:border-[#13213c] data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:text-slate-900 text-slate-400 font-bold px-0 transition-colors"
               >
                 التفاصيل والمميزات
               </TabsTrigger>
               <TabsTrigger
                 value="reviews"
-                className="text-base pb-3 rounded-none border-b-2 border-transparent data-[state=active]:border-[#13213c] data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:text-[#1C1917] text-[#A8A29E] font-bold px-0 transition-colors"
+                className="text-base pb-3 rounded-none border-b-2 border-transparent data-[state=active]:border-[#13213c] data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:text-slate-900 text-slate-400 font-bold px-0 transition-colors"
               >
                 التقييمات
               </TabsTrigger>
             </TabsList>
 
             <TabsContent value="details" className="animate-in fade-in-50 duration-300">
-              <div className="bg-white rounded-2xl border border-[#E8E4DF] p-8">
-                <h3 className="text-xl font-black text-[#1C1917] mb-5">مميزات المنتج</h3>
+              <div className="bg-white rounded-2xl border border-slate-200/80 p-8">
+                <h3 className="text-xl font-black text-slate-900 mb-5">مميزات المنتج</h3>
                 <ul className="space-y-3">
-                  <li className="flex items-center gap-3 text-[#78716C]">
+                  <li className="flex items-center gap-3 text-slate-600">
                     <div className="w-5 h-5 rounded-full bg-[#F0F4F9] border border-[#13213c]/30 flex items-center justify-center shrink-0">
                       <Check className="w-3 h-3 text-[#13213c]" />
                     </div>
                     المنتج أصلي ومضمون 100%
                   </li>
                   {product.category && (
-                    <li className="flex items-center gap-3 text-[#78716C]">
+                    <li className="flex items-center gap-3 text-slate-600">
                       <div className="w-5 h-5 rounded-full bg-[#F0F4F9] border border-[#13213c]/30 flex items-center justify-center shrink-0">
                         <Check className="w-3 h-3 text-[#13213c]" />
                       </div>
-                      التصنيف: <span className="font-bold text-[#1C1917] ms-1">
+                      التصنيف: <span className="font-bold text-slate-900 ms-1">
                         {typeof product.category === 'string' ? product.category : product.category?.name}
                       </span>
                     </li>
                   )}
-                  <li className="flex items-center gap-3 text-[#78716C]">
+                  <li className="flex items-center gap-3 text-slate-600">
                     <div className="w-5 h-5 rounded-full bg-[#F0F4F9] border border-[#13213c]/30 flex items-center justify-center shrink-0">
                       <Check className="w-3 h-3 text-[#13213c]" />
                     </div>
                     تغليف هدايا فاخر متاح عند الطلب
                   </li>
-                  <li className="flex items-center gap-3 text-[#78716C]">
+                  <li className="flex items-center gap-3 text-slate-600">
                     <div className="w-5 h-5 rounded-full bg-[#F0F4F9] border border-[#13213c]/30 flex items-center justify-center shrink-0">
                       <Check className="w-3 h-3 text-[#13213c]" />
                     </div>
@@ -462,24 +462,24 @@ ${typeof window !== 'undefined' ? `🔗 رابط المنتج: ${window.location
                 </ul>
 
                 {product.description && (
-                  <div className="mt-6 pt-6 border-t border-[#E8E4DF]">
-                    <h4 className="font-bold text-[#1C1917] mb-3">وصف المنتج</h4>
-                    <p className="text-[#78716C] leading-relaxed">{product.description}</p>
+                  <div className="mt-6 pt-6 border-t border-slate-200/80">
+                    <h4 className="font-bold text-slate-900 mb-3">وصف المنتج</h4>
+                    <p className="text-slate-600 leading-relaxed">{product.description}</p>
                   </div>
                 )}
               </div>
             </TabsContent>
 
             <TabsContent value="reviews" className="animate-in fade-in-50 duration-300">
-              <div className="bg-white rounded-2xl border border-[#E8E4DF] p-8">
+              <div className="bg-white rounded-2xl border border-slate-200/80 p-8">
                 <div className="flex flex-col items-center justify-center py-12 text-center">
-                  <div className="w-16 h-16 rounded-full bg-[#F5F0EA] flex items-center justify-center mb-4">
+                  <div className="w-16 h-16 rounded-full bg-slate-100 flex items-center justify-center mb-4">
                     <Star className="w-8 h-8 text-[#13213c]/40" />
                   </div>
-                  <h4 className="text-lg font-black text-[#1C1917] mb-2">لا توجد تقييمات بعد</h4>
-                  <p className="text-[#A8A29E] max-w-sm mb-6">كن أول من يقيّم هذا المنتج وشارك رأيك مع الآخرين!</p>
+                  <h4 className="text-lg font-black text-slate-900 mb-2">لا توجد تقييمات بعد</h4>
+                  <p className="text-slate-400 max-w-sm mb-6">كن أول من يقيّم هذا المنتج وشارك رأيك مع الآخرين!</p>
                   <button
-                    className="h-11 px-6 rounded-xl font-bold text-white transition-all hover:-translate-y-0.5"
+                    className="h-11 px-6 rounded-xl font-bold text-white transition-all hover:-translate-y-0.5 cursor-pointer"
                     style={{ background: 'linear-gradient(135deg, #22385e 0%, #13213c 100%)' }}
                     onClick={() => toast.info('ميزة التقييم قادمة قريباً!')}
                   >
@@ -495,18 +495,18 @@ ${typeof window !== 'undefined' ? `🔗 رابط المنتج: ${window.location
 
       {/* ===== MOBILE STICKY PURCHASE BAR ===== */}
       <div 
-        className="lg:hidden fixed bottom-0 inset-x-0 z-40 bg-white/95 backdrop-blur-xl border-t border-[#E8E4DF] shadow-[0_-8px_30px_rgba(0,0,0,0.08)] px-4 py-3 pb-[max(0.75rem,env(safe-area-inset-bottom,0px))]"
+        className="lg:hidden fixed bottom-0 inset-x-0 z-40 bg-white/95 backdrop-blur-xl border-t border-slate-200/80 shadow-[0_-8px_30px_rgba(0,0,0,0.08)] px-4 py-3 pb-[max(0.75rem,env(safe-area-inset-bottom,0px))]"
         dir="rtl"
       >
         <div className="flex items-center gap-2.5 max-w-lg mx-auto">
           {/* Price display */}
           <div className="flex flex-col shrink-0 min-w-[70px]">
-            <span className="text-[10px] font-bold text-[#A8A29E]">السعر</span>
+            <span className="text-[10px] font-bold text-slate-400">السعر</span>
             <div className="flex items-baseline gap-1">
               <span className="text-base font-black text-[#13213c]">
                 {unitPrice.toLocaleString('en-US')}
               </span>
-              <span className="text-[10px] font-bold text-[#78716C]">{currencySymbol}</span>
+              <span className="text-[10px] font-bold text-slate-500">{currencySymbol}</span>
             </div>
           </div>
 

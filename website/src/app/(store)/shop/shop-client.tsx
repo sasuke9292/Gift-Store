@@ -78,31 +78,31 @@ export default function ShopClient({ initialProducts, categories, initialActiveC
   const allCategories = ['الكل', ...categories.map(c => c.name)]
 
   return (
-    <div className="min-h-screen bg-[#FAFAF8] pt-4 pb-20">
+    <div className="min-h-screen bg-[#F8FAFC] pt-4 pb-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Page Header */}
         <div className="py-10">
           <p className="text-sm font-bold text-[#13213c] uppercase tracking-widest mb-2">استكشف</p>
-          <h1 className="text-4xl sm:text-5xl font-black text-[#1C1917] tracking-tight mb-3">المتجر</h1>
-          <p className="text-[#78716C] text-lg">تصفح تشكيلة واسعة من الهدايا المميزة لكل المناسبات</p>
+          <h1 className="text-4xl sm:text-5xl font-black text-slate-900 tracking-tight mb-3">المتجر</h1>
+          <p className="text-slate-600 text-lg">تصفح تشكيلة واسعة من الهدايا المميزة لكل المناسبات</p>
         </div>
 
         {/* Filters Bar */}
-        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-8 pb-8 border-b border-[#E8E4DF]">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-8 pb-8 border-b border-slate-200/80">
           {/* Search */}
           <div className="relative flex-1 w-full sm:max-w-sm">
-            <Search className="absolute start-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#A8A29E]" />
+            <Search className="absolute start-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
             <Input
               placeholder="ابحث عن منتج..."
-              className="ps-10 h-11 rounded-xl bg-white border-[#E8E4DF] text-[#1C1917] placeholder:text-[#A8A29E] focus-visible:ring-[#13213c]/30 focus-visible:border-[#13213c]/40 shadow-[0_1px_3px_rgba(0,0,0,0.05)]"
+              className="ps-10 h-11 rounded-xl bg-white border-slate-200 text-slate-900 placeholder:text-slate-400 focus-visible:ring-[#13213c]/30 focus-visible:border-[#13213c]/40 shadow-xs"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
             {searchQuery && (
               <button
                 onClick={() => setSearchQuery('')}
-                className="absolute end-3 top-1/2 -translate-y-1/2 text-[#A8A29E] hover:text-[#78716C]"
+                className="absolute end-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -111,7 +111,7 @@ export default function ShopClient({ initialProducts, categories, initialActiveC
 
           {/* Sort — Desktop */}
           <div className="hidden sm:flex items-center gap-3 ms-auto">
-            <span className="text-sm text-[#A8A29E] font-medium">ترتيب:</span>
+            <span className="text-sm text-slate-400 font-medium">ترتيب:</span>
             <div className="flex items-center gap-2">
               {[
                 { value: 'default', label: 'الافتراضي' },
@@ -123,10 +123,10 @@ export default function ShopClient({ initialProducts, categories, initialActiveC
                   key={opt.value}
                   onClick={() => setSortBy(opt.value as SortOption)}
                   className={cn(
-                    "px-3 py-1.5 rounded-lg text-sm font-semibold transition-all",
+                    "px-3 py-1.5 rounded-lg text-sm font-semibold transition-all cursor-pointer",
                     sortBy === opt.value
-                      ? "bg-[#1C1917] text-white"
-                      : "text-[#78716C] hover:bg-[#F5F0EA]"
+                      ? "bg-[#13213c] text-white shadow-xs font-bold"
+                      : "text-slate-600 hover:bg-slate-100 hover:text-slate-900"
                   )}
                 >
                   {opt.label}
@@ -138,7 +138,7 @@ export default function ShopClient({ initialProducts, categories, initialActiveC
           {/* Mobile Filter Toggle */}
           <Button
             variant="outline"
-            className="sm:hidden flex items-center gap-2 h-11 rounded-xl border-[#E8E4DF] text-[#78716C]"
+            className="sm:hidden flex items-center gap-2 h-11 rounded-xl border-slate-200 text-slate-700"
             onClick={() => setIsMobileFilterOpen(!isMobileFilterOpen)}
           >
             <SlidersHorizontal className="w-4 h-4" />
@@ -148,8 +148,8 @@ export default function ShopClient({ initialProducts, categories, initialActiveC
 
         {/* Results count */}
         <div className="flex items-center gap-2 mb-6">
-          <p className="text-sm text-[#A8A29E]">
-            <span className="font-bold text-[#1C1917]">{filteredAndSorted.length}</span> منتج
+          <p className="text-sm text-slate-500">
+            <span className="font-bold text-slate-900">{filteredAndSorted.length}</span> منتج
             {activeCategory !== 'الكل' && (
               <span> في <span className="font-bold text-[#13213c]">{activeCategory}</span></span>
             )}
@@ -160,8 +160,8 @@ export default function ShopClient({ initialProducts, categories, initialActiveC
 
           {/* Sidebar — Desktop */}
           <aside className="hidden lg:block w-56 shrink-0">
-            <div className="bg-white rounded-2xl border border-[#E8E4DF] p-5 sticky top-28 shadow-[0_1px_3px_rgba(0,0,0,0.05)]">
-              <h3 className="font-black text-[#1C1917] text-sm uppercase tracking-widest mb-4 flex items-center gap-2">
+            <div className="bg-white rounded-2xl border border-slate-200/80 p-5 sticky top-28 shadow-xs">
+              <h3 className="font-black text-slate-900 text-sm uppercase tracking-widest mb-4 flex items-center gap-2">
                 <Filter className="w-4 h-4 text-[#13213c]" />
                 التصنيفات
               </h3>
@@ -171,10 +171,10 @@ export default function ShopClient({ initialProducts, categories, initialActiveC
                     <button
                       onClick={() => setActiveCategory(cat)}
                       className={cn(
-                        "w-full text-start px-3 py-2.5 rounded-xl text-sm transition-all duration-200 font-medium",
+                        "w-full text-start px-3 py-2.5 rounded-xl text-sm transition-all duration-200 cursor-pointer font-medium",
                         activeCategory === cat
-                          ? "bg-[#1C1917] text-white font-bold"
-                          : "text-[#78716C] hover:bg-[#F5F0EA] hover:text-[#1C1917]"
+                          ? "bg-[#13213c] text-white font-bold shadow-xs"
+                          : "text-slate-600 hover:bg-slate-100 hover:text-slate-900"
                       )}
                     >
                       {cat}
@@ -194,25 +194,25 @@ export default function ShopClient({ initialProducts, categories, initialActiveC
                 exit={{ height: 0, opacity: 0 }}
                 className="lg:hidden overflow-hidden"
               >
-                <div className="bg-white rounded-2xl border border-[#E8E4DF] p-4 mb-4">
+                <div className="bg-white rounded-2xl border border-slate-200/80 p-4 mb-4">
                   <div className="flex flex-wrap gap-2 mb-4">
                     {allCategories.map(cat => (
                       <button
                         key={cat}
                         onClick={() => { setActiveCategory(cat); setIsMobileFilterOpen(false) }}
                         className={cn(
-                          "px-3 py-1.5 rounded-lg text-sm font-semibold transition-all",
+                          "px-3 py-1.5 rounded-lg text-sm font-semibold transition-all cursor-pointer",
                           activeCategory === cat
-                            ? "bg-[#1C1917] text-white"
-                            : "bg-[#F5F0EA] text-[#78716C] hover:bg-[#E8E4DF]"
+                            ? "bg-[#13213c] text-white font-bold"
+                            : "bg-slate-100 text-slate-600 hover:bg-slate-200"
                         )}
                       >
                         {cat}
                       </button>
                     ))}
                   </div>
-                  <div className="border-t border-[#E8E4DF] pt-4">
-                    <p className="text-xs text-[#A8A29E] font-bold uppercase tracking-wider mb-2">ترتيب حسب</p>
+                  <div className="border-t border-slate-200/80 pt-4">
+                    <p className="text-xs text-slate-400 font-bold uppercase tracking-wider mb-2">ترتيب حسب</p>
                     <div className="flex flex-wrap gap-2">
                       {[
                         { value: 'default', label: 'الافتراضي' },
@@ -224,10 +224,10 @@ export default function ShopClient({ initialProducts, categories, initialActiveC
                           key={opt.value}
                           onClick={() => setSortBy(opt.value as SortOption)}
                           className={cn(
-                            "px-3 py-1.5 rounded-lg text-sm font-semibold transition-all",
+                            "px-3 py-1.5 rounded-lg text-sm font-semibold transition-all cursor-pointer",
                             sortBy === opt.value
-                              ? "bg-[#1C1917] text-white"
-                              : "bg-[#F5F0EA] text-[#78716C]"
+                              ? "bg-[#13213c] text-white font-bold"
+                              : "bg-slate-100 text-slate-600 hover:bg-slate-200"
                           )}
                         >
                           {opt.label}
@@ -270,14 +270,14 @@ export default function ShopClient({ initialProducts, categories, initialActiveC
                   animate={{ opacity: 1, y: 0 }}
                   className="text-center py-20"
                 >
-                  <div className="w-20 h-20 rounded-full bg-[#F5F0EA] flex items-center justify-center mx-auto mb-5">
+                  <div className="w-20 h-20 rounded-full bg-slate-100 flex items-center justify-center mx-auto mb-5">
                     <Search className="w-8 h-8 text-[#13213c]/60" />
                   </div>
-                  <h3 className="text-xl font-black text-[#1C1917] mb-2">لا توجد منتجات</h3>
-                  <p className="text-[#A8A29E] mb-6">لم نتمكن من العثور على منتجات تطابق بحثك</p>
+                  <h3 className="text-xl font-black text-slate-900 mb-2">لا توجد منتجات</h3>
+                  <p className="text-slate-500 mb-6">لم نتمكن من العثور على منتجات تطابق بحثك</p>
                   <Button
                     onClick={() => { setSearchQuery(''); setActiveCategory('الكل') }}
-                    className="rounded-xl font-bold text-white"
+                    className="rounded-xl font-bold text-white cursor-pointer"
                     style={{ background: 'linear-gradient(135deg, #22385e 0%, #13213c 100%)' }}
                   >
                     إعادة ضبط البحث

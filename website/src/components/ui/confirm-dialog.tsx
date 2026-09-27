@@ -55,17 +55,17 @@ export function ConfirmDialog({
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
-        className="sm:max-w-[420px] rounded-3xl p-0 overflow-hidden border border-[#E8E4DF] shadow-2xl bg-white"
+        className="sm:max-w-[420px] rounded-3xl p-0 overflow-hidden border border-slate-200/80 shadow-[0_20px_50px_rgba(15,23,42,0.12)] bg-white"
         dir="rtl"
       >
         <div className="p-7">
           <div className={`w-14 h-14 rounded-2xl ${config.iconBg} flex items-center justify-center mb-5`}>
             <Icon className={`w-7 h-7 ${config.iconColor}`} />
           </div>
-          <DialogTitle className="text-xl font-black text-[#1C1917] mb-2">
+          <DialogTitle className="text-xl font-black text-slate-900 mb-2">
             {title}
           </DialogTitle>
-          <p className="text-[#78716C] text-sm leading-relaxed">{description}</p>
+          <p className="text-slate-500 text-sm leading-relaxed">{description}</p>
           <div className="flex gap-3 mt-7">
             <Button
               onClick={onConfirm}
@@ -83,7 +83,7 @@ export function ConfirmDialog({
               variant="outline"
               onClick={() => onOpenChange(false)}
               disabled={isLoading}
-              className="flex-1 h-11 rounded-xl font-bold border-[#E8E4DF] text-[#1C1917] hover:bg-[#FAFAF8] cursor-pointer"
+              className="flex-1 h-11 rounded-xl font-bold border-slate-200 text-slate-700 hover:bg-slate-50 cursor-pointer"
             >
               {cancelText}
             </Button>

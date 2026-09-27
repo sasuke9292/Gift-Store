@@ -11,11 +11,11 @@ export default function CheckoutPage() {
   }, [router])
 
   return (
-    <div className="min-h-screen bg-[#FAFAF8] flex items-center justify-center p-4 font-sans" dir="rtl">
+    <div className="min-h-screen bg-[#F8FAFC] flex items-center justify-center p-4 font-sans" dir="rtl">
       <div className="text-center max-w-sm">
         <div className="w-10 h-10 border-2 border-[#13213c] border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-        <h2 className="text-base font-black text-[#1C1917] mb-1">جاري التحويل إلى السلة...</h2>
-        <p className="text-xs text-[#78716C]">
+        <h2 className="text-base font-black text-slate-900 mb-1">جاري التحويل إلى السلة...</h2>
+        <p className="text-xs text-slate-500">
           تم تفعيل نظام الطلب المباشر والسريع عبر WhatsApp بدون الحاجة لتعبئة نماذج دفع معقدة.
         </p>
       </div>

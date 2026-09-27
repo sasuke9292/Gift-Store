@@ -117,13 +117,13 @@ export function ProductCard({ product }: ProductCardProps) {
       transition={{ duration: 0.35 }}
       className={cn(
         "group relative bg-white rounded-3xl overflow-hidden flex flex-col h-full",
-        "border border-[#E8E4DF] transition-all duration-300",
-        "hover:shadow-[0_12px_35px_rgba(19,33,60,0.12)] hover:-translate-y-1.5 hover:border-[#13213c]/30"
+        "border border-slate-200/90 transition-all duration-300",
+        "hover:shadow-[0_16px_40px_rgba(19,33,60,0.12)] hover:-translate-y-1.5 hover:border-[#13213c]/40"
       )}
       dir="rtl"
     >
       {/* Product Image Container */}
-      <div className="relative aspect-[4/3] sm:aspect-square overflow-hidden bg-[#FAF7F2]">
+      <div className="relative aspect-[4/3] sm:aspect-square overflow-hidden bg-slate-50/80">
         
         {/* Floating Badges (Top Start / Right) */}
         <div className="absolute top-3 start-3 z-20 flex flex-col gap-1.5">
@@ -134,13 +134,13 @@ export function ProductCard({ product }: ProductCardProps) {
             </span>
           )}
           {product.isBestSeller && (
-            <span className="inline-flex items-center gap-1 bg-[#1C1917] text-white text-[10px] font-extrabold px-2.5 py-0.5 rounded-full shadow-xs">
-              <Star className="w-2.5 h-2.5 fill-amber-400 text-amber-400" />
+            <span className="inline-flex items-center gap-1 bg-gradient-to-r from-amber-500 to-amber-600 text-white text-[10px] font-extrabold px-2.5 py-0.5 rounded-full shadow-xs">
+              <Star className="w-2.5 h-2.5 fill-white text-white" />
               الأكثر طلباً
             </span>
           )}
           {hasDiscount && (
-            <span className="inline-flex items-center bg-[#E85D75] text-white text-[10px] font-black px-2.5 py-0.5 rounded-full shadow-xs" dir="ltr">
+            <span className="inline-flex items-center bg-gradient-to-r from-rose-600 to-rose-500 text-white text-[10px] font-black px-2.5 py-0.5 rounded-full shadow-xs" dir="ltr">
               -{discountPercent}%
             </span>
           )}
@@ -150,18 +150,18 @@ export function ProductCard({ product }: ProductCardProps) {
         <button
           onClick={handleToggleFavorite}
           className={cn(
-            "absolute top-3 end-3 z-20 w-8 h-8 sm:w-9 sm:h-9 rounded-2xl flex items-center justify-center transition-all duration-200 shadow-xs",
+            "absolute top-3 end-3 z-20 w-8 h-8 sm:w-9 sm:h-9 rounded-2xl flex items-center justify-center transition-all duration-200 shadow-xs cursor-pointer",
             isFav
-              ? "bg-white text-[#E85D75] scale-105 border border-[#E85D75]/20"
-              : "bg-white/90 backdrop-blur-xs text-[#A8A29E] hover:text-[#E85D75] hover:bg-white border border-[#E8E4DF]/80"
+              ? "bg-white text-rose-500 scale-105 border border-rose-200 shadow-xs"
+              : "bg-white/95 backdrop-blur-xs text-slate-400 hover:text-rose-500 hover:bg-white border border-slate-200/90"
           )}
           aria-label={isFav ? 'إزالة من المفضلة' : 'إضافة للمفضلة'}
         >
-          <Heart className={cn("w-4 h-4 transition-transform active:scale-125", isFav && "fill-[#E85D75] text-[#E85D75]")} />
+          <Heart className={cn("w-4 h-4 transition-transform active:scale-125", isFav && "fill-rose-500 text-rose-500")} />
         </button>
 
         {/* Image / Fallback */}
-        <Link href={`/product/${product.id}`} className="block w-full h-full relative cursor-pointer bg-stone-100">
+        <Link href={`/product/${product.id}`} className="block w-full h-full relative cursor-pointer bg-slate-100">
           {(!imgError && product.images && product.images[0] && !product.images[0].includes('placeholder') && !product.images[0].includes('broken') && product.images[0].trim() !== '') ? (
             <Image
               src={product.images[0]}
@@ -181,7 +181,7 @@ export function ProductCard({ product }: ProductCardProps) {
             />
           )}
           {/* Subtle Bottom Image Gradient */}
-          <div className="absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+          <div className="absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-[#0c1424]/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
         </Link>
       </div>
 
@@ -196,18 +196,18 @@ export function ProductCard({ product }: ProductCardProps) {
         )}
 
         {/* Title */}
-        <h3 className="font-bold text-[#1C1917] text-xs sm:text-sm md:text-base leading-snug line-clamp-2 mb-2 sm:mb-3 flex-1 group-hover:text-[#13213c] transition-colors">
+        <h3 className="font-bold text-slate-900 text-xs sm:text-sm md:text-base leading-snug line-clamp-2 mb-2 sm:mb-3 flex-1 group-hover:text-[#13213c] transition-colors">
           <Link href={`/product/${product.id}`}>
             {product.name}
           </Link>
         </h3>
 
         {/* Price & Action Row */}
-        <div className="flex items-center justify-between gap-1 mt-auto pt-2.5 sm:pt-3 border-t border-[#F0ECE6]">
+        <div className="flex items-center justify-between gap-1 mt-auto pt-2.5 sm:pt-3 border-t border-slate-100">
           {/* Price Block */}
           <div className="flex flex-col text-start min-w-0">
             {hasDiscount && (
-              <span className="text-[10px] sm:text-xs text-[#A8A29E] line-through font-medium" dir="ltr">
+              <span className="text-[10px] sm:text-xs text-slate-400 line-through font-medium" dir="ltr">
                 {product.price.toLocaleString('en-US')} د.ع
               </span>
             )}
@@ -215,7 +215,7 @@ export function ProductCard({ product }: ProductCardProps) {
               <span className="text-sm sm:text-base lg:text-lg font-black text-[#13213c]">
                 {displayPrice.toLocaleString('en-US')}
               </span>
-              <span className="text-[10px] sm:text-xs font-bold text-[#A8A29E]">د.ع</span>
+              <span className="text-[10px] sm:text-xs font-bold text-slate-400">د.ع</span>
             </div>
           </div>
 
@@ -226,8 +226,8 @@ export function ProductCard({ product }: ProductCardProps) {
             className={cn(
               "h-8 sm:h-9 px-2 sm:px-3.5 rounded-xl sm:rounded-2xl flex items-center gap-1 sm:gap-1.5 text-xs font-bold transition-all duration-300 shrink-0 cursor-pointer",
               isAdding
-                ? "bg-emerald-600 text-white"
-                : "bg-[#F8F5F0] hover:bg-[#13213c] text-[#1C1917] hover:text-white border border-[#E8E4DF] hover:border-[#13213c] hover:shadow-[0_4px_12px_rgba(19,33,60,0.25)]"
+                ? "bg-emerald-600 text-white shadow-xs"
+                : "bg-slate-100/80 hover:bg-[#13213c] text-slate-800 hover:text-white border border-slate-200 hover:border-[#13213c] hover:shadow-[0_4px_14px_rgba(19,33,60,0.22)]"
             )}
             aria-label="أضف للسلة"
           >

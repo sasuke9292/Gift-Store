@@ -142,7 +142,7 @@ export default function GiftFinderClient({ initialProducts: products }: { initia
   }
 
   return (
-    <div className="min-h-screen bg-[#FAFAF8] pt-4 pb-20">
+    <div className="min-h-screen bg-[#F8FAFC] pt-4 pb-20">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Page Header */}
@@ -150,8 +150,8 @@ export default function GiftFinderClient({ initialProducts: products }: { initia
           <motion.div
             initial={{ scale: 0, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
-            className="w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-[0_8px_30px_rgba(19, 33, 60,0.3)]"
-            style={{ background: 'linear-gradient(135deg, #22385e 0%, #13213c 100%)' }}
+            className="w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-[0_8px_30px_rgba(19,33,60,0.25)]"
+            style={{ background: 'linear-gradient(135deg, #13213c 0%, #0c1424 100%)' }}
           >
             <Sparkles className="w-10 h-10 text-white" />
           </motion.div>
@@ -159,7 +159,7 @@ export default function GiftFinderClient({ initialProducts: products }: { initia
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="text-4xl sm:text-5xl font-black text-[#1C1917] tracking-tight mb-4"
+            className="text-4xl sm:text-5xl font-black text-slate-900 tracking-tight mb-4"
           >
             مكتشف الهدايا الذكي
           </motion.h1>
@@ -167,14 +167,14 @@ export default function GiftFinderClient({ initialProducts: products }: { initia
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="text-[#78716C] text-lg max-w-md mx-auto leading-relaxed"
+            className="text-slate-500 text-lg max-w-md mx-auto leading-relaxed"
           >
             أجب عن 3 أسئلة بسيطة وسنقترح لك الهدايا المثالية التي تناسب ذوقك وميزانيتك.
           </motion.p>
         </div>
 
         {/* Main Card */}
-        <div className="bg-white rounded-3xl border border-[#E8E4DF] shadow-[0_4px_30px_rgba(0,0,0,0.07)] overflow-hidden">
+        <div className="bg-white rounded-3xl border border-slate-200/80 shadow-[0_8px_30px_rgba(15,23,42,0.06)] overflow-hidden">
           <AnimatePresence mode="wait">
 
             {/* ===== QUIZ STEPS ===== */}
@@ -200,8 +200,8 @@ export default function GiftFinderClient({ initialProducts: products }: { initia
                         style={{
                           width: idx === currentStep ? '40px' : '12px',
                           background: idx === currentStep
-                            ? 'linear-gradient(90deg, #22385e, #13213c)'
-                            : idx < currentStep ? '#13213c' : '#E8E4DF'
+                            ? 'linear-gradient(90deg, #13213c, #22385e)'
+                            : idx < currentStep ? '#13213c' : '#E2E8F0'
                         }}
                       />
                     ))}
@@ -209,7 +209,7 @@ export default function GiftFinderClient({ initialProducts: products }: { initia
                 </div>
 
                 {/* Question */}
-                <h2 className="text-2xl sm:text-3xl font-black text-[#1C1917] mb-8 text-center">
+                <h2 className="text-2xl sm:text-3xl font-black text-slate-900 mb-8 text-center">
                   {steps[currentStep].question}
                 </h2>
 
@@ -224,12 +224,12 @@ export default function GiftFinderClient({ initialProducts: products }: { initia
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
                       onClick={() => handleSelectOption(option.value)}
-                      className="p-5 rounded-2xl border-2 border-[#E8E4DF] hover:border-[#13213c]/50 hover:bg-[#F0F4F9] hover:shadow-[0_4px_16px_rgba(19, 33, 60,0.15)] transition-all duration-200 flex items-center gap-4 group text-start"
+                      className="p-5 rounded-2xl border-2 border-slate-200/80 hover:border-[#13213c] hover:bg-slate-50/80 hover:shadow-[0_4px_16px_rgba(19,33,60,0.08)] transition-all duration-200 flex items-center gap-4 group text-start cursor-pointer"
                     >
-                      <div className="w-14 h-14 rounded-xl bg-[#F5F0EA] group-hover:bg-[#F0E8DC] flex items-center justify-center text-3xl transition-colors shrink-0">
+                      <div className="w-14 h-14 rounded-xl bg-slate-100 group-hover:bg-blue-50/80 flex items-center justify-center text-3xl transition-colors shrink-0">
                         {option.icon}
                       </div>
-                      <span className="font-bold text-[#1C1917] group-hover:text-[#13213c] transition-colors">
+                      <span className="font-bold text-slate-800 group-hover:text-[#13213c] transition-colors">
                         {option.label}
                       </span>
                     </motion.button>
@@ -241,7 +241,7 @@ export default function GiftFinderClient({ initialProducts: products }: { initia
                   <div className="mt-8 flex justify-end">
                     <button
                       onClick={() => setCurrentStep(currentStep - 1)}
-                      className="flex items-center gap-2 text-sm font-semibold text-[#78716C] hover:text-[#13213c] transition-colors"
+                      className="flex items-center gap-2 text-sm font-semibold text-slate-500 hover:text-[#13213c] transition-colors cursor-pointer"
                     >
                       <ArrowLeft className="w-4 h-4" />
                       العودة للسؤال السابق
@@ -262,11 +262,11 @@ export default function GiftFinderClient({ initialProducts: products }: { initia
               >
                 {/* Results Header */}
                 <div className="text-center mb-8">
-                  <div className="inline-flex items-center gap-2 bg-[#F0F4F9] border border-[#13213c]/30 text-[#13213c] px-6 py-3 rounded-full mb-5 font-bold">
+                  <div className="inline-flex items-center gap-2 bg-blue-50/80 border border-blue-200/60 text-[#13213c] px-6 py-3 rounded-full mb-5 font-bold shadow-xs">
                     <Sparkles className="w-4 h-4 text-[#13213c]" />
                     وجدنا لك {recommendedProducts.length} هدايا مثالية!
                   </div>
-                  <h2 className="text-3xl font-black text-[#1C1917]">اقتراحاتنا الذكية لك ✨</h2>
+                  <h2 className="text-3xl font-black text-slate-900">اقتراحاتنا الذكية لك ✨</h2>
                 </div>
 
                 {/* Product Cards */}
@@ -277,10 +277,10 @@ export default function GiftFinderClient({ initialProducts: products }: { initia
                       initial={{ opacity: 0, y: 16 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: idx * 0.08 }}
-                      className="group bg-white rounded-2xl border border-[#E8E4DF] overflow-hidden hover:shadow-[0_8px_25px_rgba(0,0,0,0.09)] hover:-translate-y-1 hover:border-[#13213c]/30 transition-all duration-300"
+                      className="group bg-white rounded-2xl border border-slate-200/80 overflow-hidden hover:shadow-[0_8px_25px_rgba(15,23,42,0.08)] hover:-translate-y-1 hover:border-[#13213c]/30 transition-all duration-300"
                     >
                       <Link href={`/product/${product.id}`} className="block">
-                        <div className="relative aspect-[4/3] bg-[#F8F4EF] overflow-hidden">
+                        <div className="relative aspect-[4/3] bg-slate-50/80 overflow-hidden">
                           {product.images?.[0] ? (
                             <Image
                               src={product.images[0]}
@@ -295,7 +295,7 @@ export default function GiftFinderClient({ initialProducts: products }: { initia
                             </div>
                           )}
                           {product.isBestSeller && (
-                            <span className="absolute top-3 start-3 inline-flex items-center gap-1 bg-[#E85D75] text-white text-[11px] font-black px-2.5 py-1 rounded-full">
+                            <span className="absolute top-3 start-3 inline-flex items-center gap-1 bg-gradient-to-r from-amber-500 to-amber-600 text-white text-[11px] font-black px-2.5 py-1 rounded-full shadow-xs">
                               <Star className="w-2.5 h-2.5 fill-white" />
                               الأكثر مبيعاً
                             </span>
@@ -303,17 +303,17 @@ export default function GiftFinderClient({ initialProducts: products }: { initia
                         </div>
                         <div className="p-4">
                           <p className="text-[11px] font-bold text-[#13213c] uppercase tracking-widest mb-1">{product.category}</p>
-                          <h3 className="font-bold text-[#1C1917] text-sm line-clamp-2 mb-3 group-hover:text-[#13213c] transition-colors">
+                          <h3 className="font-bold text-slate-900 text-sm line-clamp-2 mb-3 group-hover:text-[#13213c] transition-colors">
                             {product.name}
                           </h3>
                           <div className="flex items-center justify-between">
-                            <span className="text-lg font-black text-gold">
+                            <span className="text-lg font-black text-amber-500">
                               {product.price.toLocaleString('en-US')}
-                              <span className="text-sm font-bold text-[#A8A29E] ms-1">د.ع</span>
+                              <span className="text-sm font-bold text-slate-400 ms-1">د.ع</span>
                             </span>
                             <button
-                              className="w-9 h-9 rounded-xl flex items-center justify-center text-white shadow-[0_2px_8px_rgba(19, 33, 60,0.3)] transition-all hover:-translate-y-0.5"
-                              style={{ background: 'linear-gradient(135deg, #22385e 0%, #13213c 100%)' }}
+                              className="w-9 h-9 rounded-xl flex items-center justify-center text-white shadow-md shadow-[#13213c]/20 transition-all hover:-translate-y-0.5 cursor-pointer"
+                              style={{ background: 'linear-gradient(135deg, #13213c 0%, #0c1424 100%)' }}
                               onClick={(e) => {
                                 e.preventDefault()
                                 e.stopPropagation()
@@ -339,18 +339,18 @@ export default function GiftFinderClient({ initialProducts: products }: { initia
                 </div>
 
                 {/* Actions */}
-                <div className="border-t border-[#E8E4DF] pt-6 flex flex-col sm:flex-row gap-3 justify-center">
+                <div className="border-t border-slate-200/80 pt-6 flex flex-col sm:flex-row gap-3 justify-center">
                   <button
                     onClick={resetQuiz}
-                    className="flex items-center justify-center gap-2 h-12 px-6 rounded-xl font-bold text-[#78716C] border border-[#E8E4DF] hover:bg-[#F5F0EA] transition-all"
+                    className="flex items-center justify-center gap-2 h-12 px-6 rounded-xl font-bold text-slate-600 border border-slate-200 hover:bg-slate-100 hover:text-slate-900 transition-all cursor-pointer"
                   >
                     <RotateCcw className="w-4 h-4" />
                     إعادة البحث
                   </button>
                   <Link
                     href="/shop"
-                    className="flex items-center justify-center gap-2 h-12 px-8 rounded-xl font-bold text-white transition-all hover:-translate-y-0.5 hover:shadow-[0_6px_20px_rgba(19, 33, 60,0.35)]"
-                    style={{ background: 'linear-gradient(135deg, #22385e 0%, #13213c 100%)' }}
+                    className="flex items-center justify-center gap-2 h-12 px-8 rounded-xl font-bold text-white transition-all hover:-translate-y-0.5 shadow-md shadow-[#13213c]/20 hover:shadow-lg hover:shadow-[#13213c]/30"
+                    style={{ background: 'linear-gradient(135deg, #13213c 0%, #0c1424 100%)' }}
                   >
                     تصفح كل الهدايا
                     <ArrowLeft className="w-4 h-4" />

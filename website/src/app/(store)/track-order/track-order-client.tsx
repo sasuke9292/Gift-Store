@@ -87,7 +87,7 @@ export function TrackOrderClient({ storePhone, storeName = 'گِفتي بلس', 
   const isCancelled = order?.status === 'CANCELLED'
 
   return (
-    <div className="min-h-screen bg-[#FAFAF8] pb-24 font-sans text-start" dir="rtl">
+    <div className="min-h-screen bg-[#F8FAFC] pb-24 font-sans text-start" dir="rtl">
       
       {/* Top Hero Section */}
       <section className="relative bg-[#0c1424] text-white py-20 px-4 overflow-hidden text-center">
@@ -107,20 +107,20 @@ export function TrackOrderClient({ storePhone, storeName = 'گِفتي بلس', 
           <div className="mt-8 max-w-xl mx-auto">
             <form onSubmit={handleSearch} className="relative flex flex-col sm:flex-row gap-2.5 p-2 bg-white/10 backdrop-blur-xl rounded-2xl border border-white/20 shadow-2xl">
               <div className="relative flex-1">
-                <Search className="w-5 h-5 text-[#13213c] absolute start-4 top-1/2 -translate-y-1/2" />
+                <Search className="w-5 h-5 text-slate-400 absolute start-4 top-1/2 -translate-y-1/2" />
                 <input
                   type="text"
                   placeholder="رقم الطلب (مثال: ORD-2026...) أو رقم الهاتف"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full h-12 ps-12 pe-4 rounded-xl bg-white text-[#1C1917] placeholder:text-[#A8A29E] text-sm font-semibold outline-none focus:ring-2 focus:ring-[#13213c]"
+                  className="w-full h-12 ps-12 pe-4 rounded-xl bg-white text-slate-900 placeholder:text-slate-400 text-sm font-semibold outline-none focus:ring-2 focus:ring-[#13213c]"
                 />
               </div>
               <button
                 type="submit"
                 disabled={isLoading || !searchQuery.trim()}
-                className="h-12 px-6 rounded-xl font-bold text-white text-sm transition-all hover:brightness-110 disabled:opacity-50 flex items-center justify-center gap-2 cursor-pointer shrink-0"
-                style={{ background: 'linear-gradient(135deg, #22385e 0%, #13213c 100%)' }}
+                className="h-12 px-6 rounded-xl font-bold text-white text-sm transition-all hover:brightness-110 disabled:opacity-50 flex items-center justify-center gap-2 cursor-pointer shrink-0 shadow-md"
+                style={{ background: 'linear-gradient(135deg, #13213c 0%, #0c1424 100%)' }}
               >
                 {isLoading ? (
                   <>
@@ -150,31 +150,31 @@ export function TrackOrderClient({ storePhone, storeName = 'گِفتي بلس', 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
-              className="bg-white rounded-3xl border border-[#E8E4DF] shadow-[0_4px_20px_rgba(0,0,0,0.04)] overflow-hidden mb-8"
+              className="bg-white rounded-3xl border border-slate-200/80 shadow-[0_8px_30px_rgba(15,23,42,0.06)] overflow-hidden mb-8"
             >
               {/* Order Header Summary */}
-              <div className="p-6 sm:p-8 border-b border-[#E8E4DF] bg-[#FAF7F2]">
+              <div className="p-6 sm:p-8 border-b border-slate-200/80 bg-slate-50/80">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                   <div>
                     <div className="flex items-center gap-2 mb-1">
-                      <span className="font-mono text-xs font-black bg-white px-3 py-1 rounded-lg border border-[#E8E4DF] text-[#1C1917]">
+                      <span className="font-mono text-xs font-black bg-white px-3 py-1 rounded-lg border border-slate-200 text-slate-800">
                         #{order.orderNumber}
                       </span>
-                      <span className="text-xs text-[#78716C] font-semibold">{order.date}</span>
+                      <span className="text-xs text-slate-500 font-semibold">{order.date}</span>
                     </div>
-                    <h3 className="text-xl font-black text-[#1C1917] mt-2">
+                    <h3 className="text-xl font-black text-slate-900 mt-2">
                       مرحباً {order.customerName} 👋
                     </h3>
-                    <p className="text-xs text-[#78716C] mt-0.5">
+                    <p className="text-xs text-slate-500 mt-0.5">
                       عنوان التوصيل: {order.province} {order.area ? `• ${order.area}` : ''}
                     </p>
                   </div>
 
-                  <div className="sm:text-end bg-white sm:bg-transparent p-3 sm:p-0 rounded-xl border sm:border-0 border-[#E8E4DF]">
-                    <span className="text-xs text-[#A8A29E] font-bold block">القيمة الإجمالية</span>
+                  <div className="sm:text-end bg-white sm:bg-transparent p-3 sm:p-0 rounded-xl border sm:border-0 border-slate-200">
+                    <span className="text-xs text-slate-400 font-bold block">القيمة الإجمالية</span>
                     <span className="text-2xl font-black text-[#13213c]">
                       {order.total.toLocaleString('en-US')}{' '}
-                      <span className="text-xs font-normal text-[#78716C]">د.ع</span>
+                      <span className="text-xs font-normal text-slate-500">د.ع</span>
                     </span>
                   </div>
                 </div>
@@ -192,10 +192,10 @@ export function TrackOrderClient({ storePhone, storeName = 'گِفتي بلس', 
                   </div>
                 ) : (
                   <div>
-                    <h4 className="text-xs font-bold text-[#A8A29E] uppercase tracking-wider mb-6">مراحل الشحنة والتوصيل</h4>
+                    <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-6">مراحل الشحنة والتوصيل</h4>
                     <div className="relative">
                       {/* Progress Line */}
-                      <div className="absolute top-5 start-5 end-5 h-1 bg-[#E8E4DF] -z-0 hidden sm:block">
+                      <div className="absolute top-5 start-5 end-5 h-1 bg-slate-200 -z-0 hidden sm:block">
                         <div 
                           className="h-full bg-[#13213c] transition-all duration-700 rounded-full"
                           style={{ width: `${(currentStep / (ORDER_STEPS.length - 1)) * 100}%` }}
@@ -212,10 +212,10 @@ export function TrackOrderClient({ storePhone, storeName = 'گِفتي بلس', 
                               <div 
                                 className={`w-10 h-10 rounded-2xl flex items-center justify-center shrink-0 font-black text-xs transition-all ${
                                   isDone 
-                                    ? 'bg-[#10B981] text-white shadow-sm'
+                                    ? 'bg-emerald-600 text-white shadow-sm'
                                     : isCurrent
                                       ? 'bg-[#13213c] text-white ring-4 ring-[#13213c]/20 shadow-md scale-105'
-                                      : 'bg-[#FAFAF8] text-[#A8A29E] border border-[#E8E4DF]'
+                                      : 'bg-slate-50 text-slate-400 border border-slate-200'
                                 }`}
                               >
                                 {isDone ? (
@@ -227,10 +227,10 @@ export function TrackOrderClient({ storePhone, storeName = 'گِفتي بلس', 
                                 )}
                               </div>
                               <div>
-                                <p className={`text-xs font-black ${isCurrent ? 'text-[#1C1917]' : isDone ? 'text-[#10B981]' : 'text-[#78716C]'}`}>
+                                <p className={`text-xs font-black ${isCurrent ? 'text-slate-900' : isDone ? 'text-emerald-600' : 'text-slate-500'}`}>
                                   {step.title}
                                 </p>
-                                <p className="text-[11px] text-[#A8A29E] hidden sm:block mt-1 leading-snug">
+                                <p className="text-[11px] text-slate-400 hidden sm:block mt-1 leading-snug">
                                   {step.desc}
                                 </p>
                               </div>
@@ -243,19 +243,19 @@ export function TrackOrderClient({ storePhone, storeName = 'گِفتي بلس', 
                 )}
 
                 {/* Items Summary Accordion */}
-                <div className="mt-8 pt-6 border-t border-[#F0ECE6]">
-                  <h4 className="text-xs font-bold text-[#A8A29E] uppercase tracking-wider mb-3">
+                <div className="mt-8 pt-6 border-t border-slate-200/80">
+                  <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">
                     محتويات الهدية ({order.itemsCount} منتج)
                   </h4>
-                  <div className="divide-y divide-[#F5F0EA] bg-[#FAFAF8] rounded-2xl p-4 border border-[#E8E4DF]/70">
+                  <div className="divide-y divide-slate-100 bg-slate-50/80 rounded-2xl p-4 border border-slate-200/80">
                     {order.items.map((item: any, i: number) => (
                       <div key={i} className="py-2.5 flex items-center justify-between text-xs">
                         <div className="flex items-center gap-2">
                           <ShoppingBag className="w-4 h-4 text-[#13213c]" />
-                          <span className="font-bold text-[#1C1917]">{item.name}</span>
-                          <span className="text-[#A8A29E]">× {item.quantity}</span>
+                          <span className="font-bold text-slate-900">{item.name}</span>
+                          <span className="text-slate-400">× {item.quantity}</span>
                         </div>
-                        <span className="font-black text-[#1C1917]">
+                        <span className="font-black text-slate-900">
                           {(item.price * item.quantity).toLocaleString('en-US')} د.ع
                         </span>
                       </div>
@@ -264,14 +264,14 @@ export function TrackOrderClient({ storePhone, storeName = 'گِفتي بلس', 
                 </div>
 
                 {/* Quick WhatsApp Support Action */}
-                <div className="mt-6 pt-6 border-t border-[#F0ECE6] flex flex-col sm:flex-row items-center justify-between gap-4">
-                  <p className="text-xs text-[#78716C]">هل لديك استفسار خاص حول هذا الطلب؟</p>
+                <div className="mt-6 pt-6 border-t border-slate-200/80 flex flex-col sm:flex-row items-center justify-between gap-4">
+                  <p className="text-xs text-slate-500">هل لديك استفسار خاص حول هذا الطلب؟</p>
                   <a
                     href={`https://wa.me/${cleanWa}?text=${encodeURIComponent(`السلام عليكم، بخصوص طلبي رقم ${order.orderNumber}:`)}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="w-full sm:w-auto h-11 px-5 rounded-xl font-bold text-white text-xs flex items-center justify-center gap-2 shadow-sm transition-all hover:opacity-90"
-                    style={{ background: 'linear-gradient(135deg, #25D366 0%, #128C7E 100%)' }}
+                    style={{ background: 'linear-gradient(135deg, #10B981 0%, #059669 100%)' }}
                   >
                     <MessageCircle className="w-4 h-4" />
                     <span>تحدث مع خدمة العملاء عبر WhatsApp</span>
@@ -288,19 +288,19 @@ export function TrackOrderClient({ storePhone, storeName = 'گِفتي بلس', 
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0 }}
-              className="bg-white rounded-3xl border border-red-200 p-8 text-center shadow-sm mb-8"
+              className="bg-white rounded-3xl border border-rose-200 p-8 text-center shadow-sm mb-8"
             >
               <div className="w-16 h-16 rounded-2xl bg-rose-50 flex items-center justify-center mx-auto mb-4 border border-rose-100">
                 <AlertCircle className="w-8 h-8 text-rose-500" />
               </div>
-              <h3 className="text-lg font-black text-[#1C1917] mb-2">{error}</h3>
-              <p className="text-xs text-[#78716C] max-w-md mx-auto mb-6 leading-relaxed">
+              <h3 className="text-lg font-black text-slate-900 mb-2">{error}</h3>
+              <p className="text-xs text-slate-500 max-w-md mx-auto mb-6 leading-relaxed">
                 تأكد من إدخال رقم الطلب بالصيغة الصحيحة (مثل: ORD-2026...) أو رقم الهاتف الذي استخدمته عند الشراء. يمكنك دائماً مراجعة خدمة العملاء وسيسعدهم مساعدتك فوراً.
               </p>
               <div className="flex flex-wrap items-center justify-center gap-3">
                 <a
                   href={`tel:${effectivePhone.replace(/\s+/g, '')}`}
-                  className="h-10 px-5 rounded-xl bg-[#FAFAF8] border border-[#E8E4DF] text-xs font-bold text-[#1C1917] hover:bg-[#F5F0EA] flex items-center gap-2"
+                  className="h-10 px-5 rounded-xl bg-slate-50 border border-slate-200 text-xs font-bold text-slate-800 hover:bg-slate-100 flex items-center gap-2"
                   dir="ltr"
                 >
                   <Phone className="w-3.5 h-3.5 text-[#13213c]" />
@@ -310,7 +310,7 @@ export function TrackOrderClient({ storePhone, storeName = 'گِفتي بلس', 
                   href={`https://wa.me/${cleanWa}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="h-10 px-5 rounded-xl bg-emerald-500 text-white text-xs font-bold hover:bg-emerald-600 flex items-center gap-2"
+                  className="h-10 px-5 rounded-xl bg-emerald-600 text-white text-xs font-bold hover:bg-emerald-700 flex items-center gap-2 shadow-xs"
                 >
                   <MessageCircle className="w-3.5 h-3.5" />
                   <span>دعم WhatsApp</span>
@@ -321,49 +321,49 @@ export function TrackOrderClient({ storePhone, storeName = 'گِفتي بلس', 
         </AnimatePresence>
 
         {/* How It Works Explainer Guide */}
-        <div className="bg-white rounded-3xl border border-[#E8E4DF] p-6 sm:p-8 shadow-[0_2px_12px_rgba(0,0,0,0.03)]">
-          <h3 className="text-base font-black text-[#1C1917] mb-4 flex items-center gap-2">
+        <div className="bg-white rounded-3xl border border-slate-200/80 p-6 sm:p-8 shadow-[0_4px_20px_rgba(15,23,42,0.04)]">
+          <h3 className="text-base font-black text-slate-900 mb-4 flex items-center gap-2">
             <Truck className="w-4 h-4 text-[#13213c]" />
             كيف تتم معالجة وتوصيل هديتك؟
           </h3>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="p-4 rounded-2xl bg-[#FAFAF8] border border-[#E8E4DF]">
-              <div className="w-8 h-8 rounded-xl bg-[#F0F4F9] flex items-center justify-center text-[#13213c] font-black text-xs mb-3">
+            <div className="p-4 rounded-2xl bg-slate-50/70 border border-slate-200/80">
+              <div className="w-8 h-8 rounded-xl bg-blue-50 border border-blue-100 flex items-center justify-center text-[#13213c] font-black text-xs mb-3">
                 1
               </div>
-              <h4 className="font-bold text-xs text-[#1C1917] mb-1">المراجعة والتأكيد</h4>
-              <p className="text-[11px] text-[#78716C] leading-relaxed">
+              <h4 className="font-bold text-xs text-slate-900 mb-1">المراجعة والتأكيد</h4>
+              <p className="text-[11px] text-slate-500 leading-relaxed">
                 يتم فحص تفاصيل الهدية والعنوان، ويصلك إشعار فوري عبر WhatsApp برقم الشحنة.
               </p>
             </div>
 
-            <div className="p-4 rounded-2xl bg-[#FAFAF8] border border-[#E8E4DF]">
-              <div className="w-8 h-8 rounded-xl bg-[#FDF2F4] flex items-center justify-center text-[#E85D75] font-black text-xs mb-3">
+            <div className="p-4 rounded-2xl bg-slate-50/70 border border-slate-200/80">
+              <div className="w-8 h-8 rounded-xl bg-rose-50 border border-rose-100 flex items-center justify-center text-rose-500 font-black text-xs mb-3">
                 2
               </div>
-              <h4 className="font-bold text-xs text-[#1C1917] mb-1">التغليف الملكي</h4>
-              <p className="text-[11px] text-[#78716C] leading-relaxed">
+              <h4 className="font-bold text-xs text-slate-900 mb-1">التغليف الملكي</h4>
+              <p className="text-[11px] text-slate-500 leading-relaxed">
                 تُغلف الهدية يدوياً بأشرطة حريرية مع طباعة رسالتك الشخصية على كارت مجاني أنيق.
               </p>
             </div>
 
-            <div className="p-4 rounded-2xl bg-[#FAFAF8] border border-[#E8E4DF]">
-              <div className="w-8 h-8 rounded-xl bg-[#F0FDF9] flex items-center justify-center text-[#10B981] font-black text-xs mb-3">
+            <div className="p-4 rounded-2xl bg-slate-50/70 border border-slate-200/80">
+              <div className="w-8 h-8 rounded-xl bg-emerald-50 border border-emerald-100 flex items-center justify-center text-emerald-600 font-black text-xs mb-3">
                 3
               </div>
-              <h4 className="font-bold text-xs text-[#1C1917] mb-1">الشحن والتسليم</h4>
-              <p className="text-[11px] text-[#78716C] leading-relaxed">
+              <h4 className="font-bold text-xs text-slate-900 mb-1">الشحن والتسليم</h4>
+              <p className="text-[11px] text-slate-500 leading-relaxed">
                 يصلك المندوب لباب بيتك خلال 24 - 48 ساعة في بغداد وكافة محافظات العراق.
               </p>
             </div>
           </div>
 
-          <div className="mt-6 pt-6 border-t border-[#F0ECE6] flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="mt-6 pt-6 border-t border-slate-200/80 flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-2">
               <Phone className="w-4 h-4 text-[#13213c]" />
-              <span className="text-xs text-[#78716C]">خدمة العملاء متوفرة يومياً:</span>
-              <a href={`tel:${effectivePhone.replace(/\s+/g, '')}`} className="text-xs font-bold text-[#1C1917] hover:text-[#13213c]" dir="ltr">
+              <span className="text-xs text-slate-500">خدمة العملاء متوفرة يومياً:</span>
+              <a href={`tel:${effectivePhone.replace(/\s+/g, '')}`} className="text-xs font-bold text-slate-900 hover:text-[#13213c]" dir="ltr">
                 {effectivePhone}
               </a>
             </div>

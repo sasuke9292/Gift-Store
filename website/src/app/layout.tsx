@@ -129,7 +129,7 @@ export default async function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body className="min-h-full flex flex-col antialiased text-stone-900 bg-[#FAFAF8] selection:bg-[#13213c]/20 selection:text-[#13213c]">
+      <body className="min-h-full flex flex-col antialiased text-slate-900 bg-[#F8FAFC] selection:bg-[#13213c]/15 selection:text-[#13213c]">
         {children}
         <Toaster position="top-center" richColors dir="rtl" />
       </body>

@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 
 export default function PrivacyPage() {
   return (
-    <div className="min-h-screen bg-[#FAFAF8] pb-20">
+    <div className="min-h-screen bg-[#F8FAFC] pb-20">
       <section className="relative bg-[#0c1424] text-white py-24 px-4 overflow-hidden">
         <div className="absolute top-0 end-0 w-96 h-96 bg-[#22385e]/25 rounded-full blur-[100px]" />
         <div className="max-w-4xl mx-auto text-center relative z-10">
@@ -21,7 +21,7 @@ export default function PrivacyPage() {
       </section>
 
       <div className="max-w-3xl mx-auto px-4 py-20">
-        <div className="bg-white rounded-3xl border border-[#E8E4DF] p-10 shadow-[0_2px_12px_rgba(0,0,0,0.05)] space-y-8">
+        <div className="bg-white rounded-3xl border border-slate-200/80 p-10 shadow-[0_4px_20px_rgba(15,23,42,0.04)] space-y-8">
           {[
             {
               title: 'المعلومات التي نجمعها',
@@ -53,11 +53,11 @@ export default function PrivacyPage() {
             },
           ].map((section) => (
             <div key={section.title}>
-              <h2 className="text-lg font-black text-[#1C1917] mb-3 flex items-center gap-2">
+              <h2 className="text-lg font-black text-slate-900 mb-3 flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-[#13213c] inline-block" />
                 {section.title}
               </h2>
-              <p className="text-[#78716C] leading-loose">{section.content}</p>
+              <p className="text-slate-500 leading-loose">{section.content}</p>
             </div>
           ))}
         </div>

@@ -15,25 +15,25 @@ export function FavoritesClient() {
   if (!mounted) return null
 
   return (
-    <div className="min-h-screen bg-[#FAFAF8] pt-4 pb-20">
+    <div className="min-h-screen bg-[#F8FAFC] pt-4 pb-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Page Header */}
         <div className="py-10">
           <div className="flex items-center gap-3 mb-2">
-            <div className="w-10 h-10 rounded-xl bg-[#FDF2F4] flex items-center justify-center">
-              <Heart className="w-5 h-5 text-[#E85D75]" />
+            <div className="w-10 h-10 rounded-xl bg-rose-50 border border-rose-100 flex items-center justify-center">
+              <Heart className="w-5 h-5 text-rose-500 fill-rose-500/20" />
             </div>
-            <h1 className="text-3xl font-black text-[#1C1917]">قائمة المفضلة</h1>
+            <h1 className="text-3xl font-black text-slate-900">قائمة المفضلة</h1>
             {favorites.length > 0 && (
-              <span className="bg-[#E85D75] text-white text-xs font-black px-2.5 py-1 rounded-full">
+              <span className="bg-rose-600 text-white text-xs font-black px-2.5 py-1 rounded-full shadow-xs">
                 {favorites.length}
               </span>
             )}
           </div>
           {favorites.length > 0 && (
-            <p className="text-[#78716C] ms-14">
-              لديك <span className="font-bold text-[#E85D75]">{favorites.length}</span> {favorites.length === 1 ? 'هدية مفضلة' : 'هدايا مفضلة'}
+            <p className="text-slate-500 ms-14 text-sm">
+              لديك <span className="font-bold text-rose-600">{favorites.length}</span> {favorites.length === 1 ? 'هدية مفضلة' : 'هدايا مفضلة'}
             </p>
           )}
         </div>
@@ -44,17 +44,17 @@ export function FavoritesClient() {
             animate={{ opacity: 1, y: 0 }}
             className="text-center py-24"
           >
-            <div className="w-24 h-24 rounded-full bg-[#FDF2F4] flex items-center justify-center mx-auto mb-6">
-              <Heart className="w-10 h-10 text-[#E85D75]/40" />
+            <div className="w-24 h-24 rounded-full bg-rose-50 border border-rose-100 flex items-center justify-center mx-auto mb-6 shadow-xs">
+              <Heart className="w-10 h-10 text-rose-300" />
             </div>
-            <h2 className="text-2xl font-black text-[#1C1917] mb-3">لا توجد مفضلات بعد</h2>
-            <p className="text-[#78716C] mb-8 max-w-sm mx-auto">
+            <h2 className="text-2xl font-black text-slate-900 mb-3">لا توجد مفضلات بعد</h2>
+            <p className="text-slate-500 mb-8 max-w-sm mx-auto text-sm">
               استكشف مجموعاتنا الرائعة وأضف الهدايا التي تعجبك إلى قائمتك المفضلة!
             </p>
             <Link
               href="/shop"
-              className="inline-flex items-center gap-2 h-12 px-8 rounded-xl font-bold text-white transition-all hover:-translate-y-0.5"
-              style={{ background: 'linear-gradient(135deg, #22385e 0%, #13213c 100%)' }}
+              className="inline-flex items-center gap-2 h-12 px-8 rounded-xl font-bold text-white transition-all duration-200 hover:-translate-y-0.5 shadow-md shadow-[#13213c]/20 hover:shadow-lg hover:shadow-[#13213c]/30"
+              style={{ background: 'linear-gradient(135deg, #13213c 0%, #0c1424 100%)' }}
             >
               استكشف المنتجات
               <ArrowLeft className="w-4 h-4" />

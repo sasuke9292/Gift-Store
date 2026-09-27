@@ -48,60 +48,60 @@
   --radius-4xl: calc(var(--radius) * 2.6);
 }
 
-/* ===== LIGHT THEME (DEFAULT) — Premium Gift Store ===== */
+/* ===== LIGHT THEME (DEFAULT) — Modern Luxury Royal Indigo Gift Store ===== */
 :root {
   /* Core surfaces */
-  --background: oklch(0.985 0.004 80);       /* Warm white #FAFAF8 */
-  --foreground: oklch(0.17 0.01 60);          /* Warm near-black #1C1917 */
+  --background: oklch(0.985 0.005 240);       /* Luminous Pearl Slate #F8FAFC */
+  --foreground: oklch(0.15 0.02 260);          /* Deep Midnight Slate #0F172A */
   
   /* Card & popover */
   --card: oklch(1 0 0);                       /* Pure white */
-  --card-foreground: oklch(0.17 0.01 60);
+  --card-foreground: oklch(0.15 0.02 260);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.17 0.01 60);
+  --popover-foreground: oklch(0.15 0.02 260);
   
   /* Primary — Royal Navy #13213c */
   --primary: oklch(0.251 0.055 262.4);       /* #13213c royal midnight navy */
   --primary-foreground: oklch(1 0 0);         /* White on primary */
   
   /* Secondary — Soft Ice / Cool Slate */
-  --secondary: oklch(0.96 0.01 260);          /* #EEF2F6 */
+  --secondary: oklch(0.96 0.01 240);          /* #F1F5F9 */
   --secondary-foreground: oklch(0.25 0.04 260);
   
   /* Muted */
-  --muted: oklch(0.96 0.008 260);
-  --muted-foreground: oklch(0.55 0.02 260);
+  --muted: oklch(0.96 0.01 240);              /* #F1F5F9 */
+  --muted-foreground: oklch(0.48 0.02 260);    /* Cool Slate 500 #64748B */
   
   /* Accent */
   --accent: oklch(0.95 0.015 260);
   --accent-foreground: oklch(0.25 0.04 260);
   
   /* Destructive */
-  --destructive: oklch(0.58 0.2 25);
+  --destructive: oklch(0.55 0.22 25);         /* Rose 600 */
   
   /* Borders & inputs */
-  --border: oklch(0.9 0.01 260);              /* #E2E8F0 soft cool border */
-  --input: oklch(0.92 0.01 260);
+  --border: oklch(0.91 0.01 240);              /* #E2E8F0 Crisp Slate Border */
+  --input: oklch(0.91 0.01 240);
   --ring: oklch(0.343 0.073 260.7);           /* Navy ring #22385e */
   
   /* Charts */
   --chart-1: oklch(0.251 0.055 262.4);       /* Navy */
   --chart-2: oklch(0.45 0.12 250);           /* Slate Blue */
-  --chart-3: oklch(0.55 0.18 160);           /* Green */
-  --chart-4: oklch(0.6 0.18 25);             /* Rose */
-  --chart-5: oklch(0.75 0.12 300);           /* Purple */
+  --chart-3: oklch(0.55 0.18 160);           /* Emerald Green */
+  --chart-4: oklch(0.6 0.18 25);             /* Vivid Rose */
+  --chart-5: oklch(0.75 0.12 85);            /* Warm Amber Gold */
   
   /* Border radius */
   --radius: 0.875rem;
   
-  /* Sidebar — light admin style */
-  --sidebar: oklch(0.985 0.004 80);
-  --sidebar-foreground: oklch(0.17 0.01 60);
+  /* Sidebar — modern light admin style */
+  --sidebar: oklch(0.985 0.005 240);
+  --sidebar-foreground: oklch(0.15 0.02 260);
   --sidebar-primary: oklch(0.251 0.055 262.4);
   --sidebar-primary-foreground: oklch(1 0 0);
   --sidebar-accent: oklch(0.95 0.015 260);
   --sidebar-accent-foreground: oklch(0.25 0.04 260);
-  --sidebar-border: oklch(0.9 0.01 260);
+  --sidebar-border: oklch(0.91 0.01 240);
   --sidebar-ring: oklch(0.343 0.073 260.7);
 }
 
@@ -193,16 +193,16 @@
     display: none;
   }
 
-  /* ===== LIGHT STORE UTILITIES ===== */
+  /* ===== MODERN LUXURY STORE UTILITIES ===== */
   
   /* Premium card with soft shadow */
   .card-premium {
-    @apply bg-white border border-[#E8E4DF] shadow-[0_1px_3px_rgba(0,0,0,0.06),0_8px_24px_rgba(0,0,0,0.04)] rounded-2xl;
+    @apply bg-white border border-slate-200/80 shadow-[0_1px_3px_rgba(0,0,0,0.04),0_8px_24px_rgba(19,33,60,0.05)] rounded-2xl;
   }
   
   /* Hover elevation */
   .card-hover {
-    @apply transition-all duration-300 hover:shadow-[0_8px_30px_rgba(0,0,0,0.1)] hover:-translate-y-1;
+    @apply transition-all duration-300 hover:shadow-[0_8px_30px_rgba(19,33,60,0.12)] hover:-translate-y-1 hover:border-slate-300;
   }
 
   /* Royal Navy gradient text */
@@ -210,9 +210,9 @@
     @apply text-transparent bg-clip-text bg-gradient-to-br from-[#13213c] via-[#22385e] to-[#3b5e94];
   }
   
-  /* Warm gradient background */
+  /* Modern clean slate gradient background */
   .bg-warm {
-    background: linear-gradient(135deg, #FAFAF8 0%, #F0F4F9 50%, #FAF7F2 100%);
+    background: linear-gradient(135deg, #F8FAFC 0%, #F1F5F9 50%, #FFFFFF 100%);
   }
   
   /* Premium royal navy button gradient */
@@ -228,27 +228,32 @@
   
   /* Subtle navy border */
   .border-gold {
-    @apply border border-[#13213c]/25;
+    @apply border border-[#13213c]/20;
   }
 
   /* Section divider */
   .section-divider {
-    @apply border-t border-[#E8E4DF];
+    @apply border-t border-slate-200/80;
   }
   
   /* Hero gradient overlay for category images */
   .img-overlay-bottom {
-    background: linear-gradient(to top, rgba(28,25,23,0.8) 0%, rgba(28,25,23,0.2) 50%, transparent 100%);
+    background: linear-gradient(to top, rgba(12,20,36,0.85) 0%, rgba(12,20,36,0.3) 50%, transparent 100%);
   }
   
   /* Badge sale */
   .badge-sale {
-    @apply bg-[#E85D75] text-white text-[11px] font-black px-2.5 py-1 rounded-full;
+    @apply bg-gradient-to-r from-rose-600 to-rose-500 text-white text-[11px] font-black px-2.5 py-1 rounded-full shadow-xs;
   }
   
   /* Badge new */
   .badge-new {
-    @apply bg-[#13213c] text-white text-[11px] font-black px-2.5 py-1 rounded-full;
+    @apply bg-[#13213c] text-white text-[11px] font-black px-2.5 py-1 rounded-full shadow-xs;
+  }
+
+  /* Badge gold */
+  .badge-gold {
+    @apply bg-gradient-to-r from-amber-500 to-amber-600 text-white text-[11px] font-black px-2.5 py-1 rounded-full shadow-xs;
   }
   
   /* ===== DARK ADMIN UTILITIES ===== */

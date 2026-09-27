@@ -287,7 +287,7 @@ export function StoreHeader({ user, topBarText, settings }: StoreHeaderProps) {
                       setSearchQuery('')
                       setSearchResults([])
                     }}
-                    className="absolute end-3 top-1/2 -translate-y-1/2 p-1 text-white/60 hover:text-white group-focus-within:text-stone-400 group-focus-within:hover:text-[#1C1917] rounded-full"
+                    className="absolute end-3 top-1/2 -translate-y-1/2 p-1 text-white/60 hover:text-white group-focus-within:text-slate-400 group-focus-within:hover:text-slate-900 rounded-full"
                     aria-label="مسح البحث"
                   >
                     <X className="w-3.5 h-3.5" />
@@ -434,7 +434,7 @@ export function StoreHeader({ user, topBarText, settings }: StoreHeaderProps) {
               >
                 <Heart className="w-5 h-5" />
                 {mounted && favCount > 0 && (
-                  <span className="absolute -top-1 -start-1 w-4 h-4 flex items-center justify-center text-[10px] font-black rounded-full bg-[#E85D75] text-white shadow-sm">
+                  <span className="absolute -top-1 -start-1 w-4 h-4 flex items-center justify-center text-[10px] font-black rounded-full bg-rose-500 text-white shadow-sm">
                     {favCount}
                   </span>
                 )}

@@ -194,11 +194,11 @@ export function WhatsAppOrderModal({
     <Dialog open={isOpen} onOpenChange={open => { if (!open) handleResetAndClose() }}>
       <DialogContent 
         showCloseButton={false}
-        className="max-w-lg w-full p-0 overflow-hidden rounded-3xl bg-white border border-[#E8E4DF] shadow-[0_20px_60px_rgba(0,0,0,0.15)] max-h-[94vh] flex flex-col font-sans"
+        className="max-w-lg w-full p-0 overflow-hidden rounded-3xl bg-white border border-slate-200/80 shadow-[0_20px_60px_rgba(15,23,42,0.12)] max-h-[94vh] flex flex-col font-sans"
         dir="rtl"
       >
         {/* Modal Header */}
-        <div className="bg-gradient-to-l from-[#1C1917] via-[#2A2624] to-[#1C1917] text-white p-5 shrink-0 relative overflow-hidden">
+        <div className="bg-gradient-to-l from-[#0c1424] via-[#13213c] to-[#0c1424] text-white p-5 shrink-0 relative overflow-hidden">
           <div className="absolute -top-10 -start-10 w-32 h-32 bg-[#25D366]/15 rounded-full blur-2xl pointer-events-none" />
 
           <div className="flex items-center justify-between relative z-10">
@@ -212,7 +212,7 @@ export function WhatsAppOrderModal({
                 <DialogTitle className="text-lg font-black text-white flex items-center gap-2">
                   إتمام الطلب السريع عبر WhatsApp
                 </DialogTitle>
-                <DialogDescription className="text-xs text-[#13213c] font-medium mt-0.5">
+                <DialogDescription className="text-xs text-blue-200/90 font-medium mt-0.5">
                   توصيل مباشر لباب بيتك • بدون حساب أو كلمة مرور
                 </DialogDescription>
               </div>
@@ -245,9 +245,9 @@ export function WhatsAppOrderModal({
                 className="space-y-5"
               >
                 {/* 1. Compact Order Preview Card */}
-                <div className="bg-[#FAF8F5] border border-[#E8E4DF] rounded-2xl p-3.5">
-                  <div className="flex items-center justify-between text-xs text-[#78716C] mb-2 pb-2 border-b border-[#E8E4DF]/60">
-                    <span className="font-bold flex items-center gap-1 text-[#1C1917]">
+                <div className="bg-slate-50 border border-slate-200/80 rounded-2xl p-3.5">
+                  <div className="flex items-center justify-between text-xs text-slate-500 mb-2 pb-2 border-b border-slate-200/80">
+                    <span className="font-bold flex items-center gap-1 text-slate-900">
                       <ShoppingBag className="w-3.5 h-3.5 text-[#13213c]" />
                       المنتجات ({cartItems.reduce((acc, i) => acc + i.quantity, 0)})
                     </span>
@@ -257,8 +257,8 @@ export function WhatsAppOrderModal({
                   </div>
 
                   <div className="flex items-center justify-between">
-                    <span className="text-xs font-bold text-[#78716C]">المجموع الكلي المطلوب:</span>
-                    <span className="text-lg font-black text-[#1C1917]">
+                    <span className="text-xs font-bold text-slate-500">المجموع الكلي المطلوب:</span>
+                    <span className="text-lg font-black text-slate-900">
                       {grandTotal.toLocaleString('en-US')}{' '}
                       <span className="text-xs font-bold text-[#13213c]">{shippingSettings.currency}</span>
                     </span>
@@ -267,13 +267,13 @@ export function WhatsAppOrderModal({
 
                 {/* 2. Phone Number (WhatsApp) */}
                 <div>
-                  <Label className="block text-xs font-bold text-[#1C1917] mb-1.5 flex items-center justify-between">
+                  <Label className="block text-xs font-bold text-slate-900 mb-1.5 flex items-center justify-between">
                     <span className="flex items-center gap-1.5">
-                      <Phone className="w-3.5 h-3.5 text-[#25D366]" />
+                      <Phone className="w-3.5 h-3.5 text-emerald-500" />
                       <span>رقم الهاتف (واتساب) للتوصيل</span>
-                      <span className="text-red-500">*</span>
+                      <span className="text-rose-500">*</span>
                     </span>
-                    <span className="text-[10px] text-[#78716C] font-normal">للتواصل وتأكيد موعد الاستلام</span>
+                    <span className="text-[10px] text-slate-500 font-normal">للتواصل وتأكيد موعد الاستلام</span>
                   </Label>
                   <div className="relative">
                     <Input
@@ -285,11 +285,11 @@ export function WhatsAppOrderModal({
                         setCustomerPhone(e.target.value)
                         if (errors.customerPhone) setErrors(prev => ({ ...prev, customerPhone: '' }))
                       }}
-                      className={`h-11 rounded-xl text-start font-mono bg-[#FAFAF8] border-[#E8E4DF] text-sm text-[#1C1917] placeholder:text-[#A8A29E] focus-visible:ring-[#25D366]/30 focus-visible:border-[#25D366] ${errors.customerPhone ? 'border-red-500 ring-2 ring-red-500/10' : ''}`}
+                      className={`h-11 rounded-xl text-start font-mono bg-slate-50 border-slate-200 text-sm text-slate-900 placeholder:text-slate-400 focus-visible:ring-emerald-500/30 focus-visible:border-emerald-500 ${errors.customerPhone ? 'border-rose-500 ring-2 ring-rose-500/10' : ''}`}
                     />
                   </div>
                   {errors.customerPhone && (
-                    <p className="text-[11px] text-red-500 font-semibold mt-1">
+                    <p className="text-[11px] text-rose-500 font-semibold mt-1">
                       {errors.customerPhone}
                     </p>
                   )}
@@ -297,11 +297,11 @@ export function WhatsAppOrderModal({
 
                 {/* 3. Governorate / Province */}
                 <div>
-                  <Label className="block text-xs font-bold text-[#1C1917] mb-1.5 flex items-center justify-between">
+                  <Label className="block text-xs font-bold text-slate-900 mb-1.5 flex items-center justify-between">
                     <span className="flex items-center gap-1.5">
                       <MapPin className="w-3.5 h-3.5 text-[#13213c]" />
                       <span>المحافظة</span>
-                      <span className="text-red-500">*</span>
+                      <span className="text-rose-500">*</span>
                     </span>
                     <span className="text-[10px] text-[#13213c] font-bold">
                       {province.includes('بغداد') 
@@ -313,7 +313,7 @@ export function WhatsAppOrderModal({
                     <select
                       value={province}
                       onChange={e => setProvince(e.target.value)}
-                      className="w-full h-11 px-3.5 pe-9 rounded-xl text-xs font-bold bg-[#FAFAF8] border border-[#E8E4DF] text-[#1C1917] focus:outline-none focus:border-[#13213c] focus:ring-2 focus:ring-[#13213c]/20 transition-all appearance-none cursor-pointer"
+                      className="w-full h-11 px-3.5 pe-9 rounded-xl text-xs font-bold bg-slate-50 border border-slate-200 text-slate-900 focus:outline-none focus:border-[#13213c] focus:ring-2 focus:ring-[#13213c]/20 transition-all appearance-none cursor-pointer"
                     >
                       {IRAQI_PROVINCES.map(prov => (
                         <option key={prov} value={prov}>
@@ -321,16 +321,16 @@ export function WhatsAppOrderModal({
                         </option>
                       ))}
                     </select>
-                    <ChevronDown className="w-4 h-4 text-[#78716C] absolute end-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                    <ChevronDown className="w-4 h-4 text-slate-500 absolute end-3 top-1/2 -translate-y-1/2 pointer-events-none" />
                   </div>
                 </div>
 
                 {/* 4. Area & Detailed Address */}
                 <div>
-                  <Label className="block text-xs font-bold text-[#1C1917] mb-1.5 flex items-center gap-1.5">
+                  <Label className="block text-xs font-bold text-slate-900 mb-1.5 flex items-center gap-1.5">
                     <Truck className="w-3.5 h-3.5 text-[#13213c]" />
                     <span>المنطقة وأقرب نقطة دالة</span>
-                    <span className="text-red-500">*</span>
+                    <span className="text-rose-500">*</span>
                   </Label>
                   <Input
                     type="text"
@@ -340,10 +340,10 @@ export function WhatsAppOrderModal({
                       setAddress(e.target.value)
                       if (errors.address) setErrors(prev => ({ ...prev, address: '' }))
                     }}
-                    className={`h-11 rounded-xl text-start bg-[#FAFAF8] border-[#E8E4DF] text-xs text-[#1C1917] placeholder:text-[#A8A29E] focus-visible:ring-[#13213c]/30 focus-visible:border-[#13213c] ${errors.address ? 'border-red-500 ring-2 ring-red-500/10' : ''}`}
+                    className={`h-11 rounded-xl text-start bg-slate-50 border-slate-200 text-xs text-slate-900 placeholder:text-slate-400 focus-visible:ring-[#13213c]/30 focus-visible:border-[#13213c] ${errors.address ? 'border-rose-500 ring-2 ring-rose-500/10' : ''}`}
                   />
                   {errors.address && (
-                    <p className="text-[11px] text-red-500 font-semibold mt-1">
+                    <p className="text-[11px] text-rose-500 font-semibold mt-1">
                       {errors.address}
                     </p>
                   )}
@@ -351,8 +351,8 @@ export function WhatsAppOrderModal({
 
                 {/* 5. Gift Card Note / Special Instructions */}
                 <div>
-                  <Label className="block text-xs font-bold text-[#1C1917] mb-1.5 flex items-center gap-1.5">
-                    <Gift className="w-3.5 h-3.5 text-[#E85D75]" />
+                  <Label className="block text-xs font-bold text-slate-900 mb-1.5 flex items-center gap-1.5">
+                    <Gift className="w-3.5 h-3.5 text-rose-500" />
                     <span>نص كارت الإهداء أو ملاحظات (اختياري)</span>
                   </Label>
                   <Textarea
@@ -360,7 +360,7 @@ export function WhatsAppOrderModal({
                     placeholder="اكتب هنا ما ترغب بطباعته على كارت الهدية الملكي المجاني..."
                     value={notes}
                     onChange={e => setNotes(e.target.value)}
-                    className="rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-xs resize-none placeholder:text-[#A8A29E] focus-visible:ring-[#13213c]/30 focus-visible:border-[#13213c]"
+                    className="rounded-xl bg-slate-50 border-slate-200 text-xs resize-none placeholder:text-slate-400 focus-visible:ring-[#13213c]/30 focus-visible:border-[#13213c]"
                   />
                 </div>
 
@@ -369,8 +369,8 @@ export function WhatsAppOrderModal({
                   <button
                     type="submit"
                     disabled={isPending}
-                    className="w-full h-13 py-3 rounded-2xl font-black text-white text-sm transition-all duration-200 hover:-translate-y-0.5 shadow-[0_6px_20px_rgba(37,211,102,0.35)] hover:shadow-[0_8px_25px_rgba(37,211,102,0.45)] disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2 cursor-pointer"
-                    style={{ background: 'linear-gradient(135deg, #25D366 0%, #128C7E 100%)' }}
+                    className="w-full h-13 py-3 rounded-2xl font-black text-white text-sm transition-all duration-200 hover:-translate-y-0.5 shadow-[0_6px_20px_rgba(16,185,129,0.3)] hover:shadow-[0_8px_25px_rgba(16,185,129,0.4)] disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2 cursor-pointer"
+                    style={{ background: 'linear-gradient(135deg, #10B981 0%, #059669 100%)' }}
                   >
                     {isPending ? (
                       <>
@@ -404,27 +404,27 @@ export function WhatsAppOrderModal({
                 </div>
 
                 <div>
-                  <h3 className="text-xl font-black text-[#1C1917] mb-1">
+                  <h3 className="text-xl font-black text-slate-900 mb-1">
                     تم تجهيز طلبك بنجاح!
                   </h3>
-                  <p className="text-xs text-[#78716C]">
-                    رقم الطلب الخاص بك: <span className="font-mono font-bold text-[#1C1917] select-all">{completedOrder?.orderNumber}</span>
+                  <p className="text-xs text-slate-500">
+                    رقم الطلب الخاص بك: <span className="font-mono font-bold text-slate-900 select-all">{completedOrder?.orderNumber}</span>
                   </p>
                 </div>
 
                 {completedOrder && (
-                  <div className="bg-[#FAF8F5] border border-[#E8E4DF] rounded-2xl p-4 text-xs space-y-2 max-w-sm mx-auto">
-                    <div className="flex justify-between text-[#78716C]">
+                  <div className="bg-slate-50 border border-slate-200/80 rounded-2xl p-4 text-xs space-y-2 max-w-sm mx-auto">
+                    <div className="flex justify-between text-slate-500">
                       <span>المجموع الفرعي:</span>
-                      <span>{completedOrder.subtotal.toLocaleString('en-US')} {shippingSettings.currency}</span>
+                      <span className="text-slate-900 font-semibold">{completedOrder.subtotal.toLocaleString('en-US')} {shippingSettings.currency}</span>
                     </div>
-                    <div className="flex justify-between text-[#78716C]">
+                    <div className="flex justify-between text-slate-500">
                       <span>أجور التوصيل:</span>
-                      <span>{completedOrder.shippingCost === 0 ? 'مجاني 🎁' : `${completedOrder.shippingCost.toLocaleString('en-US')} ${shippingSettings.currency}`}</span>
+                      <span>{completedOrder.shippingCost === 0 ? <strong className="text-emerald-600">مجاني 🎁</strong> : `${completedOrder.shippingCost.toLocaleString('en-US')} ${shippingSettings.currency}`}</span>
                     </div>
-                    <div className="flex justify-between font-black text-sm text-[#1C1917] pt-2 border-t border-[#E8E4DF]">
+                    <div className="flex justify-between font-black text-sm text-slate-900 pt-2 border-t border-slate-200/80">
                       <span>المجموع الكلي:</span>
-                      <span className="text-gold">{completedOrder.totalAmount.toLocaleString('en-US')} {shippingSettings.currency}</span>
+                      <span className="text-amber-500">{completedOrder.totalAmount.toLocaleString('en-US')} {shippingSettings.currency}</span>
                     </div>
                   </div>
                 )}
@@ -436,7 +436,7 @@ export function WhatsAppOrderModal({
                       target="_blank"
                       rel="noopener noreferrer"
                       className="w-full h-12 rounded-xl font-black text-white text-sm flex items-center justify-center gap-2 shadow-md transition-all hover:brightness-110 cursor-pointer"
-                      style={{ background: 'linear-gradient(135deg, #25D366 0%, #128C7E 100%)' }}
+                      style={{ background: 'linear-gradient(135deg, #10B981 0%, #059669 100%)' }}
                     >
                       <ExternalLink className="w-4 h-4" />
                       <span>فتح محادثة WhatsApp وإرسال الطلب</span>
@@ -446,7 +446,7 @@ export function WhatsAppOrderModal({
                   <Button
                     onClick={handleResetAndClose}
                     variant="outline"
-                    className="w-full h-11 rounded-xl border-[#E8E4DF] text-[#78716C] text-xs font-bold hover:bg-[#F5F0EA]"
+                    className="w-full h-11 rounded-xl border-slate-200 text-slate-600 text-xs font-bold hover:bg-slate-100 hover:text-slate-900"
                   >
                     إغلاق والعودة للتسوق
                   </Button>

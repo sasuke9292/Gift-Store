@@ -119,7 +119,7 @@ function CategoryCardItem({ cat }: { cat: Category }) {
   return (
     <Link
       href={`/category/${cat.slug}`}
-      className="group relative rounded-xl sm:rounded-3xl overflow-hidden aspect-[1/1] sm:aspect-[4/5] flex flex-col justify-end p-2.5 sm:p-4 border border-[#E8E4DF] bg-stone-100 hover:shadow-[0_12px_30px_rgba(19,33,60,0.12)] hover:-translate-y-1 transition-all duration-300"
+      className="group relative rounded-xl sm:rounded-3xl overflow-hidden aspect-[1/1] sm:aspect-[4/5] flex flex-col justify-end p-2.5 sm:p-4 border border-slate-200/80 bg-slate-100 hover:shadow-[0_12px_30px_rgba(19,33,60,0.12)] hover:-translate-y-1 transition-all duration-300"
     >
       <Image
         src={imgSrc}
@@ -366,7 +366,7 @@ export default function StoreHomeClient({
   const whatsappPhone = settings?.whatsappNumber || '9647700000000'
 
   return (
-    <div className="flex flex-col min-h-screen bg-[#FAFAF8] text-stone-900 overflow-x-hidden font-sans" dir="rtl">
+    <div className="flex flex-col min-h-screen bg-[#F8FAFC] text-slate-900 overflow-x-hidden font-sans" dir="rtl">
 
       {/* ========================================================================= */}
       {/* 1. ROYAL LUXURY HERO SECTION */}
@@ -407,7 +407,7 @@ export default function StoreHomeClient({
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.1 }}
-                className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-[1.2] text-[#1C1917] mb-3.5 sm:mb-6"
+                className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-[1.2] text-slate-900 mb-3.5 sm:mb-6"
               >
                 {(settings?.heroHeadline || heroHeadline) ? (
                   <span dangerouslySetInnerHTML={{ __html: (settings?.heroHeadline || heroHeadline).replace(/\n/g, '<br/>') }} />
@@ -427,7 +427,7 @@ export default function StoreHomeClient({
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.2 }}
-                className="text-xs sm:text-base lg:text-lg text-[#57534E] max-w-xl mb-6 sm:mb-8 leading-relaxed font-normal"
+                className="text-xs sm:text-base lg:text-lg text-slate-600 max-w-xl mb-6 sm:mb-8 leading-relaxed font-normal"
               >
                 {settings?.heroSubheadline || heroSubheadline || 'اكتشف تجربة إهداء استثنائية في العراق تجمع بين فخامة التصميم وأناقة التفاصيل، مع تغليف يدوي فاخر وبطاقة مخصصة تخلّد أجمل الذكريات.'}
               </motion.p>
@@ -452,7 +452,7 @@ export default function StoreHomeClient({
 
                 <Link
                   href={settings?.heroSecondaryBtnLink || '#gift-finder-section'}
-                  className="flex-1 sm:flex-initial flex items-center justify-center gap-2 h-12 sm:h-14 px-4 sm:px-7 rounded-xl sm:rounded-2xl font-extrabold text-[#1C1917] bg-white border border-[#E8E4DF] hover:border-[#13213c]/50 hover:bg-[#F0F4F9] text-xs sm:text-base transition-all hover:-translate-y-0.5 shadow-xs whitespace-nowrap"
+                  className="flex-1 sm:flex-initial flex items-center justify-center gap-2 h-12 sm:h-14 px-4 sm:px-7 rounded-xl sm:rounded-2xl font-extrabold text-slate-900 bg-white border border-slate-200 hover:border-[#13213c]/40 hover:bg-slate-50 text-xs sm:text-base transition-all hover:-translate-y-0.5 shadow-xs whitespace-nowrap"
                 >
                   <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#13213c]" />
                   <span>{settings?.heroSecondaryBtnText || 'مستشار الهدايا'}</span>
@@ -464,15 +464,15 @@ export default function StoreHomeClient({
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.35 }}
-                className="pt-5 sm:pt-6 border-t border-[#E8E4DF] w-full max-w-lg lg:max-w-xl"
+                className="pt-5 sm:pt-6 border-t border-slate-200/80 w-full max-w-lg lg:max-w-xl"
               >
-                <div className="grid grid-cols-3 divide-x divide-x-reverse divide-[#E8E4DF]">
+                <div className="grid grid-cols-3 divide-x divide-x-reverse divide-slate-200/80">
                   {/* Stat 1 */}
                   <div className="flex flex-col items-center justify-center text-center px-1 sm:px-4">
                     <p className="text-xl sm:text-3xl font-black text-[#13213c] tracking-tight" dir="ltr">
                       {settings?.stat1Value || '+15K'}
                     </p>
-                    <p className="text-[10px] sm:text-xs text-[#78716C] font-bold mt-1 text-center">
+                    <p className="text-[10px] sm:text-xs text-slate-500 font-bold mt-1 text-center">
                       {settings?.stat1Label || 'عميل يثق بنا'}
                     </p>
                   </div>
@@ -483,9 +483,9 @@ export default function StoreHomeClient({
                       <span dir="ltr" className="tabular-nums">
                         {(settings?.stat2Value || '4.9').replace(/[★⭐*]/g, '').trim() || '4.9'}
                       </span>
-                      <Star className="w-3.5 h-3.5 sm:w-5 sm:h-5 fill-[#13213c] text-[#13213c] shrink-0" />
+                      <Star className="w-3.5 h-3.5 sm:w-5 sm:h-5 fill-amber-400 text-amber-400 shrink-0" />
                     </div>
-                    <p className="text-[10px] sm:text-xs text-[#78716C] font-bold mt-1 text-center">
+                    <p className="text-[10px] sm:text-xs text-slate-500 font-bold mt-1 text-center">
                       {settings?.stat2Label || 'تقييم العملاء'}
                     </p>
                   </div>
@@ -495,7 +495,7 @@ export default function StoreHomeClient({
                     <p className="text-xl sm:text-3xl font-black text-[#13213c] tracking-tight" dir="ltr">
                       {settings?.stat3Value || '100%'}
                     </p>
-                    <p className="text-[10px] sm:text-xs text-[#78716C] font-bold mt-1 text-center">
+                    <p className="text-[10px] sm:text-xs text-slate-500 font-bold mt-1 text-center">
                       {settings?.stat3Label || 'تغليف ملكي مجاني'}
                     </p>
                   </div>
@@ -511,7 +511,7 @@ export default function StoreHomeClient({
                 <div 
                   onMouseEnter={() => setIsHovered(true)}
                   onMouseLeave={() => setIsHovered(false)}
-                  className="relative aspect-[16/11] sm:aspect-[1/1] lg:aspect-[4/5] rounded-2xl sm:rounded-3xl overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.12)] border border-[#E8E4DF] bg-stone-100 group select-none"
+                  className="relative aspect-[16/11] sm:aspect-[1/1] lg:aspect-[4/5] rounded-2xl sm:rounded-3xl overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.12)] border border-slate-200/80 bg-slate-100 group select-none"
                 >
                   <AnimatePresence mode="wait">
                     <motion.div
@@ -585,14 +585,14 @@ export default function StoreHomeClient({
                 <motion.div
                   animate={{ y: [0, -6, 0] }}
                   transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-                  className="hidden sm:flex items-center gap-3 absolute -top-5 start-2 sm:-start-5 bg-white/95 backdrop-blur-xl rounded-2xl p-3 sm:p-3.5 shadow-[0_12px_30px_rgba(0,0,0,0.12)] border border-[#E8E4DF] z-20 pointer-events-none"
+                  className="hidden sm:flex items-center gap-3 absolute -top-5 start-2 sm:-start-5 bg-white/95 backdrop-blur-xl rounded-2xl p-3 sm:p-3.5 shadow-[0_12px_30px_rgba(0,0,0,0.12)] border border-slate-200/80 z-20 pointer-events-none"
                 >
                   <div className="w-10 h-10 rounded-xl bg-[#F0F4F9] flex items-center justify-center shrink-0">
                     <Award className="w-5 h-5 text-[#13213c]" />
                   </div>
                   <div className="text-start">
-                    <p className="text-[11px] text-[#A8A29E] font-bold">{settings?.heroBadgeTopSmall || 'جودة أصلية ومضمونة'}</p>
-                    <p className="text-xs font-black text-[#1C1917]">{settings?.heroBadgeTopBold || 'ضمان استبدال واسترجاع'}</p>
+                    <p className="text-[11px] text-slate-400 font-bold">{settings?.heroBadgeTopSmall || 'جودة أصلية ومضمونة'}</p>
+                    <p className="text-xs font-black text-slate-900">{settings?.heroBadgeTopBold || 'ضمان استبدال واسترجاع'}</p>
                   </div>
                 </motion.div>
 
@@ -600,14 +600,14 @@ export default function StoreHomeClient({
                 <motion.div
                   animate={{ y: [0, 6, 0] }}
                   transition={{ duration: 3.5, repeat: Infinity, ease: 'easeInOut', delay: 0.5 }}
-                  className="hidden sm:flex items-center gap-3 absolute -bottom-5 end-2 sm:-end-5 bg-white/95 backdrop-blur-xl rounded-2xl p-3 sm:p-3.5 shadow-[0_12px_30px_rgba(0,0,0,0.12)] border border-[#E8E4DF] z-20 pointer-events-none"
+                  className="hidden sm:flex items-center gap-3 absolute -bottom-5 end-2 sm:-end-5 bg-white/95 backdrop-blur-xl rounded-2xl p-3 sm:p-3.5 shadow-[0_12px_30px_rgba(0,0,0,0.12)] border border-slate-200/80 z-20 pointer-events-none"
                 >
                   <div className="w-10 h-10 rounded-xl bg-[#F0F4F9] flex items-center justify-center shrink-0">
                     <Gift className="w-5 h-5 text-[#13213c]" />
                   </div>
                   <div className="text-start">
-                    <p className="text-[11px] text-[#A8A29E] font-bold">{settings?.heroBadgeBottomSmall || 'خدمة استثنائية'}</p>
-                    <p className="text-xs font-black text-[#1C1917]">{settings?.heroBadgeBottomBold || 'تغليف مجاني مع كل طلب'}</p>
+                    <p className="text-[11px] text-slate-400 font-bold">{settings?.heroBadgeBottomSmall || 'خدمة استثنائية'}</p>
+                    <p className="text-xs font-black text-slate-900">{settings?.heroBadgeBottomBold || 'تغليف مجاني مع كل طلب'}</p>
                   </div>
                 </motion.div>
 
@@ -616,8 +616,8 @@ export default function StoreHomeClient({
                   {/* Slide Numeric Counter */}
                   <div className="flex items-center gap-1 text-[11px] sm:text-xs font-black text-[#13213c] tabular-nums" dir="ltr">
                     <span>{String(safeSlideIndex + 1).padStart(2, '0')}</span>
-                    <span className="text-[#A8A29E] font-normal">/</span>
-                    <span className="text-[#78716C] font-semibold">{String(activeShowcaseSlides.length).padStart(2, '0')}</span>
+                    <span className="text-slate-400 font-normal">/</span>
+                    <span className="text-slate-500 font-semibold">{String(activeShowcaseSlides.length).padStart(2, '0')}</span>
                   </div>
 
                   {/* Switcher Pills */}
@@ -630,7 +630,7 @@ export default function StoreHomeClient({
                           "h-1.5 sm:h-2 rounded-full transition-all duration-300 cursor-pointer",
                           safeSlideIndex === idx 
                             ? "w-6 sm:w-8 bg-[#13213c] shadow-xs" 
-                            : "w-2 sm:w-2.5 bg-[#E8E4DF] hover:bg-[#A8A29E]"
+                            : "w-2 sm:w-2.5 bg-slate-200 hover:bg-slate-400"
                         )}
                         aria-label={`انتقال إلى الشريحة ${idx + 1}`}
                       />
@@ -638,7 +638,7 @@ export default function StoreHomeClient({
                   </div>
 
                   {/* Hint */}
-                  <span className="text-[10px] text-[#A8A29E] font-bold hidden sm:inline-block">
+                  <span className="text-[10px] text-slate-400 font-bold hidden sm:inline-block">
                     {isHovered ? 'موقوف مؤقتاً' : 'تفاعلي تلقائي'}
                   </span>
                 </div>
@@ -652,7 +652,7 @@ export default function StoreHomeClient({
       {/* ========================================================================= */}
       {/* 2. REFINED LUXURY TRUST & VALUE RIBBON (Spacious & Centered on Mobile) */}
       {/* ========================================================================= */}
-      <section className="py-6 sm:py-10 bg-white border-y border-[#E8E4DF]">
+      <section className="py-6 sm:py-10 bg-white border-y border-slate-200/80">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
             {trustPillars.map((feature, idx) => {
@@ -660,7 +660,7 @@ export default function StoreHomeClient({
               return (
                 <div
                   key={idx}
-                  className="flex flex-col items-center text-center lg:flex-row lg:items-center lg:text-start gap-2.5 sm:gap-3.5 lg:gap-4 p-3.5 sm:p-5 rounded-2xl bg-[#FAFAF8] border border-[#E8E4DF] hover:border-[#13213c]/30 hover:bg-white hover:shadow-sm transition-all duration-200 group h-full justify-center"
+                  className="flex flex-col items-center text-center lg:flex-row lg:items-center lg:text-start gap-2.5 sm:gap-3.5 lg:gap-4 p-3.5 sm:p-5 rounded-2xl bg-slate-50/70 border border-slate-200/80 hover:border-[#13213c]/30 hover:bg-white hover:shadow-xs transition-all duration-200 group h-full justify-center"
                 >
                   <div
                     className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center shrink-0 mb-1 lg:mb-0 transition-transform group-hover:scale-105 shadow-2xs"
@@ -670,13 +670,13 @@ export default function StoreHomeClient({
                   </div>
                   <div className="min-w-0 flex-1 flex flex-col items-center lg:items-start">
                     <h3 className={cn(
-                      "font-black text-[#1C1917] leading-snug",
+                      "font-black text-slate-900 leading-snug",
                       hasDesc ? "text-xs sm:text-sm mb-1" : "text-xs sm:text-base font-black"
                     )}>
                       {feature.title}
                     </h3>
                     {hasDesc && (
-                      <p className="text-[10px] sm:text-xs text-[#78716C] leading-relaxed line-clamp-2 max-w-[200px] lg:max-w-none">
+                      <p className="text-[10px] sm:text-xs text-slate-600 leading-relaxed line-clamp-2 max-w-[200px] lg:max-w-none">
                         {feature.desc}
                       </p>
                     )}
@@ -692,7 +692,7 @@ export default function StoreHomeClient({
       {/* 3. CURATED CATEGORIES SHOWCASE GRID (Moved up for seamless shopping flow) */}
       {/* ========================================================================= */}
       {categories.length > 0 && (
-        <section className="py-10 sm:py-16 bg-[#FAFAF8]">
+        <section className="py-10 sm:py-16 bg-[#F8FAFC]">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             
             {/* Header */}
@@ -702,13 +702,13 @@ export default function StoreHomeClient({
                   <Package className="w-3.5 h-3.5 text-[#13213c]" />
                   <span>{settings?.categoriesSectionBadge || 'كتالوج التشكيلات الراقية'}</span>
                 </p>
-                <h2 className="text-xl sm:text-3xl lg:text-4xl font-black text-[#1C1917] tracking-tight">
+                <h2 className="text-xl sm:text-3xl lg:text-4xl font-black text-slate-900 tracking-tight">
                   {settings?.categoriesSectionTitle || 'تصفح الهدايا حسب الأقسام'}
                 </h2>
               </div>
               <Link
                 href="/shop"
-                className="inline-flex items-center justify-center sm:justify-start gap-1.5 text-xs sm:text-sm font-bold text-[#13213c] hover:text-[#1C1917] transition-colors self-center sm:self-auto"
+                className="inline-flex items-center justify-center sm:justify-start gap-1.5 text-xs sm:text-sm font-bold text-[#13213c] hover:text-slate-900 transition-colors self-center sm:self-auto"
               >
                 <span>جميع الأقسام</span>
                 <ArrowLeft className="w-3.5 h-3.5" />
@@ -729,7 +729,7 @@ export default function StoreHomeClient({
       {/* 4. SHOP BY RECIPIENT & OCCASION (هدايا مختارة بعناية لمن تحب) */}
       {/* ========================================================================= */}
       {settings?.enablePersonasSection !== false && (
-        <section className="py-10 sm:py-16 bg-white border-t border-[#E8E4DF]">
+        <section className="py-10 sm:py-16 bg-white border-t border-slate-200/80">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             
             <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-3 sm:gap-4 mb-6 sm:mb-8 text-center lg:text-start">
@@ -738,11 +738,11 @@ export default function StoreHomeClient({
                   <Sparkles className="w-3.5 h-3.5 text-[#13213c]" />
                   <span>{settings?.personaSectionBadge || 'دليل الإهداء الذكي'}</span>
                 </p>
-                <h2 className="text-xl sm:text-3xl lg:text-4xl font-black text-[#1C1917] tracking-tight">
+                <h2 className="text-xl sm:text-3xl lg:text-4xl font-black text-slate-900 tracking-tight">
                   {settings?.personaSectionTitle || 'هدايا مختارة بعناية لمن تحب'}
                 </h2>
               </div>
-              <p className="text-xs sm:text-sm text-[#78716C] max-w-md mx-auto lg:mx-0 leading-relaxed">
+              <p className="text-xs sm:text-sm text-slate-600 max-w-md mx-auto lg:mx-0 leading-relaxed">
                 {settings?.personaSectionDesc || 'اختر الشخص أو المناسبة لتشاهد مجموعات منتقاة يدوياً بعناية ومغلفة بأعلى درجات الفخامة.'}
               </p>
             </div>
@@ -752,7 +752,7 @@ export default function StoreHomeClient({
                 <Link
                   key={persona.id}
                   href={persona.link}
-                  className="group relative rounded-2xl sm:rounded-3xl overflow-hidden aspect-[3/4] sm:aspect-[4/5] flex flex-col justify-end p-3.5 sm:p-6 border border-[#E8E4DF] bg-stone-100 shadow-2xs hover:shadow-[0_16px_40px_rgba(19,33,60,0.14)] hover:-translate-y-1.5 transition-all duration-300"
+                  className="group relative rounded-2xl sm:rounded-3xl overflow-hidden aspect-[3/4] sm:aspect-[4/5] flex flex-col justify-end p-3.5 sm:p-6 border border-slate-200/80 bg-slate-100 shadow-2xs hover:shadow-[0_16px_40px_rgba(19,33,60,0.14)] hover:-translate-y-1.5 transition-all duration-300"
                 >
                   <Image
                     src={persona.image}
@@ -796,7 +796,7 @@ export default function StoreHomeClient({
       {/* 5. CURATED PRODUCTS SHOWCASE (FILTER TABS & ELEVATED GRID) */}
       {/* ========================================================================= */}
       {topProducts.length > 0 && (
-        <section className="py-10 sm:py-16 bg-[#FAFAF8] border-t border-[#E8E4DF]">
+        <section className="py-10 sm:py-16 bg-[#F8FAFC] border-t border-slate-200/80">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             
             {/* Header & Filter Tabs */}
@@ -806,13 +806,13 @@ export default function StoreHomeClient({
                   <Flame className="w-3.5 h-3.5 text-[#13213c]" />
                   <span>{settings?.productsSectionBadge || 'مختارات استثنائية للإهداء'}</span>
                 </p>
-                <h2 className="text-xl sm:text-3xl lg:text-4xl font-black text-[#1C1917] tracking-tight">
+                <h2 className="text-xl sm:text-3xl lg:text-4xl font-black text-slate-900 tracking-tight">
                   {settings?.productsSectionTitle || 'المنتجات الأكثر رواجاً وإهداءً'}
                 </h2>
               </div>
 
               {/* Filter Tabs (Centered on mobile, start on desktop) */}
-              <div className="flex items-center justify-center gap-1 sm:gap-1.5 bg-white p-1 sm:p-1.5 rounded-xl sm:rounded-2xl border border-[#E8E4DF] overflow-x-auto no-scrollbar mx-auto md:mx-0 shadow-2xs max-w-full">
+              <div className="flex items-center justify-center gap-1 sm:gap-1.5 bg-white p-1 sm:p-1.5 rounded-xl sm:rounded-2xl border border-slate-200/80 overflow-x-auto no-scrollbar mx-auto md:mx-0 shadow-2xs max-w-full">
                 {[
                   { id: 'all', label: 'الكل' },
                   { id: 'best', label: '🔥 الأكثر طلباً' },
@@ -826,7 +826,7 @@ export default function StoreHomeClient({
                       "px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg sm:rounded-xl text-[11px] sm:text-xs font-bold transition-all shrink-0 cursor-pointer",
                       activeProductTab === tab.id
                         ? "bg-[#13213c] text-white shadow-xs font-extrabold"
-                        : "text-[#78716C] hover:text-[#1C1917] hover:bg-[#FAFAF8]"
+                        : "text-slate-600 hover:text-slate-900 hover:bg-slate-100"
                     )}
                   >
                     {tab.label}
@@ -848,7 +848,7 @@ export default function StoreHomeClient({
             <div className="mt-8 sm:mt-12 text-center">
               <Link
                 href="/shop"
-                className="inline-flex items-center gap-2 h-11 sm:h-12 px-6 sm:px-8 rounded-xl sm:rounded-2xl bg-white hover:bg-[#F0F4F9] border border-[#E8E4DF] hover:border-[#13213c]/40 text-xs font-bold text-[#1C1917] transition-all hover:-translate-y-0.5 shadow-2xs"
+                className="inline-flex items-center gap-2 h-11 sm:h-12 px-6 sm:px-8 rounded-xl sm:rounded-2xl bg-white hover:bg-slate-50 border border-slate-200 hover:border-[#13213c]/40 text-xs font-bold text-slate-800 transition-all hover:-translate-y-0.5 shadow-2xs"
               >
                 <span>استكشف جميع منتجات المتجر</span>
                 <ArrowLeft className="w-4 h-4 text-[#13213c]" />
@@ -960,15 +960,15 @@ export default function StoreHomeClient({
       {/* ========================================================================= */}
       {/* 7. REAL SOCIAL PROOF / TESTIMONIALS */}
       {/* ========================================================================= */}
-      <section className="py-10 sm:py-16 bg-white border-t border-[#E8E4DF]">
+      <section className="py-10 sm:py-16 bg-white border-t border-slate-200/80">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
           <div className="text-center max-w-2xl mx-auto mb-8 sm:mb-12">
             <p className="text-[11px] sm:text-xs font-black text-[#13213c] uppercase tracking-widest mb-1.5 flex items-center justify-center gap-1.5">
-              <Heart className="w-3.5 h-3.5 text-[#13213c] fill-[#13213c]" />
+              <Heart className="w-3.5 h-3.5 text-rose-500 fill-rose-500" />
               <span>آراء وتجارب حقيقية</span>
             </p>
-            <h2 className="text-xl sm:text-3xl lg:text-4xl font-black text-[#1C1917] tracking-tight">
+            <h2 className="text-xl sm:text-3xl lg:text-4xl font-black text-slate-900 tracking-tight">
               تجارب استثنائية شاركنا بها أحباؤنا
             </h2>
           </div>
@@ -977,25 +977,25 @@ export default function StoreHomeClient({
             {testimonials.map((t) => (
               <div
                 key={t.id}
-                className="p-5 sm:p-6 rounded-2xl sm:rounded-3xl bg-[#FAFAF8] border border-[#E8E4DF] hover:border-[#13213c]/30 hover:shadow-[0_8px_30px_rgba(19,33,60,0.06)] transition-all text-start flex flex-col"
+                className="p-5 sm:p-6 rounded-2xl sm:rounded-3xl bg-white border border-slate-200/80 hover:border-[#13213c]/30 hover:shadow-[0_8px_30px_rgba(19,33,60,0.06)] transition-all text-start flex flex-col"
               >
                 {/* Stars */}
-                <div className="flex items-center gap-1 text-[#13213c] mb-3">
+                <div className="flex items-center gap-1 text-amber-400 mb-3">
                   {[...Array(t.rating)].map((_, i) => (
-                    <Star key={i} className="w-3.5 h-3.5 sm:w-4 sm:h-4 fill-[#13213c]" />
+                    <Star key={i} className="w-3.5 h-3.5 sm:w-4 sm:h-4 fill-amber-400 text-amber-400" />
                   ))}
                 </div>
 
-                <p className="text-xs sm:text-sm text-[#44403C] leading-relaxed mb-4 sm:mb-6 flex-1 italic">
+                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed mb-4 sm:mb-6 flex-1 italic">
                   &ldquo;{t.text}&rdquo;
                 </p>
 
-                <div className="pt-3.5 sm:pt-4 border-t border-[#F0ECE6] flex items-center justify-between">
+                <div className="pt-3.5 sm:pt-4 border-t border-slate-100 flex items-center justify-between">
                   <div>
-                    <p className="text-xs font-black text-[#1C1917]">{t.name}</p>
-                    <p className="text-[10px] sm:text-[11px] text-[#A8A29E]">{t.city}</p>
+                    <p className="text-xs font-black text-slate-900">{t.name}</p>
+                    <p className="text-[10px] sm:text-[11px] text-slate-400">{t.city}</p>
                   </div>
-                  <span className="text-[10px] font-bold px-2.5 py-1 rounded-full bg-[#F0F4F9] text-[#13213c] border border-[#13213c]/20">
+                  <span className="text-[10px] font-bold px-2.5 py-1 rounded-full bg-slate-100 text-[#13213c] border border-slate-200">
                     {t.gift}
                   </span>
                 </div>
@@ -1010,9 +1010,9 @@ export default function StoreHomeClient({
       {/* 8. VIP GIFT CONCIERGE & CUSTOM ASSISTANCE BANNER */}
       {/* ========================================================================= */}
       {settings?.showConcierge !== false && (
-        <section className="py-10 sm:py-14 bg-[#F0F4F9] border-t border-[#E8E4DF]">
+        <section className="py-10 sm:py-14 bg-slate-100/70 border-t border-slate-200/80">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="bg-white rounded-2xl sm:rounded-3xl p-6 sm:p-10 border border-[#E8E4DF] flex flex-col md:flex-row items-center justify-between gap-5 sm:gap-6 shadow-xs text-center md:text-start">
+            <div className="bg-white rounded-2xl sm:rounded-3xl p-6 sm:p-10 border border-slate-200/80 flex flex-col md:flex-row items-center justify-between gap-5 sm:gap-6 shadow-xs text-center md:text-start">
               <div className="flex flex-col md:flex-row items-center gap-4 text-center md:text-start w-full md:w-auto">
                 <div 
                   className="w-13 h-13 sm:w-14 sm:h-14 rounded-2xl flex items-center justify-center text-white shrink-0 shadow-sm"
@@ -1021,10 +1021,10 @@ export default function StoreHomeClient({
                   <MessageCircle className="w-6 h-6 sm:w-7 sm:h-7 text-white" />
                 </div>
                 <div>
-                  <h3 className="text-base sm:text-xl font-black text-[#1C1917]">
+                  <h3 className="text-base sm:text-xl font-black text-slate-900">
                     {settings?.conciergeTitle || 'هل تبحث عن تنسيق هدية خاصة أو بوكس بمواصفات محددة؟'}
                   </h3>
-                  <p className="text-xs sm:text-sm text-[#78716C] mt-1 leading-relaxed max-w-xl mx-auto md:mx-0">
+                  <p className="text-xs sm:text-sm text-slate-600 mt-1 leading-relaxed max-w-xl mx-auto md:mx-0">
                     {settings?.conciergeDesc || 'فريقنا المتخصص في تنسيق الهدايا جاهز لمساعدتك عبر واتساب في اختيار القطع، كتابة بطاقة الإهداء، واختيار ألوان التغليف المناسبة.'}
                   </p>
                 </div>
