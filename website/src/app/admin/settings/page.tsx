@@ -99,14 +99,14 @@ export default async function AdminSettingsPage() {
     copyrightText: settings?.copyrightText || '© 2026 گِفتي بلس | Gifty Plus. جميع الحقوق محفوظة.',
 
     // Features
-    feature1Title: settings?.feature1Title || 'شحن سريع وموثوق',
-    feature1Desc: settings?.feature1Desc || 'توصيل لكافة محافظات العراق خلال 24 - 48 ساعة مع تتبع فوري للشحنة',
-    feature2Title: settings?.feature2Title || 'تغليف ملكي فاخر',
-    feature2Desc: settings?.feature2Desc || 'علب هدايا فاخرة مع أشرطة حريرية وكارت إهداء بكلماتك مجاناً مع كل طلب',
-    feature3Title: settings?.feature3Title || 'دفع آمن عند الاستلام',
-    feature3Desc: settings?.feature3Desc || 'عاين هديتك وافحصها قبل الاستلام، مع خيارات دفع بـ زين كاش والماستر كارد',
-    feature4Title: settings?.feature4Title || 'مستشار هدايا ذكي',
-    feature4Desc: settings?.feature4Desc || 'خوارزمية ذكية وفريق متخصص يساعدك في اختيار الهدية المثالية لأي مناسبة',
+    feature1Title: settings?.feature1Title !== undefined && settings?.feature1Title !== null ? settings.feature1Title : 'شحن سريع وموثوق',
+    feature1Desc: settings?.feature1Desc !== undefined && settings?.feature1Desc !== null ? settings.feature1Desc : 'توصيل لكافة محافظات العراق خلال 24 - 48 ساعة مع تتبع فوري للشحنة',
+    feature2Title: settings?.feature2Title !== undefined && settings?.feature2Title !== null ? settings.feature2Title : 'تغليف ملكي فاخر',
+    feature2Desc: settings?.feature2Desc !== undefined && settings?.feature2Desc !== null ? settings.feature2Desc : 'علب هدايا فاخرة مع أشرطة حريرية وكارت إهداء بكلماتك مجاناً مع كل طلب',
+    feature3Title: settings?.feature3Title !== undefined && settings?.feature3Title !== null ? settings.feature3Title : 'دفع آمن عند الاستلام',
+    feature3Desc: settings?.feature3Desc !== undefined && settings?.feature3Desc !== null ? settings.feature3Desc : 'عاين هديتك وافحصها قبل الاستلام، مع خيارات دفع بـ زين كاش والماستر كارد',
+    feature4Title: settings?.feature4Title !== undefined && settings?.feature4Title !== null ? settings.feature4Title : 'مستشار هدايا ذكي',
+    feature4Desc: settings?.feature4Desc !== undefined && settings?.feature4Desc !== null ? settings.feature4Desc : 'خوارزمية ذكية وفريق متخصص يساعدك في اختيار الهدية المثالية لأي مناسبة',
 
     // 9. SEO & Notifications
     metaTitle: settings?.metaTitle || 'گِفتي بلس | متجر الهدايا الفاخرة الأول في العراق',

@@ -2990,12 +2990,31 @@ export default function SettingsClient({
         <div className="space-y-6">
           {/* Homepage 4 Features */}
           <div className="border border-[#E8E4DF] rounded-3xl overflow-hidden bg-white shadow-xs">
-            <div className="p-6 border-b border-[#E8E4DF] bg-[#FAFAF8] flex items-center justify-between">
+            <div className="p-6 border-b border-[#E8E4DF] bg-[#FAFAF8] flex items-center justify-between gap-4">
               <div>
                 <h2 className="text-base font-black text-[#1C1917]">مزايا المتجر الأربعة (Storefront Features)</h2>
-                <p className="text-xs text-[#78716C] mt-1 font-medium">البطاقات الأربعة الرئيسية المعروضة أسفل البانر في الصفحة الرئيسية.</p>
+                <p className="text-xs text-[#78716C] mt-1 font-medium">
+                  البطاقات الأربعة الرئيسية المعروضة أسفل البانر في الصفحة الرئيسية. (في حال حذف الوصف، ستبقى الميزة والأيقونة فقط وتتوسط البطاقة بأناقة).
+                </p>
               </div>
-              <Layers className="w-5 h-5 text-[#13213c]" />
+              <div className="flex items-center gap-2">
+                {(settings.feature1Desc || settings.feature2Desc || settings.feature3Desc || settings.feature4Desc) ? (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      updateField('feature1Desc', '')
+                      updateField('feature2Desc', '')
+                      updateField('feature3Desc', '')
+                      updateField('feature4Desc', '')
+                    }}
+                    className="text-xs font-bold text-rose-600 bg-rose-50 hover:bg-rose-100 border border-rose-200 px-3 py-1.5 rounded-xl transition-all cursor-pointer"
+                    title="تفريغ كل خانات الوصف لعرض العناوين والأيقونات فقط"
+                  >
+                    حذف كل الأوصاف (إبقاء الميزات فقط)
+                  </button>
+                ) : null}
+                <Layers className="w-5 h-5 text-[#13213c] shrink-0" />
+              </div>
             </div>
 
             <div className="p-6 sm:p-8 space-y-5">
@@ -3003,7 +3022,18 @@ export default function SettingsClient({
                 
                 {/* Feature 1 */}
                 <div className="p-4 rounded-2xl bg-[#FAFAF8] border border-[#E8E4DF] space-y-3">
-                  <span className="text-xs font-extrabold text-[#13213c]">الميزة الأولى (الشحن)</span>
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-extrabold text-[#13213c]">الميزة الأولى (الشحن)</span>
+                    {settings.feature1Desc ? (
+                      <button
+                        type="button"
+                        onClick={() => updateField('feature1Desc', '')}
+                        className="text-[11px] font-bold text-rose-500 hover:text-rose-700 transition-colors cursor-pointer"
+                      >
+                        حذف الوصف (إبقاء الميزة فقط)
+                      </button>
+                    ) : null}
+                  </div>
                   <Input 
                     value={settings.feature1Title} 
                     onChange={e => updateField('feature1Title', e.target.value)}
@@ -3012,16 +3042,27 @@ export default function SettingsClient({
                   />
                   <Textarea 
                     rows={2}
-                    value={settings.feature1Desc} 
+                    value={settings.feature1Desc || ''} 
                     onChange={e => updateField('feature1Desc', e.target.value)}
-                    placeholder="وصف الميزة الأولى"
+                    placeholder="وصف الميزة الأولى (اتركه فارغاً لعرض الميزة فقط)"
                     className="text-xs bg-white resize-none"
                   />
                 </div>
 
                 {/* Feature 2 */}
                 <div className="p-4 rounded-2xl bg-[#FAFAF8] border border-[#E8E4DF] space-y-3">
-                  <span className="text-xs font-extrabold text-[#E85D75]">الميزة الثانية (التغليف)</span>
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-extrabold text-[#E85D75]">الميزة الثانية (التغليف)</span>
+                    {settings.feature2Desc ? (
+                      <button
+                        type="button"
+                        onClick={() => updateField('feature2Desc', '')}
+                        className="text-[11px] font-bold text-rose-500 hover:text-rose-700 transition-colors cursor-pointer"
+                      >
+                        حذف الوصف (إبقاء الميزة فقط)
+                      </button>
+                    ) : null}
+                  </div>
                   <Input 
                     value={settings.feature2Title} 
                     onChange={e => updateField('feature2Title', e.target.value)}
@@ -3030,16 +3071,27 @@ export default function SettingsClient({
                   />
                   <Textarea 
                     rows={2}
-                    value={settings.feature2Desc} 
+                    value={settings.feature2Desc || ''} 
                     onChange={e => updateField('feature2Desc', e.target.value)}
-                    placeholder="وصف الميزة الثانية"
+                    placeholder="وصف الميزة الثانية (اتركه فارغاً لعرض الميزة فقط)"
                     className="text-xs bg-white resize-none"
                   />
                 </div>
 
                 {/* Feature 3 */}
                 <div className="p-4 rounded-2xl bg-[#FAFAF8] border border-[#E8E4DF] space-y-3">
-                  <span className="text-xs font-extrabold text-emerald-600">الميزة الثالثة (الدفع عند الاستلام)</span>
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-extrabold text-emerald-600">الميزة الثالثة (الدفع عند الاستلام)</span>
+                    {settings.feature3Desc ? (
+                      <button
+                        type="button"
+                        onClick={() => updateField('feature3Desc', '')}
+                        className="text-[11px] font-bold text-rose-500 hover:text-rose-700 transition-colors cursor-pointer"
+                      >
+                        حذف الوصف (إبقاء الميزة فقط)
+                      </button>
+                    ) : null}
+                  </div>
                   <Input 
                     value={settings.feature3Title} 
                     onChange={e => updateField('feature3Title', e.target.value)}
@@ -3048,16 +3100,27 @@ export default function SettingsClient({
                   />
                   <Textarea 
                     rows={2}
-                    value={settings.feature3Desc} 
+                    value={settings.feature3Desc || ''} 
                     onChange={e => updateField('feature3Desc', e.target.value)}
-                    placeholder="وصف الميزة الثالثة"
+                    placeholder="وصف الميزة الثالثة (اتركه فارغاً لعرض الميزة فقط)"
                     className="text-xs bg-white resize-none"
                   />
                 </div>
 
                 {/* Feature 4 */}
                 <div className="p-4 rounded-2xl bg-[#FAFAF8] border border-[#E8E4DF] space-y-3">
-                  <span className="text-xs font-extrabold text-indigo-600">الميزة الرابعة (المستشار الذكي)</span>
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-extrabold text-indigo-600">الميزة الرابعة (المستشار الذكي)</span>
+                    {settings.feature4Desc ? (
+                      <button
+                        type="button"
+                        onClick={() => updateField('feature4Desc', '')}
+                        className="text-[11px] font-bold text-rose-500 hover:text-rose-700 transition-colors cursor-pointer"
+                      >
+                        حذف الوصف (إبقاء الميزة فقط)
+                      </button>
+                    ) : null}
+                  </div>
                   <Input 
                     value={settings.feature4Title} 
                     onChange={e => updateField('feature4Title', e.target.value)}
@@ -3066,9 +3129,9 @@ export default function SettingsClient({
                   />
                   <Textarea 
                     rows={2}
-                    value={settings.feature4Desc} 
+                    value={settings.feature4Desc || ''} 
                     onChange={e => updateField('feature4Desc', e.target.value)}
-                    placeholder="وصف الميزة الرابعة"
+                    placeholder="وصف الميزة الرابعة (اتركه فارغاً لعرض الميزة فقط)"
                     className="text-xs bg-white resize-none"
                   />
                 </div>

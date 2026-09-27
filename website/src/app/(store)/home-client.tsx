@@ -269,33 +269,39 @@ export default function StoreHomeClient({
     return () => clearInterval(timer)
   }, [activeShowcaseSlides.length, isHovered])
 
+  // Helper to safely get feature desc (allowing empty string if deleted/cleared)
+  const getFeatureDesc = (val: string | null | undefined, defaultVal: string) => {
+    if (val === undefined || val === null) return defaultVal
+    return val.trim()
+  }
+
   // Dynamic Trust & Guarantees Pillars
   const trustPillars = [
     {
       icon: Truck,
-      title: settings?.feature1Title || 'شحن سريع وموثوق',
-      desc: settings?.feature1Desc || 'توصيل لكافة محافظات العراق خلال 24 - 48 ساعة مع تتبع فوري للشحنة',
+      title: settings?.feature1Title?.trim() || 'شحن سريع وموثوق',
+      desc: getFeatureDesc(settings?.feature1Desc, 'توصيل لكافة محافظات العراق خلال 24 - 48 ساعة مع تتبع فوري للشحنة'),
       color: '#13213c',
       bg: '#F0F4F9',
     },
     {
       icon: Gift,
-      title: settings?.feature2Title || 'تغليف ملكي فاخر',
-      desc: settings?.feature2Desc || 'علب هدايا فاخرة مع أشرطة حريرية وكارت إهداء بكلماتك مجاناً مع كل طلب',
+      title: settings?.feature2Title?.trim() || 'تغليف ملكي فاخر',
+      desc: getFeatureDesc(settings?.feature2Desc, 'علب هدايا فاخرة مع أشرطة حريرية وكارت إهداء بكلماتك مجاناً مع كل طلب'),
       color: '#13213c',
       bg: '#F0F4F9',
     },
     {
       icon: ShieldCheck,
-      title: settings?.feature3Title || 'دفع آمن عند الاستلام',
-      desc: settings?.feature3Desc || 'عاين هديتك وافحصها قبل الاستلام، مع خيارات دفع بـ زين كاش والماستر كارد',
+      title: settings?.feature3Title?.trim() || 'دفع آمن عند الاستلام',
+      desc: getFeatureDesc(settings?.feature3Desc, 'عاين هديتك وافحصها قبل الاستلام، مع خيارات دفع بـ زين كاش والماستر كارد'),
       color: '#10B981',
       bg: '#F0FDF9',
     },
     {
       icon: Award,
-      title: settings?.feature4Title || 'جودة أصلية ومضمونة',
-      desc: settings?.feature4Desc || 'منتجات منتقاة بعناية فائقة مع ضمان حقيقي للاستبدال والاسترجاع بكل سهولة',
+      title: settings?.feature4Title?.trim() || 'مستشار هدايا ذكي',
+      desc: getFeatureDesc(settings?.feature4Desc, 'منتجات منتقاة بعناية فائقة مع ضمان حقيقي للاستبدال والاسترجاع بكل سهولة'),
       color: '#13213c',
       bg: '#F0F4F9',
     },
@@ -646,26 +652,38 @@ export default function StoreHomeClient({
       {/* ========================================================================= */}
       {/* 2. REFINED LUXURY TRUST & VALUE RIBBON */}
       {/* ========================================================================= */}
-      <section className="py-8 bg-white border-y border-[#E8E4DF]">
+      <section className="py-6 sm:py-8 bg-white border-y border-[#E8E4DF]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
-            {trustPillars.map((feature, idx) => (
-              <div
-                key={idx}
-                className="flex items-center gap-4 p-4 rounded-2xl bg-[#FAFAF8] border border-[#E8E4DF] hover:border-[#13213c]/30 hover:bg-white hover:shadow-sm transition-all duration-200 text-start group"
-              >
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-4 lg:gap-6">
+            {trustPillars.map((feature, idx) => {
+              const hasDesc = Boolean(feature.desc && feature.desc.trim().length > 0)
+              return (
                 <div
-                  className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0 transition-transform group-hover:scale-105"
-                  style={{ background: feature.bg }}
+                  key={idx}
+                  className="flex items-center gap-3.5 sm:gap-4 p-4 rounded-2xl bg-[#FAFAF8] border border-[#E8E4DF] hover:border-[#13213c]/30 hover:bg-white hover:shadow-sm transition-all duration-200 text-start group h-full"
                 >
-                  <feature.icon className="w-5 h-5" style={{ color: feature.color }} />
+                  <div
+                    className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0 transition-transform group-hover:scale-105"
+                    style={{ background: feature.bg }}
+                  >
+                    <feature.icon className="w-5 h-5" style={{ color: feature.color }} />
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <h3 className={cn(
+                      "font-extrabold text-[#1C1917] leading-snug",
+                      hasDesc ? "text-sm mb-0.5 truncate" : "text-sm sm:text-base"
+                    )}>
+                      {feature.title}
+                    </h3>
+                    {hasDesc && (
+                      <p className="text-xs text-[#78716C] leading-relaxed line-clamp-2">
+                        {feature.desc}
+                      </p>
+                    )}
+                  </div>
                 </div>
-                <div className="min-w-0">
-                  <h3 className="font-extrabold text-[#1C1917] text-sm mb-0.5 truncate">{feature.title}</h3>
-                  <p className="text-xs text-[#78716C] leading-relaxed line-clamp-2">{feature.desc}</p>
-                </div>
-              </div>
-            ))}
+              )
+            })}
           </div>
         </div>
       </section>
