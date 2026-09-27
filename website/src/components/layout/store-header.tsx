@@ -231,27 +231,15 @@ export function StoreHeader({ user, topBarText, settings }: StoreHeaderProps) {
                 {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
               </Button>
 
-              <Link href="/" className="flex items-center gap-3 group">
-                {settings?.logoUrl ? (
-                  <div className="relative w-10 h-10 rounded-2xl overflow-hidden shadow-[0_4px_16px_rgba(0,0,0,0.4)] border border-[#3b5e94]/40">
-                    <Image src={settings.logoUrl} alt={storeDisplayName} fill className="object-cover group-hover:scale-105 transition-transform" />
-                  </div>
-                ) : (
-                  <div 
-                    className="w-10 h-10 rounded-2xl flex items-center justify-center font-black transition-all group-hover:scale-105 shadow-[0_4px_16px_rgba(0,0,0,0.4)] border border-[#3b5e94]/40"
-                    style={{ background: 'linear-gradient(135deg, #22385e 0%, #13213c 100%)' }}
-                  >
-                    <Gift className="w-5 h-5 text-white" />
-                  </div>
-                )}
-                <div className="flex flex-col text-start justify-center">
-                  <span className="text-xl font-black tracking-tight text-white leading-snug">
-                    {storeDisplayName}
-                  </span>
-                  <span className="text-[10px] font-bold text-[#7ea6e6] tracking-wider mt-0.5 block">
-                    {storeDisplayTag}
-                  </span>
-                </div>
+              <Link href="/" className="flex items-center group py-0.5" aria-label="الصفحة الرئيسية">
+                <Image
+                  src="/logo-white.png"
+                  alt="Gifty+"
+                  width={160}
+                  height={44}
+                  className="h-9 sm:h-11 w-auto object-contain transition-transform group-hover:scale-105"
+                  priority
+                />
               </Link>
             </div>
 
@@ -639,15 +627,15 @@ export function StoreHeader({ user, topBarText, settings }: StoreHeaderProps) {
             >
               {/* Mobile Drawer Header */}
               <div className="flex items-center justify-between p-5 border-b border-white/10">
-                <div className="flex items-center gap-2.5">
-                  <div 
-                    className="w-8 h-8 rounded-xl flex items-center justify-center font-black border border-[#3b5e94]/40"
-                    style={{ background: 'linear-gradient(135deg, #22385e 0%, #13213c 100%)' }}
-                  >
-                    <Gift className="w-4 h-4 text-white" />
-                  </div>
-                  <span className="font-black text-lg text-white">گِفتي بلس</span>
-                </div>
+                <Link href="/" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center group" aria-label="الصفحة الرئيسية">
+                  <Image
+                    src="/logo-white.png"
+                    alt="Gifty+"
+                    width={130}
+                    height={36}
+                    className="h-8 w-auto object-contain"
+                  />
+                </Link>
                 <button
                   onClick={() => setIsMobileMenuOpen(false)}
                   className="w-8 h-8 rounded-xl bg-white/10 flex items-center justify-center text-white/80 hover:text-white"

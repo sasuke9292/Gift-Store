@@ -8,6 +8,7 @@ import { motion } from 'framer-motion'
 import { Input } from '@/components/ui/input'
 import { toast } from 'sonner'
 import { ArrowLeft, Mail, Lock, Shield, Loader2, Eye, EyeOff, Sparkles, CheckCircle2, AlertCircle } from 'lucide-react'
+import Image from 'next/image'
 
 export default function AdminLoginClient() {
   const searchParams = useSearchParams()
@@ -73,14 +74,21 @@ export default function AdminLoginClient() {
       >
         {/* Header */}
         <div className="text-center mb-6 sm:mb-8">
-          <div 
-            className="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-[0_8px_24px_rgba(19,33,60,0.25)]"
-            style={{ background: 'linear-gradient(135deg, #22385e 0%, #13213c 100%)' }}
-          >
-            <Shield className="w-8 h-8 text-white" />
+          <Link href="/" className="inline-flex items-center justify-center mb-4 group py-1" aria-label="الصفحة الرئيسية">
+            <Image
+              src="/logo-navy.png"
+              alt="Gifty+"
+              width={180}
+              height={49}
+              className="h-11 sm:h-12 w-auto object-contain transition-transform group-hover:scale-105"
+              priority
+            />
+          </Link>
+          <div className="flex items-center justify-center gap-2 mb-1">
+            <Shield className="w-5 h-5 text-[#13213c]" />
+            <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">بوابة إدارة المتجر</h1>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-black text-[#1C1917] tracking-tight">بوابة إدارة المتجر</h1>
-          <p className="mt-1.5 text-xs sm:text-sm text-[#78716C] font-medium">سجّل دخولك للوصول إلى لوحة التحكم والعمليات</p>
+          <p className="mt-1 text-xs sm:text-sm text-slate-500 font-medium">سجّل دخولك للوصول إلى لوحة التحكم والعمليات</p>
         </div>
 
         {/* Card */}

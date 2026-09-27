@@ -1027,7 +1027,7 @@ export default function SettingsClient({
 
                 <div className="flex items-center gap-2">
                   {settings.logoUrl && (
-                    <div className="w-11 h-11 rounded-xl border border-[#E8E4DF] bg-stone-50 overflow-hidden shrink-0 flex items-center justify-center p-1">
+                    <div className="w-14 h-11 rounded-xl border border-slate-800 bg-[#0c1424] overflow-hidden shrink-0 flex items-center justify-center p-1.5 shadow-inner">
                       <img src={settings.logoUrl} alt="Logo preview" className="max-w-full max-h-full object-contain" />
                     </div>
                   )}

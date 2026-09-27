@@ -1,16 +1,20 @@
 import React from 'react'
 import Link from 'next/link'
-import { Gift, Home, ArrowLeft } from 'lucide-react'
+import Image from 'next/image'
+import { Home, ArrowLeft } from 'lucide-react'
 
 export default function NotFound() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#F8FAFC] px-4 py-16 text-slate-900" dir="rtl">
       <div className="max-w-md w-full text-center p-8 bg-white rounded-3xl border border-slate-200/80 shadow-[0_12px_40px_rgba(15,23,42,0.06)]">
-        <div 
-          className="w-20 h-20 rounded-3xl flex items-center justify-center mx-auto mb-6 text-white shadow-lg shadow-[#13213c]/20"
-          style={{ background: 'linear-gradient(135deg, #13213c 0%, #0c1424 100%)' }}
-        >
-          <Gift className="w-10 h-10" />
+        <div className="flex justify-center mb-6">
+          <Image
+            src="/logo-navy.png"
+            alt="Gifty+"
+            width={180}
+            height={49}
+            className="h-12 w-auto object-contain"
+          />
         </div>
 
         <span className="text-4xl font-black text-[#13213c] tracking-widest block mb-2">404</span>

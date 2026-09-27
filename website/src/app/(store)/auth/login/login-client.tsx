@@ -8,6 +8,7 @@ import { motion } from 'framer-motion'
 import { Input } from '@/components/ui/input'
 import { toast } from 'sonner'
 import { ArrowRight, Mail, Lock, Gift, Loader2, Shield } from 'lucide-react'
+import Image from 'next/image'
 
 export default function LoginClient() {
   const router = useRouter()
@@ -64,14 +65,15 @@ export default function LoginClient() {
       >
         {/* Header */}
         <div className="text-center mb-8">
-          <Link href="/" className="inline-flex items-center gap-2.5 mb-6 group">
-            <div 
-              className="w-12 h-12 rounded-2xl flex items-center justify-center font-black text-xl shadow-[0_4px_16px_rgba(19,33,60,0.25)] transition-transform group-hover:scale-105"
-              style={{ background: 'linear-gradient(135deg, #13213c 0%, #0c1424 100%)' }}
-            >
-              <Gift className="w-6 h-6 text-white" />
-            </div>
-            <span className="text-2xl font-black tracking-tight text-slate-900">گِفتي بلس</span>
+          <Link href="/" className="inline-flex items-center justify-center mb-6 group py-1" aria-label="الصفحة الرئيسية">
+            <Image
+              src="/logo-navy.png"
+              alt="Gifty+"
+              width={180}
+              height={49}
+              className="h-11 sm:h-12 w-auto object-contain transition-transform group-hover:scale-105"
+              priority
+            />
           </Link>
           <h1 className="text-2xl font-black text-slate-900">أهلاً بعودتك</h1>
           <p className="mt-1.5 text-sm text-slate-500">سجل دخولك لمتابعة طلباتك وقائمة أمنياتك</p>

@@ -36,6 +36,7 @@ import {
 } from '@/components/ui/sheet'
 import { sidebarGroups } from './admin-sidebar'
 import Link from 'next/link'
+import Image from 'next/image'
 import { cn } from '@/lib/utils'
 
 function normalizeArabicText(text: string): string {
@@ -175,8 +176,11 @@ export function AdminHeader({ userRole = 'CUSTOMER', userName }: { userRole?: st
             </Button>
           } />
           <SheetContent side="right" className="w-72 bg-white border-e border-[#E8E4DF] p-0 text-[#1C1917]">
-            <SheetHeader className="h-16 flex items-center justify-center border-b border-[#E8E4DF] bg-[#FAFAF8] px-5">
-              <SheetTitle className="text-[#1C1917] text-base font-black">لوحة التحكم الإدارية</SheetTitle>
+            <SheetHeader className="h-16 flex items-center justify-center border-b border-slate-200/80 bg-slate-50 px-5">
+              <SheetTitle className="text-slate-900 text-base font-black flex items-center gap-2">
+                <Image src="/logo-navy.png" alt="Gifty+" width={100} height={28} className="h-7 w-auto object-contain" />
+                <span className="text-xs font-bold text-slate-500 bg-slate-200/70 px-1.5 py-0.5 rounded-md">الإدارة</span>
+              </SheetTitle>
             </SheetHeader>
             <div className="overflow-y-auto py-5 px-3 space-y-6 scrollbar-none h-[calc(100vh-64px)]">
               {sidebarGroups.map((group, groupIdx) => {

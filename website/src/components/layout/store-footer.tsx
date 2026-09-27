@@ -110,27 +110,14 @@ export function StoreFooter({ settings }: StoreFooterProps) {
 
           {/* Col 1: Brand & Slogan & Socials (Centered on Mobile, start on Desktop) */}
           <div className="lg:col-span-4 flex flex-col items-center lg:items-start text-center lg:text-start space-y-3 sm:space-y-4">
-            <Link href="/" className="flex items-center gap-2.5 sm:gap-3 group mx-auto lg:mx-0">
-              {settings?.logoUrl ? (
-                <div className="relative w-9 h-9 sm:w-10 sm:h-10 rounded-2xl overflow-hidden shadow-md">
-                  <Image src={settings.logoUrl} alt={storeName} fill className="object-cover" />
-                </div>
-              ) : (
-                <div 
-                  className="w-9 h-9 sm:w-10 sm:h-10 rounded-2xl flex items-center justify-center transition-transform group-hover:scale-105 shadow-md border border-[#3b5e94]/30"
-                  style={{ background: 'linear-gradient(135deg, #22385e 0%, #13213c 100%)' }}
-                >
-                  <Gift className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
-                </div>
-              )}
-              <div className="flex flex-col text-start">
-                <span className="text-lg sm:text-xl font-black text-white leading-tight">
-                  {storeName.split('|')[0].trim()}
-                </span>
-                <span className="text-[9px] sm:text-[10px] font-bold text-[#7ea6e6] tracking-widest mt-0.5">
-                  {storeName.includes('|') ? storeName.split('|')[1].trim() : 'GIFTY PLUS'}
-                </span>
-              </div>
+            <Link href="/" className="flex items-center group mx-auto lg:mx-0 py-1" aria-label="الصفحة الرئيسية">
+              <Image
+                src="/logo-white.png"
+                alt="Gifty+"
+                width={160}
+                height={44}
+                className="h-9 sm:h-11 w-auto object-contain transition-transform group-hover:scale-105"
+              />
             </Link>
             
             <div className="flex items-center justify-center lg:justify-start gap-1.5 text-[#7ea6e6] font-bold text-xs">

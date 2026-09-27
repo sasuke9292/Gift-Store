@@ -23,6 +23,7 @@ import {
   MessageCircle,
   Sparkles,
 } from 'lucide-react'
+import Image from 'next/image'
 import { cn } from '@/lib/utils'
 import {
   DropdownMenu,
@@ -113,30 +114,15 @@ export function AdminSidebar({
         {isCollapsed ? (
           <Link 
             href="/admin" 
-            className="w-10 h-10 rounded-xl flex items-center justify-center font-black text-white text-base shadow-[0_2px_8px_rgba(19, 33, 60,0.35)] transition-all hover:scale-105 shrink-0"
-            style={{ background: 'linear-gradient(135deg, #22385e 0%, #13213c 100%)' }}
-            title={storeName}
+            className="w-10 h-10 rounded-xl flex items-center justify-center p-1.5 transition-all hover:scale-105 shrink-0"
+            title="Gifty+"
           >
-            <Gift className="w-5 h-5 text-white" />
+            <Image src="/logo-icon.png" alt="Gifty+" width={32} height={32} className="w-8 h-8 object-contain" />
           </Link>
         ) : (
-          <Link href="/admin" className="flex items-center gap-3 min-w-0 group">
-            {logoUrl ? (
-              <div className="w-9 h-9 rounded-xl overflow-hidden shrink-0 bg-[#FAFAF8] p-1 border border-[#E8E4DF] group-hover:border-[#13213c]/50 transition-colors">
-                <img src={logoUrl} alt={storeName} className="w-full h-full object-cover rounded-lg" />
-              </div>
-            ) : (
-              <div 
-                className="w-9 h-9 rounded-xl flex items-center justify-center font-black text-white shadow-[0_2px_8px_rgba(19, 33, 60,0.35)] shrink-0 transition-transform group-hover:scale-105"
-                style={{ background: 'linear-gradient(135deg, #22385e 0%, #13213c 100%)' }}
-              >
-                <Gift className="w-4 h-4 text-white" />
-              </div>
-            )}
-            <div className="min-w-0">
-              <span className="text-base font-black text-[#1C1917] truncate tracking-tight block">{storeName}</span>
-              <span className="text-[10px] font-bold text-[#A8A29E] uppercase tracking-widest block">لوحة الإدارة</span>
-            </div>
+          <Link href="/admin" className="flex items-center gap-2.5 min-w-0 group" aria-label="لوحة الإدارة">
+            <Image src="/logo-navy.png" alt="Gifty+" width={120} height={33} className="h-8 w-auto object-contain transition-transform group-hover:scale-105" priority />
+            <span className="text-[10px] font-bold text-slate-500 bg-slate-100 px-1.5 py-0.5 rounded-md uppercase tracking-wider shrink-0">الإدارة</span>
           </Link>
         )}
       </div>
