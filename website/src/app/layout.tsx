@@ -59,7 +59,7 @@ export async function generateMetadata(): Promise<Metadata> {
     icons: {
       icon: settings?.faviconUrl || '/favicon.png',
       shortcut: '/favicon.ico',
-      apple: '/favicon.png',
+      apple: '/apple-touch-icon.png',
     },
     authors: [{ name: "Gifty Plus Team" }],
     creator: storeName,
