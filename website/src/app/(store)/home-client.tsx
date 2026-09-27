@@ -119,7 +119,7 @@ function CategoryCardItem({ cat }: { cat: Category }) {
   return (
     <Link
       href={`/category/${cat.slug}`}
-      className="group relative rounded-2xl sm:rounded-3xl overflow-hidden aspect-[4/5] flex flex-col justify-end p-4 border border-[#E8E4DF] bg-stone-100 hover:shadow-[0_12px_30px_rgba(19,33,60,0.12)] hover:-translate-y-1 transition-all duration-300"
+      className="group relative rounded-xl sm:rounded-3xl overflow-hidden aspect-[1/1] sm:aspect-[4/5] flex flex-col justify-end p-2.5 sm:p-4 border border-[#E8E4DF] bg-stone-100 hover:shadow-[0_12px_30px_rgba(19,33,60,0.12)] hover:-translate-y-1 transition-all duration-300"
     >
       <Image
         src={imgSrc}
@@ -134,8 +134,8 @@ function CategoryCardItem({ cat }: { cat: Category }) {
 
       {/* Text Label */}
       <div className="relative z-10 text-start">
-        <p className="text-[10px] text-[#7ea6e6] font-bold uppercase tracking-wider mb-0.5">تصفح</p>
-        <h3 className="text-white font-black text-sm sm:text-base leading-snug group-hover:text-[#7ea6e6] transition-colors">
+        <p className="text-[9px] sm:text-[10px] text-[#7ea6e6] font-bold uppercase tracking-wider mb-0.5">تصفح</p>
+        <h3 className="text-white font-black text-xs sm:text-base leading-snug group-hover:text-[#7ea6e6] transition-colors truncate">
           {cat.name}
         </h3>
       </div>
@@ -371,7 +371,7 @@ export default function StoreHomeClient({
       {/* ========================================================================= */}
       {/* 1. ROYAL LUXURY HERO SECTION */}
       {/* ========================================================================= */}
-      <section className="relative overflow-hidden pt-6 sm:pt-8 pb-14 lg:pb-18 flex flex-col justify-center">
+      <section className="relative overflow-hidden pt-4 sm:pt-8 pb-8 sm:pb-14 lg:pb-18 flex flex-col justify-center">
         {/* Soft Royal Glow Accents */}
         <div className="absolute top-0 start-1/4 w-[550px] h-[550px] bg-[#13213c]/8 rounded-full blur-[140px] pointer-events-none -z-10" />
         <div className="absolute bottom-10 end-10 w-[450px] h-[450px] bg-[#22385e]/6 rounded-full blur-[120px] pointer-events-none -z-10" />
@@ -386,7 +386,7 @@ export default function StoreHomeClient({
         />
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-10 lg:gap-12 items-center">
 
             {/* RIGHT COLUMN: Master Brand Hook & Elevated CTAs */}
             <div className="lg:col-span-6 xl:col-span-7 text-start relative z-10 flex flex-col items-start">
@@ -396,10 +396,10 @@ export default function StoreHomeClient({
                 initial={{ opacity: 0, y: 14 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4 }}
-                className="inline-flex items-center gap-2 bg-[#F0F4F9] border border-[#13213c]/20 rounded-full px-4 py-2 text-xs sm:text-sm font-black text-[#13213c] mb-6 shadow-2xs"
+                className="inline-flex items-center gap-1.5 sm:gap-2 bg-[#F0F4F9] border border-[#13213c]/20 rounded-full px-3 py-1 sm:px-4 sm:py-2 text-[11px] sm:text-sm font-black text-[#13213c] mb-3 sm:mb-6 shadow-2xs"
               >
-                <Sparkles className="w-4 h-4 text-[#13213c] shrink-0" />
-                <span>{settings?.heroBadge || heroBadge || 'التشكيلة الملكية لعام 2026 • هدايا استثنائية وتغليف مجاني'}</span>
+                <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#13213c] shrink-0" />
+                <span className="line-clamp-1">{settings?.heroBadge || heroBadge || 'التشكيلة الملكية لعام 2026 • هدايا استثنائية وتغليف مجاني'}</span>
               </motion.div>
 
               {/* Master Headline */}
@@ -407,7 +407,7 @@ export default function StoreHomeClient({
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.1 }}
-                className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-[1.18] text-[#1C1917] mb-6"
+                className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-[1.18] text-[#1C1917] mb-3 sm:mb-6"
               >
                 {(settings?.heroHeadline || heroHeadline) ? (
                   <span dangerouslySetInnerHTML={{ __html: (settings?.heroHeadline || heroHeadline).replace(/\n/g, '<br/>') }} />
@@ -427,7 +427,7 @@ export default function StoreHomeClient({
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.2 }}
-                className="text-base sm:text-lg text-[#57534E] max-w-xl mb-8 leading-relaxed font-normal"
+                className="text-xs sm:text-lg text-[#57534E] max-w-xl mb-5 sm:mb-8 leading-relaxed font-normal"
               >
                 {settings?.heroSubheadline || heroSubheadline || 'اكتشف تجربة إهداء استثنائية في العراق تجمع بين فخامة التصميم وأناقة التفاصيل، مع تغليف يدوي فاخر وبطاقة مخصصة تخلّد أجمل الذكريات.'}
               </motion.p>
@@ -437,25 +437,25 @@ export default function StoreHomeClient({
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.25 }}
-                className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 w-full sm:w-auto mb-10"
+                className="flex flex-row items-center gap-2 sm:gap-4 w-full sm:w-auto mb-6 sm:mb-10"
               >
                 <Link
                   href={settings?.heroPrimaryBtnLink || '/shop'}
-                  className="group flex items-center justify-center gap-2.5 h-13 sm:h-14 px-8 sm:px-9 rounded-2xl text-white font-extrabold text-base transition-all hover:-translate-y-0.5 shadow-[0_6px_24px_rgba(19,33,60,0.35)] cursor-pointer"
+                  className="flex-1 sm:flex-initial flex items-center justify-center gap-1.5 sm:gap-2.5 h-11 sm:h-14 px-4 sm:px-9 rounded-xl sm:rounded-2xl text-white font-extrabold text-xs sm:text-base transition-all hover:-translate-y-0.5 shadow-[0_6px_24px_rgba(19,33,60,0.35)] cursor-pointer"
                   style={{
                     background: 'linear-gradient(135deg, #22385e 0%, #13213c 100%)'
                   }}
                 >
-                  <span>{settings?.heroPrimaryBtnText || 'استكشف التشكيلة الفاخرة'}</span>
-                  <ArrowLeft className="w-5 h-5 transition-transform group-hover:-translate-x-1" />
+                  <span>{settings?.heroPrimaryBtnText || 'استكشف التشكيلة'}</span>
+                  <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5 transition-transform group-hover:-translate-x-1" />
                 </Link>
 
                 <Link
                   href={settings?.heroSecondaryBtnLink || '#gift-finder-section'}
-                  className="flex items-center justify-center gap-2 h-13 sm:h-14 px-7 rounded-2xl font-extrabold text-[#1C1917] bg-white border border-[#E8E4DF] hover:border-[#13213c]/50 hover:bg-[#F0F4F9] transition-all hover:-translate-y-0.5 shadow-xs"
+                  className="flex-1 sm:flex-initial flex items-center justify-center gap-1.5 h-11 sm:h-14 px-3 sm:px-7 rounded-xl sm:rounded-2xl font-extrabold text-[#1C1917] bg-white border border-[#E8E4DF] hover:border-[#13213c]/50 hover:bg-[#F0F4F9] text-xs sm:text-base transition-all hover:-translate-y-0.5 shadow-xs whitespace-nowrap"
                 >
-                  <Sparkles className="w-4 h-4 text-[#13213c]" />
-                  <span>{settings?.heroSecondaryBtnText || 'مستشار الهدايا الذكي'}</span>
+                  <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#13213c]" />
+                  <span>{settings?.heroSecondaryBtnText || 'مستشار الهدايا'}</span>
                 </Link>
               </motion.div>
 
@@ -464,38 +464,38 @@ export default function StoreHomeClient({
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.35 }}
-                className="pt-6 border-t border-[#E8E4DF] w-full max-w-xl"
+                className="pt-4 sm:pt-6 border-t border-[#E8E4DF] w-full max-w-xl"
               >
                 <div className="grid grid-cols-3 divide-x divide-x-reverse divide-[#E8E4DF]">
                   {/* Stat 1 */}
-                  <div className="flex flex-col items-center justify-center text-center px-2 sm:px-4">
-                    <p className="text-2xl sm:text-3xl font-black text-[#13213c] tracking-tight" dir="ltr">
+                  <div className="flex flex-col items-center justify-center text-center px-1 sm:px-4">
+                    <p className="text-xl sm:text-3xl font-black text-[#13213c] tracking-tight" dir="ltr">
                       {settings?.stat1Value || '+15K'}
                     </p>
-                    <p className="text-xs text-[#78716C] font-bold mt-1 text-center">
+                    <p className="text-[10px] sm:text-xs text-[#78716C] font-bold mt-0.5 sm:mt-1 text-center">
                       {settings?.stat1Label || 'عميل يثق بنا'}
                     </p>
                   </div>
 
                   {/* Stat 2 */}
-                  <div className="flex flex-col items-center justify-center text-center px-2 sm:px-4">
-                    <div className="inline-flex items-center justify-center gap-1.5 text-2xl sm:text-3xl font-black text-[#13213c] tracking-tight">
+                  <div className="flex flex-col items-center justify-center text-center px-1 sm:px-4">
+                    <div className="inline-flex items-center justify-center gap-1 text-xl sm:text-3xl font-black text-[#13213c] tracking-tight">
                       <span dir="ltr" className="tabular-nums">
                         {(settings?.stat2Value || '4.9').replace(/[★⭐*]/g, '').trim() || '4.9'}
                       </span>
-                      <Star className="w-4 h-4 sm:w-5 sm:h-5 fill-[#13213c] text-[#13213c] shrink-0" />
+                      <Star className="w-3.5 h-3.5 sm:w-5 sm:h-5 fill-[#13213c] text-[#13213c] shrink-0" />
                     </div>
-                    <p className="text-xs text-[#78716C] font-bold mt-1 text-center">
+                    <p className="text-[10px] sm:text-xs text-[#78716C] font-bold mt-0.5 sm:mt-1 text-center">
                       {settings?.stat2Label || 'تقييم العملاء'}
                     </p>
                   </div>
 
                   {/* Stat 3 */}
-                  <div className="flex flex-col items-center justify-center text-center px-2 sm:px-4">
-                    <p className="text-2xl sm:text-3xl font-black text-[#13213c] tracking-tight" dir="ltr">
+                  <div className="flex flex-col items-center justify-center text-center px-1 sm:px-4">
+                    <p className="text-xl sm:text-3xl font-black text-[#13213c] tracking-tight" dir="ltr">
                       {settings?.stat3Value || '100%'}
                     </p>
-                    <p className="text-xs text-[#78716C] font-bold mt-1 text-center">
+                    <p className="text-[10px] sm:text-xs text-[#78716C] font-bold mt-0.5 sm:mt-1 text-center">
                       {settings?.stat3Label || 'تغليف ملكي مجاني'}
                     </p>
                   </div>
@@ -511,7 +511,7 @@ export default function StoreHomeClient({
                 <div 
                   onMouseEnter={() => setIsHovered(true)}
                   onMouseLeave={() => setIsHovered(false)}
-                  className="relative aspect-[4/5] sm:aspect-[1/1] lg:aspect-[4/5] rounded-3xl overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.12)] border border-[#E8E4DF] bg-stone-100 group select-none"
+                  className="relative aspect-[16/11] sm:aspect-[1/1] lg:aspect-[4/5] rounded-2xl sm:rounded-3xl overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.12)] border border-[#E8E4DF] bg-stone-100 group select-none"
                 >
                   <AnimatePresence mode="wait">
                     <motion.div
@@ -534,49 +534,49 @@ export default function StoreHomeClient({
                       <div className="absolute inset-0 bg-gradient-to-t from-[#0c1424]/95 via-[#0c1424]/30 to-transparent" />
                       
                       {/* Top Tag */}
-                      <div className="absolute top-4 start-4 z-10">
-                        <span className="inline-flex items-center gap-1.5 bg-white/95 backdrop-blur-md px-3.5 py-1.5 rounded-full text-xs font-black text-[#13213c] shadow-sm">
-                          <Flame className="w-3.5 h-3.5 text-[#13213c]" />
+                      <div className="absolute top-3 sm:top-4 start-3 sm:start-4 z-10">
+                        <span className="inline-flex items-center gap-1 bg-white/95 backdrop-blur-md px-2.5 py-1 sm:px-3.5 sm:py-1.5 rounded-full text-[10px] sm:text-xs font-black text-[#13213c] shadow-sm">
+                          <Flame className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-[#13213c]" />
                           {currentSlide.tag}
                         </span>
                       </div>
 
                       {/* Bottom Info */}
-                      <div className="absolute bottom-0 inset-x-0 p-6 sm:p-7 z-10 text-start">
-                        <h3 className="text-xl sm:text-2xl font-black text-white mb-2 leading-tight">
+                      <div className="absolute bottom-0 inset-x-0 p-4 sm:p-7 z-10 text-start">
+                        <h3 className="text-base sm:text-2xl font-black text-white mb-1 sm:mb-2 leading-tight">
                           {currentSlide.title}
                         </h3>
-                        <p className="text-xs sm:text-sm text-white/80 mb-4 line-clamp-2 leading-relaxed">
+                        <p className="text-[11px] sm:text-sm text-white/80 mb-2 sm:mb-4 line-clamp-1 sm:line-clamp-2 leading-relaxed">
                           {currentSlide.subtitle}
                         </p>
                         <Link
                           href={currentSlide.link}
-                          className="inline-flex items-center gap-2 text-xs sm:text-sm font-bold text-[#7ea6e6] hover:text-white transition-all group/link"
+                          className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold text-[#7ea6e6] hover:text-white transition-all group/link"
                         >
                           <span>تصفح هذه المجموعة الآن</span>
-                          <ArrowLeft className="w-4 h-4 transition-transform group-hover/link:-translate-x-1" />
+                          <ArrowLeft className="w-3.5 h-3.5 sm:w-4 sm:h-4 transition-transform group-hover/link:-translate-x-1" />
                         </Link>
                       </div>
                     </motion.div>
                   </AnimatePresence>
 
                   {/* Navigation Arrows */}
-                  <div className="absolute top-4 end-4 z-20 flex items-center gap-1.5">
+                  <div className="absolute top-3 sm:top-4 end-3 sm:end-4 z-20 flex items-center gap-1.5">
                     <button
                       onClick={() => setActiveSlide((prev) => (prev === 0 ? activeShowcaseSlides.length - 1 : prev - 1))}
-                      className="w-8 h-8 rounded-full bg-white/85 backdrop-blur-md flex items-center justify-center text-[#13213c] hover:bg-white hover:scale-105 transition-all shadow-xs cursor-pointer active:scale-95"
+                      className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white/85 backdrop-blur-md flex items-center justify-center text-[#13213c] hover:bg-white hover:scale-105 transition-all shadow-xs cursor-pointer active:scale-95"
                       aria-label="الشريحة السابقة"
                       title="السابق"
                     >
-                      <ChevronRight className="w-4 h-4" />
+                      <ChevronRight className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                     </button>
                     <button
                       onClick={() => setActiveSlide((prev) => (prev === activeShowcaseSlides.length - 1 ? 0 : prev + 1))}
-                      className="w-8 h-8 rounded-full bg-white/85 backdrop-blur-md flex items-center justify-center text-[#13213c] hover:bg-white hover:scale-105 transition-all shadow-xs cursor-pointer active:scale-95"
+                      className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white/85 backdrop-blur-md flex items-center justify-center text-[#13213c] hover:bg-white hover:scale-105 transition-all shadow-xs cursor-pointer active:scale-95"
                       aria-label="الشريحة التالية"
                       title="التالي"
                     >
-                      <ChevronLeft className="w-4 h-4" />
+                      <ChevronLeft className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                     </button>
                   </div>
                 </div>
@@ -612,25 +612,25 @@ export default function StoreHomeClient({
                 </motion.div>
 
                 {/* Showcase Switcher Pills & Counter */}
-                <div className="flex items-center justify-between gap-3 mt-4 px-2">
+                <div className="flex items-center justify-between gap-3 mt-3 sm:mt-4 px-2">
                   {/* Slide Numeric Counter */}
-                  <div className="flex items-center gap-1 text-xs font-black text-[#13213c] tabular-nums" dir="ltr">
+                  <div className="flex items-center gap-1 text-[11px] sm:text-xs font-black text-[#13213c] tabular-nums" dir="ltr">
                     <span>{String(safeSlideIndex + 1).padStart(2, '0')}</span>
                     <span className="text-[#A8A29E] font-normal">/</span>
                     <span className="text-[#78716C] font-semibold">{String(activeShowcaseSlides.length).padStart(2, '0')}</span>
                   </div>
 
                   {/* Switcher Pills */}
-                  <div className="flex items-center justify-center gap-2 flex-1">
+                  <div className="flex items-center justify-center gap-1.5 sm:gap-2 flex-1">
                     {activeShowcaseSlides.map((slide, idx) => (
                       <button
                         key={slide.id}
                         onClick={() => setActiveSlide(idx)}
                         className={cn(
-                          "h-2 rounded-full transition-all duration-300 cursor-pointer",
+                          "h-1.5 sm:h-2 rounded-full transition-all duration-300 cursor-pointer",
                           safeSlideIndex === idx 
-                            ? "w-8 bg-[#13213c] shadow-xs" 
-                            : "w-2.5 bg-[#E8E4DF] hover:bg-[#A8A29E]"
+                            ? "w-6 sm:w-8 bg-[#13213c] shadow-xs" 
+                            : "w-2 sm:w-2.5 bg-[#E8E4DF] hover:bg-[#A8A29E]"
                         )}
                         aria-label={`انتقال إلى الشريحة ${idx + 1}`}
                       />
@@ -650,33 +650,33 @@ export default function StoreHomeClient({
       </section>
 
       {/* ========================================================================= */}
-      {/* 2. REFINED LUXURY TRUST & VALUE RIBBON */}
+      {/* 2. REFINED LUXURY TRUST & VALUE RIBBON (Compact 2x2 on Mobile) */}
       {/* ========================================================================= */}
-      <section className="py-6 sm:py-8 bg-white border-y border-[#E8E4DF]">
+      <section className="py-4 sm:py-8 bg-white border-y border-[#E8E4DF]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-4 lg:gap-6">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-4 lg:gap-6">
             {trustPillars.map((feature, idx) => {
               const hasDesc = Boolean(feature.desc && feature.desc.trim().length > 0)
               return (
                 <div
                   key={idx}
-                  className="flex items-center gap-3.5 sm:gap-4 p-4 rounded-2xl bg-[#FAFAF8] border border-[#E8E4DF] hover:border-[#13213c]/30 hover:bg-white hover:shadow-sm transition-all duration-200 text-start group h-full"
+                  className="flex items-center gap-2.5 sm:gap-4 p-2.5 sm:p-4 rounded-xl sm:rounded-2xl bg-[#FAFAF8] border border-[#E8E4DF] hover:border-[#13213c]/30 hover:bg-white hover:shadow-sm transition-all duration-200 text-start group h-full"
                 >
                   <div
-                    className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0 transition-transform group-hover:scale-105"
+                    className="w-9 h-9 sm:w-12 sm:h-12 rounded-lg sm:rounded-xl flex items-center justify-center shrink-0 transition-transform group-hover:scale-105"
                     style={{ background: feature.bg }}
                   >
-                    <feature.icon className="w-5 h-5" style={{ color: feature.color }} />
+                    <feature.icon className="w-4 h-4 sm:w-5 sm:h-5" style={{ color: feature.color }} />
                   </div>
                   <div className="min-w-0 flex-1">
                     <h3 className={cn(
                       "font-extrabold text-[#1C1917] leading-snug",
-                      hasDesc ? "text-sm mb-0.5 truncate" : "text-sm sm:text-base"
+                      hasDesc ? "text-xs sm:text-sm mb-0.5 truncate" : "text-xs sm:text-base font-black"
                     )}>
                       {feature.title}
                     </h3>
                     {hasDesc && (
-                      <p className="text-xs text-[#78716C] leading-relaxed line-clamp-2">
+                      <p className="text-[11px] sm:text-xs text-[#78716C] leading-relaxed line-clamp-1 sm:line-clamp-2">
                         {feature.desc}
                       </p>
                     )}
@@ -689,19 +689,56 @@ export default function StoreHomeClient({
       </section>
 
       {/* ========================================================================= */}
-      {/* 3. NEW: SHOP BY RECIPIENT & OCCASION (هدايا مختارة بعناية لمن تحب) */}
+      {/* 3. CURATED CATEGORIES SHOWCASE GRID (Moved up for seamless shopping flow) */}
       {/* ========================================================================= */}
-      {settings?.enablePersonasSection !== false && (
-        <section className="py-14 sm:py-18 bg-[#FAFAF8]">
+      {categories.length > 0 && (
+        <section className="py-8 sm:py-16 bg-[#FAFAF8]">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             
-            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10 text-start">
+            {/* Header */}
+            <div className="flex items-end justify-between mb-5 sm:mb-8 text-start">
               <div>
-                <p className="text-xs font-black text-[#13213c] uppercase tracking-widest mb-1.5 flex items-center gap-1.5">
+                <p className="text-[11px] sm:text-xs font-black text-[#13213c] uppercase tracking-widest mb-1 flex items-center gap-1">
+                  <Package className="w-3.5 h-3.5 text-[#13213c]" />
+                  <span>{settings?.categoriesSectionBadge || 'كتالوج التشكيلات الراقية'}</span>
+                </p>
+                <h2 className="text-xl sm:text-3xl lg:text-4xl font-black text-[#1C1917] tracking-tight">
+                  {settings?.categoriesSectionTitle || 'تصفح الهدايا حسب الأقسام'}
+                </h2>
+              </div>
+              <Link
+                href="/shop"
+                className="inline-flex items-center gap-1 text-xs sm:text-sm font-bold text-[#13213c] hover:text-[#1C1917] transition-colors"
+              >
+                <span>جميع الأقسام</span>
+                <ArrowLeft className="w-3.5 h-3.5" />
+              </Link>
+            </div>
+
+            {/* Grid Cards (With 100% Guaranteed Image Fallbacks) */}
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2.5 sm:gap-4">
+              {categories.slice(0, 6).map((cat) => (
+                <CategoryCardItem key={cat.id} cat={cat} />
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* ========================================================================= */}
+      {/* 4. SHOP BY RECIPIENT & OCCASION (هدايا مختارة بعناية لمن تحب) */}
+      {/* ========================================================================= */}
+      {settings?.enablePersonasSection !== false && (
+        <section className="py-8 sm:py-16 bg-white border-t border-[#E8E4DF]">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 sm:gap-4 mb-5 sm:mb-8 text-start">
+              <div>
+                <p className="text-[11px] sm:text-xs font-black text-[#13213c] uppercase tracking-widest mb-1 flex items-center gap-1.5">
                   <Sparkles className="w-3.5 h-3.5 text-[#13213c]" />
                   <span>{settings?.personaSectionBadge || 'دليل الإهداء الذكي'}</span>
                 </p>
-                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-[#1C1917] tracking-tight">
+                <h2 className="text-xl sm:text-3xl lg:text-4xl font-black text-[#1C1917] tracking-tight">
                   {settings?.personaSectionTitle || 'هدايا مختارة بعناية لمن تحب'}
                 </h2>
               </div>
@@ -710,41 +747,41 @@ export default function StoreHomeClient({
               </p>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-6">
               {activePersonas.map((persona) => (
                 <Link
                   key={persona.id}
                   href={persona.link}
-                  className="group relative rounded-3xl overflow-hidden aspect-[4/5] flex flex-col justify-end p-6 border border-[#E8E4DF] bg-stone-100 shadow-xs hover:shadow-[0_16px_40px_rgba(19,33,60,0.14)] hover:-translate-y-1.5 transition-all duration-300"
+                  className="group relative rounded-2xl sm:rounded-3xl overflow-hidden aspect-[3/4] sm:aspect-[4/5] flex flex-col justify-end p-3 sm:p-6 border border-[#E8E4DF] bg-stone-100 shadow-2xs hover:shadow-[0_16px_40px_rgba(19,33,60,0.14)] hover:-translate-y-1.5 transition-all duration-300"
                 >
                   <Image
                     src={persona.image}
                     alt={persona.title}
                     fill
-                    sizes="(max-width: 768px) 100vw, 25vw"
+                    sizes="(max-width: 768px) 50vw, 25vw"
                     className="object-cover transition-transform duration-700 group-hover:scale-108"
                   />
                   {/* Royal Dark Gradient Overlay */}
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0c1424]/95 via-[#0c1424]/40 to-transparent" />
                   
                   {/* Floating Pill Tag */}
-                  <div className="absolute top-4 start-4 z-10">
-                    <span className="inline-flex items-center gap-1 bg-white/95 backdrop-blur-md px-3 py-1 rounded-full text-[11px] font-black text-[#13213c] shadow-xs">
+                  <div className="absolute top-2.5 sm:top-4 start-2.5 sm:start-4 z-10">
+                    <span className="inline-flex items-center gap-1 bg-white/95 backdrop-blur-md px-2 py-0.5 sm:px-3 sm:py-1 rounded-full text-[10px] sm:text-[11px] font-black text-[#13213c] shadow-2xs">
                       {persona.tag}
                     </span>
                   </div>
 
                   {/* Content */}
                   <div className="relative z-10 text-start">
-                    <h3 className="text-xl sm:text-2xl font-black text-white mb-1.5 group-hover:text-[#7ea6e6] transition-colors">
+                    <h3 className="text-sm sm:text-2xl font-black text-white mb-0.5 sm:mb-1.5 group-hover:text-[#7ea6e6] transition-colors leading-tight">
                       {persona.title}
                     </h3>
-                    <p className="text-xs text-white/80 leading-relaxed mb-4 line-clamp-2">
+                    <p className="text-[10px] sm:text-xs text-white/80 leading-relaxed mb-2 sm:mb-4 line-clamp-1 sm:line-clamp-2">
                       {persona.subtitle}
                     </p>
-                    <div className="inline-flex items-center gap-1.5 text-xs font-extrabold text-[#7ea6e6] group-hover:text-white transition-colors">
+                    <div className="inline-flex items-center gap-1 text-[11px] sm:text-xs font-extrabold text-[#7ea6e6] group-hover:text-white transition-colors">
                       <span>{persona.btnText}</span>
-                      <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
+                      <ArrowLeft className="w-3.5 h-3.5 transition-transform group-hover:-translate-x-1" />
                     </div>
                   </div>
                 </Link>
@@ -756,74 +793,37 @@ export default function StoreHomeClient({
       )}
 
       {/* ========================================================================= */}
-      {/* 4. CURATED CATEGORIES SHOWCASE GRID */}
-      {/* ========================================================================= */}
-      {categories.length > 0 && (
-        <section className="py-14 sm:py-18 bg-white border-t border-[#E8E4DF]">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            
-            {/* Header */}
-            <div className="flex items-end justify-between mb-10 text-start">
-              <div>
-                <p className="text-xs font-black text-[#13213c] uppercase tracking-widest mb-1.5 flex items-center gap-1">
-                  <Package className="w-3.5 h-3.5 text-[#13213c]" />
-                  <span>{settings?.categoriesSectionBadge || 'كتالوج التشكيلات الراقية'}</span>
-                </p>
-                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-[#1C1917] tracking-tight">
-                  {settings?.categoriesSectionTitle || 'تصفح الهدايا حسب الأقسام'}
-                </h2>
-              </div>
-              <Link
-                href="/shop"
-                className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold text-[#13213c] hover:text-[#1C1917] transition-colors"
-              >
-                <span>جميع الأقسام</span>
-                <ArrowLeft className="w-4 h-4" />
-              </Link>
-            </div>
-
-            {/* Grid Cards (With 100% Guaranteed Image Fallbacks) */}
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
-              {categories.slice(0, 6).map((cat) => (
-                <CategoryCardItem key={cat.id} cat={cat} />
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* ========================================================================= */}
       {/* 5. CURATED PRODUCTS SHOWCASE (FILTER TABS & ELEVATED GRID) */}
       {/* ========================================================================= */}
       {topProducts.length > 0 && (
-        <section className="py-14 sm:py-20 bg-[#FAFAF8] border-t border-[#E8E4DF]">
+        <section className="py-8 sm:py-16 bg-[#FAFAF8] border-t border-[#E8E4DF]">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             
             {/* Header & Filter Tabs */}
-            <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10 text-start">
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 sm:gap-6 mb-6 sm:mb-10 text-start">
               <div>
-                <p className="text-xs font-black text-[#13213c] uppercase tracking-widest mb-1.5 flex items-center gap-1">
+                <p className="text-[11px] sm:text-xs font-black text-[#13213c] uppercase tracking-widest mb-1 flex items-center gap-1">
                   <Flame className="w-3.5 h-3.5 text-[#13213c]" />
                   <span>{settings?.productsSectionBadge || 'مختارات استثنائية للإهداء'}</span>
                 </p>
-                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-[#1C1917] tracking-tight">
+                <h2 className="text-xl sm:text-3xl lg:text-4xl font-black text-[#1C1917] tracking-tight">
                   {settings?.productsSectionTitle || 'المنتجات الأكثر رواجاً وإهداءً'}
                 </h2>
               </div>
 
               {/* Filter Tabs */}
-              <div className="flex items-center gap-1.5 bg-white p-1.5 rounded-2xl border border-[#E8E4DF] overflow-x-auto scrollbar-none self-start md:self-auto shadow-2xs">
+              <div className="flex items-center gap-1 sm:gap-1.5 bg-white p-1 sm:p-1.5 rounded-xl sm:rounded-2xl border border-[#E8E4DF] overflow-x-auto no-scrollbar self-start md:self-auto shadow-2xs max-w-full">
                 {[
                   { id: 'all', label: 'الكل' },
                   { id: 'best', label: '🔥 الأكثر طلباً' },
                   { id: 'new', label: '✨ جديدنا' },
-                  { id: 'sale', label: '🏷️ عروض وتخفيضات' },
+                  { id: 'sale', label: '🏷️ عروض' },
                 ].map((tab) => (
                   <button
                     key={tab.id}
                     onClick={() => setActiveProductTab(tab.id as any)}
                     className={cn(
-                      "px-4 py-2 rounded-xl text-xs font-bold transition-all shrink-0 cursor-pointer",
+                      "px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg sm:rounded-xl text-[11px] sm:text-xs font-bold transition-all shrink-0 cursor-pointer",
                       activeProductTab === tab.id
                         ? "bg-[#13213c] text-white shadow-xs font-extrabold"
                         : "text-[#78716C] hover:text-[#1C1917] hover:bg-[#FAFAF8]"
@@ -836,7 +836,7 @@ export default function StoreHomeClient({
             </div>
 
             {/* Products Grid */}
-            <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+            <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-6">
               {filteredProducts.slice(0, 8).map((product) => (
                 <div key={product.id} className="h-full">
                   <ProductCard product={product} />
@@ -845,10 +845,10 @@ export default function StoreHomeClient({
             </div>
 
             {/* Bottom View All Link */}
-            <div className="mt-12 text-center">
+            <div className="mt-8 sm:mt-12 text-center">
               <Link
                 href="/shop"
-                className="inline-flex items-center gap-2 h-12 px-8 rounded-2xl bg-white hover:bg-[#F0F4F9] border border-[#E8E4DF] hover:border-[#13213c]/40 text-xs font-bold text-[#1C1917] transition-all hover:-translate-y-0.5 shadow-2xs"
+                className="inline-flex items-center gap-2 h-11 sm:h-12 px-6 sm:px-8 rounded-xl sm:rounded-2xl bg-white hover:bg-[#F0F4F9] border border-[#E8E4DF] hover:border-[#13213c]/40 text-xs font-bold text-[#1C1917] transition-all hover:-translate-y-0.5 shadow-2xs"
               >
                 <span>استكشف جميع منتجات المتجر</span>
                 <ArrowLeft className="w-4 h-4 text-[#13213c]" />
@@ -861,10 +861,10 @@ export default function StoreHomeClient({
       {/* ========================================================================= */}
       {/* 6. INTERACTIVE GIFT FINDER BANNER */}
       {/* ========================================================================= */}
-      <section id="gift-finder-section" className="py-12 px-4 sm:px-6 lg:px-8">
+      <section id="gift-finder-section" className="py-8 sm:py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <div 
-            className="relative rounded-3xl p-8 sm:p-12 lg:p-14 overflow-hidden border border-[#13213c]/30 text-start shadow-[0_20px_50px_rgba(0,0,0,0.2)]"
+            className="relative rounded-2xl sm:rounded-3xl p-5 sm:p-12 lg:p-14 overflow-hidden border border-[#13213c]/30 text-start shadow-[0_20px_50px_rgba(0,0,0,0.2)]"
             style={{
               background: 'linear-gradient(135deg, #0c1424 0%, #13213c 60%, #0c1424 100%)'
             }}
@@ -873,31 +873,31 @@ export default function StoreHomeClient({
             <div className="absolute top-0 end-0 w-80 h-80 bg-[#13213c]/20 rounded-full blur-[100px] pointer-events-none" />
             <div className="absolute bottom-0 start-0 w-80 h-80 bg-[#22385e]/15 rounded-full blur-[100px] pointer-events-none" />
 
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-center relative z-10">
               
               {/* Left Content */}
               <div className="lg:col-span-6 text-start">
-                <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-black bg-blue-500/20 text-[#93c5fd] border border-blue-400/30 mb-4">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] sm:text-xs font-black bg-blue-500/20 text-[#93c5fd] border border-blue-400/30 mb-3 sm:mb-4">
                   <Sparkles className="w-3.5 h-3.5 text-[#93c5fd]" />
                   مستشار الإهداء الذكي
                 </span>
-                <h2 className="text-3xl sm:text-4xl font-black text-white leading-tight mb-4">
+                <h2 className="text-2xl sm:text-4xl font-black text-white leading-tight mb-2 sm:mb-4">
                   محتار في اختيار الهدية المناسبة؟
                 </h2>
-                <p className="text-stone-300 text-sm sm:text-base leading-relaxed mb-6">
+                <p className="text-stone-300 text-xs sm:text-base leading-relaxed mb-4 sm:mb-6">
                   دع ذكاء المتجر يختار لك الهدية المثالية بناءً على الشخص والمناسبة وميزانيتك بضغطة زر واحدة.
                 </p>
-                <div className="flex flex-wrap items-center gap-4 text-xs text-white/80">
-                  <span className="flex items-center gap-1"><CheckCircle2 className="w-4 h-4 text-[#7ea6e6]" /> ترشيحات دقيقة</span>
-                  <span className="flex items-center gap-1"><CheckCircle2 className="w-4 h-4 text-[#7ea6e6]" /> وفر وقتك وجهدك</span>
-                  <span className="flex items-center gap-1"><CheckCircle2 className="w-4 h-4 text-[#7ea6e6]" /> تغليف ملائم للمناسبة</span>
+                <div className="flex flex-wrap items-center gap-2.5 sm:gap-4 text-[11px] sm:text-xs text-white/80">
+                  <span className="flex items-center gap-1"><CheckCircle2 className="w-3.5 h-3.5 text-[#7ea6e6]" /> ترشيحات دقيقة</span>
+                  <span className="flex items-center gap-1"><CheckCircle2 className="w-3.5 h-3.5 text-[#7ea6e6]" /> وفر وقتك وجهدك</span>
+                  <span className="flex items-center gap-1"><CheckCircle2 className="w-3.5 h-3.5 text-[#7ea6e6]" /> تغليف ملائم</span>
                 </div>
               </div>
 
               {/* Right Mini-Interactive Widget */}
-              <div className="lg:col-span-6 bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/15">
-                <p className="text-xs font-black text-[#93c5fd] mb-3">الخطوة 1: لمن الهدية؟</p>
-                <div className="grid grid-cols-4 gap-2 mb-4">
+              <div className="lg:col-span-6 bg-white/10 backdrop-blur-md rounded-2xl p-4 sm:p-6 border border-white/15">
+                <p className="text-xs font-black text-[#93c5fd] mb-2 sm:mb-3">الخطوة 1: لمن الهدية؟</p>
+                <div className="grid grid-cols-4 gap-1.5 sm:gap-2 mb-3 sm:mb-4">
                   {[
                     { id: 'women', label: 'لها 👩' },
                     { id: 'men', label: 'له 👨' },
@@ -908,7 +908,7 @@ export default function StoreHomeClient({
                       key={item.id}
                       onClick={() => setQuizRecipient(item.id as any)}
                       className={cn(
-                        "py-2.5 px-2 rounded-xl text-xs font-bold transition-all border cursor-pointer text-center",
+                        "py-2 sm:py-2.5 px-1 sm:px-2 rounded-xl text-[11px] sm:text-xs font-bold transition-all border cursor-pointer text-center",
                         quizRecipient === item.id
                           ? "bg-white text-[#13213c] border-white font-black shadow-md scale-[1.02]"
                           : "bg-white/10 text-white/90 border-white/15 hover:bg-white/20 hover:text-white"
@@ -919,18 +919,18 @@ export default function StoreHomeClient({
                   ))}
                 </div>
 
-                <p className="text-xs font-black text-[#93c5fd] mb-3">الخطوة 2: حدد الميزانية التقريبية</p>
-                <div className="grid grid-cols-3 gap-2 mb-6">
+                <p className="text-xs font-black text-[#93c5fd] mb-2 sm:mb-3">الخطوة 2: حدد الميزانية التقريبية</p>
+                <div className="grid grid-cols-3 gap-1.5 sm:gap-2 mb-4 sm:mb-6">
                   {[
-                    { id: 'under-50k', label: 'أقل من 50 ألف د.ع' },
-                    { id: '50k-100k', label: '50 - 100 ألف د.ع' },
-                    { id: 'above-100k', label: 'أكثر من 100 ألف د.ع' },
+                    { id: 'under-50k', label: 'أقل من 50 ألف' },
+                    { id: '50k-100k', label: '50 - 100 ألف' },
+                    { id: 'above-100k', label: 'أكثر من 100 ألف' },
                   ].map((b) => (
                     <button
                       key={b.id}
                       onClick={() => setQuizBudget(b.id)}
                       className={cn(
-                        "py-2.5 px-2 rounded-xl text-[11px] font-bold transition-all border cursor-pointer text-center",
+                        "py-2 sm:py-2.5 px-1 sm:px-2 rounded-xl text-[10px] sm:text-[11px] font-bold transition-all border cursor-pointer text-center",
                         quizBudget === b.id
                           ? "bg-white text-[#13213c] border-white font-black shadow-md scale-[1.02]"
                           : "bg-white/10 text-white/90 border-white/15 hover:bg-white/20 hover:text-white"
@@ -943,7 +943,7 @@ export default function StoreHomeClient({
 
                 <Link
                   href={quizRecipient ? `/category/${quizRecipient}` : '/shop'}
-                  className="flex items-center justify-center gap-2 w-full h-12 rounded-xl font-black text-white text-sm transition-all hover:brightness-110 hover:-translate-y-0.5 shadow-lg border border-white/20 cursor-pointer"
+                  className="flex items-center justify-center gap-2 w-full h-11 sm:h-12 rounded-xl font-black text-white text-xs sm:text-sm transition-all hover:brightness-110 hover:-translate-y-0.5 shadow-lg border border-white/20 cursor-pointer"
                   style={{ background: 'linear-gradient(135deg, #22385e 0%, #13213c 100%)' }}
                 >
                   <Sparkles className="w-4 h-4 text-blue-200" />
@@ -960,42 +960,42 @@ export default function StoreHomeClient({
       {/* ========================================================================= */}
       {/* 7. REAL SOCIAL PROOF / TESTIMONIALS */}
       {/* ========================================================================= */}
-      <section className="py-14 sm:py-18 bg-white border-t border-[#E8E4DF]">
+      <section className="py-8 sm:py-16 bg-white border-t border-[#E8E4DF]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-start">
           
-          <div className="text-center max-w-2xl mx-auto mb-12">
-            <p className="text-xs font-black text-[#13213c] uppercase tracking-widest mb-1.5 flex items-center justify-center gap-1.5">
+          <div className="text-center max-w-2xl mx-auto mb-6 sm:mb-12">
+            <p className="text-[11px] sm:text-xs font-black text-[#13213c] uppercase tracking-widest mb-1 flex items-center justify-center gap-1.5">
               <Heart className="w-3.5 h-3.5 text-[#13213c] fill-[#13213c]" />
               <span>آراء وتجارب حقيقية</span>
             </p>
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-[#1C1917] tracking-tight">
+            <h2 className="text-xl sm:text-3xl lg:text-4xl font-black text-[#1C1917] tracking-tight">
               تجارب استثنائية شاركنا بها أحباؤنا
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5 sm:gap-6">
             {testimonials.map((t) => (
               <div
                 key={t.id}
-                className="p-6 rounded-3xl bg-[#FAFAF8] border border-[#E8E4DF] hover:border-[#13213c]/30 hover:shadow-[0_8px_30px_rgba(19,33,60,0.06)] transition-all text-start flex flex-col"
+                className="p-4 sm:p-6 rounded-2xl sm:rounded-3xl bg-[#FAFAF8] border border-[#E8E4DF] hover:border-[#13213c]/30 hover:shadow-[0_8px_30px_rgba(19,33,60,0.06)] transition-all text-start flex flex-col"
               >
                 {/* Stars */}
-                <div className="flex items-center gap-1 text-[#13213c] mb-3">
+                <div className="flex items-center gap-1 text-[#13213c] mb-2 sm:mb-3">
                   {[...Array(t.rating)].map((_, i) => (
-                    <Star key={i} className="w-4 h-4 fill-[#13213c]" />
+                    <Star key={i} className="w-3.5 h-3.5 sm:w-4 sm:h-4 fill-[#13213c]" />
                   ))}
                 </div>
 
-                <p className="text-sm text-[#44403C] leading-relaxed mb-6 flex-1 italic">
+                <p className="text-xs sm:text-sm text-[#44403C] leading-relaxed mb-4 sm:mb-6 flex-1 italic">
                   &ldquo;{t.text}&rdquo;
                 </p>
 
-                <div className="pt-4 border-t border-[#F0ECE6] flex items-center justify-between">
+                <div className="pt-3 sm:pt-4 border-t border-[#F0ECE6] flex items-center justify-between">
                   <div>
                     <p className="text-xs font-black text-[#1C1917]">{t.name}</p>
-                    <p className="text-[11px] text-[#A8A29E]">{t.city}</p>
+                    <p className="text-[10px] sm:text-[11px] text-[#A8A29E]">{t.city}</p>
                   </div>
-                  <span className="text-[10px] font-bold px-2.5 py-1 rounded-full bg-[#F0F4F9] text-[#13213c] border border-[#13213c]/20">
+                  <span className="text-[10px] font-bold px-2.5 py-0.5 sm:py-1 rounded-full bg-[#F0F4F9] text-[#13213c] border border-[#13213c]/20">
                     {t.gift}
                   </span>
                 </div>
@@ -1010,21 +1010,21 @@ export default function StoreHomeClient({
       {/* 8. VIP GIFT CONCIERGE & CUSTOM ASSISTANCE BANNER */}
       {/* ========================================================================= */}
       {settings?.showConcierge !== false && (
-        <section className="py-12 bg-[#F0F4F9] border-t border-[#E8E4DF]">
+        <section className="py-8 sm:py-12 bg-[#F0F4F9] border-t border-[#E8E4DF]">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="bg-white rounded-3xl p-6 sm:p-10 border border-[#E8E4DF] flex flex-col md:flex-row items-center justify-between gap-6 shadow-xs">
-              <div className="flex items-center gap-4 text-start">
+            <div className="bg-white rounded-2xl sm:rounded-3xl p-5 sm:p-10 border border-[#E8E4DF] flex flex-col md:flex-row items-center justify-between gap-4 sm:gap-6 shadow-xs">
+              <div className="flex items-center gap-3.5 sm:gap-4 text-start w-full md:w-auto">
                 <div 
-                  className="w-14 h-14 rounded-2xl flex items-center justify-center text-white shrink-0 shadow-sm"
+                  className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl flex items-center justify-center text-white shrink-0 shadow-sm"
                   style={{ background: 'linear-gradient(135deg, #22385e 0%, #13213c 100%)' }}
                 >
-                  <MessageCircle className="w-7 h-7 text-white" />
+                  <MessageCircle className="w-6 h-6 sm:w-7 sm:h-7 text-white" />
                 </div>
                 <div>
-                  <h3 className="text-lg sm:text-xl font-black text-[#1C1917]">
+                  <h3 className="text-base sm:text-xl font-black text-[#1C1917]">
                     {settings?.conciergeTitle || 'هل تبحث عن تنسيق هدية خاصة أو بوكس بمواصفات محددة؟'}
                   </h3>
-                  <p className="text-xs sm:text-sm text-[#78716C] mt-1 leading-relaxed max-w-xl">
+                  <p className="text-xs sm:text-sm text-[#78716C] mt-0.5 sm:mt-1 leading-relaxed max-w-xl">
                     {settings?.conciergeDesc || 'فريقنا المتخصص في تنسيق الهدايا جاهز لمساعدتك عبر واتساب في اختيار القطع، كتابة بطاقة الإهداء، واختيار ألوان التغليف المناسبة.'}
                   </p>
                 </div>
@@ -1034,11 +1034,10 @@ export default function StoreHomeClient({
                 href={`https://wa.me/${whatsappPhone.replace(/[^0-9]/g, '')}?text=${encodeURIComponent('مرحباً، أود المساعدة في تنسيق هدية خاصة 🎁')}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="h-12 px-7 rounded-2xl text-white font-extrabold text-xs sm:text-sm flex items-center justify-center gap-2 shrink-0 shadow-md hover:-translate-y-0.5 transition-all self-stretch md:self-auto cursor-pointer"
-                style={{ background: 'linear-gradient(135deg, #25D366 0%, #128C7E 100%)' }}
+                className="w-full md:w-auto flex items-center justify-center gap-2 h-11 sm:h-12 px-6 rounded-xl sm:rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs sm:text-sm font-black transition-all shadow-sm shrink-0 cursor-pointer"
               >
-                <MessageCircle className="w-4 h-4 text-white" />
-                <span>{settings?.conciergeBtnText || 'تحدث مع منسق الهدايا عبر واتساب'}</span>
+                <MessageCircle className="w-4 h-4 fill-white" />
+                <span>{settings?.conciergeBtnText || 'تواصل معنا عبر واتساب'}</span>
               </a>
             </div>
           </div>
