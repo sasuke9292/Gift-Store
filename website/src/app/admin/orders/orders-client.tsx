@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import {
   Table, TableBody, TableCell, TableHead, TableHeader, TableRow,
 } from '@/components/ui/table'
@@ -35,7 +36,7 @@ interface OrderData {
   shipping: string
 }
 
-const statusConfig: Record<string, { bg: string, text: string, border: string, icon: React.ComponentType<{ className?: string }>, label: string }> = {
+const statusConfig: Record<string, { bg: string, text: string, border: string, icon: any, label: string }> = {
   PENDING: { bg: 'bg-amber-50', text: 'text-amber-700', border: 'border-amber-200', icon: Clock, label: 'قيد المراجعة' },
   PROCESSING: { bg: 'bg-amber-50', text: 'text-amber-700', border: 'border-amber-200', icon: Package, label: 'جاري التجهيز' },
   SHIPPED: { bg: 'bg-blue-50', text: 'text-blue-700', border: 'border-blue-200', icon: Truck, label: 'تم الشحن' },
@@ -57,7 +58,7 @@ export default function OrdersClient({ initialOrders }: { initialOrders: OrderDa
   const [orders, setOrders] = useState(initialOrders)
   const [search, setSearch] = useState('')
   const [statusFilter, setStatusFilter] = useState('all')
-  const [sourceFilter] = useState<'all' | 'WHATSAPP'>(() => {
+  const [sourceFilter, setSourceFilter] = useState<'all' | 'WHATSAPP'>(() => {
     if (typeof window !== 'undefined') {
       const params = new URLSearchParams(window.location.search)
       if (params.get('source') === 'WHATSAPP') {
@@ -76,7 +77,7 @@ export default function OrdersClient({ initialOrders }: { initialOrders: OrderDa
     setIsModalOpen(true)
   }
 
-  const handleOrderUpdated = (updatedOrder: { id: string; status: string }) => {
+  const handleOrderUpdated = (updatedOrder: any) => {
     setOrders(orders.map(o => o.id === updatedOrder.id ? { ...o, status: updatedOrder.status } : o))
   }
 
@@ -86,8 +87,7 @@ export default function OrdersClient({ initialOrders }: { initialOrders: OrderDa
       o.customer.toLowerCase().includes(search.toLowerCase()) ||
       (o.phone && o.phone.includes(search))
     const matchesStatus = statusFilter === 'all' || o.status === statusFilter
-    const matchesSource = sourceFilter === 'all' || o.source === sourceFilter
-    return matchesSearch && matchesStatus && matchesSource
+    return matchesSearch && matchesStatus
   })
 
   const handleStatusChange = async (id: string, status: OrderStatus) => {

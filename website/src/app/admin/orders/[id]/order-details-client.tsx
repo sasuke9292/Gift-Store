@@ -2,8 +2,8 @@
 
 import React, { useState } from 'react'
 import { motion } from 'framer-motion'
+import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import Image from 'next/image'
 import {
   Card, CardContent, CardHeader, CardTitle,
 } from '@/components/ui/card'
@@ -15,7 +15,7 @@ import {
 } from '@/components/ui/select'
 import { 
   ArrowRight, Package, Clock, Truck, CheckCircle2, XCircle, 
-  User, Phone, Mail, MapPin, Receipt, Save
+  User, Phone, Mail, MapPin, Receipt, CreditCard, Save
 } from 'lucide-react'
 import { updateOrderStatus, updatePaymentStatus, updateOrderTracking } from '@/app/actions/admin/orders'
 import { toast } from 'sonner'
@@ -45,6 +45,7 @@ const paymentMethodMap: Record<string, string> = {
 }
 
 export default function OrderDetailsClient({ initialOrder }: { initialOrder: any }) {
+  const router = useRouter()
   const [order, setOrder] = useState(initialOrder)
   const [isUpdating, setIsUpdating] = useState(false)
   const [notes, setNotes] = useState(order.internalNotes || '')
@@ -138,9 +139,9 @@ export default function OrderDetailsClient({ initialOrder }: { initialOrder: any
               <div className="divide-y divide-slate-100">
                 {order.items.map((item: any) => (
                   <div key={item.id} className="p-6 flex items-start sm:items-center gap-4">
-                    <div className="relative w-16 h-16 rounded-xl bg-slate-100 shrink-0 border border-slate-200 overflow-hidden flex items-center justify-center">
+                    <div className="w-16 h-16 rounded-xl bg-slate-100 shrink-0 border border-slate-200 overflow-hidden flex items-center justify-center">
                       {item.product?.images?.[0] ? (
-                        <Image src={item.product.images[0]} alt={item.productName} fill sizes="64px" className="object-cover" unoptimized />
+                        <img src={item.product.images[0]} alt={item.productName} className="w-full h-full object-cover" />
                       ) : (
                         <Package className="w-6 h-6 text-slate-400" />
                       )}

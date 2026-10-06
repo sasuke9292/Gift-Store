@@ -2,8 +2,11 @@
 
 import React, { useState } from 'react'
 import { motion } from 'framer-motion'
+import { Card, CardContent } from '@/components/ui/card'
+import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
+import { Textarea } from '@/components/ui/textarea'
 import { ArrowRight, Image as ImageIcon, UploadCloud, X, Tag, DollarSign, Package } from 'lucide-react'
 import { updateProduct } from '@/app/actions/admin/products'
 import { toast } from 'sonner'
@@ -24,6 +27,7 @@ export default function EditProductClient({ categories, initialProduct }: { cate
     imagesList: initialProduct.images || [] as string[],
     isActive: initialProduct.isActive
   })
+  const [newImageUrl, setNewImageUrl] = useState('')
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -47,7 +51,7 @@ export default function EditProductClient({ categories, initialProduct }: { cate
       } else {
         toast.error(res.error || 'حدث خطأ أثناء الإضافة')
       }
-    } catch {
+    } catch (err) {
       toast.error('حدث خطأ غير متوقع. يرجى المحاولة مرة أخرى.')
     } finally {
       setIsSubmitting(false)
