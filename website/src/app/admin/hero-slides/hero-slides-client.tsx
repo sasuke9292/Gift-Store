@@ -551,10 +551,13 @@ export default function HeroSlidesClient({ initialSlides, settings }: HeroSlides
 
                   {/* Thumbnail */}
                   <div className="relative w-24 h-24 sm:w-28 sm:h-28 rounded-2xl overflow-hidden bg-stone-100 border border-[#E8E4DF] shrink-0 group">
-                    <img 
+                    <Image 
                       src={slide.image} 
                       alt={slide.title} 
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      fill
+                      sizes="(max-width: 640px) 96px, 112px"
+                      className="object-cover group-hover:scale-105 transition-transform duration-300"
+                      unoptimized
                     />
                     <div className="absolute top-1.5 start-1.5">
                       <span className="text-[9px] font-black px-1.5 py-0.5 rounded bg-black/60 text-white backdrop-blur-xs">
@@ -688,10 +691,13 @@ export default function HeroSlidesClient({ initialSlides, settings }: HeroSlides
                     {/* Image Preview */}
                     <div className="sm:col-span-4 relative aspect-[4/3] rounded-2xl overflow-hidden bg-stone-100 border border-[#E8E4DF] flex items-center justify-center">
                       {formImage ? (
-                        <img 
+                        <Image 
                           src={formImage} 
                           alt="Preview" 
-                          className="w-full h-full object-cover"
+                          fill
+                          sizes="(max-width: 640px) 100vw, 300px"
+                          className="object-cover"
+                          unoptimized
                         />
                       ) : (
                         <div className="text-center p-3 text-[#A8A29E]">

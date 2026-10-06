@@ -1,16 +1,17 @@
 'use client'
 
 import React, { useState } from 'react'
-import { Card, CardContent } from '@/components/ui/card'
+import { Card } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
-import { ArrowRight, Image as ImageIcon, Plus, X, Tag, DollarSign, Package, Loader2, Sparkles } from 'lucide-react'
+import { ArrowRight, Image as ImageIcon, Plus, X, Package, Loader2 } from 'lucide-react'
 import { createProduct } from '@/app/actions/admin/products'
 import { toast } from 'sonner'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import Image from 'next/image'
 import { Category } from '@prisma/client'
 import { Switch } from '@/components/ui/switch'
 
@@ -68,7 +69,7 @@ export default function NewProductClient({ categories }: { categories: Category[
       } else {
         toast.error(res.error || 'حدث خطأ أثناء إضافة المنتج')
       }
-    } catch (err) {
+    } catch {
       toast.error('حدث خطأ غير متوقع. يرجى المحاولة مرة أخرى.')
     } finally {
       setIsSubmitting(false)
@@ -183,11 +184,11 @@ export default function NewProductClient({ categories }: { categories: Category[
                 <div className="grid grid-cols-3 sm:grid-cols-4 gap-3 p-4 bg-[#FAFAF8] rounded-2xl border border-[#E8E4DF]">
                   {product.imagesList.map((url, idx) => (
                     <div key={idx} className="relative aspect-square rounded-xl overflow-hidden border border-[#E8E4DF] group">
-                      <img src={url} alt={`img-${idx}`} className="w-full h-full object-cover" />
+                      <Image src={url} alt={`img-${idx}`} fill sizes="120px" className="object-cover" />
                       <button
                         type="button"
                         onClick={() => handleRemoveImage(idx)}
-                        className="absolute inset-0 bg-black/60 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
+                        className="absolute inset-0 bg-black/60 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer z-10"
                       >
                         <X className="w-5 h-5" />
                       </button>

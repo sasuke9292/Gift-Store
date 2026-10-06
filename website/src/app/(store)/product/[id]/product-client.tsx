@@ -192,7 +192,7 @@ ${typeof window !== 'undefined' ? `🔗 رابط المنتج: ${window.location
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className="flex flex-col"
+            className="flex flex-col lg:sticky lg:top-24 lg:self-start"
           >
             {/* Category Badge */}
             {product.category && (

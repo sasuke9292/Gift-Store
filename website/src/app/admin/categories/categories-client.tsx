@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
+import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { Button } from '@/components/ui/button'
 import { Plus, Search, Edit, Trash2, FolderTree, Image as ImageIcon, Loader2 } from 'lucide-react'
@@ -172,7 +173,7 @@ export default function CategoriesClient({ initialCategories }: { initialCategor
                     <div className="flex items-center gap-3.5">
                       <div className="w-12 h-12 rounded-xl bg-[#FAFAF8] flex items-center justify-center overflow-hidden relative shrink-0 border border-[#E8E4DF]">
                         {category.image ? (
-                          <img src={category.image} alt={category.name} className="w-full h-full object-cover" />
+                          <Image src={category.image} alt={category.name} fill sizes="48px" className="object-cover" unoptimized />
                         ) : (
                           <FolderTree className="w-5 h-5 text-[#A8A29E]" />
                         )}

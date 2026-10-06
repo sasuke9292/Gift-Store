@@ -49,6 +49,7 @@ import { updateStoreSettings } from '@/app/actions/admin/settings'
 import { HeroSlideData } from '@/app/actions/admin/hero-slides'
 import HeroSlidesClient from '../hero-slides/hero-slides-client'
 import { cn } from '@/lib/utils'
+import Image from 'next/image'
 
 export interface HeroSlide {
   id: string
@@ -1024,8 +1025,8 @@ export default function SettingsClient({
 
                 <div className="flex items-center gap-2">
                   {settings.logoUrl && (
-                    <div className="w-14 h-11 rounded-xl border border-slate-800 bg-[#0c1424] overflow-hidden shrink-0 flex items-center justify-center p-1.5 shadow-inner">
-                      <img src={settings.logoUrl} alt="Logo preview" className="max-w-full max-h-full object-contain" />
+                    <div className="relative w-14 h-11 rounded-xl border border-slate-800 bg-[#0c1424] overflow-hidden shrink-0 flex items-center justify-center p-1.5 shadow-inner">
+                      <Image src={settings.logoUrl} alt="Logo preview" fill sizes="56px" className="object-contain p-1" unoptimized />
                     </div>
                   )}
                   <Input 
@@ -1072,8 +1073,8 @@ export default function SettingsClient({
 
                 <div className="flex items-center gap-2">
                   {settings.faviconUrl && (
-                    <div className="w-11 h-11 rounded-xl border border-[#E8E4DF] bg-stone-50 overflow-hidden shrink-0 flex items-center justify-center p-1.5">
-                      <img src={settings.faviconUrl} alt="Favicon preview" className="max-w-full max-h-full object-contain" />
+                    <div className="relative w-11 h-11 rounded-xl border border-[#E8E4DF] bg-stone-50 overflow-hidden shrink-0 flex items-center justify-center p-1.5">
+                      <Image src={settings.faviconUrl} alt="Favicon preview" fill sizes="44px" className="object-contain p-1" unoptimized />
                     </div>
                   )}
                   <Input 
@@ -1245,8 +1246,7 @@ export default function SettingsClient({
                     }
                   ].map((card, i) => (
                     <div key={i} className="relative rounded-2xl overflow-hidden aspect-[4/5] p-3 flex flex-col justify-end border border-[#E8E4DF] bg-stone-100 shadow-xs">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src={card.image} alt={card.title} className="absolute inset-0 w-full h-full object-cover" />
+                      <Image src={card.image} alt={card.title} fill sizes="(max-width: 768px) 50vw, 25vw" className="object-cover" unoptimized />
                       <div className="absolute inset-0 bg-gradient-to-t from-[#0c1424]/95 via-[#0c1424]/40 to-transparent" />
                       <div className="absolute top-2 start-2 z-10">
                         <span className="text-[9px] font-black px-2 py-0.5 rounded-full bg-white/95 text-[#13213c] shadow-xs">

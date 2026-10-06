@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
+import Image from 'next/image'
 import {
   Dialog, DialogContent, DialogHeader, DialogTitle,
 } from '@/components/ui/dialog'
@@ -12,7 +13,7 @@ import {
 } from '@/components/ui/select'
 import { 
   Package, Clock, Truck, CheckCircle2, XCircle, 
-  User, Phone, Mail, MapPin, Receipt, Save, Loader2,
+  User, Receipt, Save, Loader2,
   Calendar, CreditCard, X
 } from 'lucide-react'
 import { getOrderDetails, updateOrderStatus, updatePaymentStatus, updateOrderTracking } from '@/app/actions/admin/orders'
@@ -422,9 +423,9 @@ export function OrderDetailsModal({ isOpen, onClose, orderId, onOrderUpdated }: 
                       {order.items?.map((item: any) => (
                         <div key={item.id} className="p-4 flex items-center justify-between gap-4">
                           <div className="flex items-center gap-3">
-                            <div className="w-12 h-12 rounded-xl bg-[#FAFAF8] border border-[#E8E4DF] overflow-hidden shrink-0 flex items-center justify-center">
+                            <div className="relative w-12 h-12 rounded-xl bg-[#FAFAF8] border border-[#E8E4DF] overflow-hidden shrink-0 flex items-center justify-center">
                               {item.product?.images?.[0] ? (
-                                <img src={item.product.images[0]} alt={item.productName} className="w-full h-full object-cover" />
+                                <Image src={item.product.images[0]} alt={item.productName} fill sizes="48px" className="object-cover" unoptimized />
                               ) : (
                                 <Package className="w-5 h-5 text-[#A8A29E]" />
                               )}

@@ -27,6 +27,7 @@ import { createProduct, updateProduct } from '@/app/actions/admin/products'
 import { toast } from 'sonner'
 import { Category, Product } from '@prisma/client'
 import { cn } from '@/lib/utils'
+import Image from 'next/image'
 
 export interface ProductFormProps {
   product?: Product | null
@@ -601,13 +602,12 @@ export default function ProductForm({
                       key={idx} 
                       className="relative aspect-square rounded-2xl overflow-hidden border-2 border-[#E8E4DF] group bg-stone-100 shadow-xs"
                     >
-                      <img 
+                      <Image 
                         src={url} 
                         alt={`product-img-${idx}`} 
-                        className="w-full h-full object-cover" 
-                        onError={(e) => {
-                          (e.target as HTMLImageElement).src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 24 24" fill="none" stroke="%2313213c" stroke-width="1.5"><rect width="18" height="18" x="3" y="3" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>'
-                        }}
+                        fill
+                        sizes="140px"
+                        className="object-cover" 
                       />
                       
                       {/* Top Tag */}
@@ -711,13 +711,12 @@ export default function ProductForm({
                 <div className="max-w-xs mx-auto p-4 rounded-3xl bg-white border border-[#E8E4DF] shadow-[0_8px_25px_rgba(0,0,0,0.06)]">
                   <div className="relative aspect-square rounded-2xl bg-[#FAF7F2] overflow-hidden mb-3">
                     {primaryImage ? (
-                      <img 
+                      <Image 
                         src={primaryImage} 
                         alt="preview" 
-                        className="w-full h-full object-cover" 
-                        onError={(e) => {
-                          (e.target as HTMLImageElement).src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 24 24" fill="none" stroke="%2313213c" stroke-width="1.5"><rect width="18" height="18" x="3" y="3" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>'
-                        }}
+                        fill
+                        sizes="280px"
+                        className="object-cover" 
                       />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center text-[#A8A29E]">

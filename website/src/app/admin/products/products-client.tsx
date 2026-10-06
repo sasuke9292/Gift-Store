@@ -18,6 +18,7 @@ import { toast } from 'sonner'
 import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { Product, Category } from '@prisma/client'
+import Image from 'next/image'
 import ProductModal from './product-modal'
 import { ConfirmDialog } from '@/components/ui/confirm-dialog'
 
@@ -209,7 +210,7 @@ export default function ProductsClient({ initialProducts, categories }: { initia
               <div className="flex items-start gap-3">
                 <div className="w-14 h-14 rounded-xl bg-[#FAFAF8] flex items-center justify-center overflow-hidden relative shrink-0 border border-[#E8E4DF]">
                   {product.images && product.images[0] ? (
-                    <img src={product.images[0]} alt={product.name} className="w-full h-full object-cover" />
+                    <Image src={product.images[0]} alt={product.name} fill sizes="56px" className="object-cover" />
                   ) : (
                     <ImageIcon className="w-6 h-6 text-[#A8A29E]" />
                   )}
@@ -335,7 +336,7 @@ export default function ProductsClient({ initialProducts, categories }: { initia
                     <div className="flex items-center gap-3.5">
                       <div className="w-12 h-12 rounded-xl bg-[#FAFAF8] flex items-center justify-center overflow-hidden relative shrink-0 border border-[#E8E4DF]">
                         {product.images && product.images[0] ? (
-                          <img src={product.images[0]} alt={product.name} className="w-full h-full object-cover" />
+                          <Image src={product.images[0]} alt={product.name} fill sizes="48px" className="object-cover" />
                         ) : (
                           <ImageIcon className="w-5 h-5 text-[#A8A29E]" />
                         )}
