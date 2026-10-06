@@ -2,6 +2,9 @@ import React from 'react'
 import { StoreHeader } from '@/components/layout/store-header'
 import { StoreFooter } from '@/components/layout/store-footer'
 import { MobileBottomNav } from '@/components/layout/mobile-bottom-nav'
+import { CartDrawer } from '@/components/cart/cart-drawer'
+import { QuickViewModal } from '@/components/store/quick-view-modal'
+import { SearchOverlay } from '@/components/layout/search-overlay'
 import { auth } from '@/auth'
 import { prisma } from '@/lib/prisma'
 import { AlertCircle, Clock, ShieldAlert } from 'lucide-react'
@@ -69,6 +72,9 @@ export default async function StoreLayout({
       </main>
       <StoreFooter settings={settings} />
       <MobileBottomNav />
+      <CartDrawer />
+      <QuickViewModal />
+      <SearchOverlay />
     </div>
   )
 }

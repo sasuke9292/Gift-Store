@@ -92,13 +92,9 @@ ${typeof window !== 'undefined' ? `🔗 رابط المنتج: ${window.location
       price: product.salePrice ?? product.price,
       image: activeImage || fallbackImg,
       quantity: quantity
-    })
+    }, true)
     toast.success('تمت إضافة المنتج إلى السلة 🎁', {
       id: `cart-${product.id}`,
-      action: {
-        label: 'عرض السلة 🛍️',
-        onClick: () => router.push('/cart')
-      }
     })
     setAddedToCart(true)
     setTimeout(() => setAddedToCart(false), 2000)

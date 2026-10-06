@@ -16,12 +16,15 @@ import {
   ChevronLeft,
   ChevronRight,
   Flame,
-  Compass,
   MessageCircle,
-  Package
+  Package,
+  Layers,
+  Clock,
+  BadgePercent
 } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ProductCard } from '@/components/store/product-card'
+import { GiftFinderWizard } from '@/components/store/gift-finder-wizard'
 import { cn } from '@/lib/utils'
 
 interface Category {
@@ -52,12 +55,12 @@ interface StoreHomeClientProps {
   settings?: any
 }
 
-// 100% Verified High-Resolution Showcase Slides (Top Luxury Gift Categories)
-const showcaseSlides = [
+// Curated verified showcase slides
+const DEFAULT_SHOWCASE_SLIDES = [
   {
     id: 'women-perfume',
     title: 'عطور ومجوهرات نسائية راقية',
-    subtitle: 'أناقة لا مثيل لها لكل مناسبة سعيدة وتغليف مخملي فاخر',
+    subtitle: 'أناقة لا مثيل لها وتغليف مخملي فاخر يليق بأجمل اللحظات',
     image: 'https://images.unsplash.com/photo-1547887537-6158d64c35b3?auto=format&fit=crop&q=80&w=1000',
     link: '/category/women',
     tag: 'تشكيلة حصرية'
@@ -88,67 +91,30 @@ const showcaseSlides = [
   }
 ]
 
-// Fallback images for categories so NO card ever renders as a blank box
-const CATEGORY_FALLBACK_IMAGES: Record<string, string> = {
+const CATEGORY_FALLBACKS: Record<string, string> = {
   men: 'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&q=80&w=800',
   women: 'https://images.unsplash.com/photo-1547887537-6158d64c35b3?auto=format&fit=crop&q=80&w=800',
   occasions: 'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&q=80&w=800',
   custom: 'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?auto=format&fit=crop&q=80&w=800',
   kids: 'https://images.unsplash.com/photo-1560859254-809fa84742f3?auto=format&fit=crop&q=80&w=800',
   offers: 'https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?auto=format&fit=crop&q=80&w=800',
-  electronics: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&q=80&w=800',
 }
 
-function getCategoryFallbackImage(name: string, slug: string): string {
-  const text = `${name} ${slug}`.toLowerCase()
-  if (text.includes('رجال') || text.includes('men')) return CATEGORY_FALLBACK_IMAGES['men']
-  if (text.includes('نسا') || text.includes('women')) return CATEGORY_FALLBACK_IMAGES['women']
-  if (text.includes('مناسب') || text.includes('occasion') || text.includes('ورد') || text.includes('بوكس')) return CATEGORY_FALLBACK_IMAGES['occasions']
-  if (text.includes('اسم') || text.includes('مخصص') || text.includes('custom')) return CATEGORY_FALLBACK_IMAGES['custom']
-  if (text.includes('طفل') || text.includes('أطفال') || text.includes('kids') || text.includes('ألعاب')) return CATEGORY_FALLBACK_IMAGES['kids']
-  if (text.includes('عرض') || text.includes('عروض') || text.includes('offer')) return CATEGORY_FALLBACK_IMAGES['offers']
-  if (text.includes('إلكترون') || text.includes('سماع')) return CATEGORY_FALLBACK_IMAGES['electronics']
-  return CATEGORY_FALLBACK_IMAGES['occasions']
+function getCategoryFallback(slug: string, name: string): string {
+  const text = `${slug} ${name}`.toLowerCase()
+  if (text.includes('men') || text.includes('رجال')) return CATEGORY_FALLBACKS.men
+  if (text.includes('women') || text.includes('نسا')) return CATEGORY_FALLBACKS.women
+  if (text.includes('custom') || text.includes('مخصص') || text.includes('اسم')) return CATEGORY_FALLBACKS.custom
+  if (text.includes('kids') || text.includes('طفل') || text.includes('أطفال')) return CATEGORY_FALLBACKS.kids
+  if (text.includes('offer') || text.includes('عرض') || text.includes('عروض')) return CATEGORY_FALLBACKS.offers
+  return CATEGORY_FALLBACKS.occasions
 }
 
-function CategoryCardItem({ cat }: { cat: Category }) {
-  const fallback = getCategoryFallbackImage(cat.name, cat.slug)
-  const isBrokenOrPlaceholder = !cat.image || cat.image.includes('placeholder') || cat.image.includes('broken') || cat.image.trim() === ''
-  const [imgSrc, setImgSrc] = useState(isBrokenOrPlaceholder ? fallback : cat.image!)
-
-  return (
-    <Link
-      href={`/category/${cat.slug}`}
-      className="group relative rounded-xl sm:rounded-3xl overflow-hidden aspect-[1/1] sm:aspect-[4/5] flex flex-col justify-end p-2.5 sm:p-4 border border-slate-200/80 bg-slate-100 hover:shadow-[0_12px_30px_rgba(19,33,60,0.12)] hover:-translate-y-1 transition-all duration-300"
-    >
-      <Image
-        src={imgSrc}
-        alt={cat.name}
-        fill
-        sizes="(max-width: 768px) 50vw, 16vw"
-        className="object-cover transition-transform duration-700 group-hover:scale-110"
-        onError={() => setImgSrc(fallback)}
-      />
-      {/* Subtle Gradient */}
-      <div className="absolute inset-0 bg-gradient-to-t from-[#0c1424]/90 via-[#0c1424]/30 to-transparent" />
-
-      {/* Text Label */}
-      <div className="relative z-10 text-start">
-        <p className="text-[9px] sm:text-[10px] text-[#7ea6e6] font-bold uppercase tracking-wider mb-0.5">تصفح</p>
-        <h3 className="text-white font-black text-xs sm:text-base leading-snug group-hover:text-[#7ea6e6] transition-colors truncate">
-          {cat.name}
-        </h3>
-      </div>
-    </Link>
-  )
-}
-
-// Curated Gifting Personas / Occasions (High-Impact Luxury Feature)
-const recipientPersonas = [
+const RECIPIENT_PERSONAS = [
   {
     id: 'her',
     title: 'هدايا لها',
-    subtitle: 'عطور راقية، مجوهرات وبوكسات دلال',
+    subtitle: 'عطور راقية، مجوهرات وبوكسات دلال أنثوية',
     tag: 'الأكثر رقة',
     image: 'https://images.unsplash.com/photo-1547887537-6158d64c35b3?auto=format&fit=crop&q=80&w=800',
     link: '/category/women',
@@ -166,7 +132,7 @@ const recipientPersonas = [
   {
     id: 'occasions',
     title: 'مناسبات وأفراح',
-    subtitle: 'تخرج، زواج، خطوبة وذكرى سنوية',
+    subtitle: 'تخرج، زواج، خطوبة وذكرى سنوية سعيدة',
     tag: 'لحظات استثنائية',
     image: 'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&q=80&w=800',
     link: '/category/occasions',
@@ -176,19 +142,19 @@ const recipientPersonas = [
     id: 'custom',
     title: 'مخصصة بالاسم',
     subtitle: 'قطع محفورة وتنسيق خاص يخلد الذكرى',
-    tag: 'لمسة شخصية',
+    tag: 'لمسة شخصية فريدة',
     image: 'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?auto=format&fit=crop&q=80&w=800',
     link: '/category/custom',
     btnText: 'صمم هديتك'
   }
 ]
 
-const testimonials = [
+const TESTIMONIALS = [
   {
     id: 1,
     name: 'مريم العبيدي',
     city: 'بغداد - المنصور',
-    text: 'التغليف فوق الخيال وجودة العطر والساعة أصلية 100%. شكراً على الاهتمام بأدق التفاصيل والسرعة في التوصيل!',
+    text: 'التغليف فوق الخيال وجودة العطر والساعة أصلية 100%. شكراً على الاهتمام بأدق التفاصيل والسرعة المذهلة في التوصيل!',
     rating: 5,
     gift: 'بوكس نسائي متكامل'
   },
@@ -196,7 +162,7 @@ const testimonials = [
     id: 2,
     name: 'حيدر الكرخي',
     city: 'النجف الأشرف',
-    text: 'أفضل متجر هدايا تعاملت معه في العراق. طلبت هدية تخرج ووصلتني بنفس اليوم مغلفة بكرت شخصي أنيق جداً.',
+    text: 'أفضل متجر هدايا تعاملت معه في العراق. طلبت هدية تخرج ووصلتني بنفس اليوم مغلفة بكرت شخصي مطبوع بأناقة عالية.',
     rating: 5,
     gift: 'ساعة يد ومحفظة جلد'
   },
@@ -204,7 +170,7 @@ const testimonials = [
     id: 3,
     name: 'سارة البرزنجي',
     city: 'أربيل',
-    text: 'مستشار الهدايا ساعدني جداً بالاختيار. خدمة العملاء راقية ومهنية والمنتج كان طبق الأصل من الصور تماماً.',
+    text: 'مستشار الهدايا ساعدني جداً في الاختيار. خدمة العملاء راقية ومهنية والمنتج كان طبق الأصل من الصور تماماً.',
     rating: 5,
     gift: 'طقم مجوهرات وعطر'
   },
@@ -223,138 +189,33 @@ export default function StoreHomeClient({
   const [activeProductTab, setActiveProductTab] = useState<'all' | 'best' | 'new' | 'sale'>('all')
   const [isHovered, setIsHovered] = useState(false)
 
-  // Dynamic Showcase Slides from Dedicated DB HeroSlides or Fallback
-  const heroSlidesJson = settings?.heroSlidesJson
-  const activeShowcaseSlides = useMemo(() => {
+  // Curated slides logic
+  const slides = useMemo(() => {
     if (heroSlides && Array.isArray(heroSlides) && heroSlides.length > 0) {
-      return heroSlides.map((slide: any, idx: number) => ({
-        id: slide.id || `slide-${idx}`,
-        title: slide.title || 'هدية فاخرة ومميزة',
-        subtitle: slide.subtitle || 'تغليف ملكي وجودة استثنائية',
-        image: slide.image || showcaseSlides[0].image,
-        link: slide.link || '/shop',
-        tag: slide.tag || 'مميز'
+      return heroSlides.map((s: any, idx: number) => ({
+        id: s.id || `slide-${idx}`,
+        title: s.title || 'هدية فاخرة ومميزة',
+        subtitle: s.subtitle || 'تغليف ملكي وجودة استثنائية',
+        image: s.image || DEFAULT_SHOWCASE_SLIDES[0].image,
+        link: s.link || '/shop',
+        tag: s.tag || 'مميز'
       }))
     }
-    if (heroSlidesJson) {
-      try {
-        const parsed = JSON.parse(heroSlidesJson)
-        if (Array.isArray(parsed) && parsed.length > 0) {
-          return parsed.map((slide: any, idx: number) => ({
-            id: slide.id || `slide-${idx}`,
-            title: slide.title || 'هدية فاخرة ومميزة',
-            subtitle: slide.subtitle || 'تغليف ملكي وجودة استثنائية',
-            image: slide.image || showcaseSlides[0].image,
-            link: slide.link || '/shop',
-            tag: slide.tag || 'مميز'
-          }))
-        }
-      } catch (err) {
-        console.error('Error parsing heroSlidesJson:', err)
-      }
-    }
-    return showcaseSlides
-  }, [heroSlides, heroSlidesJson])
+    return DEFAULT_SHOWCASE_SLIDES
+  }, [heroSlides])
 
-  const safeSlideIndex = activeShowcaseSlides.length > 0 ? (activeSlide % activeShowcaseSlides.length) : 0
-  const currentSlide = activeShowcaseSlides[safeSlideIndex] || showcaseSlides[0]
-
-  // Auto-play slideshow every 5.5s (pauses gracefully on hover)
+  // Slideshow timer
   useEffect(() => {
-    if (activeShowcaseSlides.length <= 1 || isHovered) return
-
+    if (slides.length <= 1 || isHovered) return
     const timer = setInterval(() => {
-      setActiveSlide((prev) => (prev + 1) % activeShowcaseSlides.length)
+      setActiveSlide((prev) => (prev + 1) % slides.length)
     }, 5500)
-
     return () => clearInterval(timer)
-  }, [activeShowcaseSlides.length, isHovered])
+  }, [slides.length, isHovered])
 
-  // Helper to safely get feature desc (allowing empty string if deleted/cleared)
-  const getFeatureDesc = (val: string | null | undefined, defaultVal: string) => {
-    if (val === undefined || val === null) return defaultVal
-    return val.trim()
-  }
+  const currentSlide = slides[activeSlide % slides.length] || slides[0]
 
-  // Dynamic Trust & Guarantees Pillars
-  const trustPillars = [
-    {
-      icon: Truck,
-      title: settings?.feature1Title?.trim() || 'شحن سريع وموثوق',
-      desc: getFeatureDesc(settings?.feature1Desc, 'توصيل لكافة محافظات العراق خلال 24 - 48 ساعة مع تتبع فوري للشحنة'),
-      color: '#13213c',
-      bg: '#F0F4F9',
-    },
-    {
-      icon: Gift,
-      title: settings?.feature2Title?.trim() || 'تغليف ملكي فاخر',
-      desc: getFeatureDesc(settings?.feature2Desc, 'علب هدايا فاخرة مع أشرطة حريرية وكارت إهداء بكلماتك مجاناً مع كل طلب'),
-      color: '#13213c',
-      bg: '#F0F4F9',
-    },
-    {
-      icon: ShieldCheck,
-      title: settings?.feature3Title?.trim() || 'دفع آمن عند الاستلام',
-      desc: getFeatureDesc(settings?.feature3Desc, 'عاين هديتك وافحصها قبل الاستلام، مع خيارات دفع بـ زين كاش والماستر كارد'),
-      color: '#10B981',
-      bg: '#F0FDF9',
-    },
-    {
-      icon: Award,
-      title: settings?.feature4Title?.trim() || 'مستشار هدايا ذكي',
-      desc: getFeatureDesc(settings?.feature4Desc, 'منتجات منتقاة بعناية فائقة مع ضمان حقيقي للاستبدال والاسترجاع بكل سهولة'),
-      color: '#13213c',
-      bg: '#F0F4F9',
-    },
-  ]
-
-  // Dynamic Recipient Personas
-  const activePersonas = useMemo(() => {
-    return [
-      {
-        id: 'her',
-        title: settings?.persona1Title || recipientPersonas[0].title,
-        subtitle: settings?.persona1Subtitle || recipientPersonas[0].subtitle,
-        tag: settings?.persona1Tag || recipientPersonas[0].tag,
-        image: settings?.persona1Image || recipientPersonas[0].image,
-        link: settings?.persona1Link || recipientPersonas[0].link,
-        btnText: settings?.persona1BtnText || recipientPersonas[0].btnText
-      },
-      {
-        id: 'him',
-        title: settings?.persona2Title || recipientPersonas[1].title,
-        subtitle: settings?.persona2Subtitle || recipientPersonas[1].subtitle,
-        tag: settings?.persona2Tag || recipientPersonas[1].tag,
-        image: settings?.persona2Image || recipientPersonas[1].image,
-        link: settings?.persona2Link || recipientPersonas[1].link,
-        btnText: settings?.persona2BtnText || recipientPersonas[1].btnText
-      },
-      {
-        id: 'occasions',
-        title: settings?.persona3Title || recipientPersonas[2].title,
-        subtitle: settings?.persona3Subtitle || recipientPersonas[2].subtitle,
-        tag: settings?.persona3Tag || recipientPersonas[2].tag,
-        image: settings?.persona3Image || recipientPersonas[2].image,
-        link: settings?.persona3Link || recipientPersonas[2].link,
-        btnText: settings?.persona3BtnText || recipientPersonas[2].btnText
-      },
-      {
-        id: 'custom',
-        title: settings?.persona4Title || recipientPersonas[3].title,
-        subtitle: settings?.persona4Subtitle || recipientPersonas[3].subtitle,
-        tag: settings?.persona4Tag || recipientPersonas[3].tag,
-        image: settings?.persona4Image || recipientPersonas[3].image,
-        link: settings?.persona4Link || recipientPersonas[3].link,
-        btnText: settings?.persona4BtnText || recipientPersonas[3].btnText
-      }
-    ]
-  }, [settings])
-
-  // Interactive Gift Finder Mini Quiz State
-  const [quizRecipient, setQuizRecipient] = useState<'men' | 'women' | 'occasions' | 'custom' | null>('women')
-  const [quizBudget, setQuizBudget] = useState<string>('50k-100k')
-
-  // Filter products by tab
+  // Filtered products by tab
   const filteredProducts = useMemo(() => {
     return topProducts.filter(p => {
       if (activeProductTab === 'best') return p.isBestSeller
@@ -364,32 +225,28 @@ export default function StoreHomeClient({
     })
   }, [topProducts, activeProductTab])
 
-  const whatsappPhone = settings?.whatsappNumber || '9647700000000'
+  // Sale/Offer products
+  const offerProducts = useMemo(() => {
+    return topProducts.filter(p => p.salePrice && p.salePrice < p.price)
+  }, [topProducts])
+
+  const whatsappPhone = settings?.whatsappNumber || '9647701234567'
 
   return (
     <div className="flex flex-col min-h-screen bg-[#F8FAFC] text-slate-900 overflow-x-hidden font-sans" dir="rtl">
 
       {/* ========================================================================= */}
-      {/* 1. ROYAL LUXURY HERO SECTION */}
+      {/* 1. HERO SECTION: LUXURY & EMOTIONAL HOOK */}
       {/* ========================================================================= */}
-      <section className="relative overflow-hidden pt-6 sm:pt-10 lg:pt-14 pb-10 sm:pb-16 lg:pb-20 flex flex-col justify-center">
-        {/* Soft Royal Glow Accents */}
-        <div className="absolute top-0 start-1/4 w-[550px] h-[550px] bg-[#13213c]/8 rounded-full blur-[140px] pointer-events-none -z-10" />
-        <div className="absolute bottom-10 end-10 w-[450px] h-[450px] bg-[#22385e]/6 rounded-full blur-[120px] pointer-events-none -z-10" />
-        
-        {/* Subtle geometric dot matrix */}
-        <div 
-          className="absolute inset-0 opacity-[0.025] -z-10"
-          style={{
-            backgroundImage: 'radial-gradient(circle, #13213c 1px, transparent 1px)',
-            backgroundSize: '28px 28px'
-          }}
-        />
+      <section className="relative overflow-hidden pt-6 sm:pt-10 lg:pt-14 pb-12 sm:pb-16 lg:pb-20">
+        {/* Soft Background Accents */}
+        <div className="absolute top-0 start-1/4 w-[500px] h-[500px] bg-[#13213c]/6 rounded-full blur-[130px] pointer-events-none -z-10" />
+        <div className="absolute bottom-10 end-10 w-[400px] h-[400px] bg-[#22385e]/5 rounded-full blur-[110px] pointer-events-none -z-10" />
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
 
-            {/* RIGHT COLUMN: Master Brand Hook & Elevated CTAs (Centered on mobile, start-aligned on desktop) */}
+            {/* RIGHT COLUMN: Brand Hook, Headline & CTAs */}
             <div className="lg:col-span-6 xl:col-span-7 flex flex-col items-center lg:items-start text-center lg:text-start relative z-10">
               
               {/* Shimmering Badge */}
@@ -397,18 +254,18 @@ export default function StoreHomeClient({
                 initial={{ opacity: 0, y: 14 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4 }}
-                className="inline-flex items-center gap-1.5 sm:gap-2 bg-[#F0F4F9] border border-[#13213c]/20 rounded-full px-3.5 py-1.5 sm:px-4 sm:py-2 text-[11px] sm:text-sm font-black text-[#13213c] mb-3.5 sm:mb-6 shadow-2xs"
+                className="inline-flex items-center gap-2 bg-[#F0F4F9] border border-[#13213c]/20 rounded-full px-4 py-1.5 text-xs sm:text-sm font-black text-[#13213c] mb-4 sm:mb-6 shadow-2xs"
               >
-                <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#13213c] shrink-0" />
-                <span className="line-clamp-1">{settings?.heroBadge || heroBadge || 'التشكيلة الملكية لعام 2026 • هدايا استثنائية وتغليف مجاني'}</span>
+                <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-amber-500 shrink-0" />
+                <span>{settings?.heroBadge || heroBadge || 'گفتي بلس • خلّي هديتك تحچي عنك ✨'}</span>
               </motion.div>
 
               {/* Master Headline */}
               <motion.h1
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 18 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.1 }}
-                className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-[1.2] text-slate-900 mb-3.5 sm:mb-6"
+                className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-[1.2] text-slate-900 mb-4 sm:mb-6"
               >
                 {(settings?.heroHeadline || heroHeadline) ? (
                   <span dangerouslySetInnerHTML={{ __html: (settings?.heroHeadline || heroHeadline).replace(/\n/g, '<br/>') }} />
@@ -430,7 +287,7 @@ export default function StoreHomeClient({
                 transition={{ duration: 0.5, delay: 0.2 }}
                 className="text-xs sm:text-base lg:text-lg text-slate-600 max-w-xl mb-6 sm:mb-8 leading-relaxed font-normal"
               >
-                {settings?.heroSubheadline || heroSubheadline || 'اكتشف تجربة إهداء استثنائية في العراق تجمع بين فخامة التصميم وأناقة التفاصيل، مع تغليف يدوي فاخر وبطاقة مخصصة تخلّد أجمل الذكريات.'}
+                {settings?.heroSubheadline || heroSubheadline || 'اكتشف تجربة إهداء استثنائية في العراق تجمع بين فخامة التصميم وأناقة التفاصيل، مع تغليف يدوي ملكي وبطاقة مخصصة تخلّد أجمل المشاعر.'}
               </motion.p>
 
               {/* Action Buttons */}
@@ -438,85 +295,78 @@ export default function StoreHomeClient({
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.25 }}
-                className="flex flex-row items-center justify-center lg:justify-start gap-2.5 sm:gap-4 w-full sm:w-auto max-w-md lg:max-w-none mb-8 sm:mb-10"
+                className="flex flex-row items-center justify-center lg:justify-start gap-3 sm:gap-4 w-full sm:w-auto mb-8 sm:mb-10"
               >
                 <Link
-                  href={settings?.heroPrimaryBtnLink || '/shop'}
-                  className="flex-1 sm:flex-initial flex items-center justify-center gap-2 h-12 sm:h-14 px-5 sm:px-9 rounded-xl sm:rounded-2xl text-white font-extrabold text-xs sm:text-base transition-all hover:-translate-y-0.5 shadow-[0_6px_24px_rgba(19,33,60,0.35)] cursor-pointer"
-                  style={{
-                    background: 'linear-gradient(135deg, #22385e 0%, #13213c 100%)'
-                  }}
+                  href="/shop"
+                  className="flex-1 sm:flex-initial flex items-center justify-center gap-2 h-12 sm:h-14 px-6 sm:px-9 rounded-2xl text-white font-black text-xs sm:text-base transition-all hover:-translate-y-0.5 shadow-[0_6px_24px_rgba(19,33,60,0.3)] cursor-pointer"
+                  style={{ background: 'linear-gradient(135deg, #22385e 0%, #13213c 100%)' }}
                 >
-                  <span>{settings?.heroPrimaryBtnText || 'استكشف التشكيلة'}</span>
+                  <span>اكتشف الهدايا</span>
                   <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5 transition-transform group-hover:-translate-x-1" />
                 </Link>
 
                 <Link
-                  href={settings?.heroSecondaryBtnLink || '#gift-finder-section'}
-                  className="flex-1 sm:flex-initial flex items-center justify-center gap-2 h-12 sm:h-14 px-4 sm:px-7 rounded-xl sm:rounded-2xl font-extrabold text-slate-900 bg-white border border-slate-200 hover:border-[#13213c]/40 hover:bg-slate-50 text-xs sm:text-base transition-all hover:-translate-y-0.5 shadow-xs whitespace-nowrap"
+                  href="#gift-finder-section"
+                  className="flex-1 sm:flex-initial flex items-center justify-center gap-2 h-12 sm:h-14 px-5 sm:px-7 rounded-2xl font-black text-slate-900 bg-white border border-slate-200 hover:border-[#13213c]/40 hover:bg-slate-50 text-xs sm:text-base transition-all hover:-translate-y-0.5 shadow-xs whitespace-nowrap"
                 >
-                  <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#13213c]" />
-                  <span>{settings?.heroSecondaryBtnText || 'مستشار الهدايا'}</span>
+                  <Sparkles className="w-4 h-4 text-amber-500" />
+                  <span>ساعدني أختار هدية</span>
                 </Link>
               </motion.div>
 
-              {/* Trust Indicators (Centered 3-column stats with comfortable padding) */}
+              {/* Trust Indicators Stats */}
               <motion.div
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.35 }}
-                className="pt-5 sm:pt-6 border-t border-slate-200/80 w-full max-w-lg lg:max-w-xl"
+                className="pt-6 border-t border-slate-200/80 w-full max-w-lg lg:max-w-xl"
               >
                 <div className="grid grid-cols-3 divide-x divide-x-reverse divide-slate-200/80">
-                  {/* Stat 1 */}
-                  <div className="flex flex-col items-center justify-center text-center px-1 sm:px-4">
+                  <div className="flex flex-col items-center justify-center text-center px-2">
                     <p className="text-xl sm:text-3xl font-black text-[#13213c] tracking-tight" dir="ltr">
-                      {settings?.stat1Value || '+15K'}
+                      +15K
                     </p>
-                    <p className="text-[10px] sm:text-xs text-slate-500 font-bold mt-1 text-center">
-                      {settings?.stat1Label || 'عميل يثق بنا'}
+                    <p className="text-[10px] sm:text-xs text-slate-500 font-bold mt-1">
+                      عميل يثق بنا
                     </p>
                   </div>
 
-                  {/* Stat 2 */}
-                  <div className="flex flex-col items-center justify-center text-center px-1 sm:px-4">
-                    <div className="inline-flex items-center justify-center gap-1 text-xl sm:text-3xl font-black text-[#13213c] tracking-tight">
-                      <span dir="ltr" className="tabular-nums">
-                        {(settings?.stat2Value || '4.9').replace(/[★⭐*]/g, '').trim() || '4.9'}
-                      </span>
-                      <Star className="w-3.5 h-3.5 sm:w-5 sm:h-5 fill-amber-400 text-amber-400 shrink-0" />
+                  <div className="flex flex-col items-center justify-center text-center px-2">
+                    <div className="inline-flex items-center gap-1 text-xl sm:text-3xl font-black text-[#13213c] tracking-tight">
+                      <span dir="ltr">4.9</span>
+                      <Star className="w-4 h-4 sm:w-5 sm:h-5 fill-amber-400 text-amber-400" />
                     </div>
-                    <p className="text-[10px] sm:text-xs text-slate-500 font-bold mt-1 text-center">
-                      {settings?.stat2Label || 'تقييم العملاء'}
+                    <p className="text-[10px] sm:text-xs text-slate-500 font-bold mt-1">
+                      تقييم العملاء
                     </p>
                   </div>
 
-                  {/* Stat 3 */}
-                  <div className="flex flex-col items-center justify-center text-center px-1 sm:px-4">
+                  <div className="flex flex-col items-center justify-center text-center px-2">
                     <p className="text-xl sm:text-3xl font-black text-[#13213c] tracking-tight" dir="ltr">
-                      {settings?.stat3Value || '100%'}
+                      100%
                     </p>
-                    <p className="text-[10px] sm:text-xs text-slate-500 font-bold mt-1 text-center">
-                      {settings?.stat3Label || 'تغليف ملكي مجاني'}
+                    <p className="text-[10px] sm:text-xs text-slate-500 font-bold mt-1">
+                      تغليف ملكي مجاني
                     </p>
                   </div>
                 </div>
               </motion.div>
             </div>
 
-            {/* LEFT COLUMN: Modern Interactive Luxury Showcase Slider */}
-            <div className="lg:col-span-6 xl:col-span-5 relative mt-6 lg:mt-0 w-full">
+            {/* LEFT COLUMN: Luxury Interactive Showcase Slider */}
+            <div className="lg:col-span-6 xl:col-span-5 relative mt-4 lg:mt-0 w-full">
               <div className="relative mx-auto max-w-md lg:max-w-none">
-
-                {/* Main Showcase Card */}
+                
+                {/* Main Showcase Slider Card */}
                 <div 
                   onMouseEnter={() => setIsHovered(true)}
                   onMouseLeave={() => setIsHovered(false)}
-                  className="relative aspect-[16/11] sm:aspect-[1/1] lg:aspect-[4/5] rounded-2xl sm:rounded-3xl overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.12)] border border-slate-200/80 bg-slate-100 group select-none"
+                  className="relative aspect-[4/3] sm:aspect-square lg:aspect-[4/5] rounded-3xl overflow-hidden shadow-[0_20px_50px_rgba(19,33,60,0.14)] border border-slate-200/90 bg-slate-100 select-none group"
                 >
                   <AnimatePresence mode="wait">
                     <motion.div
-                      key={currentSlide.id || safeSlideIndex}
+                      key={currentSlide.id}
                       initial={{ opacity: 0, scale: 1.03 }}
                       animate={{ opacity: 1, scale: 1 }}
                       exit={{ opacity: 0, scale: 0.97 }}
@@ -533,116 +383,99 @@ export default function StoreHomeClient({
                       />
                       {/* Gradient Overlays */}
                       <div className="absolute inset-0 bg-gradient-to-t from-[#0c1424]/95 via-[#0c1424]/30 to-transparent" />
-                      
-                      {/* Top Tag */}
-                      <div className="absolute top-3 sm:top-4 start-3 sm:start-4 z-10">
-                        <span className="inline-flex items-center gap-1 bg-white/95 backdrop-blur-md px-2.5 py-1 sm:px-3.5 sm:py-1.5 rounded-full text-[10px] sm:text-xs font-black text-[#13213c] shadow-sm">
-                          <Flame className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-[#13213c]" />
+
+                      {/* Tag Pill */}
+                      <div className="absolute top-4 start-4 z-10">
+                        <span className="inline-flex items-center gap-1.5 bg-white/95 backdrop-blur-md px-3.5 py-1.5 rounded-full text-xs font-black text-[#13213c] shadow-xs">
+                          <Flame className="w-3.5 h-3.5 text-rose-500" />
                           {currentSlide.tag}
                         </span>
                       </div>
 
-                      {/* Bottom Info */}
-                      <div className="absolute bottom-0 inset-x-0 p-4 sm:p-7 z-10 text-start">
-                        <h3 className="text-base sm:text-2xl font-black text-white mb-1 sm:mb-2 leading-tight">
+                      {/* Slide Information */}
+                      <div className="absolute bottom-0 inset-x-0 p-5 sm:p-7 z-10 text-start">
+                        <h3 className="text-lg sm:text-2xl font-black text-white mb-1.5 leading-snug">
                           {currentSlide.title}
                         </h3>
-                        <p className="text-[11px] sm:text-sm text-white/80 mb-2 sm:mb-4 line-clamp-1 sm:line-clamp-2 leading-relaxed">
+                        <p className="text-xs sm:text-sm text-white/80 mb-3 line-clamp-2 leading-relaxed">
                           {currentSlide.subtitle}
                         </p>
                         <Link
                           href={currentSlide.link}
-                          className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold text-[#7ea6e6] hover:text-white transition-all group/link"
+                          className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold text-amber-300 hover:text-white transition-colors"
                         >
-                          <span>تصفح هذه المجموعة الآن</span>
-                          <ArrowLeft className="w-3.5 h-3.5 sm:w-4 sm:h-4 transition-transform group-hover/link:-translate-x-1" />
+                          <span>تصفح هذه التشكيلة</span>
+                          <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
                         </Link>
                       </div>
                     </motion.div>
                   </AnimatePresence>
 
                   {/* Navigation Arrows */}
-                  <div className="absolute top-3 sm:top-4 end-3 sm:end-4 z-20 flex items-center gap-1.5">
+                  <div className="absolute top-4 end-4 z-20 flex items-center gap-1.5">
                     <button
-                      onClick={() => setActiveSlide((prev) => (prev === 0 ? activeShowcaseSlides.length - 1 : prev - 1))}
-                      className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white/85 backdrop-blur-md flex items-center justify-center text-[#13213c] hover:bg-white hover:scale-105 transition-all shadow-xs cursor-pointer active:scale-95"
+                      onClick={() => setActiveSlide((prev) => (prev === 0 ? slides.length - 1 : prev - 1))}
+                      className="w-8 h-8 rounded-full bg-white/90 backdrop-blur-md flex items-center justify-center text-[#13213c] hover:bg-white hover:scale-105 transition-all shadow-xs cursor-pointer"
                       aria-label="الشريحة السابقة"
-                      title="السابق"
                     >
-                      <ChevronRight className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                      <ChevronRight className="w-4 h-4" />
                     </button>
                     <button
-                      onClick={() => setActiveSlide((prev) => (prev === activeShowcaseSlides.length - 1 ? 0 : prev + 1))}
-                      className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white/85 backdrop-blur-md flex items-center justify-center text-[#13213c] hover:bg-white hover:scale-105 transition-all shadow-xs cursor-pointer active:scale-95"
+                      onClick={() => setActiveSlide((prev) => (prev === slides.length - 1 ? 0 : prev + 1))}
+                      className="w-8 h-8 rounded-full bg-white/90 backdrop-blur-md flex items-center justify-center text-[#13213c] hover:bg-white hover:scale-105 transition-all shadow-xs cursor-pointer"
                       aria-label="الشريحة التالية"
-                      title="التالي"
                     >
-                      <ChevronLeft className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                      <ChevronLeft className="w-4 h-4" />
                     </button>
                   </div>
                 </div>
 
-                {/* Floating Glassmorphic Badge: Top Right */}
+                {/* Floating Glassmorphic Badges */}
                 <motion.div
                   animate={{ y: [0, -6, 0] }}
                   transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-                  className="hidden sm:flex items-center gap-3 absolute -top-5 start-2 sm:-start-5 bg-white/95 backdrop-blur-xl rounded-2xl p-3 sm:p-3.5 shadow-[0_12px_30px_rgba(0,0,0,0.12)] border border-slate-200/80 z-20 pointer-events-none"
+                  className="hidden sm:flex items-center gap-3 absolute -top-5 -start-5 bg-white/95 backdrop-blur-xl rounded-2xl p-3.5 shadow-lg border border-slate-200/90 z-20 pointer-events-none"
                 >
                   <div className="w-10 h-10 rounded-xl bg-[#F0F4F9] flex items-center justify-center shrink-0">
                     <Award className="w-5 h-5 text-[#13213c]" />
                   </div>
                   <div className="text-start">
-                    <p className="text-[11px] text-slate-400 font-bold">{settings?.heroBadgeTopSmall || 'جودة أصلية ومضمونة'}</p>
-                    <p className="text-xs font-black text-slate-900">{settings?.heroBadgeTopBold || 'ضمان استبدال واسترجاع'}</p>
+                    <p className="text-[11px] text-slate-400 font-bold">جودة أصلية ومضمونة</p>
+                    <p className="text-xs font-black text-slate-900">فحص عند الاستلام 100%</p>
                   </div>
                 </motion.div>
 
-                {/* Floating Glassmorphic Badge: Bottom Left */}
                 <motion.div
                   animate={{ y: [0, 6, 0] }}
                   transition={{ duration: 3.5, repeat: Infinity, ease: 'easeInOut', delay: 0.5 }}
-                  className="hidden sm:flex items-center gap-3 absolute -bottom-5 end-2 sm:-end-5 bg-white/95 backdrop-blur-xl rounded-2xl p-3 sm:p-3.5 shadow-[0_12px_30px_rgba(0,0,0,0.12)] border border-slate-200/80 z-20 pointer-events-none"
+                  className="hidden sm:flex items-center gap-3 absolute -bottom-5 -end-5 bg-white/95 backdrop-blur-xl rounded-2xl p-3.5 shadow-lg border border-slate-200/90 z-20 pointer-events-none"
                 >
                   <div className="w-10 h-10 rounded-xl bg-[#F0F4F9] flex items-center justify-center shrink-0">
                     <Gift className="w-5 h-5 text-[#13213c]" />
                   </div>
                   <div className="text-start">
-                    <p className="text-[11px] text-slate-400 font-bold">{settings?.heroBadgeBottomSmall || 'خدمة استثنائية'}</p>
-                    <p className="text-xs font-black text-slate-900">{settings?.heroBadgeBottomBold || 'تغليف مجاني مع كل طلب'}</p>
+                    <p className="text-[11px] text-slate-400 font-bold">تغليف ملكي خاص</p>
+                    <p className="text-xs font-black text-slate-900">مجاناً مع كل طلب 🎁</p>
                   </div>
                 </motion.div>
 
-                {/* Showcase Switcher Pills & Counter */}
-                <div className="flex items-center justify-between gap-3 mt-3.5 sm:mt-4 px-2">
-                  {/* Slide Numeric Counter */}
-                  <div className="flex items-center gap-1 text-[11px] sm:text-xs font-black text-[#13213c] tabular-nums" dir="ltr">
-                    <span>{String(safeSlideIndex + 1).padStart(2, '0')}</span>
-                    <span className="text-slate-400 font-normal">/</span>
-                    <span className="text-slate-500 font-semibold">{String(activeShowcaseSlides.length).padStart(2, '0')}</span>
-                  </div>
-
-                  {/* Switcher Pills */}
-                  <div className="flex items-center justify-center gap-1.5 sm:gap-2 flex-1">
-                    {activeShowcaseSlides.map((slide, idx) => (
-                      <button
-                        key={slide.id}
-                        onClick={() => setActiveSlide(idx)}
-                        className={cn(
-                          "h-1.5 sm:h-2 rounded-full transition-all duration-300 cursor-pointer",
-                          safeSlideIndex === idx 
-                            ? "w-6 sm:w-8 bg-[#13213c] shadow-xs" 
-                            : "w-2 sm:w-2.5 bg-slate-200 hover:bg-slate-400"
-                        )}
-                        aria-label={`انتقال إلى الشريحة ${idx + 1}`}
-                      />
-                    ))}
-                  </div>
-
-                  {/* Hint */}
-                  <span className="text-[10px] text-slate-400 font-bold hidden sm:inline-block">
-                    {isHovered ? 'موقوف مؤقتاً' : 'تفاعلي تلقائي'}
-                  </span>
+                {/* Switcher Indicator Dots */}
+                <div className="flex items-center justify-center gap-2 mt-4">
+                  {slides.map((_, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => setActiveSlide(idx)}
+                      className={cn(
+                        "h-2 rounded-full transition-all duration-300 cursor-pointer",
+                        activeSlide === idx 
+                          ? "w-8 bg-[#13213c]" 
+                          : "w-2.5 bg-slate-200 hover:bg-slate-400"
+                      )}
+                      aria-label={`انتقال للشريحة ${idx + 1}`}
+                    />
+                  ))}
                 </div>
+
               </div>
             </div>
 
@@ -651,60 +484,72 @@ export default function StoreHomeClient({
       </section>
 
       {/* ========================================================================= */}
-      {/* 2. REFINED LUXURY TRUST & VALUE RIBBON (Spacious & Centered on Mobile) */}
+      {/* 2. TRUST & ASSURANCE RIBBON */}
       {/* ========================================================================= */}
-      <section className="py-6 sm:py-10 bg-white border-y border-slate-200/80">
+      <section className="py-6 sm:py-8 bg-white border-y border-slate-200/80">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
-            {trustPillars.map((feature, idx) => {
-              const hasDesc = Boolean(feature.desc && feature.desc.trim().length > 0)
-              return (
-                <div
-                  key={idx}
-                  className="flex flex-col items-center text-center lg:flex-row lg:items-center lg:text-start gap-2.5 sm:gap-3.5 lg:gap-4 p-3.5 sm:p-5 rounded-2xl bg-slate-50/70 border border-slate-200/80 hover:border-[#13213c]/30 hover:bg-white hover:shadow-xs transition-all duration-200 group h-full justify-center"
-                >
-                  <div
-                    className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center shrink-0 mb-1 lg:mb-0 transition-transform group-hover:scale-105 shadow-2xs"
-                    style={{ background: feature.bg }}
-                  >
-                    <feature.icon className="w-5 h-5" style={{ color: feature.color }} />
-                  </div>
-                  <div className="min-w-0 flex-1 flex flex-col items-center lg:items-start">
-                    <h3 className={cn(
-                      "font-black text-slate-900 leading-snug",
-                      hasDesc ? "text-xs sm:text-sm mb-1" : "text-xs sm:text-base font-black"
-                    )}>
-                      {feature.title}
-                    </h3>
-                    {hasDesc && (
-                      <p className="text-[10px] sm:text-xs text-slate-600 leading-relaxed line-clamp-2 max-w-[200px] lg:max-w-none">
-                        {feature.desc}
-                      </p>
-                    )}
-                  </div>
-                </div>
-              )
-            })}
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
+            
+            <div className="flex items-center gap-3 p-3.5 rounded-2xl bg-slate-50/70 border border-slate-200/80">
+              <div className="w-11 h-11 rounded-xl bg-[#F0F4F9] flex items-center justify-center shrink-0 text-[#13213c]">
+                <Truck className="w-5 h-5 text-[#13213c]" />
+              </div>
+              <div className="text-start min-w-0">
+                <h4 className="font-black text-xs sm:text-sm text-slate-900 truncate">توصيل لكافة المحافظات</h4>
+                <p className="text-[10px] sm:text-xs text-slate-500 line-clamp-1">شحن سريع 24 - 48 ساعة</p>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-3 p-3.5 rounded-2xl bg-slate-50/70 border border-slate-200/80">
+              <div className="w-11 h-11 rounded-xl bg-[#F0F4F9] flex items-center justify-center shrink-0 text-[#13213c]">
+                <Gift className="w-5 h-5 text-[#13213c]" />
+              </div>
+              <div className="text-start min-w-0">
+                <h4 className="font-black text-xs sm:text-sm text-slate-900 truncate">تغليف ملكي فاخر</h4>
+                <p className="text-[10px] sm:text-xs text-slate-500 line-clamp-1">مجاني مع بطاقة إهداء بكلماتك</p>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-3 p-3.5 rounded-2xl bg-slate-50/70 border border-slate-200/80">
+              <div className="w-11 h-11 rounded-xl bg-emerald-50 flex items-center justify-center shrink-0 text-emerald-600">
+                <ShieldCheck className="w-5 h-5 text-emerald-600" />
+              </div>
+              <div className="text-start min-w-0">
+                <h4 className="font-black text-xs sm:text-sm text-slate-900 truncate">دفع آمن عند الاستلام</h4>
+                <p className="text-[10px] sm:text-xs text-slate-500 line-clamp-1">فحص ومعاينة + زين كاش</p>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-3 p-3.5 rounded-2xl bg-slate-50/70 border border-slate-200/80">
+              <div className="w-11 h-11 rounded-xl bg-[#F0F4F9] flex items-center justify-center shrink-0 text-[#13213c]">
+                <Sparkles className="w-5 h-5 text-amber-500" />
+              </div>
+              <div className="text-start min-w-0">
+                <h4 className="font-black text-xs sm:text-sm text-slate-900 truncate">مستشار هدايا عراقي</h4>
+                <p className="text-[10px] sm:text-xs text-slate-500 line-clamp-1">مساعدتك في تنسيق كل تفصيلة</p>
+              </div>
+            </div>
+
           </div>
         </div>
       </section>
 
       {/* ========================================================================= */}
-      {/* 3. CURATED CATEGORIES SHOWCASE GRID (Moved up for seamless shopping flow) */}
+      {/* 3. CATEGORIES SHOWCASE GRID */}
       {/* ========================================================================= */}
       {categories.length > 0 && (
-        <section className="py-10 sm:py-16 bg-[#F8FAFC]">
+        <section className="py-10 sm:py-16">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             
             {/* Header */}
             <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 mb-6 sm:mb-8 text-center sm:text-start">
               <div>
-                <p className="text-[11px] sm:text-xs font-black text-[#13213c] uppercase tracking-widest mb-1.5 flex items-center justify-center sm:justify-start gap-1.5">
+                <p className="text-xs font-black text-[#13213c] uppercase tracking-widest mb-1.5 flex items-center justify-center sm:justify-start gap-1.5">
                   <Package className="w-3.5 h-3.5 text-[#13213c]" />
-                  <span>{settings?.categoriesSectionBadge || 'كتالوج التشكيلات الراقية'}</span>
+                  <span>كتالوج التشكيلات الراقية</span>
                 </p>
-                <h2 className="text-xl sm:text-3xl lg:text-4xl font-black text-slate-900 tracking-tight">
-                  {settings?.categoriesSectionTitle || 'تصفح الهدايا حسب الأقسام'}
+                <h2 className="text-2xl sm:text-4xl font-black text-slate-900 tracking-tight">
+                  تصفح الهدايا حسب الأقسام
                 </h2>
               </div>
               <Link
@@ -716,77 +561,36 @@ export default function StoreHomeClient({
               </Link>
             </div>
 
-            {/* Grid Cards (With 100% Guaranteed Image Fallbacks) */}
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4 lg:gap-5">
-              {categories.slice(0, 6).map((cat) => (
-                <CategoryCardItem key={cat.id} cat={cat} />
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
+            {/* Grid Cards */}
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
+              {categories.slice(0, 6).map((cat) => {
+                const fallbackImg = getCategoryFallback(cat.slug, cat.name)
+                const img = cat.image && !cat.image.includes('placeholder') ? cat.image : fallbackImg
 
-      {/* ========================================================================= */}
-      {/* 4. SHOP BY RECIPIENT & OCCASION (هدايا مختارة بعناية لمن تحب) */}
-      {/* ========================================================================= */}
-      {settings?.enablePersonasSection !== false && (
-        <section className="py-10 sm:py-16 bg-white border-t border-slate-200/80">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            
-            <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-3 sm:gap-4 mb-6 sm:mb-8 text-center lg:text-start">
-              <div>
-                <p className="text-[11px] sm:text-xs font-black text-[#13213c] uppercase tracking-widest mb-1.5 flex items-center justify-center lg:justify-start gap-1.5">
-                  <Sparkles className="w-3.5 h-3.5 text-[#13213c]" />
-                  <span>{settings?.personaSectionBadge || 'دليل الإهداء الذكي'}</span>
-                </p>
-                <h2 className="text-xl sm:text-3xl lg:text-4xl font-black text-slate-900 tracking-tight">
-                  {settings?.personaSectionTitle || 'هدايا مختارة بعناية لمن تحب'}
-                </h2>
-              </div>
-              <p className="text-xs sm:text-sm text-slate-600 max-w-md mx-auto lg:mx-0 leading-relaxed">
-                {settings?.personaSectionDesc || 'اختر الشخص أو المناسبة لتشاهد مجموعات منتقاة يدوياً بعناية ومغلفة بأعلى درجات الفخامة.'}
-              </p>
-            </div>
-
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-6">
-              {activePersonas.map((persona) => (
-                <Link
-                  key={persona.id}
-                  href={persona.link}
-                  className="group relative rounded-2xl sm:rounded-3xl overflow-hidden aspect-[3/4] sm:aspect-[4/5] flex flex-col justify-end p-3.5 sm:p-6 border border-slate-200/80 bg-slate-100 shadow-2xs hover:shadow-[0_16px_40px_rgba(19,33,60,0.14)] hover:-translate-y-1.5 transition-all duration-300"
-                >
-                  <Image
-                    src={persona.image}
-                    alt={persona.title}
-                    fill
-                    sizes="(max-width: 768px) 50vw, 25vw"
-                    className="object-cover transition-transform duration-700 group-hover:scale-108"
-                  />
-                  {/* Royal Dark Gradient Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#0c1424]/95 via-[#0c1424]/40 to-transparent" />
-                  
-                  {/* Floating Pill Tag */}
-                  <div className="absolute top-2.5 sm:top-4 start-2.5 sm:start-4 z-10">
-                    <span className="inline-flex items-center gap-1 bg-white/95 backdrop-blur-md px-2.5 py-0.5 sm:px-3 sm:py-1 rounded-full text-[10px] sm:text-[11px] font-black text-[#13213c] shadow-2xs">
-                      {persona.tag}
-                    </span>
-                  </div>
-
-                  {/* Content */}
-                  <div className="relative z-10 text-start">
-                    <h3 className="text-sm sm:text-2xl font-black text-white mb-0.5 sm:mb-1.5 group-hover:text-[#7ea6e6] transition-colors leading-tight">
-                      {persona.title}
-                    </h3>
-                    <p className="text-[10px] sm:text-xs text-white/80 leading-relaxed mb-2 sm:mb-4 line-clamp-1 sm:line-clamp-2">
-                      {persona.subtitle}
-                    </p>
-                    <div className="inline-flex items-center gap-1 text-[11px] sm:text-xs font-extrabold text-[#7ea6e6] group-hover:text-white transition-colors">
-                      <span>{persona.btnText}</span>
-                      <ArrowLeft className="w-3.5 h-3.5 transition-transform group-hover:-translate-x-1" />
+                return (
+                  <Link
+                    key={cat.id}
+                    href={`/category/${cat.slug}`}
+                    className="group relative rounded-2xl overflow-hidden aspect-[4/5] flex flex-col justify-end p-3 sm:p-4 border border-slate-200/90 bg-slate-100 hover:shadow-lg hover:-translate-y-1 transition-all duration-300"
+                  >
+                    <Image
+                      src={img}
+                      alt={cat.name}
+                      fill
+                      sizes="(max-width: 768px) 50vw, 16vw"
+                      className="object-cover transition-transform duration-700 group-hover:scale-110"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#0c1424]/90 via-[#0c1424]/30 to-transparent" />
+                    
+                    <div className="relative z-10 text-start">
+                      <p className="text-[10px] text-amber-300 font-bold uppercase tracking-wider mb-0.5">تصفح</p>
+                      <h3 className="text-white font-black text-xs sm:text-base leading-snug group-hover:text-amber-300 transition-colors truncate">
+                        {cat.name}
+                      </h3>
                     </div>
-                  </div>
-                </Link>
-              ))}
+                  </Link>
+                )
+              })}
             </div>
 
           </div>
@@ -794,26 +598,88 @@ export default function StoreHomeClient({
       )}
 
       {/* ========================================================================= */}
-      {/* 5. CURATED PRODUCTS SHOWCASE (FILTER TABS & ELEVATED GRID) */}
+      {/* 4. RECIPIENT & OCCASION PERSONAS (هدايا مختارة بعناية لمن تحب) */}
+      {/* ========================================================================= */}
+      <section className="py-10 sm:py-16 bg-white border-y border-slate-200/80">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          
+          <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-3 mb-6 sm:mb-8 text-center lg:text-start">
+            <div>
+              <p className="text-xs font-black text-[#13213c] uppercase tracking-widest mb-1.5 flex items-center justify-center lg:justify-start gap-1.5">
+                <Sparkles className="w-3.5 h-3.5 text-amber-500" />
+                <span>دليل الإهداء الذكي</span>
+              </p>
+              <h2 className="text-2xl sm:text-4xl font-black text-slate-900 tracking-tight">
+                هدايا مختارة بعناية لمن تحب
+              </h2>
+            </div>
+            <p className="text-xs sm:text-sm text-slate-600 max-w-md mx-auto lg:mx-0 leading-relaxed">
+              اختر الشخص أو المناسبة لتشاهد مجموعات منتقاة يدوياً بعناية ومغلفة بأعلى درجات الفخامة.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-6">
+            {RECIPIENT_PERSONAS.map((persona) => (
+              <Link
+                key={persona.id}
+                href={persona.link}
+                className="group relative rounded-3xl overflow-hidden aspect-[3/4] sm:aspect-[4/5] flex flex-col justify-end p-4 sm:p-6 border border-slate-200/90 bg-slate-100 shadow-2xs hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300"
+              >
+                <Image
+                  src={persona.image}
+                  alt={persona.title}
+                  fill
+                  sizes="(max-width: 768px) 50vw, 25vw"
+                  className="object-cover transition-transform duration-700 group-hover:scale-108"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0c1424]/95 via-[#0c1424]/40 to-transparent" />
+                
+                <div className="absolute top-3 start-3 z-10">
+                  <span className="inline-flex items-center gap-1 bg-white/95 backdrop-blur-md px-3 py-1 rounded-full text-[10px] sm:text-xs font-black text-[#13213c] shadow-xs">
+                    {persona.tag}
+                  </span>
+                </div>
+
+                <div className="relative z-10 text-start">
+                  <h3 className="text-sm sm:text-2xl font-black text-white mb-1 group-hover:text-amber-300 transition-colors leading-tight">
+                    {persona.title}
+                  </h3>
+                  <p className="text-[11px] sm:text-xs text-white/80 leading-relaxed mb-3 line-clamp-2">
+                    {persona.subtitle}
+                  </p>
+                  <div className="inline-flex items-center gap-1 text-xs font-black text-amber-300 group-hover:text-white transition-colors">
+                    <span>{persona.btnText}</span>
+                    <ArrowLeft className="w-3.5 h-3.5 transition-transform group-hover:-translate-x-1" />
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+
+        </div>
+      </section>
+
+      {/* ========================================================================= */}
+      {/* 5. FEATURED & TRENDING PRODUCTS WITH FILTER TABS */}
       {/* ========================================================================= */}
       {topProducts.length > 0 && (
-        <section className="py-10 sm:py-16 bg-[#F8FAFC] border-t border-slate-200/80">
+        <section className="py-10 sm:py-16">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             
-            {/* Header & Filter Tabs */}
-            <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 sm:gap-6 mb-6 sm:mb-10 text-center md:text-start">
+            {/* Header & Tabs */}
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6 sm:mb-10 text-center md:text-start">
               <div>
-                <p className="text-[11px] sm:text-xs font-black text-[#13213c] uppercase tracking-widest mb-1.5 flex items-center justify-center md:justify-start gap-1.5">
-                  <Flame className="w-3.5 h-3.5 text-[#13213c]" />
-                  <span>{settings?.productsSectionBadge || 'مختارات استثنائية للإهداء'}</span>
+                <p className="text-xs font-black text-[#13213c] uppercase tracking-widest mb-1.5 flex items-center justify-center md:justify-start gap-1.5">
+                  <Flame className="w-3.5 h-3.5 text-rose-500" />
+                  <span>مختارات استثنائية للإهداء</span>
                 </p>
-                <h2 className="text-xl sm:text-3xl lg:text-4xl font-black text-slate-900 tracking-tight">
-                  {settings?.productsSectionTitle || 'المنتجات الأكثر رواجاً وإهداءً'}
+                <h2 className="text-2xl sm:text-4xl font-black text-slate-900 tracking-tight">
+                  المنتجات الأكثر رواجاً وإهداءً
                 </h2>
               </div>
 
-              {/* Filter Tabs (Centered on mobile, start on desktop) */}
-              <div className="flex items-center justify-center gap-1 sm:gap-1.5 bg-white p-1 sm:p-1.5 rounded-xl sm:rounded-2xl border border-slate-200/80 overflow-x-auto no-scrollbar mx-auto md:mx-0 shadow-2xs max-w-full">
+              {/* Filter Tabs */}
+              <div className="flex items-center justify-center gap-1.5 bg-white p-1.5 rounded-2xl border border-slate-200/90 shadow-2xs mx-auto md:mx-0">
                 {[
                   { id: 'all', label: 'الكل' },
                   { id: 'best', label: '🔥 الأكثر طلباً' },
@@ -824,9 +690,9 @@ export default function StoreHomeClient({
                     key={tab.id}
                     onClick={() => setActiveProductTab(tab.id as any)}
                     className={cn(
-                      "px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg sm:rounded-xl text-[11px] sm:text-xs font-bold transition-all shrink-0 cursor-pointer",
+                      "px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer",
                       activeProductTab === tab.id
-                        ? "bg-[#13213c] text-white shadow-xs font-extrabold"
+                        ? "bg-[#13213c] text-white shadow-xs font-black"
                         : "text-slate-600 hover:text-slate-900 hover:bg-slate-100"
                     )}
                   >
@@ -836,7 +702,7 @@ export default function StoreHomeClient({
               </div>
             </div>
 
-            {/* Products Grid */}
+            {/* Product Cards Grid */}
             <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-6">
               {filteredProducts.slice(0, 8).map((product) => (
                 <div key={product.id} className="h-full">
@@ -845,158 +711,182 @@ export default function StoreHomeClient({
               ))}
             </div>
 
-            {/* Bottom View All Link */}
+            {/* View All Button */}
             <div className="mt-8 sm:mt-12 text-center">
               <Link
                 href="/shop"
-                className="inline-flex items-center gap-2 h-11 sm:h-12 px-6 sm:px-8 rounded-xl sm:rounded-2xl bg-white hover:bg-slate-50 border border-slate-200 hover:border-[#13213c]/40 text-xs font-bold text-slate-800 transition-all hover:-translate-y-0.5 shadow-2xs"
+                className="inline-flex items-center gap-2 h-12 px-8 rounded-2xl bg-white hover:bg-slate-50 border border-slate-200 text-xs sm:text-sm font-bold text-slate-800 transition-all hover:-translate-y-0.5 shadow-2xs"
               >
                 <span>استكشف جميع منتجات المتجر</span>
                 <ArrowLeft className="w-4 h-4 text-[#13213c]" />
               </Link>
             </div>
+
           </div>
         </section>
       )}
 
       {/* ========================================================================= */}
-      {/* 6. INTERACTIVE GIFT FINDER BANNER */}
+      {/* 6. INTERACTIVE SMART GIFT FINDER WIZARD SECTION */}
       {/* ========================================================================= */}
-      <section id="gift-finder-section" className="py-10 sm:py-16 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
-          <div 
-            className="relative rounded-2xl sm:rounded-3xl p-6 sm:p-12 lg:p-14 overflow-hidden border border-[#13213c]/30 shadow-[0_20px_50px_rgba(0,0,0,0.2)]"
-            style={{
-              background: 'linear-gradient(135deg, #0c1424 0%, #13213c 60%, #0c1424 100%)'
-            }}
-          >
-            {/* Background Glows */}
-            <div className="absolute top-0 end-0 w-80 h-80 bg-[#13213c]/20 rounded-full blur-[100px] pointer-events-none" />
-            <div className="absolute bottom-0 start-0 w-80 h-80 bg-[#22385e]/15 rounded-full blur-[100px] pointer-events-none" />
+      <section id="gift-finder-section" className="py-12 sm:py-20 bg-gradient-to-b from-white via-[#F8FAFC] to-white border-y border-slate-200/80">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-2xl mx-auto mb-8 sm:mb-12">
+            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-black bg-[#F0F4F9] text-[#13213c] mb-3">
+              <Sparkles className="w-4 h-4 text-amber-500" />
+              مستشار الإهداء التفاعلي
+            </span>
+            <h2 className="text-2xl sm:text-4xl font-black text-slate-900 tracking-tight mb-3">
+              محتار باختيار الهدية؟ دعنا نساعدك في 4 خطوات!
+            </h2>
+            <p className="text-xs sm:text-base text-slate-600 leading-relaxed">
+              اختر الشخص والمناسبة وميزانيتك وسيقترح لك النظام فوراً أنسب الهدايا مع التغليف الملائم.
+            </p>
+          </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-10 items-center relative z-10">
-              
-              {/* Left Content */}
-              <div className="lg:col-span-6 text-center lg:text-start flex flex-col items-center lg:items-start">
-                <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[11px] sm:text-xs font-black bg-blue-500/20 text-[#93c5fd] border border-blue-400/30 mb-3 sm:mb-4">
-                  <Sparkles className="w-3.5 h-3.5 text-[#93c5fd]" />
-                  مستشار الإهداء الذكي
-                </span>
-                <h2 className="text-2xl sm:text-4xl font-black text-white leading-tight mb-2.5 sm:mb-4">
-                  محتار في اختيار الهدية المناسبة؟
-                </h2>
-                <p className="text-stone-300 text-xs sm:text-base leading-relaxed mb-5 sm:mb-6 max-w-lg">
-                  دع ذكاء المتجر يختار لك الهدية المثالية بناءً على الشخص والمناسبة وميزانيتك بضغطة زر واحدة.
+          <GiftFinderWizard products={topProducts} />
+        </div>
+      </section>
+
+      {/* ========================================================================= */}
+      {/* 7. OFFERS & VALUE PACKAGES ("هدايا تستحق أكثر") */}
+      {/* ========================================================================= */}
+      {offerProducts.length > 0 && (
+        <section className="py-10 sm:py-16">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 mb-6 sm:mb-8 text-center sm:text-start">
+              <div>
+                <p className="text-xs font-black text-rose-600 uppercase tracking-widest mb-1.5 flex items-center justify-center sm:justify-start gap-1.5">
+                  <BadgePercent className="w-4 h-4 text-rose-600" />
+                  <span>تخفيضات وبكجات حصرية</span>
                 </p>
-                <div className="flex flex-wrap items-center justify-center lg:justify-start gap-3 sm:gap-4 text-[11px] sm:text-xs text-white/80">
-                  <span className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-[#7ea6e6]" /> ترشيحات دقيقة</span>
-                  <span className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-[#7ea6e6]" /> وفر وقتك وجهدك</span>
-                  <span className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-[#7ea6e6]" /> تغليف ملائم</span>
-                </div>
+                <h2 className="text-2xl sm:text-4xl font-black text-slate-900 tracking-tight">
+                  هدايا تستحق أكثر — عروض مميزة
+                </h2>
               </div>
-
-              {/* Right Mini-Interactive Widget */}
-              <div className="lg:col-span-6 bg-white/10 backdrop-blur-md rounded-2xl p-4 sm:p-7 border border-white/15 w-full">
-                <p className="text-xs font-black text-[#93c5fd] mb-2.5 sm:mb-3 text-start">الخطوة 1: لمن الهدية؟</p>
-                <div className="grid grid-cols-4 gap-2 sm:gap-2.5 mb-4 sm:mb-5">
-                  {[
-                    { id: 'women', label: 'لها 👩' },
-                    { id: 'men', label: 'له 👨' },
-                    { id: 'occasions', label: 'مناسبات 💍' },
-                    { id: 'custom', label: 'بالاسم ✨' },
-                  ].map((item) => (
-                    <button
-                      key={item.id}
-                      onClick={() => setQuizRecipient(item.id as any)}
-                      className={cn(
-                        "py-2.5 sm:py-3 px-1 sm:px-2 rounded-xl text-[11px] sm:text-xs font-bold transition-all border cursor-pointer text-center",
-                        quizRecipient === item.id
-                          ? "bg-white text-[#13213c] border-white font-black shadow-md scale-[1.02]"
-                          : "bg-white/10 text-white/90 border-white/15 hover:bg-white/20 hover:text-white"
-                      )}
-                    >
-                      {item.label}
-                    </button>
-                  ))}
-                </div>
-
-                <p className="text-xs font-black text-[#93c5fd] mb-2.5 sm:mb-3 text-start">الخطوة 2: حدد الميزانية التقريبية</p>
-                <div className="grid grid-cols-3 gap-2 sm:gap-2.5 mb-5 sm:mb-6">
-                  {[
-                    { id: 'under-50k', label: 'أقل من 50 ألف' },
-                    { id: '50k-100k', label: '50 - 100 ألف' },
-                    { id: 'above-100k', label: 'أكثر من 100 ألف' },
-                  ].map((b) => (
-                    <button
-                      key={b.id}
-                      onClick={() => setQuizBudget(b.id)}
-                      className={cn(
-                        "py-2.5 sm:py-3 px-1 sm:px-2 rounded-xl text-[10px] sm:text-[11px] font-bold transition-all border cursor-pointer text-center",
-                        quizBudget === b.id
-                          ? "bg-white text-[#13213c] border-white font-black shadow-md scale-[1.02]"
-                          : "bg-white/10 text-white/90 border-white/15 hover:bg-white/20 hover:text-white"
-                      )}
-                    >
-                      {b.label}
-                    </button>
-                  ))}
-                </div>
-
-                <Link
-                  href={quizRecipient ? `/category/${quizRecipient}` : '/shop'}
-                  className="flex items-center justify-center gap-2 w-full h-12 sm:h-13 rounded-xl font-black text-white text-xs sm:text-sm transition-all hover:brightness-110 hover:-translate-y-0.5 shadow-lg border border-white/20 cursor-pointer"
-                  style={{ background: 'linear-gradient(135deg, #22385e 0%, #13213c 100%)' }}
-                >
-                  <Sparkles className="w-4 h-4 text-blue-200" />
-                  <span>اعثر على الهدية الآن</span>
-                  <ArrowLeft className="w-4 h-4 text-blue-200" />
-                </Link>
-              </div>
-
+              <Link
+                href="/category/offers"
+                className="inline-flex items-center justify-center sm:justify-start gap-1.5 text-xs sm:text-sm font-bold text-rose-600 hover:text-rose-700 transition-colors self-center sm:self-auto"
+              >
+                <span>جميع العروض الحالية</span>
+                <ArrowLeft className="w-3.5 h-3.5" />
+              </Link>
             </div>
+
+            <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-6">
+              {offerProducts.slice(0, 4).map((product) => (
+                <div key={product.id} className="h-full">
+                  <ProductCard product={product} />
+                </div>
+              ))}
+            </div>
+
+          </div>
+        </section>
+      )}
+
+      {/* ========================================================================= */}
+      {/* 8. ROYAL UNBOXING & PACKAGING EXPERIENCE */}
+      {/* ========================================================================= */}
+      <section className="py-10 sm:py-16 bg-[#13213c] text-white relative overflow-hidden">
+        <div className="absolute top-0 start-1/4 w-96 h-96 bg-[#22385e]/30 rounded-full blur-[140px] pointer-events-none" />
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            
+            <div className="lg:col-span-7 text-center lg:text-start flex flex-col items-center lg:items-start">
+              <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-black bg-white/10 text-amber-300 border border-white/10 mb-4">
+                <Gift className="w-4 h-4" />
+                تغليف ملكي مجاني 100%
+              </span>
+              <h2 className="text-2xl sm:text-4xl lg:text-5xl font-black text-white leading-tight mb-4">
+                لحظة فتح الهدية... يجب أن تكون لا تُنسى ✨
+              </h2>
+              <p className="text-xs sm:text-base text-white/80 leading-relaxed mb-6 max-w-xl">
+                في گفتي بلس، نعتبر التغليف فنّاً قائماً بذاته. كل طلب يخرج من أيدينا مغلف بعلبة صلبة فاخرة، شريط ساتان حريري منسق، وكرت إهداء مطبوع بكلماتك ومشاعرك الصادقة مجاناً بالكامل.
+              </p>
+
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 w-full max-w-lg mb-6 text-start">
+                <div className="p-3 rounded-xl bg-white/5 border border-white/10">
+                  <h4 className="text-xs font-black text-amber-300 mb-0.5">علب هدايا ملكية</h4>
+                  <p className="text-[11px] text-white/70">متينة ومخملية لحفظ الهدية</p>
+                </div>
+                <div className="p-3 rounded-xl bg-white/5 border border-white/10">
+                  <h4 className="text-xs font-black text-amber-300 mb-0.5">أشرطة حريرية</h4>
+                  <p className="text-[11px] text-white/70">ألوان منسقة بعناية فائقة</p>
+                </div>
+                <div className="p-3 rounded-xl bg-white/5 border border-white/10">
+                  <h4 className="text-xs font-black text-amber-300 mb-0.5">كرت إهداء مطبوع</h4>
+                  <p className="text-[11px] text-white/70">كلماتك الخاصة بخط أنيق</p>
+                </div>
+              </div>
+
+              <Link
+                href="/shop"
+                className="h-12 px-7 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-900 font-black text-xs sm:text-sm flex items-center gap-2 transition-all shadow-md cursor-pointer"
+              >
+                <span>اختر هديتك الآن مع تغليف مجاني</span>
+                <ArrowLeft className="w-4 h-4" />
+              </Link>
+            </div>
+
+            <div className="lg:col-span-5 relative">
+              <div className="relative aspect-square rounded-3xl overflow-hidden border border-white/15 shadow-2xl">
+                <Image
+                  src="https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&q=80&w=800"
+                  alt="تغليف الهدايا الملكي"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 40vw"
+                  className="object-cover"
+                />
+              </div>
+            </div>
+
           </div>
         </div>
       </section>
 
       {/* ========================================================================= */}
-      {/* 7. REAL SOCIAL PROOF / TESTIMONIALS */}
+      {/* 9. REAL REVIEWS & TESTIMONIALS */}
       {/* ========================================================================= */}
-      <section className="py-10 sm:py-16 bg-white border-t border-slate-200/80">
+      <section className="py-10 sm:py-16 bg-white border-b border-slate-200/80">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
           <div className="text-center max-w-2xl mx-auto mb-8 sm:mb-12">
-            <p className="text-[11px] sm:text-xs font-black text-[#13213c] uppercase tracking-widest mb-1.5 flex items-center justify-center gap-1.5">
+            <p className="text-xs font-black text-[#13213c] uppercase tracking-widest mb-1.5 flex items-center justify-center gap-1.5">
               <Heart className="w-3.5 h-3.5 text-rose-500 fill-rose-500" />
-              <span>آراء وتجارب حقيقية</span>
+              <span>تجارب حقيقية موثوقة</span>
             </p>
-            <h2 className="text-xl sm:text-3xl lg:text-4xl font-black text-slate-900 tracking-tight">
-              تجارب استثنائية شاركنا بها أحباؤنا
+            <h2 className="text-2xl sm:text-4xl font-black text-slate-900 tracking-tight">
+              أحباؤنا يتحدثون عن تجربتهم مع گفتي بلس
             </h2>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
-            {testimonials.map((t) => (
+            {TESTIMONIALS.map((t) => (
               <div
                 key={t.id}
-                className="p-5 sm:p-6 rounded-2xl sm:rounded-3xl bg-white border border-slate-200/80 hover:border-[#13213c]/30 hover:shadow-[0_8px_30px_rgba(19,33,60,0.06)] transition-all text-start flex flex-col"
+                className="p-5 sm:p-6 rounded-3xl bg-slate-50/70 border border-slate-200/80 hover:bg-white hover:shadow-md transition-all text-start flex flex-col justify-between"
               >
-                {/* Stars */}
-                <div className="flex items-center gap-1 text-amber-400 mb-3">
-                  {[...Array(t.rating)].map((_, i) => (
-                    <Star key={i} className="w-3.5 h-3.5 sm:w-4 sm:h-4 fill-amber-400 text-amber-400" />
-                  ))}
+                <div>
+                  <div className="flex items-center gap-1 text-amber-400 mb-3">
+                    {[...Array(t.rating)].map((_, i) => (
+                      <Star key={i} className="w-4 h-4 fill-amber-400 text-amber-400" />
+                    ))}
+                  </div>
+
+                  <p className="text-xs sm:text-sm text-slate-600 leading-relaxed mb-4 italic">
+                    &ldquo;{t.text}&rdquo;
+                  </p>
                 </div>
 
-                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed mb-4 sm:mb-6 flex-1 italic">
-                  &ldquo;{t.text}&rdquo;
-                </p>
-
-                <div className="pt-3.5 sm:pt-4 border-t border-slate-100 flex items-center justify-between">
+                <div className="pt-4 border-t border-slate-200/60 flex items-center justify-between">
                   <div>
                     <p className="text-xs font-black text-slate-900">{t.name}</p>
-                    <p className="text-[10px] sm:text-[11px] text-slate-400">{t.city}</p>
+                    <p className="text-[11px] text-slate-400">{t.city}</p>
                   </div>
-                  <span className="text-[10px] font-bold px-2.5 py-1 rounded-full bg-slate-100 text-[#13213c] border border-slate-200">
+                  <span className="text-[10px] font-bold px-2.5 py-1 rounded-full bg-white text-[#13213c] border border-slate-200">
                     {t.gift}
                   </span>
                 </div>
@@ -1008,42 +898,42 @@ export default function StoreHomeClient({
       </section>
 
       {/* ========================================================================= */}
-      {/* 8. VIP GIFT CONCIERGE & CUSTOM ASSISTANCE BANNER */}
+      {/* 10. VIP CONCIERGE & WHATSAPP ASSISTANCE BAR */}
       {/* ========================================================================= */}
-      {settings?.showConcierge !== false && (
-        <section className="py-10 sm:py-14 bg-slate-100/70 border-t border-slate-200/80">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="bg-white rounded-2xl sm:rounded-3xl p-6 sm:p-10 border border-slate-200/80 flex flex-col md:flex-row items-center justify-between gap-5 sm:gap-6 shadow-xs text-center md:text-start">
-              <div className="flex flex-col md:flex-row items-center gap-4 text-center md:text-start w-full md:w-auto">
-                <div 
-                  className="w-13 h-13 sm:w-14 sm:h-14 rounded-2xl flex items-center justify-center text-white shrink-0 shadow-sm"
-                  style={{ background: 'linear-gradient(135deg, #22385e 0%, #13213c 100%)' }}
-                >
-                  <MessageCircle className="w-6 h-6 sm:w-7 sm:h-7 text-white" />
-                </div>
-                <div>
-                  <h3 className="text-base sm:text-xl font-black text-slate-900">
-                    {settings?.conciergeTitle || 'هل تبحث عن تنسيق هدية خاصة أو بوكس بمواصفات محددة؟'}
-                  </h3>
-                  <p className="text-xs sm:text-sm text-slate-600 mt-1 leading-relaxed max-w-xl mx-auto md:mx-0">
-                    {settings?.conciergeDesc || 'فريقنا المتخصص في تنسيق الهدايا جاهز لمساعدتك عبر واتساب في اختيار القطع، كتابة بطاقة الإهداء، واختيار ألوان التغليف المناسبة.'}
-                  </p>
-                </div>
-              </div>
-
-              <a
-                href={`https://wa.me/${whatsappPhone.replace(/[^0-9]/g, '')}?text=${encodeURIComponent('مرحباً، أود المساعدة في تنسيق هدية خاصة 🎁')}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full md:w-auto flex items-center justify-center gap-2 h-12 px-7 rounded-xl sm:rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs sm:text-sm font-black transition-all shadow-sm shrink-0 cursor-pointer"
+      <section className="py-10 sm:py-14 bg-slate-100/70">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="bg-white rounded-3xl p-6 sm:p-10 border border-slate-200/90 flex flex-col md:flex-row items-center justify-between gap-6 shadow-xs text-center md:text-start">
+            
+            <div className="flex flex-col md:flex-row items-center gap-4">
+              <div 
+                className="w-14 h-14 rounded-2xl flex items-center justify-center text-white shrink-0 shadow-sm"
+                style={{ background: 'linear-gradient(135deg, #22385e 0%, #13213c 100%)' }}
               >
-                <MessageCircle className="w-4 h-4 fill-white" />
-                <span>{settings?.conciergeBtnText || 'تواصل معنا عبر واتساب'}</span>
-              </a>
+                <MessageCircle className="w-7 h-7 text-white" />
+              </div>
+              <div>
+                <h3 className="text-base sm:text-xl font-black text-slate-900">
+                  هل تبحث عن بوكس مخصص أو هدية بمواصفات محددة؟
+                </h3>
+                <p className="text-xs sm:text-sm text-slate-600 mt-1 leading-relaxed max-w-xl">
+                  منسق الهدايا الخاص بنا جاهز لمساعدتك مباشرة عبر واتساب في اختيار القطع، كتابة بطاقة الإهداء، واختيار التغليف الملائم.
+                </p>
+              </div>
             </div>
+
+            <a
+              href={`https://wa.me/${whatsappPhone.replace(/[^0-9]/g, '')}?text=${encodeURIComponent('مرحباً گفتي بلس، أود المساعدة في تنسيق هدية خاصة 🎁')}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full md:w-auto flex items-center justify-center gap-2 h-12 px-7 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs sm:text-sm font-black transition-all shadow-sm shrink-0 cursor-pointer"
+            >
+              <MessageCircle className="w-4 h-4 fill-white" />
+              <span>تحدث مع منسق الهدايا عبر واتساب</span>
+            </a>
+
           </div>
-        </section>
-      )}
+        </div>
+      </section>
 
     </div>
   )

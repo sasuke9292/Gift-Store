@@ -88,6 +88,37 @@ export function MobileBottomNav() {
             )
           }
 
+          if (item.href === '/cart') {
+            return (
+              <button
+                key={item.href}
+                onClick={() => useCartStore.getState().openDrawer()}
+                className={cn(
+                  "relative flex flex-col items-center justify-center w-14 h-14 rounded-2xl transition-colors active:scale-95 focus:outline-none cursor-pointer",
+                  item.isActive 
+                    ? "text-[#13213c]" 
+                    : "text-slate-400 hover:text-slate-800"
+                )}
+                aria-label={item.label}
+              >
+                <div className="relative">
+                  <Icon className={cn("w-5 h-5 transition-transform", item.isActive && "scale-110")} />
+                  {item.badge !== null && item.badge !== undefined && (
+                    <span className="absolute -top-1.5 -start-2 min-w-4 h-4 px-1 rounded-full bg-gradient-to-r from-rose-600 to-rose-500 text-white text-[9px] font-black flex items-center justify-center shadow-xs">
+                      {item.badge}
+                    </span>
+                  )}
+                </div>
+                <span className={cn(
+                  "text-[10px] mt-1 tracking-tight transition-colors",
+                  item.isActive ? "font-black text-[#13213c]" : "font-bold text-slate-500"
+                )}>
+                  {item.label}
+                </span>
+              </button>
+            )
+          }
+
           return (
             <Link
               key={item.href}

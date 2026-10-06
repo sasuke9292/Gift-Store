@@ -195,9 +195,9 @@
 
   /* ===== MODERN LUXURY STORE UTILITIES ===== */
   
-  /* Premium card with soft shadow */
   .card-premium {
-    @apply bg-white border border-slate-200/80 shadow-[0_1px_3px_rgba(0,0,0,0.04),0_8px_24px_rgba(19,33,60,0.05)] rounded-2xl;
+    @apply bg-white border border-slate-200/80 rounded-2xl;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 8px 24px rgba(19, 33, 60, 0.05);
   }
   
   /* Hover elevation */
