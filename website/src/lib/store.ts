@@ -13,46 +13,33 @@ export interface CartItem {
 
 interface CartStore {
   items: CartItem[]
-  isDrawerOpen: boolean
-  addItem: (item: CartItem, openDrawer?: boolean) => void
+  addItem: (item: CartItem) => void
   removeItem: (id: string) => void
   updateQuantity: (id: string, quantity: number) => void
   clearCart: () => void
   getTotal: () => number
-  openDrawer: () => void
-  closeDrawer: () => void
-  toggleDrawer: () => void
 }
 
 export const useCartStore = create<CartStore>()(
   persist(
     (set, get) => ({
       items: [],
-      isDrawerOpen: false,
       
-      openDrawer: () => set({ isDrawerOpen: true }),
-      closeDrawer: () => set({ isDrawerOpen: false }),
-      toggleDrawer: () => set((state) => ({ isDrawerOpen: !state.isDrawerOpen })),
-      
-      addItem: (item, openDrawer = true) => {
+      addItem: (item) => {
         set((state) => {
           const qty = Math.max(1, Math.min(Math.floor(item.quantity || 1), 99))
           const existingItem = state.items.find((i) => i.productId === item.productId)
           
-          let newItems: CartItem[]
           if (existingItem) {
-            newItems = state.items.map((i) =>
-              i.productId === item.productId
-                ? { ...i, quantity: Math.min(i.quantity + qty, 99) }
-                : i
-            )
+            return {
+              items: state.items.map((i) =>
+                i.productId === item.productId
+                  ? { ...i, quantity: Math.min(i.quantity + qty, 99) }
+                  : i
+              ),
+            }
           } else {
-            newItems = [...state.items, { ...item, quantity: qty }]
-          }
-
-          return { 
-            items: newItems,
-            isDrawerOpen: openDrawer ? true : state.isDrawerOpen 
+            return { items: [...state.items, { ...item, quantity: qty }] }
           }
         })
       },
@@ -83,7 +70,6 @@ export const useCartStore = create<CartStore>()(
     }),
     {
       name: 'gift-store-cart',
-      partialize: (state) => ({ items: state.items }),
     }
   )
 )

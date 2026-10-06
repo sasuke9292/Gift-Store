@@ -268,31 +268,7 @@ export function StoreFooter({ settings }: StoreFooterProps) {
               </a>
             </div>
           </div>
-        </div>
 
-        {/* Iraqi Payment & Trust Badges Row */}
-        <div className="border-t border-white/10 py-6 flex flex-wrap items-center justify-between gap-4 text-xs text-white/60">
-          <div className="flex items-center gap-2">
-            <span className="font-bold text-white/80">طرق الدفع والتوصيل المعتمدة:</span>
-            <div className="flex flex-wrap items-center gap-2">
-              <span className="px-2.5 py-1 rounded-lg bg-white/5 border border-white/10 text-white/90 text-[11px] font-bold">
-                💵 الدفع عند الاستلام
-              </span>
-              <span className="px-2.5 py-1 rounded-lg bg-white/5 border border-white/10 text-amber-300 text-[11px] font-bold">
-                📱 زين كاش
-              </span>
-              <span className="px-2.5 py-1 rounded-lg bg-white/5 border border-white/10 text-blue-300 text-[11px] font-bold">
-                🏦 FIB
-              </span>
-              <span className="px-2.5 py-1 rounded-lg bg-white/5 border border-white/10 text-white/90 text-[11px] font-bold">
-                💳 ماستر كارد / فيزا
-              </span>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-2 text-white/70">
-            <span className="text-[11px] font-bold">🇮🇶 شحن موثوق ومضمون لكافة محافظات العراق الـ 18</span>
-          </div>
         </div>
 
         {/* Clean, Elegant Bottom Bar (with safe-bottom padding for mobile navigation) */}
