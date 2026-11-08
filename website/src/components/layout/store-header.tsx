@@ -456,15 +456,15 @@ export function StoreHeader({ user, topBarText, settings }: StoreHeaderProps) {
                 )}
               </Link>
 
-              {/* Gift Finder High-Tech CTA Button */}
+              {/* Gift Finder Luxury CTA Button */}
               {(settings?.showGiftFinder ?? true) && (
                 <Link
                   href="/gift-finder"
-                  className="hidden sm:inline-flex items-center gap-2 h-10 px-4 rounded-2xl text-xs font-black text-white transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_4px_20px_rgba(59,130,246,0.6)] shrink-0 border border-blue-400/40"
-                  style={{ background: 'linear-gradient(135deg, #1d4ed8 0%, #3b82f6 100%)' }}
+                  className="hidden sm:inline-flex items-center gap-2 h-10 px-4 rounded-2xl text-xs font-black text-white transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_4px_20px_rgba(197,168,128,0.35)] shrink-0 border border-[#C5A880]/40"
+                  style={{ background: 'linear-gradient(135deg, #22385e 0%, #13213c 100%)' }}
                 >
-                  <Sparkles className="w-3.5 h-3.5 text-blue-200 animate-pulse" />
-                  <span>مكتشف الهدايا</span>
+                  <Sparkles className="w-3.5 h-3.5 text-[#E6CCA8] animate-pulse" />
+                  <span>مكتشف الهدايا الذكي</span>
                 </Link>
               )}
             </div>

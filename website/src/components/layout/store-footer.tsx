@@ -59,14 +59,17 @@ export function StoreFooter({ settings }: StoreFooterProps) {
   const storeSlogan = settings?.storeSlogan || 'خلّي هديتك تحچي عنك ✨'
   const storeDesc = settings?.storeDescription || 'الوجهة الأولى لاختيار وتنسيق الهدايا الفاخرة في العراق • تغليف ملكي وتوصيل سريع لكافة المحافظات.'
   const storePhone = settings?.storePhone || '+964 770 123 4567'
-  const storeEmail = settings?.storeEmail || 'info@giftstore.iq'
+  const storeEmail = settings?.storeEmail || 'support@giftyplus.iq'
   
-  const rawWa = settings?.whatsappNumber || '9647700000000'
+  const rawWa = settings?.whatsappNumber || '9647825970060'
   const whatsappHref = rawWa.startsWith('http') 
     ? rawWa 
     : `https://wa.me/${rawWa.replace(/[^0-9]/g, '')}`
 
-  const showCta = settings?.showFooterCta ?? true
+  // Keep footer uncluttered by default to eliminate aggressive redundancy
+  const showCta = settings?.showFooterCta === true
+  const hasValidIg = Boolean(settings?.instagramUrl && settings.instagramUrl.trim() !== 'https://instagram.com' && settings.instagramUrl.length > 21)
+  const hasValidTg = Boolean(settings?.telegramUrl && settings.telegramUrl.trim() !== 'https://t.me' && settings.telegramUrl.length > 14)
 
   return (
     <footer className="bg-[#0c1424] text-white/80 relative overflow-hidden" dir="rtl">
@@ -142,9 +145,9 @@ export function StoreFooter({ settings }: StoreFooterProps) {
                 <MessageCircle className="w-4 h-4" />
               </a>
 
-              {settings?.instagramUrl && (
+              {hasValidIg && (
                 <a
-                  href={settings.instagramUrl}
+                  href={settings!.instagramUrl!}
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="إنستغرام"
@@ -155,9 +158,9 @@ export function StoreFooter({ settings }: StoreFooterProps) {
                 </a>
               )}
 
-              {settings?.telegramUrl && (
+              {hasValidTg && (
                 <a
-                  href={settings.telegramUrl}
+                  href={settings!.telegramUrl!}
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="تيليغرام"

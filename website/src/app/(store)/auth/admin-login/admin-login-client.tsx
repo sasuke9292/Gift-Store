@@ -7,7 +7,7 @@ import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { Input } from '@/components/ui/input'
 import { toast } from 'sonner'
-import { ArrowLeft, Mail, Lock, Shield, Loader2, Eye, EyeOff, Sparkles, CheckCircle2, AlertCircle } from 'lucide-react'
+import { ArrowLeft, Mail, Lock, Shield, Loader2, Eye, EyeOff, CheckCircle2, AlertCircle } from 'lucide-react'
 import Image from 'next/image'
 
 export default function AdminLoginClient() {
@@ -51,13 +51,6 @@ export default function AdminLoginClient() {
       toast.error('حدث خطأ أثناء تسجيل الدخول')
       setLoading(false)
     }
-  }
-
-  const fillAdminCredentials = () => {
-    setEmail('admin@admin.com')
-    setPassword('Admin123')
-    setErrorMessage(null)
-    toast.info('تمت تعبئة بيانات حساب المدير التجريبي')
   }
 
   return (
@@ -105,23 +98,6 @@ export default function AdminLoginClient() {
               <span>{errorMessage}</span>
             </motion.div>
           )}
-
-          {/* Quick Demo Credentials Pill for Mobile Ease */}
-          <div className="p-3 rounded-2xl bg-[#F0F4F9]/70 border border-[#13213c]/15 flex items-center justify-between gap-2">
-            <div className="flex items-center gap-2 min-w-0">
-              <Sparkles className="w-4 h-4 text-[#13213c] shrink-0" />
-              <div className="text-[11px] text-[#13213c] font-bold truncate">
-                حساب المدير الافتراضي
-              </div>
-            </div>
-            <button
-              type="button"
-              onClick={fillAdminCredentials}
-              className="px-2.5 py-1 text-[11px] font-black rounded-xl bg-[#13213c] text-white hover:bg-[#22385e] transition-all shrink-0 cursor-pointer shadow-xs active:scale-95"
-            >
-              تعبئة تلقائية
-            </button>
-          </div>
 
           <form className="space-y-4" onSubmit={handleLogin}>
             {/* Email */}

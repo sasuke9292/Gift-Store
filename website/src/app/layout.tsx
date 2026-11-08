@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Alexandria, Readex_Pro } from "next/font/google";
+import { Alexandria } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { Toaster } from "sonner";
@@ -9,13 +9,6 @@ const alexandria = Alexandria({
   subsets: ["arabic", "latin"],
   weight: ["300", "400", "500", "600", "700", "800"],
   variable: "--font-sans",
-  display: "swap",
-});
-
-const readex = Readex_Pro({
-  subsets: ["arabic", "latin"],
-  weight: ["300", "400", "500", "600", "700"],
-  variable: "--font-readex",
   display: "swap",
 });
 
@@ -124,7 +117,7 @@ export default async function RootLayout({
       lang="ar"
       dir="rtl"
       suppressHydrationWarning
-      className={cn(alexandria.variable, readex.variable, "font-sans")}
+      className={cn(alexandria.variable, "font-sans")}
     >
       <head>
         <script

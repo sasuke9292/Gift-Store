@@ -865,21 +865,21 @@ export default function StoreHomeClient({
       <section id="gift-finder-section" className="py-10 sm:py-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <div 
-            className="relative rounded-2xl sm:rounded-3xl p-6 sm:p-12 lg:p-14 overflow-hidden border border-[#13213c]/30 shadow-[0_20px_50px_rgba(0,0,0,0.2)]"
+            className="relative rounded-2xl sm:rounded-3xl p-6 sm:p-12 lg:p-14 overflow-hidden border border-[#C5A880]/30 shadow-[0_20px_50px_rgba(19,33,60,0.18)]"
             style={{
-              background: 'linear-gradient(135deg, #0c1424 0%, #13213c 60%, #0c1424 100%)'
+              background: 'linear-gradient(135deg, #0e172a 0%, #13213c 50%, #1a2c4e 100%)'
             }}
           >
             {/* Background Glows */}
-            <div className="absolute top-0 end-0 w-80 h-80 bg-[#13213c]/20 rounded-full blur-[100px] pointer-events-none" />
-            <div className="absolute bottom-0 start-0 w-80 h-80 bg-[#22385e]/15 rounded-full blur-[100px] pointer-events-none" />
+            <div className="absolute top-0 end-0 w-80 h-80 bg-[#C5A880]/10 rounded-full blur-[100px] pointer-events-none" />
+            <div className="absolute bottom-0 start-0 w-80 h-80 bg-[#22385e]/25 rounded-full blur-[100px] pointer-events-none" />
 
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-10 items-center relative z-10">
               
               {/* Left Content */}
               <div className="lg:col-span-6 text-center lg:text-start flex flex-col items-center lg:items-start">
-                <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[11px] sm:text-xs font-black bg-blue-500/20 text-[#93c5fd] border border-blue-400/30 mb-3 sm:mb-4">
-                  <Sparkles className="w-3.5 h-3.5 text-[#93c5fd]" />
+                <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold bg-[#C5A880]/15 text-[#E6CCA8] border border-[#C5A880]/30 mb-3 sm:mb-4">
+                  <Sparkles className="w-3.5 h-3.5 text-[#E6CCA8]" />
                   مستشار الإهداء الذكي
                 </span>
                 <h2 className="text-2xl sm:text-4xl font-black text-white leading-tight mb-2.5 sm:mb-4">
@@ -942,15 +942,31 @@ export default function StoreHomeClient({
                   ))}
                 </div>
 
-                <Link
-                  href={quizRecipient ? `/category/${quizRecipient}` : '/shop'}
-                  className="flex items-center justify-center gap-2 w-full h-12 sm:h-13 rounded-xl font-black text-white text-xs sm:text-sm transition-all hover:brightness-110 hover:-translate-y-0.5 shadow-lg border border-white/20 cursor-pointer"
-                  style={{ background: 'linear-gradient(135deg, #22385e 0%, #13213c 100%)' }}
-                >
-                  <Sparkles className="w-4 h-4 text-blue-200" />
-                  <span>اعثر على الهدية الآن</span>
-                  <ArrowLeft className="w-4 h-4 text-blue-200" />
-                </Link>
+                {(() => {
+                  const params = new URLSearchParams()
+                  if (quizRecipient) params.set('category', quizRecipient)
+                  if (quizBudget === 'under-50k') {
+                    params.set('maxPrice', '50000')
+                  } else if (quizBudget === '50k-100k') {
+                    params.set('minPrice', '50000')
+                    params.set('maxPrice', '100000')
+                  } else if (quizBudget === 'above-100k') {
+                    params.set('minPrice', '100000')
+                  }
+                  const quizTargetUrl = params.toString() ? `/shop?${params.toString()}` : '/shop'
+
+                  return (
+                    <Link
+                      href={quizTargetUrl}
+                      className="flex items-center justify-center gap-2 w-full h-12 sm:h-13 rounded-xl font-black text-white text-xs sm:text-sm transition-all hover:brightness-110 hover:-translate-y-0.5 shadow-lg border border-white/20 cursor-pointer"
+                      style={{ background: 'linear-gradient(135deg, #22385e 0%, #13213c 100%)' }}
+                    >
+                      <Sparkles className="w-4 h-4 text-blue-200" />
+                      <span>اعثر على الهدية الآن</span>
+                      <ArrowLeft className="w-4 h-4 text-blue-200" />
+                    </Link>
+                  )
+                })()}
               </div>
 
             </div>

@@ -7,9 +7,9 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-sans), var(--font-readex), system-ui, -apple-system, sans-serif;
+  --font-sans: var(--font-sans), system-ui, -apple-system, sans-serif;
   --font-mono: var(--font-geist-mono);
-  --font-heading: var(--font-sans), var(--font-readex), system-ui, -apple-system, sans-serif;
+  --font-heading: var(--font-sans), system-ui, -apple-system, sans-serif;
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -217,30 +217,37 @@
     }
   }
 
-  /* Royal Navy gradient text */
-  .text-gold {
-    @apply text-transparent bg-clip-text bg-gradient-to-br from-[#13213c] via-[#22385e] to-[#3b5e94];
+  /* Royal Navy typography & buttons */
+  .text-navy {
+    @apply text-transparent bg-clip-text bg-gradient-to-br from-[#0c1424] via-[#13213c] to-[#22385e];
   }
-  
-  /* Modern clean slate gradient background */
-  .bg-warm {
-    background: linear-gradient(135deg, #F8FAFC 0%, #F1F5F9 50%, #FFFFFF 100%);
-  }
-  
-  /* Premium royal navy button gradient */
-  .btn-gold {
+
+  .btn-navy {
     background: linear-gradient(135deg, #22385e 0%, #1a2c4e 50%, #13213c 100%);
     background-size: 200% auto;
-    @apply text-white font-bold transition-all duration-500 shadow-[0_4px_15px_rgba(19,33,60,0.3)];
+    @apply text-white font-bold transition-all duration-300 shadow-[0_4px_16px_rgba(19,33,60,0.25)];
+  }
+  .btn-navy:hover {
+    background-position: right center;
+    @apply shadow-[0_6px_22px_rgba(19,33,60,0.38)] -translate-y-0.5;
+  }
+
+  /* Refined Champagne Gold (Luxury Accent) */
+  .text-gold {
+    @apply text-transparent bg-clip-text bg-gradient-to-br from-[#9A7B38] via-[#C5A880] to-[#8C6D2D];
+  }
+
+  .btn-gold {
+    background: linear-gradient(135deg, #13213c 0%, #22385e 100%);
+    @apply text-white font-bold transition-all duration-300 border border-[#C5A880]/30 shadow-[0_4px_16px_rgba(19,33,60,0.25)];
   }
   .btn-gold:hover {
-    background-position: right center;
-    @apply shadow-[0_6px_20px_rgba(19,33,60,0.45)] -translate-y-0.5;
+    @apply -translate-y-0.5 border-[#C5A880]/60 shadow-[0_6px_22px_rgba(19,33,60,0.35)];
   }
-  
-  /* Subtle navy border */
+
+  /* Subtle gold & navy borders */
   .border-gold {
-    @apply border border-[#13213c]/20;
+    @apply border border-[#C5A880]/30;
   }
 
   /* Section divider */

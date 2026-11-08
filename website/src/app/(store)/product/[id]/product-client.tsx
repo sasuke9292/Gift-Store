@@ -206,17 +206,16 @@ ${typeof window !== 'undefined' ? `🔗 رابط المنتج: ${window.location
               {product.name}
             </h1>
 
-            {/* Rating */}
-            <div className="flex items-center gap-2 mb-5">
-              <div className="flex items-center gap-0.5">
-                {[1, 2, 3, 4, 5].map(i => (
-                  <Star
-                    key={i}
-                    className={cn("w-4 h-4", i <= 4 ? "fill-amber-400 text-amber-400" : "fill-slate-200 text-slate-200")}
-                  />
-                ))}
-              </div>
-              <span className="text-sm text-slate-500 font-medium">(4.8) — 124 تقييم</span>
+            {/* Authenticity & Trust Badge */}
+            <div className="flex flex-wrap items-center gap-2.5 mb-5">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200/70 text-xs font-bold">
+                <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
+                منتج أصلي 100% ومفحوص
+              </span>
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#F0F4F9] text-[#13213c] border border-[#13213c]/15 text-xs font-bold">
+                <Truck className="w-3.5 h-3.5 text-[#13213c]" />
+                شحن سريع لكافة المحافظات
+              </span>
             </div>
 
             {/* Price */}
@@ -420,10 +419,10 @@ ${typeof window !== 'undefined' ? `🔗 رابط المنتج: ${window.location
                 التفاصيل والمميزات
               </TabsTrigger>
               <TabsTrigger
-                value="reviews"
+                value="shipping-gifting"
                 className="text-base pb-3 rounded-none border-b-2 border-transparent data-[state=active]:border-[#13213c] data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:text-slate-900 text-slate-400 font-bold px-0 transition-colors"
               >
-                التقييمات
+                التوصيل والتغليف الملكي
               </TabsTrigger>
             </TabsList>
 
@@ -451,13 +450,13 @@ ${typeof window !== 'undefined' ? `🔗 رابط المنتج: ${window.location
                     <div className="w-5 h-5 rounded-full bg-[#F0F4F9] border border-[#13213c]/30 flex items-center justify-center shrink-0">
                       <Check className="w-3 h-3 text-[#13213c]" />
                     </div>
-                    تغليف هدايا فاخر متاح عند الطلب
+                    تغليف هدايا فاخر متاح مجاناً مع كل طلب
                   </li>
                   <li className="flex items-center gap-3 text-slate-600">
                     <div className="w-5 h-5 rounded-full bg-[#F0F4F9] border border-[#13213c]/30 flex items-center justify-center shrink-0">
                       <Check className="w-3 h-3 text-[#13213c]" />
                     </div>
-                    ضمان الاسترجاع خلال 7 أيام
+                    ضمان الاستبدال أو الاسترجاع بكل سهولة
                   </li>
                 </ul>
 
@@ -470,21 +469,25 @@ ${typeof window !== 'undefined' ? `🔗 رابط المنتج: ${window.location
               </div>
             </TabsContent>
 
-            <TabsContent value="reviews" className="animate-in fade-in-50 duration-300">
-              <div className="bg-white rounded-2xl border border-slate-200/80 p-8">
-                <div className="flex flex-col items-center justify-center py-12 text-center">
-                  <div className="w-16 h-16 rounded-full bg-slate-100 flex items-center justify-center mb-4">
-                    <Star className="w-8 h-8 text-[#13213c]/40" />
-                  </div>
-                  <h4 className="text-lg font-black text-slate-900 mb-2">لا توجد تقييمات بعد</h4>
-                  <p className="text-slate-400 max-w-sm mb-6">كن أول من يقيّم هذا المنتج وشارك رأيك مع الآخرين!</p>
-                  <button
-                    className="h-11 px-6 rounded-xl font-bold text-white transition-all hover:-translate-y-0.5 cursor-pointer"
-                    style={{ background: 'linear-gradient(135deg, #22385e 0%, #13213c 100%)' }}
-                    onClick={() => toast.info('ميزة التقييم قادمة قريباً!')}
-                  >
-                    إضافة تقييم
-                  </button>
+            <TabsContent value="shipping-gifting" className="animate-in fade-in-50 duration-300">
+              <div className="bg-white rounded-2xl border border-slate-200/80 p-8 space-y-6">
+                <div>
+                  <h3 className="text-lg font-black text-slate-900 mb-2">🎁 تجربة التغليف الملكي (مجاناً)</h3>
+                  <p className="text-sm text-slate-600 leading-relaxed">
+                    نحرص على أن تصل هديتك بأعلى درجات الفخامة: علبة هدايا فاخرة مع أشرطة مخملية/حريرية، وكارت إهداء بكلماتك ورسالتك الخاصة مجاناً مع كل طلب.
+                  </p>
+                </div>
+                <div className="pt-4 border-t border-slate-100">
+                  <h3 className="text-lg font-black text-slate-900 mb-2">🚚 أوقات الشحن والتوصيل</h3>
+                  <p className="text-sm text-slate-600 leading-relaxed">
+                    توصيل سريع داخل بغداد خلال 24 ساعة (5,000 د.ع)، ولكافة محافظات العراق خلال 24 - 48 ساعة (7,000 د.ع). والشحن مجاني لكافة الطلبات التي تتجاوز 100 ألف د.ع.
+                  </p>
+                </div>
+                <div className="pt-4 border-t border-slate-100">
+                  <h3 className="text-lg font-black text-slate-900 mb-2">🛡️ فحص ومعاينة قبل الاستلام</h3>
+                  <p className="text-sm text-slate-600 leading-relaxed">
+                    يحق لك دائماً معاينة هديتك مع مندوب التوصيل قبل الدفع لضمان مطابقتها التامة لتوقعاتك.
+                  </p>
                 </div>
               </div>
             </TabsContent>

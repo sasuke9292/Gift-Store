@@ -1,20 +1,35 @@
 'use client'
 
 import React, { useState } from 'react'
-import { Send, CheckCircle2 } from 'lucide-react'
+import { Send, CheckCircle2, MessageCircle } from 'lucide-react'
+import { cleanIraqiWhatsAppNumber } from '@/lib/whatsapp'
 
-export function ContactForm() {
+interface ContactFormProps {
+  whatsappNumber?: string | null
+}
+
+export function ContactForm({ whatsappNumber = '9647825970060' }: ContactFormProps) {
   const [submitted, setSubmitted] = useState(false)
   const [loading, setLoading] = useState(false)
   const [formData, setFormData] = useState({ name: '', phone: '', message: '' })
 
+  const rawPhone = whatsappNumber || '9647825970060'
+  const cleanWa = cleanIraqiWhatsAppNumber(rawPhone) || '9647825970060'
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
-    setTimeout(() => {
-      setLoading(false)
-      setSubmitted(true)
-    }, 600)
+
+    const text = `مرحباً فريق گِفتي بلس 🎁\nلدي استفسار جديد:\n\n👤 الاسم: ${formData.name}\n📞 رقم الهاتف: ${formData.phone}\n💬 الرسالة: ${formData.message}`
+    const waUrl = `https://wa.me/${cleanWa}?text=${encodeURIComponent(text)}`
+
+    // Open WhatsApp directly in new window
+    if (typeof window !== 'undefined') {
+      window.open(waUrl, '_blank')
+    }
+
+    setLoading(false)
+    setSubmitted(true)
   }
 
   if (submitted) {
@@ -23,17 +38,19 @@ export function ContactForm() {
         <div className="w-16 h-16 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center mx-auto mb-4 border border-emerald-100">
           <CheckCircle2 className="w-8 h-8" />
         </div>
-        <h3 className="text-xl font-bold text-slate-900 mb-2">تم إرسال رسالتك بنجاح!</h3>
-        <p className="text-sm text-slate-500 mb-6">شكراً لتواصلك معنا، سنقوم بالرد عليك في أقرب وقت ممكن.</p>
+        <h3 className="text-xl font-bold text-slate-900 mb-2">تم تجهيز رسالتك وفتح WhatsApp!</h3>
+        <p className="text-sm text-slate-500 mb-6">
+          تم نقل رسالتك مباشرة إلى فريق خدمة العملاء للتواصل والرد عليك في أسرع وقت.
+        </p>
         <button
           type="button"
           onClick={() => {
             setSubmitted(false)
             setFormData({ name: '', phone: '', message: '' })
           }}
-          className="text-sm font-bold text-[#13213c] hover:underline"
+          className="text-sm font-bold text-[#13213c] hover:underline cursor-pointer"
         >
-          إرسال رسالة أخرى
+          إرسال استفسار آخر
         </button>
       </div>
     )

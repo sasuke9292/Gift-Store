@@ -95,7 +95,7 @@ export default async function ContactPage() {
           </div>
 
           {/* Quick Message Form */}
-          <ContactForm />
+          <ContactForm whatsappNumber={settings?.whatsappNumber || settings?.storePhone || '9647825970060'} />
         </div>
       </div>
     </div>

@@ -110,9 +110,9 @@ export default function LoginClient() {
                 <label className="block text-sm font-bold text-slate-900">
                   كلمة المرور
                 </label>
-                <a href="#" className="text-xs font-semibold text-[#13213c] hover:underline">
+                <Link href="/contact" className="text-xs font-semibold text-[#13213c] hover:underline">
                   نسيت كلمة المرور؟
-                </a>
+                </Link>
               </div>
               <div className="relative">
                 <Lock className="absolute start-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
@@ -125,6 +125,13 @@ export default function LoginClient() {
                   placeholder="••••••••"
                 />
               </div>
+            </div>
+
+            {/* Quick Guest Notice */}
+            <div className="p-3 rounded-xl bg-[#F0F4F9]/70 border border-[#13213c]/15 text-center text-xs text-slate-600">
+              <span>هل تود إتمام طلب هدية سريعة؟ يمكنك التسوق وإتمام الطلب كـ </span>
+              <strong className="text-[#13213c] font-black">ضيف مباشر</strong>
+              <span> عبر السلة دون الحاجة لإنشاء حساب.</span>
             </div>
 
             {/* Submit */}

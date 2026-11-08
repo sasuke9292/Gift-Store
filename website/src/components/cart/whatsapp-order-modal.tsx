@@ -22,7 +22,8 @@ import {
   Loader2,
   Gift,
   ChevronDown,
-  X
+  X,
+  User
 } from 'lucide-react'
 import { useCartStore } from '@/lib/store'
 import { createWhatsAppOrderAction } from '@/app/actions/orders'
@@ -77,7 +78,8 @@ export function WhatsAppOrderModal({
   const [isPending, startTransition] = useTransition()
   const [isSubmitted, setIsSubmitted] = useState(false)
 
-  // Minimal Essential Form State (No Full Name, No Store Pickup)
+  // Form State
+  const [customerName, setCustomerName] = useState('')
   const [customerPhone, setCustomerPhone] = useState('')
   const [province, setProvince] = useState('بغداد')
   const [address, setAddress] = useState('')
@@ -108,6 +110,9 @@ export function WhatsAppOrderModal({
     const newErrors: Record<string, string> = {}
     const cleanPhone = customerPhone.replace(/\D/g, '')
 
+    if (!customerName.trim() || customerName.trim().length < 2) {
+      newErrors.customerName = 'يرجى كتابة اسمك الكريم'
+    }
     if (!customerPhone.trim() || cleanPhone.length < 10) {
       newErrors.customerPhone = 'يرجى إدخال رقم هاتف واتساب صحيح (مثال: 07701234567)'
     }
@@ -137,7 +142,7 @@ export function WhatsAppOrderModal({
     startTransition(async () => {
       try {
         const res = await createWhatsAppOrderAction({
-          customerName: 'زبون المتجر',
+          customerName: customerName.trim(),
           customerPhone,
           province,
           area: address,
@@ -262,7 +267,34 @@ export function WhatsAppOrderModal({
                   </div>
                 </div>
 
-                {/* 2. Phone Number (WhatsApp) */}
+                {/* 2. Customer Name */}
+                <div>
+                  <Label className="block text-xs font-bold text-slate-900 mb-1.5 flex items-center justify-between">
+                    <span className="flex items-center gap-1.5">
+                      <User className="w-3.5 h-3.5 text-[#13213c]" />
+                      <span>الاسم الكريم</span>
+                      <span className="text-rose-500">*</span>
+                    </span>
+                    <span className="text-[10px] text-slate-500 font-normal">اسم المشتري للتواصل</span>
+                  </Label>
+                  <Input
+                    type="text"
+                    placeholder="مثال: أحمد عبد الله"
+                    value={customerName}
+                    onChange={e => {
+                      setCustomerName(e.target.value)
+                      if (errors.customerName) setErrors(prev => ({ ...prev, customerName: '' }))
+                    }}
+                    className={`h-11 rounded-xl text-start bg-slate-50 border-slate-200 text-xs text-slate-900 placeholder:text-slate-400 focus-visible:ring-[#13213c]/30 focus-visible:border-[#13213c] ${errors.customerName ? 'border-rose-500 ring-2 ring-rose-500/10' : ''}`}
+                  />
+                  {errors.customerName && (
+                    <p className="text-[11px] text-rose-500 font-semibold mt-1">
+                      {errors.customerName}
+                    </p>
+                  )}
+                </div>
+
+                {/* 3. Phone Number (WhatsApp) */}
                 <div>
                   <Label className="block text-xs font-bold text-slate-900 mb-1.5 flex items-center justify-between">
                     <span className="flex items-center gap-1.5">

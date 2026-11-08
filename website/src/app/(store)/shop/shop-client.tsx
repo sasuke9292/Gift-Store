@@ -1,12 +1,13 @@
 'use client'
 
-import React, { useState, useMemo } from 'react'
+import React, { useState, useMemo, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { Filter, Search, SlidersHorizontal, X, ChevronDown, ChevronUp } from 'lucide-react'
+import { Filter, Search, SlidersHorizontal, X, ChevronDown, ChevronUp, Tag } from 'lucide-react'
 import { ProductCard } from '@/components/store/product-card'
 import { cn } from '@/lib/utils'
+import { useSearchParams } from 'next/navigation'
 
 interface Category {
   id: string
@@ -44,10 +45,53 @@ function normalizeArabic(text: string): string {
 }
 
 export default function ShopClient({ initialProducts, categories, initialActiveCategory }: ShopClientProps) {
-  const [activeCategory, setActiveCategory] = useState(initialActiveCategory || 'الكل')
-  const [searchQuery, setSearchQuery] = useState('')
+  const searchParams = useSearchParams()
+  const qParam = searchParams.get('q') || ''
+  const catParam = searchParams.get('category') || ''
+  const minPriceParam = searchParams.get('minPrice') ? Number(searchParams.get('minPrice')) : null
+  const maxPriceParam = searchParams.get('maxPrice') ? Number(searchParams.get('maxPrice')) : null
+
+  const resolveCategory = () => {
+    if (initialActiveCategory) return initialActiveCategory
+    if (!catParam) return 'الكل'
+    const found = categories.find(c => 
+      c.name.toLowerCase() === catParam.toLowerCase() || 
+      (c as any).slug?.toLowerCase() === catParam.toLowerCase()
+    )
+    if (found) return found.name
+    if (catParam === 'women' || catParam === 'her') {
+      const match = categories.find(c => c.name.includes('نساء') || c.name.includes('نسائي'))
+      if (match) return match.name
+    }
+    if (catParam === 'men' || catParam === 'him') {
+      const match = categories.find(c => c.name.includes('رجال') || c.name.includes('رجالي'))
+      if (match) return match.name
+    }
+    if (catParam === 'occasions') {
+      const match = categories.find(c => c.name.includes('مناسب') || c.name.includes('بوكس'))
+      if (match) return match.name
+    }
+    if (catParam === 'custom') {
+      const match = categories.find(c => c.name.includes('مخصص') || c.name.includes('اسم'))
+      if (match) return match.name
+    }
+    return 'الكل'
+  }
+
+  const [activeCategory, setActiveCategory] = useState(resolveCategory())
+  const [searchQuery, setSearchQuery] = useState(qParam)
+  const [minPrice, setMinPrice] = useState<number | null>(minPriceParam)
+  const [maxPrice, setMaxPrice] = useState<number | null>(maxPriceParam)
   const [sortBy, setSortBy] = useState<SortOption>('default')
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false)
+
+  // Sync state if URL search params change
+  useEffect(() => {
+    if (qParam) setSearchQuery(qParam)
+    if (minPriceParam !== null) setMinPrice(minPriceParam)
+    if (maxPriceParam !== null) setMaxPrice(maxPriceParam)
+    if (catParam) setActiveCategory(resolveCategory())
+  }, [qParam, catParam, minPriceParam, maxPriceParam])
 
   const filteredAndSorted = useMemo(() => {
     const normalizedQuery = normalizeArabic(searchQuery)
@@ -57,7 +101,12 @@ export default function ShopClient({ initialProducts, categories, initialActiveC
       const matchesSearch = !normalizedQuery || 
         normalizeArabic(product.name).includes(normalizedQuery) ||
         normalizeArabic(product.category?.name || '').includes(normalizedQuery)
-      return matchesCategory && matchesSearch
+
+      const effectivePrice = product.salePrice ?? product.price
+      const matchesMin = minPrice === null || effectivePrice >= minPrice
+      const matchesMax = maxPrice === null || effectivePrice <= maxPrice
+
+      return matchesCategory && matchesSearch && matchesMin && matchesMax
     })
 
     switch (sortBy) {
@@ -73,7 +122,7 @@ export default function ShopClient({ initialProducts, categories, initialActiveC
     }
 
     return result
-  }, [initialProducts, activeCategory, searchQuery, sortBy])
+  }, [initialProducts, activeCategory, searchQuery, minPrice, maxPrice, sortBy])
 
   const allCategories = ['الكل', ...categories.map(c => c.name)]
 
@@ -146,14 +195,48 @@ export default function ShopClient({ initialProducts, categories, initialActiveC
           </Button>
         </div>
 
-        {/* Results count */}
-        <div className="flex items-center gap-2 mb-6">
+        {/* Results count & Active filters */}
+        <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
           <p className="text-sm text-slate-500">
             <span className="font-bold text-slate-900">{filteredAndSorted.length}</span> منتج
             {activeCategory !== 'الكل' && (
               <span> في <span className="font-bold text-[#13213c]">{activeCategory}</span></span>
             )}
           </p>
+
+          {/* Active Filter Badges */}
+          {(minPrice !== null || maxPrice !== null || searchQuery) && (
+            <div className="flex flex-wrap items-center gap-2">
+              {(minPrice !== null || maxPrice !== null) && (
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#F0F4F9] text-[#13213c] text-xs font-bold border border-[#13213c]/20">
+                  <Tag className="w-3 h-3" />
+                  الميزانية: {minPrice ? `من ${minPrice.toLocaleString()} ` : ''}{maxPrice ? `حتى ${maxPrice.toLocaleString()} د.ع` : 'فما فوق'}
+                  <button
+                    onClick={() => {
+                      setMinPrice(null)
+                      setMaxPrice(null)
+                    }}
+                    className="p-0.5 hover:bg-black/10 rounded-full cursor-pointer"
+                    aria-label="إلغاء فلتر الميزانية"
+                  >
+                    <X className="w-3 h-3" />
+                  </button>
+                </span>
+              )}
+              {searchQuery && (
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-100 text-slate-700 text-xs font-bold border border-slate-200">
+                  البحث: &quot;{searchQuery}&quot;
+                  <button
+                    onClick={() => setSearchQuery('')}
+                    className="p-0.5 hover:bg-black/10 rounded-full cursor-pointer"
+                    aria-label="مسح البحث"
+                  >
+                    <X className="w-3 h-3" />
+                  </button>
+                </span>
+              )}
+            </div>
+          )}
         </div>
 
         <div className="flex flex-col lg:flex-row gap-8">

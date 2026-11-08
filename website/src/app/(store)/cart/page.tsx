@@ -272,21 +272,13 @@ export default function CartPage() {
                   </div>
                 </div>
 
-                {/* Coupon Code */}
-                <div className="flex gap-2 mb-5">
-                  <Input
-                    placeholder="كود الخصم"
-                    value={couponCode}
-                    onChange={(e) => setCouponCode(e.target.value)}
-                    className="flex-1 h-10 rounded-xl text-sm border-slate-200 bg-slate-50 placeholder:text-slate-400 focus-visible:ring-[#13213c]/30 focus-visible:border-[#13213c]/40"
-                  />
-                  <Button
-                    variant="outline"
-                    className="h-10 rounded-xl border-slate-200 text-slate-600 hover:bg-slate-100 hover:text-slate-900 text-sm font-bold"
-                    onClick={() => toast.info('كود الخصم غير صالح أو منتهي الصلاحية')}
-                  >
-                    تطبيق
-                  </Button>
+                {/* Free Luxury Packaging Perk Notice */}
+                <div className="p-3.5 rounded-xl bg-[#F0F4F9]/80 border border-[#13213c]/15 mb-5 flex items-center gap-3">
+                  <span className="text-xl shrink-0">🎁</span>
+                  <div className="text-start min-w-0">
+                    <p className="text-xs font-black text-[#13213c]">تغليف ملكي وكارت إهداء مجاني</p>
+                    <p className="text-[11px] text-slate-500 leading-relaxed">يشمل علبة هدايا فاخرة وأشرطة حريرية مع كل طلب</p>
+                  </div>
                 </div>
 
                 {/* WhatsApp Checkout Button */}
