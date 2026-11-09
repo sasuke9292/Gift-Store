@@ -4,7 +4,7 @@ import React, { useState, useMemo, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { Filter, Search, SlidersHorizontal, X, ChevronDown, ChevronUp, Tag } from 'lucide-react'
+import { Filter, Search, SlidersHorizontal, X, Tag } from 'lucide-react'
 import { ProductCard } from '@/components/store/product-card'
 import { cn } from '@/lib/utils'
 import { useSearchParams } from 'next/navigation'
@@ -87,10 +87,12 @@ export default function ShopClient({ initialProducts, categories, initialActiveC
 
   // Sync state if URL search params change
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     if (qParam) setSearchQuery(qParam)
     if (minPriceParam !== null) setMinPrice(minPriceParam)
     if (maxPriceParam !== null) setMaxPrice(maxPriceParam)
     if (catParam) setActiveCategory(resolveCategory())
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [qParam, catParam, minPriceParam, maxPriceParam])
 
   const filteredAndSorted = useMemo(() => {
