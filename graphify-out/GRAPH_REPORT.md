@@ -1,17 +1,17 @@
 # Graph Report - Gift-Store  (2026-11-09)
 
 ## Corpus Check
-- 129 files · ~148,204 words
+- 129 files · ~147,562 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 6 file(s) not represented in the graph (top: .ico 2, .example 1, (none) 1)
 
 ## Summary
-- 734 nodes · 1556 edges · 43 communities (31 shown, 12 thin omitted)
+- 734 nodes · 1555 edges · 43 communities (31 shown, 12 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS · INFERRED: 1 edges (avg confidence: 0.85)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `d39060a4`
+- Built from commit: `e5170199`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -95,7 +95,7 @@ Nodes (39): framer-motion, lucide-react, react, sonner, createProduct(), updateP
 
 ### Community 1 - "product-client.tsx"
 Cohesion: 0.06
-Nodes (51): @radix-ui/react-tabs, zustand, getArabicSearchVariants(), searchProducts(), CartPage(), FavoritesClient(), metadata, Category (+43 more)
+Nodes (50): @radix-ui/react-tabs, zustand, getArabicSearchVariants(), searchProducts(), CartPage(), FavoritesClient(), metadata, Category (+42 more)
 
 ### Community 2 - "settings-client.tsx"
 Cohesion: 0.08
@@ -215,7 +215,7 @@ Nodes (10): recharts, AdminDashboardHome(), containerVariants, DashboardStats, i
 
 ## Knowledge Gaps
 - **318 isolated node(s):** `$schema`, `style`, `rsc`, `tsx`, `config` (+313 more)
-  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 381 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
+  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 382 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
 - **12 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
@@ -232,6 +232,6 @@ _Questions this graph is uniquely positioned to answer:_
 - **Should `react` be split into smaller, more focused modules?**
   _Cohesion score 0.07326007326007326 - nodes in this community are weakly interconnected._
 - **Should `product-client.tsx` be split into smaller, more focused modules?**
-  _Cohesion score 0.057342657342657345 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.05687645687645688 - nodes in this community are weakly interconnected._
 - **Should `settings-client.tsx` be split into smaller, more focused modules?**
   _Cohesion score 0.08194905869324474 - nodes in this community are weakly interconnected._

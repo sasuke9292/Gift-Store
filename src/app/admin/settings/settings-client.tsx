@@ -459,29 +459,6 @@ export default function SettingsClient({
     }
   }
 
-  const [uploadingField, setUploadingField] = useState<string | null>(null)
-
-  const handleUploadGenericImage = async (field: keyof SettingsData, file: File) => {
-    if (!file) return
-    setUploadingField(String(field))
-    const formData = new FormData()
-    formData.append('file', file)
-    try {
-      const res = await fetch('/api/upload', { method: 'POST', body: formData })
-      const data = await res.json()
-      if (data.success && data.url) {
-        updateField(field, data.url as any)
-        toast.success('تم رفع الصورة بنجاح!')
-      } else {
-        toast.error(data.error || 'فشل رفع الصورة')
-      }
-    } catch {
-      toast.error('حدث خطأ أثناء رفع الصورة')
-    } finally {
-      setUploadingField(null)
-    }
-  }
-
   // Navigation Tabs State & Handlers
   const currentNavTabs: NavTabItem[] = useMemo(() => {
     if (settings.navTabsJson) {

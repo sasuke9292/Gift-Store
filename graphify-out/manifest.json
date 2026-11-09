@@ -162,9 +162,9 @@
     "semantic_hash": ""
   },
   "src/app/(store)/home-client.tsx": {
-    "mtime": 1794222122.2438405,
-    "seen": 1794222173.8709593,
-    "ast_hash": "7c396086357f29769c42d52a4ceef382",
+    "mtime": 1794223328.3047333,
+    "seen": 1794223441.0545864,
+    "ast_hash": "e100ec820c322302291728aa2d23cea8",
     "semantic_hash": ""
   },
   "src/app/(store)/layout.tsx": {
@@ -456,9 +456,9 @@
     "semantic_hash": ""
   },
   "src/app/admin/settings/settings-client.tsx": {
-    "mtime": 1794221551.497326,
-    "seen": 1794222173.8710005,
-    "ast_hash": "70fcdd1e1594d7b19cc66466308962c1",
+    "mtime": 1794223340.443815,
+    "seen": 1794223441.0546246,
+    "ast_hash": "27c3797e2abd886985e1499221017385",
     "semantic_hash": ""
   },
   "src/app/admin/users/page.tsx": {
@@ -570,8 +570,8 @@
     "semantic_hash": ""
   },
   "src/components/layout/store-header.tsx": {
-    "mtime": 1794222013.5483394,
-    "seen": 1794222173.8710167,
+    "mtime": 1794222226.1041276,
+    "seen": 1794223441.0546398,
     "ast_hash": "e749ad9343cf24585fc9053b9de1c6ec",
     "semantic_hash": ""
   },
@@ -738,9 +738,9 @@
     "semantic_hash": ""
   },
   "README.md": {
-    "mtime": 1794210620.5248337,
-    "seen": 1794211234.7346957,
-    "ast_hash": "d0480e4daf81d1859af82d39a9b0d697",
+    "mtime": 1794223357.0894248,
+    "seen": 1794223441.0546637,
+    "ast_hash": "1c401850c11d1948af49299c77cb63bb",
     "semantic_hash": ""
   },
   "docker-compose.yml": {
@@ -750,9 +750,9 @@
     "semantic_hash": ""
   },
   "docs/ADMIN_GUIDE.md": {
-    "mtime": 1790253478.7352402,
-    "seen": 1794211234.7346976,
-    "ast_hash": "9cbf947c41dab592773e4233b86097e6",
+    "mtime": 1794223370.3486576,
+    "seen": 1794223441.0546653,
+    "ast_hash": "138b5ce35b07140b446b7f2d4ef285dd",
     "semantic_hash": ""
   },
   "docs/API_AND_ACTIONS.md": {
@@ -762,9 +762,9 @@
     "semantic_hash": ""
   },
   "docs/ARCHITECTURE.md": {
-    "mtime": 1790253465.0118275,
-    "seen": 1794211234.7346997,
-    "ast_hash": "f630e3d1518378457c655b36070f1fa8",
+    "mtime": 1794223389.7887075,
+    "seen": 1794223441.0546665,
+    "ast_hash": "ac5625e7b80d50abebe8d8830bae6c0b",
     "semantic_hash": ""
   },
   "docs/SETUP_AND_DEPLOYMENT.md": {
@@ -900,8 +900,8 @@
     "semantic_hash": ""
   },
   "src/components/ui/organic-decorations.tsx": {
-    "mtime": 1794221953.451119,
-    "seen": 1794222173.8710287,
+    "mtime": 1794222226.1571786,
+    "seen": 1794223441.0546494,
     "ast_hash": "bf2613894b8cb25508a6aaa8038531b3",
     "semantic_hash": ""
   }

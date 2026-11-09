@@ -16,7 +16,6 @@ import {
   ChevronLeft,
   ChevronRight,
   Flame,
-  Compass,
   MessageCircle,
   Package
 } from 'lucide-react'
@@ -26,7 +25,6 @@ import { cn } from '@/lib/utils'
 import { 
   HeroRibbonBackground, 
   CategoryWavesBackground, 
-  QuizLuxuryLines, 
   SectionRibbonFlourish 
 } from '@/components/ui/organic-decorations'
 
@@ -280,10 +278,6 @@ export default function StoreHomeClient({
       bg: '#F0F4F9',
     },
   ]
-
-  // Interactive Gift Finder Mini Quiz State
-  const [quizRecipient, setQuizRecipient] = useState<'men' | 'women' | 'occasions' | 'custom' | null>('women')
-  const [quizBudget, setQuizBudget] = useState<string>('50k-100k')
 
   // Filter products by tab
   const filteredProducts = useMemo(() => {
@@ -755,123 +749,7 @@ export default function StoreHomeClient({
       )}
 
       {/* ========================================================================= */}
-      {/* 6. INTERACTIVE GIFT FINDER BANNER */}
-      {/* ========================================================================= */}
-      <section id="gift-finder-section" className="py-10 sm:py-16 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
-          <div 
-            className="relative rounded-2xl sm:rounded-3xl p-6 sm:p-12 lg:p-14 overflow-hidden border border-[#F4A258]/30 shadow-[0_20px_50px_rgba(1,61,90,0.25)]"
-            style={{
-              background: 'linear-gradient(135deg, #01283B 0%, #013D5A 50%, #025177 100%)'
-            }}
-          >
-            {/* Background Glows & Subtle Luxury Line Patterns */}
-            <QuizLuxuryLines />
-            <div className="absolute top-0 end-0 w-80 h-80 bg-[#F4A258]/10 rounded-full blur-[100px] pointer-events-none" />
-            <div className="absolute bottom-0 start-0 w-80 h-80 bg-[#025177]/25 rounded-full blur-[100px] pointer-events-none" />
-
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-10 items-center relative z-10">
-              
-              {/* Left Content */}
-              <div className="lg:col-span-6 text-center lg:text-start flex flex-col items-center lg:items-start">
-                <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold bg-[#F4A258]/15 text-[#FCF3E3] border border-[#F4A258]/30 mb-3 sm:mb-4">
-                  <Sparkles className="w-3.5 h-3.5 text-[#FCF3E3]" />
-                  مستشار الإهداء الذكي
-                </span>
-                <h2 className="text-2xl sm:text-4xl font-black text-white leading-tight mb-2.5 sm:mb-4">
-                  محتار في اختيار الهدية المناسبة؟
-                </h2>
-                <p className="text-stone-300 text-xs sm:text-base leading-relaxed mb-5 sm:mb-6 max-w-lg">
-                  دع ذكاء المتجر يختار لك الهدية المثالية بناءً على الشخص والمناسبة وميزانيتك بضغطة زر واحدة.
-                </p>
-                <div className="flex flex-wrap items-center justify-center lg:justify-start gap-3 sm:gap-4 text-[11px] sm:text-xs text-white/80">
-                  <span className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-[#F4A258]" /> ترشيحات دقيقة</span>
-                  <span className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-[#F4A258]" /> وفر وقتك وجهدك</span>
-                  <span className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-[#F4A258]" /> تغليف ملائم</span>
-                </div>
-              </div>
-
-              {/* Right Mini-Interactive Widget */}
-              <div className="lg:col-span-6 bg-white/10 backdrop-blur-md rounded-2xl p-4 sm:p-7 border border-white/15 w-full">
-                <p className="text-xs font-black text-[#F4A258] mb-2.5 sm:mb-3 text-start">الخطوة 1: لمن الهدية؟</p>
-                <div className="grid grid-cols-4 gap-2 sm:gap-2.5 mb-4 sm:mb-5">
-                  {[
-                    { id: 'women', label: 'لها 👩' },
-                    { id: 'men', label: 'له 👨' },
-                    { id: 'occasions', label: 'مناسبات 💍' },
-                    { id: 'custom', label: 'بالاسم ✨' },
-                  ].map((item) => (
-                    <button
-                      key={item.id}
-                      onClick={() => setQuizRecipient(item.id as any)}
-                      className={cn(
-                        "py-2.5 sm:py-3 px-1 sm:px-2 rounded-xl text-[11px] sm:text-xs font-bold transition-all border cursor-pointer text-center",
-                        quizRecipient === item.id
-                          ? "bg-[#FCF3E3] text-[#013D5A] border-[#FCF3E3] font-black shadow-md scale-[1.02]"
-                          : "bg-white/10 text-white/90 border-white/15 hover:bg-white/20 hover:text-white"
-                      )}
-                    >
-                      {item.label}
-                    </button>
-                  ))}
-                </div>
-
-                <p className="text-xs font-black text-[#F4A258] mb-2.5 sm:mb-3 text-start">الخطوة 2: حدد الميزانية التقريبية</p>
-                <div className="grid grid-cols-3 gap-2 sm:gap-2.5 mb-5 sm:mb-6">
-                  {[
-                    { id: 'under-50k', label: 'أقل من 50 ألف' },
-                    { id: '50k-100k', label: '50 - 100 ألف' },
-                    { id: 'above-100k', label: 'أكثر من 100 ألف' },
-                  ].map((b) => (
-                    <button
-                      key={b.id}
-                      onClick={() => setQuizBudget(b.id)}
-                      className={cn(
-                        "py-2.5 sm:py-3 px-1 sm:px-2 rounded-xl text-[10px] sm:text-[11px] font-bold transition-all border cursor-pointer text-center",
-                        quizBudget === b.id
-                          ? "bg-[#FCF3E3] text-[#013D5A] border-[#FCF3E3] font-black shadow-md scale-[1.02]"
-                          : "bg-white/10 text-white/90 border-white/15 hover:bg-white/20 hover:text-white"
-                      )}
-                    >
-                      {b.label}
-                    </button>
-                  ))}
-                </div>
-
-                {(() => {
-                  const params = new URLSearchParams()
-                  if (quizRecipient) params.set('category', quizRecipient)
-                  if (quizBudget === 'under-50k') {
-                    params.set('maxPrice', '50000')
-                  } else if (quizBudget === '50k-100k') {
-                    params.set('minPrice', '50000')
-                    params.set('maxPrice', '100000')
-                  } else if (quizBudget === 'above-100k') {
-                    params.set('minPrice', '100000')
-                  }
-                  const quizTargetUrl = params.toString() ? `/shop?${params.toString()}` : '/shop'
-
-                  return (
-                    <Link
-                      href={quizTargetUrl}
-                      className="flex items-center justify-center gap-2 w-full h-12 sm:h-13 rounded-xl font-black text-[#013D5A] text-xs sm:text-sm transition-all hover:brightness-105 hover:-translate-y-0.5 shadow-lg border border-[#F4A258]/30 cursor-pointer"
-                      style={{ background: 'linear-gradient(135deg, #F4A258 0%, #DE8637 100%)' }}
-                    >
-                      <Sparkles className="w-4 h-4 text-[#013D5A]" />
-                      <span>اعثر على الهدية الآن</span>
-                      <ArrowLeft className="w-4 h-4 text-[#013D5A]" />
-                    </Link>
-                  )
-                })()}
-              </div>
-
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ========================================================================= */}
-      {/* 7. REAL SOCIAL PROOF / TESTIMONIALS */}
+      {/* 5. REAL SOCIAL PROOF / TESTIMONIALS */}
       {/* ========================================================================= */}
       <section className="relative overflow-hidden py-10 sm:py-16 bg-white border-t border-slate-200/80">
         {/* Delicate Ambient Testimonial Ribbon */}
@@ -922,7 +800,7 @@ export default function StoreHomeClient({
       </section>
 
       {/* ========================================================================= */}
-      {/* 8. VIP GIFT CONCIERGE & CUSTOM ASSISTANCE BANNER */}
+      {/* 6. VIP GIFT CONCIERGE & CUSTOM ASSISTANCE BANNER */}
       {/* ========================================================================= */}
       {settings?.showConcierge !== false && (
         <section className="py-10 sm:py-14 bg-slate-100/70 border-t border-slate-200/80">
