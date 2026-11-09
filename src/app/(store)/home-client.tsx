@@ -126,7 +126,7 @@ function CategoryCardItem({ cat }: { cat: Category }) {
   return (
     <Link
       href={`/category/${cat.slug}`}
-      className="group relative rounded-xl sm:rounded-3xl overflow-hidden aspect-[1/1] sm:aspect-[4/5] flex flex-col justify-end p-2.5 sm:p-4 border border-slate-200/80 bg-slate-100 hover:shadow-[0_12px_30px_rgba(19,33,60,0.12)] hover:-translate-y-1 transition-all duration-300"
+      className="group relative rounded-xl sm:rounded-3xl overflow-hidden aspect-[1/1] sm:aspect-[4/5] flex flex-col justify-end p-2.5 sm:p-4 border border-slate-200/80 bg-slate-100 hover:shadow-[0_12px_30px_rgba(19,33,60,0.12)] hover:-translate-y-1 transition-all duration-300 w-full"
     >
       <Image
         src={imgSrc}
@@ -734,10 +734,15 @@ export default function StoreHomeClient({
               </Link>
             </div>
 
-            {/* Grid Cards (With 100% Guaranteed Image Fallbacks) */}
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4 lg:gap-5">
+            {/* Centered Cards Container (Always horizontally centered regardless of active categories count) */}
+            <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 lg:gap-5 w-full">
               {activeCategories.slice(0, 6).map((cat) => (
-                <CategoryCardItem key={cat.id} cat={cat} />
+                <div 
+                  key={cat.id} 
+                  className="w-[calc(50%-0.5rem)] sm:w-[calc(33.333%-0.75rem)] md:w-[calc(25%-1rem)] lg:w-[calc(16.666%-1.1rem)] max-w-[210px] shrink-0"
+                >
+                  <CategoryCardItem cat={cat} />
+                </div>
               ))}
             </div>
           </div>
