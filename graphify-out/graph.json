@@ -9280,7 +9280,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/(store)/shop/shop-client.tsx",
-      "source_location": "L174",
+      "source_location": "L176",
       "weight": 1.0
     },
     {
@@ -9292,7 +9292,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/(store)/shop/shop-client.tsx",
-      "source_location": "L97",
+      "source_location": "L99",
       "weight": 1.0
     },
     {
@@ -26395,5 +26395,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "0a27ed0091e05e908c15317b0f727fd291bdf196"
+  "built_at_commit": "98ad62d8df093f11a27de3a3e13ca5f22bde3754"
 }

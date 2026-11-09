@@ -210,9 +210,9 @@
     "semantic_hash": ""
   },
   "src/app/(store)/shop/shop-client.tsx": {
-    "mtime": 1794141825.0797694,
-    "seen": 1794211234.7345955,
-    "ast_hash": "93c7f681d973eaa2b56779dae01d2222",
+    "mtime": 1794211341.5987751,
+    "seen": 1794211355.6838827,
+    "ast_hash": "5dcff8b5e6931e94846a004346e59bb5",
     "semantic_hash": ""
   },
   "src/app/(store)/terms/page.tsx": {
