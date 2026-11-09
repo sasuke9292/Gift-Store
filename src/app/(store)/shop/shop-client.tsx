@@ -129,8 +129,20 @@ export default function ShopClient({ initialProducts, categories, initialActiveC
   const allCategories = ['الكل', ...categories.map(c => c.name)]
 
   return (
-    <div className="min-h-screen bg-[#FAF7F2] pt-4 pb-20">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-[#FAF7F2] pt-4 pb-20 relative overflow-hidden">
+      {/* Subtle Boutique Organic Ambient Glow */}
+      <div 
+        className="absolute top-0 end-[-5%] w-[480px] h-[480px] rounded-full blur-[130px] opacity-40 pointer-events-none -z-10"
+        style={{ background: 'radial-gradient(circle, rgba(189,211,206,0.18) 0%, rgba(252,243,227,0.2) 60%, transparent 75%)' }}
+        aria-hidden="true"
+      />
+      <div 
+        className="absolute top-96 start-[-10%] w-[380px] h-[380px] rounded-full blur-[110px] opacity-30 pointer-events-none -z-10"
+        style={{ background: 'radial-gradient(circle, rgba(112,140,105,0.12) 0%, transparent 75%)' }}
+        aria-hidden="true"
+      />
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
 
         {/* Page Header */}
         <div className="py-10">

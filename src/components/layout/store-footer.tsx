@@ -12,6 +12,7 @@ import {
   Lock,
   Sparkles
 } from 'lucide-react'
+import { FooterSilkLines } from '@/components/ui/organic-decorations'
 
 const footerLinks = {
   quickLinks: [
@@ -73,6 +74,9 @@ export function StoreFooter({ settings }: StoreFooterProps) {
 
   return (
     <footer className="bg-[#01283B] text-white/80 relative overflow-hidden" dir="rtl">
+      {/* Subtle organic silk lines and glowing watermark */}
+      <FooterSilkLines />
+
       {/* Subtle royal navy glow background effects */}
       <div className="absolute top-0 start-1/4 w-96 h-96 bg-[#025177]/25 rounded-full blur-[140px] pointer-events-none" />
       <div className="absolute bottom-0 end-1/4 w-80 h-80 bg-[#013D5A]/40 rounded-full blur-[120px] pointer-events-none" />

@@ -23,6 +23,12 @@ import {
 import { motion, AnimatePresence } from 'framer-motion'
 import { ProductCard } from '@/components/store/product-card'
 import { cn } from '@/lib/utils'
+import { 
+  HeroRibbonBackground, 
+  CategoryWavesBackground, 
+  QuizLuxuryLines, 
+  SectionRibbonFlourish 
+} from '@/components/ui/organic-decorations'
 
 interface Category {
   id: string
@@ -393,6 +399,9 @@ export default function StoreHomeClient({
           }}
         />
 
+        {/* Subtle Organic Shapes & Thin Ribbon Lines */}
+        <HeroRibbonBackground />
+
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
 
@@ -700,8 +709,10 @@ export default function StoreHomeClient({
       {/* 3. CURATED CATEGORIES SHOWCASE GRID (Moved up for seamless shopping flow) */}
       {/* ========================================================================= */}
       {activeCategories.length > 0 && (
-        <section className="py-10 sm:py-16 bg-[#FAF7F2]">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <section className="relative overflow-hidden py-10 sm:py-16 bg-[#FAF7F2]">
+          {/* Subtle Boundary Organic Waves */}
+          <CategoryWavesBackground />
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             
             {/* Header */}
             <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 mb-6 sm:mb-8 text-center sm:text-start">
@@ -737,8 +748,10 @@ export default function StoreHomeClient({
       {/* 4. SHOP BY RECIPIENT & OCCASION (هدايا مختارة بعناية لمن تحب) */}
       {/* ========================================================================= */}
       {settings?.enablePersonasSection !== false && (
-        <section className="py-10 sm:py-16 bg-white border-t border-slate-200/80">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <section className="relative overflow-hidden py-10 sm:py-16 bg-white border-t border-slate-200/80">
+          {/* Subtle Organic Ribbon Flourish */}
+          <SectionRibbonFlourish variant="default" />
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             
             <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-3 sm:gap-4 mb-6 sm:mb-8 text-center lg:text-start">
               <div>
@@ -877,7 +890,8 @@ export default function StoreHomeClient({
               background: 'linear-gradient(135deg, #01283B 0%, #013D5A 50%, #025177 100%)'
             }}
           >
-            {/* Background Glows */}
+            {/* Background Glows & Subtle Luxury Line Patterns */}
+            <QuizLuxuryLines />
             <div className="absolute top-0 end-0 w-80 h-80 bg-[#F4A258]/10 rounded-full blur-[100px] pointer-events-none" />
             <div className="absolute bottom-0 start-0 w-80 h-80 bg-[#025177]/25 rounded-full blur-[100px] pointer-events-none" />
 
@@ -984,8 +998,10 @@ export default function StoreHomeClient({
       {/* ========================================================================= */}
       {/* 7. REAL SOCIAL PROOF / TESTIMONIALS */}
       {/* ========================================================================= */}
-      <section className="py-10 sm:py-16 bg-white border-t border-slate-200/80">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="relative overflow-hidden py-10 sm:py-16 bg-white border-t border-slate-200/80">
+        {/* Delicate Ambient Testimonial Ribbon */}
+        <SectionRibbonFlourish variant="inverted" />
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           
           <div className="text-center max-w-2xl mx-auto mb-8 sm:mb-12">
             <p className="text-[11px] sm:text-xs font-black text-[#013D5A] uppercase tracking-widest mb-1.5 flex items-center justify-center gap-1.5">

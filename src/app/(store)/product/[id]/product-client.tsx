@@ -14,6 +14,7 @@ import { toast } from 'sonner'
 import { useMounted } from '@/lib/use-mounted'
 import { cn } from '@/lib/utils'
 import { cleanIraqiWhatsAppNumber } from '@/lib/whatsapp'
+import { PackagingFlourish } from '@/components/ui/organic-decorations'
 
 function getProductFallback(name: string, categoryName?: string): string {
   const text = `${name} ${categoryName || ''}`.toLowerCase()
@@ -470,7 +471,9 @@ ${typeof window !== 'undefined' ? `🔗 رابط المنتج: ${window.location
             </TabsContent>
 
             <TabsContent value="shipping-gifting" className="animate-in fade-in-50 duration-300">
-              <div className="bg-white rounded-2xl border border-slate-200/80 p-8 space-y-6">
+              <div className="relative overflow-hidden bg-white rounded-2xl border border-slate-200/80 p-8 space-y-6">
+                {/* Subtle Luxury Ribbon Corner Flourish */}
+                <PackagingFlourish />
                 <div>
                   <h3 className="text-lg font-black text-slate-900 mb-2">🎁 تجربة التغليف الملكي (مجاناً)</h3>
                   <p className="text-sm text-slate-600 leading-relaxed">
