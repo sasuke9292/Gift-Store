@@ -93,14 +93,14 @@ export default function AdminDashboardHome({
         animate={{ opacity: 1, y: 0 }}
         className="flex flex-col lg:flex-row lg:items-center justify-between gap-5 bg-white border border-[#E8E4DF] rounded-3xl p-6 sm:p-7 relative overflow-hidden shadow-[0_2px_12px_rgba(0,0,0,0.03)]"
       >
-        <div className="absolute top-0 end-0 w-80 h-80 bg-[#13213c]/8 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute bottom-0 start-0 w-60 h-60 bg-[#13213c]/5 rounded-full blur-2xl pointer-events-none" />
+        <div className="absolute top-0 end-0 w-80 h-80 bg-[#013D5A]/8 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute bottom-0 start-0 w-60 h-60 bg-[#013D5A]/5 rounded-full blur-2xl pointer-events-none" />
         
         <div className="relative z-10">
           <div className="flex items-center gap-2.5 mb-1.5">
             <div 
               className="w-9 h-9 rounded-xl flex items-center justify-center text-white shadow-sm shrink-0"
-              style={{ background: 'linear-gradient(135deg, #22385e 0%, #13213c 100%)' }}
+              style={{ background: 'linear-gradient(135deg, #025177 0%, #013D5A 100%)' }}
             >
               <Sparkles className="w-4 h-4 text-white" />
             </div>
@@ -117,25 +117,25 @@ export default function AdminDashboardHome({
           <Link 
             href="/"
             target="_blank"
-            className="flex items-center gap-1.5 h-11 px-4 rounded-xl bg-[#FAFAF8] border border-[#E8E4DF] text-[#1C1917] hover:bg-white font-bold text-xs sm:text-sm transition-all hover:border-[#13213c]/40 shadow-xs"
+            className="flex items-center gap-1.5 h-11 px-4 rounded-xl bg-[#FAFAF8] border border-[#E8E4DF] text-[#1C1917] hover:bg-white font-bold text-xs sm:text-sm transition-all hover:border-[#013D5A]/40 shadow-xs"
             title="معاينة المتجر المباشر"
           >
-            <ExternalLink className="w-3.5 h-3.5 text-[#13213c]" />
+            <ExternalLink className="w-3.5 h-3.5 text-[#013D5A]" />
             <span>معاينة المتجر</span>
           </Link>
 
           <Link 
             href="/admin/orders"
-            className="flex items-center gap-2 h-11 px-4.5 rounded-xl bg-white border border-[#E8E4DF] text-[#1C1917] hover:bg-[#FAFAF8] font-bold text-xs sm:text-sm transition-all hover:border-[#13213c]/40 shadow-xs"
+            className="flex items-center gap-2 h-11 px-4.5 rounded-xl bg-white border border-[#E8E4DF] text-[#1C1917] hover:bg-[#FAFAF8] font-bold text-xs sm:text-sm transition-all hover:border-[#013D5A]/40 shadow-xs"
           >
-            <ShoppingBag className="w-4 h-4 text-[#13213c]" />
+            <ShoppingBag className="w-4 h-4 text-[#013D5A]" />
             <span>إدارة الطلبات</span>
           </Link>
 
           <Link
             href="/admin/products?tab=create"
             className="flex items-center gap-2 h-11 px-5 rounded-xl text-white font-extrabold text-xs sm:text-sm transition-all hover:-translate-y-0.5 shadow-[0_4px_16px_rgba(19,33,60,0.35)] cursor-pointer"
-            style={{ background: 'linear-gradient(135deg, #22385e 0%, #13213c 100%)' }}
+            style={{ background: 'linear-gradient(135deg, #025177 0%, #013D5A 100%)' }}
           >
             <Plus className="w-4 h-4 text-white" />
             <span>إضافة منتج جديد</span>
@@ -154,21 +154,21 @@ export default function AdminDashboardHome({
         <motion.div variants={itemVariants}>
           <Link
             href="/admin/settings?tab=slides"
-            className="p-4 rounded-2xl bg-white border border-[#E8E4DF] hover:border-[#13213c]/40 hover:shadow-md transition-all group flex flex-col justify-between h-full"
+            className="p-4 rounded-2xl bg-white border border-[#E8E4DF] hover:border-[#013D5A]/40 hover:shadow-md transition-all group flex flex-col justify-between h-full"
           >
             <div className="flex items-start justify-between mb-3">
               <div 
                 className="w-10 h-10 rounded-xl flex items-center justify-center text-white shadow-xs group-hover:scale-105 transition-transform"
-                style={{ background: 'linear-gradient(135deg, #22385e 0%, #13213c 100%)' }}
+                style={{ background: 'linear-gradient(135deg, #025177 0%, #013D5A 100%)' }}
               >
                 <Layers className="w-5 h-5 text-white" />
               </div>
-              <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#13213c]/10 text-[#13213c]">
+              <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#013D5A]/10 text-[#013D5A]">
                 {stats.heroSlidesCount ?? 4} شرائح
               </span>
             </div>
             <div>
-              <p className="text-xs font-black text-[#1C1917] group-hover:text-[#13213c] transition-colors">
+              <p className="text-xs font-black text-[#1C1917] group-hover:text-[#013D5A] transition-colors">
                 سلايدر الواجهة
               </p>
               <p className="text-[11px] text-[#78716C] mt-0.5">
@@ -182,7 +182,7 @@ export default function AdminDashboardHome({
         <motion.div variants={itemVariants}>
           <Link
             href="/admin/orders"
-            className="p-4 rounded-2xl bg-white border border-[#E8E4DF] hover:border-[#13213c]/40 hover:shadow-md transition-all group flex flex-col justify-between h-full"
+            className="p-4 rounded-2xl bg-white border border-[#E8E4DF] hover:border-[#013D5A]/40 hover:shadow-md transition-all group flex flex-col justify-between h-full"
           >
             <div className="flex items-start justify-between mb-3">
               <div className="w-10 h-10 rounded-xl bg-emerald-50 border border-emerald-200/60 flex items-center justify-center text-emerald-600 shadow-xs group-hover:scale-105 transition-transform">
@@ -195,7 +195,7 @@ export default function AdminDashboardHome({
               )}
             </div>
             <div>
-              <p className="text-xs font-black text-[#1C1917] group-hover:text-[#13213c] transition-colors">
+              <p className="text-xs font-black text-[#1C1917] group-hover:text-[#013D5A] transition-colors">
                 طلبات WhatsApp
               </p>
               <p className="text-[11px] text-[#78716C] mt-0.5">
@@ -209,7 +209,7 @@ export default function AdminDashboardHome({
         <motion.div variants={itemVariants}>
           <Link
             href="/admin/products"
-            className="p-4 rounded-2xl bg-white border border-[#E8E4DF] hover:border-[#13213c]/40 hover:shadow-md transition-all group flex flex-col justify-between h-full"
+            className="p-4 rounded-2xl bg-white border border-[#E8E4DF] hover:border-[#013D5A]/40 hover:shadow-md transition-all group flex flex-col justify-between h-full"
           >
             <div className="flex items-start justify-between mb-3">
               <div className="w-10 h-10 rounded-xl bg-blue-50 border border-blue-200/60 flex items-center justify-center text-blue-600 shadow-xs group-hover:scale-105 transition-transform">
@@ -220,7 +220,7 @@ export default function AdminDashboardHome({
               </span>
             </div>
             <div>
-              <p className="text-xs font-black text-[#1C1917] group-hover:text-[#13213c] transition-colors">
+              <p className="text-xs font-black text-[#1C1917] group-hover:text-[#013D5A] transition-colors">
                 كتالوج المنتجات
               </p>
               <p className="text-[11px] text-[#78716C] mt-0.5">
@@ -234,7 +234,7 @@ export default function AdminDashboardHome({
         <motion.div variants={itemVariants}>
           <Link
             href="/admin/settings"
-            className="p-4 rounded-2xl bg-white border border-[#E8E4DF] hover:border-[#13213c]/40 hover:shadow-md transition-all group flex flex-col justify-between h-full"
+            className="p-4 rounded-2xl bg-white border border-[#E8E4DF] hover:border-[#013D5A]/40 hover:shadow-md transition-all group flex flex-col justify-between h-full"
           >
             <div className="flex items-start justify-between mb-3">
               <div className="w-10 h-10 rounded-xl bg-stone-100 border border-stone-200 flex items-center justify-center text-stone-700 shadow-xs group-hover:scale-105 transition-transform">
@@ -245,7 +245,7 @@ export default function AdminDashboardHome({
               </span>
             </div>
             <div>
-              <p className="text-xs font-black text-[#1C1917] group-hover:text-[#13213c] transition-colors">
+              <p className="text-xs font-black text-[#1C1917] group-hover:text-[#013D5A] transition-colors">
                 إعدادات المتجر
               </p>
               <p className="text-[11px] text-[#78716C] mt-0.5">
@@ -264,12 +264,12 @@ export default function AdminDashboardHome({
         className="grid grid-cols-1 sm:grid-cols-3 gap-5"
       >
         {/* Total Sales */}
-        <motion.div variants={itemVariants} className="bg-white border border-[#E8E4DF] rounded-3xl p-6 relative overflow-hidden shadow-[0_2px_10px_rgba(0,0,0,0.03)] hover:shadow-md hover:border-[#13213c]/50 transition-all duration-300 group">
-          <div className="absolute top-0 end-0 w-32 h-32 bg-[#13213c]/10 rounded-full blur-2xl group-hover:scale-125 transition-transform" />
+        <motion.div variants={itemVariants} className="bg-white border border-[#E8E4DF] rounded-3xl p-6 relative overflow-hidden shadow-[0_2px_10px_rgba(0,0,0,0.03)] hover:shadow-md hover:border-[#013D5A]/50 transition-all duration-300 group">
+          <div className="absolute top-0 end-0 w-32 h-32 bg-[#013D5A]/10 rounded-full blur-2xl group-hover:scale-125 transition-transform" />
           <div className="relative z-10">
             <div className="flex items-start justify-between mb-4">
               <div 
-                className="w-12 h-12 rounded-2xl flex items-center justify-center text-[#13213c] shadow-sm"
+                className="w-12 h-12 rounded-2xl flex items-center justify-center text-[#013D5A] shadow-sm"
                 style={{ background: 'linear-gradient(135deg, #F0F4F9 0%, #E2EAF4 100%)', border: '1px solid rgba(19, 33, 60,0.25)' }}
               >
                 <DollarSign className="w-6 h-6" />
@@ -281,7 +281,7 @@ export default function AdminDashboardHome({
             <p className="text-xs font-bold text-[#A8A29E] uppercase tracking-wider mb-1">إجمالي المبيعات المحققة</p>
             <p className="text-3xl font-black text-[#1C1917] tracking-tight">
               {stats.totalSales.toLocaleString('en-US')}{' '}
-              <span className="text-base font-bold text-[#13213c]">د.ع</span>
+              <span className="text-base font-bold text-[#013D5A]">د.ع</span>
             </p>
           </div>
         </motion.div>
@@ -378,7 +378,7 @@ export default function AdminDashboardHome({
           <MiniStat label="طلبات مكتملة" value={stats.completedOrders} color="text-emerald-700" bg="bg-emerald-500" border="border-emerald-100" />
           <MiniStat label="قيد المراجعة والتجهيز" value={stats.pendingOrders} color="text-amber-700" bg="bg-amber-500" border="border-amber-100" />
           <MiniStat label="إجمالي المنتجات" value={stats.totalProducts} color="text-blue-700" bg="bg-blue-500" border="border-blue-100" />
-          <MiniStat label="تصنيفات الهدايا" value={stats.categoriesCount ?? 0} color="text-[#13213c]" bg="bg-[#13213c]" border="border-[#13213c]/15" />
+          <MiniStat label="تصنيفات الهدايا" value={stats.categoriesCount ?? 0} color="text-[#013D5A]" bg="bg-[#013D5A]" border="border-[#013D5A]/15" />
         </div>
       </motion.div>
 

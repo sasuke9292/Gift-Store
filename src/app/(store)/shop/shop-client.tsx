@@ -129,12 +129,12 @@ export default function ShopClient({ initialProducts, categories, initialActiveC
   const allCategories = ['الكل', ...categories.map(c => c.name)]
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] pt-4 pb-20">
+    <div className="min-h-screen bg-[#FAF7F2] pt-4 pb-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Page Header */}
         <div className="py-10">
-          <p className="text-sm font-bold text-[#13213c] uppercase tracking-widest mb-2">استكشف</p>
+          <p className="text-sm font-bold text-[#013D5A] uppercase tracking-widest mb-2">استكشف</p>
           <h1 className="text-4xl sm:text-5xl font-black text-slate-900 tracking-tight mb-3">المتجر</h1>
           <p className="text-slate-600 text-lg">تصفح تشكيلة واسعة من الهدايا المميزة لكل المناسبات</p>
         </div>
@@ -146,7 +146,7 @@ export default function ShopClient({ initialProducts, categories, initialActiveC
             <Search className="absolute start-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
             <Input
               placeholder="ابحث عن منتج..."
-              className="ps-10 h-11 rounded-xl bg-white border-slate-200 text-slate-900 placeholder:text-slate-400 focus-visible:ring-[#13213c]/30 focus-visible:border-[#13213c]/40 shadow-xs"
+              className="ps-10 h-11 rounded-xl bg-white border-slate-200 text-slate-900 placeholder:text-slate-400 focus-visible:ring-[#013D5A]/30 focus-visible:border-[#013D5A]/40 shadow-xs"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
@@ -176,7 +176,7 @@ export default function ShopClient({ initialProducts, categories, initialActiveC
                   className={cn(
                     "px-3 py-1.5 rounded-lg text-sm font-semibold transition-all cursor-pointer",
                     sortBy === opt.value
-                      ? "bg-[#13213c] text-white shadow-xs font-bold"
+                      ? "bg-[#013D5A] text-white shadow-xs font-bold"
                       : "text-slate-600 hover:bg-slate-100 hover:text-slate-900"
                   )}
                 >
@@ -202,7 +202,7 @@ export default function ShopClient({ initialProducts, categories, initialActiveC
           <p className="text-sm text-slate-500">
             <span className="font-bold text-slate-900">{filteredAndSorted.length}</span> منتج
             {activeCategory !== 'الكل' && (
-              <span> في <span className="font-bold text-[#13213c]">{activeCategory}</span></span>
+              <span> في <span className="font-bold text-[#013D5A]">{activeCategory}</span></span>
             )}
           </p>
 
@@ -210,7 +210,7 @@ export default function ShopClient({ initialProducts, categories, initialActiveC
           {(minPrice !== null || maxPrice !== null || searchQuery) && (
             <div className="flex flex-wrap items-center gap-2">
               {(minPrice !== null || maxPrice !== null) && (
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#F0F4F9] text-[#13213c] text-xs font-bold border border-[#13213c]/20">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#F0F4F9] text-[#013D5A] text-xs font-bold border border-[#013D5A]/20">
                   <Tag className="w-3 h-3" />
                   الميزانية: {minPrice ? `من ${minPrice.toLocaleString()} ` : ''}{maxPrice ? `حتى ${maxPrice.toLocaleString()} د.ع` : 'فما فوق'}
                   <button
@@ -247,7 +247,7 @@ export default function ShopClient({ initialProducts, categories, initialActiveC
           <aside className="hidden lg:block w-56 shrink-0">
             <div className="bg-white rounded-2xl border border-slate-200/80 p-5 sticky top-28 shadow-xs">
               <h3 className="font-black text-slate-900 text-sm uppercase tracking-widest mb-4 flex items-center gap-2">
-                <Filter className="w-4 h-4 text-[#13213c]" />
+                <Filter className="w-4 h-4 text-[#013D5A]" />
                 التصنيفات
               </h3>
               <ul className="space-y-1">
@@ -258,7 +258,7 @@ export default function ShopClient({ initialProducts, categories, initialActiveC
                       className={cn(
                         "w-full text-start px-3 py-2.5 rounded-xl text-sm transition-all duration-200 cursor-pointer font-medium",
                         activeCategory === cat
-                          ? "bg-[#13213c] text-white font-bold shadow-xs"
+                          ? "bg-[#013D5A] text-white font-bold shadow-xs"
                           : "text-slate-600 hover:bg-slate-100 hover:text-slate-900"
                       )}
                     >
@@ -288,7 +288,7 @@ export default function ShopClient({ initialProducts, categories, initialActiveC
                         className={cn(
                           "px-3 py-1.5 rounded-lg text-sm font-semibold transition-all cursor-pointer",
                           activeCategory === cat
-                            ? "bg-[#13213c] text-white font-bold"
+                            ? "bg-[#013D5A] text-white font-bold"
                             : "bg-slate-100 text-slate-600 hover:bg-slate-200"
                         )}
                       >
@@ -311,7 +311,7 @@ export default function ShopClient({ initialProducts, categories, initialActiveC
                           className={cn(
                             "px-3 py-1.5 rounded-lg text-sm font-semibold transition-all cursor-pointer",
                             sortBy === opt.value
-                              ? "bg-[#13213c] text-white font-bold"
+                              ? "bg-[#013D5A] text-white font-bold"
                               : "bg-slate-100 text-slate-600 hover:bg-slate-200"
                           )}
                         >
@@ -356,14 +356,14 @@ export default function ShopClient({ initialProducts, categories, initialActiveC
                   className="text-center py-20"
                 >
                   <div className="w-20 h-20 rounded-full bg-slate-100 flex items-center justify-center mx-auto mb-5">
-                    <Search className="w-8 h-8 text-[#13213c]/60" />
+                    <Search className="w-8 h-8 text-[#013D5A]/60" />
                   </div>
                   <h3 className="text-xl font-black text-slate-900 mb-2">لا توجد منتجات</h3>
                   <p className="text-slate-500 mb-6">لم نتمكن من العثور على منتجات تطابق بحثك</p>
                   <Button
                     onClick={() => { setSearchQuery(''); setActiveCategory('الكل') }}
                     className="rounded-xl font-bold text-white cursor-pointer"
-                    style={{ background: 'linear-gradient(135deg, #22385e 0%, #13213c 100%)' }}
+                    style={{ background: 'linear-gradient(135deg, #025177 0%, #013D5A 100%)' }}
                   >
                     إعادة ضبط البحث
                   </Button>

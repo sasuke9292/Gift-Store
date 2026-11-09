@@ -193,16 +193,16 @@ export function StoreHeader({ user, topBarText, settings }: StoreHeaderProps) {
       <header className={cn(
         "sticky top-0 inset-x-0 z-50 transition-all duration-300",
         isScrolled 
-          ? "bg-[#0c1424]/95 backdrop-blur-xl shadow-[0_4px_30px_rgba(0,0,0,0.35)] border-b border-[#22385e]/80" 
-          : "bg-[#0c1424] border-b border-[#22385e]/60 shadow-[0_2px_15px_rgba(0,0,0,0.25)]"
+          ? "bg-[#01283B]/95 backdrop-blur-xl shadow-[0_4px_30px_rgba(0,0,0,0.35)] border-b border-[#025177]/80" 
+          : "bg-[#01283B] border-b border-[#025177]/60 shadow-[0_2px_15px_rgba(0,0,0,0.25)]"
       )}>
         {/* Top Announcement Bar */}
         {(settings?.showTopBar ?? true) && (
-          <div className="bg-[#080d18] text-white/90 py-2 px-4 text-xs font-semibold border-b border-white/10">
+          <div className="bg-[#011D2B] text-white/90 py-2 px-4 text-xs font-semibold border-b border-white/10">
             <div className="max-w-7xl mx-auto flex items-center justify-between">
               <div className="flex items-center gap-2 mx-auto sm:mx-0">
-                <span className="w-2 h-2 rounded-full bg-[#5c8fd6] animate-pulse" />
-                <span className="text-[#7ea6e6] font-bold">✨ عرض استثنائي:</span>
+                <span className="w-2 h-2 rounded-full bg-[#F4A258] animate-pulse" />
+                <span className="text-[#F4A258] font-bold">✨ عرض استثنائي:</span>
                 {settings?.topBarLink ? (
                   <Link href={settings.topBarLink} className="hover:underline transition-all">
                     {effectiveTopBarText}
@@ -213,14 +213,14 @@ export function StoreHeader({ user, topBarText, settings }: StoreHeaderProps) {
               </div>
               <div className="hidden sm:flex items-center gap-4 text-white/60 text-xs">
                 {(settings?.showTrackOrder ?? true) && (
-                  <Link href="/track-order" className="hover:text-[#7ea6e6] transition-colors flex items-center gap-1">
-                    <Clock className="w-3.5 h-3.5 text-[#7ea6e6]" />
+                  <Link href="/track-order" className="hover:text-[#F4A258] transition-colors flex items-center gap-1">
+                    <Clock className="w-3.5 h-3.5 text-[#F4A258]" />
                     تتبع شحنتك
                   </Link>
                 )}
                 <span>•</span>
-                <a href={`tel:${effectiveHeaderPhone.replace(/\s+/g, '')}`} className="hover:text-[#7ea6e6] transition-colors flex items-center gap-1" dir="ltr">
-                  <Phone className="w-3.5 h-3.5 text-[#7ea6e6]" />
+                <a href={`tel:${effectiveHeaderPhone.replace(/\s+/g, '')}`} className="hover:text-[#F4A258] transition-colors flex items-center gap-1" dir="ltr">
+                  <Phone className="w-3.5 h-3.5 text-[#F4A258]" />
                   {effectiveHeaderPhone}
                 </a>
               </div>
@@ -265,7 +265,7 @@ export function StoreHeader({ user, topBarText, settings }: StoreHeaderProps) {
                   className={cn(
                     "w-full h-11 ps-11 pe-10 rounded-2xl border text-sm transition-all text-start",
                     "bg-white/10 border-white/15 text-white placeholder:text-white/60",
-                    "focus:bg-white focus:text-[#0c1424] focus:placeholder:text-stone-400 focus:border-[#7ea6e6] focus:ring-4 focus:ring-[#7ea6e6]/25 focus:outline-none shadow-inner"
+                    "focus:bg-white focus:text-[#01283B] focus:placeholder:text-stone-400 focus:border-[#F4A258] focus:ring-4 focus:ring-[#F4A258]/25 focus:outline-none shadow-inner"
                   )}
                   value={searchQuery}
                   onChange={(e) => {
@@ -278,7 +278,7 @@ export function StoreHeader({ user, topBarText, settings }: StoreHeaderProps) {
                   }}
                   onFocus={() => setIsSearchOpen(true)}
                 />
-                <div className="absolute start-3.5 top-1/2 -translate-y-1/2 pointer-events-none text-[#7ea6e6] group-focus-within:text-[#13213c] transition-colors">
+                <div className="absolute start-3.5 top-1/2 -translate-y-1/2 pointer-events-none text-[#F4A258] group-focus-within:text-[#013D5A] transition-colors">
                   <Search className="w-4 h-4" />
                 </div>
                 {searchQuery && (
@@ -304,12 +304,12 @@ export function StoreHeader({ user, topBarText, settings }: StoreHeaderProps) {
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: 8, scale: 0.98 }}
                     transition={{ duration: 0.18 }}
-                    className="absolute top-full start-0 end-0 mt-2 bg-[#0c1424] rounded-2xl border border-[#22385e] shadow-[0_16px_50px_rgba(0,0,0,0.5)] p-4 z-50 overflow-hidden text-white"
+                    className="absolute top-full start-0 end-0 mt-2 bg-[#01283B] rounded-2xl border border-[#025177] shadow-[0_16px_50px_rgba(0,0,0,0.5)] p-4 z-50 overflow-hidden text-white"
                   >
                     {/* Quick suggestions when query is short */}
                     {searchQuery.trim().length < 2 && (
                       <div>
-                        <div className="flex items-center gap-1.5 text-xs font-bold text-[#7ea6e6] mb-2.5">
+                        <div className="flex items-center gap-1.5 text-xs font-bold text-[#F4A258] mb-2.5">
                           <Flame className="w-3.5 h-3.5 text-[#f87171]" />
                           الأكثر بحثاً الآن
                         </div>
@@ -335,7 +335,7 @@ export function StoreHeader({ user, topBarText, settings }: StoreHeaderProps) {
                     {/* Loading State */}
                     {isSearching && (
                       <div className="py-6 text-center text-sm text-white/70">
-                        <span className="inline-block w-4 h-4 border-2 border-[#7ea6e6] border-t-transparent rounded-full animate-spin me-2 align-middle" />
+                        <span className="inline-block w-4 h-4 border-2 border-[#F4A258] border-t-transparent rounded-full animate-spin me-2 align-middle" />
                         جاري البحث عن أفخم الهدايا...
                       </div>
                     )}
@@ -360,11 +360,11 @@ export function StoreHeader({ user, topBarText, settings }: StoreHeaderProps) {
                                     {prod.images && prod.images[0] ? (
                                       <Image src={prod.images[0]} alt={prod.name} fill className="object-cover group-hover:scale-105 transition-transform" />
                                     ) : (
-                                      <Gift className="w-5 h-5 text-[#7ea6e6] m-auto" />
+                                      <Gift className="w-5 h-5 text-[#F4A258] m-auto" />
                                     )}
                                   </div>
                                   <div className="flex-1 min-w-0 text-start">
-                                    <p className="text-xs text-[#7ea6e6] font-semibold">{prod.category?.name || 'هدية فاخرة'}</p>
+                                    <p className="text-xs text-[#F4A258] font-semibold">{prod.category?.name || 'هدية فاخرة'}</p>
                                     <p className="text-sm font-bold text-white truncate group-hover:text-[#93c5fd] transition-colors">
                                       {prod.name}
                                     </p>
@@ -382,7 +382,7 @@ export function StoreHeader({ user, topBarText, settings }: StoreHeaderProps) {
                               <Link
                                 href={`/shop?q=${encodeURIComponent(searchQuery)}`}
                                 onClick={() => setIsSearchOpen(false)}
-                                className="inline-flex items-center gap-1.5 text-xs font-bold text-[#7ea6e6] hover:text-white transition-colors"
+                                className="inline-flex items-center gap-1.5 text-xs font-bold text-[#F4A258] hover:text-white transition-colors"
                               >
                                 عرض جميع النتائج في المتجر
                                 <ArrowLeft className="w-3.5 h-3.5" />
@@ -460,10 +460,10 @@ export function StoreHeader({ user, topBarText, settings }: StoreHeaderProps) {
               {(settings?.showGiftFinder ?? true) && (
                 <Link
                   href="/gift-finder"
-                  className="hidden sm:inline-flex items-center gap-2 h-10 px-4 rounded-2xl text-xs font-black text-white transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_4px_20px_rgba(197,168,128,0.35)] shrink-0 border border-[#C5A880]/40"
-                  style={{ background: 'linear-gradient(135deg, #22385e 0%, #13213c 100%)' }}
+                  className="hidden sm:inline-flex items-center gap-2 h-10 px-4 rounded-2xl text-xs font-black text-white transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_4px_20px_rgba(197,168,128,0.35)] shrink-0 border border-[#F4A258]/40"
+                  style={{ background: 'linear-gradient(135deg, #025177 0%, #013D5A 100%)' }}
                 >
-                  <Sparkles className="w-3.5 h-3.5 text-[#E6CCA8] animate-pulse" />
+                  <Sparkles className="w-3.5 h-3.5 text-[#FCF3E3] animate-pulse" />
                   <span>مكتشف الهدايا الذكي</span>
                 </Link>
               )}
@@ -501,7 +501,7 @@ export function StoreHeader({ user, topBarText, settings }: StoreHeaderProps) {
               animate={{ height: 'auto', opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
               transition={{ duration: 0.2 }}
-              className="lg:hidden border-t border-white/10 bg-[#0c1424] px-4 py-3 shadow-[0_12px_30px_rgba(0,0,0,0.5)] overflow-hidden text-white"
+              className="lg:hidden border-t border-white/10 bg-[#01283B] px-4 py-3 shadow-[0_12px_30px_rgba(0,0,0,0.5)] overflow-hidden text-white"
             >
               <form 
                 onSubmit={(e) => {
@@ -514,7 +514,7 @@ export function StoreHeader({ user, topBarText, settings }: StoreHeaderProps) {
                   ref={mobileSearchInputRef}
                   type="text"
                   placeholder="ابحث عن هدية راقية، عطر، ساعة..."
-                  className="w-full h-11 ps-10 pe-10 rounded-2xl bg-white/10 border border-white/20 text-xs font-medium text-white placeholder:text-white/60 focus:outline-none focus:border-[#7ea6e6] focus:bg-white focus:text-[#0c1424] focus:placeholder:text-stone-400 transition-all text-start"
+                  className="w-full h-11 ps-10 pe-10 rounded-2xl bg-white/10 border border-white/20 text-xs font-medium text-white placeholder:text-white/60 focus:outline-none focus:border-[#F4A258] focus:bg-white focus:text-[#01283B] focus:placeholder:text-stone-400 transition-all text-start"
                   value={searchQuery}
                   onChange={(e) => {
                     const val = e.target.value
@@ -524,7 +524,7 @@ export function StoreHeader({ user, topBarText, settings }: StoreHeaderProps) {
                     }
                   }}
                 />
-                <Search className="w-4 h-4 text-[#7ea6e6] absolute start-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+                <Search className="w-4 h-4 text-[#F4A258] absolute start-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
                 {searchQuery && (
                   <button
                     type="button"
@@ -569,7 +569,7 @@ export function StoreHeader({ user, topBarText, settings }: StoreHeaderProps) {
               {/* Live search results in mobile dropdown */}
               {isSearching && (
                 <div className="py-4 text-center text-xs text-white/70 flex items-center justify-center gap-2">
-                  <span className="w-3.5 h-3.5 border-2 border-[#7ea6e6] border-t-transparent rounded-full animate-spin" />
+                  <span className="w-3.5 h-3.5 border-2 border-[#F4A258] border-t-transparent rounded-full animate-spin" />
                   <span>جاري البحث...</span>
                 </div>
               )}
@@ -587,11 +587,11 @@ export function StoreHeader({ user, topBarText, settings }: StoreHeaderProps) {
                         {prod.images && prod.images[0] ? (
                           <Image src={prod.images[0]} alt={prod.name} fill className="object-cover" />
                         ) : (
-                          <Gift className="w-4 h-4 text-[#7ea6e6] m-auto" />
+                          <Gift className="w-4 h-4 text-[#F4A258] m-auto" />
                         )}
                       </div>
                       <div className="flex-1 min-w-0 text-start">
-                        <p className="text-[10px] text-[#7ea6e6] font-bold">{prod.category?.name || 'هدية فاخرة'}</p>
+                        <p className="text-[10px] text-[#F4A258] font-bold">{prod.category?.name || 'هدية فاخرة'}</p>
                         <p className="text-xs font-bold text-white truncate">{prod.name}</p>
                       </div>
                       <div className="text-end shrink-0">
@@ -606,7 +606,7 @@ export function StoreHeader({ user, topBarText, settings }: StoreHeaderProps) {
                     <Link
                       href={`/shop?q=${encodeURIComponent(searchQuery)}`}
                       onClick={() => setIsMobileSearchOpen(false)}
-                      className="inline-flex items-center gap-1 text-[11px] font-bold text-[#7ea6e6] hover:text-white"
+                      className="inline-flex items-center gap-1 text-[11px] font-bold text-[#F4A258] hover:text-white"
                     >
                       عرض جميع النتائج ({searchResults.length})
                       <ArrowLeft className="w-3 h-3" />
@@ -635,7 +635,7 @@ export function StoreHeader({ user, topBarText, settings }: StoreHeaderProps) {
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
               transition={{ type: 'spring', damping: 28, stiffness: 280 }}
-              className="fixed top-0 right-0 h-full w-80 max-w-[85vw] bg-[#0c1424] text-white shadow-2xl z-50 flex flex-col border-l border-[#22385e]"
+              className="fixed top-0 right-0 h-full w-80 max-w-[85vw] bg-[#01283B] text-white shadow-2xl z-50 flex flex-col border-l border-[#025177]"
               dir="rtl"
             >
               {/* Mobile Drawer Header */}
@@ -670,11 +670,11 @@ export function StoreHeader({ user, topBarText, settings }: StoreHeaderProps) {
                   <input
                     type="text"
                     placeholder="ابحث عن هدية راقية..."
-                    className="w-full h-10 ps-10 pe-4 rounded-xl bg-white/10 border border-white/20 text-xs text-white placeholder:text-white/60 focus:outline-none focus:border-[#7ea6e6]"
+                    className="w-full h-10 ps-10 pe-4 rounded-xl bg-white/10 border border-white/20 text-xs text-white placeholder:text-white/60 focus:outline-none focus:border-[#F4A258]"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                   />
-                  <Search className="w-4 h-4 text-[#7ea6e6] absolute start-3 top-1/2 -translate-y-1/2" />
+                  <Search className="w-4 h-4 text-[#F4A258] absolute start-3 top-1/2 -translate-y-1/2" />
                 </form>
               </div>
 
@@ -705,7 +705,7 @@ export function StoreHeader({ user, topBarText, settings }: StoreHeaderProps) {
                     onClick={() => setIsMobileMenuOpen(false)}
                     className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-sm font-bold text-white bg-white/10 border border-white/10"
                   >
-                    <Sparkles className="w-4 h-4 text-[#7ea6e6]" />
+                    <Sparkles className="w-4 h-4 text-[#F4A258]" />
                     <span>مكتشف الهدايا الذكي</span>
                   </Link>
                   <Link
@@ -713,14 +713,14 @@ export function StoreHeader({ user, topBarText, settings }: StoreHeaderProps) {
                     onClick={() => setIsMobileMenuOpen(false)}
                     className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-sm font-bold text-white/80 hover:bg-white/10"
                   >
-                    <Clock className="w-4 h-4 text-[#7ea6e6]" />
+                    <Clock className="w-4 h-4 text-[#F4A258]" />
                     <span>تتبع الطلب والشحنة</span>
                   </Link>
                 </div>
               </div>
 
               {/* Mobile Drawer Footer */}
-              <div className="p-4 border-t border-white/10 bg-[#080d18]">
+              <div className="p-4 border-t border-white/10 bg-[#011D2B]">
                 {user && user.role && user.role !== 'CUSTOMER' ? (
                   <Link
                     href="/admin"
@@ -728,14 +728,14 @@ export function StoreHeader({ user, topBarText, settings }: StoreHeaderProps) {
                     className="flex items-center justify-between p-2.5 rounded-xl bg-white/10 border border-white/15"
                   >
                     <div className="flex items-center gap-2">
-                      <User className="w-4 h-4 text-[#7ea6e6]" />
+                      <User className="w-4 h-4 text-[#F4A258]" />
                       <span className="text-xs font-bold text-white">{user.name || 'المشرف'}</span>
                     </div>
                     <span className="text-[10px] bg-[#1d4ed8] text-white px-2 py-0.5 rounded-full font-bold">لوحة الإدارة</span>
                   </Link>
                 ) : (
                   <div className="text-center py-1">
-                    <p className="text-[11px] font-bold text-[#7ea6e6]">✨ متجر الهدايا الفاخرة • طلب فوري عبر WhatsApp</p>
+                    <p className="text-[11px] font-bold text-[#F4A258]">✨ متجر الهدايا الفاخرة • طلب فوري عبر WhatsApp</p>
                   </div>
                 )}
               </div>

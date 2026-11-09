@@ -48,7 +48,7 @@ export function ContactForm({ whatsappNumber = '9647825970060' }: ContactFormPro
             setSubmitted(false)
             setFormData({ name: '', phone: '', message: '' })
           }}
-          className="text-sm font-bold text-[#13213c] hover:underline cursor-pointer"
+          className="text-sm font-bold text-[#013D5A] hover:underline cursor-pointer"
         >
           إرسال استفسار آخر
         </button>
@@ -68,7 +68,7 @@ export function ContactForm({ whatsappNumber = '9647825970060' }: ContactFormPro
             placeholder="اسمك الكامل"
             value={formData.name}
             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-            className="w-full h-12 px-4 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-[#13213c]/50 focus:ring-2 focus:ring-[#13213c]/15 transition-all"
+            className="w-full h-12 px-4 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-[#013D5A]/50 focus:ring-2 focus:ring-[#013D5A]/15 transition-all"
           />
         </div>
         <div>
@@ -80,7 +80,7 @@ export function ContactForm({ whatsappNumber = '9647825970060' }: ContactFormPro
             dir="ltr"
             value={formData.phone}
             onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-            className="w-full h-12 px-4 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-[#13213c]/50 focus:ring-2 focus:ring-[#13213c]/15 transition-all"
+            className="w-full h-12 px-4 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-[#013D5A]/50 focus:ring-2 focus:ring-[#013D5A]/15 transition-all"
           />
         </div>
         <div>
@@ -91,14 +91,14 @@ export function ContactForm({ whatsappNumber = '9647825970060' }: ContactFormPro
             placeholder="اكتب رسالتك هنا..."
             value={formData.message}
             onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-            className="w-full p-4 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-[#13213c]/50 focus:ring-2 focus:ring-[#13213c]/15 transition-all resize-none"
+            className="w-full p-4 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-[#013D5A]/50 focus:ring-2 focus:ring-[#013D5A]/15 transition-all resize-none"
           />
         </div>
         <button
           type="submit"
           disabled={loading}
-          className="w-full h-12 rounded-xl font-bold text-white transition-all hover:-translate-y-0.5 shadow-md shadow-[#13213c]/20 hover:shadow-lg hover:shadow-[#13213c]/30 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
-          style={{ background: 'linear-gradient(135deg, #13213c 0%, #0c1424 100%)' }}
+          className="w-full h-12 rounded-xl font-bold text-white transition-all hover:-translate-y-0.5 shadow-md shadow-[#013D5A]/20 hover:shadow-lg hover:shadow-[#013D5A]/30 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
+          style={{ background: 'linear-gradient(135deg, #013D5A 0%, #01283B 100%)' }}
         >
           <Send className="w-4 h-4 rtl:-scale-x-100" />
           {loading ? 'جاري الإرسال...' : 'إرسال الرسالة'}

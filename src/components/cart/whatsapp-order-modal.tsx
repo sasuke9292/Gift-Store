@@ -200,7 +200,7 @@ export function WhatsAppOrderModal({
         dir="rtl"
       >
         {/* Modal Header */}
-        <div className="bg-gradient-to-l from-[#0c1424] via-[#13213c] to-[#0c1424] text-white p-5 shrink-0 relative overflow-hidden">
+        <div className="bg-gradient-to-l from-[#01283B] via-[#013D5A] to-[#01283B] text-white p-5 shrink-0 relative overflow-hidden">
           <div className="absolute -top-10 -start-10 w-32 h-32 bg-[#25D366]/15 rounded-full blur-2xl pointer-events-none" />
 
           <div className="flex items-center justify-between relative z-10">
@@ -250,7 +250,7 @@ export function WhatsAppOrderModal({
                 <div className="bg-slate-50 border border-slate-200/80 rounded-2xl p-3.5">
                   <div className="flex items-center justify-between text-xs text-slate-500 mb-2 pb-2 border-b border-slate-200/80">
                     <span className="font-bold flex items-center gap-1 text-slate-900">
-                      <ShoppingBag className="w-3.5 h-3.5 text-[#13213c]" />
+                      <ShoppingBag className="w-3.5 h-3.5 text-[#013D5A]" />
                       المنتجات ({cartItems.reduce((acc, i) => acc + i.quantity, 0)})
                     </span>
                     <span>
@@ -262,7 +262,7 @@ export function WhatsAppOrderModal({
                     <span className="text-xs font-bold text-slate-500">المجموع الكلي المطلوب:</span>
                     <span className="text-lg font-black text-slate-900">
                       {grandTotal.toLocaleString('en-US')}{' '}
-                      <span className="text-xs font-bold text-[#13213c]">{shippingSettings.currency}</span>
+                      <span className="text-xs font-bold text-[#013D5A]">{shippingSettings.currency}</span>
                     </span>
                   </div>
                 </div>
@@ -271,7 +271,7 @@ export function WhatsAppOrderModal({
                 <div>
                   <Label className="block text-xs font-bold text-slate-900 mb-1.5 flex items-center justify-between">
                     <span className="flex items-center gap-1.5">
-                      <User className="w-3.5 h-3.5 text-[#13213c]" />
+                      <User className="w-3.5 h-3.5 text-[#013D5A]" />
                       <span>الاسم الكريم</span>
                       <span className="text-rose-500">*</span>
                     </span>
@@ -285,7 +285,7 @@ export function WhatsAppOrderModal({
                       setCustomerName(e.target.value)
                       if (errors.customerName) setErrors(prev => ({ ...prev, customerName: '' }))
                     }}
-                    className={`h-11 rounded-xl text-start bg-slate-50 border-slate-200 text-xs text-slate-900 placeholder:text-slate-400 focus-visible:ring-[#13213c]/30 focus-visible:border-[#13213c] ${errors.customerName ? 'border-rose-500 ring-2 ring-rose-500/10' : ''}`}
+                    className={`h-11 rounded-xl text-start bg-slate-50 border-slate-200 text-xs text-slate-900 placeholder:text-slate-400 focus-visible:ring-[#013D5A]/30 focus-visible:border-[#013D5A] ${errors.customerName ? 'border-rose-500 ring-2 ring-rose-500/10' : ''}`}
                   />
                   {errors.customerName && (
                     <p className="text-[11px] text-rose-500 font-semibold mt-1">
@@ -328,11 +328,11 @@ export function WhatsAppOrderModal({
                 <div>
                   <Label className="block text-xs font-bold text-slate-900 mb-1.5 flex items-center justify-between">
                     <span className="flex items-center gap-1.5">
-                      <MapPin className="w-3.5 h-3.5 text-[#13213c]" />
+                      <MapPin className="w-3.5 h-3.5 text-[#013D5A]" />
                       <span>المحافظة</span>
                       <span className="text-rose-500">*</span>
                     </span>
-                    <span className="text-[10px] text-[#13213c] font-bold">
+                    <span className="text-[10px] text-[#013D5A] font-bold">
                       {province.includes('بغداد') 
                         ? `أجور توصيل بغداد: ${shippingSettings.shippingCostBaghdad.toLocaleString('en-US')} ${shippingSettings.currency}`
                         : `أجور توصيل المحافظات: ${shippingSettings.shippingCostProvinces.toLocaleString('en-US')} ${shippingSettings.currency}`}
@@ -342,7 +342,7 @@ export function WhatsAppOrderModal({
                     <select
                       value={province}
                       onChange={e => setProvince(e.target.value)}
-                      className="w-full h-11 px-3.5 pe-9 rounded-xl text-xs font-bold bg-slate-50 border border-slate-200 text-slate-900 focus:outline-none focus:border-[#13213c] focus:ring-2 focus:ring-[#13213c]/20 transition-all appearance-none cursor-pointer"
+                      className="w-full h-11 px-3.5 pe-9 rounded-xl text-xs font-bold bg-slate-50 border border-slate-200 text-slate-900 focus:outline-none focus:border-[#013D5A] focus:ring-2 focus:ring-[#013D5A]/20 transition-all appearance-none cursor-pointer"
                     >
                       {IRAQI_PROVINCES.map(prov => (
                         <option key={prov} value={prov}>
@@ -357,7 +357,7 @@ export function WhatsAppOrderModal({
                 {/* 4. Area & Detailed Address */}
                 <div>
                   <Label className="block text-xs font-bold text-slate-900 mb-1.5 flex items-center gap-1.5">
-                    <Truck className="w-3.5 h-3.5 text-[#13213c]" />
+                    <Truck className="w-3.5 h-3.5 text-[#013D5A]" />
                     <span>المنطقة وأقرب نقطة دالة</span>
                     <span className="text-rose-500">*</span>
                   </Label>
@@ -369,7 +369,7 @@ export function WhatsAppOrderModal({
                       setAddress(e.target.value)
                       if (errors.address) setErrors(prev => ({ ...prev, address: '' }))
                     }}
-                    className={`h-11 rounded-xl text-start bg-slate-50 border-slate-200 text-xs text-slate-900 placeholder:text-slate-400 focus-visible:ring-[#13213c]/30 focus-visible:border-[#13213c] ${errors.address ? 'border-rose-500 ring-2 ring-rose-500/10' : ''}`}
+                    className={`h-11 rounded-xl text-start bg-slate-50 border-slate-200 text-xs text-slate-900 placeholder:text-slate-400 focus-visible:ring-[#013D5A]/30 focus-visible:border-[#013D5A] ${errors.address ? 'border-rose-500 ring-2 ring-rose-500/10' : ''}`}
                   />
                   {errors.address && (
                     <p className="text-[11px] text-rose-500 font-semibold mt-1">
@@ -389,7 +389,7 @@ export function WhatsAppOrderModal({
                     placeholder="اكتب هنا ما ترغب بطباعته على كارت الهدية الملكي المجاني..."
                     value={notes}
                     onChange={e => setNotes(e.target.value)}
-                    className="rounded-xl bg-slate-50 border-slate-200 text-xs resize-none placeholder:text-slate-400 focus-visible:ring-[#13213c]/30 focus-visible:border-[#13213c]"
+                    className="rounded-xl bg-slate-50 border-slate-200 text-xs resize-none placeholder:text-slate-400 focus-visible:ring-[#013D5A]/30 focus-visible:border-[#013D5A]"
                   />
                 </div>
 

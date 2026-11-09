@@ -110,14 +110,14 @@ ${typeof window !== 'undefined' ? `🔗 رابط المنتج: ${window.location
     : 0
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] pt-4 pb-28 lg:pb-20">
+    <div className="min-h-screen bg-[#FAF7F2] pt-4 pb-28 lg:pb-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Breadcrumb */}
         <nav className="flex items-center gap-2 text-sm text-slate-400 py-6">
-          <Link href="/" className="hover:text-[#13213c] transition-colors">الرئيسية</Link>
+          <Link href="/" className="hover:text-[#013D5A] transition-colors">الرئيسية</Link>
           <span>/</span>
-          <Link href="/shop" className="hover:text-[#13213c] transition-colors">المتجر</Link>
+          <Link href="/shop" className="hover:text-[#013D5A] transition-colors">المتجر</Link>
           {product.category && (
             <>
               <span>/</span>
@@ -176,8 +176,8 @@ ${typeof window !== 'undefined' ? `🔗 رابط المنتج: ${window.location
                     className={cn(
                       "relative aspect-square rounded-xl overflow-hidden border-2 transition-all duration-200 cursor-pointer",
                       activeImage === img
-                        ? "border-[#13213c] shadow-[0_0_0_2px_rgba(19,33,60,0.2)]"
-                        : "border-slate-200 hover:border-[#13213c]/50 opacity-70 hover:opacity-100"
+                        ? "border-[#013D5A] shadow-[0_0_0_2px_rgba(19,33,60,0.2)]"
+                        : "border-slate-200 hover:border-[#013D5A]/50 opacity-70 hover:opacity-100"
                     )}
                   >
                     <Image src={img} alt={`صورة ${i + 1}`} fill className="object-cover" sizes="100px" />
@@ -196,7 +196,7 @@ ${typeof window !== 'undefined' ? `🔗 رابط المنتج: ${window.location
           >
             {/* Category Badge */}
             {product.category && (
-              <p className="text-sm font-bold text-[#13213c] uppercase tracking-widest mb-3">
+              <p className="text-sm font-bold text-[#013D5A] uppercase tracking-widest mb-3">
                 {typeof product.category === 'string' ? product.category : product.category?.name}
               </p>
             )}
@@ -212,8 +212,8 @@ ${typeof window !== 'undefined' ? `🔗 رابط المنتج: ${window.location
                 <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
                 منتج أصلي 100% ومفحوص
               </span>
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#F0F4F9] text-[#13213c] border border-[#13213c]/15 text-xs font-bold">
-                <Truck className="w-3.5 h-3.5 text-[#13213c]" />
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#F0F4F9] text-[#013D5A] border border-[#013D5A]/15 text-xs font-bold">
+                <Truck className="w-3.5 h-3.5 text-[#013D5A]" />
                 شحن سريع لكافة المحافظات
               </span>
             </div>
@@ -276,7 +276,7 @@ ${typeof window !== 'undefined' ? `🔗 رابط المنتج: ${window.location
 
                 <div className="text-end">
                   <span className="text-[11px] text-slate-400 font-medium block">المجموع:</span>
-                  <span className="text-sm sm:text-base font-black text-[#13213c]">
+                  <span className="text-sm sm:text-base font-black text-[#013D5A]">
                     {totalPrice.toLocaleString('en-US')} <span className="text-xs font-bold text-slate-400">{currencySymbol}</span>
                   </span>
                 </div>
@@ -293,7 +293,7 @@ ${typeof window !== 'undefined' ? `🔗 رابط المنتج: ${window.location
                       ? "bg-[#10B981] hover:bg-[#059669]"
                       : "hover:-translate-y-0.5 hover:shadow-[0_6px_20px_rgba(19,33,60,0.3)] active:translate-y-0"
                   )}
-                  style={!addedToCart ? { background: 'linear-gradient(135deg, #22385e 0%, #13213c 100%)' } : {}}
+                  style={!addedToCart ? { background: 'linear-gradient(135deg, #025177 0%, #013D5A 100%)' } : {}}
                 >
                   {addedToCart ? (
                     <>
@@ -346,7 +346,7 @@ ${typeof window !== 'undefined' ? `🔗 رابط المنتج: ${window.location
                   type="button"
                   title="مشاركة المنتج"
                   aria-label="مشاركة المنتج"
-                  className="w-12 h-12 rounded-xl border border-slate-200 bg-white text-slate-600 hover:text-[#13213c] hover:border-[#13213c]/30 hover:bg-slate-50 transition-all flex items-center justify-center shrink-0 cursor-pointer shadow-xs hover:scale-105 active:scale-95"
+                  className="w-12 h-12 rounded-xl border border-slate-200 bg-white text-slate-600 hover:text-[#013D5A] hover:border-[#013D5A]/30 hover:bg-slate-50 transition-all flex items-center justify-center shrink-0 cursor-pointer shadow-xs hover:scale-105 active:scale-95"
                   onClick={() => {
                     if (typeof window !== 'undefined' && navigator.share) {
                       navigator.share({ title: product.name, url: window.location.href }).catch(() => {})
@@ -386,12 +386,12 @@ ${typeof window !== 'undefined' ? `🔗 رابط المنتج: ${window.location
             <div className="grid grid-cols-3 gap-3">
               {[
                 { icon: ShieldCheck, label: 'جودة مضمونة', color: '#10B981', bg: '#F0FDF9' },
-                { icon: Truck, label: 'شحن سريع', color: '#13213c', bg: '#F0F4F9' },
+                { icon: Truck, label: 'شحن سريع', color: '#013D5A', bg: '#F0F4F9' },
                 { icon: RotateCcw, label: 'استرجاع مجاني', color: '#6366F1', bg: '#F5F3FF' },
               ].map(({ icon: Icon, label, color, bg }) => (
                 <div
                   key={label}
-                  className="flex flex-col items-center gap-2 p-3 rounded-xl border border-slate-200/80 bg-white text-center hover:border-[#13213c]/30 transition-colors"
+                  className="flex flex-col items-center gap-2 p-3 rounded-xl border border-slate-200/80 bg-white text-center hover:border-[#013D5A]/30 transition-colors"
                 >
                   <div className="w-9 h-9 rounded-lg flex items-center justify-center" style={{ background: bg }}>
                     <Icon className="w-4 h-4" style={{ color }} />
@@ -414,13 +414,13 @@ ${typeof window !== 'undefined' ? `🔗 رابط المنتج: ${window.location
             <TabsList className="w-full justify-start h-auto bg-transparent border-b border-slate-200/80 rounded-none p-0 mb-8 gap-8">
               <TabsTrigger
                 value="details"
-                className="text-base pb-3 rounded-none border-b-2 border-transparent data-[state=active]:border-[#13213c] data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:text-slate-900 text-slate-400 font-bold px-0 transition-colors"
+                className="text-base pb-3 rounded-none border-b-2 border-transparent data-[state=active]:border-[#013D5A] data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:text-slate-900 text-slate-400 font-bold px-0 transition-colors"
               >
                 التفاصيل والمميزات
               </TabsTrigger>
               <TabsTrigger
                 value="shipping-gifting"
-                className="text-base pb-3 rounded-none border-b-2 border-transparent data-[state=active]:border-[#13213c] data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:text-slate-900 text-slate-400 font-bold px-0 transition-colors"
+                className="text-base pb-3 rounded-none border-b-2 border-transparent data-[state=active]:border-[#013D5A] data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:text-slate-900 text-slate-400 font-bold px-0 transition-colors"
               >
                 التوصيل والتغليف الملكي
               </TabsTrigger>
@@ -431,15 +431,15 @@ ${typeof window !== 'undefined' ? `🔗 رابط المنتج: ${window.location
                 <h3 className="text-xl font-black text-slate-900 mb-5">مميزات المنتج</h3>
                 <ul className="space-y-3">
                   <li className="flex items-center gap-3 text-slate-600">
-                    <div className="w-5 h-5 rounded-full bg-[#F0F4F9] border border-[#13213c]/30 flex items-center justify-center shrink-0">
-                      <Check className="w-3 h-3 text-[#13213c]" />
+                    <div className="w-5 h-5 rounded-full bg-[#F0F4F9] border border-[#013D5A]/30 flex items-center justify-center shrink-0">
+                      <Check className="w-3 h-3 text-[#013D5A]" />
                     </div>
                     المنتج أصلي ومضمون 100%
                   </li>
                   {product.category && (
                     <li className="flex items-center gap-3 text-slate-600">
-                      <div className="w-5 h-5 rounded-full bg-[#F0F4F9] border border-[#13213c]/30 flex items-center justify-center shrink-0">
-                        <Check className="w-3 h-3 text-[#13213c]" />
+                      <div className="w-5 h-5 rounded-full bg-[#F0F4F9] border border-[#013D5A]/30 flex items-center justify-center shrink-0">
+                        <Check className="w-3 h-3 text-[#013D5A]" />
                       </div>
                       التصنيف: <span className="font-bold text-slate-900 ms-1">
                         {typeof product.category === 'string' ? product.category : product.category?.name}
@@ -447,14 +447,14 @@ ${typeof window !== 'undefined' ? `🔗 رابط المنتج: ${window.location
                     </li>
                   )}
                   <li className="flex items-center gap-3 text-slate-600">
-                    <div className="w-5 h-5 rounded-full bg-[#F0F4F9] border border-[#13213c]/30 flex items-center justify-center shrink-0">
-                      <Check className="w-3 h-3 text-[#13213c]" />
+                    <div className="w-5 h-5 rounded-full bg-[#F0F4F9] border border-[#013D5A]/30 flex items-center justify-center shrink-0">
+                      <Check className="w-3 h-3 text-[#013D5A]" />
                     </div>
                     تغليف هدايا فاخر متاح مجاناً مع كل طلب
                   </li>
                   <li className="flex items-center gap-3 text-slate-600">
-                    <div className="w-5 h-5 rounded-full bg-[#F0F4F9] border border-[#13213c]/30 flex items-center justify-center shrink-0">
-                      <Check className="w-3 h-3 text-[#13213c]" />
+                    <div className="w-5 h-5 rounded-full bg-[#F0F4F9] border border-[#013D5A]/30 flex items-center justify-center shrink-0">
+                      <Check className="w-3 h-3 text-[#013D5A]" />
                     </div>
                     ضمان الاستبدال أو الاسترجاع بكل سهولة
                   </li>
@@ -506,7 +506,7 @@ ${typeof window !== 'undefined' ? `🔗 رابط المنتج: ${window.location
           <div className="flex flex-col shrink-0 min-w-[70px]">
             <span className="text-[10px] font-bold text-slate-400">السعر</span>
             <div className="flex items-baseline gap-1">
-              <span className="text-base font-black text-[#13213c]">
+              <span className="text-base font-black text-[#013D5A]">
                 {unitPrice.toLocaleString('en-US')}
               </span>
               <span className="text-[10px] font-bold text-slate-500">{currencySymbol}</span>
@@ -523,7 +523,7 @@ ${typeof window !== 'undefined' ? `🔗 رابط المنتج: ${window.location
                 ? "bg-[#10B981]"
                 : "hover:-translate-y-0.5 active:translate-y-0"
             )}
-            style={!addedToCart ? { background: 'linear-gradient(135deg, #22385e 0%, #13213c 100%)' } : {}}
+            style={!addedToCart ? { background: 'linear-gradient(135deg, #025177 0%, #013D5A 100%)' } : {}}
           >
             {addedToCart ? (
               <>

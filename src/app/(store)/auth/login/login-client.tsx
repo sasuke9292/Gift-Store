@@ -48,13 +48,13 @@ export default function LoginClient() {
   }
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] flex flex-col justify-center py-12 sm:px-6 lg:px-8 relative overflow-hidden" dir="rtl">
+    <div className="min-h-screen bg-[#FAF7F2] flex flex-col justify-center py-12 sm:px-6 lg:px-8 relative overflow-hidden" dir="rtl">
       {/* Background decorations */}
-      <div className="absolute top-0 start-0 w-[500px] h-[500px] bg-[#13213c]/10 rounded-full blur-[120px] -translate-y-1/2" />
+      <div className="absolute top-0 start-0 w-[500px] h-[500px] bg-[#013D5A]/10 rounded-full blur-[120px] -translate-y-1/2" />
       <div className="absolute bottom-0 end-0 w-[400px] h-[400px] bg-rose-500/5 rounded-full blur-[100px] translate-y-1/2" />
       <div 
         className="absolute inset-0 opacity-[0.015]"
-        style={{ backgroundImage: 'radial-gradient(circle, #13213c 1px, transparent 1px)', backgroundSize: '32px 32px' }} 
+        style={{ backgroundImage: 'radial-gradient(circle, #013D5A 1px, transparent 1px)', backgroundSize: '32px 32px' }} 
       />
 
       <motion.div
@@ -94,7 +94,7 @@ export default function LoginClient() {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="ps-10 h-12 rounded-xl bg-slate-50 border-slate-200 text-slate-900 placeholder:text-slate-400 focus-visible:ring-[#13213c]/30 focus-visible:border-[#13213c]/50 text-start"
+                  className="ps-10 h-12 rounded-xl bg-slate-50 border-slate-200 text-slate-900 placeholder:text-slate-400 focus-visible:ring-[#013D5A]/30 focus-visible:border-[#013D5A]/50 text-start"
                   placeholder="name@example.com"
                   dir="ltr"
                   autoCapitalize="none"
@@ -110,7 +110,7 @@ export default function LoginClient() {
                 <label className="block text-sm font-bold text-slate-900">
                   كلمة المرور
                 </label>
-                <Link href="/contact" className="text-xs font-semibold text-[#13213c] hover:underline">
+                <Link href="/contact" className="text-xs font-semibold text-[#013D5A] hover:underline">
                   نسيت كلمة المرور؟
                 </Link>
               </div>
@@ -121,16 +121,16 @@ export default function LoginClient() {
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="ps-10 h-12 rounded-xl bg-slate-50 border-slate-200 text-slate-900 placeholder:text-slate-400 focus-visible:ring-[#13213c]/30 focus-visible:border-[#13213c]/50"
+                  className="ps-10 h-12 rounded-xl bg-slate-50 border-slate-200 text-slate-900 placeholder:text-slate-400 focus-visible:ring-[#013D5A]/30 focus-visible:border-[#013D5A]/50"
                   placeholder="••••••••"
                 />
               </div>
             </div>
 
             {/* Quick Guest Notice */}
-            <div className="p-3 rounded-xl bg-[#F0F4F9]/70 border border-[#13213c]/15 text-center text-xs text-slate-600">
+            <div className="p-3 rounded-xl bg-[#F0F4F9]/70 border border-[#013D5A]/15 text-center text-xs text-slate-600">
               <span>هل تود إتمام طلب هدية سريعة؟ يمكنك التسوق وإتمام الطلب كـ </span>
-              <strong className="text-[#13213c] font-black">ضيف مباشر</strong>
+              <strong className="text-[#013D5A] font-black">ضيف مباشر</strong>
               <span> عبر السلة دون الحاجة لإنشاء حساب.</span>
             </div>
 
@@ -138,8 +138,8 @@ export default function LoginClient() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full h-12 rounded-xl font-bold text-white transition-all hover:-translate-y-0.5 shadow-md shadow-[#13213c]/20 hover:shadow-lg hover:shadow-[#13213c]/30 disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2 cursor-pointer mt-2"
-              style={{ background: 'linear-gradient(135deg, #13213c 0%, #0c1424 100%)' }}
+              className="w-full h-12 rounded-xl font-bold text-white transition-all hover:-translate-y-0.5 shadow-md shadow-[#013D5A]/20 hover:shadow-lg hover:shadow-[#013D5A]/30 disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2 cursor-pointer mt-2"
+              style={{ background: 'linear-gradient(135deg, #013D5A 0%, #01283B 100%)' }}
             >
               {loading ? (
                 <>
@@ -156,7 +156,7 @@ export default function LoginClient() {
           <div className="mt-6 pt-5 border-t border-slate-200/80 flex items-center justify-between text-xs text-slate-500">
             <Link
               href="/auth/admin-login"
-              className="inline-flex items-center gap-1.5 font-bold text-[#13213c] hover:underline"
+              className="inline-flex items-center gap-1.5 font-bold text-[#013D5A] hover:underline"
             >
               <Shield className="w-3.5 h-3.5" />
               دخول فريق الإدارة

@@ -40,7 +40,7 @@ export default function AdminError({
         <div className="flex flex-col sm:flex-row items-center gap-3">
           <Button
             onClick={() => reset()}
-            className="w-full sm:flex-1 h-11 rounded-xl font-bold bg-[#13213c] hover:bg-[#13213c] text-white flex items-center justify-center gap-2"
+            className="w-full sm:flex-1 h-11 rounded-xl font-bold bg-[#013D5A] hover:bg-[#013D5A] text-white flex items-center justify-center gap-2"
           >
             <RefreshCw className="w-4 h-4" />
             إعادة المحاولة

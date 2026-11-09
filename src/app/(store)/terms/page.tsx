@@ -8,12 +8,12 @@ export const metadata: Metadata = {
 
 export default function TermsPage() {
   return (
-    <div className="min-h-screen bg-[#F8FAFC] pb-20">
-      <section className="relative bg-[#0c1424] text-white py-24 px-4 overflow-hidden">
-        <div className="absolute top-0 end-0 w-96 h-96 bg-[#22385e]/25 rounded-full blur-[100px]" />
+    <div className="min-h-screen bg-[#FAF7F2] pb-20">
+      <section className="relative bg-[#01283B] text-white py-24 px-4 overflow-hidden">
+        <div className="absolute top-0 end-0 w-96 h-96 bg-[#025177]/25 rounded-full blur-[100px]" />
         <div className="max-w-4xl mx-auto text-center relative z-10">
-          <div className="w-16 h-16 rounded-2xl bg-[#22385e]/40 border border-[#3b5e94]/40 flex items-center justify-center mx-auto mb-6">
-            <FileText className="w-8 h-8 text-[#7ea6e6]" />
+          <div className="w-16 h-16 rounded-2xl bg-[#025177]/40 border border-[#025880]/40 flex items-center justify-center mx-auto mb-6">
+            <FileText className="w-8 h-8 text-[#F4A258]" />
           </div>
           <h1 className="text-4xl sm:text-5xl font-black mb-4">الشروط والأحكام</h1>
           <p className="text-white/60">آخر تحديث: سبتمبر 2026</p>
@@ -62,7 +62,7 @@ export default function TermsPage() {
           ].map((section) => (
             <div key={section.title}>
               <h2 className="text-lg font-black text-slate-900 mb-3 flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-[#13213c] inline-block" />
+                <span className="w-2 h-2 rounded-full bg-[#013D5A] inline-block" />
                 {section.title}
               </h2>
               <p className="text-slate-500 leading-loose">{section.content}</p>

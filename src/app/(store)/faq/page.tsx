@@ -44,12 +44,12 @@ const faqs = [
 
 export default function FAQPage() {
   return (
-    <div className="min-h-screen bg-[#F8FAFC] pb-20">
-      <section className="relative bg-[#0c1424] text-white py-24 px-4 overflow-hidden">
-        <div className="absolute top-0 end-0 w-96 h-96 bg-[#22385e]/25 rounded-full blur-[100px]" />
+    <div className="min-h-screen bg-[#FAF7F2] pb-20">
+      <section className="relative bg-[#01283B] text-white py-24 px-4 overflow-hidden">
+        <div className="absolute top-0 end-0 w-96 h-96 bg-[#025177]/25 rounded-full blur-[100px]" />
         <div className="max-w-4xl mx-auto text-center relative z-10">
-          <div className="w-16 h-16 rounded-2xl bg-[#22385e]/40 border border-[#3b5e94]/40 flex items-center justify-center mx-auto mb-6">
-            <HelpCircle className="w-8 h-8 text-[#7ea6e6]" />
+          <div className="w-16 h-16 rounded-2xl bg-[#025177]/40 border border-[#025880]/40 flex items-center justify-center mx-auto mb-6">
+            <HelpCircle className="w-8 h-8 text-[#F4A258]" />
           </div>
           <h1 className="text-4xl sm:text-5xl font-black mb-4">الأسئلة الشائعة</h1>
           <p className="text-white/60 text-lg">إجابات سريعة على أسئلتك الأكثر شيوعاً</p>
@@ -79,8 +79,8 @@ export default function FAQPage() {
           <p className="text-slate-500 mb-5">فريق دعمنا مستعد للمساعدة على مدار الساعة</p>
           <Link
             href="/contact"
-            className="inline-flex items-center gap-2 h-11 px-7 rounded-xl font-bold text-white transition-all hover:-translate-y-0.5 shadow-md shadow-[#13213c]/20 hover:shadow-lg hover:shadow-[#13213c]/30"
-            style={{ background: 'linear-gradient(135deg, #13213c 0%, #0c1424 100%)' }}
+            className="inline-flex items-center gap-2 h-11 px-7 rounded-xl font-bold text-white transition-all hover:-translate-y-0.5 shadow-md shadow-[#013D5A]/20 hover:shadow-lg hover:shadow-[#013D5A]/30"
+            style={{ background: 'linear-gradient(135deg, #013D5A 0%, #01283B 100%)' }}
           >
             اتصل بنا
             <ArrowLeft className="w-4 h-4" />

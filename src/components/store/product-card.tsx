@@ -120,7 +120,7 @@ export function ProductCard({ product }: ProductCardProps) {
       className={cn(
         "group relative bg-white rounded-3xl overflow-hidden flex flex-col h-full",
         "border border-slate-200/90 transition-all duration-300",
-        "hover:shadow-[0_16px_40px_rgba(19,33,60,0.12)] hover:-translate-y-1.5 hover:border-[#13213c]/40"
+        "hover:shadow-[0_16px_40px_rgba(19,33,60,0.12)] hover:-translate-y-1.5 hover:border-[#013D5A]/40"
       )}
       dir="rtl"
     >
@@ -130,19 +130,19 @@ export function ProductCard({ product }: ProductCardProps) {
         {/* Floating Badges (Top Start / Right) */}
         <div className="absolute top-3 start-3 z-20 flex flex-col gap-1.5">
           {product.isNew && (
-            <span className="inline-flex items-center gap-1 bg-[#13213c] text-white text-[10px] font-extrabold px-2.5 py-0.5 rounded-full shadow-xs">
+            <span className="inline-flex items-center gap-1 bg-[#708C69] text-white text-[10px] font-black px-2.5 py-0.5 rounded-full shadow-xs">
               <Sparkles className="w-2.5 h-2.5" />
               جديد
             </span>
           )}
           {product.isBestSeller && (
-            <span className="inline-flex items-center gap-1 bg-gradient-to-r from-amber-500 to-amber-600 text-white text-[10px] font-extrabold px-2.5 py-0.5 rounded-full shadow-xs">
-              <Star className="w-2.5 h-2.5 fill-white text-white" />
+            <span className="inline-flex items-center gap-1 bg-[#F4A258] text-[#013D5A] text-[10px] font-black px-2.5 py-0.5 rounded-full shadow-xs">
+              <Star className="w-2.5 h-2.5 fill-[#013D5A] text-[#013D5A]" />
               الأكثر طلباً
             </span>
           )}
           {hasDiscount && (
-            <span className="inline-flex items-center bg-gradient-to-r from-rose-600 to-rose-500 text-white text-[10px] font-black px-2.5 py-0.5 rounded-full shadow-xs" dir="ltr">
+            <span className="inline-flex items-center bg-[#DE8637] text-white text-[10px] font-black px-2.5 py-0.5 rounded-full shadow-xs" dir="ltr">
               -{discountPercent}%
             </span>
           )}
@@ -183,7 +183,7 @@ export function ProductCard({ product }: ProductCardProps) {
             />
           )}
           {/* Subtle Bottom Image Gradient */}
-          <div className="absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-[#0c1424]/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+          <div className="absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-[#01283B]/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
         </Link>
       </div>
 
@@ -191,14 +191,14 @@ export function ProductCard({ product }: ProductCardProps) {
       <div className="p-3 sm:p-4.5 flex-1 flex flex-col text-start">
         {/* Category Pill */}
         {product.category?.name && (
-          <p className="text-[10px] sm:text-[11px] font-bold text-[#13213c] mb-1 flex items-center gap-1">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#13213c]" />
+          <p className="text-[10px] sm:text-[11px] font-bold text-[#013D5A] mb-1 flex items-center gap-1">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#013D5A]" />
             <span className="truncate">{product.category.name}</span>
           </p>
         )}
 
         {/* Title */}
-        <h3 className="font-bold text-slate-900 text-xs sm:text-sm md:text-base leading-snug line-clamp-2 mb-2 sm:mb-3 flex-1 group-hover:text-[#13213c] transition-colors">
+        <h3 className="font-bold text-slate-900 text-xs sm:text-sm md:text-base leading-snug line-clamp-2 mb-2 sm:mb-3 flex-1 group-hover:text-[#013D5A] transition-colors">
           <Link href={`/product/${product.id}`}>
             {product.name}
           </Link>
@@ -214,7 +214,7 @@ export function ProductCard({ product }: ProductCardProps) {
               </span>
             )}
             <div className="flex items-baseline gap-0.5 sm:gap-1" dir="ltr">
-              <span className="text-sm sm:text-base lg:text-lg font-black text-[#13213c]">
+              <span className="text-sm sm:text-base lg:text-lg font-black text-[#013D5A]">
                 {displayPrice.toLocaleString('en-US')}
               </span>
               <span className="text-[10px] sm:text-xs font-bold text-slate-400">د.ع</span>
@@ -228,8 +228,8 @@ export function ProductCard({ product }: ProductCardProps) {
             className={cn(
               "h-8 sm:h-9 px-2 sm:px-3.5 rounded-xl sm:rounded-2xl flex items-center gap-1 sm:gap-1.5 text-xs font-bold transition-all duration-300 shrink-0 cursor-pointer",
               isAdding
-                ? "bg-emerald-600 text-white shadow-xs"
-                : "bg-slate-100/80 hover:bg-[#13213c] text-slate-800 hover:text-white border border-slate-200 hover:border-[#13213c] hover:shadow-[0_4px_14px_rgba(19,33,60,0.22)]"
+                ? "bg-[#708C69] text-white shadow-xs"
+                : "bg-[#FAF7F2] hover:bg-[#F4A258] text-[#013D5A] hover:text-[#013D5A] border border-[#BDD3CE] hover:border-[#F4A258] hover:shadow-[0_4px_14px_rgba(244,162,88,0.35)]"
             )}
             aria-label="أضف للسلة"
           >

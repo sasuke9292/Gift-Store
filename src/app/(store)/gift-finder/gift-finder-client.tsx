@@ -142,7 +142,7 @@ export default function GiftFinderClient({ initialProducts: products }: { initia
   }
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] pt-4 pb-20">
+    <div className="min-h-screen bg-[#FAF7F2] pt-4 pb-20">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Page Header */}
@@ -151,7 +151,7 @@ export default function GiftFinderClient({ initialProducts: products }: { initia
             initial={{ scale: 0, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             className="w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-[0_8px_30px_rgba(19,33,60,0.25)]"
-            style={{ background: 'linear-gradient(135deg, #13213c 0%, #0c1424 100%)' }}
+            style={{ background: 'linear-gradient(135deg, #013D5A 0%, #01283B 100%)' }}
           >
             <Sparkles className="w-10 h-10 text-white" />
           </motion.div>
@@ -189,7 +189,7 @@ export default function GiftFinderClient({ initialProducts: products }: { initia
               >
                 {/* Step Progress */}
                 <div className="flex items-center justify-between mb-8">
-                  <span className="text-sm font-bold text-[#13213c]">
+                  <span className="text-sm font-bold text-[#013D5A]">
                     الخطوة {currentStep + 1} من {steps.length}
                   </span>
                   <div className="flex gap-2">
@@ -200,8 +200,8 @@ export default function GiftFinderClient({ initialProducts: products }: { initia
                         style={{
                           width: idx === currentStep ? '40px' : '12px',
                           background: idx === currentStep
-                            ? 'linear-gradient(90deg, #13213c, #22385e)'
-                            : idx < currentStep ? '#13213c' : '#E2E8F0'
+                            ? 'linear-gradient(90deg, #013D5A, #025177)'
+                            : idx < currentStep ? '#013D5A' : '#E2E8F0'
                         }}
                       />
                     ))}
@@ -224,12 +224,12 @@ export default function GiftFinderClient({ initialProducts: products }: { initia
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
                       onClick={() => handleSelectOption(option.value)}
-                      className="p-5 rounded-2xl border-2 border-slate-200/80 hover:border-[#13213c] hover:bg-slate-50/80 hover:shadow-[0_4px_16px_rgba(19,33,60,0.08)] transition-all duration-200 flex items-center gap-4 group text-start cursor-pointer"
+                      className="p-5 rounded-2xl border-2 border-slate-200/80 hover:border-[#013D5A] hover:bg-slate-50/80 hover:shadow-[0_4px_16px_rgba(19,33,60,0.08)] transition-all duration-200 flex items-center gap-4 group text-start cursor-pointer"
                     >
                       <div className="w-14 h-14 rounded-xl bg-slate-100 group-hover:bg-blue-50/80 flex items-center justify-center text-3xl transition-colors shrink-0">
                         {option.icon}
                       </div>
-                      <span className="font-bold text-slate-800 group-hover:text-[#13213c] transition-colors">
+                      <span className="font-bold text-slate-800 group-hover:text-[#013D5A] transition-colors">
                         {option.label}
                       </span>
                     </motion.button>
@@ -241,7 +241,7 @@ export default function GiftFinderClient({ initialProducts: products }: { initia
                   <div className="mt-8 flex justify-end">
                     <button
                       onClick={() => setCurrentStep(currentStep - 1)}
-                      className="flex items-center gap-2 text-sm font-semibold text-slate-500 hover:text-[#13213c] transition-colors cursor-pointer"
+                      className="flex items-center gap-2 text-sm font-semibold text-slate-500 hover:text-[#013D5A] transition-colors cursor-pointer"
                     >
                       <ArrowLeft className="w-4 h-4" />
                       العودة للسؤال السابق
@@ -262,8 +262,8 @@ export default function GiftFinderClient({ initialProducts: products }: { initia
               >
                 {/* Results Header */}
                 <div className="text-center mb-8">
-                  <div className="inline-flex items-center gap-2 bg-blue-50/80 border border-blue-200/60 text-[#13213c] px-6 py-3 rounded-full mb-5 font-bold shadow-xs">
-                    <Sparkles className="w-4 h-4 text-[#13213c]" />
+                  <div className="inline-flex items-center gap-2 bg-blue-50/80 border border-blue-200/60 text-[#013D5A] px-6 py-3 rounded-full mb-5 font-bold shadow-xs">
+                    <Sparkles className="w-4 h-4 text-[#013D5A]" />
                     وجدنا لك {recommendedProducts.length} هدايا مثالية!
                   </div>
                   <h2 className="text-3xl font-black text-slate-900">اقتراحاتنا الذكية لك ✨</h2>
@@ -277,7 +277,7 @@ export default function GiftFinderClient({ initialProducts: products }: { initia
                       initial={{ opacity: 0, y: 16 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: idx * 0.08 }}
-                      className="group bg-white rounded-2xl border border-slate-200/80 overflow-hidden hover:shadow-[0_8px_25px_rgba(15,23,42,0.08)] hover:-translate-y-1 hover:border-[#13213c]/30 transition-all duration-300"
+                      className="group bg-white rounded-2xl border border-slate-200/80 overflow-hidden hover:shadow-[0_8px_25px_rgba(15,23,42,0.08)] hover:-translate-y-1 hover:border-[#013D5A]/30 transition-all duration-300"
                     >
                       <Link href={`/product/${product.id}`} className="block">
                         <div className="relative aspect-[4/3] bg-slate-50/80 overflow-hidden">
@@ -290,7 +290,7 @@ export default function GiftFinderClient({ initialProducts: products }: { initia
                               className="object-cover transition-transform duration-500 group-hover:scale-105"
                             />
                           ) : (
-                            <div className="w-full h-full flex items-center justify-center text-[#13213c]/30">
+                            <div className="w-full h-full flex items-center justify-center text-[#013D5A]/30">
                               <ShoppingCart className="w-10 h-10" />
                             </div>
                           )}
@@ -302,8 +302,8 @@ export default function GiftFinderClient({ initialProducts: products }: { initia
                           )}
                         </div>
                         <div className="p-4">
-                          <p className="text-[11px] font-bold text-[#13213c] uppercase tracking-widest mb-1">{product.category}</p>
-                          <h3 className="font-bold text-slate-900 text-sm line-clamp-2 mb-3 group-hover:text-[#13213c] transition-colors">
+                          <p className="text-[11px] font-bold text-[#013D5A] uppercase tracking-widest mb-1">{product.category}</p>
+                          <h3 className="font-bold text-slate-900 text-sm line-clamp-2 mb-3 group-hover:text-[#013D5A] transition-colors">
                             {product.name}
                           </h3>
                           <div className="flex items-center justify-between">
@@ -312,8 +312,8 @@ export default function GiftFinderClient({ initialProducts: products }: { initia
                               <span className="text-sm font-bold text-slate-400 ms-1">د.ع</span>
                             </span>
                             <button
-                              className="w-9 h-9 rounded-xl flex items-center justify-center text-white shadow-md shadow-[#13213c]/20 transition-all hover:-translate-y-0.5 cursor-pointer"
-                              style={{ background: 'linear-gradient(135deg, #13213c 0%, #0c1424 100%)' }}
+                              className="w-9 h-9 rounded-xl flex items-center justify-center text-white shadow-md shadow-[#013D5A]/20 transition-all hover:-translate-y-0.5 cursor-pointer"
+                              style={{ background: 'linear-gradient(135deg, #013D5A 0%, #01283B 100%)' }}
                               onClick={(e) => {
                                 e.preventDefault()
                                 e.stopPropagation()
@@ -349,8 +349,8 @@ export default function GiftFinderClient({ initialProducts: products }: { initia
                   </button>
                   <Link
                     href="/shop"
-                    className="flex items-center justify-center gap-2 h-12 px-8 rounded-xl font-bold text-white transition-all hover:-translate-y-0.5 shadow-md shadow-[#13213c]/20 hover:shadow-lg hover:shadow-[#13213c]/30"
-                    style={{ background: 'linear-gradient(135deg, #13213c 0%, #0c1424 100%)' }}
+                    className="flex items-center justify-center gap-2 h-12 px-8 rounded-xl font-bold text-white transition-all hover:-translate-y-0.5 shadow-md shadow-[#013D5A]/20 hover:shadow-lg hover:shadow-[#013D5A]/30"
+                    style={{ background: 'linear-gradient(135deg, #013D5A 0%, #01283B 100%)' }}
                   >
                     تصفح كل الهدايا
                     <ArrowLeft className="w-4 h-4" />

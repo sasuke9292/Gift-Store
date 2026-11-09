@@ -630,9 +630,9 @@ export default function SettingsClient({
       const el = document.getElementById(`setting-${item.id}`)
       if (el) {
         el.scrollIntoView({ behavior: 'smooth', block: 'center' })
-        el.classList.add('ring-2', 'ring-[#13213c]', 'bg-[#F0F4F9]/60')
+        el.classList.add('ring-2', 'ring-[#013D5A]', 'bg-[#F0F4F9]/60')
         setTimeout(() => {
-          el.classList.remove('ring-2', 'ring-[#13213c]', 'bg-[#F0F4F9]/60')
+          el.classList.remove('ring-2', 'ring-[#013D5A]', 'bg-[#F0F4F9]/60')
         }, 3000)
       }
     }, 150)
@@ -646,7 +646,7 @@ export default function SettingsClient({
         <div className="flex items-center gap-3.5">
           <div 
             className="w-12 h-12 rounded-2xl flex items-center justify-center text-white shadow-sm shrink-0"
-            style={{ background: 'linear-gradient(135deg, #22385e 0%, #13213c 100%)' }}
+            style={{ background: 'linear-gradient(135deg, #025177 0%, #013D5A 100%)' }}
           >
             <Sliders className="w-6 h-6" />
           </div>
@@ -667,7 +667,7 @@ export default function SettingsClient({
             onClick={handleSave} 
             disabled={isSaving} 
             className="text-white rounded-xl h-11 px-7 font-extrabold shadow-md hover:-translate-y-0.5 transition-all text-sm cursor-pointer w-full sm:w-auto"
-            style={{ background: 'linear-gradient(135deg, #22385e 0%, #13213c 100%)' }}
+            style={{ background: 'linear-gradient(135deg, #025177 0%, #013D5A 100%)' }}
           >
             {isSaving ? (
               <>
@@ -693,7 +693,7 @@ export default function SettingsClient({
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="ابحث في كافة إعدادات المتجر (مثال: واتساب، شحن، دفع، شعار، سيو، تواصل، فوتر، صيانة...)"
-            className="w-full h-12 ps-11 pe-10 bg-[#FAFAF8] border border-[#E8E4DF] focus:border-[#13213c]/60 focus:bg-white rounded-2xl text-sm text-[#1C1917] placeholder:text-[#A8A29E] outline-none transition-all focus:ring-2 focus:ring-[#13213c]/15"
+            className="w-full h-12 ps-11 pe-10 bg-[#FAFAF8] border border-[#E8E4DF] focus:border-[#013D5A]/60 focus:bg-white rounded-2xl text-sm text-[#1C1917] placeholder:text-[#A8A29E] outline-none transition-all focus:ring-2 focus:ring-[#013D5A]/15"
           />
           {searchQuery && (
             <button
@@ -711,9 +711,9 @@ export default function SettingsClient({
           <div className="pt-3 border-t border-[#E8E4DF]/60 animate-in fade-in-0 duration-200">
             <div className="flex items-center justify-between mb-3 text-xs">
               <span className="font-bold text-[#1C1917]">
-                نتائج البحث عن: <span className="text-[#13213c] font-black">&quot;{searchQuery}&quot;</span>
+                نتائج البحث عن: <span className="text-[#013D5A] font-black">&quot;{searchQuery}&quot;</span>
               </span>
-              <span className="bg-[#F0F4F9] border border-[#13213c]/30 text-[#13213c] px-2.5 py-1 rounded-full font-bold text-[11px]">
+              <span className="bg-[#F0F4F9] border border-[#013D5A]/30 text-[#013D5A] px-2.5 py-1 rounded-full font-bold text-[11px]">
                 {matchingSettings.length} خيار مطابق
               </span>
             </div>
@@ -729,23 +729,23 @@ export default function SettingsClient({
                   <div
                     key={item.id}
                     onClick={() => handleJumpToSetting(item)}
-                    className="p-3.5 rounded-2xl bg-[#FAFAF8] hover:bg-[#F0F4F9] border border-[#E8E4DF] hover:border-[#13213c]/40 transition-all cursor-pointer group flex flex-col justify-between text-start"
+                    className="p-3.5 rounded-2xl bg-[#FAFAF8] hover:bg-[#F0F4F9] border border-[#E8E4DF] hover:border-[#013D5A]/40 transition-all cursor-pointer group flex flex-col justify-between text-start"
                   >
                     <div>
                       <div className="flex items-center justify-between gap-2 mb-1.5">
-                        <span className="text-[10px] font-black px-2 py-0.5 rounded-md bg-white border border-[#E8E4DF] text-[#78716C] group-hover:text-[#13213c] group-hover:border-[#13213c]/30">
+                        <span className="text-[10px] font-black px-2 py-0.5 rounded-md bg-white border border-[#E8E4DF] text-[#78716C] group-hover:text-[#013D5A] group-hover:border-[#013D5A]/30">
                           {item.tabLabel}
                         </span>
-                        <ChevronLeft className="w-3.5 h-3.5 text-[#A8A29E] group-hover:text-[#13213c] group-hover:-translate-x-0.5 transition-transform" />
+                        <ChevronLeft className="w-3.5 h-3.5 text-[#A8A29E] group-hover:text-[#013D5A] group-hover:-translate-x-0.5 transition-transform" />
                       </div>
-                      <p className="text-xs font-black text-[#1C1917] group-hover:text-[#13213c] transition-colors">
+                      <p className="text-xs font-black text-[#1C1917] group-hover:text-[#013D5A] transition-colors">
                         {item.title}
                       </p>
                       <p className="text-[11px] text-[#78716C] mt-1 line-clamp-2 leading-relaxed">
                         {item.desc}
                       </p>
                     </div>
-                    <div className="mt-3 pt-2 border-t border-[#E8E4DF]/60 flex items-center justify-between text-[10px] font-bold text-[#13213c]">
+                    <div className="mt-3 pt-2 border-t border-[#E8E4DF]/60 flex items-center justify-between text-[10px] font-bold text-[#013D5A]">
                       <span>انتقال إلى الإعداد</span>
                       <ArrowLeft className="w-3 h-3" />
                     </div>
@@ -787,7 +787,7 @@ export default function SettingsClient({
                     className={cn(
                       "flex items-center justify-center gap-1.5 py-2 px-2 rounded-xl text-xs font-bold transition-all text-center",
                       isGroupActive
-                        ? "bg-[#13213c] text-white shadow-xs font-black"
+                        ? "bg-[#013D5A] text-white shadow-xs font-black"
                         : "text-[#57534E] hover:bg-white hover:text-[#1C1917]"
                     )}
                   >
@@ -823,7 +823,7 @@ export default function SettingsClient({
                     className={cn(
                       "flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold shrink-0 transition-all cursor-pointer whitespace-nowrap",
                       isActive
-                        ? "bg-[#13213c] text-white shadow-sm font-black"
+                        ? "bg-[#013D5A] text-white shadow-sm font-black"
                         : "bg-[#FAFAF8] text-[#57534E] hover:bg-[#F2EFE9] border border-[#E8E4DF]"
                     )}
                   >
@@ -832,7 +832,7 @@ export default function SettingsClient({
                     {hasMatches && (
                       <span className={cn(
                         "text-[10px] px-1.5 py-0.2 rounded-full font-bold",
-                        isActive ? "bg-amber-400 text-[#13213c]" : "bg-[#13213c]/15 text-[#13213c]"
+                        isActive ? "bg-amber-400 text-[#013D5A]" : "bg-[#013D5A]/15 text-[#013D5A]"
                       )}>
                         {tabMatches[tab.id]}
                       </span>
@@ -862,7 +862,7 @@ export default function SettingsClient({
                   {/* Category Header */}
                   <div className="flex items-center justify-between px-3 pt-2.5 pb-1 text-[11px] font-black text-[#78716C] uppercase tracking-wider">
                     <div className="flex items-center gap-1.5">
-                      <GroupIcon className={cn("w-3.5 h-3.5", isGroupActive ? "text-[#13213c]" : "text-[#A8A29E]")} />
+                      <GroupIcon className={cn("w-3.5 h-3.5", isGroupActive ? "text-[#013D5A]" : "text-[#A8A29E]")} />
                       <span>{group.title}</span>
                     </div>
                     {groupMatches > 0 && (
@@ -895,7 +895,7 @@ export default function SettingsClient({
                           className={cn(
                             "w-full flex items-center justify-between px-3 py-2.5 rounded-2xl text-xs font-bold transition-all cursor-pointer text-start",
                             isActive
-                              ? "bg-[#13213c] text-white shadow-sm font-black"
+                              ? "bg-[#013D5A] text-white shadow-sm font-black"
                               : "text-[#57534E] hover:bg-[#FAFAF8] hover:text-[#1C1917]",
                             isSearching && !hasMatches && "opacity-35 hover:opacity-100"
                           )}
@@ -909,7 +909,7 @@ export default function SettingsClient({
                             {hasMatches && (
                               <span className={cn(
                                 "text-[10px] px-1.5 py-0.2 rounded-full font-black",
-                                isActive ? "bg-amber-400 text-[#13213c]" : "bg-[#13213c]/10 text-[#13213c]"
+                                isActive ? "bg-amber-400 text-[#013D5A]" : "bg-[#013D5A]/10 text-[#013D5A]"
                               )}>
                                 {tabMatches[tab.id]}
                               </span>
@@ -939,7 +939,7 @@ export default function SettingsClient({
               <h2 className="text-base font-black text-[#1C1917]">الهوية والبيانات الأساسية</h2>
               <p className="text-xs text-[#78716C] mt-1 font-medium">اسم المتجر، الشعار اللفظي، والبيانات التعريفية المعروضة للزبائن.</p>
             </div>
-            <Store className="w-5 h-5 text-[#13213c]" />
+            <Store className="w-5 h-5 text-[#013D5A]" />
           </div>
 
           <div className="p-6 sm:p-8 space-y-6">
@@ -949,7 +949,7 @@ export default function SettingsClient({
                 <Input 
                   value={settings.storeName} 
                   onChange={e => updateField('storeName', e.target.value)}
-                  className="h-11 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-sm focus:border-[#13213c]/50 focus:bg-white"
+                  className="h-11 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-sm focus:border-[#013D5A]/50 focus:bg-white"
                   placeholder="مثال: گفتي بلس | Gifty Plus"
                 />
                 <span className="text-[11px] text-[#A8A29E] mt-1 block">يظهر في ترويسة الموقع، التذييل، والفواتير والرسائل</span>
@@ -960,7 +960,7 @@ export default function SettingsClient({
                 <Input 
                   value={settings.currency} 
                   onChange={e => updateField('currency', e.target.value)}
-                  className="h-11 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-sm focus:border-[#13213c]/50 focus:bg-white"
+                  className="h-11 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-sm focus:border-[#013D5A]/50 focus:bg-white"
                   placeholder="مثال: د.ع أو $"
                 />
                 <span className="text-[11px] text-[#A8A29E] mt-1 block">رمز العملة الافتراضي للأسعار في المتجر</span>
@@ -972,7 +972,7 @@ export default function SettingsClient({
               <Input 
                 value={settings.storeSlogan} 
                 onChange={e => updateField('storeSlogan', e.target.value)}
-                className="h-11 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-sm focus:border-[#13213c]/50 focus:bg-white"
+                className="h-11 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-sm focus:border-[#013D5A]/50 focus:bg-white"
                 placeholder="مثال: خلّي هديتك تحچي عنك ✨"
               />
               <span className="text-[11px] text-[#A8A29E] mt-1 block">عبارة ترويجية مميزة تظهر أسفل الشعار في الفوتر ومحركات البحث</span>
@@ -984,7 +984,7 @@ export default function SettingsClient({
                 rows={3}
                 value={settings.storeDescription} 
                 onChange={e => updateField('storeDescription', e.target.value)}
-                className="rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-sm focus:border-[#13213c]/50 focus:bg-white resize-none"
+                className="rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-sm focus:border-[#013D5A]/50 focus:bg-white resize-none"
                 placeholder="الوجهة الأولى لاختيار وتنسيق الهدايا الفاخرة..."
               />
               <span className="text-[11px] text-[#A8A29E] mt-1 block">النص التعريفي المعتمد في تذييل الموقع وفي صفحة من نحن</span>
@@ -1011,12 +1011,12 @@ export default function SettingsClient({
                     size="sm"
                     onClick={() => document.getElementById('general-logo-file')?.click()}
                     disabled={isUploadingLogo}
-                    className="h-7 px-2.5 text-[11px] rounded-lg border-[#13213c]/40 text-[#13213c] hover:bg-[#F0F4F9] font-bold cursor-pointer flex items-center gap-1.5"
+                    className="h-7 px-2.5 text-[11px] rounded-lg border-[#013D5A]/40 text-[#013D5A] hover:bg-[#F0F4F9] font-bold cursor-pointer flex items-center gap-1.5"
                   >
                     {isUploadingLogo ? (
-                      <Loader2 className="w-3 h-3 animate-spin text-[#13213c]" />
+                      <Loader2 className="w-3 h-3 animate-spin text-[#013D5A]" />
                     ) : (
-                      <Upload className="w-3 h-3 text-[#13213c]" />
+                      <Upload className="w-3 h-3 text-[#013D5A]" />
                     )}
                     <span>رفع شعار من جهازك</span>
                   </Button>
@@ -1024,7 +1024,7 @@ export default function SettingsClient({
 
                 <div className="flex items-center gap-2">
                   {settings.logoUrl && (
-                    <div className="w-14 h-11 rounded-xl border border-slate-800 bg-[#0c1424] overflow-hidden shrink-0 flex items-center justify-center p-1.5 shadow-inner">
+                    <div className="w-14 h-11 rounded-xl border border-slate-800 bg-[#01283B] overflow-hidden shrink-0 flex items-center justify-center p-1.5 shadow-inner">
                       <img src={settings.logoUrl} alt="Logo preview" className="max-w-full max-h-full object-contain" />
                     </div>
                   )}
@@ -1059,12 +1059,12 @@ export default function SettingsClient({
                     size="sm"
                     onClick={() => document.getElementById('general-favicon-file')?.click()}
                     disabled={isUploadingFavicon}
-                    className="h-7 px-2.5 text-[11px] rounded-lg border-[#13213c]/40 text-[#13213c] hover:bg-[#F0F4F9] font-bold cursor-pointer flex items-center gap-1.5"
+                    className="h-7 px-2.5 text-[11px] rounded-lg border-[#013D5A]/40 text-[#013D5A] hover:bg-[#F0F4F9] font-bold cursor-pointer flex items-center gap-1.5"
                   >
                     {isUploadingFavicon ? (
-                      <Loader2 className="w-3 h-3 animate-spin text-[#13213c]" />
+                      <Loader2 className="w-3 h-3 animate-spin text-[#013D5A]" />
                     ) : (
-                      <Upload className="w-3 h-3 text-[#13213c]" />
+                      <Upload className="w-3 h-3 text-[#013D5A]" />
                     )}
                     <span>رفع أيقونة من جهازك</span>
                   </Button>
@@ -1137,9 +1137,9 @@ export default function SettingsClient({
             <div className="p-6 border-b border-[#E8E4DF] bg-[#FAFAF8] flex items-center justify-between">
               <div>
                 <h2 className="text-base font-black text-[#1C1917] flex items-center gap-2">
-                  <Heart className="w-5 h-5 text-[#13213c]" />
+                  <Heart className="w-5 h-5 text-[#013D5A]" />
                   <span>دليل الإهداء ومجموعات المهدى له (Shop by Recipient)</span>
-                  <span className="text-[10px] font-black px-2.5 py-0.5 rounded-full bg-[#13213c]/15 text-[#13213c] border border-[#13213c]/20">
+                  <span className="text-[10px] font-black px-2.5 py-0.5 rounded-full bg-[#013D5A]/15 text-[#013D5A] border border-[#013D5A]/20">
                     ميزة حصرية فاخرة ✨
                   </span>
                 </h2>
@@ -1209,7 +1209,7 @@ export default function SettingsClient({
               {/* Real-time Interactive Live Preview */}
               <div className="pt-4 border-t border-[#F0ECE6]">
                 <Label className="text-xs font-bold text-[#1C1917] mb-3 flex items-center gap-2">
-                  <Eye className="w-3.5 h-3.5 text-[#13213c]" />
+                  <Eye className="w-3.5 h-3.5 text-[#013D5A]" />
                   <span>معاينة حية ومباشرة لشكل بطاقات دليل الإهداء على المتجر:</span>
                 </Label>
                 
@@ -1247,16 +1247,16 @@ export default function SettingsClient({
                     <div key={i} className="relative rounded-2xl overflow-hidden aspect-[4/5] p-3 flex flex-col justify-end border border-[#E8E4DF] bg-stone-100 shadow-xs">
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img src={card.image} alt={card.title} className="absolute inset-0 w-full h-full object-cover" />
-                      <div className="absolute inset-0 bg-gradient-to-t from-[#0c1424]/95 via-[#0c1424]/40 to-transparent" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#01283B]/95 via-[#01283B]/40 to-transparent" />
                       <div className="absolute top-2 start-2 z-10">
-                        <span className="text-[9px] font-black px-2 py-0.5 rounded-full bg-white/95 text-[#13213c] shadow-xs">
+                        <span className="text-[9px] font-black px-2 py-0.5 rounded-full bg-white/95 text-[#013D5A] shadow-xs">
                           {card.tag}
                         </span>
                       </div>
                       <div className="relative z-10 text-start">
                         <h4 className="text-xs font-black text-white truncate">{card.title}</h4>
                         <p className="text-[10px] text-white/80 line-clamp-1 mt-0.5">{card.subtitle}</p>
-                        <span className="text-[9px] font-bold text-[#7ea6e6] mt-1 inline-flex items-center gap-1">
+                        <span className="text-[9px] font-bold text-[#F4A258] mt-1 inline-flex items-center gap-1">
                           {card.btnText} ←
                         </span>
                       </div>
@@ -1275,12 +1275,12 @@ export default function SettingsClient({
             <div id="setting-personaHer" className="border border-[#E8E4DF] rounded-3xl overflow-hidden bg-white shadow-xs p-6 space-y-4">
               <div className="flex items-center justify-between pb-3 border-b border-[#F0ECE6]">
                 <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-xl bg-[#F0F4F9] flex items-center justify-center text-[#13213c] font-black text-xs">
+                  <div className="w-8 h-8 rounded-xl bg-[#F0F4F9] flex items-center justify-center text-[#013D5A] font-black text-xs">
                     01
                   </div>
                   <h3 className="text-sm font-black text-[#1C1917]">البطاقة الأولى: هدايا لها (For Her)</h3>
                 </div>
-                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#13213c]/10 text-[#13213c]">
+                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#013D5A]/10 text-[#013D5A]">
                   افتراضي: قسم النساء
                 </span>
               </div>
@@ -1350,7 +1350,7 @@ export default function SettingsClient({
                       dir="ltr"
                     />
                     <label className="h-10 px-3.5 rounded-xl border border-[#E8E4DF] bg-white hover:bg-[#FAFAF8] text-xs font-bold text-[#1C1917] flex items-center gap-1.5 shrink-0 cursor-pointer transition-all">
-                      <Upload className="w-3.5 h-3.5 text-[#13213c]" />
+                      <Upload className="w-3.5 h-3.5 text-[#013D5A]" />
                       <span>{uploadingField === 'persona1Image' ? 'جاري...' : 'رفع'}</span>
                       <input 
                         type="file" 
@@ -1368,12 +1368,12 @@ export default function SettingsClient({
             <div id="setting-personaHim" className="border border-[#E8E4DF] rounded-3xl overflow-hidden bg-white shadow-xs p-6 space-y-4">
               <div className="flex items-center justify-between pb-3 border-b border-[#F0ECE6]">
                 <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-xl bg-[#F0F4F9] flex items-center justify-center text-[#13213c] font-black text-xs">
+                  <div className="w-8 h-8 rounded-xl bg-[#F0F4F9] flex items-center justify-center text-[#013D5A] font-black text-xs">
                     02
                   </div>
                   <h3 className="text-sm font-black text-[#1C1917]">البطاقة الثانية: هدايا له (For Him)</h3>
                 </div>
-                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#13213c]/10 text-[#13213c]">
+                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#013D5A]/10 text-[#013D5A]">
                   افتراضي: قسم الرجال
                 </span>
               </div>
@@ -1443,7 +1443,7 @@ export default function SettingsClient({
                       dir="ltr"
                     />
                     <label className="h-10 px-3.5 rounded-xl border border-[#E8E4DF] bg-white hover:bg-[#FAFAF8] text-xs font-bold text-[#1C1917] flex items-center gap-1.5 shrink-0 cursor-pointer transition-all">
-                      <Upload className="w-3.5 h-3.5 text-[#13213c]" />
+                      <Upload className="w-3.5 h-3.5 text-[#013D5A]" />
                       <span>{uploadingField === 'persona2Image' ? 'جاري...' : 'رفع'}</span>
                       <input 
                         type="file" 
@@ -1461,12 +1461,12 @@ export default function SettingsClient({
             <div id="setting-personaOccasions" className="border border-[#E8E4DF] rounded-3xl overflow-hidden bg-white shadow-xs p-6 space-y-4">
               <div className="flex items-center justify-between pb-3 border-b border-[#F0ECE6]">
                 <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-xl bg-[#F0F4F9] flex items-center justify-center text-[#13213c] font-black text-xs">
+                  <div className="w-8 h-8 rounded-xl bg-[#F0F4F9] flex items-center justify-center text-[#013D5A] font-black text-xs">
                     03
                   </div>
                   <h3 className="text-sm font-black text-[#1C1917]">البطاقة الثالثة: مناسبات وأفراح (Occasions)</h3>
                 </div>
-                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#13213c]/10 text-[#13213c]">
+                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#013D5A]/10 text-[#013D5A]">
                   افتراضي: قسم المناسبات
                 </span>
               </div>
@@ -1536,7 +1536,7 @@ export default function SettingsClient({
                       dir="ltr"
                     />
                     <label className="h-10 px-3.5 rounded-xl border border-[#E8E4DF] bg-white hover:bg-[#FAFAF8] text-xs font-bold text-[#1C1917] flex items-center gap-1.5 shrink-0 cursor-pointer transition-all">
-                      <Upload className="w-3.5 h-3.5 text-[#13213c]" />
+                      <Upload className="w-3.5 h-3.5 text-[#013D5A]" />
                       <span>{uploadingField === 'persona3Image' ? 'جاري...' : 'رفع'}</span>
                       <input 
                         type="file" 
@@ -1554,12 +1554,12 @@ export default function SettingsClient({
             <div id="setting-personaCustom" className="border border-[#E8E4DF] rounded-3xl overflow-hidden bg-white shadow-xs p-6 space-y-4">
               <div className="flex items-center justify-between pb-3 border-b border-[#F0ECE6]">
                 <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-xl bg-[#F0F4F9] flex items-center justify-center text-[#13213c] font-black text-xs">
+                  <div className="w-8 h-8 rounded-xl bg-[#F0F4F9] flex items-center justify-center text-[#013D5A] font-black text-xs">
                     04
                   </div>
                   <h3 className="text-sm font-black text-[#1C1917]">البطاقة الرابعة: مخصصة بالاسم (Personalized)</h3>
                 </div>
-                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#13213c]/10 text-[#13213c]">
+                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#013D5A]/10 text-[#013D5A]">
                   افتراضي: قسم التخصيص
                 </span>
               </div>
@@ -1629,7 +1629,7 @@ export default function SettingsClient({
                       dir="ltr"
                     />
                     <label className="h-10 px-3.5 rounded-xl border border-[#E8E4DF] bg-white hover:bg-[#FAFAF8] text-xs font-bold text-[#1C1917] flex items-center gap-1.5 shrink-0 cursor-pointer transition-all">
-                      <Upload className="w-3.5 h-3.5 text-[#13213c]" />
+                      <Upload className="w-3.5 h-3.5 text-[#013D5A]" />
                       <span>{uploadingField === 'persona4Image' ? 'جاري...' : 'رفع'}</span>
                       <input 
                         type="file" 
@@ -1658,19 +1658,19 @@ export default function SettingsClient({
               <h2 className="text-base font-black text-[#1C1917]">الواجهة وقسم البانر الرئيسي (Hero Showcase)</h2>
               <p className="text-xs text-[#78716C] mt-1 font-medium">التحكم في العنوان الرئيسي، الشارة الترويجية، الأزرار، وإحصائيات الثقة.</p>
             </div>
-            <Sparkles className="w-5 h-5 text-[#13213c]" />
+            <Sparkles className="w-5 h-5 text-[#013D5A]" />
           </div>
 
           <div className="p-6 sm:p-8 space-y-6">
             
             {/* Live Preview Box */}
-            <div className="p-6 rounded-2xl bg-[#0c1424] text-white border border-[#22385e]/40 relative overflow-hidden shadow-sm">
-              <div className="absolute top-3 start-4 text-[10px] font-bold text-[#7ea6e6] bg-white/10 px-2.5 py-0.5 rounded-full flex items-center gap-1">
+            <div className="p-6 rounded-2xl bg-[#01283B] text-white border border-[#025177]/40 relative overflow-hidden shadow-sm">
+              <div className="absolute top-3 start-4 text-[10px] font-bold text-[#F4A258] bg-white/10 px-2.5 py-0.5 rounded-full flex items-center gap-1">
                 <Eye className="w-3 h-3" />
                 معاينة حية ومباشرة لشكل البانر
               </div>
               <div className="mt-5 max-w-xl text-start">
-                <span className="inline-block px-3 py-1 rounded-full text-xs font-bold bg-[#22385e]/30 text-[#7ea6e6] border border-[#3b5e94]/40 mb-3">
+                <span className="inline-block px-3 py-1 rounded-full text-xs font-bold bg-[#025177]/30 text-[#F4A258] border border-[#025880]/40 mb-3">
                   {settings.heroBadge || 'شارة البانر'}
                 </span>
                 <h3 className="text-2xl font-black tracking-tight leading-snug whitespace-pre-line text-white">
@@ -1682,7 +1682,7 @@ export default function SettingsClient({
                 <div className="flex items-center gap-3 mt-4">
                   <span 
                     className="px-4 py-2 rounded-xl text-xs font-bold text-white shadow-sm"
-                    style={{ background: 'linear-gradient(135deg, #22385e 0%, #13213c 100%)' }}
+                    style={{ background: 'linear-gradient(135deg, #025177 0%, #013D5A 100%)' }}
                   >
                     {settings.heroPrimaryBtnText || 'زر رئيسي'}
                   </span>
@@ -1770,7 +1770,7 @@ export default function SettingsClient({
 
             {/* Trust Statistics Settings */}
             <div className="pt-4 border-t border-[#F0ECE6]">
-              <h3 className="text-xs font-extrabold uppercase tracking-widest text-[#13213c] mb-3">
+              <h3 className="text-xs font-extrabold uppercase tracking-widest text-[#013D5A] mb-3">
                 إحصائيات الثقة الثلاثة المعروضة أسفل البانر
               </h3>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -1828,11 +1828,11 @@ export default function SettingsClient({
             {/* HERO SHOWCASE SLIDER CALLOUT & INTEGRATION              */}
             {/* ======================================================= */}
             <div id="setting-heroSlides" className="pt-6 border-t border-[#F0ECE6]">
-              <div className="p-6 rounded-3xl bg-gradient-to-l from-[#F0F4F9] via-white to-[#F0F4F9] border-2 border-[#13213c]/30 flex flex-col md:flex-row items-start md:items-center justify-between gap-5 shadow-xs">
+              <div className="p-6 rounded-3xl bg-gradient-to-l from-[#F0F4F9] via-white to-[#F0F4F9] border-2 border-[#013D5A]/30 flex flex-col md:flex-row items-start md:items-center justify-between gap-5 shadow-xs">
                 <div className="flex items-start gap-4">
                   <div 
                     className="w-12 h-12 rounded-2xl flex items-center justify-center text-white shadow-sm shrink-0"
-                    style={{ background: 'linear-gradient(135deg, #22385e 0%, #13213c 100%)' }}
+                    style={{ background: 'linear-gradient(135deg, #025177 0%, #013D5A 100%)' }}
                   >
                     <Layers className="w-6 h-6" />
                   </div>
@@ -1841,7 +1841,7 @@ export default function SettingsClient({
                       <h3 className="text-sm sm:text-base font-black text-[#1C1917]">
                         إدارة وترتيب شرائح السلايدر التفاعلي (Hero Showcase Slides)
                       </h3>
-                      <span className="text-[10px] font-black px-2 py-0.5 rounded-full bg-[#13213c]/20 text-[#13213c] border border-[#13213c]/30">
+                      <span className="text-[10px] font-black px-2 py-0.5 rounded-full bg-[#013D5A]/20 text-[#013D5A] border border-[#013D5A]/30">
                         مدمج بإعدادات المتجر ✨
                       </span>
                     </div>
@@ -1861,7 +1861,7 @@ export default function SettingsClient({
                       router.replace(`/admin/settings?${params.toString()}`, { scroll: false })
                     }}
                     className="h-11 px-6 rounded-xl font-black text-white text-xs sm:text-sm cursor-pointer shadow-md hover:-translate-y-0.5 transition-all flex items-center gap-2 shrink-0 justify-center"
-                    style={{ background: 'linear-gradient(135deg, #22385e 0%, #13213c 100%)' }}
+                    style={{ background: 'linear-gradient(135deg, #025177 0%, #013D5A 100%)' }}
                   >
                     <Layers className="w-4 h-4" />
                     <span>تعديل وترتيب الشرائح الآن</span>
@@ -1876,8 +1876,8 @@ export default function SettingsClient({
             <div id="setting-heroBadges" className="pt-6 border-t border-[#F0ECE6] space-y-4">
               <div className="bg-[#FAFAF8] p-5 rounded-2xl border border-[#E8E4DF]">
                 <div className="flex items-center gap-2">
-                  <span className="w-8 h-8 rounded-lg bg-[#13213c]/20 text-[#13213c] flex items-center justify-center font-bold">
-                    <Award className="w-4 h-4 text-[#13213c]" />
+                  <span className="w-8 h-8 rounded-lg bg-[#013D5A]/20 text-[#013D5A] flex items-center justify-center font-bold">
+                    <Award className="w-4 h-4 text-[#013D5A]" />
                   </span>
                   <h3 className="text-sm font-black text-[#1C1917]">
                     البادجات العائمة على سلايدر الواجهة (Floating Badges)
@@ -1893,7 +1893,7 @@ export default function SettingsClient({
                 {/* Top Badge: Quality & Guarantee */}
                 <div className="p-5 rounded-2xl bg-white border border-[#E8E4DF] space-y-3">
                   <div className="flex items-center gap-2 text-xs font-black text-[#1C1917] mb-1">
-                    <Award className="w-4 h-4 text-[#13213c]" />
+                    <Award className="w-4 h-4 text-[#013D5A]" />
                     <span>البادج العائم العلوي (أعلى يمين السلايدر)</span>
                   </div>
                   <div>
@@ -1951,8 +1951,8 @@ export default function SettingsClient({
             <div id="setting-sectionTitles" className="pt-6 border-t border-[#F0ECE6] space-y-4">
               <div className="bg-[#FAFAF8] p-5 rounded-2xl border border-[#E8E4DF]">
                 <div className="flex items-center gap-2">
-                  <span className="w-8 h-8 rounded-lg bg-[#13213c]/20 text-[#13213c] flex items-center justify-center font-bold">
-                    <Sparkles className="w-4 h-4 text-[#13213c]" />
+                  <span className="w-8 h-8 rounded-lg bg-[#013D5A]/20 text-[#013D5A] flex items-center justify-center font-bold">
+                    <Sparkles className="w-4 h-4 text-[#013D5A]" />
                   </span>
                   <h3 className="text-sm font-black text-[#1C1917]">
                     عناوين وشارات الأقسام الرئيسية في الصفحة الرئيسية (Section Titles)
@@ -1967,7 +1967,7 @@ export default function SettingsClient({
                 {/* Categories Section Titles */}
                 <div className="p-5 rounded-2xl bg-white border border-[#E8E4DF] space-y-3">
                   <div className="flex items-center gap-2 text-xs font-black text-[#1C1917]">
-                    <Package className="w-4 h-4 text-[#13213c]" />
+                    <Package className="w-4 h-4 text-[#013D5A]" />
                     <span>قسم كتالوج التشكيلات والأقسام</span>
                   </div>
                   <div>
@@ -1993,7 +1993,7 @@ export default function SettingsClient({
                 {/* Products Section Titles */}
                 <div className="p-5 rounded-2xl bg-white border border-[#E8E4DF] space-y-3">
                   <div className="flex items-center gap-2 text-xs font-black text-[#1C1917]">
-                    <Flame className="w-4 h-4 text-[#13213c]" />
+                    <Flame className="w-4 h-4 text-[#013D5A]" />
                     <span>قسم المنتجات الأكثر رواجاً وإهداءً</span>
                   </div>
                   <div>
@@ -2019,10 +2019,10 @@ export default function SettingsClient({
             </div>
 
             {/* Quick jump to Footer CTA Banner */}
-            <div className="p-4 rounded-2xl bg-[#F0F4F9] border border-[#13213c]/30 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div className="p-4 rounded-2xl bg-[#F0F4F9] border border-[#013D5A]/30 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-[#13213c]/20 flex items-center justify-center text-[#13213c] shrink-0">
-                  <Gift className="w-5 h-5 text-[#13213c]" />
+                <div className="w-10 h-10 rounded-xl bg-[#013D5A]/20 flex items-center justify-center text-[#013D5A] shrink-0">
+                  <Gift className="w-5 h-5 text-[#013D5A]" />
                 </div>
                 <div>
                   <p className="text-xs font-black text-[#1C1917]">هل تبحث عن تعديل بانر الفوتر الدعائي (أسفل الموقع)؟</p>
@@ -2034,7 +2034,7 @@ export default function SettingsClient({
                 variant="outline"
                 size="sm"
                 onClick={() => setActiveTab('footer')}
-                className="h-9 px-4 rounded-xl border-[#13213c]/40 text-[#13213c] hover:bg-[#13213c]/10 text-xs font-bold cursor-pointer shrink-0"
+                className="h-9 px-4 rounded-xl border-[#013D5A]/40 text-[#013D5A] hover:bg-[#013D5A]/10 text-xs font-bold cursor-pointer shrink-0"
               >
                 <span>تعديل بانر الفوتر</span>
                 <ChevronLeft className="w-3.5 h-3.5 ms-1" />
@@ -2055,7 +2055,7 @@ export default function SettingsClient({
               <h2 className="text-base font-black text-[#1C1917]">الترويسة والشريط الإعلاني العلوي</h2>
               <p className="text-xs text-[#78716C] mt-1 font-medium">التحكم في الشريط الترويجي الأسود أعلى الموقع وعناصر الترويسة.</p>
             </div>
-            <Megaphone className="w-5 h-5 text-[#13213c]" />
+            <Megaphone className="w-5 h-5 text-[#013D5A]" />
           </div>
 
           <div className="p-6 sm:p-8 space-y-6">
@@ -2134,10 +2134,10 @@ export default function SettingsClient({
             </div>
 
             {/* Quick jump to Navbar Tabs */}
-            <div className="p-4 rounded-2xl bg-[#F0F4F9] border border-[#13213c]/30 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div className="p-4 rounded-2xl bg-[#F0F4F9] border border-[#013D5A]/30 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-[#13213c]/20 flex items-center justify-center text-[#13213c] shrink-0">
-                  <Sliders className="w-5 h-5 text-[#13213c]" />
+                <div className="w-10 h-10 rounded-xl bg-[#013D5A]/20 flex items-center justify-center text-[#013D5A] shrink-0">
+                  <Sliders className="w-5 h-5 text-[#013D5A]" />
                 </div>
                 <div>
                   <p className="text-xs font-black text-[#1C1917]">هل تبحث عن إدارة وتخصيص روابط وتبويبات الأقسام (Navbar Tabs)؟</p>
@@ -2149,7 +2149,7 @@ export default function SettingsClient({
                 variant="outline"
                 size="sm"
                 onClick={() => setActiveTab('navtabs')}
-                className="h-9 px-4 rounded-xl border-[#13213c]/40 text-[#13213c] hover:bg-[#13213c]/10 text-xs font-bold cursor-pointer shrink-0"
+                className="h-9 px-4 rounded-xl border-[#013D5A]/40 text-[#013D5A] hover:bg-[#013D5A]/10 text-xs font-bold cursor-pointer shrink-0"
               >
                 <span>الانتقال لتبويبات القائمة</span>
                 <ChevronLeft className="w-3.5 h-3.5 ms-1" />
@@ -2170,7 +2170,7 @@ export default function SettingsClient({
               <h2 className="text-base font-black text-[#1C1917]">إدارة وتخصيص تبويبات القائمة والتنقل (Navbar Tabs)</h2>
               <p className="text-xs text-[#78716C] mt-1 font-medium">التحكم الكامل بروابط وأقسام شريط التصفح العلوي بالمتجر، إعادة ترتيبها، إضافة أقسام جديدة، وتمييز العروض.</p>
             </div>
-            <Sliders className="w-5 h-5 text-[#13213c]" />
+            <Sliders className="w-5 h-5 text-[#013D5A]" />
           </div>
 
           <div className="p-6 sm:p-8 space-y-6">
@@ -2191,7 +2191,7 @@ export default function SettingsClient({
                   onClick={() => handleAddNavTab()}
                   size="sm"
                   className="h-10 px-4 rounded-xl text-white font-bold text-xs gap-1.5 cursor-pointer shadow-xs"
-                  style={{ background: 'linear-gradient(135deg, #22385e 0%, #13213c 100%)' }}
+                  style={{ background: 'linear-gradient(135deg, #025177 0%, #013D5A 100%)' }}
                 >
                   <Plus className="w-4 h-4" />
                   <span>إضافة تبويب جديد</span>
@@ -2214,7 +2214,7 @@ export default function SettingsClient({
             <div className="p-5 rounded-2xl bg-white border border-[#E8E4DF] space-y-3">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <Eye className="w-4 h-4 text-[#13213c]" />
+                  <Eye className="w-4 h-4 text-[#013D5A]" />
                   <span className="text-xs font-black text-[#1C1917]">معاينة حية وفورية لشريط التبويبات (كما يظهر للزبائن في المتجر)</span>
                 </div>
                 <span className="text-[11px] text-[#A8A29E] font-bold">تم حذف المؤشر من الشريط ✓</span>
@@ -2262,7 +2262,7 @@ export default function SettingsClient({
                     {/* Index & Inputs */}
                     <div className="flex-1 grid grid-cols-1 sm:grid-cols-12 gap-3 items-center">
                       <div className="sm:col-span-1 flex items-center gap-2">
-                        <span className="w-7 h-7 rounded-lg bg-[#FAFAF8] border border-[#E8E4DF] flex items-center justify-center text-xs font-black text-[#13213c]">
+                        <span className="w-7 h-7 rounded-lg bg-[#FAFAF8] border border-[#E8E4DF] flex items-center justify-center text-xs font-black text-[#013D5A]">
                           {idx + 1}
                         </span>
                       </div>
@@ -2359,9 +2359,9 @@ export default function SettingsClient({
             </div>
 
             {/* Suggested Quick Links / Presets */}
-            <div className="p-5 rounded-2xl bg-[#F0F4F9] border border-[#13213c]/30 space-y-3">
+            <div className="p-5 rounded-2xl bg-[#F0F4F9] border border-[#013D5A]/30 space-y-3">
               <div className="flex items-center gap-2">
-                <Sparkles className="w-4 h-4 text-[#13213c]" />
+                <Sparkles className="w-4 h-4 text-[#013D5A]" />
                 <p className="text-xs font-black text-[#1C1917]">أقسام مقترحة للإضافة السريعة بنقرة واحدة (Quick Presets)</p>
               </div>
               <p className="text-[11px] text-[#78716C]">اضغط على أي زر أدناه لإضافته فوراً إلى قائمة التبويبات بالأعلى:</p>
@@ -2382,9 +2382,9 @@ export default function SettingsClient({
                     key={i}
                     type="button"
                     onClick={() => handleAddNavTab(preset)}
-                    className="px-3 py-1.5 rounded-xl bg-white border border-[#E8E4DF] hover:border-[#13213c]/50 hover:bg-[#FAFAF8] text-xs font-bold text-[#1C1917] transition-all flex items-center gap-1.5 cursor-pointer shadow-2xs hover:-translate-y-0.5"
+                    className="px-3 py-1.5 rounded-xl bg-white border border-[#E8E4DF] hover:border-[#013D5A]/50 hover:bg-[#FAFAF8] text-xs font-bold text-[#1C1917] transition-all flex items-center gap-1.5 cursor-pointer shadow-2xs hover:-translate-y-0.5"
                   >
-                    <Plus className="w-3 h-3 text-[#13213c]" />
+                    <Plus className="w-3 h-3 text-[#013D5A]" />
                     <span>{preset.label}</span>
                   </button>
                 ))}
@@ -2405,7 +2405,7 @@ export default function SettingsClient({
               <h2 className="text-base font-black text-[#1C1917]">الشحن والتوصيل وخيارات الطلبات</h2>
               <p className="text-xs text-[#78716C] mt-1 font-medium">الحد الأدنى للشحن المجاني، تكاليف التوصيل، وسياسات التغليف والإهداء.</p>
             </div>
-            <Truck className="w-5 h-5 text-[#13213c]" />
+            <Truck className="w-5 h-5 text-[#013D5A]" />
           </div>
 
           <div className="p-6 sm:p-8 space-y-6">
@@ -2505,7 +2505,7 @@ export default function SettingsClient({
               <h2 className="text-base font-black text-[#1C1917]">طرق الدفع والتحصيل المعتمدة</h2>
               <p className="text-xs text-[#78716C] mt-1 font-medium">التحكم في خيارات وبوابات الدفع المعروضة للزبائن في صفحة إتمام الطلب.</p>
             </div>
-            <CreditCard className="w-5 h-5 text-[#13213c]" />
+            <CreditCard className="w-5 h-5 text-[#013D5A]" />
           </div>
 
           <div className="p-6 sm:p-8 space-y-5">
@@ -2660,7 +2660,7 @@ export default function SettingsClient({
                 <Input 
                   value={settings.whatsappNumber || ''} 
                   onChange={e => updateField('whatsappNumber', e.target.value)}
-                  className="h-11 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-sm text-end font-mono focus:border-[#13213c]/50 focus:bg-white"
+                  className="h-11 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-sm text-end font-mono focus:border-[#013D5A]/50 focus:bg-white"
                   dir="ltr"
                   placeholder="9647XXXXXXXXX"
                 />
@@ -2695,7 +2695,7 @@ export default function SettingsClient({
                   rows={3}
                   value={settings.whatsappWelcomeMsg || ''} 
                   onChange={e => updateField('whatsappWelcomeMsg', e.target.value)}
-                  className="rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-xs focus:border-[#13213c]/50 focus:bg-white resize-none"
+                  className="rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-xs focus:border-[#013D5A]/50 focus:bg-white resize-none"
                   placeholder="السلام عليكم 👋&#10;أرغب بتأكيد هذا الطلب:"
                 />
                 <span className="text-[11px] text-[#A8A29E] block">النص الذي يظهر في السطر الأول لرسالة واتساب</span>
@@ -2707,7 +2707,7 @@ export default function SettingsClient({
                   rows={3}
                   value={settings.whatsappFooterNote || ''} 
                   onChange={e => updateField('whatsappFooterNote', e.target.value)}
-                  className="rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-xs focus:border-[#13213c]/50 focus:bg-white resize-none"
+                  className="rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-xs focus:border-[#013D5A]/50 focus:bg-white resize-none"
                   placeholder="أرجو تأكيد الطلب، شكراً ❤️"
                 />
                 <span className="text-[11px] text-[#A8A29E] block">النص الختامي ورسالة الشكر أسفل تفاصيل الطلب</span>
@@ -2717,7 +2717,7 @@ export default function SettingsClient({
             {/* Live Interactive WhatsApp Bubble Preview */}
             <div className="pt-4 border-t border-[#F0ECE6]">
               <Label className="text-xs font-bold text-[#1C1917] mb-2 flex items-center gap-2">
-                <Sparkles className="w-3.5 h-3.5 text-[#13213c]" />
+                <Sparkles className="w-3.5 h-3.5 text-[#013D5A]" />
                 معاينة حية لشكل رسالة الطلب داخل WhatsApp:
               </Label>
               
@@ -2819,7 +2819,7 @@ export default function SettingsClient({
                     <Label className="text-[11px] font-bold text-[#78716C] mb-2 block">معاينة شكل البانر في الموقع:</Label>
                     <div className="bg-[#F0F4F9] p-4 rounded-2xl border border-[#E8E4DF] flex items-center justify-between gap-4">
                       <div className="flex items-center gap-3 min-w-0">
-                        <div className="w-10 h-10 rounded-xl bg-[#13213c] flex items-center justify-center text-white shrink-0">
+                        <div className="w-10 h-10 rounded-xl bg-[#013D5A] flex items-center justify-center text-white shrink-0">
                           <MessageCircle className="w-5 h-5 text-white" />
                         </div>
                         <div className="min-w-0">
@@ -2851,7 +2851,7 @@ export default function SettingsClient({
               <h2 className="text-base font-black text-[#1C1917]">بيانات التواصل وخدمة العملاء وأوقات العمل</h2>
               <p className="text-xs text-[#78716C] mt-1 font-medium">المعلومات المعتمدة في صفحة اتصل بنا، التذييل، والترويسة.</p>
             </div>
-            <PhoneCall className="w-5 h-5 text-[#13213c]" />
+            <PhoneCall className="w-5 h-5 text-[#013D5A]" />
           </div>
 
           <div className="p-6 sm:p-8 space-y-6">
@@ -2901,9 +2901,9 @@ export default function SettingsClient({
               </div>
 
               {/* Online Store Notice (No physical office or shop) */}
-              <div className="p-4 rounded-2xl bg-[#F0F4F9] border border-[#13213c]/30 flex items-start gap-3.5">
-                <div className="w-10 h-10 rounded-xl bg-[#13213c]/20 flex items-center justify-center text-[#13213c] shrink-0 mt-0.5">
-                  <Truck className="w-5 h-5 text-[#13213c]" />
+              <div className="p-4 rounded-2xl bg-[#F0F4F9] border border-[#013D5A]/30 flex items-start gap-3.5">
+                <div className="w-10 h-10 rounded-xl bg-[#013D5A]/20 flex items-center justify-center text-[#013D5A] shrink-0 mt-0.5">
+                  <Truck className="w-5 h-5 text-[#013D5A]" />
                 </div>
                 <div>
                   <h4 className="text-sm font-black text-[#1C1917]">طبيعة المتجر: متجر إلكتروني 100% (أونلاين)</h4>
@@ -2927,7 +2927,7 @@ export default function SettingsClient({
               <h2 className="text-base font-black text-[#1C1917]">حسابات وروابط مواقع التواصل الاجتماعي</h2>
               <p className="text-xs text-[#78716C] mt-1 font-medium">الروابط التي تفتح عند ضغط الزوار على أيقونات التواصل في تذييل الموقع وصفحة الاتصال.</p>
             </div>
-            <Share2 className="w-5 h-5 text-[#13213c]" />
+            <Share2 className="w-5 h-5 text-[#013D5A]" />
           </div>
 
           <div className="p-6 sm:p-8 space-y-5">
@@ -3010,7 +3010,7 @@ export default function SettingsClient({
                     حذف كل الأوصاف (إبقاء الميزات فقط)
                   </button>
                 ) : null}
-                <Layers className="w-5 h-5 text-[#13213c] shrink-0" />
+                <Layers className="w-5 h-5 text-[#013D5A] shrink-0" />
               </div>
             </div>
 
@@ -3020,7 +3020,7 @@ export default function SettingsClient({
                 {/* Feature 1 */}
                 <div className="p-4 rounded-2xl bg-[#FAFAF8] border border-[#E8E4DF] space-y-3">
                   <div className="flex items-center justify-between">
-                    <span className="text-xs font-extrabold text-[#13213c]">الميزة الأولى (الشحن)</span>
+                    <span className="text-xs font-extrabold text-[#013D5A]">الميزة الأولى (الشحن)</span>
                     {settings.feature1Desc ? (
                       <button
                         type="button"
@@ -3171,7 +3171,7 @@ export default function SettingsClient({
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
                   <Label className="text-xs font-bold text-[#78716C] flex items-center gap-1.5">
-                    <Eye className="w-3.5 h-3.5 text-[#13213c]" />
+                    <Eye className="w-3.5 h-3.5 text-[#013D5A]" />
                     <span>معاينة مباشرة لشكل البانر في تذييل الموقع</span>
                   </Label>
                   {!settings.showFooterCta && (
@@ -3181,14 +3181,14 @@ export default function SettingsClient({
                   )}
                 </div>
 
-                <div className="relative rounded-2xl bg-[#0c1424] text-white p-6 sm:p-8 overflow-hidden border border-[#22385e]/40 shadow-md">
+                <div className="relative rounded-2xl bg-[#01283B] text-white p-6 sm:p-8 overflow-hidden border border-[#025177]/40 shadow-md">
                   {/* Subtle royal navy glow matching the storefront */}
-                  <div className="absolute top-0 start-1/4 w-72 h-72 bg-[#22385e]/25 rounded-full blur-[100px] pointer-events-none" />
-                  <div className="absolute bottom-0 end-1/4 w-60 h-60 bg-[#13213c]/40 rounded-full blur-[90px] pointer-events-none" />
+                  <div className="absolute top-0 start-1/4 w-72 h-72 bg-[#025177]/25 rounded-full blur-[100px] pointer-events-none" />
+                  <div className="absolute bottom-0 end-1/4 w-60 h-60 bg-[#013D5A]/40 rounded-full blur-[90px] pointer-events-none" />
 
                   <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
                     <div className="text-start space-y-1.5 max-w-xl">
-                      <span className="inline-flex items-center gap-1.5 text-xs font-bold text-[#7ea6e6] bg-[#22385e]/30 px-2.5 py-1 rounded-full border border-[#3b5e94]/40">
+                      <span className="inline-flex items-center gap-1.5 text-xs font-bold text-[#F4A258] bg-[#025177]/30 px-2.5 py-1 rounded-full border border-[#025880]/40">
                         <Gift className="w-3.5 h-3.5" />
                         <span>{settings.footerCtaBadge || 'خدمة استثنائية لكافة المناسبات'}</span>
                       </span>
@@ -3200,8 +3200,8 @@ export default function SettingsClient({
                       </p>
                     </div>
 
-                    <div className="flex items-center gap-2 h-11 px-6 rounded-xl font-black text-white text-xs sm:text-sm shadow-md shrink-0 pointer-events-none select-none border border-[#3b5e94]/40"
-                      style={{ background: 'linear-gradient(135deg, #22385e 0%, #13213c 100%)' }}
+                    <div className="flex items-center gap-2 h-11 px-6 rounded-xl font-black text-white text-xs sm:text-sm shadow-md shrink-0 pointer-events-none select-none border border-[#025880]/40"
+                      style={{ background: 'linear-gradient(135deg, #025177 0%, #013D5A 100%)' }}
                     >
                       <span>{settings.footerCtaBtnText || 'جرّب مكتشف الهدايا'}</span>
                       <ArrowLeft className="w-4 h-4" />
@@ -3370,7 +3370,7 @@ export default function SettingsClient({
                 <h3 className="text-base font-black text-[#1C1917]">البيانات التعريفية والكلمات المفتاحية (SEO Tags)</h3>
                 <p className="text-xs text-[#78716C] mt-0.5">ضبط الكلمات والعناوين التي تفهرسها عناكب محركات البحث</p>
               </div>
-              <ShieldCheck className="w-5 h-5 text-[#13213c]" />
+              <ShieldCheck className="w-5 h-5 text-[#013D5A]" />
             </div>
 
             <div className="p-6 sm:p-8 space-y-5">
@@ -3419,7 +3419,7 @@ export default function SettingsClient({
                     {settings.metaKeywords.split(/[,،]/).filter(k => k.trim().length > 0).map((keyword, idx) => (
                       <span 
                         key={idx} 
-                        className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-bold bg-[#FAFAF8] text-[#13213c] border border-[#E8E4DF]"
+                        className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-bold bg-[#FAFAF8] text-[#013D5A] border border-[#E8E4DF]"
                       >
                         <Tag className="w-3 h-3 text-[#A8A29E]" />
                         {keyword.trim()}
@@ -3438,12 +3438,12 @@ export default function SettingsClient({
                 <h3 className="text-base font-black text-[#1C1917]">إشعارات النظام وتنبيهات المخزون</h3>
                 <p className="text-xs text-[#78716C] mt-0.5">تنبيهات الإدارة بالطلبات والبريد ونواقص المنتجات</p>
               </div>
-              <Bell className="w-5 h-5 text-[#13213c]" />
+              <Bell className="w-5 h-5 text-[#013D5A]" />
             </div>
 
             <div className="p-6 sm:p-8 space-y-6">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div id="setting-orderNotifications" className="flex items-center justify-between p-4 rounded-2xl bg-[#FAFAF8] border border-[#E8E4DF] hover:border-[#13213c]/30 transition-all">
+                <div id="setting-orderNotifications" className="flex items-center justify-between p-4 rounded-2xl bg-[#FAFAF8] border border-[#E8E4DF] hover:border-[#013D5A]/30 transition-all">
                   <div className="space-y-0.5">
                     <div className="flex items-center gap-2">
                       <p className="text-sm font-bold text-[#1C1917]">إشعارات الطلبات الجديدة</p>
@@ -3462,7 +3462,7 @@ export default function SettingsClient({
                   />
                 </div>
 
-                <div id="setting-marketingEmails" className="flex items-center justify-between p-4 rounded-2xl bg-[#FAFAF8] border border-[#E8E4DF] hover:border-[#13213c]/30 transition-all">
+                <div id="setting-marketingEmails" className="flex items-center justify-between p-4 rounded-2xl bg-[#FAFAF8] border border-[#E8E4DF] hover:border-[#013D5A]/30 transition-all">
                   <div className="space-y-0.5">
                     <div className="flex items-center gap-2">
                       <p className="text-sm font-bold text-[#1C1917]">رسائل التحديثات التسويقية</p>
@@ -3504,7 +3504,7 @@ export default function SettingsClient({
                         className={cn(
                           "px-2.5 py-1 rounded-lg text-xs font-bold border transition-all cursor-pointer",
                           settings.lowStockThreshold === preset
-                            ? "bg-[#13213c] text-white border-[#13213c]"
+                            ? "bg-[#013D5A] text-white border-[#013D5A]"
                             : "bg-white text-[#57534E] border-[#E8E4DF] hover:bg-[#F2EFE9]"
                         )}
                       >

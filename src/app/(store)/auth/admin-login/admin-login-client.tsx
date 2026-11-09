@@ -56,8 +56,8 @@ export default function AdminLoginClient() {
   return (
     <div className="min-h-screen bg-[#FAFAF8] flex flex-col justify-center py-8 px-4 sm:px-6 lg:px-8 relative overflow-hidden" dir="rtl">
       {/* Background decorations */}
-      <div className="absolute top-0 start-0 w-[500px] h-[500px] bg-[#13213c]/8 rounded-full blur-[120px] -translate-y-1/2 pointer-events-none" />
-      <div className="absolute bottom-0 end-0 w-[400px] h-[400px] bg-[#13213c]/5 rounded-full blur-[100px] translate-y-1/2 pointer-events-none" />
+      <div className="absolute top-0 start-0 w-[500px] h-[500px] bg-[#013D5A]/8 rounded-full blur-[120px] -translate-y-1/2 pointer-events-none" />
+      <div className="absolute bottom-0 end-0 w-[400px] h-[400px] bg-[#013D5A]/5 rounded-full blur-[100px] translate-y-1/2 pointer-events-none" />
 
       <motion.div
         initial={{ opacity: 0, y: 15 }}
@@ -78,7 +78,7 @@ export default function AdminLoginClient() {
             />
           </Link>
           <div className="flex items-center justify-center gap-2 mb-1">
-            <Shield className="w-5 h-5 text-[#13213c]" />
+            <Shield className="w-5 h-5 text-[#013D5A]" />
             <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">بوابة إدارة المتجر</h1>
           </div>
           <p className="mt-1 text-xs sm:text-sm text-slate-500 font-medium">سجّل دخولك للوصول إلى لوحة التحكم والعمليات</p>
@@ -115,7 +115,7 @@ export default function AdminLoginClient() {
                   autoCapitalize="none"
                   autoCorrect="off"
                   spellCheck={false}
-                  className="ps-10 h-12 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-sm text-[#1C1917] placeholder:text-[#A8A29E] focus-visible:ring-2 focus-visible:ring-[#13213c]/20 focus-visible:border-[#13213c] focus:bg-white"
+                  className="ps-10 h-12 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-sm text-[#1C1917] placeholder:text-[#A8A29E] focus-visible:ring-2 focus-visible:ring-[#013D5A]/20 focus-visible:border-[#013D5A] focus:bg-white"
                   placeholder="admin@admin.com"
                   dir="ltr"
                 />
@@ -137,7 +137,7 @@ export default function AdminLoginClient() {
                   autoCapitalize="none"
                   autoCorrect="off"
                   spellCheck={false}
-                  className="ps-10 pe-11 h-12 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-sm text-[#1C1917] placeholder:text-[#A8A29E] focus-visible:ring-2 focus-visible:ring-[#13213c]/20 focus-visible:border-[#13213c] focus:bg-white"
+                  className="ps-10 pe-11 h-12 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-sm text-[#1C1917] placeholder:text-[#A8A29E] focus-visible:ring-2 focus-visible:ring-[#013D5A]/20 focus-visible:border-[#013D5A] focus:bg-white"
                   placeholder="••••••••"
                   dir="ltr"
                 />
@@ -157,7 +157,7 @@ export default function AdminLoginClient() {
               type="submit"
               disabled={loading}
               className="w-full h-12 mt-2 rounded-xl font-bold text-white text-sm transition-all hover:-translate-y-0.5 active:translate-y-0 shadow-md hover:shadow-lg disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2 cursor-pointer"
-              style={{ background: 'linear-gradient(135deg, #22385e 0%, #13213c 100%)' }}
+              style={{ background: 'linear-gradient(135deg, #025177 0%, #013D5A 100%)' }}
             >
               {loading ? (
                 <>
@@ -174,7 +174,7 @@ export default function AdminLoginClient() {
           <div className="pt-4 border-t border-[#E8E4DF] text-center">
             <Link
               href="/"
-              className="inline-flex items-center gap-1.5 text-xs font-bold text-[#78716C] hover:text-[#13213c] transition-colors py-1"
+              className="inline-flex items-center gap-1.5 text-xs font-bold text-[#78716C] hover:text-[#013D5A] transition-colors py-1"
             >
               <ArrowLeft className="w-3.5 h-3.5" />
               العودة إلى متجر العملاء

@@ -298,8 +298,8 @@ export default function ProductForm({
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-2xl bg-[#F0F4F9] border border-[#13213c]/30 flex items-center justify-center text-[#13213c] shadow-2xs">
-                {isEditMode ? <Sparkles className="w-5 h-5 text-[#13213c]" /> : <Plus className="w-5 h-5 text-[#13213c]" />}
+              <div className="w-10 h-10 rounded-2xl bg-[#F0F4F9] border border-[#013D5A]/30 flex items-center justify-center text-[#013D5A] shadow-2xs">
+                {isEditMode ? <Sparkles className="w-5 h-5 text-[#013D5A]" /> : <Plus className="w-5 h-5 text-[#013D5A]" />}
               </div>
               <h2 className="text-xl sm:text-2xl font-black text-[#1C1917] tracking-tight">
                 {isEditMode ? `تعديل المنتج: ${formData.name || product?.name}` : 'إضافة منتج جديد للمتجر'}
@@ -346,7 +346,7 @@ export default function ProductForm({
                     : "bg-transparent text-[#78716C] hover:text-[#1C1917] hover:bg-white/90"
                 )}
               >
-                <Icon className={cn("w-4 h-4", isActive ? "text-[#13213c]" : "text-[#A8A29E]")} />
+                <Icon className={cn("w-4 h-4", isActive ? "text-[#013D5A]" : "text-[#A8A29E]")} />
                 <span>{tab.label}</span>
               </button>
             )
@@ -362,8 +362,8 @@ export default function ProductForm({
             {/* Right Column: Name, Category, Slug, Description (7 Cols) */}
             <div className="lg:col-span-7 bg-white border border-[#E8E4DF] rounded-3xl p-5 sm:p-7 space-y-5 shadow-2xs">
               <div className="flex items-center gap-2.5 pb-3 border-b border-[#E8E4DF]">
-                <div className="w-7 h-7 rounded-lg bg-[#F0F4F9] border border-[#13213c]/20 flex items-center justify-center text-[#13213c]">
-                  <Package className="w-4 h-4 text-[#13213c]" />
+                <div className="w-7 h-7 rounded-lg bg-[#F0F4F9] border border-[#013D5A]/20 flex items-center justify-center text-[#013D5A]">
+                  <Package className="w-4 h-4 text-[#013D5A]" />
                 </div>
                 <div>
                   <h3 className="text-sm font-black text-[#1C1917]">معلومات المنتج الأساسية</h3>
@@ -379,7 +379,7 @@ export default function ProductForm({
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   placeholder="مثال: باقة ورد أحمر جوري فاخرة مع شوكولاتة باتشي"
-                  className="h-12 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] focus:border-[#13213c] focus:bg-white text-sm font-bold text-[#1C1917]"
+                  className="h-12 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] focus:border-[#013D5A] focus:bg-white text-sm font-bold text-[#1C1917]"
                 />
               </div>
 
@@ -391,7 +391,7 @@ export default function ProductForm({
                     required
                     value={formData.categoryId}
                     onChange={(e) => setFormData({ ...formData, categoryId: e.target.value })}
-                    className="w-full h-11 px-3 rounded-xl bg-[#FAFAF8] border border-[#E8E4DF] text-xs font-semibold text-[#1C1917] focus:outline-none focus:border-[#13213c] focus:bg-white transition-colors"
+                    className="w-full h-11 px-3 rounded-xl bg-[#FAFAF8] border border-[#E8E4DF] text-xs font-semibold text-[#1C1917] focus:outline-none focus:border-[#013D5A] focus:bg-white transition-colors"
                   >
                     <option value="">اختر التصنيف...</option>
                     {categories.map((c) => (
@@ -406,7 +406,7 @@ export default function ProductForm({
                     <button
                       type="button"
                       onClick={handleGenerateSlug}
-                      className="text-[11px] text-[#13213c] hover:underline flex items-center gap-1 font-bold cursor-pointer"
+                      className="text-[11px] text-[#013D5A] hover:underline flex items-center gap-1 font-bold cursor-pointer"
                     >
                       <RefreshCw className="w-3 h-3" />
                       توليد تلقائي
@@ -438,7 +438,7 @@ export default function ProductForm({
             {/* Left Column: Dedicated Pricing Card & Live Calculation (5 Cols) */}
             <div className="lg:col-span-5 bg-[#FAF7F2] border border-[#E8E4DF] rounded-3xl p-6 sm:p-8 space-y-6 shadow-2xs">
               <div className="flex items-center gap-2.5 pb-4 border-b border-[#E8E4DF]">
-                <div className="w-8 h-8 rounded-xl bg-[#13213c]/20 flex items-center justify-center text-[#13213c]">
+                <div className="w-8 h-8 rounded-xl bg-[#013D5A]/20 flex items-center justify-center text-[#013D5A]">
                   <DollarSign className="w-4 h-4" />
                 </div>
                 <div>
@@ -502,7 +502,7 @@ export default function ProductForm({
                   value={formData.salePrice || ''}
                   onChange={(e) => setFormData({ ...formData, salePrice: Number(e.target.value) })}
                   placeholder="0"
-                  className="h-13 rounded-2xl bg-white border-[#E8E4DF] text-lg font-black text-[#13213c]"
+                  className="h-13 rounded-2xl bg-white border-[#E8E4DF] text-lg font-black text-[#013D5A]"
                   dir="ltr"
                 />
 
@@ -527,7 +527,7 @@ export default function ProductForm({
               {/* Active Price Preview Pill */}
               <div className="pt-4 border-t border-[#E8E4DF] flex items-center justify-between text-xs">
                 <span className="text-[#78716C] font-bold">سعر العرض للعميل:</span>
-                <span className="text-lg font-black text-[#13213c]">
+                <span className="text-lg font-black text-[#013D5A]">
                   {(salePrice > 0 ? salePrice : price).toLocaleString('en-US')} د.ع
                 </span>
               </div>
@@ -541,7 +541,7 @@ export default function ProductForm({
             {/* Upload Zone */}
             <div 
               onClick={() => fileInputRef.current?.click()}
-              className="border-2 border-dashed border-[#13213c]/40 hover:border-[#13213c] rounded-3xl p-8 sm:p-10 text-center bg-[#F0F4F9]/40 hover:bg-[#F0F4F9] transition-all cursor-pointer group"
+              className="border-2 border-dashed border-[#013D5A]/40 hover:border-[#013D5A] rounded-3xl p-8 sm:p-10 text-center bg-[#F0F4F9]/40 hover:bg-[#F0F4F9] transition-all cursor-pointer group"
             >
               <input
                 ref={fileInputRef}
@@ -551,9 +551,9 @@ export default function ProductForm({
                 onChange={handleFileUpload}
                 className="hidden"
               />
-              <div className="w-16 h-16 rounded-2xl bg-white shadow-xs border border-[#E8E4DF] flex items-center justify-center mx-auto mb-3 text-[#13213c] group-hover:scale-105 transition-transform">
+              <div className="w-16 h-16 rounded-2xl bg-white shadow-xs border border-[#E8E4DF] flex items-center justify-center mx-auto mb-3 text-[#013D5A] group-hover:scale-105 transition-transform">
                 {isUploading ? (
-                  <Loader2 className="w-7 h-7 animate-spin text-[#13213c]" />
+                  <Loader2 className="w-7 h-7 animate-spin text-[#013D5A]" />
                 ) : (
                   <UploadCloud className="w-8 h-8" />
                 )}
@@ -612,14 +612,14 @@ export default function ProductForm({
                       
                       {/* Top Tag */}
                       {idx === 0 ? (
-                        <span className="absolute top-2 start-2 bg-[#13213c] text-white text-[10px] font-black px-2 py-0.5 rounded-md shadow-sm">
+                        <span className="absolute top-2 start-2 bg-[#013D5A] text-white text-[10px] font-black px-2 py-0.5 rounded-md shadow-sm">
                           الغلاف ⭐
                         </span>
                       ) : (
                         <button
                           type="button"
                           onClick={() => handleSetPrimaryImage(idx)}
-                          className="absolute top-2 start-2 bg-black/60 hover:bg-[#13213c] text-white text-[10px] font-bold px-2 py-0.5 rounded-md opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
+                          className="absolute top-2 start-2 bg-black/60 hover:bg-[#013D5A] text-white text-[10px] font-bold px-2 py-0.5 rounded-md opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
                         >
                           تعيين كغلاف
                         </button>
@@ -685,7 +685,7 @@ export default function ProductForm({
               {/* New Arrival Switch */}
               <div className="flex items-center justify-between p-5 bg-[#FAFAF8] rounded-2xl border border-[#E8E4DF]">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl text-[#13213c] bg-[#F0F4F9] flex items-center justify-center">
+                  <div className="w-10 h-10 rounded-xl text-[#013D5A] bg-[#F0F4F9] flex items-center justify-center">
                     <Sparkles className="w-5 h-5" />
                   </div>
                   <div>
@@ -704,7 +704,7 @@ export default function ProductForm({
             <div className="lg:col-span-5">
               <div className="p-5 rounded-3xl bg-[#FAF7F2] border border-[#E8E4DF]">
                 <Label className="text-xs font-bold text-[#1C1917] mb-3 block flex items-center gap-1.5">
-                  <Eye className="w-4 h-4 text-[#13213c]" />
+                  <Eye className="w-4 h-4 text-[#013D5A]" />
                   <span>معاينة حية لشكل البطاقة في المتجر:</span>
                 </Label>
 
@@ -728,7 +728,7 @@ export default function ProductForm({
                     {/* Badges in Preview */}
                     <div className="absolute top-2 start-2 flex flex-col gap-1">
                       {formData.isNew && (
-                        <span className="bg-[#13213c] text-white text-[9px] font-black px-2 py-0.5 rounded-full">
+                        <span className="bg-[#013D5A] text-white text-[9px] font-black px-2 py-0.5 rounded-full">
                           جديد
                         </span>
                       )}
@@ -745,7 +745,7 @@ export default function ProductForm({
                     </div>
                   </div>
 
-                  <p className="text-[10px] font-bold text-[#13213c] mb-0.5">
+                  <p className="text-[10px] font-bold text-[#013D5A] mb-0.5">
                     {activeCategory?.name || 'تصنيف الهدية'}
                   </p>
                   <p className="text-xs font-black text-[#1C1917] line-clamp-1 mb-2">
@@ -753,7 +753,7 @@ export default function ProductForm({
                   </p>
                   
                   <div className="flex items-baseline gap-1.5" dir="ltr">
-                    <span className="text-sm font-black text-[#13213c]">
+                    <span className="text-sm font-black text-[#013D5A]">
                       {(salePrice > 0 ? salePrice : price).toLocaleString('en-US')}
                     </span>
                     <span className="text-[10px] text-[#78716C]">د.ع</span>
@@ -787,7 +787,7 @@ export default function ProductForm({
           type="submit"
           disabled={isSubmitting}
           className="h-12 px-8 sm:px-10 rounded-xl text-white font-extrabold text-xs sm:text-sm shadow-md cursor-pointer hover:brightness-105 transition-all"
-          style={{ background: 'linear-gradient(135deg, #22385e 0%, #13213c 100%)' }}
+          style={{ background: 'linear-gradient(135deg, #025177 0%, #013D5A 100%)' }}
         >
           {isSubmitting ? (
             <>

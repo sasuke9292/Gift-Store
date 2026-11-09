@@ -17,7 +17,7 @@ export default function GlobalError({
   }, [error])
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] flex items-center justify-center p-4" dir="rtl">
+    <div className="min-h-screen bg-[#FAF7F2] flex items-center justify-center p-4" dir="rtl">
       <div className="max-w-md w-full bg-white rounded-3xl border border-slate-200/80 shadow-[0_12px_40px_rgba(15,23,42,0.06)] p-8 text-center">
         <div className="w-16 h-16 rounded-2xl bg-amber-50 border border-amber-200/60 flex items-center justify-center mx-auto mb-5 text-amber-600 shadow-sm">
           <AlertTriangle className="w-8 h-8" />
@@ -40,7 +40,7 @@ export default function GlobalError({
         <div className="flex flex-col sm:flex-row items-center gap-3">
           <Button
             onClick={() => reset()}
-            className="w-full sm:flex-1 h-11 rounded-xl font-bold bg-[#13213c] hover:bg-[#0c1424] text-white flex items-center justify-center gap-2 shadow-md shadow-[#13213c]/20"
+            className="w-full sm:flex-1 h-11 rounded-xl font-bold bg-[#013D5A] hover:bg-[#01283B] text-white flex items-center justify-center gap-2 shadow-md shadow-[#013D5A]/20"
           >
             <RefreshCw className="w-4 h-4" />
             إعادة المحاولة

@@ -118,7 +118,7 @@ export default function ProductsClient({ initialProducts, categories }: { initia
             setIsEditModalOpen(true)
           }}
           className="text-white shadow-[0_4px_16px_rgba(19, 33, 60,0.35)] hover:-translate-y-0.5 rounded-xl px-5 h-11 font-bold transition-all w-full sm:w-auto text-sm cursor-pointer"
-          style={{ background: 'linear-gradient(135deg, #22385e 0%, #13213c 100%)' }}
+          style={{ background: 'linear-gradient(135deg, #025177 0%, #013D5A 100%)' }}
         >
           <Plus className="w-4 h-4 ms-2" />
           إضافة منتج جديد
@@ -132,12 +132,12 @@ export default function ProductsClient({ initialProducts, categories }: { initia
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="bg-[#F0F4F9] border border-[#13213c]/30 rounded-2xl p-4 flex items-center justify-between shadow-sm"
+            className="bg-[#F0F4F9] border border-[#013D5A]/30 rounded-2xl p-4 flex items-center justify-between shadow-sm"
           >
             <div className="flex items-center gap-2.5">
-              <CheckCircle2 className="w-5 h-5 text-[#13213c]" />
+              <CheckCircle2 className="w-5 h-5 text-[#013D5A]" />
               <p className="text-sm font-bold text-[#1C1917]">
-                تم تحديد <span className="text-[#13213c]">{selectedIds.size}</span> منتج
+                تم تحديد <span className="text-[#013D5A]">{selectedIds.size}</span> منتج
               </p>
             </div>
             <Button 
@@ -159,10 +159,10 @@ export default function ProductsClient({ initialProducts, categories }: { initia
         {/* Toolbar */}
         <div className="p-5 border-b border-[#E8E4DF] flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
           <div className="relative w-full md:max-w-md group">
-            <Search className="absolute end-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#A8A29E] group-focus-within:text-[#13213c] transition-colors" />
+            <Search className="absolute end-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#A8A29E] group-focus-within:text-[#013D5A] transition-colors" />
             <input
               placeholder="ابحث باسم المنتج أو رمز SKU..."
-              className="w-full h-11 ps-4 pe-10 bg-[#FAFAF8] border border-[#E8E4DF] hover:border-[#D5D0C9] focus:border-[#13213c]/50 focus:bg-white rounded-xl text-sm text-[#1C1917] placeholder:text-[#A8A29E] outline-none focus:ring-2 focus:ring-[#13213c]/15 transition-all"
+              className="w-full h-11 ps-4 pe-10 bg-[#FAFAF8] border border-[#E8E4DF] hover:border-[#D5D0C9] focus:border-[#013D5A]/50 focus:bg-white rounded-xl text-sm text-[#1C1917] placeholder:text-[#A8A29E] outline-none focus:ring-2 focus:ring-[#013D5A]/15 transition-all"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
@@ -224,7 +224,7 @@ export default function ProductsClient({ initialProducts, categories }: { initia
                       </span>
                     )}
                     {product.isNew && (
-                      <span className="bg-[#F0F4F9] text-[#13213c] border border-[#13213c]/30 text-[10px] font-bold px-1.5 py-0.5 rounded-md shrink-0">
+                      <span className="bg-[#F0F4F9] text-[#013D5A] border border-[#013D5A]/30 text-[10px] font-bold px-1.5 py-0.5 rounded-md shrink-0">
                         جديد
                       </span>
                     )}
@@ -243,7 +243,7 @@ export default function ProductsClient({ initialProducts, categories }: { initia
                       <span className="text-xs text-[#A8A29E] line-through block" dir="ltr">
                         {product.price.toLocaleString('en-US')} د.ع
                       </span>
-                      <span className="text-sm font-black text-[#13213c]" dir="ltr">
+                      <span className="text-sm font-black text-[#013D5A]" dir="ltr">
                         {product.salePrice.toLocaleString('en-US')}{' '}
                         <span className="text-xs font-normal text-[#78716C]">د.ع</span>
                       </span>
@@ -271,7 +271,7 @@ export default function ProductsClient({ initialProducts, categories }: { initia
                   target="_blank"
                   className="flex-1 h-9 rounded-xl border border-[#E8E4DF] hover:bg-[#FAFAF8] text-[#1C1917] font-bold text-xs flex items-center justify-center gap-1 transition-colors"
                 >
-                  <ExternalLink className="w-3.5 h-3.5 text-[#13213c]" />
+                  <ExternalLink className="w-3.5 h-3.5 text-[#013D5A]" />
                   <span>معاينة</span>
                 </Link>
                 <Button
@@ -280,7 +280,7 @@ export default function ProductsClient({ initialProducts, categories }: { initia
                   onClick={() => { setCurrentEditProduct(product); setIsEditModalOpen(true); }}
                   className="flex-1 h-9 rounded-xl border-[#E8E4DF] hover:bg-[#F5F0EA] text-[#1C1917] font-bold text-xs flex items-center justify-center gap-1 cursor-pointer"
                 >
-                  <Edit className="w-3.5 h-3.5 text-[#13213c]" />
+                  <Edit className="w-3.5 h-3.5 text-[#013D5A]" />
                   <span>تعديل</span>
                 </Button>
                 <Button
@@ -306,7 +306,7 @@ export default function ProductsClient({ initialProducts, categories }: { initia
                   <Checkbox 
                     checked={filteredProducts.length > 0 && selectedIds.size === filteredProducts.length}
                     onCheckedChange={handleSelectAll}
-                    className="rounded border-[#D5D0C9] data-[state=checked]:bg-[#13213c] data-[state=checked]:border-[#13213c]"
+                    className="rounded border-[#D5D0C9] data-[state=checked]:bg-[#013D5A] data-[state=checked]:border-[#013D5A]"
                   />
                 </TableHead>
                 <TableHead className="text-start font-bold text-[#A8A29E] py-4 text-xs uppercase tracking-wider">المنتج</TableHead>
@@ -328,7 +328,7 @@ export default function ProductsClient({ initialProducts, categories }: { initia
                     <Checkbox 
                       checked={selectedIds.has(product.id)}
                       onCheckedChange={(checked) => handleSelectRow(product.id, checked as boolean)}
-                      className="rounded border-[#D5D0C9] data-[state=checked]:bg-[#13213c] data-[state=checked]:border-[#13213c]"
+                      className="rounded border-[#D5D0C9] data-[state=checked]:bg-[#013D5A] data-[state=checked]:border-[#013D5A]"
                     />
                   </TableCell>
                   <TableCell className="py-4">
@@ -342,7 +342,7 @@ export default function ProductsClient({ initialProducts, categories }: { initia
                       </div>
                       <div>
                         <div className="flex items-center gap-1.5">
-                          <p className="font-bold text-[#1C1917] text-sm group-hover:text-[#13213c] transition-colors">
+                          <p className="font-bold text-[#1C1917] text-sm group-hover:text-[#013D5A] transition-colors">
                             {product.name}
                           </p>
                           {product.isBestSeller && (
@@ -351,7 +351,7 @@ export default function ProductsClient({ initialProducts, categories }: { initia
                             </span>
                           )}
                           {product.isNew && (
-                            <span className="bg-[#F0F4F9] text-[#13213c] border border-[#13213c]/30 text-[10px] font-bold px-1.5 py-0.5 rounded-md shrink-0">
+                            <span className="bg-[#F0F4F9] text-[#013D5A] border border-[#013D5A]/30 text-[10px] font-bold px-1.5 py-0.5 rounded-md shrink-0">
                               جديد
                             </span>
                           )}
@@ -406,7 +406,7 @@ export default function ProductsClient({ initialProducts, categories }: { initia
                       <button 
                         id={`edit-product-${product.id}`}
                         data-testid="edit-product-btn"
-                        className="w-9 h-9 rounded-xl text-[#78716C] hover:text-[#13213c] hover:bg-[#F5F0EA] border border-transparent hover:border-[#13213c]/30 transition-all flex items-center justify-center cursor-pointer" 
+                        className="w-9 h-9 rounded-xl text-[#78716C] hover:text-[#013D5A] hover:bg-[#F5F0EA] border border-transparent hover:border-[#013D5A]/30 transition-all flex items-center justify-center cursor-pointer" 
                         onClick={() => { setCurrentEditProduct(product); setIsEditModalOpen(true); }}
                         title="تعديل المنتج"
                       >

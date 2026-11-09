@@ -14,7 +14,7 @@ export function FavoritesClient() {
 
   if (!mounted) {
     return (
-      <div className="min-h-screen bg-[#F8FAFC] pt-4 pb-20" dir="rtl">
+      <div className="min-h-screen bg-[#FAF7F2] pt-4 pb-20" dir="rtl">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
           <div className="flex items-center gap-3 mb-2 animate-pulse">
             <div className="w-10 h-10 rounded-xl bg-slate-200" />
@@ -32,7 +32,7 @@ export function FavoritesClient() {
   }
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] pt-4 pb-20">
+    <div className="min-h-screen bg-[#FAF7F2] pt-4 pb-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Page Header */}
@@ -70,8 +70,8 @@ export function FavoritesClient() {
             </p>
             <Link
               href="/shop"
-              className="inline-flex items-center gap-2 h-12 px-8 rounded-xl font-bold text-white transition-all duration-200 hover:-translate-y-0.5 shadow-md shadow-[#13213c]/20 hover:shadow-lg hover:shadow-[#13213c]/30"
-              style={{ background: 'linear-gradient(135deg, #13213c 0%, #0c1424 100%)' }}
+              className="inline-flex items-center gap-2 h-12 px-8 rounded-xl font-bold text-white transition-all duration-200 hover:-translate-y-0.5 shadow-md shadow-[#013D5A]/20 hover:shadow-lg hover:shadow-[#013D5A]/30"
+              style={{ background: 'linear-gradient(135deg, #013D5A 0%, #01283B 100%)' }}
             >
               استكشف المنتجات
               <ArrowLeft className="w-4 h-4" />

@@ -72,10 +72,10 @@ export function StoreFooter({ settings }: StoreFooterProps) {
   const hasValidTg = Boolean(settings?.telegramUrl && settings.telegramUrl.trim() !== 'https://t.me' && settings.telegramUrl.length > 14)
 
   return (
-    <footer className="bg-[#0c1424] text-white/80 relative overflow-hidden" dir="rtl">
+    <footer className="bg-[#01283B] text-white/80 relative overflow-hidden" dir="rtl">
       {/* Subtle royal navy glow background effects */}
-      <div className="absolute top-0 start-1/4 w-96 h-96 bg-[#22385e]/25 rounded-full blur-[140px] pointer-events-none" />
-      <div className="absolute bottom-0 end-1/4 w-80 h-80 bg-[#13213c]/40 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute top-0 start-1/4 w-96 h-96 bg-[#025177]/25 rounded-full blur-[140px] pointer-events-none" />
+      <div className="absolute bottom-0 end-1/4 w-80 h-80 bg-[#013D5A]/40 rounded-full blur-[120px] pointer-events-none" />
 
       {/* Optional Top CTA Banner (Clean & Responsive) */}
       {showCta && (
@@ -83,7 +83,7 @@ export function StoreFooter({ settings }: StoreFooterProps) {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
             <div className="flex flex-col lg:flex-row items-center justify-between gap-4 sm:gap-6 text-center lg:text-start">
               <div className="flex flex-col items-center lg:items-start">
-                <span className="inline-flex items-center gap-1.5 text-[11px] sm:text-xs font-bold text-[#7ea6e6] mb-1">
+                <span className="inline-flex items-center gap-1.5 text-[11px] sm:text-xs font-bold text-[#F4A258] mb-1">
                   <Gift className="w-3.5 h-3.5" />
                   {settings?.footerCtaBadge || 'خدمة استثنائية لكافة المناسبات'}
                 </span>
@@ -96,8 +96,8 @@ export function StoreFooter({ settings }: StoreFooterProps) {
               </div>
               <Link
                 href={settings?.footerCtaBtnLink || '/gift-finder'}
-                className="flex items-center justify-center gap-2 h-11 px-6 rounded-xl sm:rounded-2xl font-black text-white border border-[#3b5e94]/40 transition-all hover:-translate-y-0.5 hover:shadow-[0_8px_25px_rgba(19,33,60,0.6)] shrink-0 text-xs sm:text-sm w-full sm:w-auto"
-                style={{ background: 'linear-gradient(135deg, #22385e 0%, #13213c 100%)' }}
+                className="flex items-center justify-center gap-2 h-11 px-6 rounded-xl sm:rounded-2xl font-black text-white border border-[#025880]/40 transition-all hover:-translate-y-0.5 hover:shadow-[0_8px_25px_rgba(19,33,60,0.6)] shrink-0 text-xs sm:text-sm w-full sm:w-auto"
+                style={{ background: 'linear-gradient(135deg, #025177 0%, #013D5A 100%)' }}
               >
                 <span>{settings?.footerCtaBtnText || 'جرّب مكتشف الهدايا'}</span>
                 <ArrowLeft className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
@@ -123,8 +123,8 @@ export function StoreFooter({ settings }: StoreFooterProps) {
               />
             </Link>
             
-            <div className="flex items-center justify-center lg:justify-start gap-1.5 text-[#7ea6e6] font-bold text-xs">
-              <Sparkles className="w-3.5 h-3.5 text-[#7ea6e6] shrink-0" />
+            <div className="flex items-center justify-center lg:justify-start gap-1.5 text-[#F4A258] font-bold text-xs">
+              <Sparkles className="w-3.5 h-3.5 text-[#F4A258] shrink-0" />
               <span>{storeSlogan.replace(/[✨*]/g, '').trim()}</span>
             </div>
             
@@ -139,7 +139,7 @@ export function StoreFooter({ settings }: StoreFooterProps) {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="واتساب"
-                className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-white/70 hover:text-[#7ea6e6] hover:bg-white/10 hover:border-[#5c8fd6]/40 transition-all"
+                className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-white/70 hover:text-[#F4A258] hover:bg-white/10 hover:border-[#F4A258]/40 transition-all"
                 title="واتساب"
               >
                 <MessageCircle className="w-4 h-4" />
@@ -151,7 +151,7 @@ export function StoreFooter({ settings }: StoreFooterProps) {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="إنستغرام"
-                  className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-white/70 hover:text-[#7ea6e6] hover:bg-white/10 hover:border-[#5c8fd6]/40 transition-all"
+                  className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-white/70 hover:text-[#F4A258] hover:bg-white/10 hover:border-[#F4A258]/40 transition-all"
                   title="إنستغرام"
                 >
                   <Share2 className="w-4 h-4" />
@@ -164,7 +164,7 @@ export function StoreFooter({ settings }: StoreFooterProps) {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="تيليغرام"
-                  className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-white/70 hover:text-[#7ea6e6] hover:bg-white/10 hover:border-[#5c8fd6]/40 transition-all"
+                  className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-white/70 hover:text-[#F4A258] hover:bg-white/10 hover:border-[#F4A258]/40 transition-all"
                   title="تيليغرام"
                 >
                   <Send className="w-4 h-4" />
@@ -174,7 +174,7 @@ export function StoreFooter({ settings }: StoreFooterProps) {
               <a
                 href={`mailto:${storeEmail}`}
                 aria-label="إيميل"
-                className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-white/70 hover:text-[#7ea6e6] hover:bg-white/10 hover:border-[#5c8fd6]/40 transition-all"
+                className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-white/70 hover:text-[#F4A258] hover:bg-white/10 hover:border-[#F4A258]/40 transition-all"
                 title="البريد الإلكتروني"
               >
                 <Mail className="w-4 h-4" />
@@ -187,7 +187,7 @@ export function StoreFooter({ settings }: StoreFooterProps) {
             {/* Categories */}
             <div className="flex flex-col items-start">
               <h3 className="font-extrabold text-white mb-3 text-xs sm:text-sm flex items-center gap-2" dir="rtl">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#5c8fd6] shrink-0" />
+                <span className="w-1.5 h-1.5 rounded-full bg-[#F4A258] shrink-0" />
                 <span>أقسام الهدايا</span>
               </h3>
               <ul className="space-y-2">
@@ -195,7 +195,7 @@ export function StoreFooter({ settings }: StoreFooterProps) {
                   <li key={link.href}>
                     <Link
                       href={link.href}
-                      className="text-xs text-white/60 hover:text-[#7ea6e6] hover:-translate-x-0.5 transition-all inline-block font-medium py-0.5"
+                      className="text-xs text-white/60 hover:text-[#F4A258] hover:-translate-x-0.5 transition-all inline-block font-medium py-0.5"
                     >
                       {link.label}
                     </Link>
@@ -207,7 +207,7 @@ export function StoreFooter({ settings }: StoreFooterProps) {
             {/* Quick Links */}
             <div className="flex flex-col items-start">
               <h3 className="font-extrabold text-white mb-3 text-xs sm:text-sm flex items-center gap-2" dir="rtl">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#5c8fd6] shrink-0" />
+                <span className="w-1.5 h-1.5 rounded-full bg-[#F4A258] shrink-0" />
                 <span>روابط سريعة</span>
               </h3>
               <ul className="space-y-2">
@@ -215,7 +215,7 @@ export function StoreFooter({ settings }: StoreFooterProps) {
                   <li key={link.href}>
                     <Link
                       href={link.href}
-                      className="text-xs text-white/60 hover:text-[#7ea6e6] hover:-translate-x-0.5 transition-all inline-block font-medium py-0.5"
+                      className="text-xs text-white/60 hover:text-[#F4A258] hover:-translate-x-0.5 transition-all inline-block font-medium py-0.5"
                     >
                       {link.label}
                     </Link>
@@ -228,7 +228,7 @@ export function StoreFooter({ settings }: StoreFooterProps) {
           {/* Col 4: Customer Care & Direct Contacts */}
           <div className="lg:col-span-3 text-start space-y-3">
             <h3 className="font-extrabold text-white text-xs sm:text-sm mb-3 flex items-center gap-2" dir="rtl">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#5c8fd6] shrink-0" />
+              <span className="w-1.5 h-1.5 rounded-full bg-[#F4A258] shrink-0" />
               <span>خدمة العملاء</span>
             </h3>
 
@@ -238,16 +238,16 @@ export function StoreFooter({ settings }: StoreFooterProps) {
                 href={whatsappHref} 
                 target="_blank" 
                 rel="noopener noreferrer" 
-                className="flex items-center gap-3 p-3.5 rounded-2xl bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 hover:border-[#3b5e94]/50 transition-all group min-w-0"
+                className="flex items-center gap-3 p-3.5 rounded-2xl bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 hover:border-[#025880]/50 transition-all group min-w-0"
               >
-                <div className="w-9 h-9 rounded-xl bg-[#22385e]/50 border border-[#3b5e94]/30 flex items-center justify-center text-[#7ea6e6] shrink-0 group-hover:scale-105 transition-all">
+                <div className="w-9 h-9 rounded-xl bg-[#025177]/50 border border-[#025880]/30 flex items-center justify-center text-[#F4A258] shrink-0 group-hover:scale-105 transition-all">
                   <Phone className="w-4 h-4" />
                 </div>
                 <div className="flex flex-col text-start min-w-0 flex-1">
                   <span className="text-[10px] sm:text-[11px] text-white/50 font-medium">
                     الطلب عبر واتساب والهاتف
                   </span>
-                  <span className="text-xs sm:text-sm font-bold text-white/95 group-hover:text-[#7ea6e6] tracking-tight mt-0.5" dir="ltr">
+                  <span className="text-xs sm:text-sm font-bold text-white/95 group-hover:text-[#F4A258] tracking-tight mt-0.5" dir="ltr">
                     {storePhone}
                   </span>
                 </div>
@@ -255,16 +255,16 @@ export function StoreFooter({ settings }: StoreFooterProps) {
 
               <a 
                 href={`mailto:${storeEmail}`} 
-                className="flex items-center gap-3 p-3.5 rounded-2xl bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 hover:border-[#3b5e94]/50 transition-all group min-w-0"
+                className="flex items-center gap-3 p-3.5 rounded-2xl bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 hover:border-[#025880]/50 transition-all group min-w-0"
               >
-                <div className="w-9 h-9 rounded-xl bg-[#22385e]/50 border border-[#3b5e94]/30 flex items-center justify-center text-[#7ea6e6] shrink-0 group-hover:scale-105 transition-all">
+                <div className="w-9 h-9 rounded-xl bg-[#025177]/50 border border-[#025880]/30 flex items-center justify-center text-[#F4A258] shrink-0 group-hover:scale-105 transition-all">
                   <Mail className="w-4 h-4" />
                 </div>
                 <div className="flex flex-col text-start min-w-0 flex-1">
                   <span className="text-[10px] sm:text-[11px] text-white/50 font-medium">
                     البريد الإلكتروني للدعم
                   </span>
-                  <span className="text-xs sm:text-sm font-bold text-white/95 group-hover:text-[#7ea6e6] truncate mt-0.5" dir="ltr">
+                  <span className="text-xs sm:text-sm font-bold text-white/95 group-hover:text-[#F4A258] truncate mt-0.5" dir="ltr">
                     {storeEmail}
                   </span>
                 </div>
@@ -280,17 +280,17 @@ export function StoreFooter({ settings }: StoreFooterProps) {
             {settings?.copyrightText || `© 2026 ${storeName}. جميع الحقوق محفوظة.`}
           </p>
           <div className="flex items-center justify-center gap-3 sm:gap-5 text-[11px] text-white/50">
-            <Link href="/privacy" className="hover:text-[#7ea6e6] transition-colors">
+            <Link href="/privacy" className="hover:text-[#F4A258] transition-colors">
               سياسة الخصوصية
             </Link>
             <span className="text-white/20">•</span>
-            <Link href="/terms" className="hover:text-[#7ea6e6] transition-colors">
+            <Link href="/terms" className="hover:text-[#F4A258] transition-colors">
               الشروط والأحكام
             </Link>
             <span className="text-white/20">•</span>
             <Link 
               href="/admin" 
-              className="hover:text-[#7ea6e6] transition-colors inline-flex items-center gap-1 opacity-70 hover:opacity-100"
+              className="hover:text-[#F4A258] transition-colors inline-flex items-center gap-1 opacity-70 hover:opacity-100"
               title="دخول لوحة الإدارة"
             >
               <Lock className="w-3 h-3" />

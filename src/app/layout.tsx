@@ -13,7 +13,7 @@ const alexandria = Alexandria({
 });
 
 export const viewport: Viewport = {
-  themeColor: "#13213c",
+  themeColor: "#013D5A",
   width: "device-width",
   initialScale: 1,
   maximumScale: 5,
@@ -125,7 +125,7 @@ export default async function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body className="min-h-full flex flex-col antialiased text-slate-900 bg-[#F8FAFC] selection:bg-[#13213c]/15 selection:text-[#13213c]">
+      <body className="min-h-full flex flex-col antialiased text-[#013D5A] bg-[#FAF7F2] selection:bg-[#F4A258]/30 selection:text-[#013D5A]">
         {children}
         <Toaster position="top-center" richColors dir="rtl" />
       </body>

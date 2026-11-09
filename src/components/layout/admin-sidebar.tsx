@@ -132,7 +132,7 @@ export function AdminSidebar({
           title="معاينة المتجر"
         >
           <div className="flex items-center gap-2">
-            <Store className="w-4 h-4 text-[#13213c]" />
+            <Store className="w-4 h-4 text-[#013D5A]" />
             {!isCollapsed && <span>معاينة المتجر</span>}
           </div>
           {!isCollapsed && <ExternalLink className="w-3.5 h-3.5 text-[#A8A29E]" />}
@@ -168,20 +168,20 @@ export function AdminSidebar({
                           'flex items-center gap-3 rounded-xl transition-all duration-200 text-sm',
                           isCollapsed ? 'px-0 py-3 justify-center w-full' : 'px-3 py-2.5',
                           isActive
-                            ? 'bg-[#F0F4F9] text-[#13213c] font-black border border-[#13213c]/30 shadow-[0_1px_4px_rgba(19, 33, 60,0.12)]'
+                            ? 'bg-[#F0F4F9] text-[#013D5A] font-black border border-[#013D5A]/30 shadow-[0_1px_4px_rgba(19, 33, 60,0.12)]'
                             : 'text-[#78716C] hover:bg-[#FAFAF8] hover:text-[#1C1917] border border-transparent font-medium'
                         )}
                       >
                         <item.icon className={cn(
                           'shrink-0 transition-colors duration-200',
                           isCollapsed ? 'w-5 h-5' : 'w-[18px] h-[18px]',
-                          isActive ? 'text-[#13213c]' : 'text-[#A8A29E] group-hover/item:text-[#1C1917]'
+                          isActive ? 'text-[#013D5A]' : 'text-[#A8A29E] group-hover/item:text-[#1C1917]'
                         )} />
                         {!isCollapsed && (
                           <span className="truncate">{item.name}</span>
                         )}
                         {isActive && !isCollapsed && (
-                          <div className="ms-auto w-1.5 h-1.5 rounded-full bg-[#13213c]" />
+                          <div className="ms-auto w-1.5 h-1.5 rounded-full bg-[#013D5A]" />
                         )}
                       </Link>
 
@@ -224,12 +224,12 @@ export function AdminSidebar({
         <DropdownMenu>
           <DropdownMenuTrigger render={
             <div className={cn(
-              'flex items-center gap-3 rounded-xl cursor-pointer transition-all duration-200 group bg-white border border-[#E8E4DF] hover:border-[#13213c]/40 hover:shadow-sm',
+              'flex items-center gap-3 rounded-xl cursor-pointer transition-all duration-200 group bg-white border border-[#E8E4DF] hover:border-[#013D5A]/40 hover:shadow-sm',
               isCollapsed ? 'p-1.5 justify-center' : 'p-2.5 w-full'
             )}>
               <div 
                 className="w-8 h-8 rounded-lg flex items-center justify-center text-white font-black shrink-0 shadow-sm text-sm"
-                style={{ background: 'linear-gradient(135deg, #22385e 0%, #13213c 100%)' }}
+                style={{ background: 'linear-gradient(135deg, #025177 0%, #013D5A 100%)' }}
               >
                 {user?.name ? user.name[0] : 'أ'}
               </div>
@@ -239,7 +239,7 @@ export function AdminSidebar({
                     <p className="text-sm font-bold text-[#1C1917] truncate leading-tight">{user?.name || 'المدير'}</p>
                     <p className="text-[11px] text-[#A8A29E] truncate font-medium">{roleLabels[userRole] || userRole}</p>
                   </div>
-                  <ChevronLeft className="w-4 h-4 text-[#A8A29E] group-hover:text-[#13213c] transition-colors shrink-0" />
+                  <ChevronLeft className="w-4 h-4 text-[#A8A29E] group-hover:text-[#013D5A] transition-colors shrink-0" />
                 </>
               )}
             </div>
@@ -248,14 +248,14 @@ export function AdminSidebar({
             <div className="px-3 py-2 mb-1 bg-[#FAFAF8] rounded-xl border border-[#E8E4DF]">
               <p className="text-sm font-bold text-[#1C1917] mb-0.5">{user?.name || 'المدير'}</p>
               <p className="text-xs text-[#78716C] font-mono truncate" dir="ltr">{user?.email || ''}</p>
-              <span className="inline-block mt-1 text-[10px] font-bold text-[#13213c] bg-[#F0F4F9] px-2 py-0.5 rounded-md">
+              <span className="inline-block mt-1 text-[10px] font-bold text-[#013D5A] bg-[#F0F4F9] px-2 py-0.5 rounded-md">
                 {roleLabels[userRole] || userRole}
               </span>
             </div>
             <DropdownMenuSeparator className="my-1 bg-[#E8E4DF]" />
             <Link href="/admin/profile">
               <DropdownMenuItem className="rounded-xl cursor-pointer py-2.5 px-3 hover:bg-[#FAFAF8] font-bold text-[#1C1917] transition-colors text-sm">
-                <User className="me-2.5 h-4 w-4 text-[#13213c]" />
+                <User className="me-2.5 h-4 w-4 text-[#013D5A]" />
                 الملف الشخصي
               </DropdownMenuItem>
             </Link>

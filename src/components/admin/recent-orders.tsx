@@ -36,17 +36,17 @@ export function RecentOrders({ orders = [] }: { orders?: Order[] }) {
             <Link
               key={order.id}
               href="/admin/orders"
-              className="flex items-center justify-between p-3.5 rounded-2xl border border-[#E8E4DF] bg-white hover:bg-[#FAFAF8] hover:border-[#13213c]/40 hover:shadow-sm transition-all group"
+              className="flex items-center justify-between p-3.5 rounded-2xl border border-[#E8E4DF] bg-white hover:bg-[#FAFAF8] hover:border-[#013D5A]/40 hover:shadow-sm transition-all group"
             >
               <div className="flex items-center gap-3">
                 <div 
                   className="w-10 h-10 rounded-xl flex items-center justify-center font-black text-sm shrink-0 shadow-sm"
-                  style={{ background: 'linear-gradient(135deg, #F0F4F9 0%, #E2EAF4 100%)', color: '#13213c', border: '1px solid rgba(19, 33, 60,0.2)' }}
+                  style={{ background: 'linear-gradient(135deg, #F0F4F9 0%, #E2EAF4 100%)', color: '#013D5A', border: '1px solid rgba(19, 33, 60,0.2)' }}
                 >
                   {order.customerName ? order.customerName.charAt(0) : 'ع'}
                 </div>
                 <div>
-                  <p className="text-sm font-bold text-[#1C1917] group-hover:text-[#13213c] transition-colors leading-snug">
+                  <p className="text-sm font-bold text-[#1C1917] group-hover:text-[#013D5A] transition-colors leading-snug">
                     {order.customerName}
                   </p>
                   <span className="text-[11px] text-[#A8A29E] font-mono">

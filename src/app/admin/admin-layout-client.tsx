@@ -45,7 +45,7 @@ export function AdminLayoutClient({
   }
 
   return (
-    <div className="min-h-screen bg-[#FAFAF8] flex font-sans text-[#1C1917] selection:bg-[#13213c]/20 selection:text-[#1C1917]" dir="rtl">
+    <div className="min-h-screen bg-[#FAFAF8] flex font-sans text-[#1C1917] selection:bg-[#013D5A]/20 selection:text-[#1C1917]" dir="rtl">
       {/* Sidebar - Desktop */}
       <AdminSidebar 
         storeName={settings?.storeName} 

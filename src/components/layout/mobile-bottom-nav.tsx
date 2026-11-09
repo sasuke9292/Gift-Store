@@ -77,11 +77,11 @@ export function MobileBottomNav() {
                     "w-12 h-12 rounded-2xl flex items-center justify-center text-white shadow-[0_4px_16px_rgba(19,33,60,0.45)] transition-transform active:scale-95",
                     item.isActive ? "ring-2 ring-amber-400 ring-offset-2 ring-offset-white" : ""
                   )}
-                  style={{ background: 'linear-gradient(135deg, #22385e 0%, #13213c 100%)' }}
+                  style={{ background: 'linear-gradient(135deg, #025177 0%, #013D5A 100%)' }}
                 >
                   <Icon className="w-5 h-5 animate-pulse" />
                 </div>
-                <span className="text-[10px] font-black text-[#13213c] mt-1">
+                <span className="text-[10px] font-black text-[#013D5A] mt-1">
                   {item.label}
                 </span>
               </Link>
@@ -95,7 +95,7 @@ export function MobileBottomNav() {
               className={cn(
                 "relative flex flex-col items-center justify-center w-14 h-14 rounded-2xl transition-colors active:scale-95 focus:outline-none",
                 item.isActive 
-                  ? "text-[#13213c]" 
+                  ? "text-[#013D5A]" 
                   : "text-slate-400 hover:text-slate-800"
               )}
               aria-label={item.label}
@@ -110,7 +110,7 @@ export function MobileBottomNav() {
               </div>
               <span className={cn(
                 "text-[10px] mt-1 tracking-tight transition-colors",
-                item.isActive ? "font-black text-[#13213c]" : "font-bold text-slate-500"
+                item.isActive ? "font-black text-[#013D5A]" : "font-bold text-slate-500"
               )}>
                 {item.label}
               </span>

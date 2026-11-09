@@ -33,20 +33,20 @@ export default async function StoreLayout({
   // Maintenance Mode screen for regular visitors
   if (settings?.maintenanceMode && !isStaff) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-[#0c1424] text-white px-4 text-center" dir="rtl">
-        <div className="w-20 h-20 rounded-3xl bg-[#22385e]/40 border border-[#3b5e94]/40 flex items-center justify-center mx-auto mb-6">
-          <Clock className="w-10 h-10 text-[#7ea6e6] animate-pulse" />
+      <div className="min-h-screen flex flex-col items-center justify-center bg-[#01283B] text-white px-4 text-center" dir="rtl">
+        <div className="w-20 h-20 rounded-3xl bg-[#025177]/40 border border-[#BDD3CE]/30 flex items-center justify-center mx-auto mb-6">
+          <Clock className="w-10 h-10 text-[#F4A258] animate-pulse" />
         </div>
-        <h1 className="text-3xl sm:text-4xl font-black text-white mb-3">
+        <h1 className="text-3xl sm:text-4xl font-black text-[#FCF3E3] mb-3">
           {settings.storeName || 'گفتي بلس'} في وضع التحديث
         </h1>
-        <p className="text-white/70 max-w-md mx-auto text-sm sm:text-base leading-relaxed mb-8">
+        <p className="text-[#FCF3E3]/80 max-w-md mx-auto text-sm sm:text-base leading-relaxed mb-8">
           {settings.maintenanceMessage || 'المتجر في وضع الصيانة والتحديث حالياً، سنعود إليكم قريباً بأجمل العروض!'}
         </p>
         <div className="flex items-center gap-4">
           <Link
             href="/auth/admin-login"
-            className="text-xs text-[#7ea6e6] hover:underline"
+            className="text-xs text-[#F4A258] hover:underline"
           >
             دخول المشرفين والإدارة
           </Link>
@@ -56,9 +56,9 @@ export default async function StoreLayout({
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#F8FAFC] pb-20 lg:pb-0">
+    <div className="min-h-screen flex flex-col bg-[#FAF7F2] pb-20 lg:pb-0">
       {settings?.maintenanceMode && isStaff && (
-        <div className="bg-amber-500 text-black py-1.5 px-4 text-center text-xs font-bold flex items-center justify-center gap-2">
+        <div className="bg-[#F4A258] text-[#013D5A] py-1.5 px-4 text-center text-xs font-bold flex items-center justify-center gap-2">
           <AlertCircle className="w-4 h-4" />
           <span>وضع الصيانة مفعّل حالياً: المتجر مغلق أمام الزوار العاديين وأنت تتصفحه بصفتك مديراً.</span>
         </div>

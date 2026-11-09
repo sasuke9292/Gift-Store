@@ -5,6 +5,20 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
+  /* Brand Luxury Palette from Jenny Henderson Studio */
+  --color-midnight: #013D5A;
+  --color-midnight-dark: #01283B;
+  --color-midnight-light: #025177;
+  --color-lionsmane: #FCF3E3;
+  --color-lionsmane-canvas: #FAF7F2;
+  --color-celeste: #BDD3CE;
+  --color-celeste-light: #E8F1EF;
+  --color-herb: #708C69;
+  --color-herb-light: #EDF3EB;
+  --color-marigold: #F4A258;
+  --color-marigold-dark: #DE8637;
+  --color-marigold-light: #FDF1E6;
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-sans), system-ui, -apple-system, sans-serif;
@@ -48,96 +62,96 @@
   --radius-4xl: calc(var(--radius) * 2.6);
 }
 
-/* ===== LIGHT THEME (DEFAULT) — Modern Luxury Royal Indigo Gift Store ===== */
+/* ===== LIGHT THEME (DEFAULT) — Luxury Studio Palette ===== */
 :root {
-  /* Core surfaces */
-  --background: oklch(0.985 0.005 240);       /* Luminous Pearl Slate #F8FAFC */
-  --foreground: oklch(0.15 0.02 260);          /* Deep Midnight Slate #0F172A */
+  /* Core surfaces: Warm Ivory / Lionsmane canvas */
+  --background: #FAF7F2;       /* Soft Lionsmane linen canvas */
+  --foreground: #013D5A;       /* Midnight deep blue text */
   
-  /* Card & popover */
-  --card: oklch(1 0 0);                       /* Pure white */
-  --card-foreground: oklch(0.15 0.02 260);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.15 0.02 260);
+  /* Card & popover: Crisp white with subtle warmth */
+  --card: #FFFFFF;
+  --card-foreground: #013D5A;
+  --popover: #FFFFFF;
+  --popover-foreground: #013D5A;
   
-  /* Primary — Royal Navy #13213c */
-  --primary: oklch(0.251 0.055 262.4);       /* #13213c royal midnight navy */
-  --primary-foreground: oklch(1 0 0);         /* White on primary */
+  /* Primary — Midnight #013D5A */
+  --primary: #013D5A;
+  --primary-foreground: #FCF3E3; /* Warm Lionsmane ivory text on Midnight */
   
-  /* Secondary — Soft Ice / Cool Slate */
-  --secondary: oklch(0.96 0.01 240);          /* #F1F5F9 */
-  --secondary-foreground: oklch(0.25 0.04 260);
+  /* Secondary — Lionsmane #FCF3E3 */
+  --secondary: #FCF3E3;
+  --secondary-foreground: #013D5A;
   
-  /* Muted */
-  --muted: oklch(0.96 0.01 240);              /* #F1F5F9 */
-  --muted-foreground: oklch(0.48 0.02 260);    /* Cool Slate 500 #64748B */
+  /* Muted surfaces */
+  --muted: #F2EDE4;
+  --muted-foreground: #5A7B8A;   /* Soft slate-midnight tone */
   
-  /* Accent */
-  --accent: oklch(0.95 0.015 260);
-  --accent-foreground: oklch(0.25 0.04 260);
+  /* Accent — Celeste #BDD3CE tint */
+  --accent: #E8F1EF;
+  --accent-foreground: #013D5A;
   
   /* Destructive */
-  --destructive: oklch(0.55 0.22 25);         /* Rose 600 */
+  --destructive: #DC2626;
   
-  /* Borders & inputs */
-  --border: oklch(0.91 0.01 240);              /* #E2E8F0 Crisp Slate Border */
-  --input: oklch(0.91 0.01 240);
-  --ring: oklch(0.343 0.073 260.7);           /* Navy ring #22385e */
+  /* Borders & inputs: Celeste-infused soft border */
+  --border: #DDE7E4;
+  --input: #DDE7E4;
+  --ring: #013D5A;
   
-  /* Charts */
-  --chart-1: oklch(0.251 0.055 262.4);       /* Navy */
-  --chart-2: oklch(0.45 0.12 250);           /* Slate Blue */
-  --chart-3: oklch(0.55 0.18 160);           /* Emerald Green */
-  --chart-4: oklch(0.6 0.18 25);             /* Vivid Rose */
-  --chart-5: oklch(0.75 0.12 85);            /* Warm Amber Gold */
+  /* Charts: Complete 5-Color Harmony */
+  --chart-1: #013D5A; /* Midnight */
+  --chart-2: #F4A258; /* Marigold */
+  --chart-3: #708C69; /* Herb */
+  --chart-4: #BDD3CE; /* Celeste */
+  --chart-5: #025177; /* Midnight Light */
   
   /* Border radius */
   --radius: 0.875rem;
   
-  /* Sidebar — modern light admin style */
-  --sidebar: oklch(0.985 0.005 240);
-  --sidebar-foreground: oklch(0.15 0.02 260);
-  --sidebar-primary: oklch(0.251 0.055 262.4);
-  --sidebar-primary-foreground: oklch(1 0 0);
-  --sidebar-accent: oklch(0.95 0.015 260);
-  --sidebar-accent-foreground: oklch(0.25 0.04 260);
-  --sidebar-border: oklch(0.91 0.01 240);
-  --sidebar-ring: oklch(0.343 0.073 260.7);
+  /* Sidebar — Executive Midnight */
+  --sidebar: #013D5A;
+  --sidebar-foreground: #FCF3E3;
+  --sidebar-primary: #F4A258;
+  --sidebar-primary-foreground: #013D5A;
+  --sidebar-accent: #02486A;
+  --sidebar-accent-foreground: #FCF3E3;
+  --sidebar-border: #025177;
+  --sidebar-ring: #F4A258;
 }
 
-/* ===== DARK THEME (Admin panel retains dark for professional look) ===== */
+/* ===== DARK THEME ===== */
 .dark {
-  --background: oklch(0.13 0.025 260);       /* Deep navy */
-  --foreground: oklch(0.97 0.01 260);
-  --card: oklch(0.16 0.03 260);
-  --card-foreground: oklch(0.97 0.01 260);
-  --popover: oklch(0.16 0.03 260);
-  --popover-foreground: oklch(0.97 0.01 260);
-  --primary: oklch(0.645 0.12 256.9);         /* Luminous sapphire #5c8fd6 */
-  --primary-foreground: oklch(0.13 0.025 260);
-  --secondary: oklch(0.2 0.035 260);
-  --secondary-foreground: oklch(0.97 0.01 260);
-  --muted: oklch(0.2 0.035 260);
-  --muted-foreground: oklch(0.65 0.03 260);
-  --accent: oklch(0.2 0.035 260);
-  --accent-foreground: oklch(0.97 0.01 260);
-  --destructive: oklch(0.58 0.2 25);
-  --border: oklch(0.24 0.04 260);
-  --input: oklch(0.24 0.04 260);
-  --ring: oklch(0.645 0.12 256.9);
-  --chart-1: oklch(0.645 0.12 256.9);
-  --chart-2: oklch(0.62 0.18 250);
-  --chart-3: oklch(0.82 0.08 240);
-  --chart-4: oklch(0.52 0.2 230);
-  --chart-5: oklch(0.88 0.06 220);
-  --sidebar: oklch(0.11 0.03 260);
-  --sidebar-foreground: oklch(0.97 0.01 260);
-  --sidebar-primary: oklch(0.645 0.12 256.9);
-  --sidebar-primary-foreground: oklch(0.11 0.03 260);
-  --sidebar-accent: oklch(0.18 0.04 260);
-  --sidebar-accent-foreground: oklch(0.97 0.01 260);
-  --sidebar-border: oklch(0.22 0.04 260);
-  --sidebar-ring: oklch(0.645 0.12 256.9);
+  --background: #012233;       /* Deepest Midnight */
+  --foreground: #FCF3E3;       /* Lionsmane warm ivory */
+  --card: #012F45;             /* Midnight card */
+  --card-foreground: #FCF3E3;
+  --popover: #012F45;
+  --popover-foreground: #FCF3E3;
+  --primary: #F4A258;          /* Marigold gold primary */
+  --primary-foreground: #012233;
+  --secondary: #024361;
+  --secondary-foreground: #FCF3E3;
+  --muted: #024361;
+  --muted-foreground: #9BBAC6;
+  --accent: #024361;
+  --accent-foreground: #FCF3E3;
+  --destructive: #F87171;
+  --border: #025177;
+  --input: #025177;
+  --ring: #F4A258;
+  --chart-1: #F4A258;
+  --chart-2: #BDD3CE;
+  --chart-3: #708C69;
+  --chart-4: #025177;
+  --chart-5: #FCF3E3;
+  --sidebar: #011D2B;
+  --sidebar-foreground: #FCF3E3;
+  --sidebar-primary: #F4A258;
+  --sidebar-primary-foreground: #011D2B;
+  --sidebar-accent: #02486A;
+  --sidebar-accent-foreground: #FCF3E3;
+  --sidebar-border: #023852;
+  --sidebar-ring: #F4A258;
 }
 
 @layer base {
@@ -193,16 +207,16 @@
     display: none;
   }
 
-  /* ===== MODERN LUXURY STORE UTILITIES ===== */
+  /* ===== LUXURY STORE UTILITIES ===== */
   
   .card-premium {
-    @apply bg-white border border-slate-200/80 rounded-2xl;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 8px 24px rgba(19, 33, 60, 0.05);
+    @apply bg-white border border-[#BDD3CE]/60 rounded-2xl;
+    box-shadow: 0 1px 3px rgba(1, 61, 90, 0.04), 0 8px 24px rgba(1, 61, 90, 0.06);
   }
   
   /* Hover elevation */
   .card-hover {
-    @apply transition-all duration-300 hover:shadow-[0_8px_30px_rgba(19,33,60,0.12)] hover:-translate-y-1 hover:border-slate-300;
+    @apply transition-all duration-300 hover:shadow-[0_8px_30px_rgba(1,61,90,0.12)] hover:-translate-y-1 hover:border-[#BDD3CE];
   }
 
   /* 3D Card Depth & Elevation */
@@ -213,69 +227,100 @@
   @media (hover: hover) {
     .card-3d-depth:hover {
       transform: translateY(-4px);
-      box-shadow: 0 14px 32px -8px rgba(19, 33, 60, 0.14), 0 4px 12px -2px rgba(19, 33, 60, 0.06);
+      box-shadow: 0 14px 32px -8px rgba(1, 61, 90, 0.14), 0 4px 12px -2px rgba(1, 61, 90, 0.06);
     }
   }
 
-  /* Royal Navy typography & buttons */
-  .text-navy {
-    @apply text-transparent bg-clip-text bg-gradient-to-br from-[#0c1424] via-[#13213c] to-[#22385e];
+  /* Midnight Typography & Buttons */
+  .text-navy, .text-midnight {
+    @apply text-transparent bg-clip-text bg-gradient-to-br from-[#01283B] via-[#013D5A] to-[#025177];
   }
 
-  .btn-navy {
-    background: linear-gradient(135deg, #22385e 0%, #1a2c4e 50%, #13213c 100%);
+  .btn-navy, .btn-midnight {
+    background: linear-gradient(135deg, #013D5A 0%, #01283B 100%);
     background-size: 200% auto;
-    @apply text-white font-bold transition-all duration-300 shadow-[0_4px_16px_rgba(19,33,60,0.25)];
+    @apply text-[#FCF3E3] font-bold transition-all duration-300 shadow-[0_4px_16px_rgba(1,61,90,0.25)];
   }
-  .btn-navy:hover {
+  .btn-navy:hover, .btn-midnight:hover {
     background-position: right center;
-    @apply shadow-[0_6px_22px_rgba(19,33,60,0.38)] -translate-y-0.5;
+    @apply shadow-[0_6px_22px_rgba(1,61,90,0.38)] -translate-y-0.5 brightness-110;
   }
 
-  /* Refined Champagne Gold (Luxury Accent) */
-  .text-gold {
-    @apply text-transparent bg-clip-text bg-gradient-to-br from-[#9A7B38] via-[#C5A880] to-[#8C6D2D];
+  /* Marigold Accent (Luxury Warm Gold) */
+  .text-gold, .text-marigold {
+    @apply text-transparent bg-clip-text bg-gradient-to-br from-[#DE8637] via-[#F4A258] to-[#F8BE88];
   }
 
-  .btn-gold {
-    background: linear-gradient(135deg, #13213c 0%, #22385e 100%);
-    @apply text-white font-bold transition-all duration-300 border border-[#C5A880]/30 shadow-[0_4px_16px_rgba(19,33,60,0.25)];
+  .btn-gold, .btn-marigold {
+    background: linear-gradient(135deg, #F4A258 0%, #DE8637 100%);
+    @apply text-[#013D5A] font-black transition-all duration-300 shadow-[0_4px_16px_rgba(244,162,88,0.35)];
   }
-  .btn-gold:hover {
-    @apply -translate-y-0.5 border-[#C5A880]/60 shadow-[0_6px_22px_rgba(19,33,60,0.35)];
+  .btn-gold:hover, .btn-marigold:hover {
+    @apply -translate-y-0.5 shadow-[0_6px_22px_rgba(244,162,88,0.48)] brightness-105;
   }
 
-  /* Subtle gold & navy borders */
-  .border-gold {
-    @apply border border-[#C5A880]/30;
+  /* Herb Green Button (Botanical Luxury & WhatsApp) */
+  .btn-herb {
+    background: linear-gradient(135deg, #708C69 0%, #586F52 100%);
+    @apply text-white font-bold transition-all duration-300 shadow-[0_4px_16px_rgba(112,140,105,0.25)];
+  }
+  .btn-herb:hover {
+    @apply -translate-y-0.5 shadow-[0_6px_22px_rgba(112,140,105,0.38)] brightness-105;
+  }
+
+  /* Celeste Accent Button */
+  .btn-celeste {
+    background: #BDD3CE;
+    @apply text-[#013D5A] font-bold transition-all duration-300 hover:bg-[#A9C5BF];
+  }
+
+  /* Subtle borders */
+  .border-gold, .border-marigold {
+    @apply border border-[#F4A258]/40;
+  }
+  .border-celeste {
+    @apply border border-[#BDD3CE];
+  }
+  .border-lionsmane {
+    @apply border border-[#FCF3E3];
   }
 
   /* Section divider */
   .section-divider {
-    @apply border-t border-slate-200/80;
+    @apply border-t border-[#BDD3CE]/40;
   }
   
   /* Hero gradient overlay for category images */
   .img-overlay-bottom {
-    background: linear-gradient(to top, rgba(12,20,36,0.85) 0%, rgba(12,20,36,0.3) 50%, transparent 100%);
+    background: linear-gradient(to top, rgba(1,40,59,0.9) 0%, rgba(1,61,90,0.35) 50%, transparent 100%);
   }
   
-  /* Badge sale */
+  /* Badges */
   .badge-sale {
-    @apply bg-gradient-to-r from-rose-600 to-rose-500 text-white text-[11px] font-black px-2.5 py-1 rounded-full shadow-xs;
+    @apply bg-gradient-to-r from-[#F4A258] to-[#DE8637] text-[#013D5A] text-[11px] font-black px-2.5 py-1 rounded-full shadow-xs;
   }
   
-  /* Badge new */
   .badge-new {
-    @apply bg-[#13213c] text-white text-[11px] font-black px-2.5 py-1 rounded-full shadow-xs;
+    @apply bg-[#013D5A] text-[#FCF3E3] text-[11px] font-black px-2.5 py-1 rounded-full shadow-xs border border-[#025177];
   }
 
-  /* Badge gold */
-  .badge-gold {
-    @apply bg-gradient-to-r from-amber-500 to-amber-600 text-white text-[11px] font-black px-2.5 py-1 rounded-full shadow-xs;
+  .badge-gold, .badge-marigold {
+    @apply bg-[#F4A258] text-[#013D5A] text-[11px] font-black px-2.5 py-1 rounded-full shadow-xs;
+  }
+
+  .badge-herb {
+    @apply bg-[#708C69] text-white text-[11px] font-bold px-2.5 py-1 rounded-full shadow-xs;
+  }
+
+  .badge-celeste {
+    @apply bg-[#BDD3CE] text-[#013D5A] text-[11px] font-bold px-2.5 py-1 rounded-full shadow-xs;
+  }
+
+  .badge-lionsmane {
+    @apply bg-[#FCF3E3] text-[#013D5A] text-[11px] font-bold px-2.5 py-1 rounded-full border border-[#BDD3CE]/60 shadow-xs;
   }
   
-  /* ===== DARK ADMIN UTILITIES ===== */
+  /* ===== GLASS UTILITIES ===== */
   .glass {
     @apply bg-white/5 backdrop-blur-md border border-white/10 shadow-[0_8px_30px_rgb(0,0,0,0.12)];
   }
@@ -288,7 +333,7 @@
   
   /* Focus ring */
   .focus-ring {
-    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#13213c]/40 focus-visible:ring-offset-1;
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#013D5A]/40 focus-visible:ring-offset-1;
   }
 }
 
