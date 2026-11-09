@@ -13,68 +13,123 @@ export function HeroRibbonBackground() {
       className="absolute inset-0 overflow-hidden pointer-events-none select-none z-0" 
       aria-hidden="true"
     >
-      {/* 1. Large Soft Organic Ambient Blob (Celeste & Lionsmane warmth) */}
+      {/* 1. Upper Header & Hero Right Canopy Ambient Glow (Extends behind Logo & Navigation) */}
       <div 
-        className="absolute -top-24 end-[-10%] w-[580px] h-[580px] lg:w-[720px] lg:h-[720px] rounded-full blur-[120px] opacity-70"
+        className="absolute -top-36 start-[-6%] w-[520px] h-[520px] lg:w-[680px] lg:h-[680px] rounded-full blur-[130px] opacity-75"
         style={{
-          background: 'radial-gradient(circle, rgba(189,211,206,0.12) 0%, rgba(252,243,227,0.06) 50%, transparent 75%)'
+          background: 'radial-gradient(circle, rgba(2,81,119,0.38) 0%, rgba(189,211,206,0.10) 55%, transparent 75%)'
+        }}
+      />
+
+      {/* 2. Large Soft Organic Ambient Blob (Top-Left behind Search, Actions & Showcase) */}
+      <div 
+        className="absolute -top-28 end-[-8%] w-[580px] h-[580px] lg:w-[760px] lg:h-[760px] rounded-full blur-[135px] opacity-70"
+        style={{
+          background: 'radial-gradient(circle, rgba(189,211,206,0.13) 0%, rgba(252,243,227,0.06) 50%, transparent 75%)'
         }}
       />
       
-      {/* 2. Secondary Herb Organic Accent (Bottom Start) */}
+      {/* 3. Secondary Herb & Celeste Organic Accent (Bottom Start) */}
       <div 
-        className="absolute -bottom-20 start-[-8%] w-[420px] h-[420px] rounded-full blur-[100px] opacity-60"
+        className="absolute -bottom-24 start-[-8%] w-[460px] h-[460px] rounded-full blur-[110px] opacity-60"
         style={{
           background: 'radial-gradient(circle, rgba(112,140,105,0.14) 0%, rgba(189,211,206,0.09) 60%, transparent 75%)'
         }}
       />
 
-      {/* 3. Warm Marigold Ambient Glow for Luxury Accent */}
+      {/* 4. Warm Marigold Ambient Glow for Luxury Accent */}
       <div 
-        className="absolute top-1/3 start-1/3 w-[380px] h-[380px] rounded-full blur-[130px] opacity-40"
+        className="absolute top-[22%] start-[32%] w-[420px] h-[420px] rounded-full blur-[140px] opacity-40"
         style={{
           background: 'radial-gradient(circle, rgba(244,162,88,0.12) 0%, transparent 70%)'
         }}
       />
 
-      {/* 4. Subtle Thin Line Ribbon Waves & Geometric Luxury Rings */}
+      {/* 5. Continuous Thin Line Ribbon Waves & Oversized Organic Forms Spanning Header + Hero */}
       <svg
         className="absolute inset-0 w-full h-full"
-        viewBox="0 0 1440 700"
+        viewBox="0 0 1440 820"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
         preserveAspectRatio="none"
       >
         <defs>
+          <linearGradient id="heroHeaderCanopyWave" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stopColor="#FCF3E3" stopOpacity="0.03" />
+            <stop offset="30%" stopColor="#BDD3CE" stopOpacity="0.14" />
+            <stop offset="68%" stopColor="#F4A258" stopOpacity="0.18" />
+            <stop offset="100%" stopColor="#BDD3CE" stopOpacity="0.04" />
+          </linearGradient>
+
           <linearGradient id="heroRibbonGradient1" x1="0%" y1="0%" x2="100%" y2="0%">
             <stop offset="0%" stopColor="#BDD3CE" stopOpacity="0.05" />
-            <stop offset="35%" stopColor="#F4A258" stopOpacity="0.24" />
-            <stop offset="70%" stopColor="#BDD3CE" stopOpacity="0.18" />
+            <stop offset="35%" stopColor="#F4A258" stopOpacity="0.22" />
+            <stop offset="70%" stopColor="#BDD3CE" stopOpacity="0.16" />
             <stop offset="100%" stopColor="#FCF3E3" stopOpacity="0.05" />
           </linearGradient>
 
           <linearGradient id="heroRibbonGradient2" x1="100%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stopColor="#F4A258" stopOpacity="0.28" />
-            <stop offset="50%" stopColor="#F4A258" stopOpacity="0.14" />
-            <stop offset="100%" stopColor="#BDD3CE" stopOpacity="0.20" />
+            <stop offset="0%" stopColor="#F4A258" stopOpacity="0.24" />
+            <stop offset="50%" stopColor="#F4A258" stopOpacity="0.12" />
+            <stop offset="100%" stopColor="#BDD3CE" stopOpacity="0.18" />
           </linearGradient>
 
           <linearGradient id="organicBlobGradient" x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" stopColor="#025177" stopOpacity="0.22" />
-            <stop offset="50%" stopColor="#BDD3CE" stopOpacity="0.08" />
-            <stop offset="100%" stopColor="#FCF3E3" stopOpacity="0.03" />
+            <stop offset="50%" stopColor="#BDD3CE" stopOpacity="0.07" />
+            <stop offset="100%" stopColor="#FCF3E3" stopOpacity="0.02" />
           </linearGradient>
+
+          <radialGradient id="topNavOrbGradient" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stopColor="#025177" stopOpacity="0.24" />
+            <stop offset="70%" stopColor="#013D5A" stopOpacity="0.08" />
+            <stop offset="100%" stopColor="#01283B" stopOpacity="0" />
+          </radialGradient>
         </defs>
 
-        {/* Soft Organic Curved Silhouette (Asymmetrical gift contour) */}
+        {/* Oversized Soft Organic Circle Spanning Header into Hero Right */}
+        <circle
+          cx="1180"
+          cy="110"
+          r="340"
+          fill="url(#topNavOrbGradient)"
+        />
+
+        {/* Oversized Soft Organic Circle Spanning Header into Hero Left */}
+        <circle
+          cx="240"
+          cy="160"
+          r="290"
+          fill="url(#topNavOrbGradient)"
+        />
+
+        {/* Soft Organic Curved Silhouette (Bridging Header y=40 down to Hero y=660) */}
         <path
-          d="M320,110 C520,60 740,160 920,100 C1100,40 1280,140 1380,260 C1460,360 1410,500 1310,580 C1190,670 980,640 820,610 C650,580 490,670 340,620 C180,570 120,440 150,310 C180,180 220,130 320,110 Z"
+          d="M280,55 C520,15 760,125 960,65 C1140,15 1310,110 1395,245 C1465,360 1415,530 1310,625 C1185,720 975,685 810,650 C635,615 475,710 320,655 C160,600 105,455 140,305 C175,155 180,75 280,55 Z"
           fill="url(#organicBlobGradient)"
+        />
+
+        {/* Upper Canopy Flowing Silk Line (Flows directly behind Header & Nav Links) */}
+        <path
+          d="M-40,78 C260,22 520,148 840,74 C1120,12 1310,118 1480,64"
+          stroke="url(#heroHeaderCanopyWave)"
+          strokeWidth="1.15"
+          fill="none"
+        />
+
+        {/* Delicate Dashed Companion Line in Upper Header Zone */}
+        <path
+          d="M-20,112 C280,54 540,178 860,106 C1140,44 1320,148 1490,96"
+          stroke="#F4A258"
+          strokeWidth="0.9"
+          strokeDasharray="4 8"
+          strokeOpacity="0.14"
+          fill="none"
         />
 
         {/* Primary Silk Ribbon Continuous Wave */}
         <path
-          d="M-60,190 C240,90 380,360 690,240 C980,130 1150,340 1500,210"
+          d="M-60,240 C240,130 380,410 690,285 C980,170 1150,385 1500,250"
           stroke="url(#heroRibbonGradient1)"
           strokeWidth="1.25"
           fill="none"
@@ -82,49 +137,70 @@ export function HeroRibbonBackground() {
 
         {/* Secondary Ribbon Flourish (Gentle dashed gold harmony) */}
         <path
-          d="M-40,230 C260,130 400,400 710,280 C1000,170 1170,380 1520,250"
+          d="M-40,280 C260,170 400,450 710,325 C1000,210 1170,425 1520,290"
           stroke="url(#heroRibbonGradient2)"
-          strokeWidth="1.2"
+          strokeWidth="1.15"
           strokeDasharray="6 8"
           fill="none"
         />
 
         {/* Third Ambient Ribbon Sweep (Bottom framing) */}
         <path
-          d="M50,560 C380,480 620,650 960,530 C1250,430 1390,570 1500,520"
+          d="M50,640 C380,555 620,725 960,605 C1250,505 1390,645 1500,595"
           stroke="#BDD3CE"
           strokeWidth="1"
           strokeOpacity="0.12"
           fill="none"
         />
 
-        {/* Minimal Luxury Seal Concentric Arcs (Subtle craft detail) */}
+        {/* Upper-Right Subtle Concentric Luxury Rings (Bridging Header & Hero) */}
         <circle 
-          cx="1160" 
-          cy="260" 
-          r="140" 
+          cx="1210" 
+          cy="195" 
+          r="155" 
           stroke="#FCF3E3" 
-          strokeWidth="1" 
-          strokeOpacity="0.08" 
+          strokeWidth="0.9" 
+          strokeOpacity="0.07" 
           fill="none" 
         />
         <circle 
-          cx="1160" 
-          cy="260" 
-          r="170" 
+          cx="1210" 
+          cy="195" 
+          r="190" 
           stroke="#F4A258" 
           strokeWidth="1" 
-          strokeDasharray="4 6" 
-          strokeOpacity="0.16" 
+          strokeDasharray="4 7" 
+          strokeOpacity="0.15" 
           fill="none" 
         />
         <circle 
-          cx="1160" 
-          cy="260" 
-          r="200" 
+          cx="1210" 
+          cy="195" 
+          r="225" 
           stroke="#BDD3CE" 
           strokeWidth="0.75" 
-          strokeOpacity="0.10" 
+          strokeOpacity="0.09" 
+          fill="none" 
+        />
+
+        {/* Upper-Left Subtle Geometric Arc Behind Showcase & Header Actions */}
+        <circle 
+          cx="210" 
+          cy="145" 
+          r="145" 
+          stroke="#BDD3CE" 
+          strokeWidth="0.8" 
+          strokeOpacity="0.07" 
+          fill="none" 
+        />
+        <circle 
+          cx="210" 
+          cy="145" 
+          r="180" 
+          stroke="#F4A258" 
+          strokeWidth="0.85" 
+          strokeDasharray="3 6" 
+          strokeOpacity="0.11" 
           fill="none" 
         />
       </svg>

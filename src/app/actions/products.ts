@@ -14,8 +14,7 @@ export async function getProducts() {
       },
     })
     return products
-  } catch (error) {
-    console.error("Failed to fetch products:", error)
+  } catch {
     return []
   }
 }
@@ -29,8 +28,7 @@ export async function getProductById(id: string) {
       },
     })
     return product
-  } catch (error) {
-    console.error("Failed to fetch product:", error)
+  } catch {
     return null
   }
 }
@@ -45,8 +43,7 @@ export async function getTopProducts(limit = 4) {
       },
     })
     return products
-  } catch (error) {
-    console.error("Failed to fetch top products:", error)
+  } catch {
     return []
   }
 }

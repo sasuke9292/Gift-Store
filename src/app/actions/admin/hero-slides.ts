@@ -128,8 +128,7 @@ export async function getPublicHeroSlides(): Promise<HeroSlideData[]> {
     })
 
     return slides
-  } catch (error) {
-    console.error('Failed to get public hero slides:', error)
+  } catch {
     return []
   }
 }

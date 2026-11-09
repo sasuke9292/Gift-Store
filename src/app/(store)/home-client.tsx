@@ -295,22 +295,24 @@ export default function StoreHomeClient({
     <div className="flex flex-col min-h-screen bg-[#FAF7F2] text-slate-900 overflow-x-hidden font-sans" dir="rtl">
 
       {/* ========================================================================= */}
-      {/* 1. ROYAL LUXURY HERO SECTION (Seamless Header Integration) */}
+      {/* 1. ROYAL LUXURY HERO SECTION (Unified Header & Hero Composition)          */}
       {/* ========================================================================= */}
       <section 
-        className="relative overflow-hidden -mt-[105px] lg:-mt-[149px] pt-[124px] sm:pt-[136px] lg:pt-[176px] pb-6 sm:pb-8 lg:pb-10 flex flex-col justify-center text-white"
+        data-testid="unified-hero-section"
+        className="relative overflow-hidden pt-[118px] sm:pt-[138px] md:pt-[184px] lg:pt-[204px] flex flex-col justify-center text-white"
         style={{
-          background: 'linear-gradient(180deg, #011622 0%, #01283B 28%, #01344D 65%, #013D5A 100%)'
+          background: 'linear-gradient(180deg, #011622 0%, #012436 24%, #012E46 58%, #013D5A 100%)'
         }}
       >
-        {/* Soft Ambient Royal Glow Orbs */}
-        <div className="absolute top-0 start-1/4 w-[580px] h-[580px] bg-[#BDD3CE]/10 rounded-full blur-[140px] pointer-events-none -z-10" />
-        <div className="absolute bottom-10 end-10 w-[500px] h-[500px] bg-[#F4A258]/10 rounded-full blur-[130px] pointer-events-none -z-10" />
-        <div className="absolute top-1/2 start-1/2 -translate-x-1/2 -translate-y-1/2 w-[650px] h-[650px] bg-[#025177]/20 rounded-full blur-[150px] pointer-events-none -z-10" />
+        {/* Soft Ambient Royal Glow Orbs (Spanning from top header canopy through hero body) */}
+        <div className="absolute -top-24 start-1/4 w-[620px] h-[620px] bg-[#BDD3CE]/10 rounded-full blur-[145px] pointer-events-none" />
+        <div className="absolute top-6 end-1/4 w-[480px] h-[480px] bg-[#025177]/25 rounded-full blur-[135px] pointer-events-none" />
+        <div className="absolute bottom-10 end-10 w-[500px] h-[500px] bg-[#F4A258]/10 rounded-full blur-[130px] pointer-events-none" />
+        <div className="absolute top-1/2 start-1/2 -translate-x-1/2 -translate-y-1/2 w-[680px] h-[680px] bg-[#025177]/20 rounded-full blur-[150px] pointer-events-none" />
         
-        {/* Subtle geometric dot matrix */}
+        {/* Subtle geometric dot matrix extending from top of viewport */}
         <div 
-          className="absolute inset-0 opacity-[0.035] -z-10"
+          className="absolute inset-0 opacity-[0.032] pointer-events-none"
           style={{
             backgroundImage: 'radial-gradient(circle, #FCF3E3 1px, transparent 1px)',
             backgroundSize: '28px 28px'
@@ -320,7 +322,7 @@ export default function StoreHomeClient({
         {/* Subtle Organic Shapes & Thin Ribbon Lines */}
         <HeroRibbonBackground />
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10 pb-10 sm:pb-14 lg:pb-16">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
 
             {/* RIGHT COLUMN: Master Brand Hook & Elevated CTAs (Centered on mobile, start-aligned on desktop) */}
@@ -331,9 +333,9 @@ export default function StoreHomeClient({
                 initial={{ opacity: 0, y: 14 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4 }}
-                className="inline-flex items-center gap-1.5 sm:gap-2 bg-white/10 border border-white/20 rounded-full px-3.5 py-1.5 sm:px-4 sm:py-2 text-[11px] sm:text-sm font-black text-[#FCF3E3] mb-3.5 sm:mb-6 shadow-xs backdrop-blur-md"
+                className="inline-flex items-center gap-1.5 sm:gap-2 bg-white/[0.08] border border-white/15 rounded-full px-3.5 py-1.5 sm:px-4 sm:py-2 text-[11px] sm:text-sm font-black text-[#FCF3E3] mb-3.5 sm:mb-6 shadow-xs backdrop-blur-md"
               >
-                <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#F4A258] shrink-0 animate-pulse" />
+                <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#F4A258] shrink-0" />
                 <span className="line-clamp-1">{settings?.heroBadge || heroBadge || 'التشكيلة الجديدة كلياً لعام 2026'}</span>
               </motion.div>
 
@@ -372,11 +374,11 @@ export default function StoreHomeClient({
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.25 }}
-                className="flex flex-row items-center justify-center lg:justify-start gap-2.5 sm:gap-4 w-full sm:w-auto max-w-md lg:max-w-none mb-8 sm:mb-10"
+                className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center lg:justify-start gap-3 sm:gap-4 w-full sm:w-auto max-w-sm sm:max-w-none mb-8 sm:mb-10"
               >
                 <Link
                   href={settings?.heroPrimaryBtnLink || '/shop'}
-                  className="flex-1 sm:flex-initial flex items-center justify-center gap-2 h-12 sm:h-14 px-5 sm:px-9 rounded-xl sm:rounded-2xl text-[#01283B] font-black text-xs sm:text-base transition-all hover:-translate-y-0.5 shadow-[0_8px_25px_rgba(244,162,88,0.45)] hover:shadow-[0_10px_35px_rgba(244,162,88,0.6)] cursor-pointer group"
+                  className="flex items-center justify-center gap-2 h-12 sm:h-14 px-6 sm:px-9 rounded-xl sm:rounded-2xl text-[#01283B] font-black text-sm sm:text-base whitespace-nowrap transition-all hover:-translate-y-0.5 shadow-[0_8px_25px_rgba(244,162,88,0.45)] hover:shadow-[0_10px_35px_rgba(244,162,88,0.6)] cursor-pointer group"
                   style={{
                     background: 'linear-gradient(135deg, #F4A258 0%, #DE8637 100%)'
                   }}
@@ -387,9 +389,9 @@ export default function StoreHomeClient({
 
                 <Link
                   href={settings?.heroSecondaryBtnLink || '/gift-finder'}
-                  className="flex-1 sm:flex-initial flex items-center justify-center gap-2 h-12 sm:h-14 px-4 sm:px-7 rounded-xl sm:rounded-2xl font-extrabold text-white bg-white/10 hover:bg-white/20 border border-white/20 hover:border-white/40 backdrop-blur-md text-xs sm:text-base transition-all hover:-translate-y-0.5 shadow-sm whitespace-nowrap cursor-pointer"
+                  className="flex items-center justify-center gap-2 h-12 sm:h-14 px-5 sm:px-7 rounded-xl sm:rounded-2xl font-extrabold text-white bg-white/10 hover:bg-white/20 border border-white/20 hover:border-white/40 backdrop-blur-md text-sm sm:text-base transition-all hover:-translate-y-0.5 shadow-sm whitespace-nowrap cursor-pointer"
                 >
-                  <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#F4A258]" />
+                  <Sparkles className="w-4 h-4 text-[#F4A258]" />
                   <span>{settings?.heroSecondaryBtnText || 'مكتشف الهدايا الذكي'}</span>
                 </Link>
               </motion.div>
@@ -404,7 +406,7 @@ export default function StoreHomeClient({
                 <div className="grid grid-cols-3 divide-x divide-x-reverse divide-white/15">
                   {/* Stat 1 */}
                   <div className="flex flex-col items-center justify-center text-center px-1 sm:px-4">
-                    <p className="text-xl sm:text-3xl font-black text-[#FCF3E3] tracking-tight" dir="ltr">
+                    <p className="text-xl sm:text-3xl font-black text-[#FCF3E3] tracking-tight tabular-nums" dir="ltr">
                       {settings?.stat1Value || '+15K'}
                     </p>
                     <p className="text-[10px] sm:text-xs text-white/70 font-bold mt-1 text-center">
@@ -427,7 +429,7 @@ export default function StoreHomeClient({
 
                   {/* Stat 3 */}
                   <div className="flex flex-col items-center justify-center text-center px-1 sm:px-4">
-                    <p className="text-xl sm:text-3xl font-black text-[#F4A258] tracking-tight" dir="ltr">
+                    <p className="text-xl sm:text-3xl font-black text-[#F4A258] tracking-tight tabular-nums" dir="ltr">
                       {settings?.stat3Value || '100%'}
                     </p>
                     <p className="text-[10px] sm:text-xs text-white/70 font-bold mt-1 text-center">
@@ -583,16 +585,24 @@ export default function StoreHomeClient({
           </div>
         </div>
 
-        {/* Seamless Organic Curved Transition into Next Section */}
-        <div className="w-full overflow-hidden leading-none pointer-events-none mt-10 sm:mt-14 lg:mt-16 -mb-1" aria-hidden="true">
+        {/* Seamless Organic Curved Transition into Next Section (Flush at Bottom of Hero) */}
+        <div className="w-full overflow-hidden leading-none pointer-events-none -mb-px relative z-10" aria-hidden="true">
           <svg
-            className="relative block w-full h-8 sm:h-12 lg:h-16 text-[#FAF7F2]"
-            viewBox="0 0 1440 64"
+            className="relative block w-full h-10 sm:h-14 lg:h-18 text-[#FAF7F2]"
+            viewBox="0 0 1440 72"
             fill="none"
             preserveAspectRatio="none"
           >
+            {/* Subtle Gold & Celeste Rim Accent Along the Organic Curve */}
             <path
-              d="M0,28 C260,58 480,8 720,38 C960,68 1180,12 1440,32 L1440,64 L0,64 Z"
+              d="M0,26 C320,64 560,6 840,42 C1080,68 1260,18 1440,34"
+              stroke="#F4A258"
+              strokeOpacity="0.24"
+              strokeWidth="1.25"
+              fill="none"
+            />
+            <path
+              d="M0,32 C320,70 560,12 840,48 C1080,74 1260,24 1440,40 L1440,72 L0,72 Z"
               fill="currentColor"
             />
           </svg>

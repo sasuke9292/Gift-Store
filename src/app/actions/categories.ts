@@ -11,8 +11,7 @@ export async function getCategories(onlyActive = true) {
       },
     })
     return categories
-  } catch (error) {
-    console.error("Failed to fetch categories:", error)
+  } catch {
     return []
   }
 }

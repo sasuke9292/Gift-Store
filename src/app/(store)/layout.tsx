@@ -17,15 +17,15 @@ export default async function StoreLayout({
   let session = null
   try {
     session = await auth()
-  } catch (error) {
-    console.error('Failed to get session:', error)
+  } catch {
+    session = null
   }
 
   let settings = null
   try {
     settings = await prisma.storeSettings.findUnique({ where: { id: 'default' } })
-  } catch (error) {
-    console.error('Failed to fetch store settings:', error)
+  } catch {
+    settings = null
   }
 
   const isStaff = session?.user?.role && session.user.role !== 'CUSTOMER'
