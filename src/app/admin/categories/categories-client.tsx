@@ -1,9 +1,10 @@
 'use client'
 
 import React, { useState } from 'react'
+import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { Button } from '@/components/ui/button'
-import { Plus, Search, Edit, Trash2, FolderTree, Image as ImageIcon, Loader2 } from 'lucide-react'
+import { Plus, Search, Edit, Trash2, FolderTree, Image as ImageIcon, Loader2, Upload, X } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import { toast } from 'sonner'
 import { createCategory, updateCategory, deleteCategory } from '@/app/actions/admin/categories'
@@ -41,6 +42,32 @@ export default function CategoriesClient({ initialCategories }: { initialCategor
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [deleteId, setDeleteId] = useState<string | null>(null)
   const [isDeleting, setIsDeleting] = useState(false)
+  const [isUploading, setIsUploading] = useState(false)
+
+  const handleUploadImage = async (file: File) => {
+    if (!file) return
+    setIsUploading(true)
+    const formData = new FormData()
+    formData.append('file', file)
+
+    try {
+      const res = await fetch('/api/upload', {
+        method: 'POST',
+        body: formData,
+      })
+      const data = await res.json()
+      if (data.success && data.url) {
+        setCurrentCategory(prev => ({ ...prev, image: data.url }))
+        toast.success('تم رفع صورة التصنيف بنجاح!')
+      } else {
+        toast.error(data.error || 'فشل رفع الصورة')
+      }
+    } catch {
+      toast.error('حدث خطأ أثناء رفع الصورة')
+    } finally {
+      setIsUploading(false)
+    }
+  }
 
   const filteredCategories = categories.filter(cat =>
     cat.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
@@ -258,7 +285,7 @@ export default function CategoriesClient({ initialCategories }: { initialCategor
               <p className="text-xs text-[#78716C] mt-1">أدخل بيانات ومعلومات التصنيف</p>
             </DialogHeader>
 
-            <div className="p-6 space-y-4">
+            <div className="p-6 space-y-4 max-h-[72vh] overflow-y-auto">
               <div>
                 <Label className="text-xs font-bold text-[#1C1917] mb-1.5 block">اسم التصنيف *</Label>
                 <Input
@@ -285,15 +312,93 @@ export default function CategoriesClient({ initialCategories }: { initialCategor
                 />
               </div>
 
+              {/* Category Image: Device Upload + Preview + URL */}
               <div>
-                <Label className="text-xs font-bold text-[#1C1917] mb-1.5 block">رابط صورة التصنيف</Label>
-                <Input
-                  value={currentCategory.image || ''}
-                  onChange={(e) => setCurrentCategory({ ...currentCategory, image: e.target.value })}
-                  placeholder="https://images.unsplash.com/..."
-                  className="h-11 rounded-xl bg-[#FAFAF8] border-[#E8E4DF] text-sm"
-                  dir="ltr"
+                <Label className="text-xs font-bold text-[#1C1917] mb-1.5 flex items-center justify-between">
+                  <span>صورة التصنيف</span>
+                  <span className="text-[11px] font-normal text-[#78716C]">موصى بها بنسبة 1:1 أو 4:3</span>
+                </Label>
+
+                {/* Live Preview if an image exists */}
+                {currentCategory.image ? (
+                  <div className="relative rounded-2xl overflow-hidden border border-[#BDD3CE] bg-[#FAF7F2] p-2 mb-3">
+                    <div className="relative w-full h-36 rounded-xl overflow-hidden bg-slate-100 flex items-center justify-center">
+                      <Image
+                        src={currentCategory.image}
+                        alt="معاينة صورة التصنيف"
+                        fill
+                        className="object-cover"
+                        sizes="(max-width: 768px) 100vw, 400px"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setCurrentCategory({ ...currentCategory, image: '' })}
+                        className="absolute top-2.5 end-2.5 w-7 h-7 rounded-lg bg-black/70 hover:bg-rose-600 text-white flex items-center justify-center transition-colors shadow-sm cursor-pointer"
+                        title="إزالة الصورة"
+                      >
+                        <X className="w-4 h-4" />
+                      </button>
+                    </div>
+                    <div className="flex items-center justify-between mt-2 px-1 text-[11px] text-[#78716C]">
+                      <span className="truncate max-w-[200px]" dir="ltr">{currentCategory.image}</span>
+                      <button
+                        type="button"
+                        onClick={() => document.getElementById('category-file-upload')?.click()}
+                        className="text-[#013D5A] font-bold hover:underline cursor-pointer"
+                      >
+                        تغيير الصورة
+                      </button>
+                    </div>
+                  </div>
+                ) : null}
+
+                {/* Device Upload Input (Hidden) */}
+                <input
+                  id="category-file-upload"
+                  type="file"
+                  accept="image/jpeg,image/png,image/webp,image/avif,image/gif"
+                  className="hidden"
+                  onChange={(e) => {
+                    const file = e.target.files?.[0]
+                    if (file) handleUploadImage(file)
+                    e.target.value = ''
+                  }}
                 />
+
+                {/* Device Upload Action Button */}
+                <div className="space-y-2">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => document.getElementById('category-file-upload')?.click()}
+                    disabled={isUploading}
+                    className="w-full h-12 rounded-xl border-2 border-dashed border-[#013D5A]/35 hover:border-[#013D5A] bg-[#FCF3E3]/40 hover:bg-[#FCF3E3] text-[#013D5A] font-bold text-xs flex items-center justify-center gap-2 cursor-pointer transition-all shadow-2xs"
+                  >
+                    {isUploading ? (
+                      <>
+                        <Loader2 className="w-4 h-4 animate-spin text-[#013D5A]" />
+                        <span>جاري رفع الصورة من جهازك...</span>
+                      </>
+                    ) : (
+                      <>
+                        <Upload className="w-4 h-4 text-[#F4A258]" />
+                        <span>رفع صورة من جهازك مباشرة (اختيار ملف)</span>
+                      </>
+                    )}
+                  </Button>
+
+                  {/* Or direct URL input */}
+                  <div>
+                    <Label className="text-[11px] font-bold text-[#78716C] mb-1 block">أو أدخل رابط صورة مباشر (URL)</Label>
+                    <Input
+                      value={currentCategory.image || ''}
+                      onChange={(e) => setCurrentCategory({ ...currentCategory, image: e.target.value })}
+                      placeholder="https://images.unsplash.com/..."
+                      className="h-10 text-xs rounded-xl bg-[#FAFAF8] border-[#E8E4DF]"
+                      dir="ltr"
+                    />
+                  </div>
+                </div>
               </div>
 
               <div>
