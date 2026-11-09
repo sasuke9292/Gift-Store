@@ -151,46 +151,6 @@ function CategoryCardItem({ cat }: { cat: Category }) {
   )
 }
 
-// Curated Gifting Personas / Occasions (High-Impact Luxury Feature)
-const recipientPersonas = [
-  {
-    id: 'her',
-    title: 'هدايا لها',
-    subtitle: 'عطور راقية، مجوهرات وبوكسات دلال',
-    tag: 'الأكثر رقة',
-    image: 'https://images.unsplash.com/photo-1547887537-6158d64c35b3?auto=format&fit=crop&q=80&w=800',
-    link: '/category/women',
-    btnText: 'اكتشف هداياها'
-  },
-  {
-    id: 'him',
-    title: 'هدايا له',
-    subtitle: 'ساعات فاخرة، أطقم محافظ ومسابح ملكية',
-    tag: 'فخامة وهيبة',
-    image: 'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&q=80&w=800',
-    link: '/category/men',
-    btnText: 'اكتشف هداياه'
-  },
-  {
-    id: 'occasions',
-    title: 'مناسبات وأفراح',
-    subtitle: 'تخرج، زواج، خطوبة وذكرى سنوية',
-    tag: 'لحظات استثنائية',
-    image: 'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&q=80&w=800',
-    link: '/category/occasions',
-    btnText: 'تصفح المناسبات'
-  },
-  {
-    id: 'custom',
-    title: 'مخصصة بالاسم',
-    subtitle: 'قطع محفورة وتنسيق خاص يخلد الذكرى',
-    tag: 'لمسة شخصية',
-    image: 'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?auto=format&fit=crop&q=80&w=800',
-    link: '/category/custom',
-    btnText: 'صمم هديتك'
-  }
-]
-
 const testimonials = [
   {
     id: 1,
@@ -320,48 +280,6 @@ export default function StoreHomeClient({
       bg: '#F0F4F9',
     },
   ]
-
-  // Dynamic Recipient Personas
-  const activePersonas = useMemo(() => {
-    return [
-      {
-        id: 'her',
-        title: settings?.persona1Title || recipientPersonas[0].title,
-        subtitle: settings?.persona1Subtitle || recipientPersonas[0].subtitle,
-        tag: settings?.persona1Tag || recipientPersonas[0].tag,
-        image: settings?.persona1Image || recipientPersonas[0].image,
-        link: settings?.persona1Link || recipientPersonas[0].link,
-        btnText: settings?.persona1BtnText || recipientPersonas[0].btnText
-      },
-      {
-        id: 'him',
-        title: settings?.persona2Title || recipientPersonas[1].title,
-        subtitle: settings?.persona2Subtitle || recipientPersonas[1].subtitle,
-        tag: settings?.persona2Tag || recipientPersonas[1].tag,
-        image: settings?.persona2Image || recipientPersonas[1].image,
-        link: settings?.persona2Link || recipientPersonas[1].link,
-        btnText: settings?.persona2BtnText || recipientPersonas[1].btnText
-      },
-      {
-        id: 'occasions',
-        title: settings?.persona3Title || recipientPersonas[2].title,
-        subtitle: settings?.persona3Subtitle || recipientPersonas[2].subtitle,
-        tag: settings?.persona3Tag || recipientPersonas[2].tag,
-        image: settings?.persona3Image || recipientPersonas[2].image,
-        link: settings?.persona3Link || recipientPersonas[2].link,
-        btnText: settings?.persona3BtnText || recipientPersonas[2].btnText
-      },
-      {
-        id: 'custom',
-        title: settings?.persona4Title || recipientPersonas[3].title,
-        subtitle: settings?.persona4Subtitle || recipientPersonas[3].subtitle,
-        tag: settings?.persona4Tag || recipientPersonas[3].tag,
-        image: settings?.persona4Image || recipientPersonas[3].image,
-        link: settings?.persona4Link || recipientPersonas[3].link,
-        btnText: settings?.persona4BtnText || recipientPersonas[3].btnText
-      }
-    ]
-  }, [settings])
 
   // Interactive Gift Finder Mini Quiz State
   const [quizRecipient, setQuizRecipient] = useState<'men' | 'women' | 'occasions' | 'custom' | null>('women')
@@ -750,76 +668,7 @@ export default function StoreHomeClient({
       )}
 
       {/* ========================================================================= */}
-      {/* 4. SHOP BY RECIPIENT & OCCASION (هدايا مختارة بعناية لمن تحب) */}
-      {/* ========================================================================= */}
-      {settings?.enablePersonasSection !== false && (
-        <section className="relative overflow-hidden py-10 sm:py-16 bg-white border-t border-slate-200/80">
-          {/* Subtle Organic Ribbon Flourish */}
-          <SectionRibbonFlourish variant="default" />
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            
-            <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-3 sm:gap-4 mb-6 sm:mb-8 text-center lg:text-start">
-              <div>
-                <p className="text-[11px] sm:text-xs font-black text-[#013D5A] uppercase tracking-widest mb-1.5 flex items-center justify-center lg:justify-start gap-1.5">
-                  <Sparkles className="w-3.5 h-3.5 text-[#013D5A]" />
-                  <span>{settings?.personaSectionBadge || 'دليل الإهداء الذكي'}</span>
-                </p>
-                <h2 className="text-xl sm:text-3xl lg:text-4xl font-black text-slate-900 tracking-tight">
-                  {settings?.personaSectionTitle || 'هدايا مختارة بعناية لمن تحب'}
-                </h2>
-              </div>
-              <p className="text-xs sm:text-sm text-slate-600 max-w-md mx-auto lg:mx-0 leading-relaxed">
-                {settings?.personaSectionDesc || 'اختر الشخص أو المناسبة لتشاهد مجموعات منتقاة يدوياً بعناية ومغلفة بأعلى درجات الفخامة.'}
-              </p>
-            </div>
-
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-6">
-              {activePersonas.map((persona) => (
-                <Link
-                  key={persona.id}
-                  href={persona.link}
-                  className="group relative rounded-2xl sm:rounded-3xl overflow-hidden aspect-[3/4] sm:aspect-[4/5] flex flex-col justify-end p-3.5 sm:p-6 border border-slate-200/80 bg-slate-100 shadow-2xs hover:shadow-[0_16px_40px_rgba(19,33,60,0.14)] hover:-translate-y-1.5 transition-all duration-300"
-                >
-                  <Image
-                    src={persona.image}
-                    alt={persona.title}
-                    fill
-                    sizes="(max-width: 768px) 50vw, 25vw"
-                    className="object-cover transition-transform duration-700 group-hover:scale-108"
-                  />
-                  {/* Royal Dark Gradient Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#01283B]/95 via-[#01283B]/40 to-transparent" />
-                  
-                  {/* Floating Pill Tag */}
-                  <div className="absolute top-2.5 sm:top-4 start-2.5 sm:start-4 z-10">
-                    <span className="inline-flex items-center gap-1 bg-white/95 backdrop-blur-md px-2.5 py-0.5 sm:px-3 sm:py-1 rounded-full text-[10px] sm:text-[11px] font-black text-[#013D5A] shadow-2xs">
-                      {persona.tag}
-                    </span>
-                  </div>
-
-                  {/* Content */}
-                  <div className="relative z-10 text-start">
-                    <h3 className="text-sm sm:text-2xl font-black text-white mb-0.5 sm:mb-1.5 group-hover:text-[#F4A258] transition-colors leading-tight">
-                      {persona.title}
-                    </h3>
-                    <p className="text-[10px] sm:text-xs text-white/80 leading-relaxed mb-2 sm:mb-4 line-clamp-1 sm:line-clamp-2">
-                      {persona.subtitle}
-                    </p>
-                    <div className="inline-flex items-center gap-1 text-[11px] sm:text-xs font-extrabold text-[#F4A258] group-hover:text-white transition-colors">
-                      <span>{persona.btnText}</span>
-                      <ArrowLeft className="w-3.5 h-3.5 transition-transform group-hover:-translate-x-1" />
-                    </div>
-                  </div>
-                </Link>
-              ))}
-            </div>
-
-          </div>
-        </section>
-      )}
-
-      {/* ========================================================================= */}
-      {/* 5. CURATED PRODUCTS SHOWCASE (FILTER TABS & ELEVATED GRID) */}
+      {/* 4. CURATED PRODUCTS SHOWCASE (FILTER TABS & ELEVATED GRID) */}
       {/* ========================================================================= */}
       {topProducts.length > 0 && (
         <section className="py-10 sm:py-16 bg-[#FAF7F2] border-t border-slate-200/80">

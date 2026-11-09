@@ -106,7 +106,7 @@ export async function updateStoreSettings(rawData: Record<string, any>) {
       'maintenanceMode', 'showTopBar', 'showTrackOrder', 'showGiftFinder',
       'enableGiftPackaging', 'enableGiftCardNote', 'allowCod', 'allowOnlinePayment',
       'enableZainCash', 'enableFib', 'whatsappOrderEnabled', 'showFooterCta',
-      'orderNotifications', 'marketingEmails', 'enablePersonasSection', 'showConcierge',
+      'orderNotifications', 'marketingEmails', 'showConcierge',
       'showNavTabs'
     ]
     for (const field of booleanFields) {
