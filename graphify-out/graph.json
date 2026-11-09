@@ -1241,7 +1241,7 @@
       "file_type": "code",
       "norm_label": "categorywavesbackground()",
       "source_file": "src/components/ui/organic-decorations.tsx",
-      "source_location": "L130"
+      "source_location": "L139"
     },
     {
       "id": "src_components_ui_organic_decorations_footersilklines",
@@ -1253,7 +1253,7 @@
       "file_type": "code",
       "norm_label": "footersilklines()",
       "source_file": "src/components/ui/organic-decorations.tsx",
-      "source_location": "L317"
+      "source_location": "L326"
     },
     {
       "id": "src_components_ui_organic_decorations_heroribbonbackground",
@@ -1277,7 +1277,7 @@
       "file_type": "code",
       "norm_label": "packagingflourish()",
       "source_file": "src/components/ui/organic-decorations.tsx",
-      "source_location": "L386"
+      "source_location": "L395"
     },
     {
       "id": "src_components_ui_organic_decorations_quizluxurylines",
@@ -1289,7 +1289,7 @@
       "file_type": "code",
       "norm_label": "quizluxurylines()",
       "source_file": "src/components/ui/organic-decorations.tsx",
-      "source_location": "L187"
+      "source_location": "L196"
     },
     {
       "id": "src_components_ui_organic_decorations_sectionribbonflourish",
@@ -1301,7 +1301,7 @@
       "file_type": "code",
       "norm_label": "sectionribbonflourish()",
       "source_file": "src/components/ui/organic-decorations.tsx",
-      "source_location": "L271"
+      "source_location": "L280"
     },
     {
       "id": "src_lib_use_mounted_emptysubscribe",
@@ -9208,7 +9208,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/(store)/home-client.tsx",
-      "source_location": "L564",
+      "source_location": "L570",
       "weight": 1.0
     },
     {
@@ -9520,7 +9520,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/components/layout/store-header.tsx",
-      "source_location": "L139",
+      "source_location": "L141",
       "weight": 1.0
     },
     {
@@ -9532,7 +9532,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/components/layout/store-header.tsx",
-      "source_location": "L193",
+      "source_location": "L195",
       "weight": 1.0
     },
     {
@@ -9544,7 +9544,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/components/layout/store-header.tsx",
-      "source_location": "L88",
+      "source_location": "L90",
       "weight": 1.0
     },
     {
@@ -9556,7 +9556,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/components/layout/store-header.tsx",
-      "source_location": "L89",
+      "source_location": "L91",
       "weight": 1.0
     },
     {
@@ -9568,7 +9568,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/components/layout/store-header.tsx",
-      "source_location": "L90",
+      "source_location": "L92",
       "weight": 1.0
     },
     {
@@ -25756,7 +25756,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/ui/organic-decorations.tsx",
-      "source_location": "L130",
+      "source_location": "L139",
       "weight": 1.0
     },
     {
@@ -25767,7 +25767,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/ui/organic-decorations.tsx",
-      "source_location": "L187",
+      "source_location": "L196",
       "weight": 1.0
     },
     {
@@ -25778,7 +25778,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/ui/organic-decorations.tsx",
-      "source_location": "L271",
+      "source_location": "L280",
       "weight": 1.0
     },
     {
@@ -25789,7 +25789,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/ui/organic-decorations.tsx",
-      "source_location": "L317",
+      "source_location": "L326",
       "weight": 1.0
     },
     {
@@ -25800,7 +25800,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/ui/organic-decorations.tsx",
-      "source_location": "L386",
+      "source_location": "L395",
       "weight": 1.0
     },
     {
@@ -26642,5 +26642,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "c7a6a3785d4076542a58c6a26e71f1f71b95e223"
+  "built_at_commit": "d39060a4c85923765e5e487153ee4128aa03d86a"
 }

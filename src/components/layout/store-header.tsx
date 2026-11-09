@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState, useRef, useMemo } from 'react'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
+import { useRouter, usePathname } from 'next/navigation'
 import Image from 'next/image'
 import { 
   Search, 
@@ -85,6 +85,8 @@ const popularKeywords = [
 
 export function StoreHeader({ user, topBarText, settings }: StoreHeaderProps) {
   const router = useRouter()
+  const pathname = usePathname()
+  const isHome = pathname === '/'
   const cartItems = useCartStore(state => state.items)
   const favorites = useFavoritesStore(state => state.items)
   const mounted = useMounted()
@@ -192,13 +194,22 @@ export function StoreHeader({ user, topBarText, settings }: StoreHeaderProps) {
     <>
       <header className={cn(
         "sticky top-0 inset-x-0 z-50 transition-all duration-300",
-        isScrolled 
-          ? "bg-[#01283B]/95 backdrop-blur-xl shadow-[0_4px_30px_rgba(0,0,0,0.35)] border-b border-[#025177]/80" 
-          : "bg-[#01283B] border-b border-[#025177]/60 shadow-[0_2px_15px_rgba(0,0,0,0.25)]"
+        isHome
+          ? (isScrolled 
+              ? "bg-[#01283B]/95 backdrop-blur-xl shadow-[0_8px_32px_rgba(0,0,0,0.35)] border-b border-white/10" 
+              : "bg-transparent border-b border-transparent shadow-none")
+          : (isScrolled 
+              ? "bg-[#01283B]/95 backdrop-blur-xl shadow-[0_4px_30px_rgba(0,0,0,0.35)] border-b border-[#025177]/80" 
+              : "bg-[#01283B] border-b border-[#025177]/60 shadow-[0_2px_15px_rgba(0,0,0,0.25)]")
       )}>
         {/* Top Announcement Bar */}
         {(settings?.showTopBar ?? true) && (
-          <div className="bg-[#011D2B] text-white/90 py-2 px-4 text-xs font-semibold border-b border-white/10">
+          <div className={cn(
+            "text-white/90 py-2 px-4 text-xs font-semibold border-b transition-colors duration-300",
+            isHome && !isScrolled
+              ? "bg-black/20 border-white/10 backdrop-blur-xs"
+              : "bg-[#011D2B] border-white/10"
+          )}>
             <div className="max-w-7xl mx-auto flex items-center justify-between">
               <div className="flex items-center gap-2 mx-auto sm:mx-0">
                 <span className="w-2 h-2 rounded-full bg-[#F4A258] animate-pulse" />
@@ -264,7 +275,9 @@ export function StoreHeader({ user, topBarText, settings }: StoreHeaderProps) {
                   placeholder="ابحث عن هدية راقية، عطر، ساعة، أو مناسبة خاصة..."
                   className={cn(
                     "w-full h-11 ps-11 pe-10 rounded-2xl border text-sm transition-all text-start",
-                    "bg-white/10 border-white/15 text-white placeholder:text-white/60",
+                    isHome && !isScrolled
+                      ? "bg-white/12 border-white/20 text-white placeholder:text-white/70 backdrop-blur-md"
+                      : "bg-white/10 border-white/15 text-white placeholder:text-white/60",
                     "focus:bg-white focus:text-[#01283B] focus:placeholder:text-stone-400 focus:border-[#F4A258] focus:ring-4 focus:ring-[#F4A258]/25 focus:outline-none shadow-inner"
                   )}
                   value={searchQuery}
@@ -481,7 +494,7 @@ export function StoreHeader({ user, topBarText, settings }: StoreHeaderProps) {
                     className={cn(
                       "px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all duration-200",
                       link.highlight
-                        ? "text-rose-300 bg-rose-500/20 hover:bg-rose-500/30 border border-rose-400/30 font-extrabold"
+                        ? "text-[#F4A258] bg-[#F4A258]/15 hover:bg-[#F4A258]/25 border border-[#F4A258]/35 font-black shadow-xs"
                         : "text-white/80 hover:text-white hover:bg-white/10"
                     )}
                   >

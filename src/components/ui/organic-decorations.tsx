@@ -15,21 +15,29 @@ export function HeroRibbonBackground() {
     >
       {/* 1. Large Soft Organic Ambient Blob (Celeste & Lionsmane warmth) */}
       <div 
-        className="absolute -top-24 end-[-10%] w-[580px] h-[580px] lg:w-[720px] lg:h-[720px] rounded-full blur-[110px] opacity-60"
+        className="absolute -top-24 end-[-10%] w-[580px] h-[580px] lg:w-[720px] lg:h-[720px] rounded-full blur-[120px] opacity-70"
         style={{
-          background: 'radial-gradient(circle, rgba(189,211,206,0.18) 0%, rgba(252,243,227,0.22) 50%, transparent 75%)'
+          background: 'radial-gradient(circle, rgba(189,211,206,0.12) 0%, rgba(252,243,227,0.06) 50%, transparent 75%)'
         }}
       />
       
       {/* 2. Secondary Herb Organic Accent (Bottom Start) */}
       <div 
-        className="absolute -bottom-20 start-[-8%] w-[420px] h-[420px] rounded-full blur-[100px] opacity-40"
+        className="absolute -bottom-20 start-[-8%] w-[420px] h-[420px] rounded-full blur-[100px] opacity-60"
         style={{
-          background: 'radial-gradient(circle, rgba(112,140,105,0.12) 0%, rgba(189,211,206,0.15) 60%, transparent 75%)'
+          background: 'radial-gradient(circle, rgba(112,140,105,0.14) 0%, rgba(189,211,206,0.09) 60%, transparent 75%)'
         }}
       />
 
-      {/* 3. Subtle Thin Line Ribbon Waves & Geometric Luxury Rings */}
+      {/* 3. Warm Marigold Ambient Glow for Luxury Accent */}
+      <div 
+        className="absolute top-1/3 start-1/3 w-[380px] h-[380px] rounded-full blur-[130px] opacity-40"
+        style={{
+          background: 'radial-gradient(circle, rgba(244,162,88,0.12) 0%, transparent 70%)'
+        }}
+      />
+
+      {/* 4. Subtle Thin Line Ribbon Waves & Geometric Luxury Rings */}
       <svg
         className="absolute inset-0 w-full h-full"
         viewBox="0 0 1440 700"
@@ -39,20 +47,21 @@ export function HeroRibbonBackground() {
       >
         <defs>
           <linearGradient id="heroRibbonGradient1" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="#013D5A" stopOpacity="0.02" />
-            <stop offset="35%" stopColor="#013D5A" stopOpacity="0.08" />
-            <stop offset="70%" stopColor="#708C69" stopOpacity="0.07" />
-            <stop offset="100%" stopColor="#013D5A" stopOpacity="0.02" />
+            <stop offset="0%" stopColor="#BDD3CE" stopOpacity="0.05" />
+            <stop offset="35%" stopColor="#F4A258" stopOpacity="0.24" />
+            <stop offset="70%" stopColor="#BDD3CE" stopOpacity="0.18" />
+            <stop offset="100%" stopColor="#FCF3E3" stopOpacity="0.05" />
           </linearGradient>
 
           <linearGradient id="heroRibbonGradient2" x1="100%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stopColor="#F4A258" stopOpacity="0.11" />
-            <stop offset="50%" stopColor="#F4A258" stopOpacity="0.05" />
-            <stop offset="100%" stopColor="#BDD3CE" stopOpacity="0.09" />
+            <stop offset="0%" stopColor="#F4A258" stopOpacity="0.28" />
+            <stop offset="50%" stopColor="#F4A258" stopOpacity="0.14" />
+            <stop offset="100%" stopColor="#BDD3CE" stopOpacity="0.20" />
           </linearGradient>
 
           <linearGradient id="organicBlobGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#BDD3CE" stopOpacity="0.08" />
+            <stop offset="0%" stopColor="#025177" stopOpacity="0.22" />
+            <stop offset="50%" stopColor="#BDD3CE" stopOpacity="0.08" />
             <stop offset="100%" stopColor="#FCF3E3" stopOpacity="0.03" />
           </linearGradient>
         </defs>
@@ -85,7 +94,7 @@ export function HeroRibbonBackground() {
           d="M50,560 C380,480 620,650 960,530 C1250,430 1390,570 1500,520"
           stroke="#BDD3CE"
           strokeWidth="1"
-          strokeOpacity="0.08"
+          strokeOpacity="0.12"
           fill="none"
         />
 
@@ -94,9 +103,9 @@ export function HeroRibbonBackground() {
           cx="1160" 
           cy="260" 
           r="140" 
-          stroke="#013D5A" 
+          stroke="#FCF3E3" 
           strokeWidth="1" 
-          strokeOpacity="0.04" 
+          strokeOpacity="0.08" 
           fill="none" 
         />
         <circle 
@@ -106,7 +115,7 @@ export function HeroRibbonBackground() {
           stroke="#F4A258" 
           strokeWidth="1" 
           strokeDasharray="4 6" 
-          strokeOpacity="0.07" 
+          strokeOpacity="0.16" 
           fill="none" 
         />
         <circle 
@@ -115,7 +124,7 @@ export function HeroRibbonBackground() {
           r="200" 
           stroke="#BDD3CE" 
           strokeWidth="0.75" 
-          strokeOpacity="0.05" 
+          strokeOpacity="0.10" 
           fill="none" 
         />
       </svg>

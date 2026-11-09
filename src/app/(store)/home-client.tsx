@@ -301,18 +301,24 @@ export default function StoreHomeClient({
     <div className="flex flex-col min-h-screen bg-[#FAF7F2] text-slate-900 overflow-x-hidden font-sans" dir="rtl">
 
       {/* ========================================================================= */}
-      {/* 1. ROYAL LUXURY HERO SECTION */}
+      {/* 1. ROYAL LUXURY HERO SECTION (Seamless Header Integration) */}
       {/* ========================================================================= */}
-      <section className="relative overflow-hidden pt-6 sm:pt-10 lg:pt-14 pb-10 sm:pb-16 lg:pb-20 flex flex-col justify-center">
-        {/* Soft Royal Glow Accents */}
-        <div className="absolute top-0 start-1/4 w-[550px] h-[550px] bg-[#013D5A]/8 rounded-full blur-[140px] pointer-events-none -z-10" />
-        <div className="absolute bottom-10 end-10 w-[450px] h-[450px] bg-[#025177]/6 rounded-full blur-[120px] pointer-events-none -z-10" />
+      <section 
+        className="relative overflow-hidden -mt-[105px] lg:-mt-[149px] pt-[124px] sm:pt-[136px] lg:pt-[176px] pb-6 sm:pb-8 lg:pb-10 flex flex-col justify-center text-white"
+        style={{
+          background: 'linear-gradient(180deg, #011622 0%, #01283B 28%, #01344D 65%, #013D5A 100%)'
+        }}
+      >
+        {/* Soft Ambient Royal Glow Orbs */}
+        <div className="absolute top-0 start-1/4 w-[580px] h-[580px] bg-[#BDD3CE]/10 rounded-full blur-[140px] pointer-events-none -z-10" />
+        <div className="absolute bottom-10 end-10 w-[500px] h-[500px] bg-[#F4A258]/10 rounded-full blur-[130px] pointer-events-none -z-10" />
+        <div className="absolute top-1/2 start-1/2 -translate-x-1/2 -translate-y-1/2 w-[650px] h-[650px] bg-[#025177]/20 rounded-full blur-[150px] pointer-events-none -z-10" />
         
         {/* Subtle geometric dot matrix */}
         <div 
-          className="absolute inset-0 opacity-[0.025] -z-10"
+          className="absolute inset-0 opacity-[0.035] -z-10"
           style={{
-            backgroundImage: 'radial-gradient(circle, #013D5A 1px, transparent 1px)',
+            backgroundImage: 'radial-gradient(circle, #FCF3E3 1px, transparent 1px)',
             backgroundSize: '28px 28px'
           }}
         />
@@ -331,10 +337,10 @@ export default function StoreHomeClient({
                 initial={{ opacity: 0, y: 14 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4 }}
-                className="inline-flex items-center gap-1.5 sm:gap-2 bg-[#F0F4F9] border border-[#013D5A]/20 rounded-full px-3.5 py-1.5 sm:px-4 sm:py-2 text-[11px] sm:text-sm font-black text-[#013D5A] mb-3.5 sm:mb-6 shadow-2xs"
+                className="inline-flex items-center gap-1.5 sm:gap-2 bg-white/10 border border-white/20 rounded-full px-3.5 py-1.5 sm:px-4 sm:py-2 text-[11px] sm:text-sm font-black text-[#FCF3E3] mb-3.5 sm:mb-6 shadow-xs backdrop-blur-md"
               >
-                <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#013D5A] shrink-0" />
-                <span className="line-clamp-1">{settings?.heroBadge || heroBadge || 'التشكيلة الملكية لعام 2026 • هدايا استثنائية وتغليف مجاني'}</span>
+                <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#F4A258] shrink-0 animate-pulse" />
+                <span className="line-clamp-1">{settings?.heroBadge || heroBadge || 'التشكيلة الجديدة كلياً لعام 2026'}</span>
               </motion.div>
 
               {/* Master Headline */}
@@ -342,16 +348,16 @@ export default function StoreHomeClient({
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.1 }}
-                className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-[1.2] text-slate-900 mb-3.5 sm:mb-6"
+                className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-[1.2] text-[#FCF3E3] mb-3.5 sm:mb-6"
               >
                 {(settings?.heroHeadline || heroHeadline) ? (
                   <span dangerouslySetInnerHTML={{ __html: (settings?.heroHeadline || heroHeadline).replace(/\n/g, '<br/>') }} />
                 ) : (
                   <>
-                    <span>لحظاتك الثمينة</span>
+                    <span className="text-[#FCF3E3]">لحظاتك الثمينة</span>
                     <br />
-                    <span className="text-transparent bg-clip-text bg-gradient-to-l from-[#013D5A] via-[#025177] to-[#025880]">
-                      تستحق أفخم الهدايا.
+                    <span className="text-transparent bg-clip-text bg-gradient-to-l from-[#F4A258] via-[#FCF3E3] to-[#F4A258]">
+                      تستحق الأفضل.
                     </span>
                   </>
                 )}
@@ -362,9 +368,9 @@ export default function StoreHomeClient({
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.2 }}
-                className="text-xs sm:text-base lg:text-lg text-slate-600 max-w-xl mb-6 sm:mb-8 leading-relaxed font-normal"
+                className="text-xs sm:text-base lg:text-lg text-white/80 max-w-xl mb-6 sm:mb-8 leading-relaxed font-normal"
               >
-                {settings?.heroSubheadline || heroSubheadline || 'اكتشف تجربة إهداء استثنائية في العراق تجمع بين فخامة التصميم وأناقة التفاصيل، مع تغليف يدوي فاخر وبطاقة مخصصة تخلّد أجمل الذكريات.'}
+                {settings?.heroSubheadline || heroSubheadline || 'اكتشف مجموعة من الهدايا الاستثنائية التي تم اختيارها بعناية لتناسب أرقى الأذواق وتخلّد أجمل الذكريات.'}
               </motion.p>
 
               {/* Action Buttons */}
@@ -376,21 +382,21 @@ export default function StoreHomeClient({
               >
                 <Link
                   href={settings?.heroPrimaryBtnLink || '/shop'}
-                  className="flex-1 sm:flex-initial flex items-center justify-center gap-2 h-12 sm:h-14 px-5 sm:px-9 rounded-xl sm:rounded-2xl text-[#013D5A] font-black text-xs sm:text-base transition-all hover:-translate-y-0.5 shadow-[0_6px_24px_rgba(244,162,88,0.38)] hover:shadow-[0_8px_30px_rgba(244,162,88,0.5)] cursor-pointer"
+                  className="flex-1 sm:flex-initial flex items-center justify-center gap-2 h-12 sm:h-14 px-5 sm:px-9 rounded-xl sm:rounded-2xl text-[#01283B] font-black text-xs sm:text-base transition-all hover:-translate-y-0.5 shadow-[0_8px_25px_rgba(244,162,88,0.45)] hover:shadow-[0_10px_35px_rgba(244,162,88,0.6)] cursor-pointer group"
                   style={{
                     background: 'linear-gradient(135deg, #F4A258 0%, #DE8637 100%)'
                   }}
                 >
-                  <span>{settings?.heroPrimaryBtnText || 'استكشف التشكيلة'}</span>
+                  <span>{settings?.heroPrimaryBtnText || 'اكتشف التشكيلة الفاخرة'}</span>
                   <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5 transition-transform group-hover:-translate-x-1" />
                 </Link>
 
                 <Link
-                  href={settings?.heroSecondaryBtnLink || '#gift-finder-section'}
-                  className="flex-1 sm:flex-initial flex items-center justify-center gap-2 h-12 sm:h-14 px-4 sm:px-7 rounded-xl sm:rounded-2xl font-extrabold text-[#013D5A] bg-white border border-[#BDD3CE] hover:border-[#013D5A] hover:bg-[#FCF3E3]/60 text-xs sm:text-base transition-all hover:-translate-y-0.5 shadow-xs whitespace-nowrap"
+                  href={settings?.heroSecondaryBtnLink || '/gift-finder'}
+                  className="flex-1 sm:flex-initial flex items-center justify-center gap-2 h-12 sm:h-14 px-4 sm:px-7 rounded-xl sm:rounded-2xl font-extrabold text-white bg-white/10 hover:bg-white/20 border border-white/20 hover:border-white/40 backdrop-blur-md text-xs sm:text-base transition-all hover:-translate-y-0.5 shadow-sm whitespace-nowrap cursor-pointer"
                 >
                   <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#F4A258]" />
-                  <span>{settings?.heroSecondaryBtnText || 'مستشار الهدايا'}</span>
+                  <span>{settings?.heroSecondaryBtnText || 'مكتشف الهدايا الذكي'}</span>
                 </Link>
               </motion.div>
 
@@ -399,38 +405,38 @@ export default function StoreHomeClient({
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.35 }}
-                className="pt-5 sm:pt-6 border-t border-slate-200/80 w-full max-w-lg lg:max-w-xl"
+                className="pt-5 sm:pt-6 border-t border-white/15 w-full max-w-lg lg:max-w-xl"
               >
-                <div className="grid grid-cols-3 divide-x divide-x-reverse divide-slate-200/80">
+                <div className="grid grid-cols-3 divide-x divide-x-reverse divide-white/15">
                   {/* Stat 1 */}
                   <div className="flex flex-col items-center justify-center text-center px-1 sm:px-4">
-                    <p className="text-xl sm:text-3xl font-black text-[#013D5A] tracking-tight" dir="ltr">
+                    <p className="text-xl sm:text-3xl font-black text-[#FCF3E3] tracking-tight" dir="ltr">
                       {settings?.stat1Value || '+15K'}
                     </p>
-                    <p className="text-[10px] sm:text-xs text-slate-500 font-bold mt-1 text-center">
+                    <p className="text-[10px] sm:text-xs text-white/70 font-bold mt-1 text-center">
                       {settings?.stat1Label || 'عميل يثق بنا'}
                     </p>
                   </div>
 
                   {/* Stat 2 */}
                   <div className="flex flex-col items-center justify-center text-center px-1 sm:px-4">
-                    <div className="inline-flex items-center justify-center gap-1 text-xl sm:text-3xl font-black text-[#013D5A] tracking-tight">
+                    <div className="inline-flex items-center justify-center gap-1 text-xl sm:text-3xl font-black text-[#FCF3E3] tracking-tight">
                       <span dir="ltr" className="tabular-nums">
                         {(settings?.stat2Value || '4.9').replace(/[★⭐*]/g, '').trim() || '4.9'}
                       </span>
-                      <Star className="w-3.5 h-3.5 sm:w-5 sm:h-5 fill-amber-400 text-amber-400 shrink-0" />
+                      <Star className="w-3.5 h-3.5 sm:w-5 sm:h-5 fill-[#F4A258] text-[#F4A258] shrink-0" />
                     </div>
-                    <p className="text-[10px] sm:text-xs text-slate-500 font-bold mt-1 text-center">
+                    <p className="text-[10px] sm:text-xs text-white/70 font-bold mt-1 text-center">
                       {settings?.stat2Label || 'تقييم العملاء'}
                     </p>
                   </div>
 
                   {/* Stat 3 */}
                   <div className="flex flex-col items-center justify-center text-center px-1 sm:px-4">
-                    <p className="text-xl sm:text-3xl font-black text-[#013D5A] tracking-tight" dir="ltr">
+                    <p className="text-xl sm:text-3xl font-black text-[#F4A258] tracking-tight" dir="ltr">
                       {settings?.stat3Value || '100%'}
                     </p>
-                    <p className="text-[10px] sm:text-xs text-slate-500 font-bold mt-1 text-center">
+                    <p className="text-[10px] sm:text-xs text-white/70 font-bold mt-1 text-center">
                       {settings?.stat3Label || 'تغليف ملكي مجاني'}
                     </p>
                   </div>
@@ -446,7 +452,7 @@ export default function StoreHomeClient({
                 <div 
                   onMouseEnter={() => setIsHovered(true)}
                   onMouseLeave={() => setIsHovered(false)}
-                  className="relative aspect-[16/11] sm:aspect-[1/1] lg:aspect-[4/5] rounded-2xl sm:rounded-3xl overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.12)] border border-slate-200/80 bg-slate-100 group select-none"
+                  className="relative aspect-[16/11] sm:aspect-[1/1] lg:aspect-[4/5] rounded-2xl sm:rounded-3xl overflow-hidden shadow-[0_25px_60px_rgba(0,0,0,0.45)] border border-white/20 bg-[#01283B]/80 group select-none"
                 >
                   <AnimatePresence mode="wait">
                     <motion.div
@@ -466,12 +472,12 @@ export default function StoreHomeClient({
                         className="object-cover transition-transform duration-700 group-hover:scale-105"
                       />
                       {/* Gradient Overlays */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-[#01283B]/95 via-[#01283B]/30 to-transparent" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#01283B]/95 via-[#01283B]/35 to-transparent" />
                       
                       {/* Top Tag */}
                       <div className="absolute top-3 sm:top-4 start-3 sm:start-4 z-10">
-                        <span className="inline-flex items-center gap-1 bg-white/95 backdrop-blur-md px-2.5 py-1 sm:px-3.5 sm:py-1.5 rounded-full text-[10px] sm:text-xs font-black text-[#013D5A] shadow-sm">
-                          <Flame className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-[#013D5A]" />
+                        <span className="inline-flex items-center gap-1 bg-[#F4A258] text-[#01283B] px-2.5 py-1 sm:px-3.5 sm:py-1.5 rounded-full text-[10px] sm:text-xs font-black shadow-md">
+                          <Flame className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-[#01283B]" />
                           {currentSlide.tag}
                         </span>
                       </div>
@@ -481,7 +487,7 @@ export default function StoreHomeClient({
                         <h3 className="text-base sm:text-2xl font-black text-white mb-1 sm:mb-2 leading-tight">
                           {currentSlide.title}
                         </h3>
-                        <p className="text-[11px] sm:text-sm text-white/80 mb-2 sm:mb-4 line-clamp-1 sm:line-clamp-2 leading-relaxed">
+                        <p className="text-[11px] sm:text-sm text-[#FCF3E3]/85 mb-2 sm:mb-4 line-clamp-1 sm:line-clamp-2 leading-relaxed">
                           {currentSlide.subtitle}
                         </p>
                         <Link
@@ -499,7 +505,7 @@ export default function StoreHomeClient({
                   <div className="absolute top-3 sm:top-4 end-3 sm:end-4 z-20 flex items-center gap-1.5">
                     <button
                       onClick={() => setActiveSlide((prev) => (prev === 0 ? activeShowcaseSlides.length - 1 : prev - 1))}
-                      className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white/85 backdrop-blur-md flex items-center justify-center text-[#013D5A] hover:bg-white hover:scale-105 transition-all shadow-xs cursor-pointer active:scale-95"
+                      className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#01283B]/80 hover:bg-[#01283B] text-white border border-white/20 backdrop-blur-md flex items-center justify-center hover:scale-105 transition-all shadow-xs cursor-pointer active:scale-95"
                       aria-label="الشريحة السابقة"
                       title="السابق"
                     >
@@ -507,7 +513,7 @@ export default function StoreHomeClient({
                     </button>
                     <button
                       onClick={() => setActiveSlide((prev) => (prev === activeShowcaseSlides.length - 1 ? 0 : prev + 1))}
-                      className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white/85 backdrop-blur-md flex items-center justify-center text-[#013D5A] hover:bg-white hover:scale-105 transition-all shadow-xs cursor-pointer active:scale-95"
+                      className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#01283B]/80 hover:bg-[#01283B] text-white border border-white/20 backdrop-blur-md flex items-center justify-center hover:scale-105 transition-all shadow-xs cursor-pointer active:scale-95"
                       aria-label="الشريحة التالية"
                       title="التالي"
                     >
@@ -520,14 +526,14 @@ export default function StoreHomeClient({
                 <motion.div
                   animate={{ y: [0, -6, 0] }}
                   transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-                  className="hidden sm:flex items-center gap-3 absolute -top-5 start-2 sm:-start-5 bg-white/95 backdrop-blur-xl rounded-2xl p-3 sm:p-3.5 shadow-[0_12px_30px_rgba(0,0,0,0.12)] border border-slate-200/80 z-20 pointer-events-none"
+                  className="hidden sm:flex items-center gap-3 absolute -top-5 start-2 sm:-start-5 bg-[#01283B]/85 backdrop-blur-xl rounded-2xl p-3 sm:p-3.5 shadow-[0_16px_35px_rgba(0,0,0,0.35)] border border-white/15 z-20 pointer-events-none"
                 >
-                  <div className="w-10 h-10 rounded-xl bg-[#F0F4F9] flex items-center justify-center shrink-0">
-                    <Award className="w-5 h-5 text-[#013D5A]" />
+                  <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center shrink-0">
+                    <Award className="w-5 h-5 text-[#F4A258]" />
                   </div>
                   <div className="text-start">
-                    <p className="text-[11px] text-slate-400 font-bold">{settings?.heroBadgeTopSmall || 'جودة أصلية ومضمونة'}</p>
-                    <p className="text-xs font-black text-slate-900">{settings?.heroBadgeTopBold || 'ضمان استبدال واسترجاع'}</p>
+                    <p className="text-[11px] text-white/60 font-bold">{settings?.heroBadgeTopSmall || 'جودة أصلية ومضمونة'}</p>
+                    <p className="text-xs font-black text-[#FCF3E3]">{settings?.heroBadgeTopBold || 'ضمان استبدال واسترجاع'}</p>
                   </div>
                 </motion.div>
 
@@ -535,24 +541,24 @@ export default function StoreHomeClient({
                 <motion.div
                   animate={{ y: [0, 6, 0] }}
                   transition={{ duration: 3.5, repeat: Infinity, ease: 'easeInOut', delay: 0.5 }}
-                  className="hidden sm:flex items-center gap-3 absolute -bottom-5 end-2 sm:-end-5 bg-white/95 backdrop-blur-xl rounded-2xl p-3 sm:p-3.5 shadow-[0_12px_30px_rgba(0,0,0,0.12)] border border-slate-200/80 z-20 pointer-events-none"
+                  className="hidden sm:flex items-center gap-3 absolute -bottom-5 end-2 sm:-end-5 bg-[#01283B]/85 backdrop-blur-xl rounded-2xl p-3 sm:p-3.5 shadow-[0_16px_35px_rgba(0,0,0,0.35)] border border-white/15 z-20 pointer-events-none"
                 >
-                  <div className="w-10 h-10 rounded-xl bg-[#F0F4F9] flex items-center justify-center shrink-0">
-                    <Gift className="w-5 h-5 text-[#013D5A]" />
+                  <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center shrink-0">
+                    <Gift className="w-5 h-5 text-[#F4A258]" />
                   </div>
                   <div className="text-start">
-                    <p className="text-[11px] text-slate-400 font-bold">{settings?.heroBadgeBottomSmall || 'خدمة استثنائية'}</p>
-                    <p className="text-xs font-black text-slate-900">{settings?.heroBadgeBottomBold || 'تغليف مجاني مع كل طلب'}</p>
+                    <p className="text-[11px] text-white/60 font-bold">{settings?.heroBadgeBottomSmall || 'خدمة استثنائية'}</p>
+                    <p className="text-xs font-black text-[#FCF3E3]">{settings?.heroBadgeBottomBold || 'تغليف مجاني مع كل طلب'}</p>
                   </div>
                 </motion.div>
 
                 {/* Showcase Switcher Pills & Counter */}
                 <div className="flex items-center justify-between gap-3 mt-3.5 sm:mt-4 px-2">
                   {/* Slide Numeric Counter */}
-                  <div className="flex items-center gap-1 text-[11px] sm:text-xs font-black text-[#013D5A] tabular-nums" dir="ltr">
+                  <div className="flex items-center gap-1 text-[11px] sm:text-xs font-black text-[#FCF3E3] tabular-nums" dir="ltr">
                     <span>{String(safeSlideIndex + 1).padStart(2, '0')}</span>
-                    <span className="text-slate-400 font-normal">/</span>
-                    <span className="text-slate-500 font-semibold">{String(activeShowcaseSlides.length).padStart(2, '0')}</span>
+                    <span className="text-white/40 font-normal">/</span>
+                    <span className="text-white/60 font-semibold">{String(activeShowcaseSlides.length).padStart(2, '0')}</span>
                   </div>
 
                   {/* Switcher Pills */}
@@ -564,8 +570,8 @@ export default function StoreHomeClient({
                         className={cn(
                           "h-1.5 sm:h-2 rounded-full transition-all duration-300 cursor-pointer",
                           safeSlideIndex === idx 
-                            ? "w-6 sm:w-8 bg-[#013D5A] shadow-xs" 
-                            : "w-2 sm:w-2.5 bg-slate-200 hover:bg-slate-400"
+                            ? "w-6 sm:w-8 bg-[#F4A258] shadow-[0_0_12px_rgba(244,162,88,0.5)]" 
+                            : "w-2 sm:w-2.5 bg-white/25 hover:bg-white/40"
                         )}
                         aria-label={`انتقال إلى الشريحة ${idx + 1}`}
                       />
@@ -573,7 +579,7 @@ export default function StoreHomeClient({
                   </div>
 
                   {/* Hint */}
-                  <span className="text-[10px] text-slate-400 font-bold hidden sm:inline-block">
+                  <span className="text-[10px] text-white/50 font-bold hidden sm:inline-block">
                     {isHovered ? 'موقوف مؤقتاً' : 'تفاعلي تلقائي'}
                   </span>
                 </div>
@@ -582,12 +588,27 @@ export default function StoreHomeClient({
 
           </div>
         </div>
+
+        {/* Seamless Organic Curved Transition into Next Section */}
+        <div className="w-full overflow-hidden leading-none pointer-events-none mt-10 sm:mt-14 lg:mt-16 -mb-1" aria-hidden="true">
+          <svg
+            className="relative block w-full h-8 sm:h-12 lg:h-16 text-[#FAF7F2]"
+            viewBox="0 0 1440 64"
+            fill="none"
+            preserveAspectRatio="none"
+          >
+            <path
+              d="M0,28 C260,58 480,8 720,38 C960,68 1180,12 1440,32 L1440,64 L0,64 Z"
+              fill="currentColor"
+            />
+          </svg>
+        </div>
       </section>
 
       {/* ========================================================================= */}
       {/* 2. REFINED LUXURY TRUST & VALUE RIBBON (Spacious & Centered on Mobile) */}
       {/* ========================================================================= */}
-      <section className="py-6 sm:py-10 bg-white border-y border-slate-200/80">
+      <section className="py-6 sm:py-10 bg-[#FAF7F2]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
             {trustPillars.map((feature, idx) => {
@@ -595,7 +616,7 @@ export default function StoreHomeClient({
               return (
                 <div
                   key={idx}
-                  className="flex flex-col items-center text-center lg:flex-row lg:items-center lg:text-start gap-2.5 sm:gap-3.5 lg:gap-4 p-3.5 sm:p-5 rounded-2xl bg-slate-50/70 border border-slate-200/80 hover:border-[#013D5A]/30 hover:bg-white hover:shadow-xs transition-all duration-200 group h-full justify-center"
+                  className="flex flex-col items-center text-center lg:flex-row lg:items-center lg:text-start gap-2.5 sm:gap-3.5 lg:gap-4 p-3.5 sm:p-5 rounded-2xl bg-white border border-slate-200/80 hover:border-[#013D5A]/30 hover:bg-white hover:shadow-md transition-all duration-200 group h-full justify-center shadow-xs"
                 >
                   <div
                     className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center shrink-0 mb-1 lg:mb-0 transition-transform group-hover:scale-105 shadow-2xs"
