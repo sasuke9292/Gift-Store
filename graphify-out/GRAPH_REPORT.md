@@ -1,7 +1,7 @@
 # Graph Report - Gift-Store  (2026-11-09)
 
 ## Corpus Check
-- 128 files · ~148,324 words
+- 128 files · ~148,654 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 6 file(s) not represented in the graph (top: .ico 2, .example 1, (none) 1)
 
@@ -11,7 +11,7 @@
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `98ad62d8`
+- Built from commit: `a68681f1`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 

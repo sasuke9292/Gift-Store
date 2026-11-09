@@ -521,7 +521,7 @@
       "file_type": "code",
       "norm_label": "category",
       "source_file": "src/app/admin/categories/categories-client.tsx",
-      "source_location": "L22"
+      "source_location": "L23"
     },
     {
       "id": "src_app_admin_products_product_modal_productmodalprops",
@@ -2393,7 +2393,7 @@
       "file_type": "code",
       "norm_label": "categoriesclient()",
       "source_file": "src/app/admin/categories/categories-client.tsx",
-      "source_location": "L35"
+      "source_location": "L36"
     },
     {
       "id": "src_app_admin_categories_page_admincategoriespage",
@@ -8565,6 +8565,18 @@
     },
     {
       "source": "src_app_admin_categories_categories_client_categoriesclient",
+      "target": "src_app_actions_admin_categories_createcategory",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/app/admin/categories/categories-client.tsx",
+      "source_location": "L114",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_admin_categories_categories_client_categoriesclient",
       "target": "src_app_actions_admin_categories_deletecategory",
       "relation": "calls",
       "_origin": "ast",
@@ -8572,7 +8584,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/admin/categories/categories-client.tsx",
-      "source_location": "L109",
+      "source_location": "L136",
       "weight": 1.0
     },
     {
@@ -8584,19 +8596,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/admin/categories/categories-client.tsx",
-      "source_location": "L72",
-      "weight": 1.0
-    },
-    {
-      "source": "src_app_admin_categories_categories_client_categoriesclient",
-      "target": "src_app_actions_admin_categories_createcategory",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "src/app/admin/categories/categories-client.tsx",
-      "source_location": "L87",
+      "source_location": "L99",
       "weight": 1.0
     },
     {
@@ -10977,138 +10977,6 @@
     },
     {
       "source": "src_app_admin_categories_categories_client",
-      "target": "src_components_ui_dialog_dialog",
-      "relation": "imports",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "src/app/admin/categories/categories-client.tsx",
-      "source_location": "L10",
-      "weight": 1.0
-    },
-    {
-      "source": "src_app_admin_categories_categories_client",
-      "target": "src_components_ui_dialog_dialogcontent",
-      "relation": "imports",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "src/app/admin/categories/categories-client.tsx",
-      "source_location": "L10",
-      "weight": 1.0
-    },
-    {
-      "source": "src_app_admin_categories_categories_client",
-      "target": "src_components_ui_dialog_dialogfooter",
-      "relation": "imports",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "src/app/admin/categories/categories-client.tsx",
-      "source_location": "L10",
-      "weight": 1.0
-    },
-    {
-      "source": "src_app_admin_categories_categories_client",
-      "target": "src_components_ui_dialog_dialogheader",
-      "relation": "imports",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "src/app/admin/categories/categories-client.tsx",
-      "source_location": "L10",
-      "weight": 1.0
-    },
-    {
-      "source": "src_app_admin_categories_categories_client",
-      "target": "src_components_ui_dialog_dialogtitle",
-      "relation": "imports",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "src/app/admin/categories/categories-client.tsx",
-      "source_location": "L10",
-      "weight": 1.0
-    },
-    {
-      "source": "src_app_admin_categories_categories_client",
-      "target": "src_components_ui_label_label",
-      "relation": "imports",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "src/app/admin/categories/categories-client.tsx",
-      "source_location": "L17",
-      "weight": 1.0
-    },
-    {
-      "source": "src_app_admin_categories_categories_client",
-      "target": "src_components_ui_textarea_textarea",
-      "relation": "imports",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "src/app/admin/categories/categories-client.tsx",
-      "source_location": "L18",
-      "weight": 1.0
-    },
-    {
-      "source": "src_app_admin_categories_categories_client",
-      "target": "src_components_ui_confirm_dialog_confirmdialog",
-      "relation": "imports",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "src/app/admin/categories/categories-client.tsx",
-      "source_location": "L19",
-      "weight": 1.0
-    },
-    {
-      "source": "src_app_admin_categories_categories_client",
-      "target": "src_components_ui_switch_switch",
-      "relation": "imports",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "src/app/admin/categories/categories-client.tsx",
-      "source_location": "L20",
-      "weight": 1.0
-    },
-    {
-      "source": "src_app_admin_categories_categories_client",
-      "target": "src_components_ui_button_button",
-      "relation": "imports",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "src/app/admin/categories/categories-client.tsx",
-      "source_location": "L5",
-      "weight": 1.0
-    },
-    {
-      "source": "src_app_admin_categories_categories_client",
-      "target": "src_components_ui_input_input",
-      "relation": "imports",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "src/app/admin/categories/categories-client.tsx",
-      "source_location": "L7",
-      "weight": 1.0
-    },
-    {
-      "source": "src_app_admin_categories_categories_client",
       "target": "src_app_actions_admin_categories_createcategory",
       "relation": "imports",
       "_origin": "ast",
@@ -11116,7 +10984,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/app/admin/categories/categories-client.tsx",
-      "source_location": "L9",
+      "source_location": "L10",
       "weight": 1.0
     },
     {
@@ -11128,7 +10996,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/app/admin/categories/categories-client.tsx",
-      "source_location": "L9",
+      "source_location": "L10",
       "weight": 1.0
     },
     {
@@ -11140,7 +11008,139 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/app/admin/categories/categories-client.tsx",
-      "source_location": "L9",
+      "source_location": "L10",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_admin_categories_categories_client",
+      "target": "src_components_ui_dialog_dialog",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/app/admin/categories/categories-client.tsx",
+      "source_location": "L11",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_admin_categories_categories_client",
+      "target": "src_components_ui_dialog_dialogcontent",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/app/admin/categories/categories-client.tsx",
+      "source_location": "L11",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_admin_categories_categories_client",
+      "target": "src_components_ui_dialog_dialogfooter",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/app/admin/categories/categories-client.tsx",
+      "source_location": "L11",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_admin_categories_categories_client",
+      "target": "src_components_ui_dialog_dialogheader",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/app/admin/categories/categories-client.tsx",
+      "source_location": "L11",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_admin_categories_categories_client",
+      "target": "src_components_ui_dialog_dialogtitle",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/app/admin/categories/categories-client.tsx",
+      "source_location": "L11",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_admin_categories_categories_client",
+      "target": "src_components_ui_label_label",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/app/admin/categories/categories-client.tsx",
+      "source_location": "L18",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_admin_categories_categories_client",
+      "target": "src_components_ui_textarea_textarea",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/app/admin/categories/categories-client.tsx",
+      "source_location": "L19",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_admin_categories_categories_client",
+      "target": "src_components_ui_confirm_dialog_confirmdialog",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/app/admin/categories/categories-client.tsx",
+      "source_location": "L20",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_admin_categories_categories_client",
+      "target": "src_components_ui_switch_switch",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/app/admin/categories/categories-client.tsx",
+      "source_location": "L21",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_admin_categories_categories_client",
+      "target": "src_components_ui_button_button",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/app/admin/categories/categories-client.tsx",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_admin_categories_categories_client",
+      "target": "src_components_ui_input_input",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/app/admin/categories/categories-client.tsx",
+      "source_location": "L8",
       "weight": 1.0
     },
     {
@@ -15118,7 +15118,7 @@
     },
     {
       "source": "src_app_admin_categories_categories_client",
-      "target": "src_components_ui_dialog",
+      "target": "src_app_actions_admin_categories",
       "relation": "imports_from",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -15130,19 +15130,19 @@
     },
     {
       "source": "src_app_admin_categories_categories_client",
-      "target": "src_components_ui_label",
+      "target": "src_components_ui_dialog",
       "relation": "imports_from",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/app/admin/categories/categories-client.tsx",
-      "source_location": "L17",
+      "source_location": "L11",
       "weight": 1.0
     },
     {
       "source": "src_app_admin_categories_categories_client",
-      "target": "src_components_ui_textarea",
+      "target": "src_components_ui_label",
       "relation": "imports_from",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -15154,7 +15154,7 @@
     },
     {
       "source": "src_app_admin_categories_categories_client",
-      "target": "src_components_ui_confirm_dialog",
+      "target": "src_components_ui_textarea",
       "relation": "imports_from",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -15166,7 +15166,7 @@
     },
     {
       "source": "src_app_admin_categories_categories_client",
-      "target": "src_components_ui_switch",
+      "target": "src_components_ui_confirm_dialog",
       "relation": "imports_from",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -15174,6 +15174,18 @@
       "context": "import",
       "source_file": "src/app/admin/categories/categories-client.tsx",
       "source_location": "L20",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_admin_categories_categories_client",
+      "target": "src_components_ui_switch",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/app/admin/categories/categories-client.tsx",
+      "source_location": "L21",
       "weight": 1.0
     },
     {
@@ -15197,7 +15209,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/app/admin/categories/categories-client.tsx",
-      "source_location": "L4",
+      "source_location": "L5",
       "weight": 1.0
     },
     {
@@ -15209,7 +15221,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/app/admin/categories/categories-client.tsx",
-      "source_location": "L5",
+      "source_location": "L6",
       "weight": 1.0
     },
     {
@@ -15221,7 +15233,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/app/admin/categories/categories-client.tsx",
-      "source_location": "L6",
+      "source_location": "L7",
       "weight": 1.0
     },
     {
@@ -15233,24 +15245,12 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/app/admin/categories/categories-client.tsx",
-      "source_location": "L7",
-      "weight": 1.0
-    },
-    {
-      "source": "src_app_admin_categories_categories_client",
-      "target": "ref_sonner",
-      "relation": "imports_from",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "src/app/admin/categories/categories-client.tsx",
       "source_location": "L8",
       "weight": 1.0
     },
     {
       "source": "src_app_admin_categories_categories_client",
-      "target": "src_app_actions_admin_categories",
+      "target": "ref_sonner",
       "relation": "imports_from",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -22902,7 +22902,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/app/admin/categories/categories-client.tsx",
-      "source_location": "L22",
+      "source_location": "L23",
       "weight": 1.0
     },
     {
@@ -22913,7 +22913,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/app/admin/categories/categories-client.tsx",
-      "source_location": "L35",
+      "source_location": "L36",
       "weight": 1.0
     },
     {
@@ -26395,5 +26395,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "98ad62d8df093f11a27de3a3e13ca5f22bde3754"
+  "built_at_commit": "a68681f1172147109016bc3c8d678f1c14eab150"
 }
