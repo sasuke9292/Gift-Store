@@ -2,18 +2,15 @@
   "name": "gift-store-workspace",
   "version": "1.0.0",
   "private": true,
-  "description": "متجر گفتي بلس - مشروع متكامل يضم الموقع الإلكتروني وتطبيق الأندرويد",
+  "description": "متجر گفتي بلس - الموقع الإلكتروني المتكامل",
   "workspaces": [
-    "website",
-    "android-app"
+    "website"
   ],
   "scripts": {
     "dev": "npm run dev --workspace=website",
     "build": "npm run build --workspace=website",
     "start": "npm run start --workspace=website",
     "lint": "npm run lint --workspace=website",
-    "postinstall": "npm run postinstall --workspace=website",
-    "app:sync": "npm run sync --workspace=android-app",
-    "app:build": "npm run build:apk --workspace=android-app"
+    "postinstall": "npm run postinstall --workspace=website"
   }
 }
