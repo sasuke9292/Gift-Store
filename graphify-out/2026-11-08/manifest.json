@@ -1,0 +1,1352 @@
+{
+  ".vscode/settings.json": {
+    "mtime": 1790254529.98103,
+    "seen": 1791284275.37905,
+    "ast_hash": "edcea4e2efd52eef416f70d7269ed6e9",
+    "semantic_hash": ""
+  },
+  "Gift-Store/android-app/android/app/build.gradle": {
+    "mtime": 1790254542.1142075,
+    "seen": 1791284275.3790543,
+    "ast_hash": "4894d6fbacac6ac5d754a49f94dd3973",
+    "semantic_hash": ""
+  },
+  "Gift-Store/android-app/android/app/capacitor.build.gradle": {
+    "mtime": 1790259415.7673469,
+    "seen": 1791284275.3790562,
+    "ast_hash": "9e3b466405a321b15f7a336197a733af",
+    "semantic_hash": ""
+  },
+  "Gift-Store/android-app/android/app/src/androidTest/java/com/getcapacitor/myapp/ExampleInstrumentedTest.java": {
+    "mtime": 1789138888.0,
+    "seen": 1791284275.379057,
+    "ast_hash": "fbaf7cc870c663eb52dcf218531c439d",
+    "semantic_hash": ""
+  },
+  "Gift-Store/android-app/android/app/src/main/java/iq/giftstore/app/MainActivity.java": {
+    "mtime": 1790254155.012161,
+    "seen": 1791284275.3790576,
+    "ast_hash": "946f50a92b51273f73e9f9afec633663",
+    "semantic_hash": ""
+  },
+  "Gift-Store/android-app/android/app/src/test/java/com/getcapacitor/myapp/ExampleUnitTest.java": {
+    "mtime": 1789138888.0,
+    "seen": 1791284275.3790584,
+    "ast_hash": "e91b4501c14da821682fa5c26a16d616",
+    "semantic_hash": ""
+  },
+  "Gift-Store/android-app/android/build.gradle": {
+    "mtime": 1790254524.4104404,
+    "seen": 1791284275.3790593,
+    "ast_hash": "b8ebf32fe2b6bfb85fc8f71fb504f2a2",
+    "semantic_hash": ""
+  },
+  "Gift-Store/android-app/android/capacitor.settings.gradle": {
+    "mtime": 1790259415.7673469,
+    "seen": 1791284275.37906,
+    "ast_hash": "7c710dcdb1a1ede961ce4d707356d45a",
+    "semantic_hash": ""
+  },
+  "Gift-Store/android-app/android/gradlew": {
+    "mtime": 1789138888.0,
+    "seen": 1791284275.3790605,
+    "ast_hash": "794669d78aef1dd5c7d889ef618b311a",
+    "semantic_hash": ""
+  },
+  "Gift-Store/android-app/android/settings.gradle": {
+    "mtime": 1789138888.0,
+    "seen": 1791284275.3790612,
+    "ast_hash": "f6cd925b3f859e23c3d819fe2459e0e4",
+    "semantic_hash": ""
+  },
+  "Gift-Store/android-app/android/variables.gradle": {
+    "mtime": 1789138888.0,
+    "seen": 1791284275.379062,
+    "ast_hash": "4b3fce8ea2a515a9d2e47e74757172ec",
+    "semantic_hash": ""
+  },
+  "Gift-Store/android-app/capacitor.config.ts": {
+    "mtime": 1790254708.550159,
+    "seen": 1791284275.379063,
+    "ast_hash": "50cdf04b3e1e765172db048e57768fb4",
+    "semantic_hash": ""
+  },
+  "Gift-Store/android-app/package.json": {
+    "mtime": 1790259235.6826997,
+    "seen": 1791284275.3790634,
+    "ast_hash": "683f32b250e0661a12f363bab51b4450",
+    "semantic_hash": ""
+  },
+  "Gift-Store/package.json": {
+    "mtime": 1790259256.913157,
+    "seen": 1791284275.379064,
+    "ast_hash": "dde5a0c3bdb9331e7bea1f1842dd9974",
+    "semantic_hash": ""
+  },
+  "Gift-Store/scratch/check_images.ts": {
+    "mtime": 1789986445.478462,
+    "seen": 1791284275.3790646,
+    "ast_hash": "12dc727272541d8662cf0e106a4ad80f",
+    "semantic_hash": ""
+  },
+  "Gift-Store/scratch/fix_kids_cat.ts": {
+    "mtime": 1789986462.7113202,
+    "seen": 1791284275.379065,
+    "ast_hash": "d4087c0d387f6cbe5c15bc695e179899",
+    "semantic_hash": ""
+  },
+  "Gift-Store/scratch/get_lint_errors.ts": {
+    "mtime": 1789988928.3964155,
+    "seen": 1791284275.3790655,
+    "ast_hash": "79c1b5f11e429f14770061f0166ada6f",
+    "semantic_hash": ""
+  },
+  "Gift-Store/scratch/inspect_db.ts": {
+    "mtime": 1789986305.6361024,
+    "seen": 1791284275.3790665,
+    "ast_hash": "beb334904864d6be483ff74cc351c699",
+    "semantic_hash": ""
+  },
+  "Gift-Store/vercel.json": {
+    "mtime": 1790259261.9598906,
+    "seen": 1791284275.379067,
+    "ast_hash": "58db6c19f40eb5167b65450f541e0f65",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/assign-valid-images.ts": {
+    "mtime": 1789897877.699575,
+    "seen": 1791284275.3790674,
+    "ast_hash": "b1f22063ccfa0f5323984db4bca5d747",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/check-cats.ts": {
+    "mtime": 1790148117.0362608,
+    "seen": 1791284275.379068,
+    "ast_hash": "7117e430f5a7dc40f7fe22a36cad4069",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/check-images.ts": {
+    "mtime": 1789897877.699575,
+    "seen": 1791284275.3790686,
+    "ast_hash": "a43cd0d01d1d1bbe7e77cd29735cf027",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/components.json": {
+    "mtime": 1789897877.699575,
+    "seen": 1791284275.3790693,
+    "ast_hash": "519f93133ded707d8847caceca85dbac",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/convert_schema.py": {
+    "mtime": 1789897877.699575,
+    "seen": 1791284275.37907,
+    "ast_hash": "215e6afe510ebaa79865a83f95a5f378",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/eslint.config.mjs": {
+    "mtime": 1789988948.7476196,
+    "seen": 1791284275.3790708,
+    "ast_hash": "90b8cb01b12c4554a263618d87068ae2",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/fix-images.ts": {
+    "mtime": 1789897877.699575,
+    "seen": 1791284275.3790715,
+    "ast_hash": "2dbd8a1b44ce0bdd404456d7f3e49c75",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/next.config.ts": {
+    "mtime": 1789897877.699575,
+    "seen": 1791284275.379072,
+    "ast_hash": "90c6c155a83278c30f301e41cfafd3ae",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/package.json": {
+    "mtime": 1790254117.6815398,
+    "seen": 1791284275.3790727,
+    "ast_hash": "46f50a33646e5f0ea57c56fb278cd52a",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/postcss.config.mjs": {
+    "mtime": 1789897877.703982,
+    "seen": 1791284275.3790734,
+    "ast_hash": "481fac0fdecd70e1821cc30b86030c1a",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/prisma/seed.ts": {
+    "mtime": 1790512152.468454,
+    "seen": 1791284275.3790739,
+    "ast_hash": "6a2fbe691bef71f69cc82ff5abed7945",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/public/manifest.json": {
+    "mtime": 1790502156.2670996,
+    "seen": 1791284275.3790746,
+    "ast_hash": "1b5b542ca4dbc588a4b2fa79b9c41e24",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/scripts/audit-db.ts": {
+    "mtime": 1790512039.975643,
+    "seen": 1791284275.379075,
+    "ast_hash": "e7adf9967d4d18875e00204b5f9231fe",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/scripts/fix-broken-images.ts": {
+    "mtime": 1790512118.7989872,
+    "seen": 1791284275.3790755,
+    "ast_hash": "b55597c97be97cfb6245811b0b9e3ce6",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/app/(store)/about/page.tsx": {
+    "mtime": 1790512923.560312,
+    "seen": 1791284275.379076,
+    "ast_hash": "ededc99872a2471630bcf8c4acfadc1d",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/app/(store)/auth/admin-login/admin-login-client.tsx": {
+    "mtime": 1790499855.3365595,
+    "seen": 1791284275.379077,
+    "ast_hash": "3ae3744299f0fa7cdde279391c3fe28a",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/app/(store)/auth/admin-login/page.tsx": {
+    "mtime": 1789897877.7129917,
+    "seen": 1791284275.3790777,
+    "ast_hash": "cf12a852090575a1b82686f1f997b63f",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/app/(store)/auth/login/login-client.tsx": {
+    "mtime": 1790499836.9361694,
+    "seen": 1791284275.3790784,
+    "ast_hash": "232dd24768540a680cb13c007b4a6b44",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/app/(store)/auth/login/page.tsx": {
+    "mtime": 1790160767.744348,
+    "seen": 1791284275.3790789,
+    "ast_hash": "177bfe41ca0f1276a891e4756707e20c",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/app/(store)/cart/page.tsx": {
+    "mtime": 1791285865.9456327,
+    "seen": 1791286780.199556,
+    "ast_hash": "b32dbe794e911abec50ed4988181534d",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/app/(store)/category/[slug]/page.tsx": {
+    "mtime": 1790512807.5859005,
+    "seen": 1791284275.3790798,
+    "ast_hash": "09178ebe5d00c0bdbf02b674dcf6a84c",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/app/(store)/checkout/page.tsx": {
+    "mtime": 1791285837.223005,
+    "seen": 1791286780.1995597,
+    "ast_hash": "0c5f1be58736711bd48da1cdf24d00d5",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/app/(store)/contact/contact-form.tsx": {
+    "mtime": 1790498301.2508705,
+    "seen": 1791284275.3790812,
+    "ast_hash": "1cfd16807dba64eb00eeb484569d32f8",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/app/(store)/contact/page.tsx": {
+    "mtime": 1790512932.8036778,
+    "seen": 1791284275.3790817,
+    "ast_hash": "3031543f450376b1c4ed17952dfe2cab",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/app/(store)/error.tsx": {
+    "mtime": 1790160767.744348,
+    "seen": 1791284275.3790824,
+    "ast_hash": "acddfb09c5170d4e9afb6f6876383120",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/app/(store)/faq/page.tsx": {
+    "mtime": 1790512941.1404514,
+    "seen": 1791284275.3790832,
+    "ast_hash": "113b67292dce5d6e51044b600556e063",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/app/(store)/favorites/favorites-client.tsx": {
+    "mtime": 1790512752.70224,
+    "seen": 1791284275.3790839,
+    "ast_hash": "07d4b82ac50600a2bf4682049e17d304",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/app/(store)/favorites/page.tsx": {
+    "mtime": 1790512973.8910975,
+    "seen": 1791284275.3790843,
+    "ast_hash": "133310e47a8fafc1a65bc13220805d6e",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/app/(store)/gift-finder/gift-finder-client.tsx": {
+    "mtime": 1791284702.918568,
+    "seen": 1791286780.199566,
+    "ast_hash": "c2ab85286f85e3acab611861b7d15be4",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/app/(store)/gift-finder/page.tsx": {
+    "mtime": 1790512852.5417256,
+    "seen": 1791284275.3790855,
+    "ast_hash": "c9d9153b6ecdf7ebb1b6c6dbe60a36f6",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/app/(store)/home-client.tsx": {
+    "mtime": 1791286692.426474,
+    "seen": 1791286780.1995676,
+    "ast_hash": "3595fcbb725a1ff9a684df01ff766f6b",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/app/(store)/layout.tsx": {
+    "mtime": 1791284702.9191341,
+    "seen": 1791286780.1995687,
+    "ast_hash": "45a316f5736beb3e9a800093dc724447",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/app/(store)/loading.tsx": {
+    "mtime": 1791285879.402554,
+    "seen": 1791286780.1995695,
+    "ast_hash": "df5e01d2e72b6664368a78ebba137187",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/app/(store)/page.tsx": {
+    "mtime": 1790158143.213255,
+    "seen": 1791284275.379088,
+    "ast_hash": "9973109402fe2798682ba2d6671e9587",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/app/(store)/privacy/page.tsx": {
+    "mtime": 1790512949.1037455,
+    "seen": 1791284275.3790886,
+    "ast_hash": "13bc213e7d77d60dbecdfc33c5c3f634",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/app/(store)/product/[id]/page.tsx": {
+    "mtime": 1790512788.3066163,
+    "seen": 1791284275.379089,
+    "ast_hash": "8228f857479836498536ff840c1b018a",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/app/(store)/product/[id]/product-client.tsx": {
+    "mtime": 1791286423.2334964,
+    "seen": 1791286780.1995733,
+    "ast_hash": "7dd977ef8a742d66d54e2414fe410dc4",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/app/(store)/shop/page.tsx": {
+    "mtime": 1790512831.6138449,
+    "seen": 1791284275.37909,
+    "ast_hash": "f1f703754e4b2ac0bd7407977938b165",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/app/(store)/shop/shop-client.tsx": {
+    "mtime": 1791286746.4279766,
+    "seen": 1791286780.1995747,
+    "ast_hash": "287d59cafbe3b3da89f5f342eb74938d",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/app/(store)/terms/page.tsx": {
+    "mtime": 1790512965.6810074,
+    "seen": 1791284275.3790915,
+    "ast_hash": "e53bdaa848a9615d132f18cfe0a9037d",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/app/(store)/track-order/page.tsx": {
+    "mtime": 1790512876.2021036,
+    "seen": 1791284275.379092,
+    "ast_hash": "5cc83c8faacbe219672ed988cf1b7768",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/app/(store)/track-order/track-order-client.tsx": {
+    "mtime": 1790498263.2255862,
+    "seen": 1791284275.3790925,
+    "ast_hash": "b3baf594b29d20fbc8e8224c68f600ab",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/app/actions/admin/categories.ts": {
+    "mtime": 1790148558.3518355,
+    "seen": 1791284275.3790932,
+    "ast_hash": "6647cf534fb93f71a640f7220435b160",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/app/actions/admin/hero-slides.ts": {
+    "mtime": 1790232558.9793727,
+    "seen": 1791284275.3790936,
+    "ast_hash": "8427d6d3ad51fa77424e3c9dd89acbf9",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/app/actions/admin/orders.ts": {
+    "mtime": 1790148572.7157347,
+    "seen": 1791284275.3790946,
+    "ast_hash": "02e8c42ca9ae0f14636e3024a6c94e11",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/app/actions/admin/products.ts": {
+    "mtime": 1790148543.883258,
+    "seen": 1791284275.379095,
+    "ast_hash": "5bd6b89be528dafe7b23baf335c86867",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/app/actions/admin/settings.ts": {
+    "mtime": 1790242024.8502846,
+    "seen": 1791284275.3790958,
+    "ast_hash": "72f2eb54eb3b47f0b11773094f31e32c",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/app/actions/admin/users.ts": {
+    "mtime": 1790148526.7755463,
+    "seen": 1791284275.3790963,
+    "ast_hash": "4f9dddf1af79ce652c5dc0af747b1341",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/app/actions/auth.ts": {
+    "mtime": 1790148481.1618528,
+    "seen": 1791284275.379097,
+    "ast_hash": "3f917211971742ca31b7f142f6b37cc9",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/app/actions/categories.ts": {
+    "mtime": 1789897877.718073,
+    "seen": 1791284275.3790977,
+    "ast_hash": "a73013bd1618a4d09b0536e5a3dbb199",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/app/actions/orders.ts": {
+    "mtime": 1790148886.4512382,
+    "seen": 1791284275.3790982,
+    "ast_hash": "f79db1c09aa63edd290366d09d85e28a",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/app/actions/products.ts": {
+    "mtime": 1790149064.4088473,
+    "seen": 1791284275.3790987,
+    "ast_hash": "3eeb62769cd7679a17a58b992778c97e",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/app/admin/admin-layout-client.tsx": {
+    "mtime": 1790160767.7528954,
+    "seen": 1791284275.3790991,
+    "ast_hash": "cb5d90511572aa7f1cb6fd5fa749efc9",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/app/admin/categories/categories-client.tsx": {
+    "mtime": 1791286385.45688,
+    "seen": 1791286780.1995878,
+    "ast_hash": "ff35c1b299c9e79f7abaacf09225326c",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/app/admin/categories/page.tsx": {
+    "mtime": 1790141777.5093079,
+    "seen": 1791284275.3791003,
+    "ast_hash": "f02f8fb95e1197696ff3dbaad1093f06",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/app/admin/dashboard-client.tsx": {
+    "mtime": 1790250468.3316913,
+    "seen": 1791284275.379101,
+    "ast_hash": "d796359cf53d6fafbd69278f9ca691d6",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/app/admin/error.tsx": {
+    "mtime": 1790160767.7528954,
+    "seen": 1791284275.3791015,
+    "ast_hash": "cd565bd4629a8671e78800982c4a842e",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/app/admin/hero-slides/hero-slides-client.tsx": {
+    "mtime": 1791286367.7958498,
+    "seen": 1791286780.199591,
+    "ast_hash": "e6580fd872a10169c4c2da35fbd6b2ed",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/app/admin/hero-slides/page.tsx": {
+    "mtime": 1790234323.2588003,
+    "seen": 1791284275.3791027,
+    "ast_hash": "489871be35b921a152cd4c7e36686cc7",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/app/admin/layout.tsx": {
+    "mtime": 1790141760.730665,
+    "seen": 1791284275.3791034,
+    "ast_hash": "87710760f0502d8c2d79c145e7cad9e3",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/app/admin/loading.tsx": {
+    "mtime": 1789989521.9446752,
+    "seen": 1791284275.379104,
+    "ast_hash": "f480b97c81a90a60599f532d245505cc",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/app/admin/notifications/page.tsx": {
+    "mtime": 1789897877.7195456,
+    "seen": 1791284275.3791049,
+    "ast_hash": "6e5a0e95d61b057be796797274088cb1",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/app/admin/orders/[id]/order-details-client.tsx": {
+    "mtime": 1791286611.6449027,
+    "seen": 1791286780.199595,
+    "ast_hash": "cd741e40ccf471410dec00ff17c25caf",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/app/admin/orders/[id]/page.tsx": {
+    "mtime": 1789897877.7195456,
+    "seen": 1791284275.379106,
+    "ast_hash": "57451f4437fe2a4e35395bb3f3957e85",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/app/admin/orders/order-details-modal.tsx": {
+    "mtime": 1791286624.7932444,
+    "seen": 1791286780.1995966,
+    "ast_hash": "c2e0e1b60dfaeed9c931b3d26cfb4684",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/app/admin/orders/orders-client.tsx": {
+    "mtime": 1791286656.375779,
+    "seen": 1791286780.1995974,
+    "ast_hash": "a865676e94faaf1fb73aee64bc55cfb2",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/app/admin/orders/page.tsx": {
+    "mtime": 1790141791.3614652,
+    "seen": 1791284275.3791075,
+    "ast_hash": "061a3fe895539ee93ce33f054399f25c",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/app/admin/page.tsx": {
+    "mtime": 1790232905.684839,
+    "seen": 1791284275.379109,
+    "ast_hash": "c8b7d024d594ab028c188dd1ebb8b7e5",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/app/admin/products/[id]/edit-product-client.tsx": {
+    "mtime": 1791285934.154676,
+    "seen": 1791286780.1995995,
+    "ast_hash": "51c474728f5a5fe397a776afbbee7ada",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/app/admin/products/[id]/page.tsx": {
+    "mtime": 1789897877.722268,
+    "seen": 1791284275.3791099,
+    "ast_hash": "cd1bcbc009010fb7afb49ce252e4c094",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/app/admin/products/new/new-product-client.tsx": {
+    "mtime": 1791286021.3355622,
+    "seen": 1791286780.1996012,
+    "ast_hash": "03cbec495a800abfdf14a8eb57d73755",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/app/admin/products/new/page.tsx": {
+    "mtime": 1790250452.075632,
+    "seen": 1791284275.379111,
+    "ast_hash": "cb0c21a4e22d5581ae2bdd76b071198b",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/app/admin/products/page.tsx": {
+    "mtime": 1790141785.2065766,
+    "seen": 1791284275.3791118,
+    "ast_hash": "9dfb069b9d7ced4c25a8b1a2f67bd1f1",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/app/admin/products/product-form.tsx": {
+    "mtime": 1791286076.132225,
+    "seen": 1791286780.1996036,
+    "ast_hash": "679e40b60a3bf4c66c2dcca3c9bc401d",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/app/admin/products/product-modal.tsx": {
+    "mtime": 1790250387.615597,
+    "seen": 1791284275.3791132,
+    "ast_hash": "e0e704ff9a3a95e2c11eee52baf233d4",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/app/admin/products/products-client.tsx": {
+    "mtime": 1791286166.416987,
+    "seen": 1791286780.199605,
+    "ast_hash": "c9657dea1bfc011be4c5ad6ebc5e4161",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/app/admin/profile/page.tsx": {
+    "mtime": 1790141802.878171,
+    "seen": 1791284275.3791142,
+    "ast_hash": "dca9a6a5820c460f9585c7c0ddfd8c2b",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/app/admin/profile/profile-client.tsx": {
+    "mtime": 1790513252.2783885,
+    "seen": 1791284275.3791149,
+    "ast_hash": "cae6d97b985f55ade0463a6fa5032c80",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/app/admin/settings/page.tsx": {
+    "mtime": 1790492581.077338,
+    "seen": 1791284275.3791156,
+    "ast_hash": "d4eb0cc5a1db691e41b0cbba93cee69f",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/app/admin/settings/settings-client.tsx": {
+    "mtime": 1791286276.508514,
+    "seen": 1791286780.199608,
+    "ast_hash": "9fdbbab2f457323e871b305d53c08da2",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/app/admin/users/page.tsx": {
+    "mtime": 1790513129.6844287,
+    "seen": 1791284275.3791168,
+    "ast_hash": "08d0d0ca2c25adc1f79e2b52bf4d392f",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/app/admin/users/users-client.tsx": {
+    "mtime": 1790513144.5688171,
+    "seen": 1791284275.3791173,
+    "ast_hash": "9c60ed24bb820e937901c74cef5d05d9",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/app/api/auth/[...nextauth]/route.ts": {
+    "mtime": 1789897877.7247634,
+    "seen": 1791284275.3791177,
+    "ast_hash": "1e90b1e95ee43dfa054fb30c4690f9d8",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/app/api/upload/route.ts": {
+    "mtime": 1790148680.7114708,
+    "seen": 1791284275.3791184,
+    "ast_hash": "2c819b5bf3f5c44450937852596c0b90",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/app/error.tsx": {
+    "mtime": 1790498427.210361,
+    "seen": 1791284275.3791192,
+    "ast_hash": "8328e7c232e252b8c2eb68b56c3f92e5",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/app/layout.tsx": {
+    "mtime": 1790502184.5480645,
+    "seen": 1791284275.3791196,
+    "ast_hash": "f062a92d98525d5b97a1828a697d8514",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/app/not-found.tsx": {
+    "mtime": 1790499893.324663,
+    "seen": 1791284275.37912,
+    "ast_hash": "c4eb5e32c413c8785758a2d887f446e3",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/app/robots.ts": {
+    "mtime": 1789989779.7580018,
+    "seen": 1791284275.3791208,
+    "ast_hash": "5cf0602f12b8f455e398dae0d911826b",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/app/sitemap.ts": {
+    "mtime": 1789989762.7177646,
+    "seen": 1791284275.3791213,
+    "ast_hash": "982ea650bc4dd24c5326b1bb4d2a023a",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/auth.ts": {
+    "mtime": 1790256924.4402046,
+    "seen": 1791284275.379122,
+    "ast_hash": "78d1c65a5c31bc9b015d38b0e2d0ff88",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/components/admin/recent-orders.tsx": {
+    "mtime": 1790232760.5408337,
+    "seen": 1791284275.3791225,
+    "ast_hash": "8b5fb6b2add04aa96b406adfe47a91b8",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/components/admin/sales-chart.tsx": {
+    "mtime": 1790513177.8441095,
+    "seen": 1791284275.3791232,
+    "ast_hash": "b5abdbe454234d641c92f363fcef82bd",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/components/admin/stat-card.tsx": {
+    "mtime": 1789897877.7257628,
+    "seen": 1791284275.3791237,
+    "ast_hash": "35ab710c98145b16cf2246d5f81cfad4",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/components/cart/whatsapp-order-modal.tsx": {
+    "mtime": 1790512534.5570695,
+    "seen": 1791284275.3791246,
+    "ast_hash": "38600a6abefe0a5eda54446e0f12249c",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/components/layout/admin-header.tsx": {
+    "mtime": 1790512552.0996995,
+    "seen": 1791284275.3791256,
+    "ast_hash": "d04be2eee6eb29793e3c39242540213c",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/components/layout/admin-sidebar.tsx": {
+    "mtime": 1790512486.4497442,
+    "seen": 1791284275.379126,
+    "ast_hash": "94e090bf0ff6949990c33d67d5111867",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/components/layout/mobile-bottom-nav.tsx": {
+    "mtime": 1791284702.8982928,
+    "seen": 1791286780.1996217,
+    "ast_hash": "04ab21112c788466127f0abad440e359",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/components/layout/store-footer.tsx": {
+    "mtime": 1791284702.9180636,
+    "seen": 1791286780.1996222,
+    "ast_hash": "e51803b2c2eea12eaaa6131481328719",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/components/layout/store-header.tsx": {
+    "mtime": 1791286526.1516564,
+    "seen": 1791286780.1996229,
+    "ast_hash": "2758d1d20c11cf219f633ffdcb32e12d",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/components/store/product-card.tsx": {
+    "mtime": 1791285365.8100426,
+    "seen": 1791286780.1996272,
+    "ast_hash": "224d5fa5f4cb04e13a13ba0ca732910f",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/components/ui/avatar.tsx": {
+    "mtime": 1789897877.7267628,
+    "seen": 1791284275.3791308,
+    "ast_hash": "2018a10b4c34c421ebc7c3d12c517c30",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/components/ui/badge.tsx": {
+    "mtime": 1789897877.727763,
+    "seen": 1791284275.3791313,
+    "ast_hash": "c072c5cbdf7cdce06a722cd850c1f79e",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/components/ui/button.tsx": {
+    "mtime": 1789897877.727763,
+    "seen": 1791284275.3791318,
+    "ast_hash": "4b1d09d797979ab5011c810cdb0ca8f4",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/components/ui/card.tsx": {
+    "mtime": 1789897877.727763,
+    "seen": 1791284275.3791327,
+    "ast_hash": "16cc37d2ae1d266921abb2ff7cafd1fc",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/components/ui/checkbox.tsx": {
+    "mtime": 1789897877.727763,
+    "seen": 1791284275.3791332,
+    "ast_hash": "c6608c4b4f1b9132d9d6756ab94fc1c6",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/components/ui/confirm-dialog.tsx": {
+    "mtime": 1790498393.3042922,
+    "seen": 1791284275.379134,
+    "ast_hash": "0f727c60a95029e28650e306c63678a2",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/components/ui/dialog.tsx": {
+    "mtime": 1790144620.7145743,
+    "seen": 1791284275.3791344,
+    "ast_hash": "fb14dc41982f7ee11863a009bbb4019f",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/components/ui/dropdown-menu.tsx": {
+    "mtime": 1790513344.3210244,
+    "seen": 1791284275.379135,
+    "ast_hash": "b76e13a5618539b1ffa2198000a512c7",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/components/ui/input.tsx": {
+    "mtime": 1789897877.727763,
+    "seen": 1791284275.3791358,
+    "ast_hash": "5b79a8cbb8d0c4b4131d13e748c2db22",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/components/ui/label.tsx": {
+    "mtime": 1789897877.727763,
+    "seen": 1791284275.3791363,
+    "ast_hash": "ed79a93777c1e0f0337c6b3943290998",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/components/ui/select.tsx": {
+    "mtime": 1789897877.7292247,
+    "seen": 1791284275.379137,
+    "ast_hash": "dc801e1dc176732b566efb320b04a5e4",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/components/ui/sheet.tsx": {
+    "mtime": 1789897877.7292247,
+    "seen": 1791284275.3791373,
+    "ast_hash": "01087a3003ecdf05137658f1cfbd2d20",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/components/ui/skeleton.tsx": {
+    "mtime": 1789897877.7292247,
+    "seen": 1791284275.379138,
+    "ast_hash": "5f729f6072f80230ff7745e12d0f7a55",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/components/ui/switch.tsx": {
+    "mtime": 1789897877.7292247,
+    "seen": 1791284275.3791385,
+    "ast_hash": "06b0213690b4abfcc1c932e95ffaa83b",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/components/ui/table.tsx": {
+    "mtime": 1789897877.7292247,
+    "seen": 1791284275.3791392,
+    "ast_hash": "00c3481c36ccf265537db9f688d11c4e",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/components/ui/tabs.tsx": {
+    "mtime": 1789897877.7292247,
+    "seen": 1791284275.3791397,
+    "ast_hash": "645e6ca11ad196c40e7918bb4494ab5d",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/components/ui/textarea.tsx": {
+    "mtime": 1789897877.7292247,
+    "seen": 1791284275.3791404,
+    "ast_hash": "2641401b7773195b668be2a788116874",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/lib/prisma.ts": {
+    "mtime": 1789897877.7302291,
+    "seen": 1791284275.379141,
+    "ast_hash": "6af080721a8fc3f84d09646e083c7a6a",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/lib/store.ts": {
+    "mtime": 1791284702.921201,
+    "seen": 1791286780.1996462,
+    "ast_hash": "e779d9c6004ab06cf3de045f3483d952",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/lib/use-mounted.ts": {
+    "mtime": 1789980549.423009,
+    "seen": 1791284275.3791435,
+    "ast_hash": "b5d76c14741ac22e54b26b02f6fe7851",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/lib/utils.ts": {
+    "mtime": 1789897877.7302291,
+    "seen": 1791284275.379144,
+    "ast_hash": "1d8011eb18769078bf77502b220daa5e",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/lib/whatsapp.ts": {
+    "mtime": 1790065214.094031,
+    "seen": 1791284275.3791444,
+    "ast_hash": "4c65c8127770cfde2d000f9581f5e1fb",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/middleware.ts": {
+    "mtime": 1790148592.467556,
+    "seen": 1791284275.3791451,
+    "ast_hash": "37d923ab66b9e6efa81619a82ad7c9c2",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/tsconfig.json": {
+    "mtime": 1789897877.7302291,
+    "seen": 1791284275.3791456,
+    "ast_hash": "0a2f4ed9289b65cd3feb4fb4ab3a4fcd",
+    "semantic_hash": ""
+  },
+  ".agents/rules/graphify.md": {
+    "mtime": 1791283230.543684,
+    "seen": 1791284275.3791463,
+    "ast_hash": "a0e4d192b9e2e17256124dbfc8e24e6a",
+    "semantic_hash": ""
+  },
+  ".agents/workflows/graphify.md": {
+    "mtime": 1791283230.5446835,
+    "seen": 1791284275.3791468,
+    "ast_hash": "a831cf3669f1e6ab85d8a80ebe655f99",
+    "semantic_hash": ""
+  },
+  "Gift-Store/.agents/skills/prisma-composer/SKILL.md": {
+    "mtime": 1789897877.6967628,
+    "seen": 1791284275.3791473,
+    "ast_hash": "d4613719b2df0c17b054ed194b6c7b8b",
+    "semantic_hash": ""
+  },
+  "Gift-Store/.claude/skills/prisma-composer/SKILL.md": {
+    "mtime": 1789897877.697764,
+    "seen": 1791284275.3791478,
+    "ast_hash": "d4613719b2df0c17b054ed194b6c7b8b",
+    "semantic_hash": ""
+  },
+  "Gift-Store/.cursor/skills/prisma-composer/SKILL.md": {
+    "mtime": 1789897877.697764,
+    "seen": 1791284275.3791485,
+    "ast_hash": "d4613719b2df0c17b054ed194b6c7b8b",
+    "semantic_hash": ""
+  },
+  "Gift-Store/.devin/skills/prisma-composer/SKILL.md": {
+    "mtime": 1789897877.699072,
+    "seen": 1791284275.379149,
+    "ast_hash": "d4613719b2df0c17b054ed194b6c7b8b",
+    "semantic_hash": ""
+  },
+  "Gift-Store/AGENTS.md": {
+    "mtime": 1789897877.699072,
+    "seen": 1791284275.37915,
+    "ast_hash": "3ad29ed1c7e1970f724e872fcffc4909",
+    "semantic_hash": ""
+  },
+  "Gift-Store/CLAUDE.md": {
+    "mtime": 1789897877.699575,
+    "seen": 1791284275.3791502,
+    "ast_hash": "771faa62feb60b7de901a397aebb29b0",
+    "semantic_hash": ""
+  },
+  "Gift-Store/README.md": {
+    "mtime": 1790259385.41867,
+    "seen": 1791284275.3791509,
+    "ast_hash": "07879c47311871ab8635b8baf234e132",
+    "semantic_hash": ""
+  },
+  "Gift-Store/android-app/README.md": {
+    "mtime": 1790259243.2492664,
+    "seen": 1791284275.3791513,
+    "ast_hash": "b2b867f58804db6dad64c891ffadd29f",
+    "semantic_hash": ""
+  },
+  "Gift-Store/docs/ADMIN_GUIDE.md": {
+    "mtime": 1790253478.7352402,
+    "seen": 1791284275.3791518,
+    "ast_hash": "9cbf947c41dab592773e4233b86097e6",
+    "semantic_hash": ""
+  },
+  "Gift-Store/docs/ANDROID_APP_GUIDE.md": {
+    "mtime": 1790254275.1520708,
+    "seen": 1791284275.3791523,
+    "ast_hash": "68652fa1586e8613d718104c969bdee8",
+    "semantic_hash": ""
+  },
+  "Gift-Store/docs/API_AND_ACTIONS.md": {
+    "mtime": 1790253503.3458524,
+    "seen": 1791284275.3791533,
+    "ast_hash": "f52d1b5194e8b63ebef17ff7fb8c628c",
+    "semantic_hash": ""
+  },
+  "Gift-Store/docs/ARCHITECTURE.md": {
+    "mtime": 1790253465.0118275,
+    "seen": 1791284275.3791537,
+    "ast_hash": "f630e3d1518378457c655b36070f1fa8",
+    "semantic_hash": ""
+  },
+  "Gift-Store/docs/SETUP_AND_DEPLOYMENT.md": {
+    "mtime": 1790253490.153113,
+    "seen": 1791284275.3791542,
+    "ast_hash": "9a22125f96adaede3c7befc2b4278b59",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/AGENTS.md": {
+    "mtime": 1790498462.292936,
+    "seen": 1791284275.379155,
+    "ast_hash": "01e8142356e15c3404e0d84c48187cd0",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/CLAUDE.md": {
+    "mtime": 1790498462.292936,
+    "seen": 1791284275.3791554,
+    "ast_hash": "5c27369b226fcf2be8a6cfe52224e767",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/README.md": {
+    "mtime": 1790259250.7365825,
+    "seen": 1791284275.379156,
+    "ast_hash": "3048aaa6f5aa022617d994e13939d2de",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/docker-compose.yml": {
+    "mtime": 1789897877.699575,
+    "seen": 1791284275.3791568,
+    "ast_hash": "844e2f4521881bbd045bd61955fba8f3",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/prisma/seed.txt": {
+    "mtime": 1789897877.704975,
+    "seen": 1791284275.3791573,
+    "ast_hash": "e4db212746a790471769d460d9154d16",
+    "semantic_hash": ""
+  },
+  "Gift-Store/android-app/android/app/src/main/res/drawable-land-hdpi/splash.png": {
+    "mtime": 1790502113.2681012,
+    "seen": 1791284275.3791578,
+    "ast_hash": "d0fd2c0a89c136d0cff7352f5bac68fb",
+    "semantic_hash": ""
+  },
+  "Gift-Store/android-app/android/app/src/main/res/drawable-land-mdpi/splash.png": {
+    "mtime": 1790502113.2630937,
+    "seen": 1791284275.3791585,
+    "ast_hash": "ad4fa7f7c44a6bd6038f0c582b606bdb",
+    "semantic_hash": ""
+  },
+  "Gift-Store/android-app/android/app/src/main/res/drawable-land-xhdpi/splash.png": {
+    "mtime": 1790502113.2770927,
+    "seen": 1791284275.3791604,
+    "ast_hash": "7459d3784ff8dacb4dff40b9cc0d6ae2",
+    "semantic_hash": ""
+  },
+  "Gift-Store/android-app/android/app/src/main/res/drawable-land-xxhdpi/splash.png": {
+    "mtime": 1790502113.2890928,
+    "seen": 1791284275.3791606,
+    "ast_hash": "fcdb07112c6b332100c2f39145dacf2c",
+    "semantic_hash": ""
+  },
+  "Gift-Store/android-app/android/app/src/main/res/drawable-land-xxxhdpi/splash.png": {
+    "mtime": 1790502113.3060927,
+    "seen": 1791284275.3791614,
+    "ast_hash": "185890508e39c0198c04e3c6982a2b8c",
+    "semantic_hash": ""
+  },
+  "Gift-Store/android-app/android/app/src/main/res/drawable-port-hdpi/splash.png": {
+    "mtime": 1790502113.3151116,
+    "seen": 1791284275.3791618,
+    "ast_hash": "f00cbc47bb631bff5aaa0fb86e2920b8",
+    "semantic_hash": ""
+  },
+  "Gift-Store/android-app/android/app/src/main/res/drawable-port-mdpi/splash.png": {
+    "mtime": 1790502113.3100934,
+    "seen": 1791284275.3791625,
+    "ast_hash": "17f9cae32ce0309b97f77bf9499259eb",
+    "semantic_hash": ""
+  },
+  "Gift-Store/android-app/android/app/src/main/res/drawable-port-xhdpi/splash.png": {
+    "mtime": 1790502113.3230927,
+    "seen": 1791284275.379163,
+    "ast_hash": "800e000446592c811561f572df898113",
+    "semantic_hash": ""
+  },
+  "Gift-Store/android-app/android/app/src/main/res/drawable-port-xxhdpi/splash.png": {
+    "mtime": 1790502113.3350973,
+    "seen": 1791284275.3791637,
+    "ast_hash": "590e71f859386cce028b71908a15696d",
+    "semantic_hash": ""
+  },
+  "Gift-Store/android-app/android/app/src/main/res/drawable-port-xxxhdpi/splash.png": {
+    "mtime": 1790502113.3521557,
+    "seen": 1791284275.3791642,
+    "ast_hash": "4691e9f88bfab39c3655ac74be3a1ca9",
+    "semantic_hash": ""
+  },
+  "Gift-Store/android-app/android/app/src/main/res/drawable/splash.png": {
+    "mtime": 1790502113.2610931,
+    "seen": 1791284275.3791647,
+    "ast_hash": "ad4fa7f7c44a6bd6038f0c582b606bdb",
+    "semantic_hash": ""
+  },
+  "Gift-Store/android-app/android/app/src/main/res/mipmap-hdpi/ic_launcher.png": {
+    "mtime": 1790502113.2400942,
+    "seen": 1791284275.3791654,
+    "ast_hash": "cfe48eba846a25e623c8584c024b8643",
+    "semantic_hash": ""
+  },
+  "Gift-Store/android-app/android/app/src/main/res/mipmap-hdpi/ic_launcher_foreground.png": {
+    "mtime": 1790502113.242093,
+    "seen": 1791284275.379166,
+    "ast_hash": "948f24a6a689c1f12d70f213a4bdaa5b",
+    "semantic_hash": ""
+  },
+  "Gift-Store/android-app/android/app/src/main/res/mipmap-hdpi/ic_launcher_round.png": {
+    "mtime": 1790502113.2410939,
+    "seen": 1791284275.3791664,
+    "ast_hash": "503466acfe15a6dbf86fcdff50cddf75",
+    "semantic_hash": ""
+  },
+  "Gift-Store/android-app/android/app/src/main/res/mipmap-mdpi/ic_launcher.png": {
+    "mtime": 1790502113.2380943,
+    "seen": 1791284275.379167,
+    "ast_hash": "16d228d5140d46914fdb33c33b54f24e",
+    "semantic_hash": ""
+  },
+  "Gift-Store/android-app/android/app/src/main/res/mipmap-mdpi/ic_launcher_foreground.png": {
+    "mtime": 1790502113.2390966,
+    "seen": 1791284275.3791678,
+    "ast_hash": "e7d6f67732c718e99ae4c1a001410f06",
+    "semantic_hash": ""
+  },
+  "Gift-Store/android-app/android/app/src/main/res/mipmap-mdpi/ic_launcher_round.png": {
+    "mtime": 1790502113.2390966,
+    "seen": 1791284275.3791685,
+    "ast_hash": "0b8ddb6f04b84d60689a2aebfa2f0c88",
+    "semantic_hash": ""
+  },
+  "Gift-Store/android-app/android/app/src/main/res/mipmap-xhdpi/ic_launcher.png": {
+    "mtime": 1790502113.2430935,
+    "seen": 1791284275.3791692,
+    "ast_hash": "43df541f287894abbf92120503a49b00",
+    "semantic_hash": ""
+  },
+  "Gift-Store/android-app/android/app/src/main/res/mipmap-xhdpi/ic_launcher_foreground.png": {
+    "mtime": 1790502113.2460942,
+    "seen": 1791284275.3791697,
+    "ast_hash": "cfe03062d5edd0caf195dad2f5e0ead3",
+    "semantic_hash": ""
+  },
+  "Gift-Store/android-app/android/app/src/main/res/mipmap-xhdpi/ic_launcher_round.png": {
+    "mtime": 1790502113.2440946,
+    "seen": 1791284275.3791707,
+    "ast_hash": "737b4a47f7a67324b50ad9dbe83d4e49",
+    "semantic_hash": ""
+  },
+  "Gift-Store/android-app/android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png": {
+    "mtime": 1790502113.2470942,
+    "seen": 1791284275.3791711,
+    "ast_hash": "7caf75bc6cd541fef356a58b0a932b49",
+    "semantic_hash": ""
+  },
+  "Gift-Store/android-app/android/app/src/main/res/mipmap-xxhdpi/ic_launcher_foreground.png": {
+    "mtime": 1790502113.2511027,
+    "seen": 1791284275.3791716,
+    "ast_hash": "3a757bc014976c0c7a5fc027dc5bfbb0",
+    "semantic_hash": ""
+  },
+  "Gift-Store/android-app/android/app/src/main/res/mipmap-xxhdpi/ic_launcher_round.png": {
+    "mtime": 1790502113.2491052,
+    "seen": 1791284275.3791723,
+    "ast_hash": "cc9789705a445cf2cb4613a5bc66e242",
+    "semantic_hash": ""
+  },
+  "Gift-Store/android-app/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png": {
+    "mtime": 1790502113.2530985,
+    "seen": 1791284275.379173,
+    "ast_hash": "bc0ec01e9e9c022bd03a0e874667c65b",
+    "semantic_hash": ""
+  },
+  "Gift-Store/android-app/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher_foreground.png": {
+    "mtime": 1790502113.2580926,
+    "seen": 1791284275.3791733,
+    "ast_hash": "0116cdb0a529f2eaa884b4f8ae90939a",
+    "semantic_hash": ""
+  },
+  "Gift-Store/android-app/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.png": {
+    "mtime": 1790502113.2550943,
+    "seen": 1791284275.3791742,
+    "ast_hash": "e3d0f3a756af6ef45be21b03c6274d2f",
+    "semantic_hash": ""
+  },
+  "Gift-Store/scratch/app_icon_preview_512.png": {
+    "mtime": 1790502067.7884848,
+    "seen": 1791284275.3791747,
+    "ast_hash": "16663b3eb27a18ca7f494850e89f1c1a",
+    "semantic_hash": ""
+  },
+  "Gift-Store/scratch/app_icon_round_512.png": {
+    "mtime": 1790502082.5706475,
+    "seen": 1791284275.3791754,
+    "ast_hash": "c5c47677c7c44bf8deef0719497c6947",
+    "semantic_hash": ""
+  },
+  "Gift-Store/scratch/logo_icon_extracted.png": {
+    "mtime": 1790502041.8375878,
+    "seen": 1791284275.379176,
+    "ast_hash": "7f0ec878c83f485d4a64477fa9145d53",
+    "semantic_hash": ""
+  },
+  "Gift-Store/scratch/plus_crop_test.png": {
+    "mtime": 1790502018.1768355,
+    "seen": 1791284275.3791764,
+    "ast_hash": "8605218cfce0a80761531abaf00b9810",
+    "semantic_hash": ""
+  },
+  "Gift-Store/scratch/pure_plus_icon.png": {
+    "mtime": 1790502054.9778135,
+    "seen": 1791284275.3791773,
+    "ast_hash": "40c660019cf8a4ac475abc2773f876f9",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/public/apple-touch-icon.png": {
+    "mtime": 1790502113.2370942,
+    "seen": 1791284275.3791778,
+    "ast_hash": "004d50de9c0bec839e174e709f05e952",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/public/favicon.png": {
+    "mtime": 1790502113.099311,
+    "seen": 1791284275.3791783,
+    "ast_hash": "b7e9b3a9fb81b6cb214a84daedd01615",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/public/file.svg": {
+    "mtime": 1789897877.704975,
+    "seen": 1791284275.3791788,
+    "ast_hash": "d09f95206c3fa0bb9bd9fefabfd0ea71",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/public/globe.svg": {
+    "mtime": 1789897877.704975,
+    "seen": 1791284275.3791795,
+    "ast_hash": "2aaafa6a49b6563925fe440891e32717",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/public/hero-gift.jpg": {
+    "mtime": 1789897877.7079744,
+    "seen": 1791284275.3791797,
+    "ast_hash": "d385c7a004792a4456832be64aa02853",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/public/icon-192.png": {
+    "mtime": 1790502113.2360947,
+    "seen": 1791284275.3791804,
+    "ast_hash": "99b802167ed48ad6a47692197dda1fdd",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/public/icon-512.png": {
+    "mtime": 1790502113.2330923,
+    "seen": 1791284275.3791811,
+    "ast_hash": "e43631089e9de0e89aef3409dfa6f9db",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/public/images/hero-3d-gift.jpg": {
+    "mtime": 1789897877.709982,
+    "seen": 1791284275.3791816,
+    "ast_hash": "a5619b62245bb0d91e1af96492e3c745",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/public/images/hero-gift.jpg": {
+    "mtime": 1789897877.7119818,
+    "seen": 1791284275.379182,
+    "ast_hash": "4b28b7f8e4b9353e92f08f26958bc5d6",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/public/logo-dark.png": {
+    "mtime": 1790499625.33454,
+    "seen": 1791284275.3791828,
+    "ast_hash": "cd362cb1da316f89441fb458ceaf3f9a",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/public/logo-icon.png": {
+    "mtime": 1790502113.0983105,
+    "seen": 1791284275.3791833,
+    "ast_hash": "40c660019cf8a4ac475abc2773f876f9",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/public/logo-navy.png": {
+    "mtime": 1790499831.6499696,
+    "seen": 1791284275.3791842,
+    "ast_hash": "cd362cb1da316f89441fb458ceaf3f9a",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/public/logo-preview-dark.png": {
+    "mtime": 1790498866.805402,
+    "seen": 1791284275.3791847,
+    "ast_hash": "e9657586a27e2653093debf1a4e868a0",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/public/logo-preview-white.png": {
+    "mtime": 1790498893.9291077,
+    "seen": 1791284275.3791852,
+    "ast_hash": "6c02e35d63812c55bde8ec4082206205",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/public/logo-raw.png": {
+    "mtime": 1790498860.7714024,
+    "seen": 1791284275.379186,
+    "ast_hash": "b2e867f37527d9a08a761d04aa5c5d09",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/public/logo-white.png": {
+    "mtime": 1790498994.316971,
+    "seen": 1791284275.3791864,
+    "ast_hash": "aaa7005dfbebfa1f97738fef919ac46b",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/public/logo.png": {
+    "mtime": 1790498994.3604362,
+    "seen": 1791284275.3791869,
+    "ast_hash": "aaa7005dfbebfa1f97738fef919ac46b",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/public/next.svg": {
+    "mtime": 1789897877.7119818,
+    "seen": 1791284275.3791878,
+    "ast_hash": "8e061864f388b47f33a1c3780831193e",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/public/vercel.svg": {
+    "mtime": 1789897877.7119818,
+    "seen": 1791284275.3791883,
+    "ast_hash": "c0af2f507b369b085b35ef4bbe3bcf1e",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/public/window.svg": {
+    "mtime": 1789897877.7129917,
+    "seen": 1791284275.3791888,
+    "ast_hash": "a2760511c65806022ad20adf74370ff3",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/app/(store)/checkout/checkout-client.tsx": {
+    "mtime": 1791286730.2350519,
+    "seen": 1791286780.1995585,
+    "ast_hash": "96269269cae7cf71fbb8667c0893ad52",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/components/store/category-card.tsx": {
+    "mtime": 1791285382.5861259,
+    "seen": 1791286780.1996236,
+    "ast_hash": "23882ab14c80ad10ba7924005e6cbc6b",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/components/store/category-grid.tsx": {
+    "mtime": 1791286556.2719455,
+    "seen": 1791286780.1996245,
+    "ast_hash": "e7454c4fad1b63bb45339baf065a71be",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/components/store/concierge-whatsapp-card.tsx": {
+    "mtime": 1791286564.8285873,
+    "seen": 1791286780.1996253,
+    "ast_hash": "117e34089327ca6ada11a682f864622f",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/components/store/curated-personas.tsx": {
+    "mtime": 1791285486.3607602,
+    "seen": 1791286780.199626,
+    "ast_hash": "22a890bc1fbc6dc08482db7b4ab92922",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/components/store/hero-showcase.tsx": {
+    "mtime": 1791286575.9762971,
+    "seen": 1791286780.1996264,
+    "ast_hash": "e2ab0c19d63228458888fa390f0f401f",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/components/store/product-grid.tsx": {
+    "mtime": 1791285454.9806216,
+    "seen": 1791286780.199628,
+    "ast_hash": "ec49292b3efa170f2b89b8188826abfe",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/components/store/product-quick-view-modal.tsx": {
+    "mtime": 1791286498.2806892,
+    "seen": 1791286780.1996288,
+    "ast_hash": "72c84cff733ae8376120603251c07c73",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/components/store/product-skeleton.tsx": {
+    "mtime": 1791286584.1826286,
+    "seen": 1791286780.1996298,
+    "ast_hash": "ccac041519d3fea824ecbb03d1f991d6",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/components/store/store-features.tsx": {
+    "mtime": 1791285469.8203928,
+    "seen": 1791286780.1996303,
+    "ast_hash": "41a6ca7411d6fa0db5fb7b00fb0eedda",
+    "semantic_hash": ""
+  },
+  "Gift-Store/website/src/components/store/testimonials-section.tsx": {
+    "mtime": 1791285532.1385384,
+    "seen": 1791286780.1996312,
+    "ast_hash": "138b75499b826ec24646c43b3e175ab9",
+    "semantic_hash": ""
+  }
+}
