@@ -44,26 +44,119 @@ export default function CategoriesClient({ initialCategories }: { initialCategor
   const [isDeleting, setIsDeleting] = useState(false)
   const [isUploading, setIsUploading] = useState(false)
 
+  // Compress and resize images client-side for fast, reliable upload
+  const compressImage = async (file: File): Promise<File> => {
+    if (!file.type.startsWith('image/') || file.type.includes('svg') || file.type.includes('gif')) {
+      return file
+    }
+
+    return new Promise((resolve) => {
+      const reader = new FileReader()
+      reader.onload = (e) => {
+        const img = document.createElement('img')
+        img.onload = () => {
+          const maxDim = 1200
+          let width = img.naturalWidth || img.width
+          let height = img.naturalHeight || img.height
+
+          if (width <= maxDim && height <= maxDim && file.size < 800 * 1024) {
+            return resolve(file)
+          }
+
+          if (width > height) {
+            if (width > maxDim) {
+              height = Math.round((height * maxDim) / width)
+              width = maxDim
+            }
+          } else {
+            if (height > maxDim) {
+              width = Math.round((width * maxDim) / height)
+              height = maxDim
+            }
+          }
+
+          const canvas = document.createElement('canvas')
+          canvas.width = width
+          canvas.height = height
+          const ctx = canvas.getContext('2d')
+          if (!ctx) return resolve(file)
+
+          ctx.drawImage(img, 0, 0, width, height)
+          canvas.toBlob(
+            (blob) => {
+              if (!blob) return resolve(file)
+              const safeName = (file.name || 'image').replace(/\.[^/.]+$/, '') + '.webp'
+              const compressedFile = new File([blob], safeName, {
+                type: 'image/webp',
+                lastModified: Date.now(),
+              })
+              resolve(compressedFile)
+            },
+            'image/webp',
+            0.85
+          )
+        }
+        img.onerror = () => resolve(file)
+        img.src = e.target?.result as string
+      }
+      reader.onerror = () => resolve(file)
+      reader.readAsDataURL(file)
+    })
+  }
+
   const handleUploadImage = async (file: File) => {
     if (!file) return
     setIsUploading(true)
-    const formData = new FormData()
-    formData.append('file', file)
 
     try {
+      // 1. Optimize image client-side to prevent network bottlenecks
+      const optimizedFile = await compressImage(file)
+      const formData = new FormData()
+      formData.append('file', optimizedFile)
+
       const res = await fetch('/api/upload', {
         method: 'POST',
         body: formData,
       })
-      const data = await res.json()
-      if (data.success && data.url) {
+
+      const data = await res.json().catch(() => null)
+
+      if (res.ok && data?.success && data?.url) {
         setCurrentCategory(prev => ({ ...prev, image: data.url }))
-        toast.success('تم رفع صورة التصنيف بنجاح!')
+        toast.success('تم رفع وحفظ صورة التصنيف بنجاح!')
       } else {
-        toast.error(data.error || 'فشل رفع الصورة')
+        // Fallback: If server filesystem is read-only (e.g. Vercel), load as Data URL
+        const fallbackReader = new FileReader()
+        fallbackReader.onload = (e) => {
+          const dataUrl = e.target?.result as string
+          if (dataUrl) {
+            setCurrentCategory(prev => ({ ...prev, image: dataUrl }))
+            toast.success('تم تجهيز الصورة بنجاح وجاهزة للحفظ!')
+          } else {
+            toast.error(data?.error || 'فشل رفع الصورة')
+          }
+        }
+        fallbackReader.onerror = () => {
+          toast.error(data?.error || 'فشل رفع الصورة')
+        }
+        fallbackReader.readAsDataURL(optimizedFile)
       }
-    } catch {
-      toast.error('حدث خطأ أثناء رفع الصورة')
+    } catch (err) {
+      console.error('Upload error in categories:', err)
+      // Local fallback on connection/fetch error
+      try {
+        const reader = new FileReader()
+        reader.onload = (e) => {
+          const dataUrl = e.target?.result as string
+          if (dataUrl) {
+            setCurrentCategory(prev => ({ ...prev, image: dataUrl }))
+            toast.success('تم تجهيز الصورة بنجاح وجاهزة للحفظ!')
+          }
+        }
+        reader.readAsDataURL(file)
+      } catch {
+        toast.error('حدث خطأ أثناء قراءة ملف الصورة')
+      }
     } finally {
       setIsUploading(false)
     }
@@ -327,6 +420,7 @@ export default function CategoriesClient({ initialCategories }: { initialCategor
                         src={currentCategory.image}
                         alt="معاينة صورة التصنيف"
                         fill
+                        unoptimized
                         className="object-cover"
                         sizes="(max-width: 768px) 100vw, 400px"
                       />

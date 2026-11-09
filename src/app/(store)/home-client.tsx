@@ -125,6 +125,7 @@ function CategoryCardItem({ cat }: { cat: Category }) {
         src={imgSrc}
         alt={cat.name}
         fill
+        unoptimized={imgSrc.startsWith('data:')}
         sizes="(max-width: 768px) 50vw, 16vw"
         className="object-cover transition-transform duration-700 group-hover:scale-110"
         onError={() => setImgSrc(fallback)}
