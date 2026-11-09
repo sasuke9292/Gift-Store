@@ -209,6 +209,7 @@ export default function CategoriesClient({ initialCategories }: { initialCategor
           slug: currentCategory.slug || currentCategory.name.trim().toLowerCase().replace(/[\s\W-]+/g, '-') || `cat-${Date.now()}`,
           description: currentCategory.description || undefined,
           image: currentCategory.image || undefined,
+          isActive: currentCategory.isActive ?? true,
         })
         if (res.success && res.data) {
           toast.success('تم إنشاء التصنيف الجديد بنجاح')
@@ -506,18 +507,29 @@ export default function CategoriesClient({ initialCategories }: { initialCategor
                 />
               </div>
 
-              {isEditing && (
-                <div className="flex items-center justify-between p-3.5 bg-[#FAFAF8] rounded-xl border border-[#E8E4DF]">
-                  <div>
+              <div className="flex items-center justify-between p-3.5 bg-[#FAFAF8] rounded-xl border border-[#E8E4DF]">
+                <div>
+                  <div className="flex items-center gap-2">
                     <p className="text-xs font-bold text-[#1C1917]">حالة التفعيل</p>
-                    <p className="text-[11px] text-[#78716C]">ظهور التصنيف في القائمة الرئيسية</p>
+                    <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
+                      (currentCategory.isActive ?? true)
+                        ? 'bg-emerald-100 text-emerald-800'
+                        : 'bg-rose-100 text-rose-800'
+                    }`}>
+                      {(currentCategory.isActive ?? true) ? 'ظاهر بالمتجر' : 'مخفي من المتجر'}
+                    </span>
                   </div>
-                  <Switch
-                    checked={currentCategory.isActive ?? true}
-                    onCheckedChange={(val) => setCurrentCategory({ ...currentCategory, isActive: val })}
-                  />
+                  <p className="text-[11px] text-[#78716C] mt-0.5">
+                    {(currentCategory.isActive ?? true)
+                      ? 'التصنيف نشط ويظهر للعملاء في الصفحة الرئيسية والمتجر'
+                      : 'التصنيف معطل ولن يظهر للعملاء في واجهة المتجر'}
+                  </p>
                 </div>
-              )}
+                <Switch
+                  checked={currentCategory.isActive ?? true}
+                  onCheckedChange={(val) => setCurrentCategory({ ...currentCategory, isActive: val })}
+                />
+              </div>
             </div>
 
             <DialogFooter className="p-5 bg-[#FAFAF8] border-t border-[#E8E4DF] flex items-center justify-end gap-2.5">

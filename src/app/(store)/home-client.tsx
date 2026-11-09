@@ -29,6 +29,7 @@ interface Category {
   name: string
   slug: string
   image?: string | null
+  isActive?: boolean
 }
 
 interface Product {
@@ -223,6 +224,11 @@ export default function StoreHomeClient({
   const [activeSlide, setActiveSlide] = useState(0)
   const [activeProductTab, setActiveProductTab] = useState<'all' | 'best' | 'new' | 'sale'>('all')
   const [isHovered, setIsHovered] = useState(false)
+
+  // Filter only active categories for the home page catalog
+  const activeCategories = useMemo(() => {
+    return (categories || []).filter(c => c.isActive !== false)
+  }, [categories])
 
   // Dynamic Showcase Slides from Dedicated DB HeroSlides or Fallback
   const heroSlidesJson = settings?.heroSlidesJson
@@ -693,7 +699,7 @@ export default function StoreHomeClient({
       {/* ========================================================================= */}
       {/* 3. CURATED CATEGORIES SHOWCASE GRID (Moved up for seamless shopping flow) */}
       {/* ========================================================================= */}
-      {categories.length > 0 && (
+      {activeCategories.length > 0 && (
         <section className="py-10 sm:py-16 bg-[#FAF7F2]">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             
@@ -719,7 +725,7 @@ export default function StoreHomeClient({
 
             {/* Grid Cards (With 100% Guaranteed Image Fallbacks) */}
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4 lg:gap-5">
-              {categories.slice(0, 6).map((cat) => (
+              {activeCategories.slice(0, 6).map((cat) => (
                 <CategoryCardItem key={cat.id} cat={cat} />
               ))}
             </div>

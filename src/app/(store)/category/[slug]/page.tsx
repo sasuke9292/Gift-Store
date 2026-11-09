@@ -9,7 +9,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     where: { slug: resolvedParams.slug },
   }).catch(() => null)
 
-  if (!category) {
+  if (!category || !category.isActive) {
     return {
       title: 'القسم غير موجود',
       description: 'القسم المطلوب غير متوفر حالياً.'
@@ -34,11 +34,13 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
     where: { slug: resolvedParams.slug },
   })
 
-  if (!category) {
+  if (!category || !category.isActive) {
     notFound()
   }
 
-  const allCategories = await prisma.category.findMany()
+  const allCategories = await prisma.category.findMany({
+    where: { isActive: true },
+  })
   const allProducts = await prisma.product.findMany({
     where: { isActive: true },
     include: {
